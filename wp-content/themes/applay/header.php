@@ -55,6 +55,7 @@ foreach ($all_parent_categories as $parent) {
 
     <meta charset="<?php bloginfo('charset'); ?>" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0">
+    <meta name="ahrefs-site-verification" content="6696d4ed9ce3e44a9658b8dfe8ae27d2e90fce3365b23b65c226b8c5a97c1330">
 
     <link rel="profile" href="http://gmpg.org/xfn/11" />
     <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
@@ -161,6 +162,29 @@ foreach ($all_parent_categories as $parent) {
                                 <i class="icon icon_product"></i>
                                 <span class="dt_menu_text">Tips android</span>
                             </a>
+                        </div>
+
+                        <div class="item many searching-hide">
+                            <span class="nav-p dt_nav_button dt-nav-parent">
+                                <i class="icon icon_product"></i>
+                                <?php
+                                $arr_lg = icl_get_languages('skip_missing=0');
+                                foreach ($arr_lg as $item) {
+                                    if ($item['active']) {
+                                        echo '<span class="dt_menu_text"><a href="' . esc_url($item['url']) . '"><img src="' . esc_url($item['country_flag_url']) . '"/></a></span>';
+                                    }
+                                }
+                                ?>
+                            </span>
+                            <?php $translations = pll_the_languages(array('raw' => 1));
+                            ?>
+                            <ul class="nav_submenu">
+                                <li class="main-menu-item menu-item-depth-0 menu-item menu-item-has-children parent dropdown sub-menu-left">
+                                    <?php
+                                    pll_the_languages(array('show_flags' => 1, 'show_names' => 1));
+                                    ?>
+                                </li>
+                            </ul>
                         </div>
 
                         <div class="item search">
