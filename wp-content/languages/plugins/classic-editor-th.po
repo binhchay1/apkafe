@@ -1,0 +1,76 @@
+# Translation of Plugins - Classic Editor - Stable (latest release) in Thai
+# This file is distributed under the same license as the Plugins - Classic Editor - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2019-06-09 09:27:43+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: th\n"
+"Project-Id-Version: Plugins - Classic Editor - Stable (latest release)\n"
+
+#: classic-editor.php:495
+msgid "Change settings"
+msgstr "เปลี่ยนการตั้งค่า"
+
+#: classic-editor.php:482
+msgid "Default editor for all sites"
+msgstr "ตัวแก้ไขริเริ่มสำหรับเว็บทั้งหมด"
+
+#: classic-editor.php:478
+msgid "Editor Settings"
+msgstr "การตั้งค่าตัวแก้ไข"
+
+#: classic-editor.php:462
+msgid "Default Editor"
+msgstr "ตัวแก้ไขริเริ่ม"
+
+#: classic-editor.php:498
+msgid "Allow site admins to change settings"
+msgstr "อนุญาตให้ผู้ควบคุมเว็บเปลี่ยนการตั้งค่า"
+
+#: classic-editor.php:652
+msgid "Editor"
+msgstr "ตัวแก้ไข"
+
+#: classic-editor.php:437
+msgid "No"
+msgstr "ไม่"
+
+#: classic-editor.php:433
+msgid "Yes"
+msgstr "ใช่"
+
+#: classic-editor.php:360
+msgid "Allow users to switch editors"
+msgstr "อนุญาตให้ผู้ใช้สลับตัวแก้ไขเองได้"
+
+#: classic-editor.php:359
+msgid "Default editor for all users"
+msgstr "ตัวแก้ไขริเริ่มสำหรับผู้ใช้ทั้งหมด"
+
+#. Author URI of the plugin
+msgid "https://github.com/WordPress/classic-editor/"
+msgstr "https://github.com/WordPress/classic-editor/"
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/classic-editor/"
+msgstr "https://wordpress.org/plugins/classic-editor/"
+
+#. Author of the plugin
+msgid "WordPress Contributors"
+msgstr "ผู้มีส่วนร่วมกับ WordPress"
+
+#. Plugin Name of the plugin
+msgid "Classic Editor"
+msgstr "ตัวแก้ไขดั้งเดิม"
+
+#: classic-editor.php:719
+msgid "Settings"
+msgstr "ตั้งค่า"
+
+#. Description of the plugin
+msgid "Enables the WordPress classic editor and the old-style Edit Post screen with TinyMCE, Meta Boxes, etc. Supports the older plugins that extend this screen."
+msgstr "เปิดใช้งานตัวแก้ไขดั้งเดิมของ WordPress และหน้าจอแก้ไขเรื่องแบบเก่าด้วย TinyMCE Meta Boxes เป็นต้น รวมไปถึงการสนับสนุนปลั๊กอินเก่าๆ ที่เป็นส่วนเสริมให้กับหน้าจอนี้ด้วย"

@@ -1,0 +1,1117 @@
+.yasr-star-rating {
+    width: 0;
+    position: relative;
+    display: inline-block;
+    background-image: url(../../includes/img/star_0.svg);
+    background-position: 0 0;
+    background-repeat: repeat-x;
+}
+
+.yasr-star-rating[data-title]:hover:after {
+    content: attr(data-title);
+    padding: 4px 8px;
+    color: #333;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 20;
+    white-space: nowrap;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0px 0px 4px #222;
+    -webkit-box-shadow: 0px 0px 4px #222;
+    box-shadow: 0px 0px 4px #222;
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eeeeee), color-stop(1, #cccccc));
+    background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
+}
+
+.yasr-star-rating .yasr-star-value {
+    height: 100%;
+    position: absolute;
+}
+
+.yasr-star-rating .yasr-star-value {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: url('../../includes/img/star_1.svg');
+    background-repeat: repeat-x;
+}
+
+.yasr-copy-shortcode {
+    cursor: pointer;
+}
+
+/********** Edit post / page rules **********/
+
+/*** Metabox top right ***/
+
+#yasr-matabox-top-right {
+    text-align: center;
+}
+
+#yasr-overall-rating-text {
+    display: block;
+}
+
+#yasr-vote-with-numbers-select-container {
+    display: block;
+}
+
+#yasr-switcher-enable-reviews-in-comments {
+    text-align: left;
+    margin: 0 auto;
+}
+
+.yasr-metabox-editor-pro-only-box {
+    border: 1px solid #dcdcde;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.yasr-metabox-editor-pro-only-box-padding {
+    border-top: 2px solid #dcdcde;
+    padding: 10px;
+}
+
+.yasr-metabox-doc-link {
+    margin-top: 10px;
+}
+
+/*** End metabox overall rating ***/
+
+.rich-snippet-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#multi_rating_table {
+    vertical-align: text-top;
+}
+
+.yasr-form-result {
+    display: block;
+}
+
+/**** Below Editor ****/
+.yasr-dash-before-text {
+    vertical-align: text-bottom;
+}
+
+/**** Metabox multi ****/
+
+.yasr-metabox-editor-title-pro-only {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+.yasr-metabox-editor-title {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.yasr-metabox-below-editor-content {
+    border: 1px solid #DDD;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    padding-top: 15px;
+    min-height: 200px;
+}
+
+.yasr-metabox-info-snippet-container {
+    border: 1px solid #DDD;
+    margin: 15px;
+    padding: 5px;
+    min-height: 50px;
+}
+
+.yasr-element-row-container-label-input {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.yasr-element-row-container-label-input > label {
+    display: inline-block;
+    width: 130px;
+    font-weight: bold;
+}
+
+.yasr-element-row-container-label-input > textarea {
+    height: 7em;
+}
+
+.yasr-element-row-container-description {
+    color: #717070;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
+
+#yasr-editor-multiset-container {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding-right: 2px;
+}
+
+#yasr-visitor-multiset-container{
+    border-left: 1px solid #dcdcde;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+.yasr_table_multi_set_admin {
+    width: 90%;
+    border: solid rgba(0, 0, 0, 0.1);
+    border-width: 1px 0 0 1px;
+    font-size: 20px;
+}
+
+.yasr_table_multi_set_admin td {
+    border: solid rgba(0, 0, 0, 0.1);
+    border-width: 0 1px 1px 0;
+    width: 50%
+}
+
+.yasr_table_multi_set_admin td:nth-child(1) {
+    overflow-wrap: anywhere;
+}
+
+.yasr_table_multi_set_admin tr:nth-child(odd) {
+    background: #feffd3;
+}
+
+/*  Define the background color for all the EVEN background rows  */
+.yasr_table_multi_set_admin tr:nth-child(even) {
+    background: #FFFFFF;
+}
+
+/*@media (max-width: 1440px) {
+
+}*/
+
+
+/*
+@media (min-width: 1300) {
+    .yasr_table_multi_set_admin td:nth-child(1) {
+        width: 40%;
+    }
+    .yasr_table_multi_set_admin td:nth-child(2) {
+        width: 60%;
+    }
+}*/
+
+.yasr-multi-set-admin-explain {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+
+/************** Gutenberg *****************/
+
+.yasr-guten-block-panel {
+    margin-top: 15px;
+}
+
+.yasr-guten-block-panel-center {
+    text-align: center;
+}
+
+.yasr-guten-block-explain {
+    display: block;
+    font-style: italic;
+    font-size: small;
+    font-weight: bold;
+}
+
+/**************End  Gutenberg *****************/
+
+
+/**************** Settings page *******************/
+
+/*** Top menu navigation ***/
+.yasr-no-underline {
+    border-bottom: none !important;
+}
+
+.nav-tab-active, .nav-tab-active:hover {
+    background-color: white;
+}
+
+.form-table th {
+    border-right: 1px solid #ddd;
+}
+/** The rule above show a border in the table head **/
+.yasr-rankings th {
+    border-right: none;
+}
+
+/*** End top navigation ***/
+
+
+
+.yasr-settings-table {
+    min-height: 1136px;
+    display: block;
+}
+
+#yasr_settings_form table td {
+    padding: 8px 0 8px 10px;
+}
+
+/*** On / Off Switch ***/
+
+.yasr-onoffswitch-big {
+    position: relative;
+    width: 85px;
+    user-select: none;
+}
+
+.yasr-onoffswitch-big-center{
+    margin: 0 auto;
+    text-align: left;
+}
+
+.yasr-onoffswitch-checkbox {
+    display: none !important;
+}
+
+.yasr-onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #FFFFFF;
+    border-radius: 35px;
+}
+
+.yasr-onoffswitch-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+
+.yasr-onoffswitch-inner:before, .yasr-onoffswitch-inner:after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 30px;
+    padding: 0;
+    line-height: 30px;
+    font-size: 18px;
+    color: white;
+    font-family: Trebuchet, Arial, sans-serif;
+    font-weight: bold;
+    box-sizing: border-box !important; /*important for Gutenberg compatibility*/
+
+}
+
+.yasr-onoffswitch-inner:before {
+    content: "YES";
+    padding-left: 9px;
+    background-color: #ECECEC;
+    color: #34A7C1;
+}
+
+.yasr-onoffswitch-inner:after {
+    content: "NO";
+    padding-right: 15px;
+    background-color: #ECECEC;
+    color: #6c6c6c;
+    text-align: right;
+}
+
+.yasr-onoffswitch-switch {
+    display: block;
+    width: 30px;
+    margin: 0px;
+    background: #A1A1A1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 51px;
+    border: 2px solid #FFFFFF;
+    border-radius: 35px;
+    transition: all 0.1s ease-in 0s;
+}
+
+.yasr-onoffswitch-checkbox:checked + .yasr-onoffswitch-label .yasr-onoffswitch-inner {
+    margin-left: 0;
+}
+
+.yasr-onoffswitch-checkbox:checked + .yasr-onoffswitch-label .yasr-onoffswitch-switch {
+    right: 0px;
+    background-color: #34A7C1;
+}
+
+/* Alternative with ON/OFF INSTEAD YES/NO text */
+.yasr-onoffswitch-onoff-inner:before {
+    content: "ON";
+    padding-left: 15px;
+    background-color: #ECECEC;
+    color: #34A7C1;
+}
+
+.yasr-onoffswitch-onoff-inner:after {
+    content: "OFF";
+    padding-right: 9px;
+    background-color: #ECECEC;
+    color: #6c6c6c;
+    text-align: right;
+}
+
+/* Alternative with no text */
+.yasr-onoffswitch-notext-inner:before {
+    content: "";
+    padding-left: 9px;
+    background-color: #EEEEEE;
+    color: #34A7C1;
+}
+
+.yasr-onoffswitch-notext-inner:after {
+    content: "";
+    padding-right: 15px;
+    background-color: #EEEEEE;
+    color: #999999;
+    text-align: right;
+}
+
+/*** End on of switch ***/
+
+.yasr-settings-description {
+    color: #3c434a;
+    font-weight: 400;
+    padding-left: 2px;
+    padding-top: 3px;
+}
+
+#yasr-sort-posts-list-archives {
+    padding-top: 15px;
+}
+
+#yasr-sort-posts-list-archives > span {
+    margin-right: 2px;
+}
+
+#yasr-sort-posts-list-archives input[type="checkbox"]  {
+    margin-right: 0;
+}
+
+/*This is the div with the created shortcode*/
+
+.yasr-builder-ranking-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    align-content: stretch;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.yasr-builder-shortcode-container {
+    border: dashed 2px gray;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.yasr-rankings-div-shortcode {
+    margin-bottom: 20px;
+}
+
+#yasr-builder-shortcode-buttons-container {
+    padding-left: 10px;
+}
+
+#yasr-ranking-source{
+    max-width: 165px;
+}
+
+#yasr-ranking-ctg-container {
+    margin-top: 15px;
+    padding-right: 15px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#yasr-ranking-ctg-container > span {
+    margin: 5px 7px 2px 5px;
+    text-align: center;
+}
+
+/*Div padding*/
+.yasr-div-fixed-65 {
+    flex-grow: 1;
+    flex-basis: 65%;
+    text-align: left;
+}
+
+.yasr-div-fixed-35 {
+    flex-grow: 1;
+    flex-basis: 35%;
+    text-align: left;
+}
+
+#yasr-settings-panel-right > div {
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    font-size: 14px;
+}
+
+@media (min-width: 1300px) {
+
+    .yasr-settingsdiv {
+        float: left;
+        display: block;
+        width: 75%;
+        background-color: #FFF;
+        border: 1px solid #DDD;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 10px;
+        min-height: 560px;
+    }
+
+    .yasr-settingsdiv th {
+        width: 160px;
+    }
+
+    .yasr-settingsdiv hr{
+        border-top: 3px solid #ddd;
+    }
+
+    #yasr-settings-panel-right > div {
+        margin-left: auto;
+        margin-right: 0;
+        min-width: 200px;
+        width: 11%;
+        margin-bottom: 10px;
+        padding: 20px;
+        box-shadow: 0 0 5px 0 rgba(0,0,0,0.15);
+    }
+
+}
+
+/*** Multi page rules ***/
+
+@media (max-width: 1300px) {
+
+    .yasr-settingsdiv {
+        float: left;
+        display: block;
+        width: 95%;
+        background-color: #FFF;
+        border: 1px solid #DDD;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+    }
+
+    #yasr-settings-panel-right > div {
+        width: 95%;
+        margin-top: 10px;
+        padding: 10px;
+    }
+
+    .yasr-clear-both-dynamic {
+        padding-bottom: 15px;
+        clear: both;
+    }
+
+}
+
+/**
+ * Do not keep everything in one line
+ */
+div.yasr-upgrade-to-pro a button.button.button-primary span {
+    white-space: normal !important;
+}
+
+
+.yasr-donate-title{
+    margin-top: 0px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.3em;
+    color: #23282d;
+    display: block;
+    font-weight: 600;
+}
+
+
+.yasr-donate-single-resource{
+    margin-bottom: 12px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ddd;
+    display: block;
+}
+
+.yasr-donate-single-resource:last-child {
+    border: none;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+.yasr-donate-single-resource a{
+    text-decoration: none;
+    font-size: 15px;
+    vertical-align: bottom;
+}
+
+.yasr-upgrade-to-pro {
+    font-size: 14px;
+}
+
+.yasr-upgrade-to-pro li::before {
+    margin-right: 7px;
+    left: 0;
+    font-weight: 700;
+    content: "+";
+}
+
+.yasr-option-div {
+    vertical-align: bottom;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.yasr-img-option-size {
+    vertical-align: middle;
+}
+
+.yasr-text-options-size {
+    height: 30px;
+    vertical-align: middle;
+    padding-left: 8px;
+}
+
+#yasr-color-scheme-preview {
+    border: 2px dashed #CCC;
+    padding: 15px;
+    margin: 10px;
+}
+
+.yasr-help-box-settings {
+    display: none;
+    border: 2px dashed #CCC;
+    padding: 15px;
+    margin: 10px;
+}
+
+.yasr-list-set-table {
+    margin-left: 5px;
+}
+
+.yasr-space-settings-div {
+    padding-bottom: 15px;
+    clear: both;
+}
+
+.yasr-settings-row-24 {
+    padding-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.yasr-settings-row-24 > div {
+    flex: 0 0 24%;
+    padding-top: 30px;
+}
+
+.yasr-settings-row-33 {
+    padding-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.yasr-settings-row-33 > div {
+    flex: 0 0 33%;
+    padding-top: 30px;
+}
+
+.yasr-settings-row-35 {
+    padding-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.yasr-settings-row-35 > div {
+    flex: 0 0 35%;
+    padding-top: 20px;
+}
+
+.yasr-settings-row-45 {
+    padding-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.yasr-settings-row-45 > div {
+    /*It is 45 and applied space between*/
+    flex: 0 0 45%;
+}
+
+.yasr-settings-row-48 {
+    padding-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+@media (max-width: 1300px) {
+    .yasr-settings-row-48 > div {
+        /*It is 45 and applied space between*/
+        flex: 0 0 90%;
+    }
+}
+
+@media (min-width: 1300px) {
+    .yasr-settings-row-48 > div {
+        /*It is 45 and applied space between*/
+        flex: 0 0 48%;
+    }
+}
+
+.yasr-settings-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.yasr-settings-col-30 {
+    flex: 0 0 30%;
+}
+
+.yasr-settings-col-40 {
+    flex: 0 0 40%;
+}
+
+.yasr-settings-col-50 {
+    flex: 0 0 50%;
+}
+
+.yasr-settings-col-60 {
+    flex: 0 0 60%;
+}
+
+.yasr-settings-col-65 {
+    flex: 0 0 65%;
+}
+
+.yasr-settings-padding-left {
+    padding-left: 10px;
+}
+
+.yasr-indented-answer {
+    margin-top: 3px;
+    margin-left: 10px;
+}
+
+
+/*** Rules for Multi set page ***/
+
+.yasr-multi-set-form-headers {
+    font-weight: 600;
+    color: #1d2327;
+    font-size: 1.3em;
+    margin-bottom: 10px;
+}
+
+.yasr-settings-multi-set {
+    overflow: auto;
+    margin-top: 10px;
+    padding: 8px;
+    border: 1px solid #DDD;
+    display: flex;
+}
+
+#new-multi-set-name {
+    width: 55%;
+}
+
+.criteria-row input[type=text] {
+    width: 70%;
+    border-radius: 0;
+    margin-bottom: 20px;
+    border-top: none;
+    border-right: none;
+}
+
+.yasr-settings-multi-set input[type=text]:required {
+    border-left: 2px solid #FEB209;
+}
+
+.yasr-settings-multi-set input[type=text]:required:focus {
+    border-left: 2px solid #FEB209;
+}
+
+.yasr-settings-multi-set input[type=text]:focus {
+    box-shadow: none;
+    border-bottom: 1px solid #646970;
+    border-left: 1px solid #8c8f94;
+}
+
+.yasr-settings-multi-set input[type=text]:focus::placeholder {
+    color:transparent;
+}
+
+.yasr-multiset-info-delete {
+    vertical-align: -moz-middle-with-baseline;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.yasr-sort-criteria {
+    vertical-align: initial;
+    color: #8c8f94;
+}
+
+.yasr-manage-multiset {
+    overflow: auto;
+    margin-top: 10px;
+    padding: 8px;
+    border: 1px solid #DDD;
+}
+
+.yasr-input-text-multi-set {
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+
+#yasr-multi-set-response {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #DDD;
+}
+
+#yasr-multi-set-response2 {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #DDD;
+    background-color: #f7f7f7;
+}
+
+#yasr-multi-set-doc-box {
+    border: 2px dashed #CCC;
+    padding: 15px;
+    margin: 30px;
+}
+
+#yasr-table-form-edit-multi-set {
+    margin-top: 15px;
+    width: 100%;
+}
+
+#yasr-table-form-edit-multi-set-header {
+    padding: 5px;
+}
+
+#yasr-table-form-edit-multi-set-remove {
+    text-align: center;
+    padding: 5px;
+}
+
+.yasr-edit-form-remove-entire-set {
+    padding-left: 2px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    color: red;
+}
+
+.yasr-multiset-column-container {
+    border: 1px solid #dcdcde;
+    padding: 10px;
+}
+
+.yasr-multi-set-choose-theme {
+    clear: both;
+    padding: 10px;
+    border: 1px solid #DDD;
+    background-color: #f7f7f7;
+}
+
+
+/*** End rules for multi set admin page ***/
+
+/**** Yasr Aspect & Styles tab ***/
+
+.yasr-select-img-container {
+    margin-bottom: 15px;
+}
+
+.yasr-select-img-container > div {
+    display: inline-block;
+    padding-left: 15px;
+}
+
+.yasr-select-img-container > span {
+    padding-top: 10px;
+}
+
+div.yasr-select-img-container input {
+    display: block;
+    margin: 10px 0 5px 8px !important;
+}
+
+#yasr-settings-stylish-image {
+    max-width: 100%;
+    height: auto;
+}
+
+#yasr-settings-stylish-image:hover {
+    opacity: 0.4;
+}
+
+.yasr-choose-uploaded-stars {
+    width: 30%;
+    display: inline-block;
+}
+
+.yasr_uploaded_stars_preview{
+    margin-left: 8px;
+    margin-right: 8px;
+    vertical-align: bottom;
+}
+
+.yasr-input-text-upload-image {
+    width: auto !important;
+    display: inline-block !important;
+}
+
+.yasr-text-upload-image {
+    display: block;
+    margin-top: 20px;
+}
+
+
+@media (max-width: 575px) {
+
+    #yasr-settings-stylish-text {
+        width: 50%;
+        position: relative;
+        background-color: #ffffff;
+        border: 1px solid black;
+        opacity: 0.8;
+        font-size: 2vh;
+        padding: 15px;
+        display: none;
+    }
+
+}
+
+@media (min-width: 576px) {
+    #yasr-settings-stylish-text {
+        width: 50%;
+        margin: auto;
+        position: absolute;
+        background-color: #ffffff;
+        border: 2px solid black;
+        opacity: 0.8;
+        font-size: 2vh;
+        padding: 15px;
+        display: none;
+        z-index: 10;
+    }
+
+}
+
+/**** End Yasr Aspect & Styles tab ***/
+
+/**** Migration Tools Page ****/
+
+.title-plugin-found{
+    font-size: 18px;
+    font-weight: bold;
+    color: #2ca02c;
+    margin-top: 10px;
+}
+
+.title-noplugin-found{
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff4141;
+    display: block;
+}
+
+.yasr-alert-box {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    padding: 10px;
+    padding-left: 30px;
+    border: #ff806e 2px dashed;
+    width: 70%;
+}
+
+/**** End Migration Tools Page ****/
+
+
+/*** Popup in tinymce ***/
+
+
+.yasr-underline {
+    border-bottom: 1px solid #CCC !important;
+}
+
+#yasr-tinypopup-link-doc {
+    float: right;
+    font-size: 12px;
+}
+
+#yasr-overall-choose-size {
+    display: none;
+    margin-top: 20px;
+    border: 2px dashed #CCC;
+    padding-bottom: 10px;
+    margin-left: 8px;
+    padding-left: 8px;
+}
+
+.yasr-tinymce-button-size {
+    padding-top: 5px;
+}
+
+#yasr-visitor-choose-size {
+    display: none;
+    margin-top: 20px;
+    border: 2px dashed #CCC;
+    padding-bottom: 10px;
+    margin-left: 8px;
+    padding-left: 8px;
+}
+
+
+/*** End popup tinymce***/
+
+.yasr-log-container {
+    width: 98%;
+}
+
+.yasr-log-div-child {
+    padding-top: 5px;
+    border-bottom: 1px solid #BBD8E7;
+    padding-bottom: 20px;
+}
+
+.yasr-log-image {
+    list-style-type: none;
+    display: inline-block;
+    float: left;
+}
+
+.yasr-log-child-head {
+    padding-left: 37px;
+}
+
+.yasr-log-vote {
+    color: red;
+}
+
+#yasr-log-vote-users {
+    color: green;
+}
+
+.yasr-log-post {
+    color: #2683AE;
+}
+
+.yasr-log-ip-date {
+    padding-top: 5px;
+}
+
+.yasr-log-ip {
+    float: left;
+    padding-left: 5px;
+}
+
+.yasr-log-date {
+    float: right;
+}
+
+#yasr-log-next-rows {
+    padding-top: 15px;
+    text-align: right;
+}
+
+.yasr-log-page-navigation {
+    padding-top: 7px;
+    text-align: center;
+}
+
+.yasr-last-ratings-loader {
+    display: none;
+}
+
+/***** Export page ******/
+
+.yasr-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.yasr-export > span {
+    vertical-align: sub;
+}
+
+@media (max-width: 699px) {
+    .yasr-container {
+        justify-content: center;
+    }
+    .yasr-box {
+        flex-basis: 95%;
+    }
+}
+
+@media (min-width: 700px) {
+    .yasr-box {
+        flex-basis: 48%;
+    }
+}
+
+.yasr-box {
+
+    min-height: 200px;
+    background-color: #fff;
+    border: 1px solid #EAEAEA;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    font-size: 14px;
+    padding-bottom: 10px;
+}
+
+.yasr-box h4 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 0;
+    padding: 10px;
+    background-color: #ddd;
+}
+
+.yasr-box h5 {
+    font-size: 15px;
+    font-weight: normal;
+    margin: 5px;
+    padding-left: 5px;
+}
+
+.yasr-box button {
+    margin: 10px !important;
+}
+
+.yasr-box hr {
+    border-top: 1px solid #ddd;
+    border-top-color: rgb(221, 221, 221);
+}

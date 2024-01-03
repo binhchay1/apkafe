@@ -1,0 +1,25 @@
+{
+    "title": "Yasr: Most Active Authors",
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "yet-another-stars-rating/most-active-reviewers",
+    "description": "This ranking shows the most active reviewers on your site.",
+    "icon": "star-half",
+    "category": "yet-another-stars-rating",
+    "example": {},
+    "keywords": [
+        "ranking",
+        "highest",
+        "most",
+        "chart",
+        "authors"
+    ],
+    "supports": {
+        "align": [
+            "left",
+            "center",
+            "right"
+        ]
+    },
+    "editorScript": "yasr-shortcodes-blocks"
+}

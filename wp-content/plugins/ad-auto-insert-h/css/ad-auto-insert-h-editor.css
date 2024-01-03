@@ -1,0 +1,103 @@
+/* ------------------------------------
+ * エディター用（カスタムフィールド用）
+ * ------------------------------------ */
+/* 設定タイトル */
+#meta-box-aaih h2 .hosoku{
+	display: contents;
+	font-weight: 400; /* normal ; ワードプレス CSS コーディング規約より数値を使う */
+}
+
+/* ご注意メッセージ（公開されている記事に対して）*/
+#meta-box-aaih .warning{
+	margin: 0 0 1em;
+	color:#900;
+}
+
+/* ------------------------------------
+ * 設定項目
+ * ------------------------------------ */
+/* ラッパー */
+#meta-box-aaih .settings-wrap {
+	padding: 1em 1em 1.5em;
+	border: 1px solid #888;
+}
+
+/* 項目ラベル */
+#meta-box-aaih .settings-wrap .item-label{
+	margin-right: 1em;
+}
+#meta-box-aaih .settings-wrap .meta-ad-off,
+#meta-box-aaih .settings-wrap .item-label{
+	font-weight: 600; /* bold ; ワードプレス CSS コーディング規約より数値を使う。でも700ではなくて ワードプレスが使っている 600 を指定 */
+}
+
+/* 設定値に同じ */
+#meta-box-aaih .settings-wrap .same-as-setting{
+	margin-right: 3em;
+}
+
+/* 連続するラベル */
+#meta-box-aaih .settings-wrap label:not(.same-as-setting) + label {
+    margin-left: 1em;
+}
+
+/* 設定項目の補足 */
+#meta-box-aaih .settings-wrap .supplement{
+	margin: 0.5em 0;
+	font-size: 90%;
+	color:#666;
+}
+
+#meta-box-aaih .settings-wrap .supplement.settings {
+	padding: 0.25em 0;
+	background: #eee;
+	color: #555;
+}
+
+#meta-box-aaih .settings-wrap .supplement.settings .second{
+	display: inline-block;
+	color:#900;
+}
+
+/* セパレーター：hr */
+#meta-box-aaih hr{
+	margin: 1em 0 0.5em;
+}
+
+/* 広告の間隔 */
+#meta-box-aaih .settings-wrap input.ad-space{
+	width: 6em;
+	margin: 0 0.5em;
+}
+
+/* 記事内の最大広告数 */
+#meta-box-aaih .settings-wrap select.ad-show-num{
+	margin: 0 0.5em;
+}
+
+/* 利用できるショートコード */
+#meta-box-aaih .settings-wrap pre.shortcode{
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0.5em 1em;
+	margin: 5px 0;
+}
+#meta-box-aaih .settings-wrap .used_settings{
+	display: block;
+}
+#meta-box-aaih .settings-wrap .used-ad-all {
+	display: inline;
+}
+#meta-box-aaih .settings-wrap .used-ad-all li {
+	display: inline-block;
+	padding: 0 0.5em;
+	box-sizing: border-box;
+	border: 1px dotted #ccc;
+}
+#meta-box-aaih .settings-wrap .used-ad-all li.used {
+	background: #aaa;
+	color: #fff;
+}
+#meta-box-aaih .settings-wrap .used-ad-all li.not-used {
+	color:#ccc;
+}

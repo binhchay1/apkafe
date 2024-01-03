@@ -1,0 +1,25 @@
+{
+    "title": "Yasr: Most Active Visitors",
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "yet-another-stars-rating/most-active-users",
+    "description": "This ranking shows the most active users, displaying the login name if logged in or \"Anonymous\" if not",
+    "icon": "star-half",
+    "category": "yet-another-stars-rating",
+    "example": {},
+    "keywords": [
+        "ranking",
+        "highest",
+        "most",
+        "chart",
+        "visitors"
+    ],
+    "supports": {
+        "align": [
+            "left",
+            "center",
+            "right"
+        ]
+    },
+    "editorScript": "yasr-shortcodes-blocks"
+}

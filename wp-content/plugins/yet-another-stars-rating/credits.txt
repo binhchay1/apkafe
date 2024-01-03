@@ -1,0 +1,4 @@
+External Libraries: [Rater](https://github.com/fredolss/rater-js), [tippy](https://atomiks.github.io/tippyjs/)
+
+Flat star icon made by [Freepik](http://www.freepik.com)
+from [www.flaticon.com](https://www.flaticon.com/) is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)

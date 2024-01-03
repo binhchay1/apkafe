@@ -1,0 +1,25 @@
+.aiosrs-rating-wrap .aiosrs-star-rating-wrap {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.aiosrs-rating-wrap .aiosrs-star-rating-wrap ~ .aiosrs-star-rating-wrap {
+    float: right
+}
+
+.aiosrs-rating-wrap .aiosrs-star-rating-wrap .aiosrs-star-rating {
+	color: #ffd700;
+}
+
+.aiosrs-rating-wrap .aiosrs-star-rating-wrap:not(.disabled) .aiosrs-star-rating {
+	cursor: pointer;
+}
+
+.aiosrs-rating-wrap .success-msg {
+    color: green;
+    margin-left: 5px;
+}
+
+.aiosrs-rating-wrap .aiosrs-star-rating-wrap .aiosrs-star-rating.dashicons {
+	font-family: dashicons;
+}

@@ -1,0 +1,126 @@
+@charset "utf-8";
+*{
+	direction:rtl;
+	text-align:right;
+}
+.main-menu li *{
+	direction:ltr;
+}
+.input-group{
+	direction:ltr;
+}
+.widget.widget-border.widget_nav_menu .menu .menu-item:before {
+	margin-right: 0px;
+	margin-left: 10px;
+	transform:rotate(180deg);
+	-webkit-transform:rotate(180deg);
+}
+.readmore .fa-angle-right{
+	transform:rotate(180deg);
+	-webkit-transform:rotate(180deg);
+}
+.ia-icon-box *{ direction:ltr;}
+.ia-icon-box .text-center *{ text-align:center}
+.iapp-showcase-shortcode *{ direction:ltr}
+.owl-theme .owl-controls .owl-pagination{ text-align:center}
+.ia-post-slider *{ direction:ltr;}
+.post-slider-carousel .owl-controls .owl-pagination{ text-align:center}
+.member *{ direction:ltr; text-align:center}
+.member .img-mb{ text-align:left}
+.widget-title:before{ right:0; left:auto}
+.normal-sidebar .widget ul{ padding-right:0}
+.normal-sidebar .widget ul li:before{content: "\f104"; margin-right:0; margin-left:5px}
+.back-to-top{ text-align:center}
+.item-content .meta:before{ right:0; left:auto}
+ul.products li.product .app-icon{ float:right}
+ul.products li.product .has-icon .star-rating {right: 85px; left:auto}
+.app-b-post-listing .item-content .meta .date{ margin-right:0; margin-left:20px}
+.app-b-post-listing .item-content .meta i{ margin-right:0; margin-left:5px}
+.item-meta .btn{ margin-right:0; margin-left:auto}
+.ia-post-carousel *{ direction:ltr}
+.carousel-has-control.owl-theme .owl-controls .owl-prev, .carousel-has-control.owl-theme .owl-controls .owl-next{ text-align:center}
+.testimonials *{ direction:ltr; text-align:center}
+.grip-app-icon{ float:right; margin-right:0; margin-left:15px}
+.overlay-top:after{ right:20px; left:auto}
+.overlay-top{ padding-right:20px; padding-left:28px}
+.init-carousel *{ direction:ltr}
+.ias-devide-wrap *{ direction:ltr}
+.related-product h3:before{ right:30px; left:auto}
+.item-content .item-title:before{ right:0; left:auto}
+.ia-heading.heading-align-left h2:before{ right:0; left:auto}
+.wpb_wrapper .wpb_accordion .wpb_accordion_wrapper .ui-state-default .ui-icon{ direction:ltr; left: 20px; right:auto}
+.wpb_wrapper .wpb_content_element .wpb_tour_tabs_wrapper .wpb_tabs_nav li{ float:right}
+
+#bbpress-forums li.bbp-header .bbp-reply-content,
+.bbp-body li.bbp-topic-freshness, #bbpress-forums .bbp-body li.bbp-forum-freshness{
+	direction:ltr;
+	text-align:right;
+}
+.forum-archive #bbpress-forums .type-forum p.bbp-topic-meta span a:last-child{ margin-left:auto; margin-right:0}
+#bbpress-forums .bbp-forums-list{ direction:ltr; text-align:right}
+#bbpress-forums li.bbp-forum-info,
+.forum-archive #bbpress-forums .bbp-forum-info .bbp-forum-content{ text-align:right}
+#bbpress-forums .bbp-forums-list li:last-child{ margin-right:0}
+#bbpress-forums .bbp-body li.bbp-forum-topic-count, .bbp-body li.bbp-topic-reply-count, .bbp-body li.bbp-topic-voice-count, #bbpress-forums .bbp-body li.bbp-forum-reply-count{ text-align:center}
+.single-forum .bbp-topics .bbp-body ul li.bbp-topic-title{ text-align:right}
+.single-forum .bbp-body li.bbp-topic-freshness{ text-align:right}
+#bbpress-forums fieldset.bbp-form label{ direction:ltr}
+#bbpress-forums fieldset.bbp-form #bbp_topic_subscription{ margin-right:10px}
+#bbpress-forums fieldset.bbp-form label[for=bbp_topic_subscription]{ margin-right:20px}
+div.bbp-submit-wrapper{ float:right}
+#bbpress-forums div.bbp-reply-content,
+#bbpress-forums .bbp-forum-info .bbp-forum-content{ text-align:right}
+.bbp-pagination .bbp-pagination-count{direction: ltr;}
+#bbpress-forums fieldset.bbp-form legend{direction: ltr; text-align: right;}
+.single-forum #bbpress-forums .bbp-body li.bbp-forum-freshness .date-post{margin-bottom: -20px;}
+#bbpress-forums div.bbp-reply-author *{ direction:ltr; text-align:center}
+li.bbp-header div.bbp-reply-content span#subscription-toggle{ direction:ltr}
+.bbp-topic-freshness .date-post a, #bbpress-forums .bbp-body li.bbp-forum-freshness .date-post a{ right:50px; direction:ltr}
+#bbpress-forums .bbp-body li.bbp-forum-freshness .bbp-author-name{ margin-right:6px;}
+li.bbp-forum-freshness, li.bbp-topic-freshness,
+li.bbp-forum-topic-count, li.bbp-topic-voice-count, li.bbp-forum-reply-count, li.bbp-topic-reply-count, li.bbp-forum-freshness{ text-align: center}
+
+.woocommerce #review_form #respond .cm-text, .woocommerce-page #review_form #respond .cm-text{ padding-right:70px; padding-left:0}
+.woocommerce #reviews #comments ol.commentlist li img.avatar, .woocommerce-page #reviews #comments ol.commentlist li img.avatar{ right:0; left:auto}
+.single-product.woocommerce #reviews #comments ol.commentlist li .comment-text, .single-product.woocommerce-page #reviews #comments ol.commentlist li .comment-text{ margin-right:70px; margin-left:0; padding-left:0}
+.single-post-navigation *{ direction:ltr; text-align:left}
+.page-heading h1:before{ right:5px; left:auto}
+.grid-overlay .star-rating{ float:right}
+.grid-overlay .star-rating + div{ width:100%}
+ul.products li.product .star-rating{ right:15px; left:auto}
+.showcase-style-hero > .row{ text-align:center}
+#pageloader *{ direction:ltr; text-align:left}
+.woocommerce-shipping-fields h3:before, #order_review_heading:before, .woocommerce-billing-fields h3:before{ right:0; left:auto}
+#order_review_heading:before{ margin-right:20px}
+#order_review_heading{ padding-right:20px}
+ .woocommerce-page table.shop_table th.product-name,
+.woocommerce #payment ul.payment_methods li, .woocommerce-page #payment ul.payment_methods li{ text-align:right}
+.woocommerce #payment div.payment_box, .woocommerce-page #payment div.payment_box{ padding-right:0}
+.woocommerce #payment ul.payment_methods li input, .woocommerce-page #payment ul.payment_methods li input{ margin-right:0}
+.woocommerce-checkout .form-row .chosen-container-single .chosen-single div b:before{ right:10px}
+.product-subtotal{ text-align:right}
+.customer_details dd{ margin-right:0}
+.woocommerce .order_details li, .woocommerce-page .order_details li,
+.woocommerce .addresses .title h3, .woocommerce-page .addresses .title h3{ float:right}
+
+@media (min-width: 768px){
+.rtl .navbar-right {
+    float: left !important;
+}
+.rtl .navbar-nav li.menu-item-depth-0 {
+    float: right;
+}
+.rtl .navbar-header {
+   float: right;  
+}
+}
+.rtl .vc_progress_bar .vc_single_bar .vc_bar {
+    right: 0;
+    left: auto;
+}
+.rtl .post-item.blog-post-item.row .col-md-6:first-child {
+    float: right;
+}
+.rtl .page-heading .col-md-8.col-sm-8 {
+    float: right;
+}

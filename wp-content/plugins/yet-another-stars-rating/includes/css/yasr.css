@@ -1,0 +1,288 @@
+.yasr-star-rating {
+    width: 0;
+    position: relative;
+    display:inline-block;
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    vertical-align: bottom;
+}
+
+.yasr-star-rating[data-title]:hover:after {
+    content: attr(data-title);
+    padding: 4px 8px;
+    color: #333;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 20;
+    white-space: nowrap;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0px 0px 4px #222;
+    -webkit-box-shadow: 0px 0px 4px #222;
+    box-shadow: 0px 0px 4px #222;
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eeeeee),color-stop(1, #cccccc));
+    background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
+}
+
+.yasr-star-rating .yasr-star-value {
+    height: 100%;
+    position: absolute;
+}
+
+.yasr-star-rating .yasr-star-value {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-repeat: repeat-x;
+}
+
+.yasr-star-rating::before {
+    content: none !important;
+}
+
+.yasr-star-value::before {
+    content: none !important;
+}
+/****** NON ADMIN RULES ******/
+.yasr-auto-insert-overall {
+    margin-top: 10px;
+}
+
+.yasr-auto-insert-visitor {
+    margin-top: 10px;
+}
+
+#yasr-custom-text-before-overall {
+    display: block;
+    padding-right: 15px;
+    vertical-align: top;
+}
+
+.yasr-vv-second-row-container {
+    line-height: normal;
+    display: inline-block;
+}
+
+.yasr-vv-stats-text-container {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.yasr-dashicons-visitor-stats {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.yasr-vv-container-loader {
+    display: inline-block;
+}
+
+.yasr-small-block-bold {
+    display: block;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.yasr-most-rated-text{
+    display: block;
+}
+
+.yasr-loader-multiset-visitor {
+    display: none;
+}
+
+.yasr-multiset-average {
+    text-align: center;
+}
+
+.yasr-multiset-average-text {
+    vertical-align: super;
+}
+
+.yasr-vv-stars-title-container {
+    display: inline;
+}
+
+.yasr-stars-title {
+    margin-left: 4px;
+    vertical-align: baseline;
+}
+
+.yasr-stars-title-average {
+    font-size: 12px;
+    margin-left: 4px;
+    vertical-align: baseline;
+}
+
+
+/*** Widgets ***/
+
+.yasr-widget-recent-ratings-table {
+    border: none;
+}
+
+.yasr-widget-recent-ratings-td {
+    border: none;
+}
+
+.yasr-widget-recent-ratings-text {
+    font-weight: bold;
+}
+
+
+/***  Progress bar, this class are used in
+yasr_pro_comment_reviews_stats shortcode too***/
+
+#yasr-medium-rating-tooltip {
+    font-size: 14px;
+}
+
+.yasr-progress-bar-row-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.yasr-progress-bar-name {
+    min-width: 72px;
+    font-size: 14px !important;
+}
+
+.yasr-single-progress-bar-container {
+    flex-grow: 12;
+}
+
+.yasr-progress-bar-votes-count {
+    flex-grow: 0;
+    text-align: center;
+    font-size: 14px !important;
+    min-width: 40px;
+}
+
+
+/*** End progress bar ***/
+
+
+/*** Tooltip ***/
+
+.yasr-visitors-stats-tooltip {
+    min-width:300px;
+    text-align: center;
+    background-color: white;
+    color: #0a0a0a;
+}
+
+.tippy-tooltip.yasr-theme {
+    background-color: white;
+    color: black;
+}
+
+/* If `animateFill: false` */
+.tippy-tooltip.yasr-theme {
+    border: 1px solid #aaaaaa;
+}
+
+.tippy-roundarrow {
+    fill: #aaa !important;
+}
+
+/*** Tooltip ***/
+
+.yasr-w3-border-0{border:0!important}.yasr-w3-border{border:1px solid #ccc!important; background: linear-gradient(to bottom,#eee,#f6f6f6);}
+.yasr-w3-border-top{border-top:1px solid #ccc!important}.yasr-w3-border-bottom{border-bottom:1px solid #ccc!important}
+.yasr-w3-border-left{border-left:1px solid #ccc!important}.yasr-w3-border-right{border-right:1px solid #ccc!important}
+.yasr-w3-amber,.yasr-w3-hover-amber:hover{color:#000!important;background: linear-gradient(to bottom,#ffda44,#f1cb32);
+    background-color: #ffce00;
+}
+
+/* Logs widget */
+
+.yasr-log-container {
+    width: 98%;
+}
+
+.yasr-log-div-child {
+    padding-top: 5px;
+    border-bottom: 1px solid #BBD8E7;
+    padding-bottom: 20px;
+}
+
+.yasr-log-image {
+    list-style-type: none;
+    display: inline-block;
+    float: left;
+}
+
+.yasr-log-child-head {
+    padding-left: 37px;
+}
+
+.yasr-log-vote {
+    color: red;
+}
+
+#yasr-log-vote-users {
+    color: green;
+}
+
+.yasr-log-post {
+    color: #2683AE;
+}
+
+.yasr-log-ip-date {
+    padding-top: 5px;
+}
+
+.yasr-log-ip {
+    float: left;
+    padding-left: 5px;
+}
+
+.yasr-log-date {
+    float: right;
+}
+
+#yasr-log-next-rows {
+    padding-top: 15px;
+    text-align: right;
+}
+
+.yasr-log-page-navigation {
+    padding-top: 7px;
+    text-align: center;
+}
+
+.yasr-last-ratings-loader {
+    display: none;
+}
+
+/*** shortode yasr_display_posts***/
+.yasr-entry-title {
+    font-size: 33px;
+    font-weight: 300;
+    line-height: 1.0909090909;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+}
+
+.yasr-entry-meta {
+    clear: both;
+    color: #767676;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.3333333333;
+    text-transform: uppercase;
+}
+
+.yasr-entry-content {
+    margin: 10px 0 20px 10px;
+}

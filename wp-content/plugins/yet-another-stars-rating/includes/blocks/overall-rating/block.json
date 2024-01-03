@@ -1,0 +1,33 @@
+{
+    "title": "Yasr: Overall Rating",
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "yet-another-stars-rating/overall-rating",
+    "description": "Insert the author rating.",
+    "icon": "star-half",
+    "category": "yet-another-stars-rating",
+    "example": {},
+    "keywords": [
+        "rating",
+        "author",
+        "overall"
+    ],
+    "attributes": {
+        "size": {
+            "type": "string",
+            "default": "large"
+        },
+        "postId": {
+            "type": "string",
+            "default": false
+        }
+    },
+    "supports": {
+        "align": [
+            "left",
+            "center",
+            "right"
+        ]
+    },
+    "editorScript": "yasr-shortcodes-blocks"
+}

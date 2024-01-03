@@ -1,0 +1,34 @@
+{
+    "title": "Yasr: Visitor Votes",
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "yet-another-stars-rating/visitor-votes",
+    "description": "Insert the ability for your visitors to vote.",
+    "icon": "star-half",
+    "category": "yet-another-stars-rating",
+    "example": {},
+    "keywords": [
+        "rating",
+        "visitor",
+        "votes",
+        "stars"
+    ],
+    "attributes": {
+        "size": {
+            "type": "string",
+            "default": "large"
+        },
+        "postId": {
+            "type": "string",
+            "default": false
+        }
+    },
+    "supports": {
+        "align": [
+            "left",
+            "center",
+            "right"
+        ]
+    },
+    "editorScript": "yasr-shortcodes-blocks"
+}

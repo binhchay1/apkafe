@@ -1,0 +1,126 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: png-to-jpg\n"
+"POT-Creation-Date: 2018-08-11 23:11+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Ing. Jakub Novák <info@kubiq.sk>\n"
+"Language-Team: KubiQ <info@kubiq.sk>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ./.."
+
+#: png-to-jpg.php:64 png-to-jpg.php:83
+msgid "PNG to JPG saved:"
+msgstr ""
+
+#: png-to-jpg.php:115 png-to-jpg.php:116 png-to-jpg.php:149
+msgid "PNG to JPG"
+msgstr ""
+
+#: png-to-jpg.php:131
+msgid "Convert existing PNGs"
+msgstr ""
+
+#: png-to-jpg.php:171
+msgid "PNG to JPG requires gd library enabled!"
+msgstr ""
+
+#: png-to-jpg.php:180
+#, php-format
+msgid "%d images converted"
+msgstr ""
+
+#: png-to-jpg.php:188
+#, php-format
+msgid "%s saved"
+msgstr ""
+
+#: png-to-jpg.php:194
+msgid "JPG quality"
+msgstr ""
+
+#: png-to-jpg.php:202
+msgid "Convert PNG to JPG during upload"
+msgstr ""
+
+#: png-to-jpg.php:212
+msgid "Yes, but only images without transparency"
+msgstr ""
+
+#: png-to-jpg.php:219
+msgid "Only convert image if JPG filesize is lower than PNG filesize"
+msgstr ""
+
+#: png-to-jpg.php:227
+msgid "Leave original PNG images on the server"
+msgstr ""
+
+#: png-to-jpg.php:235
+msgid "Autodetect transparency for existing PNG images"
+msgstr ""
+
+#: png-to-jpg.php:258
+msgid "Converted images will be fixed only in these tables:"
+msgstr ""
+
+#: png-to-jpg.php:260
+msgid ""
+"If you need support for more database tables from various plugins, let me "
+"know by mail to info@kubiq.sk"
+msgstr ""
+
+#: png-to-jpg.php:263
+msgid ""
+"Do you have backup? This operation will alter your original images and "
+"cannot be undone!"
+msgstr ""
+
+#: png-to-jpg.php:265
+msgid "Please wait, I'm getting transparency status for images..."
+msgstr ""
+
+#: png-to-jpg.php:268 png-to-jpg.php:312
+msgid "Convert selected PNGs"
+msgstr ""
+
+#: png-to-jpg.php:270 png-to-jpg.php:314
+msgid "Select all transparent PNGs"
+msgstr ""
+
+#: png-to-jpg.php:272 png-to-jpg.php:316
+msgid "Select all non-transparent PNGs"
+msgstr ""
+
+#: png-to-jpg.php:280
+msgid "Has transparency"
+msgstr ""
+
+#: png-to-jpg.php:371
+msgid "Please wait, converting your PNG images is in progress..."
+msgstr ""
+
+#: png-to-jpg.php:422
+msgid "Any ideas, problems, issues?"
+msgstr ""
+
+#. Description of the plugin
+msgid "Convert PNG images to JPG, free up web space and speed up your webpage"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://kubiq.sk"
+msgstr ""
+
+#. Author of the plugin
+msgid "KubiQ"
+msgstr ""

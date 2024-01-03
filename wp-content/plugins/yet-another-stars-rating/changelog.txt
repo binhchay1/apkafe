@@ -1,0 +1,1377 @@
+= 3.3.0 =
+* NEW SHORTCODE: yasr_display_posts : you can use this shortcode in a page to show posts ordered by ratings.
+[More info here](https://yetanotherstarsrating.com/yasr-shortcodes/yasr-display-posts/)
+* NEW FEATURE: is now possible order posts by ratings. To enable it in home page or in an archive page,
+go to "Settings -> Archive Pages ->  Do you want to order posts by rating? "
+[More info here](https://yetanotherstarsrating.com/yasr-order-posts-by-ratings/)
+* FIXED: wrong image size returned in rich snippets
+* FIXED: In settings->structured data options, image url didn't get saved
+* FIXED: ranking yasr_most_or_highest_rated_posts didn't work as expected is "load results with ajax" is enabled
+* FIXED: minor bug fixes
+* TWEAKED: if a shortcode is used more than once in the same page, the query is executed only once
+* TWEAKED: removed useless query
+* TWEAKED: setting page has now 3 columns layout
+* TWEAKED: removed deprecated classes YasrDatabaseRatings, YasrMultiSetData and YasrRankingData
+
+= 3.2.0 =
+* FIXED: /wp-admin dashboard was crashing if php 7.1 or 7.2 were used
+
+= 3.1.9 =
+* FIXED: missing file in "Aspect and style tab"
+* TWEAKED: under the hood changes
+
+= 3.1.8 =
+* FIXED: Js error in tab "Multi Criteria" if not multi criteria rating is set
+* TWEAKED: removed class Yasr_WP_List_Table
+* Minor changes
+
+= 3.1.7 =
+* FIXED: Removed duplicate query in tabs "Migration Tools"
+* ENHANCEMENT: brand-new form to edit an existing multi set, and code refactor
+* Minor changes
+
+= 3.1.6 =
+* FIXED: [removed warning](https://github.com/Dudo1985/Yet-Another-Stars-Rating/commit/f360dbcd0324483341ffca6ea9bf95b75043673f) returned if PHP 8.1 is used when a rating plugin is imported
+* TWEAKED: classes YasrDatabaseRatings, YasrRankingData and YasrMultiSetData have been deprecated, all the method moved into YasrDB
+* TWEAKED: function yasr_get_itemType has been moved into YasrDB, file yasr-includes-db-functions.php has been deleted
+* TWEAKED: added docs' dir, which contains all the hooks used by YASR
+* TWEAKED: removed dashicons from submenu page name, added links "Contact Us" and "Support"
+* TWEAKED: updated Freemius SDK to version 2.5.3
+
+= 3.1.5 =
+* FIXED: in the editor page, fixed js null error if YASR metabox is not rendered
+* FIXED: fixed [offset warning](https://wordpress.org/support/topic/trying-to-access-array-offset-warning/) if no valid image was given
+* TWEAKED: removed warning if PHP 8.1 is used
+* TWEAKED: added new filter yasr_auto_insert_disable
+* TWEAKED: updated Freemius SDK to version 2.5.2, now included with composer
+* TWEAKED: minor changes
+
+= 3.1.4 =
+* TWEAKED: in the setting page, there is now a new form for creating multi set
+* TWEAKED: minor changes and code cleanup
+
+= 3.1.3 =
+* FIXED: security fix
+* FIXED: in the settings page, last div didn't float good
+
+= 3.1.2 =
+* TWEAKED: added new filters yasr_custom_loader and yasr_custom_loader_url to customize loader
+* FIXED: better ajax response when data is imported from another plugin
+
+= 3.1.1 =
+* FIXED:  Rich snippets fix for "Product itemType". See [#1](https://github.com/Dudo1985/Yet-Another-Stars-Rating/issues/1).
+* TWEAKED: updated Freemius sdk to version 2.4.5
+
+= 3.1.0 =
+* TWEAKED: A lot of under the hood changes
+* TWEAKED: Updated Freemius sdk to version 2.4.4
+
+= 3.0.9 =
+* TWEAKED: code cleanup in gutenberg blocks
+
+= 3.0.8 =
+* FIXED: YASR gutenberg panel didn't shop up once hidden
+* TWEAKED: minor changes
+
+= 3.0.7 =
+* FIXED: when the value 0 is entered for the Price the ‘Offers’ field is not displayed in the Schema markup.
+* TWEAKED: minor changes
+
+= 3.0.6 =
+* FIX: translation for rankings shortcodes
+* FIX: in the classic editor, if Multi Set is used, a duplicate query were run
+* FIX: "Insert Multiset" button in shortcode creator didn't work
+* TWEAKED: gutenberg block now works with .block.json files
+* TWEAKED: added yasr_user_rate_history in shortcode creator for classic editor, and as new Gutenberg Block
+* TWEAKED: added new actions
+* TWEAKED: under the hood changes.
+
+= 3.0.5 =
+* FIX: set_id parameter didn't work in shortcodes yasr_multi_set_ranking and yasr_visitor_multi_set_ranking
+* FIX: rankings didn't show up when post title contains quotation marks ( " )
+* TWEAKED: In the setting page, section "Custom texts" is now renamed in "Customize strings", and it works on two columns
+(more strings will come soon)
+* TWEAKED: under the hood changes.
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* FIX: in admin dashboard, stars in "edit-comments.php" page didn't show up
+[//]: # fs_premium_only_end
+
+= 3.0.4 =
+* FIX: Author multiset didn't get saved
+* TWEAKED: better error handling
+
+= 3.0.3 =
+* FIX: if parameter 'show_average' is enabled on a multi set, a duplicate query was run.
+* TWEAKED: loader image has height and width attributes set.
+* TWEAKED: minor changes
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* NEW FEATURE: new shortcode available: yasr_pro_average_comments_multiset: this print a multi set with the average ratings from reviews.
+[//]: # fs_premium_only_end
+
+= 3.0.2 =
+* Updated Freemius SDK
+
+= 3.0.1 =
+* Minor changes and new pricing page.
+
+= 3.0.0 =
+* Fix for an authenticated XSS vulnerability if 'Load results with AJAX?' is enabled
+
+= 2.9.9 =
+* TWEAKED: removed "Pro only features" box in the editor screen
+
+= 2.9.8 =
+* TWEAKED: updated rest api
+* FIX: softwareApplication itemType didn't get saved
+* Fix: impossible to rate for overall rating in certain circumstances.
+* Fix: minor css fixes in admin area
+
+= 2.9.7 =
+* NEW FEATURE: auto insert option has now a new feature: it is possible to place shortcodes on both above and below the content
+* TWEAKED: attribute 'custom-fields' is added for all CPTS, to avoid compatibility issue in Gutenberg
+* TWEAKED: nonces are checked only for logged in users.
+* TWEAKED: "Stats" page is now renamed in "Manage Ratings"
+* TWEAKED: below the editor is now easier to manage Multi Sets
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* NEW FEATURE: is now possible to use Multi Set along with user reviews!
+ To enable it, just select "YES" to "Insert this Multi Set in the comment form?"
+[//]: # fs_premium_only_end
+
+= 2.9.6 =
+* FIXED: support for wp_template and wp_template_part CPT, used by FSE
+* FIXED: html tags in custom texts didn't work
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* FIXED: comments feed didn't work if reviews in comment are enabled
+[//]: # fs_premium_only_end
+
+= 2.9.5 =
+* NEW FEATURE: In the settings, is now possible to customize the text when a rating is saved / updated
+* minor fixes
+
+= 2.9.4 =
+* Minor changes
+
+= 2.9.3 =
+* TWEAKED: Added support for Catch Infinite Scroll
+
+= 2.9.2 =
+* FIXED: rich snippets error that could occur in some circumstances
+* FIXED: css fix
+* TWEAKED: code cleanup
+
+= 2.9.1 =
+* FIXED: if shortcode exists for a post or page, but there are no ratings, wrong rich snippets are returned
+
+[//]: # fs_premium_only_begin
+= 2.9.0.1 =
+PREMIUM ONLY:
+* FIXED: schema from reviews were not generated
+* FIXED: stars in comment form didn't shows up in some circumstances
+* FIXED: yasr_pro_ur_ranking row attribute didn't work
+[//]: # fs_premium_only_end
+
+= 2.9.0 =
+* FIXED: ranking yasr_most_or_highest_rated_posts doesn't load in some circumstances
+
+= 2.8.9 =
+* FIXED: stars next to the title didn't work if shortcode doesn't exists in a post or page
+* TWEAKED: minor changes
+
+= 2.8.8 =
+* TWEAKED: rich snippets are now included only if shortcode exists in post or page
+* TWEAKED: global yasr_plugin_imported is now refactored into a constant
+* FIXED: removed duplicated query
+* FIXED: Import functions from external plugins is now compatible with mysql8
+* FIXED: itemTypename didn't get saved into Rich snippet options above the editor
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* FIXED: [yasr_pro_average_comments_ratings] didn't shows up
+[//]: # fs_premium_only_end
+
+= 2.8.7 =
+* TWEAKED: added a check to improve compatibility with external plugins
+* TWEAKED: removed old and useless languages files: only three were left to use as example
+* FIXED: litespeed compatibility
+
+= 2.8.6 =
+* FIXED: Missing dependency for rankings shortcodes
+
+= 2.8.5 =
+* TWEAKED: YASR js assets are now loaded only if shortcode exists, and every shortcode has is ows js file. This will reduce
+the unused js code, increasing lighthouse/pagespeed results.
+* NEW FEATURE: new shortcode, ' yasr_user_rate_history ' : this will works only for logged in users, and will show
+all the ratings that the user has give.
+* FIX: js console error in widget page
+
+= 2.8.4 =
+* ENHANCEMENT: All gutenberg's blocks have been updated to apiVersion 2. This mean that YASR now requires at least
+WordPress version 5.6
+* FIX: some errors that occur using yasr_overall_rating and yasr_visitor_votes gutenberg blocks
+* ENHANCEMENT: All gutenberg's blocks now support alignment
+
+= 2.8.3 =
+* FIXED: compatibility with WordPress 5.8
+* FIXED: link to trial page
+* TWEAKED: added some hooks
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* FIXED: js error in admin side.
+[//]: # fs_premium_only_end
+
+= 2.8.2 =
+* FIXED: if "Enable stars next to the title?" is activated, the ratings also appears in rss feed.
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* FIXED: could not set size of stars in comment.
+* TWEAKED: More granular control of number of fake ratings in gutenberg
+[//]: # fs_premium_only_end
+
+= 2.8.1 =
+* FIXED: error that could occurs in some circumstances
+
+= 2.8.0 =
+* FIXED: if blogPosting itemType is selected, and a non valid url image is is supplied in the rich snippets settings,
+a php warning is returned
+* TWEAKED: The ajax method yasr_stats_visitors_votes now returns only json data, instead of HTML
+* TWEAKED: Ajax error responses are now json_encoded
+* TWEAKED: stats tooltip in yasr_visitor_votes works now with flexbox
+* TWEAKED: minor changes
+
+= 2.7.9 =
+* FIXED: missing stats in some circumstances for yasr_visitor_votes shortcode
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* NEW FEATURE: added start_date and end_date parameters for ranking's shortcodes
+[//]: # fs_premium_only_end
+
+= 2.7.8 =
+* FIXED: error when "Load results with AJAX?" is enabled, and the attribute "readonly" is set to yasr_visitor_votes shortcode
+* TWEAKED: css minor changes
+
+= 2.7.7 =
+* TWEAKED: When "Load results with AJAX?" is enabled, data is loaded through admin-ajax.php instead of REST API.
+* TWEAKED: most of caching plugins are automatically detected: if one is found, "load results with ajax" is enabled by default.
+* Minor changes
+
+= 2.7.6 =
+* TWEAKED: new pricing page
+* Minor changes
+
+= 2.7.5 =
+* TWEAKED: in yasr_visitor_votes, chart icon now has same color of the text.
+
+= 2.7.4 =
+* TWEAKED: in front end, dashicons are not required anymore!
+* TWEAKED: Vertical align of text and stars on yasr_visitor_votes shortcode.
+The class yasr-total-average-container has be renamed yasr-vv-stats-text-container.
+* TWEAKED: Custom texts support.
+* TWEAKED: Updated support for Autoptimize, Litespeed, Cache Enabler and WpRocket.
+* TWEAKED: Removed "itemListElement" from Recipe microdata.
+* TWEAKED: added samesite attribute when cookie is set.
+
+= 2.7.3 =
+* NEW FEATURE: new shortcode: yasr_multi_set_ranking : this will show rankings from yasr_multiset
+* TWEAKED: code cleanup.
+
+= 2.7.2 =
+* NEW FEATURE: new shortcode: yasr_visitor_multi_set_ranking : this will show rankings from yasr_visitor_multiset
+* TWEAKED: minor fixes
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* NEW FEATURE: new shortcode: yasr_pro_ur_ranking: this will show rankings with most reviews from comments
+[//]: # fs_premium_only_end
+
+= 2.7.1 =
+* FIXED: minor bugs that could happen in rare circumstances
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* TWEAKED: is now possible to add 1,2,5 and 10 fake ratings.
+[//]: # fs_premium_only_end
+
+= 2.7.0 =
+* FIXED: fixed warning that can return on fresh installations
+
+= 2.6.9 =
+* FIXED: error YasrMultiSetData.php on line 61 if multiSet are not used
+
+= 2.6.8 =
+* FIX: in some circumstances, the text "you've already voted" displayed even in when this is not true
+* TWEAKED: YASR is now saving a lot less data in _postmeta table
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* TWEAKED: code cleanup
+[//]: # fs_premium_only_end
+
+= 2.6.7 =
+* FIX: if custom text is disabled in the settings, default text for a logged in user that has already rated for a post or page was empty.
+
+= 2.6.6 =
+* TWEAKED: settings page revamped. I'd like to heard your feedback in the forum.
+* NEW FEATURE: it is now possible to add the %rating% variable when customizing the text for an user that has already rated.
+* TWEAKED: added many filters (docs in the official website) and code cleanup.
+
+= 2.6.5 =
+* Code cleanup and minor fixes.
+
+= 2.6.4 =
+* FIX: style dependency warning
+* FIX: JS error appering after first installation
+
+= 2.6.3 =
+* NEW feature: Now available the new "Rankings" tab in settings, here you can see a live preview of the rankings before adding it to you post
+* TWEAKED: code cleanup
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* NEW feature: brand new shortcode generator for the rankings! Go into the "rankings" tab inside the settings to see it working!
+* FIXED: yasr_pro_rankings_from_comments_reviews was broken
+* TWEAK: yasr_pro_visitor_votes_chart is now deprecated. yasr_most_or_highest_rated_posts will take its place
+[//]: # fs_premium_only_end
+
+= 2.6.2 =
+* TWEAK: yasr_top_ten_highest_rated is now depcrecated. yasr_ov_ranking will take its place
+* TWEAK: yasr_top_5_reviewers is now depcrecated. yasr_top_reviewers will take its place
+* TWEAK: yasr_top_ten_active_users is now depcrecated. yasr_most_active_users will take its place
+* FIX: yasr_visitor_votes didn't work on CPT if AJAX is enabled and CPT is registred without _base parameter
+* FIX: Couldn't add new element in MultiSet if only one is used
+* Updated freemius to version 2.4.2
+
+= 2.6.1 =
+* FIX: Visitor rating broken if custom text is enabled. (thanks to @raulpopi)
+* FIX: In some themes (Twenty Twenty, Twenty One and most likely many others) if a post contains the <!--more--> tag, and
+stars next to the title is active, the excpert layout get broken
+
+= 2.6.0 =
+* FIX:  if load results with ajax is enabled, and for some reason an api call fails, span below the stars didn't shows up
+* TWEAK: containerAfterStars method is now public
+
+= 2.5.9 =
+* TWEAK: when a rating is saved, ajax answer returns an array instead of the html. This will no overwrite the actual text but just update it.
+* FIX: "0" Showing up at the end of the titles in some circumstances.
+* Minor changes
+
+= 2.5.8 =
+* FIX: wrong css style for rankings yasr_top_5_reviewers and yasr_top_ten_active_users
+
+= 2.5.7 =
+* TWEAK: Rankings have been rewritten: now are build in REACT, this will allow much more flexibility
+
+= 2.5.6 =
+* FIX: register_rest_route called incorrectly in Gutenberg
+* FIX: random js error into dashboard (thanks to @lwangaman)
+* TWEAK: On stars hover, cursor is now displayed an an hand
+* FIX: minor changes to support older versions
+
+= 2.5.5 =
+* FIX: rich snippet's attribute name returns the post_id instead of the title in some circumstances
+
+= 2.5.4 =
+* FIX: yasr_visitor_multiset data didn't save correctly if more than one were used in the same page.
+
+= 2.5.3 =
+* FIX: in Yet Another Stars Rating: Stats -> Overall Rating only posts with rating > 0 are shown
+
+= 2.5.2 =
+* NEW FEATURE: is now possible delete overall rating data in Yet Another Stars Rating -> Stats -> Overall Rating
+* FIXED: Schema title come with rating string if "Enable stars next to the title?" is enabled
+* TWEAKED: all rankings functions has been rewritten to work with REST API. Documentation will come soon.
+* TWEAKED: a lot of minor changes.
+
+= 2.5.1 =
+* TWEAKED: added new hooks: yasr_vv_shortcode, yasr_vv_ro_shortcode and yasr_overall_shortcode. These hooks can
+be used to customize the shortcodes.
+
+= 2.5.0 =
+* TWEAKED: minor changes. Nothing to be excited about
+
+= 2.4.9 =
+* FIXED: Removed unnecessary closing div for yasr_visitor_votes shortcode
+
+= 2.4.8 =
+* Removed YasrSettings file from svn repo
+
+= 2.4.7 =
+* NEW FEATURE: Added new fields for these itemTypes:
+#### Book
+* author
+* bookEdition
+* BookFormat
+* ISBN
+* numberOfPages
+#### Movie
+* actor
+* director
+* Duration
+* dateCreated
+* TWEAKED: added hooks yasr_vv_saved_text and yasr_mv_saved_text to filter text showed after a rating is saved
+* TWEAKED: added hooks yasr_vv_txt_before and yasr_vv_text_after to filter text showed before or after the star ratings
+* TWEAKED: code cleanup in setting page
+* FIX: check cookie name to use hooks added in version 2.4.6
+* FIX: on fresh install, with php 7.4, a notice is returned
+
+= 2.4.6 =
+* NEW OPTION: Is now possible to exclude pages when stars next the title are enabled
+* TWEAKED: changed classname from yasr-container-custom-text-and-visitor-rating to yasr-custom-text-vv-before
+* TWEAKED: span 'yasr-custom-text-before-visitor-rating' removed
+* TWEAKED: added hooks yasr_vv_cookie and yasr_mv_cookie to filter cookies name
+
+= 2.4.5 =
+* FIXED: %overall_rating% pattern didn't work for custom text
+* FIXED: fixed link in yasr_most_or_highest_rated_posts
+* FIXED: warning in yasr-settings-functions-multiset.php
+* TWEAKED: minor changes
+
+= 2.4.4 =
+* TWEAKED: added yasr_auto_insert_exclude_cpt hook
+* TWEAKED: code cleanup
+
+= 2.4.3 =
+* NEW FEATURE: is now possible to show ratings next to the title
+* FIXED: guten blocks returns error if post_id parameter was set
+* TWEAKED: added some hooks
+
+= 2.4.2 =
+* FIXED: error in gutenberg editor that appear in some circumstances
+
+= 2.4.1 =
+* FIXED: minor fix if more yasr_visitor_votes with different differents post_id are used in the same page
+
+= 2.4.0 =
+* NEW FEATURE: is now possible to customize the itemType Name: if empty, post title will be used instead.
+* TWEAKED: Custom text to show when an user has already voted now shows up even for logged in users
+* TWEAKED: Added new hooks: yasr_filter_schema_title and yasr_below_panel (for gutenberg)
+* TWEAKED: admin .js files are now bundled into a single one
+* TWEAKED: support for IE11 (will be dropped in 12 months)
+
+
+= 2.3.9 =
+* FIXED: yasr_visitor_votes readonly didn't show up if load results with ajax is enabled
+* FIXED: missing fragment error if gutenber used
+* FIXED: empty tooltip on yasr_visitor_votes
+
+= 2.3.8 =
+* TWEAKED: Using GET instead of POST when getting rest response
+
+= 2.3.7 =
+* FIXED: Minor changes
+
+= 2.3.6 =
+* FIXED: visitor multiset doesn't allow user to vote in some circumstances
+* TWEAKED : minor changes in ajax call for yasr_visitor_votes
+
+= 2.3.5 =
+* IMPROVED: is now possible to select between "Organization" or "Person" in "Rich snippet options".
+You may need to save again "Publisher name" and "Image Url"
+* IMPROVED: code cleanup
+
+= 2.3.4 =
+* IMPROVED: added Software Application itemType
+* IMPROVED: added Organization itemType
+* IMPORVED: added reviewBody and description properties
+* FIXED: "Your ratings" widget in admin dashboard
+
+= 2.3.1 =
+* Code refactor, according to boilerplate standards
+
+= 2.3.3 =
+* FIXED: "Load results with AJAX" option works with all post types, not only the "posts" one
+* FIXED: CSS fix in settings pages
+* FIXED: minor fix with multiSet
+
+= 2.3.2 =
+* FIXED: Uncaught TypeError randomly shows up in the browser console
+* TWEAKED: removed deprecated multisite function
+* TWEAKED: in the settings page, the "custom css" textarea is now a text editor
+* TWEAKED: CSS improvement in settings page
+* TWEAKED: minor code cleanup
+
+= 2.3.0 =
+* NEW FEATURE: YASR now support all caching plugin available out there.
+Just select "yes" at the question  "Load results with AJAX" in the settings page.
+* ENHANCEMENT: Added itemListElement in recipeInstructions
+* TWEAKED: rich snippet are returned only if rating is found
+* TWEAKED: Huge Code Refactor
+* Minor changes
+
+= 2.2.9 =
+* FIXED: in the editor screen, if a Multi Set already has ratings, and then try to update only one, all the other
+fields where reset
+* ENHANCEMENT: rich snippet are returned only if a YASR shortcode is in the post or page
+* ENHANCEMENT: changed classes names star-rating and star-value in yasr-star-rating and yasr-star-value. **DELETE YOUR BROWSER CACHE**
+
+= 2.2.8 =
+* FIXED: empty schema field can return error on existing post or page.
+
+= 2.2.7 =
+* FIXED: illegal offset warning
+
+= 2.2.6 =
+* TWEAKED: in the editor screen, rich snippet info are moved below the editor
+* NEW FEATURE: Added new fields for these itemTypes:
+#### Recipe:
+* cookTime
+* prepTime
+* description
+* keywords
+* nutrition
+* recipeCategory
+* recipeCuisine
+* recipeIngredient
+#### Product:
+* Brand
+* Sku
+* Global identifiers
+* Price
+* Currency
+* Price Valid Until
+* Availability
+* Url
+#### LocalBuisiness:
+* Address
+* PriceRange
+* Telephone
+
+
+= 2.2.5 =
+* FIXED: bug if upgrading from version before than 2.0.9
+
+= 2.2.4 =
+* FIXED: Multi Set didn't shows up vote in admin screen
+* FIXED: attribute "readonly" to the yasr_visitor_votes shortcode
+* TWEAKED: minor changes in settings panel
+
+= 2.2.3 =
+* NEW FEATURE: Added support for the following structured datas:
+- Course
+- CreativeWorkSeason,
+- CreativeWorkSeries,
+- Episode,
+- Event
+- MediaObject,
+- Movie,
+- MusicPlaylist,
+- MusicRecording.
+
+* TWEAKED: Removed transient: since version 2.2.0 are useless.
+
+= 2.2.2 =
+* FIXED: links in Recent Ratings dashboard widget (thanks to Fernando Tellado)
+* Enhancement: Added REST responses. More info in the official site
+
+= 2.2.1 =
+* FIXED: MultiSet returns "undefined" in editor screen
+* FIXED: MultiSet average always shows
+* FIXED: Users who cannot publish posts can't access the editor screen
+* FIXED: Password reset display an error page in some circumstances
+
+= 2.2.0 =
+* TWEAKED: most of code of the main shortcodes has been rewritten; YASR is faster than ever.
+* FIXED: gutenberg shortcode preview yasr_top_ten_highest_rated shortcode
+
+= 2.1.4 =
+* FIXED: undefined variable when saving/updating post or page
+* TWEAKED: changed delete_post_meta with delete_metadata
+* TWEAKED: Updated support link in settings pages
+
+= 2.1.3 =
+* FIXED: in some older (and rare) mysql or mariadb versions, the function JSON_OBJECT is not supported.
+This was causing the import of multiset data failing since version 2.0.9
+* FIXED: in backed, multiset rating didn't get saved if set_id = 0
+* Minor changes
+
+= 2.1.2 =
+* NEW FEATURE: is now possible to import rating from Multi Rating
+* TWEAKED: updated freemius sdk to version 2.3.2
+* FIXED: MultiSet fix for users that enabled it on version prior of 2.1.0 and had setid=0
+
+= 2.1.1 =
+* FIXED: on new installations, tables yasr_multi_set and yasr_multi_set_fields didn't get created
+
+= 2.1.0 =
+* TWEAKED: This is the second important release after 2.0.9. YASR Database structure is now more efficent if you're
+using MultiSets. If everything works, it is possible to remove the table _yasr_multi_values.
+* TWEAKED: "logs" page is now called "stats"
+* NEW FEATURE: inside the "stats" page is now possible to see, and delete, stats for yasr_visitor_multiset shortcode
+* TWEAKED: Code cleanup
+
+= 2.0.9 =
+* TWEAKED: This is the first of two important releases for YASR. Some changes in the database has been done.
+**BACKUP YOUR DATABASE BEFORE UPDATING**
+* FIXED: RTL support in admin area
+
+= 2.0.8 =
+* NEW FEATURE: Added a box to the top right, that will allow to select if the post is a review or not.
+More info here [here](https://yetanotherstarsrating.com/yasr-rich-snippets/)
+* FIXED: warning that in some rare circumstances may appear in yasr_schema function
+
+= 2.0.7 =
+* TWEAKED: changed a define to support php version <7
+
+= 2.0.6 =
+* NEW FEATURE: in Gutenberg, is now possible to rate "overall Rating" in both blocks and sidebar
+* IMPORTANT CHANGES ON RICH SNIPPETS: due to [this google announcement] (https://webmasters.googleblog.com/2019/09/making-review-rich-results-more-helpful.html)
+BlogPosting data type doesn't have ratings anymore. These types have been added: Book, Movie, Game.
+Many other support types will comes.
+
+= 2.0.5 =
+* FIXED:  Warning: array_merge(): on line 552 in yasr-functions.php
+
+= 2.0.4 =
+* NEW FEATURE: is now possible align to left, center or right if auto insert is used
+* TWEAKED: check tidy version before use it: this will fix some enconding issue if an old version in server is installed
+* TWEAKED: esc_html used instead of htmlspecialchars in the settings page
+* TWEAKED: added a new filter yasr_filter_existing_schema: useful if there is the need to add new rich snippets
+* TWEAKED: minor changes on schema function (thanks to Olivier)
+
+= 2.0.3 =
+* TWEAKED: some changes in settings page
+* TWEAKED: new default values for new installations.
+
+= 2.0.2 =
+* TWEAKED: Multisite support!!
+* TWEAKED: In gutenberg editor, now a link for Yasr Sidebar is available
+* FIXED: gutenberg showing "updated failed" in some rare circumstances
+
+= 2.0.1 =
+* TWEAKED: changed code in yasr-shortcode-functions.php to support php version < 7
+
+= 2.0.0 =
+* NEW FEATURE: is now possible to import date from:
+- Wp Post Ratings
+- KK Star Ratings
+- Rate My Post
+* FIXED: in editor screen, multi set didn't show up if more than 1 was used
+* TWEAKED: minor changes
+
+= 1.9.9 =
+* FIXED: added a further check every time get_the_title function is called
+
+= 1.9.8 =
+* FIXED: overall rating didn't get saved if default editor isnt't Gutenberg or Classic Editor
+
+= 1.9.7 =
+* FIXED: Impossibile to create a new post if used classic editor
+
+= 1.9.6 =
+* NEW FEATURE: 3 Brand new Gutenberg Blocks!! Yasr: Top 10 By Visitor Votes, Yasr: Most Active Visitos and Yasr Most Active Authors!
+* NEW FEATURE: Gutenberg Panel!
+* TWEAKED: In Gutenberg, Overall Rating value is now saved when post is saved/updated, instead of with an ajax call.
+* TWEAKED: updated freemius sdk to version 2.3.0
+
+= 1.9.5 =
+* TWEAKED: settings redesigned
+* TWEAKED: code cleanup
+
+= 1.9.4 =
+* NEW: In the settings, is now possible to customize the "you must sign in" text; two html tags are supported: < strong > and < p >
+* FIXED: Update transient to show the new average when a rating get deleted from the panel
+* TWEAKED: Code cleanup
+
+= 1.9.3 =
+* Minor changes and code cleanup.
+
+= 1.9.2 =
+* FIXED: Javascript error on some mobile device
+
+= 1.9.1 =
+* FIXED: In some (rare) case, overall rating get empty with Gutenberg
+
+= 1.9.0 =
+* NEW FEATURE: yasr_visitor_votes is now a Gutenberg block
+* FIXED: In Gutenberg, when using yasr_overall_rating block, if post is rated and size or post_id is changed, stars got full filled
+* TWEAKED: In classic editor, now overall_rating get saved along with the post update/save
+* FIXED: In classic editor, review type didn't get saved if post is updated just after the type was changed
+* TWEAKED: updated rater library
+* TWEAKED: added a div with class "yasr-overall-rating" in the front end shortcode to allow customization
+* TWEAKED: dropped out support for extensions
+* TWEAKED: minor changes
+
+= 1.8.9 =
+* FIXED: updated freemius sdk to version 2.2.4
+
+= 1.8.8 =
+* FIXED: bug when using more than a multi set in a single page (remember to delete browser cache)
+* FIXED: undefined notice
+
+= 1.8.7 =
+* FIXED: Security fix
+* FIXED: if yasr_visitor_votes is used twice in the same page, loader and results are now shown in the right place
+* TWEAKED: updated freemius sdk to version 2.2.3
+* NEW FEATURE: Yasr now works with WP Fastest Cache – WordPress Cache plugin by Emre Vona
+* NEW FEATURE: Yasr now works with Cache Enabler – WordPress Cache plugin by KeyCDN
+
+= 1.8.6 =
+* NEW FEATURE: Gutenberg support! yasr_overall_rating (only this shortcode for now) supports the new WordPress default editor.
+* TWEAKED: updated to tippy 3.6.0
+
+= 1.8.5 =
+* Fixed: is now possible to insert more than once a shortcode in the same page
+* Fixed: Full RTL support (remember to delete all your caches)
+
+= 1.8.4 =
+* Small changes on stars images to better look on dark backgrounds
+* Partial rtl support
+
+= 1.8.3 =
+* FIXED: multiset doesn't show up in the edit screen if only 1 is used
+
+= 1.8.2 =
+* FIXED: widgets didn't load in front end
+
+= 1.8.1 =
+* Rounded stars again available
+
+= 1.8.0 =
+* This is a very important release. A lot of code has been cleaned up/rewritten. Images are not png anymore, but svg.
+Everthing is now fresher and even more lightweight then before. If you customized your stars set, check it again in the settings.
+
+= 1.7.4 =
+* Css fixes
+
+= 1.7.3 =
+* FIXED: Multi set's field name is now 40 chars long instead of 23
+* TWEAKED: progress bars doesn't use jquery anymore, it's css only
+* TWEAKED: tooltip for yasr_visitor_votes doesn't use jquery anymore, but uses [tippy](https://atomiks.github.io/tippyjs/) instead
+* TWEAKED: A lot of under the hood changes
+
+= 1.7.2 =
+* FIXED: yasr_visitor_multiset didn't work
+
+= 1.7.1 =
+* FIXED: security fix
+
+= 1.7.0 =
+* FIXED: Yasr overall rating not showing up if custom text isn't set
+
+= 1.6.9 =
+* TWEAKED: Most of work have been done on making Yasr working without jquery. This is still in beta but now supports all shortcodes
+except "yasr_visitor_multiset" one
+* TWEAKED: yasr_visitor_votes_readonly is now just a call to 'yasr_visitor_votes readonly="yes" '
+* TWEAKED: Huge code cleanup
+* TWEAKED: Php version required is now 5.3 instead 5.4
+
+= 1.6.8 =
+* Fixed css for tooltip stats
+
+= 1.6.7 =
+* Css fix for gutenberg compatibility
+
+= 1.6.6 =
+* Minor changes
+
+= 1.6.5 =
+* NEW FEATURE: is it possible to use YASR without jquery
+This functionality is still in beta and for now and works only with yasr_overall_rating and yasr_visitor_votes shortcode.
+You can enable/disable this in every moment in the settings
+
+= 1.6.4 =
+* Updated freemius sdk to be gdpr compilant
+
+= 1.6.3 =
+* FIXED: Multiset transient are now deleted only under the "Multi Sets" tab
+
+= 1.6.2 =
+* Removed showing ip from widget in the user dashboard
+* Better cookie managment
+
+= 1.6.1 =
+* To accomplish GDPR european law, now the IP is not stored by default
+
+= 1.6.0 =
+* Integreted freemius sdk
+
+= 1.5.8 =
+* NEW FEATURE: Logs Page: is now possible to see log page and delete user ratings!
+* TWEAKED: Yasr settings page has now it's own top level page instead under the WordPress Settings section
+
+= 1.5.7 =
+* FIXED: star disappear after user rating in some circumstances
+* FIXED: javascript noticies
+
+= 1.5.6 =
+* Fixed Javascript error
+
+= 1.5.5 =
+* FIXED: yasr_most_or_highest_rated_posts was displaying 2 table instead 1
+
+= 1.5.4 =
+* TWEAKED: removed jacasvript for yasr_visitor_multiset shortcode, use wp_localize_script instead
+
+= 1.5.3 =
+* FIXED: var_dump string appear after visitor vote
+
+= 1.5.2 =
+* TWEAKED: smaller number of queries when Yasr is called in archive pages
+* FIXED: css problem with "small" and "medium" size
+
+= 1.5.1 =
+* FIXED: when a post/page was removed from trash
+
+= 1.5.0 =
+* Updated rateit to version 1.1.0
+
+= 1.4.9 =
+* Added support to litespeed caching plugin (kudos to pako69)
+
+= 1.4.8 =
+* Minor changes (Thx to pako69)
+
+= 1.4.7 =
+* Removed freemius sdk.
+
+= 1.4.6 =
+* Jquery ui css is now loaded locally
+
+= 1.4.4 =
+* Added freemius sdk.
+
+= 1.4.3 =
+* If Blogposting is selected as itemtpye, and no featured image is set, use the logo url
+
+= 1.4.2 =
+* TWEAKED: progressbars and tooltip classes have been fixed
+
+= 1.4.1 =
+* TWEAKED: Yasr now supports ajax added content
+* TWEAKED: RateIt updated to version 1.0.24
+
+= 1.4.0 =
+* Fixed post title get echeod 
+
+= 1.3.9 =
+* Dropped import support for old gd star
+
+= 1.3.8 =
+* FIXED: Shortcode creator finally works even in text mode
+* TWEAKED: Added a link to the settings in the plugin list under the plugin name
+* TWEAKED: minor changes
+
+= 1.3.7 =
+* FIXED: Rankings yasr_top_ten_highest_rated, yasr_most_or_highest_rated_posts and yasr_top_5_reviewers has been fixed (broken in version 1.3.6)
+* FIXED: js errors on yasr-front.js, thanks to jg88
+
+= 1.3.6 = 
+* TWEAKED: yasr_visitor_votes doesn't use anymore yasr_votes table. It use only yasr_log instead. From this version, yasr_votes is not created anymore. If after this update everything is ok, if you wish you can drop yasr_votes table
+* TWEAKED: add the link to the post on yasr recent ratings widget
+* TWEAKED: huge code cleanup
+
+= 1.3.5 =
+* TWEAKED: READ CAREFULLY: this is the first step of an important yasr database change: the main goal is to switch from yasr_votes table to wordpress default post_meta.
+A database backup is strongly suggested.
+* NEW FEATURE: new widget that shows the last 5 recent ratings.
+
+= 1.3.4 =
+* TWEAKED: minor changes 
+
+= 1.3.3 =
+* FIXED: security fix
+
+= 1.3.1 =
+* TWAKED: an absolute url is passed on get_image_size instead of an URL. This id due to compatibility in some cheap hosting
+
+= 1.3.0 =
+* NEW FEATURE: Widget support for yasr_overall_rating and yasr_visitor_votes shortcodes
+* TWEAKED: Yasr shortcode creator will appear only in backend
+
+= 1.2.9 =
+* NEW FEATURE: If auto insert is enabled, it's now possible to exclude the single post or page
+* TWEAKED: Restyling for settings panel
+
+= 1.2.8 =
+* FIXED: Fatal error on first install
+* TWEAKED: Flat stars set is the new default theme
+* Minor changes
+
+= 1.2.5 =
+* NEW FEATURE: in settings -> Multi Set tab is now possible to choose if show or hide by default the average for multi set
+* FIXED: logo image for rich snippet
+* TWEAKED: changed globals names
+* FIXED: minor changes
+
+= 1.2.4 =
+* FIXED: Settings lost on update
+* FIXED: error if logo image are not set
+* FIXED: it was passible to rate twice a same field in a yasr_visitor_mutliset
+* Minor changes
+
+= 1.2.3 =
+* TWEAKED: image is avaible for recipe tipe too
+* FIXED: inverted width and height on rich snippets
+* FIXED: removed rich snippets on page without ratings
+* FIXED: minor bugfixes
+
+= 1.2.2 =
+* NEW FEATURE: by default Multi Set show now a newline with average rating: it's possible to hide this simply adding the attriute show_average='no' in the shortcode
+* TWEAKED: google support now json-ld for reviews: so microdata have been removed from yasr, that now use only json-ld. Further this, all blogposting error have been fixed
+* FIXED: Multi Set cache didn't get when it was edited
+* TWEAK: code cleanup and bugfix
+
+= 1.2.1 =
+* FIXED: wrong css class on ajax response if yasr_visitor_votes is used with a different size then default
+
+= 1.2.0 =
+* FIXED: if more then one visitor multiset for page were used only the last use to work
+* TWEAKED: transient are used to cache ratings: this means that Yasr is faster then ever
+* TWEAKED: shortcode creator is now above of tinymce. It now uses thickbox
+* TWEAKED: added filter 'yasr_filter_ip' to filter stored ip address
+* TWEAKED: code cleanup
+
+= 1.1.9 =
+* FIXED: yasr_visitor_votes doesn't get vote on mobile
+
+= 1.1.8 =
+* FIXED: added the rating type at the bottom of the post if no kind of rating exists for a post or page
+
+= 1.1.7 =
+* FIXED: filters on yasr_add_schema() functions
+* TWEAKED: disabled right click on rating
+* TWEAKED: install function is wrapped on register_activation_hook
+
+= 1.1.6 =
+* FIXED: Rich snippet non added in some cases
+
+= 1.1.5 =
+* TWEAKED: removed usless add_actions
+
+= 1.1.4 =
+* TWEAKED: added 2 new actions: yasr_action_on_overall_rating runs when the overall rating vote is insert or update, and yasr_action_on_visitor_vote runs when an user insert a vote and last yasr_action_on_update_visitor_vote that run when a logged in user update his vote
+* FIXED: changed to a lower priority on 2 actions
+
+= 1.1.3 =
+* NEW FEATURE: New widget in the dashboard: all the logged in user can now see the logs of their votes
+* FIXED: Insert new vote instead of update the old one if a logged in user try to vote an already rated post on archive pages
+* TWEAKED: Speed improvment on dashboard widget
+* TWEAKED: added html class on rankings
+* TWEAKED: improved feature with the user reviews extension
+
+= 1.1.2 =
+* FIXED: Yasr Stylish compatibility
+* TWEAKED: Minor changes.
+
+= 1.1.1 =
+* FIXED: Yasr Stylish compatibility
+* TWEAKED: changed extensions images
+
+= 1.1.0 =
+* Yasr is not anymore a freemium plugin: it works now with extensions that you can be installed through the settings panel
+
+= 1.0.7 =
+* FIXED: minor bugfix in settings page
+
+= 1.0.6 =
+* Added a new filter hook on microdata and jsonld info
+* Fixed php notice
+
+= 1.0.5 =
+* NEW FEATURE: In the Yasr code have been added a lot of hooks! This means that is much easier to develop Yasr. Further this, other developer can add their own extensions!
+* TWEAKED: Added the postid parameter on the yasr_multiset and yasr_visitor_multiset shortcodes
+* TWEAKED: Color scheme settings have been moved from "Multi Sets" tab on the "Styles" one.
+
+= 1.0.4 =
+* FIXED: yasr_visitor_votes didn't work if used the postid attribute
+* Code cleanup
+
+= 1.0.3 =
+* TWEAKED: shortcodes doesn't echo javascrfipt anymore. wp_localize_script is used instead
+* Minor changes on settings api
+
+= 1.0.2 =
+* TWEAKED: Max length for multiset fields in now 40 instead 23
+* FIXED: Fixed a bug in multiset editing
+* FIXED: Itemtype selection
+* FIXED: minor bugfixes
+
+
+= 1.0.1 =
+* NEW FEATURE: is now possible to choose a recipe as itemType for rich snippets
+* TWEAKED: moved from jquery(document).ready to DOMContentLoaded in some shortcodes
+* FIXED: various minor fixes
+
+= 1.0.0 =
+* TWEAK: Changed textdomain from 'yasr' to 'yet-another-stars-rating'.
+
+= 0.9.9 =
+* New feature: is now possible to choose between json-ld and microdata for rich snippet
+
+= 0.9.8 =
+* TWEAKED: All the schema info use now json-ld and not microdata anymore. There is no need anymore to the sentence of the end of post :)
+* FIXED: itemtype selection
+* FIXED: itemtype if not rating
+* FIXED: RTL support, thank's to Arik Numlock
+
+= 0.9.7 =
+* FIXED: bug with itemtype if yasr is not used in English
+* NEW FEATURE: in the settings, is now possible to choose the default itemtype for all posts/pages
+
+= 0.9.6 =
+* Fixed author missing in schema info if blogposting is used
+* Minor fix on schema
+* Code Cleanup
+
+* Fixed minor bug on schema info.
+
+= 0.9.5 =
+* Fixed div not created if schema info not present
+
+= 0.9.4 =
+* FIXED: all the ratings for a post or page get reset if choosen again the current schema type
+* FIXED: Schema errors
+
+= 0.9.3 =
+* NEW FEATURE: wp rocket support, thanks to geek press
+* FIXED: missing filed if a multiset element is left empty in the edit screen
+
+= 0.9.2 =
+* FIXED: bugfix on yasr_visitor_multiset
+* FIXED: wrong review type showed in editing screen
+* FIXED: could vote > 5 in overall rating if use digits instead of stars
+* FIXED: double voting in visitor multi set if "submit" button is pressed more than once
+* FIXED: progressbar in tooltips (thanks to Harry Milatz )
+* FIXED: minor security fix
+
+= 0.9.1 =
+* Security fix
+
+= 0.9.0 =
+* FIXED: Fixed bug in multisets (here https://wordpress.org/support/topic/half-stars-not-saving more info)
+* TWEAKED: Minor changes
+
+= 0.8.9 =
+* FIXED: Minor bugfixes for multisets and visitor multisets
+
+
+= 0.8.8 =
+* NEW FEATURE: it's now possible to add the attribute postid on these shortcodes: yasr_overall_rating, yasr_visitor_votes, yasr_visitor_votes_readonly. It is only necessary when you wish to show another post/page's votes
+* TWEAKED: Added facebook box in the settings
+* TWEAKED: storage of the ip adress
+* TWEAKED: Added Croatian language
+* FIXED: support for rtl
+* Minor bugfixes
+
+
+= 0.8.7 =
+* Minor changes and bugfixes
+
+= 0.8.6 =
+* Fixed bug on new installation if multi set are used
+
+= 0.8.5 =
+* TWEAKED: code changes and bug fixes on Multi Set shortcodes
+
+= 0.8.4 =
+* NEW FEATURE: User can customize text after Visitor Votes.
+* TWIKED: Visitor Votes have been partially rewritten, is much faster now
+* REMOVED: Removed jquery cookie
+
+= 0.8.3 =
+* NEW FEATURE: added shortcode yasr_visitor_multiset. Now everyone can vonte in a Multi Set!
+* FIXED: fixed schema type selection
+* Minor changes
+
+= 0.8.2 =
+* NEW FEATURE: added shortcode yasr_visitor_votes_readonly (thanks to Raul Illana for the idea)
+* NEW FEATURE: added support for wp super cache
+* TWIKED: color settings for multi sets was moved from general settings to multi sets tab
+* TWIKED: log widget is now fully translatable
+* TWIKED: added brasilian language
+* TWIKED: minor fixes for translation
+
+= 0.8.1 =
+* Fixed: Undefined variable in yasr_visitor_votes shortcode
+* Fixed: Fixed cursor style when is over the dashicon
+* Tweaked: Stars' description is now translatable
+* Twaeked: Dashicon doens't load if visitor stats are disabled
+* Tweaked: Italian translation
+
+= 0.8.0 =
+* Stats for visitor votes works now on click and not on hover
+* Buddypress compatibility
+* Huge code cleanup on yasr_visitor_votes shortcode
+
+= 0.7.9 =
+* Fixed bug inserted on 0.2.2 when a logged in user try to update his own vote
+* Minor changes on yasr_visitor_votes shortcode
+
+= 0.7.8 =
+* Fixed bug that occur when a post was rated from 2 users that use same browser
+* Switched cdn, from google to jquery
+* Persian Translation
+
+= 0.7.7 =
+* Removed an useless row in yasr_votes table.
+* Minor change on [yasr_top_5_reviewers] shortcode
+* Code cleanup
+
+= 0.7.6 =
+* Updated pro info.
+* .po file update
+
+= 0.7.5 =
+* Code cleanup and bugfix in yasr_visitor_votes shortcode
+* Updated Norwegian translation (Thanks to [Line](http://www.spilleautomatercasinobonuser.com))
+
+= 0.7.4 =
+* Security fix. Please update!
+
+= 0.7.3 =
+* Added support for plugins that adds class or attribute on images
+* Code cleanup
+
+= 0.7.2 =
+* Another bugfix on yasr_visitor_votes shortcode.
+* Minor changes
+
+= 0.7.1 =
+* Important change into yasr_visitor_votes shortcode
+
+= 0.7.0 =
+* Fixed bug for yasr_visitor_votes shortcode
+
+= 0.6.9 =
+* Yasr Visitor Votes shortag is finally avaible in archive pages!
+* Code cleanup on yasr visitor votes shortag
+* Javascript loaded again at the bottom in the frontend. Theme that doesn't use wp_footer will no be supported anymore
+
+= 0.6.8 =
+* In the front end, Javascript is loaded at the top of the page, cause out there still exists theme that doesn't use wp_footer function
+* Smaller bugfixes
+* French translation
+
+= 0.6.7 =
+* Small bugfix
+
+= 0.6.6 =
+* Bugfix: Auto insert in custom post type have been fixed
+* "stars" inside the stats tooltip is now translatable
+
+= 0.6.5 =
+* New feature! If you use Visitors Rating stars set, you can now see statistics by hovering the mouse on the text [Total: X Average:Y]
+* Bug fixes (stars changing size) in [yasr_visitor_rating]
+* Fixed typos
+* Huge cleanups
+
+= 0.6.3 =
+* Added Pro info in settings page
+
+= 0.6.2 =
+* Fixed bug for [yasr_overall_rating] in pages
+* Code cleanup in [yasr_overall_rating]
+
+= 0.6.1 =
+* Bugfix: fixed mysql error if inserted the overall rating vote if post wasn't saved yet
+* Fixed schema info when overall rating is used
+* Language fix on [yasr_most_or_highest_rated_posts]
+
+= 0.6.0 =
+* Bugfix: now it's not possible to vote 0
+* Code Cleanup in yasr-settings-page and added link to yasr site, www.yetanotherstarsrating.com
+
+= 0.5.9 =
+* New feature: When writing a post or a page it's now possible to select the category that you're reviewing. This is a good improvement for SEO.
+* Fixed loader when importing gd star rating data
+* Fixed loader in yasr-settings-page
+
+= 0.5.8 =
+* Changed description in yasr shortcode generator (transaltor please take a look to the .po file) and other languages fix.
+* Added the author info in the aggregate rating snippet
+* Minor bugfixes
+
+= 0.5.7 =
+* Bug fixes in [yasr_most_or_highest_rated_posts] chart
+
+= 0.5.6 =
+* Code cleanup and speed improvement on the [yasr_most_or_highest_rated_posts] chart
+* Bug fixes in setting page
+
+= 0.5.5 =
+* All the javascript have been moved from inline to external. It can be minimized so it's faster. DELETE ALL YOUR CACHES
+* Fixed a possible bug if user manually delete data in a table
+
+= 0.5.4 =
+* New feature: you can used numbers instead stars to insert the "overall rating" value. Just go in the setting and choose what you want to use
+* Fixed a division by 0 warning while using [yasr_most_or_highest_rated_posts] : this happened when there wan't enought data to shows
+* Many bux fix in [yasr_visitor_rating] : further this now it is faster
+
+= 0.5.3 =
+* Fixed a non closing div. This can cause problem when used in old template
+
+= 0.5.2 =
+* Bugfixes
+
+= 0.5.1 =
+* Added support for wordpress 4.0
+* Huge code cleanup in [yasr_visitor_votes]
+
+= 0.5.0 =
+* New feature: added auto insert for custom post types only (you will see this only if you use custom post types)
+* Various bugfixes
+
+= 0.4.9 =
+* Fixed bug in rich snippet
+* Under the hood changes and code cleanup
+
+= 0.4.8 =
+* Many bug fix and code changes for i18n
+* Yasr.css have been sperated in 2 files: 1 for admin and 1 for frontend
+* Added Italian translation
+* Many many other little bug fixes
+
+= 0.4.7 =
+* Visitor votes has changed: if an user is logged in, now it's possibile to update the given vote
+* Using css sprite instead of single images
+* Using only 2 css instead 4
+* Added German Translation (thanks to Josef Seidl)
+
+= 0.4.6 =
+* New feature: you can add your own css rules!
+* Popup shortcode creator use the built-in wordpress style, fresher and lighter
+* Fixed many bugs in shortcode [yasr_visitor_votes] : if you've had problem with a size that was not "large", try it now!
+* Swiched color for all stars set: yellow by default, red only when is active
+* Changed file name jquery.cookie.min.js in jquery-cookie.min.js, to avoid conflict with apache mod_security (thank's SubZeroD)
+* Many code changes
+
+= 0.4.5 =
+* New feature: Added custom post type support!
+* Some fixes while editing / updating a multi-set
+* Minor changes
+
+= 0.4.4 =
+* Code cleanup on chart Top 10 by visitors: on first load load it should be about 30% faster
+* Showing a spinning image while chart Top 10 by visitors is loading
+
+= 0.4.3 =
+* Chart Top 10 by visitors have been rewritten. Now it's much much faster
+* Added text on chart Top 10 overall ratings
+* Minor changes
+
+= 0.4.2 =
+* Fixed log table, last updated broke it
+
+= 0.4.1 =
+* Added 2 sizes for "overall_rating" and "visitor_votes" stars sets, now you can choose between 16px, 24px and 32px (default)
+* MANY code changes: it should be a little faster
+* Fixed typo errors
+
+= 0.4.0 =
+* Popup shortcode creator it's now tabbed and got a link to the new doc
+* Minor changes and bugfixes
+
+= 0.3.9 =
+* Fixed page exclusion
+
+= 0.3.8 =
+* Added new chart: Top 10 most rated / highest rated posts from visitors (show up only posts rated at least twice)
+* New setting: it's possibile now to explude pages from auto insert
+* Css changes
+* Various bugfixes
+
+= 0.3.7 =
+* Added new chart: Top 5 most active reviewers
+* Added new chart: Top 10 most active users (in visitor rating)
+* Changed popup for shortcode creator in visual editor, switched from thickbox to jquery ui dialog
+* Removed javascript error when the shortcode creator is called
+* Fixed multiset form editor
+* Various bugfixes
+
+= 0.3.6 =
+* Changed permission: now while writing a post or page everyone with a role >= author can insert votes
+* Some bugfixes
+
+= 0.3.5 =
+* Added a new dark style to better suite dark theme
+* Added a new custom text to show when a non logged user has voted
+* Css minor changes
+
+= 0.3.4 =
+* In settings page is now possible add some custom text to make appear before "Overall Rating" or "Visitor's Rating" are showed
+* In settings page is now possible to show "Overall Rating" only in the post / page or even in Home page, Archive Page, etc.
+* Removed bug that could appear in some case when removing or adding field in multiset form editor
+* After a multiset is created/edited now you get redirected on multiset settings tab and not in general settings
+* Various bugfixes
+* Under the hood changes
+
+= 0.3.3 =
+* Created a new shortcode that will allow to insert Top 10 highest rated product by author
+* When a post or page is permanently deleted, yasr will delete every votes for that post or page
+* Overall Rating is now avaible in home page and archive pages
+* Fixed "add element button" when only 1 multi set is used
+* Updated jquery cookie from 1.4.0 to 1.4.1 and minified it
+* Minor Bug fixes
+
+
+= 0.3.2 =
+* Forced multiset field name to be #555 . This is to avoid reading problem when using light font color
+
+= 0.3.1 =
+* Avoid multiple vote in a same post for logged in user
+* Bug fixes and cleanup
+
+= 0.3.0 =
+* Now admin can choose if allow only logged in users to vote or logged in and anonymous
+* Code cleanup and bug fixes
+
+= 0.2.10 =
+* Added loading image when ajax is called
+* Added "select button" when choosing a multi set
+
+= 0.2.9 =
+* Settings page has been rewritten: now it use multi tab navigation
+
+= 0.2.7 =
+* Many bug fixes on the settings page
+* Minor change and code cleanup
+
+= 0.2.5 =
+* Bug fix on multi set
+
+= 0.2.4 =
+* Now user can choose what kind of snippet use, if AggregateRating or Review
+
+= 0.2.3 =
+* [yasr_visitor_votes] it's now disabled outside a post or a page
+* Security fixes on ajax functions
+* Various fixes on multi-set settings
+* Code cleanup
+
+= 0.2.2 =
+* Fixed doulbe ajax request on overall rating when used just 1 multiple set
+* Many other minor bug fixes
+
+= 0.2.1 =
+* Fixed insert rating on multi set if only 1 is used
+
+= 0.2.0 =
+* Fixed Table installation
+
+= 0.1.3 =
+* Fixed some security issues. Please Update
+
+= 0.1.2 =
+* Fixed Multi Icons
+
+= 0.1.1 =
+* Changed stars icons, now using the oxygen one
+* Using big star when voting on multi set
+
+= 0.1.0 =
+* Added in admin dashboard votes log viewer
+* .Po file updated
+* Updated rateit to version 1.0.22
+
+= 0.0.4 =
+* Fixed creation of a new multi set
+* Added the opportunity to remove entire multi set
+* Code cleanup
+
+= 0.0.3 =
+* Fixed bug describe if
+* Code Cleanup
+
+= 0.0.2 =
+* Using input type radio when select a multi set instead select / option
+* Added css style for table showing multiset
+* Added yasr.css file
+* Some code cleanup

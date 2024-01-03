@@ -1,0 +1,38 @@
+/* Languages metabox for Polylang Pro */
+.pll-button {
+	padding: 0;
+	height: 20px;
+	background: none;
+	border: none;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.pll-button:not(.wp-ui-text-highlight) {
+	color: #DDDDDD;
+}
+
+#pll-duplicate{
+	float: right;
+	margin: 13px 7px;
+}
+
+/* Bulk translate for Polylang Pro */
+.bulk-translate-save .button {
+	margin-right: 20px;
+}
+
+#wpbody-content #pll-translate fieldset {
+	display: inline-block;
+	width: 300px;
+}
+
+#pll-translate .pll-translation-flag {
+	margin-right: 0.3em;
+}
+
+#pll-translate .title {
+	display: block;
+  margin: 0.2em 0;
+  line-height: 2.5;
+}

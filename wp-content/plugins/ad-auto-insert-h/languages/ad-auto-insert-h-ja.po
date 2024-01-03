@@ -1,0 +1,1063 @@
+# Copyright (C) 2022 by the contributors
+# This file is distributed under the same license as the WordPress package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ad Auto Insert H\n"
+"Report-Msgid-Bugs-To: https://core.trac.wordpress.org/\n"
+"POT-Creation-Date: 2023-03-08 20:58+0900\n"
+"PO-Revision-Date: 2023-03-08 20:58+0900\n"
+"Last-Translator: JIN KOYAMA\n"
+"Language-Team: Jin Koyama\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Poedit-KeywordsList: _e;_n;__\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: ad-auto-insert-h-common-functions.php:125
+msgid "Save All Changes"
+msgstr "全ての変更を保存"
+
+#: ad-auto-insert-h-common-functions.php:409
+msgid " is used but no Publisher ID or Ad unit ID input."
+msgstr ""
+" が使用されてますが、パブリッシャー ID または 広告ユニット ID の入力がありま"
+"せん。"
+
+#: ad-auto-insert-h-common-functions.php:409
+msgid "Nothing will be displayed here."
+msgstr "そのため実際にはここに何も表示されません。"
+
+#: ad-auto-insert-h-common-functions.php:568
+msgid ""
+"It seems like JavaScript is not enabled. Please check your browser settings."
+msgstr ""
+"JavaScript が有効になってないようです。ブラウザの設定を確認にしてみてくださ"
+"い。"
+
+#: ad-auto-insert-h-common-functions.php:729
+msgid "Reset all settings of this plugin."
+msgstr "このプラグインの設定値をすべてリセットします。"
+
+#: ad-auto-insert-h-common-functions.php:741
+msgid "OK ?"
+msgstr "よろしいですか？"
+
+#: ad-auto-insert-h-common-functions.php:742
+msgid "Are you sure ?"
+msgstr "本当によろしいですか？"
+
+#: ad-auto-insert-h-custom-field.php:94
+msgid "Article individual settings"
+msgstr "記事個別の設定"
+
+#: ad-auto-insert-h-custom-field.php:175
+msgid ""
+"This article is published. The settings here will be reflected when the "
+"article is updated."
+msgstr "公開されている記事のため、ここでの設定は記事の更新時に反映されます。"
+
+#: ad-auto-insert-h-custom-field.php:177
+msgid "Not reflected in the preview display"
+msgstr "プレビュー表示には反映されません"
+
+#: ad-auto-insert-h-custom-field.php:199
+msgid "Hide ads"
+msgstr "広告を非表示にする"
+
+#: ad-auto-insert-h-custom-field.php:200
+msgid "Turn off all automatic insert ad settings."
+msgstr "自動広告の設定を全てOFFにする。"
+
+#: ad-auto-insert-h-custom-field.php:201
+msgid "( Shortcode ads will be displayed regardless of this setting. )"
+msgstr "( この設定によらず、ショートコードによる広告は表示されます )"
+
+#: ad-auto-insert-h-custom-field.php:202 ad-auto-insert-h-custom-field.php:255
+#: ad-auto-insert-h-custom-field.php:299 ad-auto-insert-h-custom-field.php:339
+#: ad-auto-insert-h-custom-field.php:388
+msgid "[ Plugin settings ] "
+msgstr "【プラグイン設定値】 "
+
+#: ad-auto-insert-h-custom-field.php:203
+#: ad-auto-insert-h-settings-fld-cb.php:24
+msgid "Ad before the first H tag"
+msgstr "先頭のHタグ前Ad"
+
+#: ad-auto-insert-h-custom-field.php:204
+#: ad-auto-insert-h-settings-fld-cb.php:25
+msgid "Ad before H tag"
+msgstr "Hタグ前Ad"
+
+#: ad-auto-insert-h-custom-field.php:205 ad-auto-insert-h-debug.php:105
+#: ad-auto-insert-h-debug.php:396 ad-auto-insert-h-settings-fld-cb.php:26
+#: ad-auto-insert-h-settings-fld-cb.php:578
+msgid "Ad end of article"
+msgstr "記事下Ad"
+
+#: ad-auto-insert-h-custom-field.php:211
+msgid ""
+"* The ad replacement option settings take precedence over the plugin "
+"settings because replace shortcode is found."
+msgstr ""
+"※）置き換え対象のショートコードがあるため、プラグイン設定は 広告の置き換えオ"
+"プション設定が優先される。"
+
+#: ad-auto-insert-h-custom-field.php:250 ad-auto-insert-h-custom-field.php:263
+#: ad-auto-insert-h-debug.php:287 ad-auto-insert-h-settings-fld-cb.php:244
+msgid "All H tags (H2-H6)"
+msgstr "全てのHタグ（H2-H6）"
+
+#: ad-auto-insert-h-custom-field.php:251 ad-auto-insert-h-custom-field.php:266
+#: ad-auto-insert-h-debug.php:287 ad-auto-insert-h-settings-fld-cb.php:245
+msgid "H2 only"
+msgstr "H2タグのみ"
+
+#: ad-auto-insert-h-custom-field.php:253 ad-auto-insert-h-debug.php:393
+#: ad-auto-insert-h-settings-fld.php:117
+msgid "Target H tag"
+msgstr "対象Hタグ"
+
+#: ad-auto-insert-h-custom-field.php:254
+msgid "Select the H tag to insert ad."
+msgstr "広告を挿入する対象のＨタグを選択する。"
+
+#: ad-auto-insert-h-custom-field.php:260 ad-auto-insert-h-custom-field.php:305
+#: ad-auto-insert-h-custom-field.php:350 ad-auto-insert-h-custom-field.php:393
+msgid "Same as plugin settings"
+msgstr "設定値に同じ"
+
+#: ad-auto-insert-h-custom-field.php:289 ad-auto-insert-h-debug.php:176
+#: ad-auto-insert-h-debug.php:398 ad-auto-insert-h-settings-fld-cb.php:264
+#: ad-auto-insert-h-settings-fld-cb.php:265
+msgid "characters"
+msgstr "文字"
+
+#: ad-auto-insert-h-custom-field.php:290
+#: ad-auto-insert-h-settings-fld-cb.php:264
+msgid " ( in full-width character )"
+msgstr " ( 全角換算 )"
+
+#: ad-auto-insert-h-custom-field.php:291
+#: ad-auto-insert-h-settings-fld-cb.php:265
+msgid " ( in half-width character )"
+msgstr " ( 半角換算 )"
+
+#: ad-auto-insert-h-custom-field.php:292
+msgid "max"
+msgstr "最大"
+
+#: ad-auto-insert-h-custom-field.php:293
+msgid "min"
+msgstr "最小"
+
+#: ad-auto-insert-h-custom-field.php:296 ad-auto-insert-h-debug.php:397
+#: ad-auto-insert-h-settings-fld.php:136
+msgid "Space between ads"
+msgstr "広告の間隔"
+
+#: ad-auto-insert-h-custom-field.php:297
+msgid "Set the space between ads to insert by number of characters. "
+msgstr "挿入する広告の間隔を文字数で指定する。 "
+
+#: ad-auto-insert-h-custom-field.php:308
+msgid "Change"
+msgstr "変更する"
+
+#: ad-auto-insert-h-custom-field.php:337
+msgid "Max number of ads in an article"
+msgstr "記事内の最大広告数"
+
+#: ad-auto-insert-h-custom-field.php:338
+#: ad-auto-insert-h-settings-fld-cb.php:212
+msgid "Set the upper limit of number of ads in an article."
+msgstr "記事内に表示する広告数の上限を設定する。"
+
+#: ad-auto-insert-h-custom-field.php:339 ad-auto-insert-h-custom-field.php:353
+#: ad-auto-insert-h-debug.php:311 ad-auto-insert-h-settings-fld-cb.php:218
+msgid "Unlimited"
+msgstr "制限しない"
+
+#: ad-auto-insert-h-custom-field.php:383 ad-auto-insert-h-custom-field.php:396
+#: ad-auto-insert-h-settings-fld-cb.php:81
+#: ad-auto-insert-h-settings-fld-cb.php:1447
+#: ad-auto-insert-h-settings-fld-cb.php:1582
+#: ad-auto-insert-h-settings-fld-cb.php:1713
+#: ad-auto-insert-h-settings-fld-cb.php:1947
+msgid "Enable"
+msgstr "有効にする"
+
+#: ad-auto-insert-h-custom-field.php:384 ad-auto-insert-h-custom-field.php:399
+msgid "Disable"
+msgstr "無効にする"
+
+#: ad-auto-insert-h-custom-field.php:386
+#: ad-auto-insert-h-settings-fld-cb.php:1986
+#: ad-auto-insert-h-settings-fld.php:493
+msgid "Debug mode"
+msgstr "デバッグモード"
+
+#: ad-auto-insert-h-custom-field.php:387
+msgid "Debug mode on / off."
+msgstr "デバッグモードの on / off。"
+
+#: ad-auto-insert-h-custom-field.php:416
+msgid "Available shortcodes"
+msgstr "利用できるショートコード"
+
+#: ad-auto-insert-h-custom-field.php:417
+msgid "Display only ad shortcodes with ID input."
+msgstr "ID入力がある広告コードのショートコードのみ表示。"
+
+#: ad-auto-insert-h-custom-field.php:418
+msgid "No shortcode is available because no ad code is entered yet."
+msgstr "広告コードの入力がないため利用できるショートコードはまだありません。"
+
+#: ad-auto-insert-h-custom-field.php:454
+msgid "---"
+msgstr "なし"
+
+#: ad-auto-insert-h-custom-field.php:462
+msgid "[ Memo ] "
+msgstr "【メモ】 "
+
+#: ad-auto-insert-h-custom-field.php:465
+msgid "[ Settings used ] "
+msgstr "【使用中の設定】 "
+
+#: ad-auto-insert-h-debug.php:70 ad-auto-insert-h-debug.php:394
+msgid "Ad before the first H2 tag"
+msgstr "先頭のH2タグ前Ad"
+
+#: ad-auto-insert-h-debug.php:76 ad-auto-insert-h-debug.php:111
+#: ad-auto-insert-h-debug.php:181
+msgid "* Auto Ad Insert"
+msgstr "広告自動追加"
+
+#: ad-auto-insert-h-debug.php:135
+msgid "[ Ad end of article ] OFF"
+msgstr "記事下広告 OFF"
+
+#: ad-auto-insert-h-debug.php:162 ad-auto-insert-h-debug.php:395
+msgid "Ad before H2 tag"
+msgstr "H2タグ前Ad"
+
+#: ad-auto-insert-h-debug.php:172 ad-auto-insert-h-do-functions.php:408
+msgid "[ Before AD ] Chars"
+msgstr "【広告前】文字数"
+
+#: ad-auto-insert-h-debug.php:173 ad-auto-insert-h-do-functions.php:409
+msgid "[ After AD ] Chars"
+msgstr "【広告後】文字数"
+
+#: ad-auto-insert-h-debug.php:174
+msgid "[ Sum ]"
+msgstr "【合計】"
+
+#: ad-auto-insert-h-debug.php:175
+msgid "[ Space between ads setting ]"
+msgstr "【広告の間隔設定】"
+
+#: ad-auto-insert-h-debug.php:178
+msgid "(finished)"
+msgstr "（終わりだよ）"
+
+#: ad-auto-insert-h-debug.php:202
+msgid "No Ad inserted because [ Ad end of article ] ON."
+msgstr "★記事下広告ON：だから広告入れない。"
+
+#: ad-auto-insert-h-debug.php:208
+msgid "Ad inserted because [ Ad end of article ] OFF."
+msgstr "★記事下広告OFF：だから広告入れる。"
+
+#: ad-auto-insert-h-debug.php:271 ad-auto-insert-h-settings-fld-cb.php:193
+msgid "Post"
+msgstr "投稿"
+
+#: ad-auto-insert-h-debug.php:274 ad-auto-insert-h-settings-fld-cb.php:194
+msgid "Page"
+msgstr "固定ページ"
+
+#: ad-auto-insert-h-debug.php:277 ad-auto-insert-h-settings-fld-cb.php:195
+msgid "Post & Page"
+msgstr "投稿と固定ページ"
+
+#: ad-auto-insert-h-debug.php:305 ad-auto-insert-h-settings-fld-cb.php:1131
+msgid "full-width"
+msgstr "全角"
+
+#: ad-auto-insert-h-debug.php:305 ad-auto-insert-h-settings-fld-cb.php:1132
+msgid "half-width"
+msgstr "半角"
+
+#: ad-auto-insert-h-debug.php:326
+msgid "Posts are ineligible"
+msgstr "投稿は対象外"
+
+#: ad-auto-insert-h-debug.php:327
+msgid "Pages are ineligible"
+msgstr "固定ページは対象外"
+
+#: ad-auto-insert-h-debug.php:362 ad-auto-insert-h-settings-fld-cb.php:1470
+msgid "Auto load"
+msgstr "自動読込み"
+
+#: ad-auto-insert-h-debug.php:363 ad-auto-insert-h-settings-fld-cb.php:1513
+#: ad-auto-insert-h-settings-fld-cb.php:1522
+msgid "second"
+msgstr "秒"
+
+#: ad-auto-insert-h-debug.php:364
+msgid "Exclude desktop"
+msgstr "PC表示は対象外"
+
+#: ad-auto-insert-h-debug.php:389
+msgid "Settings info"
+msgstr "設定値情報"
+
+#: ad-auto-insert-h-debug.php:391 ad-auto-insert-h-settings-fld.php:341
+msgid "Ad replacement"
+msgstr "広告の置き換え"
+
+#: ad-auto-insert-h-debug.php:392
+msgid "Target Post type"
+msgstr "対象の記事"
+
+#: ad-auto-insert-h-debug.php:399 ad-auto-insert-h-settings-fld.php:240
+msgid "Unit (counting chars)"
+msgstr "文字数カウントの単位"
+
+#: ad-auto-insert-h-debug.php:400 ad-auto-insert-h-settings-fld.php:99
+msgid "Max number of ads"
+msgstr "記事内の最大広告数"
+
+#: ad-auto-insert-h-debug.php:401 ad-auto-insert-h-settings-fld-cb.php:1563
+#: ad-auto-insert-h-settings-fld.php:394
+msgid "AdSense Auto Ads"
+msgstr "アドセンス自動広告"
+
+#: ad-auto-insert-h-debug.php:402
+msgid "Lazy Load"
+msgstr "遅延読込み（Lazy Load）"
+
+#: ad-auto-insert-h-debug.php:464
+msgid "Auto ad insert is ineligible"
+msgstr "広告自動挿入は対象外"
+
+#: ad-auto-insert-h-defines.php:304
+msgid "According to the setting, the following code is automatically inserted."
+msgstr "設定に従い、以下のコードを自動で挿入する。"
+
+#: ad-auto-insert-h-defines.php:308
+msgid "Code insertion works only when the ID is set."
+msgstr "コードの挿入は、IDが設定されている場合にのみ動作する。"
+
+#: ad-auto-insert-h-defines.php:317
+msgid "In-article"
+msgstr "記事内広告"
+
+#: ad-auto-insert-h-defines.php:318
+msgid "Display"
+msgstr "ディスプレイ広告"
+
+#: ad-auto-insert-h-defines.php:319
+msgid "Multiplex ads"
+msgstr "Multiplex 広告"
+
+#: ad-auto-insert-h-defines.php:326
+msgid "Reset All Settings"
+msgstr "全ての設定をリセット"
+
+#: ad-auto-insert-h-do-functions.php:19
+msgid "Process was canceled halfway because of too many repeated checks."
+msgstr "繰り返しチェックが多すぎたため、プロセスが途中でキャンセルされました。"
+
+#: ad-auto-insert-h-do-functions.php:383
+msgid "1st"
+msgstr "1番目"
+
+#: ad-auto-insert-h-do-functions.php:386
+msgid "2nd"
+msgstr "2番目"
+
+#: ad-auto-insert-h-do-functions.php:389
+msgid "3rd"
+msgstr "3番目"
+
+#: ad-auto-insert-h-do-functions.php:392
+msgid "th"
+msgstr "番目"
+
+#: ad-auto-insert-h-do.php:279
+msgid "Error: Ad insert before H tag"
+msgstr "Hタグ前にAd追加判別でエラー"
+
+#: ad-auto-insert-h-plugin-functions.php:72
+msgid "Settings"
+msgstr "設定"
+
+#: ad-auto-insert-h-reset.php:91
+msgid "All settings have been reset."
+msgstr "全ての設定値をリセットしました。"
+
+#: ad-auto-insert-h-reset.php:94
+msgid "The setting value could not be reset for some reason."
+msgstr "何かの理由で設定値がリセットできませんでした。"
+
+#: ad-auto-insert-h-reset.php:94
+msgid "Please try again."
+msgstr "もう一度お試しください。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:34
+msgid "Always insert an ad code before the first H tag."
+msgstr "先頭のHタグの前に必ず広告コードを入れる。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:35
+msgid "Insert an ad code before H tags in the article."
+msgstr "記事内のHタグの前に広告コードを入れる。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:36
+msgid "Always insert an ad code at the end of the article."
+msgstr "記事の下に必ず広告コードを入れる。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:190
+msgid "Select target post type to insert ad codes : post / page / both."
+msgstr "広告を挿入する対象の記事の種類（投稿／固定ページ／両方）を選択する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:241
+msgid "Select target H tag to insert an ad code."
+msgstr "広告を挿入する対象のHタグを選択する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:269
+msgid ""
+"Specify the space between ads to be inserted by the number of characters."
+msgstr "挿入する広告の間隔を文字数で指定する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:271
+msgid ""
+"The number of half-width characters ( normal alphanumeric characters ). If "
+"you want to convert to 1000 full-width characters such as Japanese, specify "
+"double, , 2000."
+msgstr "半角英数の文字数。全角1000文字とする場合には倍の2000を指定する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:273
+msgid ""
+"The number of full-width characters such as Japanese If you want to convert "
+"to 2000 half-width characters ( normal alphanumeric characters), specify "
+"half, 1000."
+msgstr "全角日本語の文字数。半角2000文字とする場合には2分の1の1000を指定する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:307
+#: ad-auto-insert-h-settings-fld-cb.php:1643
+#: ad-auto-insert-h-settings-fld.php:159
+msgid "Publisher ID"
+msgstr "パブリッシャーID"
+
+#: ad-auto-insert-h-settings-fld-cb.php:332
+msgid ""
+"Input AdSense Publisher ID (\" pub-xxxxx \" part of \" ca-pub-xxxxx \" )."
+msgstr ""
+"パブリッシャーID（サイト運営者 ID）を入力 ( 「ca-pub-xxxxx」の「pub-xxxxx」の"
+"部分 ) 。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:418
+#: ad-auto-insert-h-settings-fld-cb.php:1327 ad-auto-insert-h-settings.php:76
+msgid "Options"
+msgstr "オプション"
+
+#: ad-auto-insert-h-settings-fld-cb.php:437
+msgid "Select ad unit"
+msgstr "広告ユニットの選択"
+
+#: ad-auto-insert-h-settings-fld-cb.php:446
+msgid "Ad unit"
+msgstr "広告ユニット"
+
+#: ad-auto-insert-h-settings-fld-cb.php:465
+msgid "Ad shape"
+msgstr "広告の形状"
+
+#: ad-auto-insert-h-settings-fld-cb.php:506
+msgid "Margins"
+msgstr "上下の余白"
+
+#: ad-auto-insert-h-settings-fld-cb.php:511
+msgid "Centering"
+msgstr "センタリング"
+
+#: ad-auto-insert-h-settings-fld-cb.php:516
+msgid "Ad label"
+msgstr "広告ラベル"
+
+#: ad-auto-insert-h-settings-fld-cb.php:527
+msgid "Others"
+msgstr "その他"
+
+#: ad-auto-insert-h-settings-fld-cb.php:532
+msgid "Memo (Ad name)"
+msgstr "メモ（広告名）"
+
+#: ad-auto-insert-h-settings-fld-cb.php:536 ad-auto-insert-h-shortcode.php:91
+msgid "Shortcode"
+msgstr "ショートコード"
+
+#: ad-auto-insert-h-settings-fld-cb.php:576
+msgid "Ad the first H tag"
+msgstr "先頭Hタグ前Ad"
+
+#: ad-auto-insert-h-settings-fld-cb.php:577
+msgid "Ad H tag"
+msgstr "Hタグ前Ad"
+
+#: ad-auto-insert-h-settings-fld-cb.php:662
+msgid "Ad unit ID is the value xxxxx of data-ad-slot=xxxxx in the ad code."
+msgstr ""
+"広告ユニットIDは、広告コード中の data-ad-slot の値（ data-ad-slot=xxxxx の "
+"xxxxx）。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:665
+msgid ""
+"In-article ads : native ads that appear in editorial content, designed to "
+"fit neatly inside the user's path through your site."
+msgstr ""
+"記事内広告 : 記事コンテンツ内に表示されるネイティブ広告（コンテンツに自然に溶"
+"け込むように表示される広告）。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:666
+msgid "Display ads : all-rounder, these ads work well anywhere."
+msgstr "ディスプレイ広告 : どこにでも使えるオールラウンドな広告。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:667
+msgid ""
+"Multiplex ads : Grid-based ad unit that shows content recommendation-style "
+"native ads, designed to fit neatly inside the user's path through your site."
+msgstr ""
+"Multiplex 広告 : 広告ユニット内のグリッドに複数の広告を表示する、ネイティブ広"
+"告（コンテンツに自然に溶け込むように表示される広告）フォーマット。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:714
+msgid "Ad unit ID"
+msgstr "広告ユニット ID"
+
+#: ad-auto-insert-h-settings-fld-cb.php:748
+msgid "auto"
+msgstr "auto 自動調整"
+
+#: ad-auto-insert-h-settings-fld-cb.php:749
+msgid "rectangle"
+msgstr "rectangle 長方形"
+
+#: ad-auto-insert-h-settings-fld-cb.php:750
+msgid "vertical"
+msgstr "vertical 縦長"
+
+#: ad-auto-insert-h-settings-fld-cb.php:751
+msgid "horizontal"
+msgstr "horizontal 横長"
+
+#: ad-auto-insert-h-settings-fld-cb.php:761
+msgid "Ad Shape can be selected only for display ads."
+msgstr "広告の形状は、ディスプレイ広告のみ選択できます。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:888
+#: ad-auto-insert-h-settings-fld-cb.php:1027
+msgid "chars (em)"
+msgstr "文字分（em）"
+
+#: ad-auto-insert-h-settings-fld-cb.php:905
+#: ad-auto-insert-h-settings-fld-cb.php:1039
+msgid " dots (px)"
+msgstr " ドット（px）"
+
+#: ad-auto-insert-h-settings-fld-cb.php:916
+msgid "Top "
+msgstr "上側 "
+
+#: ad-auto-insert-h-settings-fld-cb.php:917
+msgid "Bottom "
+msgstr "下側 "
+
+#: ad-auto-insert-h-settings-fld-cb.php:927
+msgid "Top & bottom margins outside of the ad"
+msgstr "広告外側の上下余白（スペース）"
+
+#: ad-auto-insert-h-settings-fld-cb.php:983
+msgid "Center the ad horizontally."
+msgstr "左右を中央寄せにする。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1013
+msgid "e.g. Sponsored Links"
+msgstr "例：スポンサーリンク"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1014
+msgid "Enter if you want to display a label above the ad."
+msgstr "広告上にラベルを表示したい場合に入力。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1058
+msgid "Space between ad label and ad."
+msgstr "広告ラベルと広告の間のスペース。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1072
+msgid "e.g. easy-to-distinguish name"
+msgstr "区別の付けやすい名前など"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1080
+msgid "For internal used only in this settings."
+msgstr "設定内のみで使われる内部管理用。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1095
+msgid "Used to manually insert an ad code in an article."
+msgstr "記事内に手動で広告を入れる場合に使う。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1100
+msgid "Copy"
+msgstr "コピー"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1101
+msgid "copied"
+msgstr "をコピーしました"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1102
+msgid "It seems like copy did not work well."
+msgstr "コピーがうまく行かなかったようです。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1127
+msgid ""
+"Select the unit to count the number of characters: full-width or half-width."
+msgstr "カウントする文字数の単位は全角か半角かの選択。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1128
+msgid ""
+"Half-width: so-called 1-byte characters ( normal alphanumeric characters )"
+msgstr "全角：日本語など（いわゆる2バイトコードの文字）"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1129
+msgid "Full-width: so-called 2-byte characters ( such as Japanese )"
+msgstr "半角：（半角の）英数字（いわゆる1バイトコードの文字）"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1148
+msgid "By default, the top and bottom margins of the ad are set in common."
+msgstr "初期状態では、広告の上下余白を共通で設定する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1153
+msgid "Set the top and bottom margins of the ad individually."
+msgstr "広告の上下余白を個別に設定する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1167
+msgid "Select the unit of space in ad code settings."
+msgstr "広告コードの設定におけるスペースの単位を選択。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1170
+msgid "em (character height)"
+msgstr "em（文字の高さ）"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1172
+msgid "px (dot)"
+msgstr "px（ドット）"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1185
+msgid "Display an input field for labeling ad."
+msgstr "広告上にラベルを付けるための入力欄を表示する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1190
+msgid "Display ad label input field"
+msgstr "広告ラベルの入力欄を表示する"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1204
+msgid "Display a memo field to name the ad code and make it easy to identify."
+msgstr ""
+"設定する広告コードに名称付けして分かりやすくするためのメモ欄を表示する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1210
+msgid "Display memo field"
+msgstr "メモ欄を表示する"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1250
+msgid "Enable shortcode replacement"
+msgstr "ショートコードの置き換えを有効にする"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1266
+msgid "( shortcode )"
+msgstr "( ショートコード )"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1284
+msgid "Replace"
+msgstr ""
+
+#: ad-auto-insert-h-settings-fld-cb.php:1292
+msgid "with "
+msgstr "を "
+
+#: ad-auto-insert-h-settings-fld-cb.php:1296
+msgid "."
+msgstr "で置き換える"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1305
+msgid ""
+"If the shortcode entered here is found in articles, it is replaced with the "
+"selected ad code."
+msgstr ""
+"記事中にここで入力したショートコードが見つかれば、指定の広告コードで置き換え"
+"る。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1328
+msgid ""
+"This settings take precedence over the general settings if there is a "
+"shortcode replacement."
+msgstr "ショートコードの置き換えがある場合、この設定を一般設定より優先する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1360
+msgid "Disable Ad before the first H tag setting"
+msgstr "先頭のHタグ前Ad 設定を無効にする"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1379
+msgid "Disable Ad before H tags setting"
+msgstr "Hタグ前Ad設定を無効にする"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1398
+msgid "Disable Ad end of article setting"
+msgstr "記事下Ad 設定を無効にする"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1429
+msgid "AdSense Lazy load"
+msgstr "アドセンスの遅延読込み"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1432
+msgid ""
+"After an article is displayed, ads will be loaded by user actions such as "
+"scrolling and screen touch or after specified number of seconds of Auto load "
+"option passed."
+msgstr ""
+"記事が表示された後、スクロールや画面タッチなどが行われるか 自動読込みオプショ"
+"ンで設定した秒数経過後、広告が読み込まれるようになる。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1433
+msgid ""
+"Lazy load will not work if the code of Google AdSense Auto Ads is inserted "
+"in the header."
+msgstr ""
+"アドセンス自動広告用コードがヘッダに挿入されている場合は、遅延読込みは動作し"
+"ない。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1469
+msgid "Desktop"
+msgstr "PC表示"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1499
+msgid "Disable desktop"
+msgstr "PC表示は無効にする"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1519
+msgid "non use"
+msgstr "使用しない"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1568
+msgid ""
+"Insert the AdSense code ( Auto ads code ) into the header ( between the &lt;"
+"head&gt; and &lt;/head&gt; tags) ."
+msgstr ""
+"AdSenseコード（自動広告コード）を ヘッダー（ &lt;head&gt; と &lt;/head&gt; の"
+"間）に挿入する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1569
+msgid ""
+"The same code to put in the header of your site to apply for Google AdSense."
+msgstr "アドセンスの審査時にサイトのヘッダーに貼り付けるコードに同じ。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1611
+msgid "Option"
+msgstr "オプション"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1616
+msgid "Disable posts"
+msgstr "投稿は対象外にする"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1621
+msgid "Disable pages"
+msgstr "固定ページは対象外にする"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1638
+#: ad-auto-insert-h-settings-fld-cb.php:1757
+msgid "Code to insert"
+msgstr "挿入コード"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1697
+msgid "Analytics code insert"
+msgstr "アナリティクスのコード挿入"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1700
+msgid ""
+"Insert Google Analytics code into the header ( between the &lt;head&gt; and "
+"&lt;/head&gt; tags) ."
+msgstr ""
+"グーグルアナリティクスのコードを ヘッダー（ &lt;head&gt; と &lt;/head&gt; の"
+"間）に挿入する。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1735
+msgid "Input Tracking ID ( UA-xxxxx-xx ) or Measurement ID ( G-xxxxxxxx ) ."
+msgstr "トラッキング ID ( UA-xxxxx-xx ) または 計測 ID ( G-xxxxxxxx ) を入力 ."
+
+#: ad-auto-insert-h-settings-fld-cb.php:1758
+msgid "Analytics ID"
+msgstr "アナリティクス ID"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1819
+msgid "Select language to display in this settings."
+msgstr "設定内の表示言語を選択。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1885
+msgid "Arabic"
+msgstr "アラビア語 Arabic"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1886
+msgid "English"
+msgstr "英語 English"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1887
+msgid "German"
+msgstr "ドイツ語 German"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1888
+msgid "Spanish"
+msgstr "スペイン語 Spanish"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1889
+msgid "French"
+msgstr "フランス語 French"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1890
+msgid "Hindi"
+msgstr "ヒンディー語 Hindi"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1891
+msgid "Indonesian"
+msgstr "インドネシア語 Indonesian"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1892
+msgid "Italian"
+msgstr "イタリア語 Italian"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1893
+msgid "Japanese"
+msgstr "日本語 Japanese"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1894
+msgid "Korean"
+msgstr "韓国語 Korean"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1895
+msgid "Dutch"
+msgstr "オランダ語 Dutch"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1896
+msgid "Polish"
+msgstr "ポーランド語 Polish"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1897
+msgid "Portuguese"
+msgstr "ポルトガル語 Portuguese"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1898
+msgid "Russian"
+msgstr "ロシア語 Russian"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1899
+msgid "Thai"
+msgstr "タイ語 Thai"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1900
+msgid "Tagalog"
+msgstr "タガログ語 Tagalog"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1901
+msgid "Turkish"
+msgstr "トルコ語 Turkish"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1902
+msgid "Vietnamese"
+msgstr "ベトナム語 Vietnamese"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1903
+msgid "Chinese"
+msgstr "中国語 Chinese"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1904
+msgid "Chinese (Simplified)"
+msgstr "中国語 (簡体字) Chinese (Simplified)"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1905
+msgid "Chinese (Traditional)"
+msgstr "中国語 (繁体字) Chinese (Traditional)"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1931
+msgid "Administrator only"
+msgstr "管理者のみ"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1934
+msgid ""
+"Access control works only for logging in users. Ad codes are inserted only "
+"to users with administrator role."
+msgstr "ログイン中のユーザーに対しては、管理者のみに広告コードが挿入される。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1935
+msgid ""
+"The plugin does not insert any ad codes to other roles such as editor and "
+"author."
+msgstr ""
+"編集者や投稿者など他の権限のユーザーがログインしている場合、広告コードは挿入"
+"されない。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1989
+msgid ""
+"Display setting values only when an article is previewed. ( For operation "
+"confirmation )"
+msgstr "プレビュー時でのみ各種設定の数値を表示する動作確認用の設定。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:1990
+msgid "The display of actual post or page does not change."
+msgstr "実際の投稿や固定ページの表示は変化しない。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:2002
+msgid "Enable Debug mode"
+msgstr "デバッグモードを有効にする"
+
+#: ad-auto-insert-h-settings-fld-cb.php:2024
+msgid "Summary display"
+msgstr "概要の表示"
+
+#: ad-auto-insert-h-settings-fld-cb.php:2025
+msgid ""
+"Disable the display of the settings overview at the beginning of the article "
+"in the preview."
+msgstr "プレビュー時、記事冒頭の設定概要の表示を無効にする。"
+
+#: ad-auto-insert-h-settings-fld-cb.php:2054
+msgid "Disable Setting summary display"
+msgstr "設定概要の表示を無効にする"
+
+#: ad-auto-insert-h-settings-fld.php:75
+msgid "Post type"
+msgstr "投稿タイプ"
+
+#: ad-auto-insert-h-settings-fld.php:263
+msgid "Margin (top and bottom)"
+msgstr "上下の余白"
+
+#: ad-auto-insert-h-settings-fld.php:281
+msgid "Unit of space"
+msgstr "スペースの単位"
+
+#: ad-auto-insert-h-settings-fld.php:299
+msgid "Use Ad label"
+msgstr "広告ラベルの使用"
+
+#: ad-auto-insert-h-settings-fld.php:317
+msgid "Use Ad memo"
+msgstr "メモの使用"
+
+#: ad-auto-insert-h-settings-fld.php:370
+msgid "AdSense Lazy Load"
+msgstr "アドセンスの遅延読込み"
+
+#: ad-auto-insert-h-settings-fld.php:418 ad-auto-insert-h-settings-sc.php:104
+msgid "Google Analytics"
+msgstr "グーグルアナリティクス"
+
+#: ad-auto-insert-h-settings-fld.php:447
+msgid "Language"
+msgstr "言語（ Language ）"
+
+#: ad-auto-insert-h-settings-fld.php:470 ad-auto-insert-h-settings-sc.php:125
+msgid "Access control"
+msgstr "利用制限"
+
+#: ad-auto-insert-h-settings-sc.php:22
+msgid "Ad select"
+msgstr "広告選択"
+
+#: ad-auto-insert-h-settings-sc.php:30
+msgid "Target post type settings"
+msgstr "対象の記事"
+
+#: ad-auto-insert-h-settings-sc.php:38
+msgid "Ad display settings"
+msgstr "広告表示の設定"
+
+#: ad-auto-insert-h-settings-sc.php:46
+msgid "Ad code settings"
+msgstr "広告コードの設定"
+
+#: ad-auto-insert-h-settings-sc.php:59
+msgid "Character count related"
+msgstr "文字数カウント関連"
+
+#: ad-auto-insert-h-settings-sc.php:67
+msgid "Ad code settings related"
+msgstr "広告コード設定関連"
+
+#: ad-auto-insert-h-settings-sc.php:75
+msgid "Ad replacement support"
+msgstr "広告置き換え対応"
+
+#: ad-auto-insert-h-settings-sc.php:88
+msgid "Google AdSense lazy load support"
+msgstr "グーグルアドセンスの遅延読込み（Lazy load）対応"
+
+#: ad-auto-insert-h-settings-sc.php:96
+msgid "Google AdSense Auto Ads"
+msgstr "グーグルアドセンスの自動広告"
+
+#: ad-auto-insert-h-settings-sc.php:117
+msgid "Display related"
+msgstr "表示関連"
+
+#: ad-auto-insert-h-settings-sc.php:133
+msgid "Debug related"
+msgstr "デバッグ関連"
+
+#: ad-auto-insert-h-settings.php:74
+msgid "General settings"
+msgstr "一般設定"
+
+#: ad-auto-insert-h-settings.php:75
+msgid "Advanced settings"
+msgstr "高度な設定"
+
+#: ad-auto-insert-h-settings.php:77
+msgid "Language / Others"
+msgstr "言語 Language / その他"
+
+#: ad-auto-insert-h-shortcode.php:96
+msgid "Shortcode Ad Insert"
+msgstr "ショートコード 広告追加"
+
+#: ad-auto-insert-h.php:38
+msgid ""
+"Automatically inserts ad codes of Google AdSense before H tags, before the "
+"first H tag and at the end of a post or a page. Lazy Load of ads to speed up "
+"page display is available. Insertion of AdSense Auto Ads code and Google "
+"Analytics code can be set as well."
+msgstr ""
+"グーグルアドセンスの広告コードをHタグ前、最初のHタグ前、記事の下に自動で挿入"
+"するプラグイン。\n"
+"ページ表示のスピードを上げるための広告の遅延読み込み（Lazy Load）やアドセンス"
+"自動広告、グーグルアナリティクスのコード挿入もできる。"
+
+#~ msgid "Access control "
+#~ msgstr "アクセスコントロール"
+
+#~ msgid ""
+#~ "While users are logging in wordpress, the plugin works only for "
+#~ "administrator role."
+#~ msgstr ""
+#~ "ワードプレスにログイン時、プラグインが動作するのは管理者のみとする設定"
+
+#~ msgid "言語 / others"
+#~ msgstr "Language / その他"
+
+#~ msgid "ja"
+#~ msgstr "日本語"

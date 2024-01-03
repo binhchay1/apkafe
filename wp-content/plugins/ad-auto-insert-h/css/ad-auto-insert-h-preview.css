@@ -1,0 +1,112 @@
+/* ------------------------------------
+ * プレビュー時用
+ * ------------------------------------ */
+/* 先頭の設定全体表示 */
+pre.debug-aaih {
+	display: block;
+	margin: 2em 0;
+	padding: 1.5em 1em 1.5em;
+	border:none;
+	border-left: 5px solid #8c0;
+
+	background: #000;
+	color: #fff;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+/* 先頭の設定全体表示：具体項目表示全体 */
+#debug-aaih{
+	margin:0;
+	max-width: 100%;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#debug-aaih,
+#debug-aaih tr,
+#debug-aaih td {
+	background: transparent;
+	border: none;
+}
+
+#debug-aaih td {
+	padding: 0;
+	line-height: 1.5;
+}
+
+#debug-aaih td:nth-child(1) {
+	width:17em;
+}
+#debug-aaih td:nth-child(1):before{
+	content: '* ';
+}
+
+#debug-aaih td:nth-child(2):before{
+	content: ': ';
+}
+
+#debug-aaih tr.separator td:nth-child(1):before {
+	content: '';
+}
+
+#debug-aaih tr.separator td:nth-child(2):before {
+	content: '';
+}
+
+/* セパレーター */
+#debug-aaih hr{
+	height: 0;
+	margin: 1em 0;
+	border: 1px solid #777;
+}
+
+/* 広告枠 */
+.aaih.debug {
+	border: 5px solid #f00;
+}
+.aaih.shortcode.debug {
+	border-color: #00b;
+}
+
+.aaih.debug .ad-code {
+    border: 1px solid #fcc;
+}
+
+.aaih.shortcode.debug .ad-code {
+    border: 1px solid #aaf;
+}
+
+/* 広告表示：xx番目　の表示 */
+pre.debug-aaih .ad-nth-aaih {
+	color: #fea;
+}
+
+/* ショートコード用 */
+.aaih.shortcode pre.debug-aaih {
+	border-left-color: #77e;
+}
+
+.aaih.shortcode {
+	border-color: #00a;
+}
+
+pre.debug-aaih.shortcode {
+	background: #003;
+	border-left-color: #77e;
+}
+
+/* 広告コードがない場合 */
+.aaih.debug.no-ad pre {
+	border: none;
+	background: none;
+	color: #000;
+}
+
+.aaih.debug.no-ad {
+	background: #fee;
+}
+
+.aaih.shortcode.debug.no-ad {
+	background: #eef;
+}

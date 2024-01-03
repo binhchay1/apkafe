@@ -1,0 +1,23 @@
+{
+    "title": "Yasr: User Rate History",
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "yet-another-stars-rating/user-rate-history",
+    "description": "If user is logged in, this shortcode shows a list of all the ratings provided by the user on [yasr_visitor_votes] shortcode",
+    "icon": "star-half",
+    "category": "yet-another-stars-rating",
+    "example": {},
+    "keywords": [
+        "ratings",
+        "list",
+        "history"
+    ],
+    "supports": {
+        "align": [
+            "left",
+            "center",
+            "right"
+        ]
+    },
+    "editorScript": "yasr-shortcodes-blocks"
+}

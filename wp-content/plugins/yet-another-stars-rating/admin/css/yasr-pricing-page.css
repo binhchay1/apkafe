@@ -1,0 +1,375 @@
+/* There is already a notice in the bottom,
+ * there is no need to another one
+ */
+.fs-secure-notice{
+    display:none;
+}
+
+#yasr-table-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    align-items: safe center;
+}
+
+#yasr-pricing-table {
+    --gap: 24px;
+    --nb-items: 3;
+    color: #434446;
+    font-family: sans-serif;
+    line-height: 1.5;
+    display: flex;
+    max-width: 100%;
+    padding: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--gap);
+}
+
+.yasr-pricing-table-item {
+    --primary: #212f30;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: max-content;
+    background: white;
+    overflow: hidden;
+    flex-basis: calc( calc(100% - (var(--gap) * var(--nb-items)) )/var(--nb-items) );
+    box-shadow: 0 18px 58px rgba(66, 11, 89, 0.07),
+    0 6.5703px 21.171px rgba(66, 11, 89, 0.0482987),
+    0 3.18976px 10.2781px rgba(66, 11, 89, 0.0389404),
+    0 1.56368px 5.03852px rgba(66, 11, 89, 0.0310596),
+    0 0.618281px 1.99224px rgba(66, 11, 89, 0.0217013);
+}
+
+.yasr-pricing-table-item:nth-last-child(4):first-child,
+.yasr-pricing-table-item:nth-last-child(4):first-child ~ .yasr-pricing-table-item {
+    --nb-items: 4;
+}
+
+.yasr-pricing-table-item:nth-last-child(5):first-child,
+.yasr-pricing-table-item:nth-last-child(5):first-child ~ .yasr-pricing-table-item {
+    --nb-items: 5;
+}
+
+.yasr-pricing-table-item.is-highlighted {
+    --primary: #166f03;
+    transform: scale(1.05);
+}
+
+.yasr-pricing-table-item > * {
+    padding: 24px;
+}
+
+.yasr-pricing-table-item p,
+.yasr-pricing-table-item ul,
+.yasr-pricing-table-item h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.yasr-pricing-table-heading {
+    background: var(--primary);
+}
+
+.yasr-pricing-table-features {
+    width: 290px;
+}
+
+.yasr-pricing-table-title, .yasr-pricing-table-subtitle {
+    text-align: center;
+    color: white;
+}
+.yasr-pricing-table-title {
+    font-size: 24px;
+}
+.yasr-pricing-table-subtitle {
+    font-size: 16px;
+}
+
+.yasr-pricing-table-feature {
+    font-size: 15px;
+    padding: 4px 0;
+    list-style: none;
+    border-top: 1px solid #eee;
+    margin-bottom: 0;
+}
+
+.yasr-pricing-table-footer {
+    padding-top: 0;
+    margin-top: auto;
+    text-align: center;
+}
+
+.yasr-pring-table-price {
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.yasr-pring-table-price small {
+    font-size: 16px;
+    color: #737373;
+}
+
+.yasr-pricing-table-price-desc {
+    font-weight: normal;
+    font-size: 14px;
+    color: #737373;
+}
+
+.yasr-buy-button {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    padding: 8px 16px;
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    border: 2px solid #212f30FF;
+    background: #212f30FF;
+}
+
+a.yasr-buy-button{
+    text-decoration: none;
+    color: white;
+}
+
+a.yasr-buy-button:active, a.yasr-buy-button:focus {
+    box-shadow: none;
+}
+
+.is-highlighted .yasr-buy-button {
+    background: #166f03;
+    color: white;
+    border: 2px solid #166f03FF;
+}
+
+/** Customize Radio cycle **/
+#yasr-radio-billing-cycle {
+    margin: 10px;
+    text-align: center;
+}
+
+#yasr-radio-billing-cycle input[type="radio"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+
+#yasr-radio-billing-cycle label {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #fff;
+    cursor: pointer;
+    border: 1px solid #adadad;
+}
+
+#yasr-radio-billing-cycle label:hover {
+    background-color: #166f03;
+    color: #FFF;
+}
+
+#yasr-radio-billing-cycle input[type="radio"]:checked + label {
+    background-color: #166f03;
+    color: #FFF;
+}
+
+/*Middle bottom, remove left and right border*/
+#yasr-billing-cycle-annual + label{
+    border-left: none;
+    border-right: none;
+}
+
+/** switch **/
+#yasr-pricing-switch-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.yasr-pricing-text-switcher {
+    font-size: 18px;
+    font-weight: bold;
+    color: #434446;
+}
+
+.yasr-pricing-switch {
+    position: relative;
+    display: inline-block;
+    width: 54px;
+    height: 28px;
+}
+
+.yasr-pricing-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.yasr-pricing-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #166f03;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.yasr-pricing-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:focus + .yasr-pricing-slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .yasr-pricing-slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Money Back */
+#money_back_guarantee_cont {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#money_back_guarantee {
+    text-align: center;
+    background-color: white;
+    margin-bottom: 30px;
+    padding: 10px 30px 20px 30px;
+    max-width: 800px;
+}
+
+#money_back_guarantee span {
+    line-height: 0;
+}
+
+#money_back_guarantee h1 {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+    color: #6bc406;
+    -webkit-font-smoothing: antialiased;
+    margin-top: 10px;
+}
+
+#money_back_guarantee p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+#money_back_guarantee li {
+    font-size: 16px;
+    list-style: disc;
+}
+
+#money_back_guarantee h1 .stars, #money_back_guarantee h1 .stars i {
+    display: inline-block;
+    vertical-align: middle;
+    font-style: normal;
+}
+
+#money_back_guarantee h1 .stars .last {
+    font-size: 0.9em;
+}
+
+#money_back_guarantee h1 .stars .middle {
+    font-size: 1.2em;
+}
+
+#money_back_guarantee h1 .stars .first {
+    font-size: 1.5em;
+}
+
+#yasr-refund-policy-cont {
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.yasr-refund-policy {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    top: 0;
+    overflow: auto; /* Enable scroll if needed */
+}
+
+#yasr-modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 15px;
+    border: 1px solid #888;
+}
+
+#yasr-modal-content p {
+    font-size: 14px;
+}
+
+#yasr-modal-content ul {
+    padding-left: 14px;
+    list-style: disc;
+}
+#yasr-modal-content li {
+    font-size: 14px;
+}
+
+/* The Close Button */
+.yasr-close-modal-policy {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.yasr-close-modal-policy:hover,
+.yasr-close-modal-policy:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/**** FAQ ****/
+#yasr-pricing-faq {
+    margin-top: 30px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.yasr-pricing-faq-row {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    background-color: white;
+}
+
+.yasr-pricing-faq-row h2, h3 {
+    font-size: 18px;
+    color: #434446;
+}
+.yasr-pricing-faq-row p {
+    font-size: 14px;
+    color: #434446;
+}

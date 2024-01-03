@@ -1,0 +1,23 @@
+{
+    "title": "Yasr: Ranking by overall rating",
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "yet-another-stars-rating/overall-rating-ranking",
+    "description": "This ranking shows the highest rated posts rated through the overall_rating shortcode.",
+    "icon": "star-half",
+    "category": "yet-another-stars-rating",
+    "example": {},
+    "keywords": [
+        "ranking",
+        "highest",
+        "chart"
+    ],
+    "supports": {
+        "align": [
+            "left",
+            "center",
+            "right"
+        ]
+    },
+    "editorScript": "yasr-shortcodes-blocks"
+}
