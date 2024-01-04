@@ -129,8 +129,9 @@ class Apkafe_Admin_Form
             </div>';
         echo '<ul class="list-group ul-post">';
         foreach ($listPost as $post) {
+            $titlePost = get_permalink($post->ID);
             echo '<li class="list-group-item item-post">
-                <span class="post-title">' . $post->post_title . '</span>
+                <span class="post-title">' . $titlePost . '</span>
                 <span>
                     <select class="form-select" aria-label="Selection" id="' . $post->ID . '">
                         <option value="">Open this select menu</option>
@@ -435,8 +436,8 @@ class Apkafe_Admin_Form
         foreach ($listTopGame as $top) {
             $arrIDPosted[] = $top->post_id;
             $idButtonDelete = "'" . $top->post_id .  "', '" . get_the_title($top->post_id) . "'";
-            echo '<li class="list-group-item item-post d-flex justify-content-between" id="posted-' . $top->post_id . '">
-                <span class="post-title">' . get_the_title($top->post_id) . '</span>
+            echo '<li class="list-group-item d-flex justify-content-between" id="posted-' . $top->post_id . '">
+                <span class="post-title">' . get_permalink($top->post_id) . '</span>
                 <button class="btn btn-danger ml-4" onclick="deleteTopGame(' . $idButtonDelete . ')">Delete</button>
                 </li>';
         }
@@ -452,7 +453,7 @@ class Apkafe_Admin_Form
             if (!in_array($product->ID, $arrIDPosted)) {
                 $idButtonAdd = "'" . $product->ID .  "', '" . $product->post_title . "'";
                 echo '<li class="list-group-item item-post d-flex justify-content-between" id=' . $product->ID . '>
-                <span class="post-title">' . $product->post_title . '</span><button class="btn btn-success ml-4 button-add-post" onclick="addTopGame(' . $idButtonAdd . ')">Add</button></li>';
+                <span class="post-title">' . get_permalink($product->ID) . '</span><button class="btn btn-success ml-4 button-add-post" onclick="addTopGame(' . $idButtonAdd . ')">Add</button></li>';
             }
         }
         echo '</ul>';
@@ -472,9 +473,9 @@ class Apkafe_Admin_Form
             for (var i = 0; i < lis.length; i++) {
                 var text = lis[i].getElementsByClassName('post-title')[0].innerHTML;
                 if (text.toUpperCase().indexOf(filter) == 0) 
-                    lis[i].style.display = 'list-item';
+                    lis[i].setAttribute('style', 'display: block !important');
                 else
-                    lis[i].style.display = 'none';
+                    lis[i].setAttribute('style', 'display: none !important');
                 }
             }
 
@@ -512,21 +513,30 @@ class Apkafe_Admin_Form
             });
         }
         </script>";
-        // var_dump($listProduct);
     }
 
     public function getListPost()
     {
-        $args = array(
-            'post_type' => 'post',
+        $argsPost = array(
             'orderby'    => 'ID',
             'post_status' => 'publish',
             'order'    => 'DESC',
             'posts_per_page' => -1
         );
-        $result = new WP_Query($args);
 
-        return $result->posts;
+        $argsProduct = array(
+            'post_type' => 'product',
+            'orderby'    => 'post_date',
+            'post_status' => 'publish',
+            'order'    => 'DESC',
+            'posts_per_page' => -1
+        );
+        $resultPost = new WP_Query($argsPost);
+        $resultProduct = new WP_Query($argsProduct);
+
+        $arrTotal = array_merge($resultPost->posts, $resultProduct->posts);
+
+        return $arrTotal;
     }
 
     public function getConfigForApkafe()

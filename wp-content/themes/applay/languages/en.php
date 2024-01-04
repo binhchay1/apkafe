@@ -1,0 +1,30 @@
+<?php
+
+$lang = [
+    'The best free online game and application store today' => 'The best free online game and application store today',
+    'Game html5' => 'Game html5',
+    'App' => 'App',
+    'Game' => 'Game',
+    'Tips android' => 'Tips android',
+    'PRODUCT CATEGORIES' => 'PRODUCT CATEGORIES',
+    'Trending Searches' => 'Trending Searches',
+    'Mainpage' => 'Mainpage',
+    'Follow US' => 'Follow US',
+    'About Us' => 'About Us',
+    'Privacy Policy' => 'Privacy Policy',
+    'Term of use' => 'Term of use',
+    'Top Game App' => 'Top Game App',
+    'GS Heim Nippori Room 1101, 2-39-7 Nishi-Nippori Arakawa-ku Tokyo 116-0013' => 'GS Heim Nippori Room 1101, 2-39-7 Nishi-Nippori Arakawa-ku Tokyo 116-0013',
+    'Copyright © 2023 Apkafe All rights reserved.' => 'Copyright © 2023 Apkafe All rights reserved.',
+    'Discover' => 'Discover',
+    'Popular Games In Last 24 Hours' => 'Popular Games In Last 24 Hours',
+    'Popular Apps In Last 24 Hours' => 'Popular Apps In Last 24 Hours',
+    'Popular Games' => 'Popular Games',
+    'Popular Apps' => 'Popular Apps',
+    'Technology trick popular' => 'Technology trick popular',
+    'News popular' => 'News popular',
+    'Hot Games' => 'Hot Games',
+    'Hot Apps' => 'Hot Apps',
+    'Latest Update Games' => 'Latest Update Games',
+    'Latest Update Apps' => 'Latest Update Apps'
+];

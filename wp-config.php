@@ -45,6 +45,7 @@ error_reporting(E_ALL);
 
 */
 
+define('WP_ALLOW_REPAIR', true);
 define( 'WP_DEBUG', true );
 define('FORCE_SSL', false);
 define('FORCE_SSL_ADMIN', false);
@@ -61,7 +62,7 @@ error_reporting(1);
 
 
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'apkafe' );
+define( 'DB_NAME', 'apkafe-test' );
 
 /** MySQL database username */
 define( 'DB_USER', 'root' );
@@ -88,14 +89,14 @@ define( 'DB_COLLATE', '' );
  * @since 2.6.0
  */
 
-define('AUTH_KEY',         'oy||=D>:{gUd51P4m^wi|l8=_$GBl2w(HC*vy@9nk:3R0Xijv-E1FxY+jXO jE)]');
-define('SECURE_AUTH_KEY',  'HilEfk^}!|c`p$ZNNU-iZ~04pFbW&1HJ@Sl~5H4t9+d$;hhZvx_U|jy0^j2n-#p6');
-define('LOGGED_IN_KEY',    'SXS.a+74@JBm5;)a$`p<|;Co4IT&!)bu0C#nVq97#w/O;YW5##$wLqJo0To,2HM8');
-define('NONCE_KEY',        'a;@._8j+1!1Btp.IjHR-F<`~}0#F;PV/Ixu~9ChZ7@6,kq_FM,&.XoO/guz125+:');
-define('AUTH_SALT',        '*Fd@R;~O_lPM5XfqFzFGqiD= HhcY[_U.U*Kh-+S[c|j2;U]d(+Di|(@;$jP 5yc');
-define('SECURE_AUTH_SALT', '#e+A.H)m51^R+#;H>]m,!B=$)J$B6 o=<eyaA+A#4XI^|O}5iPH~l@`TsmE}5^PL');
-define('LOGGED_IN_SALT',   'SQB?&[jFzD{Ie[7$|I&;omVUBYVm5l}$nrNKrRfvbf]{EasF=5K}{-=A#icxDcG=');
-define('NONCE_SALT',       'R;bP$?m3mDWQ,G+4b)p%M3A4$y+y|+GEKLJpn$*j@lrb+|kuI<vaxuo_B+@~WP/v');
+define( 'AUTH_KEY',         '.#&GV[DMcnrP<<>W9R1Kk.7E!W*}D[XzjMI?i3Q~z`GD}Fdg}QJ:[E;6TB!CV#8S' );
+define( 'SECURE_AUTH_KEY',  'kKKZ>PkEsN9.tO2Gp@I><vg.Osti[cFRYuMMOsIDf8wXKIq,L%BZ|W>I2fF|p+Gs' );
+define( 'LOGGED_IN_KEY',    'CWt%1K6!dwp{u&BI,jy{KZcCZHAUFv?>{]U|D1RX_;b$gs^MI`)Q!0H*aU_S]t|#' );
+define( 'NONCE_KEY',        '_T*;D{?./t<jTFJ;6bUr1 Z~74iC<dMgrIuZkcH0HIezZ&ecjvk=nv1yOwnJz(9.' );
+define( 'AUTH_SALT',        'T6_?<5Ob.r7O7zE|[!zm_c#>CNIi5HpW|lT4^aX dJi):>fUAZrb#%J|;|2`[#L=' );
+define( 'SECURE_AUTH_SALT', '{s*5mUD6+:ZLn~8$uX)*pp`),__^|-<R{~NO m]s,-)_DuP@yE9v:a7hF3Q#ZSgG' );
+define( 'LOGGED_IN_SALT',   ':Ke*7`{wn@tO(yP-5A0S~=eat}+-[:9(ULP#nJpuj:<fE&gW$;yLD53[c3L(L<wL' );
+define( 'NONCE_SALT',       'oyXGuKgS1O.YbwErM~S9k>5RP=G<Z5! 4Esf$=IU$+ID_)CQ+Ak/@i~qUv;yzC-f' );
 
 
 /**#@-*/
