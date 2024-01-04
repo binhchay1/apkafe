@@ -117,6 +117,19 @@ $search = $wpdb->get_results($sql_search);
 $uploads = wp_upload_dir();
 $upload_path = $uploads['baseurl'];
 
+$url = home_url();
+$listLang = get_template_directory() . '/languages/en.php';
+$pos = strpos($url, '/ja');
+if ($pos > 0) {
+	$listLang = get_template_directory() . '/languages/ja.php';
+}
+
+$pos = strpos($url, '/th');
+if ($pos > 0) {
+	$listLang = get_template_directory() . '/languages/th.php';
+}
+
+require $listLang;
 ?>
 
 <?php get_template_part('templates/header/header', 'heading'); ?>
@@ -222,7 +235,7 @@ $upload_path = $uploads['baseurl'];
 						</span>
 						<span class="text-btn" title="Search APK"><input class="si" type="submit" value="" dt-eid="search_button" dt-params="small_position=1" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"></span>
 					</form>
-					<div class="trending-title">Trending Searches</div>
+					<div class="trending-title"><?php echo $lang['Trending Searches'] ?></div>
 					<div class="trending-content">
 						<?php foreach ($search as $record) { ?>
 							<a href="<?php echo $record->url ?>" title="<?php echo $record->title ?>" class="hot"><?php echo $record->title ?></a>
@@ -230,8 +243,8 @@ $upload_path = $uploads['baseurl'];
 					</div>
 				</div>
 				<div class="module discover" style="margin-top: 20px;">
-					<a class="title more" title="Discover">
-						<h3 class="name">Discover</h3>
+					<a class="title more" title="<?php echo $lang['Discover'] ?>">
+						<h3 class="name"><?php echo $lang['Discover'] ?></h3>
 					</a>
 					<div class="apk-list-1001 enable-wrap">
 						<?php
@@ -247,8 +260,8 @@ $upload_path = $uploads['baseurl'];
 					</div>
 				</div>
 				<div class="module popular-games">
-					<a class="title more" title="Popular Games In Last 24 Hours">
-						<h3 class="name">Popular Games In Last 24 Hours</h3>
+					<a class="title more" title="<?php echo $lang['Popular Games In Last 24 Hours'] ?>">
+						<h3 class="name"><?php echo $lang['Popular Games In Last 24 Hours'] ?></h3>
 					</a>
 					<div class="apk-list-1002">
 						<?php foreach ($popular_game_24h_list_id as $id) { ?>
@@ -261,8 +274,8 @@ $upload_path = $uploads['baseurl'];
 					</div>
 				</div>
 				<div class="module popular-apps">
-					<a class="title more" title="Popular Apps In Last 24 Hours">
-						<h3 class="name">Popular Apps In Last 24 Hours</h3>
+					<a class="title more" title="<?php echo $lang['Popular Apps In Last 24 Hours'] ?>">
+						<h3 class="name"><?php echo $lang['Popular Apps In Last 24 Hours'] ?></h3>
 					</a>
 					<div class="apk-list-1002">
 						<?php foreach ($popular_app_24h_list_id as $id) { ?>
@@ -275,8 +288,8 @@ $upload_path = $uploads['baseurl'];
 					</div>
 				</div>
 				<div class="module popular-games">
-					<a class="title more" title="Popular Games">
-						<h3 class="name">Popular Games</h3>
+					<a class="title more" title="<?php echo $lang['Popular Games'] ?>">
+						<h3 class="name"><?php echo $lang['Popular Games'] ?></h3>
 					</a>
 					<div class="apk-list-1002">
 						<?php foreach ($popular_games_list_id as $id) { ?>
@@ -289,8 +302,8 @@ $upload_path = $uploads['baseurl'];
 					</div>
 				</div>
 				<div class="module popular-apps">
-					<a class="title more" title="Popular Apps">
-						<h3 class="name">Popular Apps</h3>
+					<a class="title more" title="<?php echo $lang['Popular Apps'] ?>">
+						<h3 class="name"><?php echo $lang['Popular Apps'] ?></h3>
 					</a>
 					<div class="apk-list-1002">
 						<?php foreach ($popular_app_list_id as $id) { ?>
@@ -303,8 +316,8 @@ $upload_path = $uploads['baseurl'];
 					</div>
 				</div>
 				<div class="module popular-articles">
-					<a class="title more" title="Technology trick popular">
-						<h3 class="name">Technology trick popular</h3>
+					<a class="title more" title="<?php echo $lang['Technology trick popular'] ?>">
+						<h3 class="name"><?php echo $lang['Technology trick popular'] ?></h3>
 					</a>
 					<div class="article-list">
 						<?php foreach ($technology_trick_popular_list_id as $id) { ?>
@@ -319,8 +332,8 @@ $upload_path = $uploads['baseurl'];
 					</div>
 				</div>
 				<div class="module popular-articles">
-					<a class="title more" title="Popular Articles In Last 24 Hours">
-						<h3 class="name">News popular</h3>
+					<a class="title more" title="<?php echo $lang['News popular'] ?>">
+						<h3 class="name"><?php echo $lang['News popular'] ?></h3>
 					</a>
 					<div class="article-list">
 						<?php foreach ($news_popular_list_id as $id) { ?>
@@ -337,8 +350,8 @@ $upload_path = $uploads['baseurl'];
 			</div>
 			<div class="left">
 				<div class="module hot-games">
-					<a class="title more" title="Hot Games" href="/game">
-						<h3 class="name">Hot Games</h3>
+					<a class="title more" title="<?php echo $lang['Hot Games'] ?>" href="/game">
+						<h3 class="name"><?php echo $lang['Hot Games'] ?></h3>
 					</a>
 					<div class="apk-list-1006">
 						<?php foreach ($hot_games_list_id as $id) { ?>
@@ -346,16 +359,14 @@ $upload_path = $uploads['baseurl'];
 								<div class="img-ratio"><img class="icon" alt="<?php echo get_the_title($id) ?>" src="<?php echo wp_get_attachment_image_src(get_post_thumbnail_id($id), 'post')[0] ?>"></div>
 								<div class="text">
 									<div class="name one-line"><?php echo get_the_title($id) ?></div>
-									<div class="category one-line">Adventure</div>
-									<div class="install-total">50M+</div>
 								</div>
 							</a>
 						<?php } ?>
 					</div>
 				</div>
 				<div class="module hot-apps">
-					<a class="title more" title="Hot Games" href="/game">
-						<h3 class="name">Hot Apps</h3>
+					<a class="title more" title="<?php echo $lang['Hot Apps'] ?>" href="/game">
+						<h3 class="name"><?php echo $lang['Hot Apps'] ?></h3>
 					</a>
 					<div class="apk-list-1006">
 						<?php foreach ($hot_app_list_id as $id) { ?>
@@ -363,8 +374,6 @@ $upload_path = $uploads['baseurl'];
 								<div class="img-ratio"><img class="icon" alt="<?php echo get_the_title($id) ?>" src="<?php echo wp_get_attachment_image_src(get_post_thumbnail_id($id), 'post')[0] ?>"></div>
 								<div class="text">
 									<div class="name one-line"><?php echo get_the_title($id) ?></div>
-									<div class="category one-line">Adventure</div>
-									<div class="install-total">50M+</div>
 								</div>
 							</a>
 						<?php } ?>
@@ -372,7 +381,7 @@ $upload_path = $uploads['baseurl'];
 				</div>
 				<div class="module latest-update-games">
 					<div class="title">
-						<h3 class="name">Latest Update Games</h3>
+						<h3 class="name"><?php echo $lang['Latest Update Games'] ?></h3>
 					</div>
 					<div class="apk-list-1008">
 						<?php foreach ($lastest_update_games_list_id as $id) { ?>
@@ -398,7 +407,7 @@ $upload_path = $uploads['baseurl'];
 				</div>
 				<div class="module latest-update-apps">
 					<div class="title">
-						<h3 class="name">Latest Update Apps</h3>
+						<h3 class="name"><?php echo $lang['Latest Update Apps'] ?></h3>
 					</div>
 					<div class="apk-list-1008">
 						<?php foreach ($lastest_update_app_list_id as $id) { ?>
@@ -436,7 +445,7 @@ $upload_path = $uploads['baseurl'];
 						</span></span><span class="text-btn" title="Search APK"><input class="si" type="submit" value="">
 					</span>
 				</form>
-				<div class="trending-title">Trending Searches</div>
+				<div class="trending-title"><?php echo $lang['Trending Searches'] ?></div>
 				<div class="trending-content">
 					<?php foreach ($search as $record) { ?>
 						<a href="<?php echo $record->url ?>" title="<?php echo $record->title ?>" class="hot"><?php echo $record->title ?></a>

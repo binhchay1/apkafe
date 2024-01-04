@@ -49,6 +49,19 @@ foreach ($all_parent_categories as $parent) {
     }
 }
 
+$url = home_url();
+$listLang = get_template_directory() . '/languages/en.php';
+$pos = strpos($url, '/ja');
+if ($pos > 0) {
+    $listLang = get_template_directory() . '/languages/ja.php';
+}
+
+$pos = strpos($url, '/th');
+if ($pos > 0) {
+    $listLang = get_template_directory() . '/languages/th.php';
+}
+
+require $listLang;
 ?>
 
 <head>
@@ -103,22 +116,22 @@ foreach ($all_parent_categories as $parent) {
                         </div>
 
                         <div class="item nav_home searching-hide">
-                            <a href="/" class="dt_nav_button" title="The best free online game and application store today">
+                            <a href="/" class="dt_nav_button" title="<?php echo $lang['The best free online game and application store today'] ?>">
                                 <i class="icon icon_home"></i>
-                                <span class="dt_menu_text">The best free online game and application store today</span>
+                                <span class="dt_menu_text"><?php echo $lang['The best free online game and application store today'] ?></span>
                             </a>
                         </div>
                         <div class="item searching-hide">
-                            <a class="dt_nav_button nav-g" href="/games-html5/" title="Games html5">
+                            <a class="dt_nav_button nav-g" href="/games-html5/" title="<?php echo $lang['Games html5'] ?>">
                                 <i class="icon icon_game"></i>
-                                <span class="dt_menu_text">Games html5</span>
+                                <span class="dt_menu_text"><?php echo $lang['Games html5'] ?></span>
                             </a>
                         </div>
 
                         <div class="item many searching-hide">
                             <span class="nav-p dt_nav_button dt-nav-parent">
                                 <i class="icon icon_product"></i>
-                                <span class="dt_menu_text">App</span>
+                                <span class="dt_menu_text"><?php echo $lang['App'] ?></span>
                             </span>
                             <ul class="nav_submenu">
                                 <li class="nav_submenu-item">
@@ -139,7 +152,7 @@ foreach ($all_parent_categories as $parent) {
                         <div class="item many searching-hide">
                             <span class="nav-p dt_nav_button dt-nav-parent">
                                 <i class="icon icon_product"></i>
-                                <span class="dt_menu_text">Game</span>
+                                <span class="dt_menu_text"><?php echo $lang['Game'] ?></span>
                             </span>
                             <ul class="nav_submenu">
                                 <li class="nav_submenu-item">
@@ -160,7 +173,7 @@ foreach ($all_parent_categories as $parent) {
                         <div class="item searching-hide">
                             <a class="dt_nav_button nav-a" href="<?php echo get_category_link($idCategoryTips) ?>" title="Privacy policy">
                                 <i class="icon icon_product"></i>
-                                <span class="dt_menu_text">Tips android</span>
+                                <span class="dt_menu_text"><?php echo $lang['Tips android'] ?></span>
                             </a>
                         </div>
 
