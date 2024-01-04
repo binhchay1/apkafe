@@ -1,7 +1,6 @@
 <?php
 
-$root = preg_replace('/wp-content.*$/', '', __DIR__);
-require($root . 'wp-load.php');
+require('wp-load.php');
 
 $posts = $_POST;
 if (empty($posts)) {

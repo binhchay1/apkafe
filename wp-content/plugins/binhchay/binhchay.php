@@ -43,6 +43,8 @@ add_action('template_redirect', function () {
 
 add_action('init', function ($search) {
 	add_rewrite_rule('search/?$', 'index.php?s=' . $search, 'top');
+	add_rewrite_rule('search/ja/?$', 'index.php?s=' . $search, 'top');
+	add_rewrite_rule('search/th/?$', 'index.php?s=' . $search, 'top');
 });
 
 add_filter('get_search_form', function ($form) {

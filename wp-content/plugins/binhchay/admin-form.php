@@ -151,7 +151,7 @@ class Apkafe_Admin_Form
         }
         echo '</ul>';
         echo '
-        <form action="' . plugin_dir_url(__DIR__) . 'binhchay/process-data-post.php' . '" method="POST" id="form-post-config">
+        <form action="/process-data-post.php" method="POST" id="form-post-config">
             <input type="hidden" name="discover" value="" id="discover-form"/>
             <input type="hidden" name="popular_game_in_last_24h" value="" id="popular_game_in_last_24h-form"/>
             <input type="hidden" name="popular_app_in_last_24h" value="" id="popular_app_in_last_24h-form"/>
@@ -319,8 +319,8 @@ class Apkafe_Admin_Form
     {
         $listTrending = $this->getUrlTrending();
         $count = 1;
-        $urlTrending = plugin_dir_url(__DIR__) . 'binhchay/process-data-trending.php';
-        $urlDeleteTrending = plugin_dir_url(__DIR__) . 'binhchay/delete-data-trending.php';
+        $urlTrending = '/process-data-trending.php';
+        $urlDeleteTrending = '/delete-data-trending.php';
         $classText = "'text-danger'";
         $functionDelete = "'deleteTrending(this.id)'";
         $idText = "id='td-";
@@ -418,8 +418,8 @@ class Apkafe_Admin_Form
     {
         $listProduct = $this->getListProducts();
         $listTopGame = $this->getListTopGames();
-        $urlTopGame = plugin_dir_url(__DIR__) . 'binhchay/process-data-top-game.php';
-        $urlTopGameDelete = plugin_dir_url(__DIR__) . 'binhchay/delete-data-top-game.php';
+        $urlTopGame = '/process-data-top-game.php';
+        $urlTopGameDelete = '/delete-data-top-game.php';
         $classLi = '"list-group-item item-post d-flex justify-content-between"';
         $classSpan = '"post-title"';
         $classButtonDelete = '"btn btn-danger ml-4"';
