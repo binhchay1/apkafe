@@ -442,7 +442,8 @@ require $listLang;
 							<div class="tt-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;">
 								<div class="tt-dataset tt-dataset-1"></div>
 							</div>
-						</span></span><span class="text-btn" title="Search APK"><input class="si" type="submit" value="">
+						</span></span><span class="text-btn" title="Search APK"><i class="fa fa-search" style="margin: 10px 20px; font-size: 15px;"></i><input class="si" type="submit" value="">
+
 					</span>
 				</form>
 				<div class="trending-title"><?php echo $lang['Trending Searches'] ?></div>

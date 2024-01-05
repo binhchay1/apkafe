@@ -271,6 +271,12 @@ jQuery(document).ready(function (t) {
         jQuery('.search-box-m').attr('style', 'display: none !important;');
     }
 
+    jQuery(".wmpl-lang").hover(function () {
+        jQuery('#ul-list-lang').show();
+    }, function () {
+        jQuery('#ul-list-lang').hide();
+    });
+
 }), jQuery(window).scroll(function (t) {
     jQuery(window).width() > 992 ? jQuery(".fixed-effect").each(function (t, a) {
         var e = jQuery(window).height(),

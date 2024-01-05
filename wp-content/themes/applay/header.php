@@ -9,46 +9,6 @@
 <html <?php language_attributes(); ?>>
 <?php
 
-$taxonomy = 'product_cat';
-$orderby = 'name';
-$show_count = 0;
-$pad_counts = 0;
-$dataCategory = [];
-$args = array(
-    'taxonomy'     => $taxonomy,
-    'orderby'      => $orderby,
-    'show_count'   => $show_count,
-    'pad_counts'   => $pad_counts,
-    'parent' => 0
-);
-
-$all_parent_categories = get_categories($args);
-$categoriesPost = get_categories();
-
-foreach ($categoriesPost as $category) {
-    if ($category->name == 'Tips Android') {
-        $idCategoryTips = $category->term_id;
-    }
-}
-
-foreach ($all_parent_categories as $parent) {
-    $category_id = $parent->term_id;
-
-    $argsGetChildCategories = array(
-        'taxonomy'     => $taxonomy,
-        'orderby'      => $orderby,
-        'show_count'   => $show_count,
-        'pad_counts'   => $pad_counts,
-        'parent'       => $category_id,
-        'child_of'     => 0,
-    );
-
-    $all_child_categories = get_categories($argsGetChildCategories);
-    foreach ($all_child_categories as $category) {
-        $dataCategory[$parent->cat_name][] = $category;
-    }
-}
-
 $url = home_url();
 $listLang = get_template_directory() . '/languages/en.php';
 $pos = strpos($url, '/ja');
@@ -72,6 +32,7 @@ require $listLang;
 
     <link rel="profile" href="http://gmpg.org/xfn/11" />
     <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
     <?php if (ot_get_option('favicon')) { ?>
         <link rel="shortcut icon" type="ico" href="<?php echo ot_get_option('favicon'); ?>">
@@ -115,90 +76,33 @@ require $listLang;
                             </button>
                         </div>
 
-                        <div class="item nav_home searching-hide">
-                            <a href="/" class="dt_nav_button" title="<?php echo $lang['The best free online game and application store today'] ?>">
-                                <i class="icon icon_home"></i>
-                                <span class="dt_menu_text"><?php echo $lang['The best free online game and application store today'] ?></span>
-                            </a>
-                        </div>
-                        <div class="item searching-hide">
-                            <a class="dt_nav_button nav-g" href="/games-html5/" title="<?php echo $lang['Games html5'] ?>">
-                                <i class="icon icon_game"></i>
-                                <span class="dt_menu_text"><?php echo $lang['Games html5'] ?></span>
-                            </a>
-                        </div>
+                        <?php wp_nav_menu(array(
+                            'theme_location'  => 'primary-menus',
+                            'container' => false,
+                            'items_wrap' => '%3$s',
+                            'walker' => new custom_walker_nav_menu,
+                        )) ?>
 
-                        <div class="item many searching-hide">
-                            <span class="nav-p dt_nav_button dt-nav-parent">
-                                <i class="icon icon_product"></i>
-                                <span class="dt_menu_text"><?php echo $lang['App'] ?></span>
-                            </span>
-                            <ul class="nav_submenu">
-                                <li class="nav_submenu-item">
-                                    <div class="menu_list">
-                                        <div class="menu_body">
-                                            <ul>
-                                                <?php foreach ($dataCategory['App'] as $categoryApp) { ?>
-                                                    <li><a class="dt_menu_text" href="<?php echo get_category_link($categoryApp->term_id) ?>" title="<?php echo $categoryApp->name ?>"><?php echo $categoryApp->name ?></a></li>
-                                                <?php } ?>
-                                            </ul>
-                                            <div class="clear"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="item many searching-hide">
-                            <span class="nav-p dt_nav_button dt-nav-parent">
-                                <i class="icon icon_product"></i>
-                                <span class="dt_menu_text"><?php echo $lang['Game'] ?></span>
-                            </span>
-                            <ul class="nav_submenu">
-                                <li class="nav_submenu-item">
-                                    <div class="menu_list">
-                                        <div class="menu_body">
-                                            <ul>
-                                                <?php foreach ($dataCategory['Game'] as $categoryGame) { ?>
-                                                    <li><a class="dt_menu_text" href="<?php echo get_category_link($categoryGame->term_id) ?>" title="<?php echo $categoryGame->name ?>"><?php echo $categoryGame->name ?></a></li>
-                                                <?php } ?>
-                                            </ul>
-                                            <div class="clear"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="item searching-hide">
-                            <a class="dt_nav_button nav-a" href="<?php echo get_category_link($idCategoryTips) ?>" title="Privacy policy">
-                                <i class="icon icon_product"></i>
-                                <span class="dt_menu_text"><?php echo $lang['Tips android'] ?></span>
-                            </a>
-                        </div>
-
-                        <div class="item many searching-hide">
-                            <span class="nav-p dt_nav_button dt-nav-parent">
-                                <i class="icon icon_product"></i>
-                                <?php
-                                $arr_lg = icl_get_languages('skip_missing=0');
-                                foreach ($arr_lg as $item) {
-                                    if ($item['active']) {
-                                        echo '<span class="dt_menu_text"><a href="' . esc_url($item['url']) . '"><img src="' . esc_url($item['country_flag_url']) . '"/></a></span>';
-                                    }
-                                }
-                                ?>
-                            </span>
-                            <?php $translations = pll_the_languages(array('raw' => 1));
-                            ?>
-                            <ul class="nav_submenu">
+                        <?php
+                        if (function_exists('pll_the_languages')) { ?>
+                            <ul class="wmpl-lang nav navbar-nav navbar-right searching-hide">
                                 <li class="main-menu-item menu-item-depth-0 menu-item menu-item-has-children parent dropdown sub-menu-left">
                                     <?php
-                                    pll_the_languages(array('show_flags' => 1, 'show_names' => 1));
+                                    $translations = pll_the_languages(array('raw' => 1));
+                                    foreach ($translations as $item) {
+                                        if ($item['current_lang']) {
+                                            echo '<a href="' . esc_url($item['url']) . '"><img src="' . esc_url($item['flag']) . '"/></a>';
+                                        }
+                                    }
                                     ?>
+                                    <ul class="dropdown-menu menu-depth-1" id="ul-list-lang">
+                                        <li class="lang-item lang-item-16 lang-item-en lang-item-first current-lang"><a lang="en-US" hreflang="en-US" href="/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHzSURBVHjaYkxOP8IAB//+Mfz7w8Dwi4HhP5CcJb/n/7evb16/APL/gRFQDiAAw3JuAgAIBEDQ/iswEERjGzBQLEru97ll0g0+3HvqMn1SpqlqGsZMsZsIe0SICA5gt5a/AGIEarCPtFh+6N/ffwxA9OvP/7//QYwff/6fZahmePeB4dNHhi+fGb59Y4zyvHHmCEAAAW3YDzQYaJJ93a+vX79aVf58//69fvEPlpIfnz59+vDhw7t37968efP3b/SXL59OnjwIEEAsDP+YgY53b2b89++/awvLn98MDi2cVxl+/vl6mituCtBghi9f/v/48e/XL86krj9XzwEEEENy8g6gu22rfn78+NGs5Ofr16+ZC58+fvyYwX8rxOxXr169fPny+fPn1//93bJlBUAAsQADZMEBxj9/GBxb2P/9+S/R8u3vzxuyaX8ZHv3j8/YGms3w8ycQARmi2eE37t4ACCDGR4/uSkrKAS35B3TT////wADOgLOBIaXIyjBlwxKAAGKRXjCB0SOEaeu+/y9fMnz4AHQxCP348R/o+l+//sMZQBNLEvif3AcIIMZbty7Ly6t9ZmXl+fXj/38GoHH/UcGfP79//BBiYHjy9+8/oUkNAAHEwt1V/vI/KBY/QSISFqM/GBg+MzB8A6PfYC5EFiDAABqgW776MP0rAAAAAElFTkSuQmCC" title="English" alt="English"><span style="margin-left:0.3em;">English</span></a></li>
+                                        <li class="lang-item lang-item-27 lang-item-ja"><a lang="ja" hreflang="ja" href="/ja/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAE2SURBVHjaYvz69SsDEvj37x+ERGbAwZ9//wACiAUoysXFBST///8P0QOm//+HU0jgxYsXAAHEAlP0H8HYt+//4SP/f//6b2b238sLrpqRkRFoCUAAsaCrXrv2/8KF///8+f/r9//Dh/8/ffI/OQWiAeJCgABigrseJPT27f/Vq////v3/1y8oWrzk/+PHcEv+/PkDEEBMEM/B3fj/40eo0t9g8suX/w8f/odZAVQMEEAsQAzj/2cQFf3PxARWCrYEaBXQLCkpqB/+/wcqBgggJrjxQPX/hYX/+/v///kLqhpIBgf/l5ODhxiQBAggFriToDoTEv5zcf3ftQuk2s7uf0wM3MdAAPQDQAAxvn37lo+PDy4KZUDcycj4/z9CBojv3r0LEEAgG969eweLSBDEBSCWAAQYACaTbJ/kuok9AAAAAElFTkSuQmCC" title="日本語" alt="日本語" width="16" height="11"><span style="margin-left:0.3em;">日本語</span></a></li>
+                                        <li class="lang-item lang-item-909 lang-item-th"><a lang="th" hreflang="th" href="/th/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAFWSURBVHjaYvzPgAD/UNlYEUAAisQgBwAQhGGi/pzP8EBvG+BImqbL7pzuUlda9SJ7DMs85NYEBgX5Ir4AYvz/H2QHhIQz/mMDjIyMnz59AgggRkfXjTmZOu/e/fz7D2jH/7///v398+8PkPEHCEHsv3///fn978+/f8JCnGWlWwACiGX/7jOmhiKPHn3+8wck8fvPv9+//wLRr1//wORfOCkvz8fAsAUggIB++AdxJ8iRQNf++f/rF8TZ/4B6fgEZQPIXRAEoLAACCKjhx9+/f/78+f0LaC/YbIjxyGaDSaCFvxgYvgAEEAs3r5qKqhAPLzs4GP4CnQR2G9CMf2A2iPEH7BNJSe5Tp8wAAojx58+fzMzM//79wxU4EACUBYbS27dvAQKI5R87O1NJCQPEjX//MvwGkn8Yf/8GRggCAY0DSgFt2bsXIIAYv6JGJJ44hgCAAAMA8pZimQIezaoAAAAASUVORK5CYII=" title="ไทย" alt="ไทย" width="16"><span style="margin-left:0.3em;">ไทย</span></a></li>
+                                    </ul>
                                 </li>
                             </ul>
-                        </div>
+                        <?php } ?>
 
                         <div class="item search">
                             <form class="formsearch searching-show" method="post" action="/search/" id="searching-show">
@@ -216,7 +120,7 @@ require $listLang;
                                 </div>
                             </form>
                             <div class="search-mask" id="search-mask">
-                                <i class="search-mask-icon"></i>
+                                <i class="fa fa-search"></i>
                                 <span>Apkafe</span>
                             </div>
                         </div>
@@ -233,7 +137,7 @@ require $listLang;
                         <i class="icon icon_menu"></i>
                     </button>
                     <a class="search_btn" title="search" href="#search" id="btn-search-m">
-                        <i class="icon icon_search"></i>
+                        <i class="fa fa-search"></i>
                     </a>
 
                     <div class="ll" style="display: none;" id="ll">
