@@ -89,7 +89,7 @@ class custom_walker_nav_menu extends Walker_Nav_Menu
 		$attributes .= ' class="menu-link ' . ($is_parent && $depth == 0 ? 'dropdown-toggle disabled' : '') . ' ' . ($depth > 0 ? 'sub-menu-link' : 'main-menu-link') . '"';
 
 		$item_output = sprintf(
-			'%1$s<a%2$s' . ($is_parent && $depth == 0 ? ' data-toggle="dropdown"' : '') . '>' . $leaf_icon_names . '%3$s%4$s%5$s ' . ($item->description && $depth == 0 ? '<span class="menu-description">' . $item->description . '</span>' : '') . '</a>%6$s',
+			'%1$s<a%2$s' . ($is_parent && $depth == 0 ? ' data-toggle="dropdown"' : '') . '>' . $leaf_icon_names . '%3$s%4$s%5$s ' . '</a>%6$s',
 			is_array($args) ?  $args['before'] : $args->before,
 			$attributes,
 			is_array($args) ? $args['link_before'] : $args->link_before,

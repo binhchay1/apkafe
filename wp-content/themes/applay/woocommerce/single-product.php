@@ -37,11 +37,6 @@ $disable_woo = get_post_meta(get_the_ID(), 'disable-woo', true) == 'on';
             ?>
             <div id="content" class="<?php if ($woo_layout != 'full') { ?> col-md-9 <?php } else { ?>col-md-12 <?php }
                                                                                                     if ($woo_layout == 'left') { ?> revert-layout <?php } ?>">
-                <script>
-                    jQuery(document).ready(function(e) {
-                        jQuery("script[type='application/ld+json']").remove();
-                    });
-                </script>
                 <?php while (have_posts()) : the_post(); ?>
 
                     <?php if ($disable_woo) {
