@@ -3,8 +3,8 @@ Contributors: kubiq
 Donate link: https://www.paypal.me/jakubnovaksl
 Tags: png, jpg, optimize, save space, convert, image, media
 Requires at least: 3.0.1
-Tested up to: 5.9
-Stable tag: 4.1
+Tested up to: 6.4
+Stable tag: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,14 @@ Convert PNG images to JPG, free up web space and speed up your webpage
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+
+= 4.3 =
+* add notice for Yoast SEO users and button to reindex database after conversion
+
+= 4.2 =
+* tested on WP 6.4
+* continue converting images after one of them fail
+* added pagination to Convert existing screen
 
 = 4.1 =
 * added nonce and security checks

@@ -18,7 +18,10 @@ function aaih__adsense_auto_ads__insert() {
 		return;	// 利用制限 ON 時、ログインの状態で、ユーザーが管理者以外の場合
 	};
 
-	$settings	= aaih__get_item();	// 設定値全体を取得
+	// 設定値全体を取得
+	$settings	= aaih__get_item();
+	// カスタムフィールド（記事個別の設定）を反映
+	$settings	= aaih__meta_data_check( $settings ); //★ 2023.11.15 追加
 
 	$adsense_auto_ads__onoff 		= $settings['adsense_auto_ads_onoff'];		// 設定ON/OFFを取得
 	$adsense_auto_ads__post_off 	= $settings['adsense_auto_ads__post_off']; 	// 除外する場合には on

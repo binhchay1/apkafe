@@ -585,7 +585,7 @@ jQuery( function($) {
 	 */
 	$( 'input.analytics-id' ) . on( 'input' , function() {
 		// ID 入力がない場合の文字列
-		const ANALYTICS_ID_NOTHING_ALL	= $( '#analytics-id-nothing-all' ) . val();	// UA-xxxxx-xx/G-xxxxx
+		const ANALYTICS_ID_NOTHING_ALL	= $( '#analytics-id-nothing-all' ) . val();	// G-xxxxx or AW-xxxx
 
 		// ID 入力を取得
 		let analyticsID = $( this) . val();

@@ -101,3 +101,22 @@
 #meta-box-aaih .settings-wrap .used-ad-all li.not-used {
 	color:#ccc;
 }
+
+/* ★2023.11.15 追加
+自動広告３つの設定を追加し、テーブルで表示。
+念のため、罫線や背景色はなしに設定しておく
+*/
+#meta-box-aaih .settings-wrap table.each-ad,
+#meta-box-aaih .settings-wrap table.each-ad tr,
+#meta-box-aaih .settings-wrap table.each-ad td {
+    border: none;
+    background: none;
+}
+
+/* ★2023.11.15 追加
+自動広告３つの設定のテーブルで
+先頭に余白を設けてわかりやすく。
+*/
+#meta-box-aaih .settings-wrap td.item-label {
+    padding-left: 1.5em;
+}

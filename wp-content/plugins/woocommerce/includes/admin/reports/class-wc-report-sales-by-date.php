@@ -2,7 +2,7 @@
 /**
  * WC_Report_Sales_By_Date
  *
- * @package     WooCommerce/Admin/Reports
+ * @package     WooCommerce\Admin\Reports
  * @version     2.1.0
  */
 
@@ -251,7 +251,12 @@ class WC_Report_Sales_By_Date extends WC_Admin_Report {
 		);
 
 		foreach ( $this->report_data->full_refunds as $key => $order ) {
-			$this->report_data->full_refunds[ $key ]->net_refund = $order->total_refund - ( $order->total_shipping + $order->total_tax + $order->total_shipping_tax );
+			$total_refund       = is_numeric( $order->total_refund ) ? $order->total_refund : 0;
+			$total_shipping     = is_numeric( $order->total_shipping ) ? $order->total_shipping : 0;
+			$total_tax          = is_numeric( $order->total_tax ) ? $order->total_tax : 0;
+			$total_shipping_tax = is_numeric( $order->total_shipping_tax ) ? $order->total_shipping_tax : 0;
+
+			$this->report_data->full_refunds[ $key ]->net_refund = $total_refund - ( $total_shipping + $total_tax + $total_shipping_tax );
 		}
 
 		/**
@@ -321,7 +326,7 @@ class WC_Report_Sales_By_Date extends WC_Admin_Report {
 		);
 
 		foreach ( $this->report_data->partial_refunds as $key => $order ) {
-			$this->report_data->partial_refunds[ $key ]->net_refund = $order->total_refund - ( $order->total_shipping + $order->total_tax + $order->total_shipping_tax );
+			$this->report_data->partial_refunds[ $key ]->net_refund = (float) $order->total_refund - ( (float) $order->total_shipping + (float) $order->total_tax + (float) $order->total_shipping_tax );
 		}
 
 		/**
@@ -406,7 +411,7 @@ class WC_Report_Sales_By_Date extends WC_Admin_Report {
 			$this->report_data->total_shipping_tax_refunded += floatval( $value->total_shipping_tax < 0 ? $value->total_shipping_tax * -1 : $value->total_shipping_tax );
 			$this->report_data->total_shipping_refunded     += floatval( $value->total_shipping < 0 ? $value->total_shipping * -1 : $value->total_shipping );
 
-			// Only applies to parial.
+			// Only applies to partial.
 			if ( isset( $value->order_item_count ) ) {
 				$this->report_data->refunded_order_items += floatval( $value->order_item_count < 0 ? $value->order_item_count * -1 : $value->order_item_count );
 			}
@@ -417,7 +422,7 @@ class WC_Report_Sales_By_Date extends WC_Admin_Report {
 		$this->report_data->total_shipping     = wc_format_decimal( array_sum( wp_list_pluck( $this->report_data->orders, 'total_shipping' ) ) - $this->report_data->total_shipping_refunded, 2 );
 		$this->report_data->total_shipping_tax = wc_format_decimal( array_sum( wp_list_pluck( $this->report_data->orders, 'total_shipping_tax' ) ) - $this->report_data->total_shipping_tax_refunded, 2 );
 
-		// Total the refunds and sales amounts. Sales subract refunds. Note - total_sales also includes shipping costs.
+		// Total the refunds and sales amounts. Sales subtract refunds. Note - total_sales also includes shipping costs.
 		$this->report_data->total_sales = wc_format_decimal( array_sum( wp_list_pluck( $this->report_data->orders, 'total_sales' ) ) - $this->report_data->total_refunds, 2 );
 		$this->report_data->net_sales   = wc_format_decimal( $this->report_data->total_sales - $this->report_data->total_shipping - max( 0, $this->report_data->total_tax ) - max( 0, $this->report_data->total_shipping_tax ), 2 );
 
@@ -844,15 +849,15 @@ class WC_Report_Sales_By_Date extends WC_Admin_Report {
 						}
 					);
 
-					jQuery('.chart-placeholder').resize();
+					jQuery('.chart-placeholder').trigger( 'resize' );
 				}
 
 				drawGraph();
 
-				jQuery('.highlight_series').hover(
+				jQuery('.highlight_series').on( 'mouseenter',
 					function() {
 						drawGraph( jQuery(this).data('series') );
-					},
+					} ).on( 'mouseleave',
 					function() {
 						drawGraph();
 					}

@@ -1,3 +1,10 @@
+.editor-styles-wrapper .wp-block-woocommerce-attribute-filter {
+	// We need to override it because by default the global styles applied the border-style: solid;
+	// Our goal is not to have a border on main wrapper DOM element
+	border-style: none !important;
+}
+
+
 .wc-block-attribute-filter {
 	.components-placeholder__instructions {
 		border-bottom: 1px solid #e0e2e6;
@@ -11,22 +18,16 @@
 	}
 	.components-placeholder__fieldset {
 		display: block; /* Disable flex box */
-
-		p {
-			font-size: 14px;
-		}
 	}
 	.woocommerce-search-list__search {
 		border-top: 0;
 		margin-top: 0;
 		padding-top: 0;
 	}
-	.wc-block-attribute-filter__add_attribute_button {
+	.wc-block-attribute-filter__add-attribute-button {
 		margin: 0 0 1em;
-		line-height: 24px;
 		vertical-align: middle;
 		height: auto;
-		font-size: 14px;
 		padding: 0.5em 1em;
 
 		svg {
@@ -39,4 +40,14 @@
 		display: block;
 		margin-bottom: 1em;
 	}
+
+	.components-disabled {
+		border-radius: inherit;
+		border-color: inherit;
+	}
+
+}
+
+.wc-block-attribute-filter .components-notice__content {
+	color: $black;
 }

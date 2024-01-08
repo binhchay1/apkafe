@@ -2,9 +2,11 @@
 /**
  * Handle frontend scripts
  *
- * @package WooCommerce/Classes
+ * @package WooCommerce\Classes
  * @version 2.3.0
  */
+
+ // phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment
 
 use Automattic\Jetpack\Constants;
 
@@ -55,7 +57,14 @@ class WC_Frontend_Scripts {
 	public static function get_styles() {
 		$version = Constants::get_constant( 'WC_VERSION' );
 
-		return apply_filters(
+		/**
+		 * Filter list of WooCommerce styles to enqueue.
+		 *
+		 * @since 2.1.0
+		 * @param array List of default WooCommerce styles.
+		 * @return array List of styles to enqueue.
+		 */
+		$styles = apply_filters(
 			'woocommerce_enqueue_styles',
 			array(
 				'woocommerce-layout'      => array(
@@ -79,8 +88,16 @@ class WC_Frontend_Scripts {
 					'media'   => 'all',
 					'has_rtl' => true,
 				),
+				'woocommerce-blocktheme'  => wc_current_theme_is_fse_theme() ? array(
+					'src'     => self::get_asset_url( 'assets/css/woocommerce-blocktheme.css' ),
+					'deps'    => '',
+					'version' => $version,
+					'media'   => 'all',
+					'has_rtl' => true,
+				) : false,
 			)
 		);
+		return is_array( $styles ) ? array_filter( $styles ) : array();
 	}
 
 	/**
@@ -103,7 +120,7 @@ class WC_Frontend_Scripts {
 	 * @param  string   $version   String specifying script version number, if it has one, which is added to the URL as a query string for cache busting purposes. If version is set to false, a version number is automatically added equal to current installed WordPress version. If set to null, no version is added.
 	 * @param  boolean  $in_footer Whether to enqueue the script before </body> instead of in the <head>. Default 'false'.
 	 */
-	private static function register_script( $handle, $path, $deps = array( 'jquery' ), $version = WC_VERSION, $in_footer = true ) {
+	private static function register_script( $handle, $path, $deps = array( 'jquery' ), $version = WC_VERSION, $in_footer = array( 'strategy' => 'defer' ) ) {
 		self::$scripts[] = $handle;
 		wp_register_script( $handle, $path, $deps, $version, $in_footer );
 	}
@@ -118,7 +135,7 @@ class WC_Frontend_Scripts {
 	 * @param  string   $version   String specifying script version number, if it has one, which is added to the URL as a query string for cache busting purposes. If version is set to false, a version number is automatically added equal to current installed WordPress version. If set to null, no version is added.
 	 * @param  boolean  $in_footer Whether to enqueue the script before </body> instead of in the <head>. Default 'false'.
 	 */
-	private static function enqueue_script( $handle, $path = '', $deps = array( 'jquery' ), $version = WC_VERSION, $in_footer = true ) {
+	private static function enqueue_script( $handle, $path = '', $deps = array( 'jquery' ), $version = WC_VERSION, $in_footer = array( 'strategy' => 'defer' ) ) {
 		if ( ! in_array( $handle, self::$scripts, true ) && $path ) {
 			self::register_script( $handle, $path, $deps, $version, $in_footer );
 		}
@@ -174,42 +191,42 @@ class WC_Frontend_Scripts {
 			'flexslider'                 => array(
 				'src'     => self::get_asset_url( 'assets/js/flexslider/jquery.flexslider' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '2.7.2',
+				'version' => '2.7.2-wc.' . $version,
 			),
 			'js-cookie'                  => array(
 				'src'     => self::get_asset_url( 'assets/js/js-cookie/js.cookie' . $suffix . '.js' ),
 				'deps'    => array(),
-				'version' => '2.1.4',
+				'version' => '2.1.4-wc.' . $version,
 			),
 			'jquery-blockui'             => array(
 				'src'     => self::get_asset_url( 'assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '2.70',
+				'version' => '2.7.0-wc.' . $version,
 			),
 			'jquery-cookie'              => array( // deprecated.
 				'src'     => self::get_asset_url( 'assets/js/jquery-cookie/jquery.cookie' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '1.4.1',
+				'version' => '1.4.1-wc.' . $version,
 			),
 			'jquery-payment'             => array(
 				'src'     => self::get_asset_url( 'assets/js/jquery-payment/jquery.payment' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '3.0.0',
+				'version' => '3.0.0-wc.' . $version,
 			),
 			'photoswipe'                 => array(
 				'src'     => self::get_asset_url( 'assets/js/photoswipe/photoswipe' . $suffix . '.js' ),
 				'deps'    => array(),
-				'version' => '4.1.1',
+				'version' => '4.1.1-wc.' . $version,
 			),
 			'photoswipe-ui-default'      => array(
 				'src'     => self::get_asset_url( 'assets/js/photoswipe/photoswipe-ui-default' . $suffix . '.js' ),
 				'deps'    => array( 'photoswipe' ),
-				'version' => '4.1.1',
+				'version' => '4.1.1-wc.' . $version,
 			),
 			'prettyPhoto'                => array( // deprecated.
 				'src'     => self::get_asset_url( 'assets/js/prettyPhoto/jquery.prettyPhoto' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '3.1.6',
+				'version' => '3.1.6-wc.' . $version,
 			),
 			'prettyPhoto-init'           => array( // deprecated.
 				'src'     => self::get_asset_url( 'assets/js/prettyPhoto/jquery.prettyPhoto.init' . $suffix . '.js' ),
@@ -219,12 +236,12 @@ class WC_Frontend_Scripts {
 			'select2'                    => array(
 				'src'     => self::get_asset_url( 'assets/js/select2/select2.full' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '4.0.3',
+				'version' => '4.0.3-wc.' . $version,
 			),
 			'selectWoo'                  => array(
 				'src'     => self::get_asset_url( 'assets/js/selectWoo/selectWoo.full' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '1.0.6',
+				'version' => '1.0.9-wc.' . $version,
 			),
 			'wc-address-i18n'            => array(
 				'src'     => self::get_asset_url( 'assets/js/frontend/address-i18n' . $suffix . '.js' ),
@@ -299,7 +316,7 @@ class WC_Frontend_Scripts {
 			'zoom'                       => array(
 				'src'     => self::get_asset_url( 'assets/js/zoom/jquery.zoom' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '1.7.21',
+				'version' => '1.7.21-wc.' . $version,
 			),
 		);
 		foreach ( $register_scripts as $name => $props ) {
@@ -308,7 +325,7 @@ class WC_Frontend_Scripts {
 	}
 
 	/**
-	 * Register all WC sty;es.
+	 * Register all WC styles.
 	 */
 	private static function register_styles() {
 		$version = Constants::get_constant( 'WC_VERSION' );
@@ -398,7 +415,12 @@ class WC_Frontend_Scripts {
 			self::enqueue_script( 'wc-single-product' );
 		}
 
-		if ( 'geolocation_ajax' === get_option( 'woocommerce_default_customer_address' ) ) {
+		// Only enqueue the geolocation script if the Default Current Address is set to "Geolocate
+		// (with Page Caching Support) and outside of the cart, checkout, account and customizer preview.
+		if (
+			'geolocation_ajax' === get_option( 'woocommerce_default_customer_address' )
+			&& ! ( is_cart() || is_account_page() || is_checkout() || is_customize_preview() )
+		) {
 			$ua = strtolower( wc_get_user_agent() ); // Exclude common bots from geolocation by user agent.
 
 			if ( ! strstr( $ua, 'bot' ) && ! strstr( $ua, 'spider' ) && ! strstr( $ua, 'crawl' ) ) {
@@ -408,7 +430,6 @@ class WC_Frontend_Scripts {
 
 		// Global frontend scripts.
 		self::enqueue_script( 'woocommerce' );
-		self::enqueue_script( 'wc-cart-fragments' );
 
 		// CSS Styles.
 		$enqueue_styles = self::get_styles();
@@ -471,10 +492,8 @@ class WC_Frontend_Scripts {
 				break;
 			case 'wc-geolocation':
 				$params = array(
-					'wc_ajax_url'  => WC_AJAX::get_endpoint( '%%endpoint%%' ),
-					'home_url'     => remove_query_arg( 'lang', home_url() ), // FIX for WPML compatibility.
-					'is_available' => ! ( is_cart() || is_account_page() || is_checkout() || is_customize_preview() ) ? '1' : '0',
-					'hash'         => isset( $_GET['v'] ) ? wc_clean( wp_unslash( $_GET['v'] ) ) : '', // WPCS: input var ok, CSRF ok.
+					'wc_ajax_url' => WC_AJAX::get_endpoint( '%%endpoint%%' ),
+					'home_url'    => remove_query_arg( 'lang', home_url() ), // FIX for WPML compatibility.
 				);
 				break;
 			case 'wc-single-product':

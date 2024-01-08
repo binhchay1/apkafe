@@ -2,12 +2,15 @@
 /**
  * WooCommerce product base class.
  *
- * @package WooCommerce/Abstracts
+ * @package WooCommerce\Abstracts
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Automattic\WooCommerce\Internal\ProductAttributesLookup\LookupDataStore as ProductAttributesLookupDataStore;
+use Automattic\WooCommerce\Internal\ProductDownloads\ApprovedDirectories\Register as Download_Directories;
 
 /**
  * Legacy product contains all deprecated methods for this class and can be
@@ -21,7 +24,7 @@ require_once WC_ABSPATH . 'includes/legacy/abstract-wc-legacy-product.php';
  * The WooCommerce product class handles individual product data.
  *
  * @version 3.0.0
- * @package WooCommerce/Abstracts
+ * @package WooCommerce\Abstracts
  */
 class WC_Product extends WC_Abstract_Legacy_Product {
 
@@ -778,7 +781,9 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 	 * @param  string $visibility Options: 'hidden', 'visible', 'search' and 'catalog'.
 	 */
 	public function set_catalog_visibility( $visibility ) {
-		$options = array_keys( wc_get_product_visibility_options() );
+		$options    = array_keys( wc_get_product_visibility_options() );
+		$visibility = in_array( $visibility, $options, true ) ? $visibility : strtolower( $visibility );
+
 		if ( ! in_array( $visibility, $options, true ) ) {
 			$this->error( 'product_invalid_catalog_visibility', __( 'Invalid catalog visibility option.', 'woocommerce' ) );
 		}
@@ -817,7 +822,15 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 		if ( $this->get_object_read() && ! empty( $sku ) && ! wc_product_has_unique_sku( $this->get_id(), $sku ) ) {
 			$sku_found = wc_get_product_id_by_sku( $sku );
 
-			$this->error( 'product_invalid_sku', __( 'Invalid or duplicated SKU.', 'woocommerce' ), 400, array( 'resource_id' => $sku_found ) );
+			$this->error(
+				'product_invalid_sku',
+				__( 'Invalid or duplicated SKU.', 'woocommerce' ),
+				400,
+				array(
+					'resource_id' => $sku_found,
+					'unique_sku'  => wc_product_generate_unique_sku( $this->get_id(), $sku ),
+				)
+			);
 		}
 		$this->set_prop( 'sku', $sku );
 	}
@@ -899,6 +912,8 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 		if ( empty( $status ) ) {
 			$status = 'taxable';
 		}
+
+		$status = strtolower( $status );
 
 		if ( ! in_array( $status, $options, true ) ) {
 			$this->error( 'product_invalid_tax_status', __( 'Invalid product tax status.', 'woocommerce' ) );
@@ -1099,7 +1114,7 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 	 *     position - integer sort order.
 	 *     visible - If visible on frontend.
 	 *     variation - If used for variations.
-	 * Indexed by unqiue key to allow clearing old ones after a set.
+	 * Indexed by unique key to allow clearing old ones after a set.
 	 *
 	 * @since 3.0.0
 	 * @param array $raw_attributes Array of WC_Product_Attribute objects.
@@ -1199,55 +1214,91 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 	/**
 	 * Set downloads.
 	 *
-	 * @since 3.0.0
+	 * @throws WC_Data_Exception If an error relating to one of the downloads is encountered.
+	 *
 	 * @param array $downloads_array Array of WC_Product_Download objects or arrays.
+	 *
+	 * @since 3.0.0
 	 */
 	public function set_downloads( $downloads_array ) {
-		$downloads = array();
-		$errors    = array();
+		// When the object is first hydrated, only the previously persisted downloads will be passed in.
+		$existing_downloads = $this->get_object_read() ? (array) $this->get_prop( 'downloads' ) : $downloads_array;
+		$downloads          = array();
+		$errors             = array();
+
+		$downloads_array    = $this->build_downloads_map( $downloads_array );
+		$existing_downloads = $this->build_downloads_map( $existing_downloads );
 
 		foreach ( $downloads_array as $download ) {
-			if ( is_a( $download, 'WC_Product_Download' ) ) {
-				$download_object = $download;
-			} else {
-				$download_object = new WC_Product_Download();
+			$download_id = $download->get_id();
+			$is_new      = ! isset( $existing_downloads[ $download_id ] );
+			$has_changed = ! $is_new && $existing_downloads[ $download_id ]->get_file() !== $downloads_array[ $download_id ]->get_file();
 
-				// If we don't have a previous hash, generate UUID for download.
-				if ( empty( $download['download_id'] ) ) {
-					$download['download_id'] = wp_generate_uuid4();
+			try {
+				$download->check_is_valid( $this->get_object_read() );
+				$downloads[ $download_id ] = $download;
+			} catch ( Exception $e ) {
+				// We only add error messages for newly added downloads (let's not overwhelm the user if there are
+				// multiple existing files which are problematic).
+				if ( $is_new || $has_changed ) {
+					$errors[] = $e->getMessage();
 				}
 
-				$download_object->set_id( $download['download_id'] );
-				$download_object->set_name( $download['name'] );
-				$download_object->set_file( $download['file'] );
-			}
-
-			// Validate the file extension.
-			if ( ! $download_object->is_allowed_filetype() ) {
-				if ( $this->get_object_read() ) {
-					/* translators: %1$s: Downloadable file */
-					$errors[] = sprintf( __( 'The downloadable file %1$s cannot be used as it does not have an allowed file type. Allowed types include: %2$s', 'woocommerce' ), '<code>' . basename( $download_object->get_file() ) . '</code>', '<code>' . implode( ', ', array_keys( $download_object->get_allowed_mime_types() ) ) . '</code>' );
+				// If the problem is with an existing download, disable it.
+				if ( ! $is_new ) {
+					$download->set_enabled( false );
+					$downloads[ $download_id ] = $download;
 				}
-				continue;
 			}
-
-			// Validate the file exists.
-			if ( ! $download_object->file_exists() ) {
-				if ( $this->get_object_read() ) {
-					/* translators: %s: Downloadable file */
-					$errors[] = sprintf( __( 'The downloadable file %s cannot be used as it does not exist on the server.', 'woocommerce' ), '<code>' . $download_object->get_file() . '</code>' );
-				}
-				continue;
-			}
-
-			$downloads[ $download_object->get_id() ] = $download_object;
-		}
-
-		if ( $errors ) {
-			$this->error( 'product_invalid_download', $errors[0] );
 		}
 
 		$this->set_prop( 'downloads', $downloads );
+
+		if ( $errors && $this->get_object_read() ) {
+			$this->error( 'product_invalid_download', $errors[0] );
+		}
+	}
+
+	/**
+	 * Takes an array of downloadable file representations and converts it into an array of
+	 * WC_Product_Download objects, indexed by download ID.
+	 *
+	 * @param array[]|WC_Product_Download[] $downloads Download data to be re-mapped.
+	 *
+	 * @return WC_Product_Download[]
+	 */
+	private function build_downloads_map( array $downloads ): array {
+		$downloads_map = array();
+
+		foreach ( $downloads as $download_data ) {
+			// If the item is already a WC_Product_Download we can add it to the map and move on.
+			if ( is_a( $download_data, 'WC_Product_Download' ) ) {
+				$downloads_map[ $download_data->get_id() ] = $download_data;
+				continue;
+			}
+
+			// If the item is not an array, there is nothing else we can do (bad data).
+			if ( ! is_array( $download_data ) ) {
+				continue;
+			}
+
+			// Otherwise, transform the array to a WC_Product_Download and add to the map.
+			$download_object = new WC_Product_Download();
+
+			// If we don't have a previous hash, generate UUID for download.
+			if ( empty( $download_data['download_id'] ) ) {
+				$download_data['download_id'] = wp_generate_uuid4();
+			}
+
+			$download_object->set_id( $download_data['download_id'] );
+			$download_object->set_name( $download_data['name'] );
+			$download_object->set_file( $download_data['file'] );
+			$download_object->set_enabled( isset( $download_data['enabled'] ) ? $download_data['enabled'] : true );
+
+			$downloads_map[ $download_object->get_id() ] = $download_object;
+		}
+
+		return $downloads_map;
 	}
 
 	/**
@@ -1336,19 +1387,21 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 			$this->set_stock_quantity( '' );
 			$this->set_backorders( 'no' );
 			$this->set_low_stock_amount( '' );
-
-			// If we are stock managing and we don't have stock, force out of stock status.
-		} elseif ( $this->get_stock_quantity() <= get_option( 'woocommerce_notify_no_stock_amount', 0 ) && 'no' === $this->get_backorders() ) {
-			$this->set_stock_status( 'outofstock' );
-
-			// If we are stock managing, backorders are allowed, and we don't have stock, force on backorder status.
-		} elseif ( $this->get_stock_quantity() <= get_option( 'woocommerce_notify_no_stock_amount', 0 ) && 'no' !== $this->get_backorders() ) {
-			$this->set_stock_status( 'onbackorder' );
-
-			// If the stock level is changing and we do now have enough, force in stock status.
-		} elseif ( $this->get_stock_quantity() > get_option( 'woocommerce_notify_no_stock_amount', 0 ) ) {
-			$this->set_stock_status( 'instock' );
+			return;
 		}
+
+		$stock_is_above_notification_threshold = ( (int) $this->get_stock_quantity() > absint( get_option( 'woocommerce_notify_no_stock_amount', 0 ) ) );
+		$backorders_are_allowed                = ( 'no' !== $this->get_backorders() );
+
+		if ( $stock_is_above_notification_threshold ) {
+			$new_stock_status = 'instock';
+		} elseif ( $backorders_are_allowed ) {
+			$new_stock_status = 'onbackorder';
+		} else {
+			$new_stock_status = 'outofstock';
+		}
+
+		$this->set_stock_status( $new_stock_status );
 	}
 
 	/**
@@ -1372,14 +1425,21 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 		 */
 		do_action( 'woocommerce_before_' . $this->object_type . '_object_save', $this, $this->data_store );
 
+		$state = $this->before_data_store_save_or_update();
+
 		if ( $this->get_id() ) {
+			$changeset = $this->get_changes();
 			$this->data_store->update( $this );
 		} else {
+			$changeset = null;
 			$this->data_store->create( $this );
 		}
 
-		if ( $this->get_parent_id() ) {
-			wc_deferred_product_sync( $this->get_parent_id() );
+		$this->after_data_store_save_or_update( $state );
+
+		// Update attributes lookup table if the product is new OR it's not but there are actually any changes.
+		if ( is_null( $changeset ) || ! empty( $changeset ) ) {
+			wc_get_container()->get( ProductAttributesLookupDataStore::class )->on_product_changed( $this, $changeset );
 		}
 
 		/**
@@ -1391,6 +1451,53 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 		do_action( 'woocommerce_after_' . $this->object_type . '_object_save', $this, $this->data_store );
 
 		return $this->get_id();
+	}
+
+	/**
+	 * Do any extra processing needed before the actual product save
+	 * (but after triggering the 'woocommerce_before_..._object_save' action)
+	 *
+	 * @return mixed A state value that will be passed to after_data_store_save_or_update.
+	 */
+	protected function before_data_store_save_or_update() {
+	}
+
+	/**
+	 * Do any extra processing needed after the actual product save
+	 * (but before triggering the 'woocommerce_after_..._object_save' action)
+	 *
+	 * @param mixed $state The state object that was returned by before_data_store_save_or_update.
+	 */
+	protected function after_data_store_save_or_update( $state ) {
+		$this->maybe_defer_product_sync();
+	}
+
+	/**
+	 * Delete the product, set its ID to 0, and return result.
+	 *
+	 * @param  bool $force_delete Should the product be deleted permanently.
+	 * @return bool result
+	 */
+	public function delete( $force_delete = false ) {
+		$product_id = $this->get_id();
+		$deleted    = parent::delete( $force_delete );
+
+		if ( $deleted ) {
+			$this->maybe_defer_product_sync();
+			wc_get_container()->get( ProductAttributesLookupDataStore::class )->on_product_deleted( $product_id );
+		}
+
+		return $deleted;
+	}
+
+	/**
+	 * If this is a child product, queue its parent for syncing at the end of the request.
+	 */
+	protected function maybe_defer_product_sync() {
+		$parent_id = $this->get_parent_id();
+		if ( $parent_id ) {
+			wc_deferred_product_sync( $parent_id );
+		}
 	}
 
 	/*
@@ -1475,6 +1582,16 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 	 * @return bool
 	 */
 	public function is_visible() {
+		$visible = $this->is_visible_core();
+		return apply_filters( 'woocommerce_product_is_visible', $visible, $this->get_id() );
+	}
+
+	/**
+	 * Returns whether or not the product is visible in the catalog (doesn't trigger filters).
+	 *
+	 * @return bool
+	 */
+	protected function is_visible_core() {
 		$visible = 'visible' === $this->get_catalog_visibility() || ( is_search() && 'search' === $this->get_catalog_visibility() ) || ( ! is_search() && 'catalog' === $this->get_catalog_visibility() );
 
 		if ( 'trash' === $this->get_status() ) {
@@ -1495,7 +1612,7 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 			$visible = false;
 		}
 
-		return apply_filters( 'woocommerce_product_is_visible', $visible, $this->get_id() );
+		return $visible;
 	}
 
 	/**
@@ -1702,7 +1819,7 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 	 * @return boolean
 	 */
 	public function has_options() {
-		return false;
+		return apply_filters( 'woocommerce_product_has_options', false, $this );
 	}
 
 	/*
@@ -1820,6 +1937,23 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 	}
 
 	/**
+	 * Get the aria-describedby description for the add to cart button.
+	 *
+	 * @return string
+	 */
+	public function add_to_cart_aria_describedby() {
+		/**
+		 * Filter the aria-describedby description for the add to cart button.
+		 *
+		 * @since 7.8.0
+		 *
+		 * @param string $var Text for the 'aria-describedby' attribute.
+		 * @param WC_Product $this Product object.
+		 */
+		return apply_filters( 'woocommerce_product_add_to_cart_aria_describedby', '', $this );
+	}
+
+	/**
 	 * Get the add to cart button text.
 	 *
 	 * @return string
@@ -1871,7 +2005,8 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 	 * @return string
 	 */
 	public function get_shipping_class() {
-		if ( $class_id = $this->get_shipping_class_id() ) { // @phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found, WordPress.CodeAnalysis.AssignmentInCondition.Found
+		$class_id = $this->get_shipping_class_id();
+		if ( $class_id ) {
 			$term = get_term_by( 'id', $class_id, 'product_shipping_class' );
 
 			if ( $term && ! is_wp_error( $term ) ) {
@@ -1963,7 +2098,8 @@ class WC_Product extends WC_Abstract_Legacy_Product {
 	public function get_price_suffix( $price = '', $qty = 1 ) {
 		$html = '';
 
-		if ( ( $suffix = get_option( 'woocommerce_price_display_suffix' ) ) && wc_tax_enabled() && 'taxable' === $this->get_tax_status() ) { // @phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found, WordPress.CodeAnalysis.AssignmentInCondition.Found
+		$suffix = get_option( 'woocommerce_price_display_suffix' );
+		if ( $suffix && wc_tax_enabled() && 'taxable' === $this->get_tax_status() ) {
 			if ( '' === $price ) {
 				$price = $this->get_price();
 			}

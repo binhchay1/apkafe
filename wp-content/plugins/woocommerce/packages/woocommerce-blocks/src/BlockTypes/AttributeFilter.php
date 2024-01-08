@@ -1,51 +1,37 @@
 <?php
-/**
- * Attribute filter block.
- *
- * @package WooCommerce/Blocks
- */
-
 namespace Automattic\WooCommerce\Blocks\BlockTypes;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * AttributeFilter class.
  */
 class AttributeFilter extends AbstractBlock {
-
 	/**
 	 * Block name.
 	 *
 	 * @var string
 	 */
-	protected $block_name = 'attribute-filter';
+	protected $block_name             = 'attribute-filter';
+	const FILTER_QUERY_VAR_PREFIX     = 'filter_';
+	const QUERY_TYPE_QUERY_VAR_PREFIX = 'query_type_';
 
 	/**
-	 * Registers the block type with WordPress.
+	 * Extra data passed through from server to client for block.
+	 *
+	 * @param array $attributes  Any attributes that currently are available from the block.
+	 *                           Note, this will be empty in the editor context when the block is
+	 *                           not in the post content on editor load.
 	 */
-	public function register_block_type() {
-		register_block_type(
-			$this->namespace . '/' . $this->block_name,
-			array(
-				'render_callback' => array( $this, 'render' ),
-				'editor_script'   => 'wc-' . $this->block_name,
-				'editor_style'    => 'wc-block-editor',
-				'style'           => 'wc-block-style',
-				'script'          => 'wc-' . $this->block_name . '-frontend',
-			)
-		);
+	protected function enqueue_data( array $attributes = [] ) {
+		parent::enqueue_data( $attributes );
+		$this->asset_data_registry->add( 'attributes', array_values( wc_get_attribute_taxonomies() ), true );
 	}
 
 	/**
-	 * Append frontend scripts when rendering the block.
+	 * Get the frontend style handle for this block type.
 	 *
-	 * @param array  $attributes Block attributes. Default empty array.
-	 * @param string $content    Block content. Default empty string.
-	 * @return string Rendered block type output.
+	 * @return string[]
 	 */
-	public function render( $attributes = array(), $content = '' ) {
-		\Automattic\WooCommerce\Blocks\Assets::register_block_script( $this->block_name . '-frontend' );
-		return $content;
+	protected function get_block_type_style() {
+		return array_merge( parent::get_block_type_style(), [ 'wc-blocks-packages-style' ] );
 	}
 }

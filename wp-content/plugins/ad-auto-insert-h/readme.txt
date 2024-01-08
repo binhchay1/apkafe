@@ -3,8 +3,8 @@ Contributors: tabibitojin
 Donate link: https://paypal.me/tabibitojin
 Tags: google adsense, ad auto inserter, before headline, ads lazyload , Google Analytics, Header insert, グーグルアドセンス, 広告自動挿入, 見出し前, 遅延読込み, グーグルアナリティスク, ヘッダ挿入
 Requires at least: 5.0
-Tested up to: 6.1
-Stable tag: 1.4.0
+Tested up to: 6.4
+Stable tag: 1.6.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -84,6 +84,16 @@ You can also set seconds to automatically load ads when users do nothing.
 
 
 == Changelog ==
+= 1.6.1 =
+Added the following settings to the meta field
+
+* Ad before the first H tag
+* Ad before H tag
+* Ad end of article
+* AdSense Auto Ads
+
+Changed Google Analytics description wording.
+
 = 1.4.0 =
 Add Access control setting.
 ( While logging, automatically inserts ad cords only for users with administrator role.)

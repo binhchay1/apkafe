@@ -2,7 +2,7 @@
 /**
  * Admin view: Edit API keys
  *
- * @package WooCommerce/Admin/Settings
+ * @package WooCommerce\Admin\Settings
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
 					</label>
 				</th>
 				<td class="forminp">
-					<input id="key_description" type="text" class="input-text regular-input" value="<?php echo esc_attr( $key_data['description'] ); ?>" />
+					<input maxlength="200" id="key_description" type="text" class="input-text regular-input" value="<?php echo esc_attr( $key_data['description'] ); ?>" />
 				</td>
 			</tr>
 			<tr valign="top">
@@ -35,8 +35,8 @@ defined( 'ABSPATH' ) || exit;
 				</th>
 				<td class="forminp">
 					<?php
-					$curent_user_id = get_current_user_id();
-					$user_id        = ! empty( $key_data['user_id'] ) ? absint( $key_data['user_id'] ) : $curent_user_id;
+					$current_user_id = get_current_user_id();
+					$user_id        = ! empty( $key_data['user_id'] ) ? absint( $key_data['user_id'] ) : $current_user_id;
 					$user           = get_user_by( 'id', $user_id );
 					$user_string    = sprintf(
 						/* translators: 1: user display name 2: user ID 3: user email */

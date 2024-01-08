@@ -10,9 +10,9 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see     https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
- * @version 4.0.0
+ * @see     https://woo.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 7.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -36,6 +36,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 				),
 				$product
 			);
+			$show_add_to_cart_button = false;
 
 			do_action( 'woocommerce_grouped_product_list_before', $grouped_product_columns, $quantites_required, $product );
 
@@ -44,6 +45,10 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 				$quantites_required = $quantites_required || ( $grouped_product_child->is_purchasable() && ! $grouped_product_child->has_options() );
 				$post               = $post_object; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 				setup_postdata( $post );
+
+				if ( $grouped_product_child->is_in_stock() ) {
+					$show_add_to_cart_button = true;
+				}
 
 				echo '<tr id="product-' . esc_attr( $grouped_product_child->get_id() ) . '" class="woocommerce-grouped-product-list-item ' . esc_attr( implode( ' ', wc_get_product_class( '', $grouped_product_child ) ) ) . '">';
 
@@ -58,7 +63,8 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 							if ( ! $grouped_product_child->is_purchasable() || $grouped_product_child->has_options() || ! $grouped_product_child->is_in_stock() ) {
 								woocommerce_template_loop_add_to_cart();
 							} elseif ( $grouped_product_child->is_sold_individually() ) {
-								echo '<input type="checkbox" name="' . esc_attr( 'quantity[' . $grouped_product_child->get_id() . ']' ) . '" value="1" class="wc-grouped-product-add-to-cart-checkbox" />';
+								echo '<input type="checkbox" name="' . esc_attr( 'quantity[' . $grouped_product_child->get_id() . ']' ) . '" value="1" class="wc-grouped-product-add-to-cart-checkbox" id="' . esc_attr( 'quantity-' . $grouped_product_child->get_id() ) . '" />';
+								echo '<label for="' . esc_attr( 'quantity-' . $grouped_product_child->get_id() ) . '" class="screen-reader-text">' . esc_html__( 'Buy one of this item', 'woocommerce' ) . '</label>';
 							} else {
 								do_action( 'woocommerce_before_add_to_cart_quantity' );
 
@@ -107,11 +113,11 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 
 	<input type="hidden" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" />
 
-	<?php if ( $quantites_required ) : ?>
+	<?php if ( $quantites_required && $show_add_to_cart_button ) : ?>
 
 		<?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>
 
-		<button type="submit" class="single_add_to_cart_button button alt"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
+		<button type="submit" class="single_add_to_cart_button button alt<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
 
 		<?php do_action( 'woocommerce_after_add_to_cart_button' ); ?>
 

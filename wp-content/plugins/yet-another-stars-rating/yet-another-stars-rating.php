@@ -4,11 +4,11 @@
  * Plugin Name: Yet Another Stars Rating
  * Plugin URI: http://wordpress.org/plugins/yet-another-stars-rating/
  * Description: Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
- * Version: 3.4.5
+ * Version: 3.4.7
  * Requires at least: 4.7
  * Requires PHP: 5.4
- * Author: Dario Curvino
- * Author URI: https://dariocurvino.it/
+ * Author: YetAnotherStarsRating.com
+ * Author URI: https://yetanotherstarsrating.com/?utm_source=wp_repo&utm_medium=link&utm_campaign=author_url
  * Text Domain: yet-another-stars-rating
  * Domain Path: /languages
  * License: GPL2
@@ -54,16 +54,17 @@ if ( !function_exists( 'yasr_fs' ) ) {
                     'type'           => 'plugin',
                     'public_key'     => 'pk_907af437fd2bd1f123a3b228785a1',
                     'is_premium'     => false,
+                    'premium_suffix' => '',
                     'has_addons'     => false,
                     'has_paid_plans' => true,
                     'trial'          => array(
                     'days'               => 14,
-                    'is_require_payment' => false,
+                    'is_require_payment' => true,
                 ),
                     'menu'           => array(
                     'slug'    => 'yasr_settings_page',
                     'contact' => true,
-                    'support' => true,
+                    'support' => false,
                 ),
                     'is_live'        => true,
                 ) );
@@ -78,7 +79,7 @@ if ( !function_exists( 'yasr_fs' ) ) {
     yasr_fs();
     // Signal that SDK was initiated.
     do_action( 'yasr_fs_loaded' );
-    define( 'YASR_VERSION_NUM', '3.4.5' );
+    define( 'YASR_VERSION_NUM', '3.4.7' );
     //Plugin absolute path
     //e.g. /var/www/html/plugin_development/wp-content/plugins/yet-another-stars-rating
     define( 'YASR_ABSOLUTE_PATH', __DIR__ );

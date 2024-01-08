@@ -4,7 +4,7 @@
  *
  * Displays shopping cart widget.
  *
- * @package WooCommerce/Widgets
+ * @package WooCommerce\Widgets
  * @version 2.3.0
  */
 
@@ -55,6 +55,8 @@ class WC_Widget_Cart extends WC_Widget {
 		if ( apply_filters( 'woocommerce_widget_cart_is_hidden', is_cart() || is_checkout() ) ) {
 			return;
 		}
+
+		wp_enqueue_script( 'wc-cart-fragments' );
 
 		$hide_if_empty = empty( $instance['hide_if_empty'] ) ? 0 : 1;
 

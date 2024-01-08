@@ -3,7 +3,7 @@
  * Webhook Data Store
  *
  * @version  3.3.0
- * @package  WooCommerce/Classes/Data_Store
+ * @package  WooCommerce\Classes\Data_Store
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -272,15 +272,18 @@ class WC_Webhook_Data_Store implements WC_Webhook_Data_Store_Interface {
 			'post_modified' => 'date_modified_gmt',
 		);
 		$orderby         = isset( $orderby_mapping[ $args['orderby'] ] ) ? $orderby_mapping[ $args['orderby'] ] : 'webhook_id';
-		$order           = "ORDER BY {$orderby} " . esc_sql( strtoupper( $args['order'] ) );
+		$sort            = 'ASC' === strtoupper( $args['order'] ) ? 'ASC' : 'DESC';
+		$order           = "ORDER BY {$orderby} {$sort}";
 		$limit           = -1 < $args['limit'] ? $wpdb->prepare( 'LIMIT %d', $args['limit'] ) : '';
 		$offset          = 0 < $args['offset'] ? $wpdb->prepare( 'OFFSET %d', $args['offset'] ) : '';
 		$status          = ! empty( $args['status'] ) ? $wpdb->prepare( 'AND `status` = %s', isset( $statuses[ $args['status'] ] ) ? $statuses[ $args['status'] ] : $args['status'] ) : '';
-		$search          = ! empty( $args['search'] ) ? "AND `name` LIKE '%" . $wpdb->esc_like( sanitize_text_field( $args['search'] ) ) . "%'" : '';
+		$search          = ! empty( $args['search'] ) ? $wpdb->prepare( 'AND `name` LIKE %s', '%' . $wpdb->esc_like( sanitize_text_field( $args['search'] ) ) . '%' ) : '';
 		$include         = '';
 		$exclude         = '';
 		$date_created    = '';
 		$date_modified   = '';
+		$user_id         = '';
+		$api_version     = '';
 
 		if ( ! empty( $args['include'] ) ) {
 			$args['include'] = implode( ',', wp_parse_id_list( $args['include'] ) );
@@ -290,6 +293,10 @@ class WC_Webhook_Data_Store implements WC_Webhook_Data_Store_Interface {
 		if ( ! empty( $args['exclude'] ) ) {
 			$args['exclude'] = implode( ',', wp_parse_id_list( $args['exclude'] ) );
 			$exclude         = 'AND webhook_id NOT IN (' . $args['exclude'] . ')';
+		}
+
+		if ( ! empty( $args['user_id'] ) ) {
+			$user_id = $wpdb->prepare( 'AND `user_id` = %d', absint( $args['user_id'] ) );
 		}
 
 		if ( ! empty( $args['after'] ) || ! empty( $args['before'] ) ) {
@@ -304,6 +311,11 @@ class WC_Webhook_Data_Store implements WC_Webhook_Data_Store_Interface {
 			$args['modified_before'] = empty( $args['modified_before'] ) ? current_time( 'mysql', 1 ) : $args['modified_before'];
 
 			$date_modified = "AND `date_modified_gmt` BETWEEN STR_TO_DATE('" . esc_sql( $args['modified_after'] ) . "', '%Y-%m-%d %H:%i:%s') and STR_TO_DATE('" . esc_sql( $args['modified_before'] ) . "', '%Y-%m-%d %H:%i:%s')";
+		}
+
+		$api_version_value = $args['api_version'] ?? null;
+		if ( is_numeric( $api_version_value ) ) {
+			$api_version = 'AND `api_version`=' . esc_sql( $api_version_value );
 		}
 
 		// Check for cache.
@@ -325,6 +337,8 @@ class WC_Webhook_Data_Store implements WC_Webhook_Data_Store_Interface {
 				{$exclude}
 				{$date_created}
 				{$date_modified}
+				{$api_version}
+				{$user_id}
 				{$order}
 				{$limit}
 				{$offset}"
@@ -348,6 +362,7 @@ class WC_Webhook_Data_Store implements WC_Webhook_Data_Store_Interface {
 				{$exclude}
 				{$date_created}
 				{$date_modified}
+				{$user_id}
 				{$order}
 				{$limit}
 				{$offset}"

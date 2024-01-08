@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { select } from '@wordpress/data-controls';
+import { controls } from '@wordpress/data';
 
 /**
  * Internal dependencies
@@ -10,9 +10,9 @@ import { getCollection, getCollectionHeader } from '../resolvers';
 import { receiveCollection } from '../actions';
 import { STORE_KEY as SCHEMA_STORE_KEY } from '../../schema/constants';
 import { STORE_KEY } from '../constants';
-import { apiFetchWithHeaders } from '../controls';
+import { apiFetchWithHeadersControl } from '../../shared-controls';
 
-jest.mock( '@wordpress/data-controls' );
+jest.mock( '@wordpress/data' );
 
 describe( 'getCollection', () => {
 	describe( 'yields with expected responses', () => {
@@ -27,7 +27,7 @@ describe( 'getCollection', () => {
 		test( 'with getRoute call invoked to retrieve route', () => {
 			rewind();
 			fulfillment.next();
-			expect( select ).toHaveBeenCalledWith(
+			expect( controls.resolveSelect ).toHaveBeenCalledWith(
 				SCHEMA_STORE_KEY,
 				'getRoute',
 				testArgs[ 0 ],
@@ -73,7 +73,9 @@ describe( 'getCollection', () => {
 				fulfillment.next();
 				const { value } = fulfillment.next( 'https://example.org' );
 				expect( value ).toEqual(
-					apiFetchWithHeaders( 'https://example.org?foo=bar' )
+					apiFetchWithHeadersControl( {
+						path: 'https://example.org?foo=bar',
+					} )
 				);
 			}
 		);
@@ -88,7 +90,7 @@ describe( 'getCollection', () => {
 						'products',
 						'?foo=bar',
 						[ 20, 30 ],
-						{ items: undefined, headers: undefined }
+						{ items: [], headers: undefined }
 					)
 				);
 			}
@@ -101,7 +103,7 @@ describe( 'getCollection', () => {
 				fulfillment.next();
 				fulfillment.next( 'https://example.org' );
 				const { value } = fulfillment.next( {
-					items: [ '42', 'cheeseburgers' ],
+					response: [ '42', 'cheeseburgers' ],
 					headers: { foo: 'bar' },
 				} );
 				expect( value ).toEqual(
@@ -131,7 +133,12 @@ describe( 'getCollectionHeader', () => {
 		rewind( 'x-wp-total', '/wc/blocks', 'products' );
 		const { value } = fulfillment.next();
 		expect( value ).toEqual(
-			select( STORE_KEY, 'getCollection', '/wc/blocks', 'products' )
+			controls.resolveSelect(
+				STORE_KEY,
+				'getCollection',
+				'/wc/blocks',
+				'products'
+			)
 		);
 	} );
 	it( 'yields expected select control when called with all args', () => {
@@ -145,7 +152,7 @@ describe( 'getCollectionHeader', () => {
 		rewind( ...args );
 		const { value } = fulfillment.next();
 		expect( value ).toEqual(
-			select(
+			controls.resolveSelect(
 				STORE_KEY,
 				'/wc/blocks',
 				'products/attributes',

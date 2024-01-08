@@ -2,9 +2,11 @@
 /**
  * Abstract Product importer
  *
- * @package  WooCommerce/Import
+ * @package  WooCommerce\Import
  * @version  3.1.0
  */
+
+use Automattic\WooCommerce\Utilities\NumberUtil;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -120,7 +122,13 @@ abstract class WC_Product_Importer implements WC_Importer_Interface {
 	 * @return array
 	 */
 	public function get_parsed_data() {
-		return apply_filters( 'woocommerce_product_importer_parsed_data', $this->parsed_data, $this->get_raw_data() );
+		/**
+		 * Filter product importer parsed data.
+		 *
+		 * @param array $parsed_data Parsed data.
+		 * @param WC_Product_Importer $importer Importer instance.
+		 */
+		return apply_filters( 'woocommerce_product_importer_parsed_data', $this->parsed_data, $this );
 	}
 
 	/**
@@ -152,7 +160,7 @@ abstract class WC_Product_Importer implements WC_Importer_Interface {
 			return 0;
 		}
 
-		return absint( min( round( ( $this->file_position / $size ) * 100 ), 100 ) );
+		return absint( min( floor( ( $this->file_position / $size ) * 100 ), 100 ) );
 	}
 
 	/**
@@ -166,10 +174,8 @@ abstract class WC_Product_Importer implements WC_Importer_Interface {
 
 		// Type is the most important part here because we need to be using the correct class and methods.
 		if ( isset( $data['type'] ) ) {
-			$types   = array_keys( wc_get_product_types() );
-			$types[] = 'variation';
 
-			if ( ! in_array( $data['type'], $types, true ) ) {
+			if ( ! array_key_exists( $data['type'], WC_Admin_Exporters::get_product_types() ) ) {
 				return new WP_Error( 'woocommerce_product_importer_invalid_type', __( 'Invalid product type.', 'woocommerce' ), array( 'status' => 401 ) );
 			}
 
@@ -244,11 +250,12 @@ abstract class WC_Product_Importer implements WC_Importer_Interface {
 			if ( 'external' === $object->get_type() ) {
 				unset( $data['manage_stock'], $data['stock_status'], $data['backorders'], $data['low_stock_amount'] );
 			}
-
+			$is_variation = false;
 			if ( 'variation' === $object->get_type() ) {
 				if ( isset( $data['status'] ) && -1 === $data['status'] ) {
 					$data['status'] = 0; // Variations cannot be drafts - set to private.
 				}
+				$is_variation = true;
 			}
 
 			if ( 'importing' === $object->get_status() ) {
@@ -277,8 +284,9 @@ abstract class WC_Product_Importer implements WC_Importer_Interface {
 			do_action( 'woocommerce_product_import_inserted_product_object', $object, $data );
 
 			return array(
-				'id'      => $object->get_id(),
-				'updated' => $updating,
+				'id'           => $object->get_id(),
+				'updated'      => $updating,
+				'is_variation' => $is_variation,
 			);
 		} catch ( Exception $e ) {
 			return new WP_Error( 'woocommerce_product_importer_error', $e->getMessage(), array( 'status' => $e->getCode() ) );

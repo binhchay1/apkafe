@@ -123,11 +123,15 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 					)
 				);
 			}
+			// Clear errors when a snippet is trashed.
+			wpcode()->error->clear_snippets_errors();
 		}
 		if ( 'delete' === $action ) {
 			foreach ( $ids as $id ) {
 				wp_delete_post( $id );
 			}
+			// Clear errors when a snippet is deleted.
+			wpcode()->error->clear_snippets_errors();
 		}
 		$failed = 0;
 		if ( 'enable' === $action ) {
@@ -319,6 +323,7 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 		$button_url      = add_query_arg(
 			array(
 				'page' => 'wpcode-settings',
+				'view' => 'errors',
 			),
 			admin_url( 'admin.php' )
 		);
@@ -398,7 +403,6 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 			$order = 'desc';
 		}
 
-
 		// Pick which column to order by, title, date or last updated using a select.
 		$screen_settings .= '<h5>' . esc_html__( 'Order Snippets By', 'insert-headers-and-footers' ) . '</h5>';
 		$screen_settings .= '<fieldset>';
@@ -409,6 +413,7 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 		$screen_settings .= '<option value="title" ' . selected( $order_by, 'title', false ) . '>' . esc_html__( 'Name', 'insert-headers-and-footers' ) . '</option>';
 		$screen_settings .= '<option value="ID" ' . selected( $order_by, 'ID', false ) . '>' . esc_html__( 'Created', 'insert-headers-and-footers' ) . '</option>';
 		$screen_settings .= '<option value="last_updated" ' . selected( $order_by, 'last_updated', false ) . '>' . esc_html__( 'Last Updated', 'insert-headers-and-footers' ) . '</option>';
+		$screen_settings .= '<option value="priority" ' . selected( $order_by, 'priority', false ) . '>' . esc_html__( 'Priority', 'insert-headers-and-footers' ) . '</option>';
 		$screen_settings .= '</select>';
 		$screen_settings .= '</label>';
 		// Display a dropdown to choose the order.

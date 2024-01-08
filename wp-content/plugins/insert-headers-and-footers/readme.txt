@@ -2,9 +2,9 @@
 Contributors: WPbeginner, smub, gripgrip, wpcodeteam
 Tags: code, css, php, footer, functions, content, facebook pixel, footer code, footer scripts, footers, google analytics, head, header, header code, header scripts, headers, insert, insert code, insert scripts, js, meta, meta tags, scripts, html, javascript, multisite, code snippets
 Requires at least: 4.6
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.5
-Stable tag: 2.1.4.1
+Stable tag: 2.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -307,6 +307,22 @@ Thank you
 Syed Balkhi
 
 == Changelog ==
+
+= 2.1.7 =
+* New: WPCode now has a Dark Mode for those late night coding sessions. Enable it on the settings page.
+* Tweak: We improved the way the error messages are displayed in the snippet editor for more clarity.
+* Fix: The snippet editor was no longer running syntax checks for PHP snippets upon activation.
+* Fix: We fixed a bug where in certain versions of Safari the auto-insert location was being unset when saving a snippet.
+
+= 2.1.6 =
+* New: We added the option to delete all the plugin data on uninstall.
+* Fix: The code of duplicated snippets was sometimes removing some slashes.
+* Fix: Error count was not correctly updated when snippets were trashed or deleted.
+
+= 2.1.5 =
+* New: Priority column added to the list of snippets, order by snippet priority.
+* Fix: Fixed a notice that was being thrown in new sites when running the installation routines.
+* Fix: Filtering by tag or location in the list of snippets was not working correctly.
 
 = 2.1.4.1 =
 * Fix: Avoid notices for errors that don't include the file parameter.

@@ -2,7 +2,7 @@
 /**
  * Class WC_Coupon_Data_Store_CPT file.
  *
- * @package WooCommerce\DataStore
+ * @package WooCommerce\DataStores
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -55,13 +55,23 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 	);
 
 	/**
+	 * The updated coupon properties
+	 *
+	 * @since 4.1.0
+	 * @var array
+	 */
+	protected $updated_props = array();
+
+	/**
 	 * Method to create a new coupon in the database.
 	 *
 	 * @since 3.0.0
 	 * @param WC_Coupon $coupon Coupon object.
 	 */
 	public function create( &$coupon ) {
-		$coupon->set_date_created( time() );
+		if ( ! $coupon->get_date_created( 'edit' ) ) {
+			$coupon->set_date_created( time() );
+		}
 
 		$coupon_id = wp_insert_post(
 			apply_filters(
@@ -113,8 +123,9 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 			array(
 				'code'                        => $post_object->post_title,
 				'description'                 => $post_object->post_excerpt,
-				'date_created'                => 0 < $post_object->post_date_gmt ? wc_string_to_timestamp( $post_object->post_date_gmt ) : null,
-				'date_modified'               => 0 < $post_object->post_modified_gmt ? wc_string_to_timestamp( $post_object->post_modified_gmt ) : null,
+				'status'                      => $post_object->post_status,
+				'date_created'                => $this->string_to_timestamp( $post_object->post_date_gmt ),
+				'date_modified'               => $this->string_to_timestamp( $post_object->post_modified_gmt ),
 				'date_expires'                => metadata_exists( 'post', $coupon_id, 'date_expires' ) ? get_post_meta( $coupon_id, 'date_expires', true ) : get_post_meta( $coupon_id, 'expiry_date', true ), // @todo: Migrate expiry_date meta to date_expires in upgrade routine.
 				'discount_type'               => get_post_meta( $coupon_id, 'discount_type', true ),
 				'amount'                      => get_post_meta( $coupon_id, 'coupon_amount', true ),
@@ -336,6 +347,8 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 		} else {
 			add_post_meta( $coupon->get_id(), '_used_by', strtolower( $used_by ) );
 		}
+
+		$this->refresh_coupon_data( $coupon );
 	}
 
 	/**
@@ -364,6 +377,7 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 			if ( $meta_id ) {
 				delete_metadata_by_mid( 'post', $meta_id );
 				$coupon->set_used_by( (array) get_post_meta( $coupon->get_id(), '_used_by' ) );
+				$this->refresh_coupon_data( $coupon );
 			}
 		}
 
@@ -394,6 +408,8 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 			)
 		);
 
+		$this->refresh_coupon_data( $coupon );
+
 		// Get the latest value direct from the DB, instead of possibly the WP meta cache.
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = 'usage_count' AND post_id = %d;", $id ) );
 	}
@@ -412,12 +428,13 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 			$this->get_tentative_usage_query( $coupon_id )
 		);
 	}
+
 	/**
 	 * Get the number of uses for a coupon by user ID.
 	 *
 	 * @since 3.0.0
 	 * @param WC_Coupon $coupon Coupon object.
-	 * @param id        $user_id User ID.
+	 * @param int       $user_id User ID.
 	 * @return int
 	 */
 	public function get_usage_by_user_id( &$coupon, $user_id ) {
@@ -520,16 +537,16 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 		);
 
 		$query_for_tentative_usages = $this->get_tentative_usage_query( $coupon->get_id() );
-		$db_timestamp               = $wpdb->get_var( 'SELECT UNIX_TIMESTAMP() FROM DUAL' );
+		$db_timestamp               = $wpdb->get_var( 'SELECT UNIX_TIMESTAMP() FROM ' . $wpdb->posts . ' LIMIT 1' );
 
 		$coupon_usage_key = '_coupon_held_' . ( (int) $db_timestamp + $held_time ) . '_' . wp_generate_password( 6, false );
 
 		$insert_statement = $wpdb->prepare(
 			"
 			INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value )
-			SELECT %d, %s, %s FROM DUAL
+			SELECT %d, %s, %s FROM $wpdb->posts
 			WHERE ( $query_for_usages ) + ( $query_for_tentative_usages ) < %d
-			",
+			LIMIT 1",
 			$coupon->get_id(),
 			$coupon_usage_key,
 			'',
@@ -543,6 +560,8 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 		for ( $count = 0; $count < 3; $count++ ) {
 			$result = $wpdb->query( $insert_statement ); // WPCS: unprepared SQL ok.
 			if ( false !== $result ) {
+				// Clear meta cache.
+				$this->refresh_coupon_data( $coupon );
 				break;
 			}
 		}
@@ -615,15 +634,15 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 		); // WPCS: unprepared SQL ok.
 
 		$query_for_tentative_usages = $this->get_tentative_usage_query_for_user( $coupon->get_id(), $user_aliases );
-		$db_timestamp               = $wpdb->get_var( 'SELECT UNIX_TIMESTAMP() FROM DUAL' );
+		$db_timestamp               = $wpdb->get_var( 'SELECT UNIX_TIMESTAMP() FROM ' . $wpdb->posts . ' LIMIT 1' );
 
 		$coupon_used_by_meta_key    = '_maybe_used_by_' . ( (int) $db_timestamp + $held_time ) . '_' . wp_generate_password( 6, false );
 		$insert_statement           = $wpdb->prepare(
 			"
 			INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value )
-			SELECT %d, %s, %s FROM DUAL
+			SELECT %d, %s, %s FROM $wpdb->posts
 			WHERE ( $query_for_usages ) + ( $query_for_tentative_usages ) < %d
-			",
+			LIMIT 1",
 			$coupon->get_id(),
 			$coupon_used_by_meta_key,
 			$user_alias,
@@ -636,6 +655,8 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 		for ( $count = 0; $count < 3; $count++ ) {
 			$result = $wpdb->query( $insert_statement ); // WPCS: unprepared SQL ok.
 			if ( false !== $result ) {
+				// Clear meta cache.
+				$this->refresh_coupon_data( $coupon );
 				break;
 			}
 		}
@@ -678,6 +699,18 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 	}
 
 	/**
+	 * This function clears coupon data from the WP cache after certain operations which, for performance reasons,
+	 * are done via SQL queries.
+	 *
+	 * @param \WC_Coupon $coupon The coupon object.
+	 * @return void
+	 */
+	private function refresh_coupon_data( &$coupon ) {
+		wp_cache_delete( $coupon->get_meta_cache_key(), 'coupons' );
+		wp_cache_delete( $coupon->get_id(), 'post_meta' );
+	}
+
+	/**
 	 * Return a coupon code for a specific ID.
 	 *
 	 * @since 3.0.0
@@ -711,7 +744,7 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 		return $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'shop_coupon' AND post_status = 'publish' ORDER BY post_date DESC",
-				$code
+				wc_sanitize_coupon_code( $code )
 			)
 		);
 	}

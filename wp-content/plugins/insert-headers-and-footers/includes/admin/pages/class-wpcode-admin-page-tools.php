@@ -977,7 +977,7 @@ class WPCode_Admin_Page_Tools extends WPCode_Admin_Page {
 			printf(
 			// translators: %1$s: opening anchor tag, %2$s: closing anchor tag.
 				esc_html__( 'No logs found. You can enable logging from the %1$ssettings panel%2$s.', 'insert-headers-and-footers' ),
-				'<a href="' . esc_url( admin_url( 'admin.php?page=wpcode-settings' ) ) . '">',
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpcode-settings&view=errors' ) ) . '">',
 				'</a>'
 			);
 			echo '</p>';

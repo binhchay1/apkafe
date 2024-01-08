@@ -315,9 +315,10 @@ class WPCode_Snippet_Execute {
 
 		$deactivated = false;
 
-		$error['wpc_type'] = 'error';
+		$error['wpc_type']         = 'error';
+		$error['doing_activation'] = $this->is_doing_activation();
 
-		if ( $this->is_error_from_wpcode( $error ) ) {
+		if ( $this->is_error_from_wpcode( $error ) || $this->is_doing_activation() ) {
 			// Let's see if we have a line reference stored and the error has a line number.
 			if ( ! empty( $error['line'] ) ) {
 				$snippet_data = $this->find_snippet_from_line( $error['line'] );

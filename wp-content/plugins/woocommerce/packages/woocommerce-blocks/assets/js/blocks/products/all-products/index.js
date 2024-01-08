@@ -1,73 +1,36 @@
 /**
  * External dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { InnerBlocks } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
-import Gridicon from 'gridicons';
+import { Icon, grid } from '@wordpress/icons';
+import '@woocommerce/atomic-blocks';
 
 /**
  * Internal dependencies
  */
-import Editor from './edit';
-import sharedAttributes from '../attributes';
-import { getBlockClassName } from '../utils.js';
-import '../../../atomic/blocks/product';
+import metadata from './block.json';
+import deprecated from './deprecated';
+import edit from './edit';
+import save from './save';
+import defaults from './defaults';
 
-/**
- * Register and run the "All Products" block.
- */
-registerBlockType( 'woocommerce/all-products', {
-	title: __( 'All Products', 'woocommerce' ),
+const { name } = metadata;
+export { metadata, name };
+
+const settings = {
 	icon: {
-		src: <Gridicon icon="grid" />,
-		foreground: '#96588a',
+		src: (
+			<Icon
+				icon={ grid }
+				className="wc-block-editor-components-block-icon"
+			/>
+		),
 	},
-	category: 'woocommerce',
-	keywords: [ __( 'WooCommerce', 'woocommerce' ) ],
-	description: __(
-		'Display all products from your store as a grid.',
-		'woocommerce'
-	),
-	supports: {
-		align: [ 'wide', 'full' ],
-		html: false,
-		multiple: false,
-	},
-	example: {
-		attributes: {
-			isPreview: true,
-		},
-	},
-	attributes: {
-		...sharedAttributes,
-	},
+	edit,
+	// Save the props to post content.
+	save,
+	deprecated,
+	defaults,
+};
 
-	/**
-	 * Renders and manages the block.
-	 */
-	edit( props ) {
-		return <Editor { ...props } />;
-	},
-
-	/**
-	 * Save the props to post content.
-	 */
-	save( { attributes } ) {
-		const data = {
-			'data-attributes': JSON.stringify( attributes ),
-		};
-
-		return (
-			<div
-				className={ getBlockClassName(
-					'wc-block-all-products',
-					attributes
-				) }
-				{ ...data }
-			>
-				<InnerBlocks.Content />
-			</div>
-		);
-	},
-} );
+registerBlockType( name, settings );

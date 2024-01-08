@@ -4,9 +4,11 @@
  *
  * Handle comments (reviews and order notes).
  *
- * @package WooCommerce/Classes/Products
+ * @package WooCommerce\Classes\Products
  * @version 2.3.0
  */
+
+use Automattic\WooCommerce\Internal\Admin\ProductReviews\ReviewsUtil;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -36,6 +38,9 @@ class WC_Comments {
 		add_filter( 'comments_clauses', array( __CLASS__, 'exclude_webhook_comments' ), 10, 1 );
 		add_filter( 'comment_feed_where', array( __CLASS__, 'exclude_webhook_comments_from_feed_where' ) );
 
+		// Exclude product reviews.
+		add_filter( 'comments_clauses', array( ReviewsUtil::class, 'comments_clauses_without_product_reviews' ), 10, 1 );
+
 		// Count comments.
 		add_filter( 'wp_count_comments', array( __CLASS__, 'wp_count_comments' ), 10, 2 );
 
@@ -46,11 +51,17 @@ class WC_Comments {
 		// Support avatars for `review` comment type.
 		add_filter( 'get_avatar_comment_types', array( __CLASS__, 'add_avatar_for_review_comment_type' ) );
 
+		// Add Product Reviews filter for `review` comment type.
+		add_filter( 'admin_comment_types_dropdown', array( __CLASS__, 'add_review_comment_filter' ) );
+
 		// Review of verified purchase.
 		add_action( 'comment_post', array( __CLASS__, 'add_comment_purchase_verification' ) );
 
 		// Set comment type.
 		add_action( 'preprocess_comment', array( __CLASS__, 'update_comment_type' ), 1 );
+
+		// Validate product reviews if requires verified owners.
+		add_action( 'pre_comment_on_post', array( __CLASS__, 'validate_product_review_verified_owners' ) );
 	}
 
 	/**
@@ -146,7 +157,7 @@ class WC_Comments {
 	 */
 	public static function check_comment_rating( $comment_data ) {
 		// If posting a comment (not trackback etc) and not logged in.
-		if ( ! is_admin() && isset( $_POST['comment_post_ID'], $_POST['rating'], $comment_data['comment_type'] ) && 'product' === get_post_type( absint( $_POST['comment_post_ID'] ) ) && empty( $_POST['rating'] ) && '' === $comment_data['comment_type'] && wc_review_ratings_enabled() && wc_review_ratings_required() ) { // WPCS: input var ok, CSRF ok.
+		if ( ! is_admin() && isset( $_POST['comment_post_ID'], $_POST['rating'], $comment_data['comment_type'] ) && 'product' === get_post_type( absint( $_POST['comment_post_ID'] ) ) && empty( $_POST['rating'] ) && self::is_default_comment_type( $comment_data['comment_type'] ) && wc_review_ratings_enabled() && wc_review_ratings_required() ) { // WPCS: input var ok, CSRF ok.
 			wp_die( esc_html__( 'Please rate the product.', 'woocommerce' ) );
 			exit;
 		}
@@ -215,7 +226,7 @@ class WC_Comments {
 	}
 
 	/**
-	 * Remove order notes and webhook delivery logs from wp_count_comments().
+	 * Remove order notes, webhook delivery logs, and product reviews from wp_count_comments().
 	 *
 	 * @since  2.2
 	 * @param  object $stats   Comment stats.
@@ -238,7 +249,8 @@ class WC_Comments {
 					"
 					SELECT comment_approved, COUNT(*) AS num_comments
 					FROM {$wpdb->comments}
-					WHERE comment_type NOT IN ('action_log', 'order_note', 'webhook_delivery')
+					LEFT JOIN {$wpdb->posts} ON comment_post_ID = {$wpdb->posts}.ID
+					WHERE comment_type NOT IN ('action_log', 'order_note', 'webhook_delivery') AND {$wpdb->posts}.post_type NOT IN ('product')
 					GROUP BY comment_approved
 					",
 					ARRAY_A
@@ -288,6 +300,20 @@ class WC_Comments {
 	 */
 	public static function add_avatar_for_review_comment_type( $comment_types ) {
 		return array_merge( $comment_types, array( 'review' ) );
+	}
+
+	/**
+	 * Add Product Reviews filter for `review` comment type.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $comment_types Array of comment type labels keyed by their name.
+	 *
+	 * @return array
+	 */
+	public static function add_review_comment_filter( array $comment_types ): array {
+		$comment_types['review'] = __( 'Product Reviews', 'woocommerce' );
+		return $comment_types;
 	}
 
 	/**
@@ -341,6 +367,49 @@ class WC_Comments {
 	}
 
 	/**
+	 * Utility function for getting review counts for multiple products in one query. This is not cached.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $product_ids Array of product IDs.
+	 *
+	 * @return array
+	 */
+	public static function get_review_counts_for_product_ids( $product_ids ) {
+		global $wpdb;
+
+		if ( empty( $product_ids ) ) {
+			return array();
+		}
+
+		$product_id_string_placeholder = substr( str_repeat( ',%s', count( $product_ids ) ), 1 );
+
+		$review_counts = $wpdb->get_results(
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Ignored for allowing interpolation in IN query.
+			$wpdb->prepare(
+				"
+					SELECT comment_post_ID as product_id, COUNT( comment_post_ID ) as review_count
+					FROM $wpdb->comments
+					WHERE
+						comment_parent = 0
+						AND comment_post_ID IN ( $product_id_string_placeholder )
+						AND comment_approved = '1'
+						AND comment_type in ( 'review', '', 'comment' )
+					GROUP BY product_id
+				",
+				$product_ids
+			),
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared.
+			ARRAY_A
+		);
+
+		// Convert to key value pairs.
+		$counts = array_replace( array_fill_keys( $product_ids, 0 ), array_column( $review_counts, 'review_count', 'product_id' ) );
+
+		return $counts;
+	}
+
+	/**
 	 * Get product review count for a product (not replies). Please note this is not cached.
 	 *
 	 * @since 3.0.0
@@ -348,21 +417,9 @@ class WC_Comments {
 	 * @return int
 	 */
 	public static function get_review_count_for_product( &$product ) {
-		global $wpdb;
+		$counts = self::get_review_counts_for_product_ids( array( $product->get_id() ) );
 
-		$count = $wpdb->get_var(
-			$wpdb->prepare(
-				"
-			SELECT COUNT(*) FROM $wpdb->comments
-			WHERE comment_parent = 0
-			AND comment_post_ID = %d
-			AND comment_approved = '1'
-				",
-				$product->get_id()
-			)
-		);
-
-		return $count;
+		return $counts[ $product->get_id() ];
 	}
 
 	/**
@@ -406,11 +463,55 @@ class WC_Comments {
 	 * @return array
 	 */
 	public static function update_comment_type( $comment_data ) {
-		if ( ! is_admin() && isset( $_POST['comment_post_ID'], $comment_data['comment_type'] ) && '' === $comment_data['comment_type'] && 'product' === get_post_type( absint( $_POST['comment_post_ID'] ) ) ) { // WPCS: input var ok, CSRF ok.
+		if ( ! is_admin() && isset( $_POST['comment_post_ID'], $comment_data['comment_type'] ) && self::is_default_comment_type( $comment_data['comment_type'] ) && 'product' === get_post_type( absint( $_POST['comment_post_ID'] ) ) ) { // WPCS: input var ok, CSRF ok.
 			$comment_data['comment_type'] = 'review';
 		}
 
 		return $comment_data;
+	}
+
+	/**
+	 * Validate product reviews if requires a verified owner.
+	 *
+	 * @param int $comment_post_id Post ID.
+	 */
+	public static function validate_product_review_verified_owners( $comment_post_id ) {
+		// Only validate if option is enabled.
+		if ( 'yes' !== get_option( 'woocommerce_review_rating_verification_required' ) ) {
+			return;
+		}
+
+		// Validate only products.
+		if ( 'product' !== get_post_type( $comment_post_id ) ) {
+			return;
+		}
+
+		// Skip if is a verified owner.
+		if ( wc_customer_bought_product( '', get_current_user_id(), $comment_post_id ) ) {
+			return;
+		}
+
+		wp_die(
+			esc_html__( 'Only logged in customers who have purchased this product may leave a review.', 'woocommerce' ),
+			esc_html__( 'Reviews can only be left by "verified owners"', 'woocommerce' ),
+			array(
+				'code' => 403,
+			)
+		);
+	}
+
+	/**
+	 * Determines if a comment is of the default type.
+	 *
+	 * Prior to WordPress 5.5, '' was the default comment type.
+	 * As of 5.5, the default type is 'comment'.
+	 *
+	 * @since 4.3.0
+	 * @param string $comment_type Comment type.
+	 * @return bool
+	 */
+	private static function is_default_comment_type( $comment_type ) {
+		return ( '' === $comment_type || 'comment' === $comment_type );
 	}
 }
 

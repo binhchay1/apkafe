@@ -4,7 +4,7 @@
  *
  * Functions for handling terms/term meta.
  *
- * @package WooCommerce/Functions
+ * @package WooCommerce\Functions
  * @version 2.1.0
  */
 
@@ -295,7 +295,7 @@ add_action( 'wp_upgrade', 'wc_taxonomy_metadata_migrate_data', 10, 2 );
  *
  * @param int    $the_term Term ID.
  * @param int    $next_id  The id of the next sibling element in save hierarchy level.
- * @param string $taxonomy Taxnomy.
+ * @param string $taxonomy Taxonomy.
  * @param int    $index    Term index (default: 0).
  * @param mixed  $terms    List of terms. (default: null).
  * @return int
@@ -392,6 +392,19 @@ function wc_set_term_order( $term_id, $index, $taxonomy, $recursive = false ) {
 function _wc_term_recount( $terms, $taxonomy, $callback = true, $terms_are_term_taxonomy_ids = true ) {
 	global $wpdb;
 
+	/**
+	 * Filter to allow/prevent recounting of terms as it could be expensive.
+	 * A likely scenario for this is when bulk importing products. We could
+	 * then prevent it from recounting per product but instead recount it once
+	 * when import is done. Of course this means the import logic has to support this.
+	 *
+	 * @since 5.2
+	 * @param bool
+	 */
+	if ( ! apply_filters( 'woocommerce_product_recount_terms', true ) ) {
+		return;
+	}
+
 	// Standard callback.
 	if ( $callback ) {
 		_update_post_term_count( $terms, $taxonomy );
@@ -473,7 +486,8 @@ function _wc_term_recount( $terms, $taxonomy, $callback = true, $terms_are_term_
 		$term_query['join'] .= " INNER JOIN ( SELECT object_id FROM {$wpdb->term_relationships} INNER JOIN {$wpdb->term_taxonomy} using( term_taxonomy_id ) WHERE term_id IN ( " . implode( ',', array_map( 'absint', $terms_to_count ) ) . ' ) ) AS include_join ON include_join.object_id = p.ID';
 
 		// Get the count.
-		$count = $wpdb->get_var( implode( ' ', $term_query ) ); // WPCS: unprepared SQL ok.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$count = $wpdb->get_var( implode( ' ', $term_query ) );
 
 		// Update the count.
 		update_term_meta( $term_id, 'product_count_' . $taxonomy->name, absint( $count ) );
@@ -492,29 +506,7 @@ function wc_recount_after_stock_change( $product_id ) {
 		return;
 	}
 
-	$product_terms = get_the_terms( $product_id, 'product_cat' );
-
-	if ( $product_terms ) {
-		$product_cats = array();
-
-		foreach ( $product_terms as $term ) {
-			$product_cats[ $term->term_id ] = $term->parent;
-		}
-
-		_wc_term_recount( $product_cats, get_taxonomy( 'product_cat' ), false, false );
-	}
-
-	$product_terms = get_the_terms( $product_id, 'product_tag' );
-
-	if ( $product_terms ) {
-		$product_tags = array();
-
-		foreach ( $product_terms as $term ) {
-			$product_tags[ $term->term_id ] = $term->parent;
-		}
-
-		_wc_term_recount( $product_tags, get_taxonomy( 'product_tag' ), false, false );
-	}
+	_wc_recount_terms_by_product( $product_id );
 }
 add_action( 'woocommerce_product_set_stock_status', 'wc_recount_after_stock_change' );
 
@@ -528,7 +520,7 @@ add_action( 'woocommerce_product_set_stock_status', 'wc_recount_after_stock_chan
  * @return array
  */
 function wc_change_term_counts( $terms, $taxonomies ) {
-	if ( is_admin() || is_ajax() ) {
+	if ( is_admin() || wp_doing_ajax() ) {
 		return $terms;
 	}
 
@@ -537,11 +529,14 @@ function wc_change_term_counts( $terms, $taxonomies ) {
 	}
 
 	$o_term_counts = get_transient( 'wc_term_counts' );
-	$term_counts   = $o_term_counts;
+	$term_counts   = false === $o_term_counts ? array() : $o_term_counts;
 
 	foreach ( $terms as &$term ) {
 		if ( is_object( $term ) ) {
-			$term_counts[ $term->term_id ] = isset( $term_counts[ $term->term_id ] ) ? $term_counts[ $term->term_id ] : get_term_meta( $term->term_id, 'product_count_' . $taxonomies[0], true );
+			$term_counts[ $term->term_id ] =
+				isset( $term_counts[ $term->term_id ] ) ?
+					$term_counts[ $term->term_id ] :
+					get_term_meta( $term->term_id, 'product_count_' . $taxonomies[0], true );
 
 			if ( '' !== $term_counts[ $term->term_id ] ) {
 				$term->count = absint( $term_counts[ $term->term_id ] );
@@ -599,7 +594,7 @@ function wc_clear_term_product_ids( $object_id, $terms, $tt_ids, $taxonomy, $app
 add_action( 'set_object_terms', 'wc_clear_term_product_ids', 10, 6 );
 
 /**
- * Get full list of product visibilty term ids.
+ * Get full list of product visibility term ids.
  *
  * @since  3.0.0
  * @return int[]
@@ -635,4 +630,66 @@ function wc_get_product_visibility_term_ids() {
 			)
 		)
 	);
+}
+
+/**
+ * Recounts all terms.
+ *
+ * @since 5.2
+ * @return void
+ */
+function wc_recount_all_terms() {
+	$product_cats = get_terms(
+		'product_cat',
+		array(
+			'hide_empty' => false,
+			'fields'     => 'id=>parent',
+		)
+	);
+	_wc_term_recount( $product_cats, get_taxonomy( 'product_cat' ), true, false );
+	$product_tags = get_terms(
+		'product_tag',
+		array(
+			'hide_empty' => false,
+			'fields'     => 'id=>parent',
+		)
+	);
+	_wc_term_recount( $product_tags, get_taxonomy( 'product_tag' ), true, false );
+}
+
+/**
+ * Recounts terms by product.
+ *
+ * @since 5.2
+ * @param int $product_id The ID of the product.
+ * @return void
+ */
+function _wc_recount_terms_by_product( $product_id = '' ) {
+	if ( empty( $product_id ) ) {
+		return;
+	}
+
+	$product_terms = get_the_terms( $product_id, 'product_cat' );
+
+	if ( $product_terms ) {
+		$product_cats = array();
+
+		foreach ( $product_terms as $term ) {
+			$product_cats[ $term->term_id ] = $term->parent;
+		}
+
+		_wc_term_recount( $product_cats, get_taxonomy( 'product_cat' ), false, false );
+	}
+
+	$product_terms = get_the_terms( $product_id, 'product_tag' );
+
+	if ( $product_terms ) {
+		$product_tags = array();
+
+		foreach ( $product_terms as $term ) {
+			$product_tags[ $term->term_id ] = $term->parent;
+		}
+
+		_wc_term_recount( $product_tags, get_taxonomy( 'product_tag' ), false, false );
+	}
 }

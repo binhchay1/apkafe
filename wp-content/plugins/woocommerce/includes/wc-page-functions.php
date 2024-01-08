@@ -21,7 +21,8 @@ function wc_page_endpoint_title( $title ) {
 
 	if ( ! is_null( $wp_query ) && ! is_admin() && is_main_query() && in_the_loop() && is_page() && is_wc_endpoint_url() ) {
 		$endpoint       = WC()->query->get_current_endpoint();
-		$endpoint_title = WC()->query->get_endpoint_title( $endpoint );
+		$action         = isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : '';
+		$endpoint_title = WC()->query->get_endpoint_title( $endpoint, $action );
 		$title          = $endpoint_title ? $endpoint_title : $title;
 
 		remove_filter( 'the_title', 'wc_page_endpoint_title' );
@@ -132,8 +133,8 @@ function wc_nav_menu_items( $items ) {
 				if ( empty( $item->url ) ) {
 					continue;
 				}
-				$path  = wp_parse_url( $item->url, PHP_URL_PATH );
-				$query = wp_parse_url( $item->url, PHP_URL_QUERY );
+				$path  = wp_parse_url( $item->url, PHP_URL_PATH ) ?? '';
+				$query = wp_parse_url( $item->url, PHP_URL_QUERY ) ?? '';
 
 				if ( strstr( $path, $customer_logout ) || strstr( $query, $customer_logout ) ) {
 					unset( $items[ $key ] );

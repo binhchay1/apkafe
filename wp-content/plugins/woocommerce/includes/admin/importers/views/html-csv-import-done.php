@@ -30,6 +30,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 			);
 		}
 
+		if ( 0 < $imported_variations ) {
+			$results[] = sprintf(
+				/* translators: %d: products count */
+				_n( '%s variations imported', '%s variations imported', $imported_variations, 'woocommerce' ),
+				'<strong>' . number_format_i18n( $imported_variations ) . '</strong>'
+			);
+		}
+
 		if ( 0 < $skipped ) {
 			$results[] = sprintf(
 				/* translators: %d: products count */
@@ -48,6 +56,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		if ( 0 < $failed || 0 < $skipped ) {
 			$results[] = '<a href="#" class="woocommerce-importer-done-view-errors">' . __( 'View import log', 'woocommerce' ) . '</a>';
+		}
+
+		if ( ! empty( $file_name ) ) {
+			$results[] = sprintf(
+				/* translators: %s: File name */
+				__( 'File uploaded: %s', 'woocommerce' ),
+				'<strong>' . $file_name . '</strong>'
+			);
 		}
 
 		/* translators: %d: import results */
@@ -73,7 +89,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						?>
 						<tr>
 							<th><code><?php echo esc_html( $error_data['row'] ); ?></code></th>
-							<td><?php echo esc_html( $error->get_error_message() ); ?></td>
+							<td><?php echo wp_kses_post( $error->get_error_message() ); ?></td>
 						</tr>
 						<?php
 					}

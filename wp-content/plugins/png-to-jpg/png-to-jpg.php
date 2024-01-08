@@ -1,27 +1,24 @@
 <?php
 /*
 	Plugin Name: PNG to JPG
-	Plugin URI: https://kubiq.sk
+	Plugin URI: https://wp-speedup.eu
 	Description: Convert PNG images to JPG, free up web space and speed up your webpage
-	Version: 4.1
+	Version: 4.3
 	Author: KubiQ
-	Author URI: https://kubiq.sk
+	Author URI: https://www.paypal.me/jakubnovaksl
 	Text Domain: png_to_jpg
 	Domain Path: /languages
 */
 
 /*
 ** TODO
-** - js show when image was not converted and do not hide it
-** - pagination
-** - show progress of converting
-** - restore PNG version
-** - use more try-catch to prevent server errors
+** - restore PNG version?
 */
 
 class png_to_jpg{
 	var $plugin_admin_page;
 	var $settings;
+	var $db_tables;
 	var $tab;
 	var $image;
 	var $converted_stats;
@@ -119,7 +116,8 @@ class png_to_jpg{
 					'jpg_quality' => '90',
 					'only_lower' => 'checked',
 					'leave_original' => 'checked',
-					'autodetect' => 'checked'
+					'autodetect' => 'checked',
+					'images_per_page' => '-1'
 				)
 			);
 			update_option( 'png_to_jpg_settings', $defaults );
@@ -163,8 +161,22 @@ class png_to_jpg{
 	}
 
 	function admin_options_page(){
+		global $wpdb;
 		if( get_current_screen()->id != $this->plugin_admin_page ) return;
 		$this->tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general';
+
+		if( $this->tab == 'general' && isset( $_GET['yoast_reindex_everything'] ) ){
+			$wpdb->query("DELETE FROM {$wpdb->prefix}yoast_indexable");
+			$wpdb->query("DELETE FROM {$wpdb->prefix}yoast_indexable_hierarchy");
+			delete_transient('wpseo_total_unindexed_post_type_archives');
+			delete_transient('wpseo_total_unindexed_general_items');
+			delete_transient('wpseo_total_unindexed_posts');
+			delete_transient('wpseo_total_unindexed_terms');
+			delete_transient('wpseo_unindexed_post_link_count');
+			delete_transient('wpseo_unindexed_term_link_count');
+			wp_safe_redirect( admin_url('admin.php?page=wpseo_tools') );
+		}
+		
 		if( isset( $_POST['plugin_sent'] ) && check_admin_referer( 'save_these_settings_' . get_current_user_id(), 'settings_nonce' ) ){
 			
 			$this->settings = array( 'general' => array() );
@@ -178,6 +190,7 @@ class png_to_jpg{
 			if( isset( $_POST['only_lower'] ) ) $this->settings['general']['only_lower'] = 'checked';
 			if( isset( $_POST['leave_original'] ) ) $this->settings['general']['leave_original'] = 'checked';
 			if( isset( $_POST['autodetect'] ) ) $this->settings['general']['autodetect'] = 'checked';
+			if( isset( $_POST['images_per_page'] ) ) $this->settings['general']['images_per_page'] = intval( $_POST['images_per_page'] );
 
 			update_option( 'png_to_jpg_settings', $this->settings );
 		} ?>
@@ -272,6 +285,15 @@ class png_to_jpg{
 					<input type="checkbox" name="autodetect" value="checked" id="q_field_4" <?php echo isset( $this->settings['general']['autodetect'] ) ? $this->settings['general']['autodetect'] : '' ?>>
 				</td>
 			</tr>
+			<tr>
+				<th>
+					<label for="q_field_5"><?php _e( 'Images per page in Convert existing tab', 'png_to_jpg' ) ?></label> 
+					<br><small>( -1 means no pagination )</small> 
+				</th>
+				<td>
+					<input type="number" name="images_per_page" min="-1" value="<?php echo isset( $this->settings['general']['images_per_page'] ) ? intval( $this->settings['general']['images_per_page'] ) : '-1' ?>" id="q_field_5">
+				</td>
+			</tr>
 		</table>
 		<p class="submit"><input type="submit" class="button button-primary button-large" value="<?php _e('Save') ?>"></p><?php
 	}
@@ -280,14 +302,15 @@ class png_to_jpg{
 		global $wpdb;
 		$nonce = wp_create_nonce('convert_old_png');
 		wp_enqueue_media();
+		$paged = isset( $_GET['paged'] ) && intval( $_GET['paged'] ) ? intval( $_GET['paged'] ) : 1;
 		$query_images = new WP_Query(array(
 			'post_type' => 'attachment',
 			'post_mime_type' => 'image/png',
 			'post_status' => 'inherit',
-			'posts_per_page' => -1,
-			'no_found_rows' => 1
+			'posts_per_page' => $this->settings['general']['images_per_page'],
+			'paged' => $paged,
 		)); ?>
-		<div class="below-h2 error"><p><?php _e( 'Do you have backup? This operation will alter your original images and cannot be undone!', 'png_to_jpg' ) ?></p></div>
+		<div class="below-h2 error"><p><strong><?php _e( 'Do you have BACKUP? This operation will alter your original images and cannot be undone!', 'png_to_jpg' ) ?></strong></p></div>
 		<div class="below-h2 error">
 			<p>
 				<?php _e( 'Converted images will be fixed only in these tables:', 'png_to_jpg' ) ?> 
@@ -295,6 +318,12 @@ class png_to_jpg{
 				<?php _e( 'If you need support for more database tables from various plugins, let me know by mail to info@kubiq.sk', 'png_to_jpg' ) ?>
 			</p>
 		</div>
+		<?php if( defined('WPSEO_VERSION') ): ?>
+			<div class="below-h2 notice notice-large notice-warning" style="display:flex;align-items:center;gap:20px;justify-content:space-between;flex-wrap:wrap">
+				<p><strong><?php _e( 'You are using Yoast SEO plugin and you will need to reindex everything after conversion of existing images.', 'png_to_jpg' ) ?></strong></p>
+				<a href="#" id="yoast_reindex_everything" class="button"><?php _e( 'Reindex everything', 'png_to_jpg' ) ?></a>
+			</div>
+		<?php endif ?>
 		<?php if( isset( $this->settings['general']['autodetect'] ) ): ?>
 			<div id="transparency_status_message" class="below-h2 updated">
 				<button type="button" class="button right" style="margin-top:4px">
@@ -304,12 +333,19 @@ class png_to_jpg{
 			</div>
 		<?php endif ?>
 		<br>
-		<button type="button" class="button button-primary convert-pngs"><?php _e( 'Convert selected PNGs', 'png_to_jpg' ) ?></button>
-		&emsp;
-		<button type="button" class="button button-default select-transparent"><?php _e( 'Select all transparent PNGs', 'png_to_jpg' ) ?></button>
-		&emsp;
-		<button type="button" class="button button-default select-non-transparent"><?php _e( 'Select all non-transparent PNGs', 'png_to_jpg' ) ?></button>
-		<br><br>
+		<div style="display:flex;align-items:center;gap:20px">
+			<button type="button" class="button button-primary convert-pngs"><?php _e( 'Convert selected PNGs', 'png_to_jpg' ) ?></button>
+			<button type="button" class="button button-default select-transparent"><?php _e( 'Select all transparent PNGs', 'png_to_jpg' ) ?></button>
+			<button type="button" class="button button-default select-non-transparent"><?php _e( 'Select all non-transparent PNGs', 'png_to_jpg' ) ?></button>
+			<?php if( $query_images->max_num_pages ): ?>
+				<div style="display:flex;align-items:center;flex-wrap:wrap;gap:2px;margin-left:auto">
+					<?php for( $i = 1; $i <= $query_images->max_num_pages; $i++ ){
+						echo '<a href="' . admin_url( sprintf( 'upload.php?%s', http_build_query( array_merge( $_GET, [ 'paged' => $i ] ) ) ) ) . '" class="button button-' . ( $i == $paged ? 'primary' : 'default' ) . '">' . $i . '</a>';
+					} ?>
+				</div>
+			<?php endif ?>
+		</div>
+		<br>
 		<table class="wp-list-table widefat striped media">
 			<thead>
 				<tr>
@@ -355,11 +391,19 @@ class png_to_jpg{
 			</tbody>
 		</table>
 		<br>
-		<button type="button" class="button button-primary convert-pngs"><?php _e( 'Convert selected PNGs', 'png_to_jpg' ) ?></button>
-		&emsp;
-		<button type="button" class="button button-default select-transparent"><?php _e( 'Select all transparent PNGs', 'png_to_jpg' ) ?></button>
-		&emsp;
-		<button type="button" class="button button-default select-non-transparent"><?php _e( 'Select all non-transparent PNGs', 'png_to_jpg' ) ?></button>
+
+		<div style="display:flex;align-items:center;gap:20px">
+			<button type="button" class="button button-primary convert-pngs"><?php _e( 'Convert selected PNGs', 'png_to_jpg' ) ?></button>
+			<button type="button" class="button button-default select-transparent"><?php _e( 'Select all transparent PNGs', 'png_to_jpg' ) ?></button>
+			<button type="button" class="button button-default select-non-transparent"><?php _e( 'Select all non-transparent PNGs', 'png_to_jpg' ) ?></button>
+			<?php if( $query_images->max_num_pages ): ?>
+				<div style="display:flex;align-items:center;flex-wrap:wrap;gap:2px;margin-left:auto">
+					<?php for( $i = 1; $i <= $query_images->max_num_pages; $i++ ){
+						echo '<a href="' . admin_url( sprintf( 'upload.php?%s', http_build_query( array_merge( $_GET, [ 'paged' => $i ] ) ) ) ) . '" class="button button-' . ( $i == $paged ? 'primary' : 'default' ) . '">' . $i . '</a>';
+					} ?>
+				</div>
+			<?php endif ?>
+		</div>
 
 		<div id="png_preview" class="media-modal" style="display:none">
 			<button type="button" class="button-link media-modal-close"><span class="media-modal-icon"></span></button>
@@ -456,9 +500,19 @@ class png_to_jpg{
 		</style>
 
 		<script>
-			jQuery(document).ready(function($) {
-				$('.has-media-icon a').click(function(event) {
-					event.preventDefault();
+			jQuery(document).ready(function($){
+				$('#yoast_reindex_everything').on('click', function(e){
+					e.preventDefault();
+					if( confirm('<?php esc_attr_e( 'This will empty yoast indexable database tables and redirect you to Yoast SEO where you need to click on Start SEO data optimization', 'png_to_jpg' ) ?>') ){
+						const link = new URL( location.href );
+						link.searchParams.set( 'tab', 'general' );
+						link.searchParams.set( 'yoast_reindex_everything', 1 );
+						location.href = link.href;
+					}
+				});
+
+				$('.has-media-icon a').click(function(e){
+					e.preventDefault();
 					$('#png_preview .media-wrapper').html('<span></span><img src="' + this.href + '" alt="">');
 					$('<img/>', {
 						load: function(){
@@ -468,36 +522,36 @@ class png_to_jpg{
 					});
 					$('#png_preview').show();
 				});
-				$(document).keyup(function(event) {
+				$(document).keyup(function(e){
 					if( $('#png_preview').is(':visible') ){
-						var keycode = ( event.keyCode ? event.keyCode : event.which );
+						var keycode = ( e.keyCode ? e.keyCode : e.which );
 						if( keycode == 27 ){
 							$('#png_preview').hide();
 						}
 					}
 				});
-				$('#png-background-switch a').click(function(event) {
-					event.preventDefault();
+				$('#png-background-switch a').click(function(e){
+					e.preventDefault();
 					$('#png-background-switch a').removeClass('active');
 					$(this).addClass('active');
 					$('#png_preview .media-frame-content').removeClass('bg-chess bg-white bg-black').addClass( $(this).attr('class') );
 				});
-				$('#png_preview .media-modal-close').click(function(event) {
-					event.preventDefault();
+				$('#png_preview .media-modal-close').click(function(e){
+					e.preventDefault();
 					$('#png_preview').hide();
 				});
-				$('.select-transparent').click(function(event) {
-					event.preventDefault();
+				$('.select-transparent').click(function(e){
+					e.preventDefault();
 					$('tr[data-transparency] input').prop( 'checked', false );
 					$('tr[data-transparency=1] input').prop( 'checked', true );
 				});
-				$('.select-non-transparent').click(function(event) {
-					event.preventDefault();
+				$('.select-non-transparent').click(function(e){
+					e.preventDefault();
 					$('tr[data-transparency] input').prop( 'checked', false );
 					$('tr[data-transparency=0] input').prop( 'checked', true );
 				});
-				$('.convert-pngs').click(function(event) {
-					event.preventDefault();
+				$('.convert-pngs').click(function(e){
+					e.preventDefault();
 					$('#transparency_status_message span').text('<?php _e( 'Please wait, converting your PNG images is in progress...', 'png_to_jpg' ) ?>');
 					$('#transparency_status_message').show();
 					$('tbody tr input').prop( 'disabled', true );
@@ -547,14 +601,16 @@ class png_to_jpg{
 							nonce: '<?php echo $nonce ?>'
 						}, function(){
 							$tr.remove();
+						}).fail(function(){
+							$el.prop( 'checked', false );
+							alert( 'Your server is not powerful enough to process image ' + $.trim( $tr.find('.filename').text() ) );
+						}).always(function(){
 							if( stopPNGtoJPG ){
 								$('#transparency_status_message').html('<p><?php _e('Done') ?>.</p>');
 								$('tbody tr input').prop('disabled', false);
 							}else{
 								delete_selected_pngs();
 							}
-						}).fail(function(){
-							alert( 'Your server is not powerful enough to process image ' + $.trim( $tr.find('.filename').text() ) );
 						});
 					}else{
 						$('#transparency_status_message').html('<p><?php _e('Done') ?>.</p>');

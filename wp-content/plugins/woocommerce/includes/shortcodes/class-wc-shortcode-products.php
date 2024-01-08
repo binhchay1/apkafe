@@ -2,7 +2,7 @@
 /**
  * Products shortcode
  *
- * @package  WooCommerce/Shortcodes
+ * @package  WooCommerce\Shortcodes
  * @version  3.2.4
  */
 
@@ -84,7 +84,7 @@ class WC_Shortcode_Products {
 	 * Get shortcode type.
 	 *
 	 * @since  3.2.0
-	 * @return array
+	 * @return string
 	 */
 	public function get_type() {
 		return $this->type;
@@ -507,7 +507,7 @@ class WC_Shortcode_Products {
 	}
 
 	/**
-	 * Set product as visible when quering for hidden products.
+	 * Set product as visible when querying for hidden products.
 	 *
 	 * @since  3.2.0
 	 * @param  bool $visibility Product visibility.
@@ -521,7 +521,7 @@ class WC_Shortcode_Products {
 	 * Get wrapper classes.
 	 *
 	 * @since  3.2.0
-	 * @param  array $columns Number of columns.
+	 * @param  int $columns Number of columns.
 	 * @return array
 	 */
 	protected function get_wrapper_classes( $columns ) {
@@ -653,7 +653,7 @@ class WC_Shortcode_Products {
 					$GLOBALS['post'] = get_post( $product_id ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 					setup_postdata( $GLOBALS['post'] );
 
-					// Set custom product visibility when quering hidden products.
+					// Set custom product visibility when querying hidden products.
 					add_action( 'woocommerce_product_is_visible', array( $this, 'set_product_as_visible' ) );
 
 					// Render product template.

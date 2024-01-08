@@ -35,7 +35,7 @@ if ( ! empty( $_REQUEST['paged'] ) ) {
 	$referer = add_query_arg( 'paged', (int) $_REQUEST['paged'], $referer );
 }
 
-$id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
+$id = isset( $_REQUEST['id'] ) ? (int) $_REQUEST['id'] : 0;
 
 if ( ! $id ) {
 	wp_die( __( 'Invalid site ID.' ) );
@@ -77,6 +77,7 @@ if ( $action ) {
 						$update = 'err_add_fail';
 					} else {
 						$update = 'newuser';
+
 						/**
 						 * Fires after a user has been created via the network site-users.php page.
 						 *
@@ -139,12 +140,7 @@ if ( $action ) {
 		case 'promote':
 			check_admin_referer( 'bulk-users' );
 			$editable_roles = get_editable_roles();
-			$role           = false;
-			if ( ! empty( $_REQUEST['new_role2'] ) ) {
-				$role = $_REQUEST['new_role2'];
-			} elseif ( ! empty( $_REQUEST['new_role'] ) ) {
-				$role = $_REQUEST['new_role'];
-			}
+			$role           = $_REQUEST['new_role'];
 
 			if ( empty( $editable_roles[ $role ] ) ) {
 				wp_die( __( 'Sorry, you are not allowed to give users that role.' ), 403 );
@@ -178,25 +174,28 @@ if ( $action ) {
 			}
 			check_admin_referer( 'bulk-users' );
 			$userids = $_REQUEST['users'];
+
 			/** This action is documented in wp-admin/network/site-themes.php */
 			$referer = apply_filters( 'handle_network_bulk_actions-' . get_current_screen()->id, $referer, $action, $userids, $id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-			$update  = $action;
+
+			$update = $action;
 			break;
 	}
 
 	wp_safe_redirect( add_query_arg( 'update', $update, $referer ) );
-	exit();
+	exit;
 }
 
 restore_current_blog();
 
-if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
+if ( isset( $_GET['action'] ) && 'update-site' === $_GET['action'] ) {
 	wp_safe_redirect( $referer );
-	exit();
+	exit;
 }
 
 add_screen_option( 'per_page' );
 
+// Used in the HTML title tag.
 /* translators: %s: Site title. */
 $title = sprintf( __( 'Edit Site: %s' ), esc_html( $details->blogname ) );
 
@@ -214,10 +213,11 @@ if ( ! wp_is_large_network( 'users' ) && apply_filters( 'show_network_site_users
 	wp_enqueue_script( 'user-suggest' );
 }
 
-require_once ABSPATH . 'wp-admin/admin-header.php'; ?>
+require_once ABSPATH . 'wp-admin/admin-header.php';
+?>
 
 <script type="text/javascript">
-var current_site_id = <?php echo $id; ?>;
+var current_site_id = <?php echo absint( $id ); ?>;
 </script>
 
 
@@ -234,41 +234,57 @@ network_edit_site_nav(
 );
 
 if ( isset( $_GET['update'] ) ) :
+	$message = '';
+	$type    = 'error';
+
 	switch ( $_GET['update'] ) {
 		case 'adduser':
-			echo '<div id="message" class="updated notice is-dismissible"><p>' . __( 'User added.' ) . '</p></div>';
+			$type    = 'success';
+			$message = __( 'User added.' );
 			break;
 		case 'err_add_member':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'User is already a member of this site.' ) . '</p></div>';
+			$message = __( 'User is already a member of this site.' );
 			break;
 		case 'err_add_fail':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'User could not be added to this site.' ) . '</p></div>';
+			$message = __( 'User could not be added to this site.' );
 			break;
 		case 'err_add_notfound':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Enter the username of an existing user.' ) . '</p></div>';
+			$message = __( 'Enter the username of an existing user.' );
 			break;
 		case 'promote':
-			echo '<div id="message" class="updated notice is-dismissible"><p>' . __( 'Changed roles.' ) . '</p></div>';
+			$type    = 'success';
+			$message = __( 'Changed roles.' );
 			break;
 		case 'err_promote':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Select a user to change role.' ) . '</p></div>';
+			$message = __( 'Select a user to change role.' );
 			break;
 		case 'remove':
-			echo '<div id="message" class="updated notice is-dismissible"><p>' . __( 'User removed from this site.' ) . '</p></div>';
+			$type    = 'success';
+			$message = __( 'User removed from this site.' );
 			break;
 		case 'err_remove':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Select a user to remove.' ) . '</p></div>';
+			$message = __( 'Select a user to remove.' );
 			break;
 		case 'newuser':
-			echo '<div id="message" class="updated notice is-dismissible"><p>' . __( 'User created.' ) . '</p></div>';
+			$type    = 'success';
+			$message = __( 'User created.' );
 			break;
 		case 'err_new':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Enter the username and email.' ) . '</p></div>';
+			$message = __( 'Enter the username and email.' );
 			break;
 		case 'err_new_dup':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Duplicated username or email address.' ) . '</p></div>';
+			$message = __( 'Duplicated username or email address.' );
 			break;
 	}
+
+	wp_admin_notice(
+		$message,
+		array(
+			'type'        => $type,
+			'dismissible' => true,
+			'id'          => 'message',
+		)
+	);
 endif;
 ?>
 
@@ -332,7 +348,7 @@ if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_us
 if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) :
 	?>
 <h2 id="add-new-user"><?php _e( 'Add New User' ); ?></h2>
-<form action="<?php echo network_admin_url( 'site-users.php?action=newuser' ); ?>" id="newuser" method="post">
+<form action="<?php echo esc_url( network_admin_url( 'site-users.php?action=newuser' ) ); ?>" id="newuser" method="post">
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
 	<table class="form-table" role="presentation">
 		<tr>

@@ -9,6 +9,7 @@
  * Class WPCode_Metabox_Snippets_Lite.
  */
 class WPCode_Metabox_Snippets_Lite extends WPCode_Metabox_Snippets {
+	use WPCode_Revisions_Display_Lite;
 
 	/**
 	 * Override the header tab content to make it specific to this class.
@@ -291,6 +292,36 @@ class WPCode_Metabox_Snippets_Lite extends WPCode_Metabox_Snippets {
 			array(
 				'text' => esc_html__( 'Learn more about all the features', 'insert-headers-and-footers' ),
 				'url'  => esc_url( wpcode_utm_url( 'https://wpcode.com/lite/', 'post-editor-metabox', 'main-' . sanitize_title( $label ), 'features' ) ),
+			)
+		);
+	}
+
+	/**
+	 * Override the revisions tab content to make it specific to this class.
+	 *
+	 * @param WP_Post $post The post object.
+	 *
+	 * @return void
+	 */
+	public function output_tab_revisions( $post ) {
+		printf(
+			'<p>%s</p>',
+			esc_html__( 'As you make changes to your page scripts and save, you will get a list of previous versions with all the changes made in each revision. You can compare revisions to the current version or see changes as they have been saved by going through each revision. Any of the revisions can then be restored as needed without interfering with your post/page.', 'wpcode-premium' )
+		);
+
+		echo $this->code_revisions_list_with_notice(
+			esc_html__( 'Code Revisions is a Pro Feature', 'insert-headers-and-footers' ),
+			sprintf(
+				'<p>%s</p>',
+				esc_html__( 'Upgrade to WPCode Pro today and start tracking revisions and see exactly who, when and which changes were made to your page scripts.', 'insert-headers-and-footers' )
+			),
+			array(
+				'text' => esc_html__( 'Upgrade to Pro and Unlock Revisions', 'insert-headers-and-footers' ),
+				'url'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'page-scripts', 'revisions', 'upgrade-to-pro' ),
+			),
+			array(
+				'text' => esc_html__( 'Learn more about all the features', 'insert-headers-and-footers' ),
+				'url'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'page-scripts', 'revisions', 'features' ),
 			)
 		);
 	}

@@ -101,6 +101,7 @@ class YasrShortcodesAjax {
         }
 
         die(); // this is required to return a proper result
+
     }
 
     /**

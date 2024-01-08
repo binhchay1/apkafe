@@ -6,6 +6,7 @@
  */
 
 use Automattic\Jetpack\Constants;
+use Automattic\WooCommerce\Utilities\NumberUtil;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -40,7 +41,7 @@ class WC_Tracks_Client {
 	}
 
 	/**
-	 * Check if identiy cookie is set, if not set it.
+	 * Check if identity cookie is set, if not set it.
 	 *
 	 * @return void
 	 */
@@ -124,12 +125,12 @@ class WC_Tracks_Client {
 	}
 
 	/**
-	 * Create a timestap representing milliseconds since 1970-01-01
+	 * Create a timestamp representing milliseconds since 1970-01-01
 	 *
 	 * @return string A string representing a timestamp.
 	 */
 	public static function build_timestamp() {
-		$ts = round( microtime( true ) * 1000 );
+		$ts = NumberUtil::round( microtime( true ) * 1000 );
 
 		return number_format( $ts, 0, '', '' );
 	}
@@ -201,6 +202,7 @@ class WC_Tracks_Client {
 					$binary .= chr( wp_rand( 0, 255 ) );
 				}
 
+				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 				$anon_id = 'woo:' . base64_encode( $binary );
 			}
 		}

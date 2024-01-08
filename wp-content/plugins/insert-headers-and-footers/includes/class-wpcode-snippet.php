@@ -220,6 +220,8 @@ class WPCode_Snippet {
 	 * @param array|int|WP_Post $snippet Load a snippet by id, WP_Post or array.
 	 */
 	public function __construct( $snippet ) {
+		$snippet = apply_filters( 'wpcode_load_snippet', $snippet );
+
 		if ( is_int( $snippet ) ) {
 			$this->load_from_id( $snippet );
 		} elseif ( $snippet instanceof WP_Post ) {
@@ -426,6 +428,13 @@ class WPCode_Snippet {
 	 * @return int|false
 	 */
 	public function save() {
+
+		// Allow to prevent saving the snippet.
+		$pre_save = apply_filters( 'wpcode_pre_save_snippet', false, $this );
+		if ( false !== $pre_save ) {
+			return $pre_save;
+		}
+
 		$post_args = array(
 			'post_type' => $this->post_type,
 		);
@@ -667,6 +676,12 @@ class WPCode_Snippet {
 	 */
 	public function force_deactivate() {
 		global $wpdb;
+
+		// Add a filter so we can hijack the deactivate logic if needed.
+		$force_deactivate = apply_filters( 'wpcode_force_deactivate_snippet', false, $this );
+		if ( false !== $force_deactivate ) {
+			return;
+		}
 
 		// We need to make a direct call as using wp_update_post will load the post content and if the current user
 		// doesn't have the unfiltered_html capability, the code will be changed unexpectedly.
@@ -1071,6 +1086,9 @@ class WPCode_Snippet {
 		$this->title = $this->get_title() . ' - Copy';
 		// Make sure the snippet is not active.
 		$this->post_data->post_status = 'draft';
+
+		// Let's make sure the slashes don't get removed from the code.
+		$this->code = wp_slash( $this->code );
 		/**
 		 * Fires before a snippet that is about to be duplicated is saved.
 		 *
@@ -1087,5 +1105,14 @@ class WPCode_Snippet {
 		 * @param WPCode_Snippet $snippet The snippet object.
 		 */
 		do_action( 'wpcode_after_snippet_duplicated', $this );
+	}
+
+	/**
+	 * Get the edit url for this snippet.
+	 *
+	 * @return string
+	 */
+	public function get_edit_url() {
+		return admin_url( 'admin.php?page=wpcode-snippet-manager&snippet_id=' . absint( $this->get_id() ) );
 	}
 }

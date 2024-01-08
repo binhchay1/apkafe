@@ -3,7 +3,7 @@
 * Plugin Name: Ad Auto Insert H
 * Plugin URI:https://tabibitojin.com/ad-auto-insert-h
 * Description:Automatically inserts ad codes of Google AdSense before H tags, before the first H tag and at the end of a post or a page. Lazy Load of ads to speed up page display is available. Insertion of AdSense Auto Ads code and Google Analytics code can be set as well.
-* Version: 1.4.0
+* Version: 1.6.1
 * Author: Jin Koyama
 * Author URI:https://tabibitojin.com
 * License: GPLv2 or later

@@ -146,6 +146,8 @@ abstract class WPCode_Admin_Bar_Info {
 			)
 		);
 
+		do_action( 'wpcode_admin_bar_info_top', $wp_admin_bar );
+
 		if ( ! empty( $error_count ) ) {
 			$wp_admin_bar->add_menu(
 				array(

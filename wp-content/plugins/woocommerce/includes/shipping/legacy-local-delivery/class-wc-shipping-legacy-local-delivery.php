@@ -16,9 +16,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @deprecated  2.6.0
  * @version     2.3.0
- * @package     WooCommerce/Classes/Shipping
+ * @package     WooCommerce\Classes\Shipping
  */
 class WC_Shipping_Legacy_Local_Delivery extends WC_Shipping_Local_Pickup {
+
+	/**
+	 * Shipping method fee type.
+	 *
+	 * How to calculate delivery charges.
+	 *
+	 * @var string
+	 */
+	public $type;
+
+	/**
+	 * Allowed post/zip codes for the shipping method.
+	 *
+	 * @var string
+	 */
+	public $codes;
 
 	/**
 	 * Constructor.
@@ -66,7 +82,6 @@ class WC_Shipping_Legacy_Local_Delivery extends WC_Shipping_Local_Pickup {
 		$this->title        = $this->get_option( 'title' );
 		$this->type         = $this->get_option( 'type' );
 		$this->fee          = $this->get_option( 'fee' );
-		$this->type         = $this->get_option( 'type' );
 		$this->codes        = $this->get_option( 'codes' );
 		$this->availability = $this->get_option( 'availability' );
 		$this->countries    = $this->get_option( 'countries' );

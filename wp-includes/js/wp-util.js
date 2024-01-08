@@ -16,9 +16,9 @@ window.wp = window.wp || {};
 	 *
 	 * Fetch a JavaScript template for an id, and return a templating function for it.
 	 *
-	 * @param  {string} id   A string that corresponds to a DOM element with an id prefixed with "tmpl-".
-	 *                       For example, "attachment" maps to "tmpl-attachment".
-	 * @return {function}    A function that lazily-compiles the template requested.
+	 * @param {string} id A string that corresponds to a DOM element with an id prefixed with "tmpl-".
+	 *                    For example, "attachment" maps to "tmpl-attachment".
+	 * @return {function} A function that lazily-compiles the template requested.
 	 */
 	wp.template = _.memoize(function ( id ) {
 		var compiled,
@@ -36,6 +36,9 @@ window.wp = window.wp || {};
 			};
 
 		return function ( data ) {
+			if ( ! document.getElementById( 'tmpl-' + id ) ) {
+				throw new Error( 'Template not found: ' + '#tmpl-' + id );
+			}
 			compiled = compiled || _.template( $( '#tmpl-' + id ).html(),  options );
 			return compiled( data );
 		};
@@ -56,11 +59,11 @@ window.wp = window.wp || {};
 		 *
 		 * Sends a POST request to WordPress.
 		 *
-		 * @param  {(string|object)} action  The slug of the action to fire in WordPress or options passed
-		 *                                   to jQuery.ajax.
-		 * @param  {object=}         data    Optional. The data to populate $_POST with.
-		 * @return {$.promise}     A jQuery promise that represents the request,
-		 *                         decorated with an abort() method.
+		 * @param {(string|Object)} action The slug of the action to fire in WordPress or options passed
+		 *                                 to jQuery.ajax.
+		 * @param {Object=}         data   Optional. The data to populate $_POST with.
+		 * @return {$.promise} A jQuery promise that represents the request,
+		 *                     decorated with an abort() method.
 		 */
 		post: function( action, data ) {
 			return wp.ajax.send({
@@ -73,11 +76,11 @@ window.wp = window.wp || {};
 		 *
 		 * Sends a POST request to WordPress.
 		 *
-		 * @param  {(string|object)} action  The slug of the action to fire in WordPress or options passed
-		 *                                   to jQuery.ajax.
-		 * @param  {object=}         options Optional. The options passed to jQuery.ajax.
-		 * @return {$.promise}      A jQuery promise that represents the request,
-		 *                          decorated with an abort() method.
+		 * @param {(string|Object)} action  The slug of the action to fire in WordPress or options passed
+		 *                                  to jQuery.ajax.
+		 * @param {Object=}         options Optional. The options passed to jQuery.ajax.
+		 * @return {$.promise} A jQuery promise that represents the request,
+		 *                     decorated with an abort() method.
 		 */
 		send: function( action, options ) {
 			var promise, deferred;
@@ -115,6 +118,22 @@ window.wp = window.wp || {};
 					}
 
 					if ( _.isObject( response ) && ! _.isUndefined( response.success ) ) {
+
+						// When handling a media attachments request, get the total attachments from response headers.
+						var context = this;
+						deferred.done( function() {
+							if (
+								action &&
+								action.data &&
+								'query-attachments' === action.data.action &&
+								deferred.jqXHR.hasOwnProperty( 'getResponseHeader' ) &&
+								deferred.jqXHR.getResponseHeader( 'X-WP-Total' )
+							) {
+								context.totalAttachments = parseInt( deferred.jqXHR.getResponseHeader( 'X-WP-Total' ), 10 );
+							} else {
+								context.totalAttachments = 0;
+							}
+						} );
 						deferred[ response.success ? 'resolveWith' : 'rejectWith' ]( this, [response.data] );
 					} else {
 						deferred.rejectWith( this, [response] );

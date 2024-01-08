@@ -40,7 +40,7 @@ if ( ! empty( $_REQUEST['paged'] ) ) {
 	$referer = add_query_arg( 'paged', (int) $_REQUEST['paged'], $referer );
 }
 
-$id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
+$id = isset( $_REQUEST['id'] ) ? (int) $_REQUEST['id'] : 0;
 
 if ( ! $id ) {
 	wp_die( __( 'Invalid site ID.' ) );
@@ -158,21 +158,23 @@ if ( $action ) {
 	exit;
 }
 
-if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
+if ( isset( $_GET['action'] ) && 'update-site' === $_GET['action'] ) {
 	wp_safe_redirect( $referer );
-	exit();
+	exit;
 }
 
 add_thickbox();
 add_screen_option( 'per_page' );
 
+// Used in the HTML title tag.
 /* translators: %s: Site title. */
 $title = sprintf( __( 'Edit Site: %s' ), esc_html( $details->blogname ) );
 
 $parent_file  = 'sites.php';
 $submenu_file = 'sites.php';
 
-require_once ABSPATH . 'wp-admin/admin-header.php'; ?>
+require_once ABSPATH . 'wp-admin/admin-header.php';
+?>
 
 <div class="wrap">
 <h1 id="edit-site"><?php echo $title; ?></h1>
@@ -188,24 +190,47 @@ network_edit_site_nav(
 
 if ( isset( $_GET['enabled'] ) ) {
 	$enabled = absint( $_GET['enabled'] );
-	if ( 1 == $enabled ) {
+	if ( 1 === $enabled ) {
 		$message = __( 'Theme enabled.' );
 	} else {
 		/* translators: %s: Number of themes. */
 		$message = _n( '%s theme enabled.', '%s themes enabled.', $enabled );
 	}
-	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
+
+	wp_admin_notice(
+		sprintf( $message, number_format_i18n( $enabled ) ),
+		array(
+			'type'        => 'success',
+			'dismissible' => true,
+			'id'          => 'message',
+		)
+	);
 } elseif ( isset( $_GET['disabled'] ) ) {
 	$disabled = absint( $_GET['disabled'] );
-	if ( 1 == $disabled ) {
+	if ( 1 === $disabled ) {
 		$message = __( 'Theme disabled.' );
 	} else {
 		/* translators: %s: Number of themes. */
 		$message = _n( '%s theme disabled.', '%s themes disabled.', $disabled );
 	}
-	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
-} elseif ( isset( $_GET['error'] ) && 'none' == $_GET['error'] ) {
-	echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'No theme selected.' ) . '</p></div>';
+
+	wp_admin_notice(
+		sprintf( $message, number_format_i18n( $disabled ) ),
+		array(
+			'type'        => 'success',
+			'dismissible' => true,
+			'id'          => 'message',
+		)
+	);
+} elseif ( isset( $_GET['error'] ) && 'none' === $_GET['error'] ) {
+	wp_admin_notice(
+		__( 'No theme selected.' ),
+		array(
+			'type'        => 'error',
+			'dismissible' => true,
+			'id'          => 'message',
+		)
+	);
 }
 ?>
 

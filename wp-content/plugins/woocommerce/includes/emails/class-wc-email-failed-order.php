@@ -18,7 +18,7 @@ if ( ! class_exists( 'WC_Email_Failed_Order', false ) ) :
 	 *
 	 * @class       WC_Email_Failed_Order
 	 * @version     2.5.0
-	 * @package     WooCommerce/Classes/Emails
+	 * @package     WooCommerce\Classes\Emails
 	 * @extends     WC_Email
 	 */
 	class WC_Email_Failed_Order extends WC_Email {
@@ -139,7 +139,7 @@ if ( ! class_exists( 'WC_Email_Failed_Order', false ) ) :
 		 * @return string
 		 */
 		public function get_default_additional_content() {
-			return __( 'Hopefully they’ll be back. Read more about <a href="https://docs.woocommerce.com/document/managing-orders/">troubleshooting failed payments</a>.', 'woocommerce' );
+			return __( 'Hopefully they’ll be back. Read more about <a href="https://woo.com/document/managing-orders/">troubleshooting failed payments</a>.', 'woocommerce' );
 		}
 
 		/**

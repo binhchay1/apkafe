@@ -94,7 +94,8 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 					if ( 'trash' === $this->view ) {
 						$value = $label;
 					} else {
-						$url   = add_query_arg( 'location', $snippet->get_location_term()->term_id );
+						$url   = add_query_arg( 'location', $snippet->get_location_term()->slug );
+						$url   = remove_query_arg( 'paged', $url );
 						$value = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), esc_html( $label ) );
 					}
 				}
@@ -139,9 +140,11 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 				$tags_links = array();
 				if ( 'trash' !== $this->view ) {
 					foreach ( $tags as $tag ) {
+						$url          = add_query_arg( 'tag', $tag );
+						$url          = remove_query_arg( 'paged', $url );
 						$tags_links[] = sprintf(
 							'<a href="%1$s" title="%2$s">%3$s</a>',
-							esc_url( add_query_arg( 'tag', $tag ) ),
+							esc_url( $url ),
 							// Translators: The tag by which to filter the list of snippets in the admin.
 							sprintf( __( 'Filter snippets by tag: %s', 'insert-headers-and-footers' ), esc_attr( $tag ) ),
 							esc_html( $tag )
@@ -179,6 +182,9 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 					$value = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), esc_html( $code_type ) );
 				}
 				break;
+
+			case 'priority':
+				echo esc_html( $snippet->get_priority() );
 
 			default:
 				$value = '';
@@ -343,7 +349,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 				);
 			}
 
-			if ( current_user_can( 'edit_post', $snippet->ID ) ) {
+			if ( current_user_can( 'edit_post', $snippet->ID ) && ! wpcode_testing_mode_enabled() ) {
 				$actions['trash'] = sprintf(
 					'<a href="%s" title="%s">%s</a>',
 					esc_url(
@@ -394,17 +400,19 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		if ( 'trash' === $this->view ) {
-			return array(
+			$bulk_actions = array(
 				'untrash' => esc_html__( 'Restore', 'insert-headers-and-footers' ),
 				'delete'  => esc_html__( 'Delete Permanently', 'insert-headers-and-footers' ),
 			);
+		} else {
+			$bulk_actions = array(
+				'trash'   => __( 'Trash', 'insert-headers-and-footers' ),
+				'enable'  => __( 'Activate', 'insert-headers-and-footers' ),
+				'disable' => __( 'Deactivate', 'insert-headers-and-footers' ),
+			);
 		}
 
-		return array(
-			'trash'   => __( 'Trash', 'insert-headers-and-footers' ),
-			'enable'  => __( 'Activate', 'insert-headers-and-footers' ),
-			'disable' => __( 'Deactivate', 'insert-headers-and-footers' ),
-		);
+		return apply_filters( 'wpcode_snippets_bulk_actions', $bulk_actions );
 	}
 
 	/**
@@ -431,15 +439,17 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 		$hidden = get_hidden_columns( $this->screen );
 
 		$sortable = array(
-			'name'    => array( 'title', false ),
-			'created' => array( 'date', false ),
-			'updated' => array( 'last_updated', false ),
+			'name'     => array( 'title', false ),
+			'created'  => array( 'date', false ),
+			'updated'  => array( 'last_updated', false ),
+			'priority' => array( 'priority', false ),
 		);
 
 		$sortable_query_params = array(
 			'last_updated' => 'modified',
 			'title'        => 'title',
 			'date'         => 'id',
+			'priority'     => 'priority',
 		);
 
 		// Set column headers.
@@ -486,6 +496,11 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 			'post_status'    => array( 'publish', 'draft' ),
 			'post_type'      => 'wpcode',
 		);
+
+		if ( 'priority' === $order_by ) {
+			$args['orderby']  = 'meta_value_num';
+			$args['meta_key'] = '_wpcode_priority'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+		}
 
 		if ( ! empty( $_GET['location'] ) ) {
 			$is_filtered       = true;
@@ -592,6 +607,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 			'tags'      => esc_html__( 'Tags', 'insert-headers-and-footers' ),
 			'shortcode' => esc_html__( 'Shortcode', 'insert-headers-and-footers' ),
 			'code_type' => esc_html__( 'Code Type', 'insert-headers-and-footers' ),
+			'priority'  => esc_html__( 'Priority', 'insert-headers-and-footers' ),
 		);
 		if ( 'trash' !== $this->view ) {
 			$columns['status'] = esc_html__( 'Status', 'insert-headers-and-footers' );
@@ -916,7 +932,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 		if ( $this->count['inactive'] ) {
 			$views['inactive'] = $this->view_markup( 'inactive', __( 'Inactive', 'insert-headers-and-footers' ) );
 		}
-		if ( $this->count['trash'] ) {
+		if ( $this->count['trash'] && ! wpcode_testing_mode_enabled() ) {
 			$views['trash'] = $this->view_markup( 'trash', __( 'Trash', 'insert-headers-and-footers' ) );
 		}
 		if ( $this->count['has_error'] ) {

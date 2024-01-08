@@ -180,7 +180,7 @@ function yasr_get_ip() {
 }
 
 /**
- * Return ip if enabled on YASR settings
+ * Return ip
  *
  * @author Dario Curvino <@dudo>
  *
@@ -188,11 +188,18 @@ function yasr_get_ip() {
  * @return array|mixed|string|string[]|null
  */
 function yasr_ip_to_save () {
+
+    // since 3.4.7 we always return the ip to prevent voting fraud
+    return yasr_get_ip();
+
+    /*
     if (YASR_ENABLE_IP === 'yes') {
         return yasr_get_ip();
     }
 
     return ('X.X.X.X');
+    */
+
 }
 
 

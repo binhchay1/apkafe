@@ -105,12 +105,6 @@ p.demo_store,
 		@include clearfix();
 		margin: 0 0 1em;
 		padding: 0;
-		font-size: 0.92em;
-		color: $subtext;
-
-		a {
-			color: $subtext;
-		}
 	}
 
 	.quantity .qty {
@@ -133,8 +127,6 @@ p.demo_store,
 
 		span.price,
 		p.price {
-			color: $highlight;
-			font-size: 1.25em;
 
 			ins {
 				background: inherit;
@@ -150,14 +142,6 @@ p.demo_store,
 
 		p.stock {
 			font-size: 0.92em;
-		}
-
-		.stock {
-			color: $highlight;
-		}
-
-		.out-of-stock {
-			color: red;
 		}
 
 		.woocommerce-product-rating {
@@ -329,6 +313,7 @@ p.demo_store,
 				li {
 					border: 1px solid darken($secondary, 10%);
 					background-color: $secondary;
+					color: $secondarytext;
 					display: inline-block;
 					position: relative;
 					z-index: 0;
@@ -351,6 +336,7 @@ p.demo_store,
 
 					&.active {
 						background: $contentbg;
+						color: $secondarytext;
 						z-index: 2;
 						border-bottom-color: $contentbg;
 
@@ -453,12 +439,13 @@ p.demo_store,
 				td,
 				th {
 					border: 0;
-					vertical-align: top;
 					line-height: 2em;
+					vertical-align: top;
 				}
 
 				label {
 					font-weight: 700;
+					text-align: left;
 				}
 
 				select {
@@ -597,11 +584,11 @@ p.demo_store,
 		}
 
 		.button {
+			display: inline-block;
 			margin-top: 1em;
 		}
 
 		.price {
-			color: $highlight;
 			display: block;
 			font-weight: normal;
 			margin-bottom: 0.5em;
@@ -683,98 +670,6 @@ p.demo_store,
 		}
 	}
 
-	/**
-	 * Buttons
-	 */
-	a.button,
-	button.button,
-	input.button,
-	#respond input#submit {
-		font-size: 100%;
-		margin: 0;
-		line-height: 1;
-		cursor: pointer;
-		position: relative;
-		text-decoration: none;
-		overflow: visible;
-		padding: 0.618em 1em;
-		font-weight: 700;
-		border-radius: 3px;
-		left: auto;
-		color: $secondarytext;
-		background-color: $secondary;
-		border: 0;
-		display: inline-block;
-		background-image: none;
-		box-shadow: none;
-		text-shadow: none;
-
-		&.loading {
-			opacity: 0.25;
-			padding-right: 2.618em;
-
-			&::after {
-				font-family: "WooCommerce";
-				content: "\e01c";
-				vertical-align: top;
-				font-weight: 400;
-				position: absolute;
-				top: 0.618em;
-				right: 1em;
-				animation: spin 2s linear infinite;
-			}
-		}
-
-		&.added::after {
-			font-family: "WooCommerce";
-			content: "\e017";
-			margin-left: 0.53em;
-			vertical-align: bottom;
-		}
-
-		&:hover {
-			background-color: darken($secondary, 5%);
-			text-decoration: none;
-			background-image: none;
-			color: $secondarytext;
-		}
-
-		&.alt {
-			background-color: $primary;
-			color: $primarytext;
-			-webkit-font-smoothing: antialiased;
-
-			&:hover {
-				background-color: darken($primary, 5%);
-				color: $primarytext;
-			}
-
-			&.disabled,
-			&:disabled,
-			&:disabled[disabled],
-			&.disabled:hover,
-			&:disabled:hover,
-			&:disabled[disabled]:hover {
-				background-color: $primary;
-				color: $primarytext;
-			}
-		}
-
-		&:disabled,
-		&.disabled,
-		&:disabled[disabled] {
-			color: inherit;
-			cursor: not-allowed;
-			opacity: 0.5;
-			padding: 0.618em 1em;
-
-			&:hover {
-				color: inherit;
-				background-color: $secondary;
-			}
-		}
-	}
-
 	.cart .button,
 	.cart input.button {
 		float: none;
@@ -842,11 +737,6 @@ p.demo_store,
 					position: relative;
 					background: 0;
 					border: 0;
-
-					.meta {
-						color: $subtext;
-						font-size: 0.75em;
-					}
 
 					img.avatar {
 						float: left;
@@ -1737,6 +1627,144 @@ p.demo_store,
 		}
 	}
 }
+
+
+/**
+ * Buttons
+ */
+.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles)),
+:where(body:not(.woocommerce-block-theme-has-button-styles)) .woocommerce {
+	a.button,
+	button.button,
+	input.button,
+	#respond input#submit {
+		font-size: 100%;
+		margin: 0;
+		line-height: 1;
+		cursor: pointer;
+		position: relative;
+		text-decoration: none;
+		overflow: visible;
+		padding: 0.618em 1em;
+		font-weight: 700;
+		border-radius: 3px;
+		left: auto;
+		color: $secondarytext;
+		background-color: $secondary;
+		border: 0;
+		display: inline-block;
+		background-image: none;
+		box-shadow: none;
+		text-shadow: none;
+
+		&.loading {
+			opacity: 0.25;
+			padding-right: 2.618em;
+
+			&::after {
+				font-family: "WooCommerce";
+				content: "\e01c";
+				vertical-align: top;
+				font-weight: 400;
+				position: absolute;
+				top: 0.618em;
+				right: 1em;
+				animation: spin 2s linear infinite;
+			}
+		}
+
+		&.added::after {
+			font-family: "WooCommerce";
+			content: "\e017";
+			margin-left: 0.53em;
+			vertical-align: bottom;
+		}
+
+		&:hover {
+			background-color: darken($secondary, 5%);
+			text-decoration: none;
+			background-image: none;
+			color: $secondarytext;
+		}
+
+		&.alt {
+			background-color: $primary;
+			color: $primarytext;
+			-webkit-font-smoothing: antialiased;
+
+			&:hover {
+				background-color: darken($primary, 5%);
+				color: $primarytext;
+			}
+
+			&.disabled,
+			&:disabled,
+			&:disabled[disabled],
+			&.disabled:hover,
+			&:disabled:hover,
+			&:disabled[disabled]:hover {
+				background-color: $primary;
+				color: $primarytext;
+			}
+		}
+
+		&:disabled,
+		&.disabled,
+		&:disabled[disabled] {
+			color: inherit;
+			cursor: not-allowed;
+			opacity: 0.5;
+			padding: 0.618em 1em;
+
+			&:hover {
+				color: inherit;
+				background-color: $secondary;
+			}
+		}
+	}
+}
+
+/**
+ * WooCommerce specific styles for legacy themes.
+ */
+.woocommerce:where(body:not(.woocommerce-uses-block-theme)) {
+
+	.woocommerce-breadcrumb {
+
+		font-size: 0.92em;
+		color: $subtext;
+
+		a {
+			color: $subtext;
+		}
+	}
+
+	div.product {
+		span.price,
+		p.price {
+			color: $highlight;
+			font-size: 1.25em;
+		}
+
+		.stock {
+			color: $highlight;
+		}
+
+		.out-of-stock {
+			color: red;
+		}
+	}
+
+	ul.products li.product .price {
+		color: $highlight;
+	}
+
+	#reviews #comments ol.commentlist li .meta {
+		color: $subtext;
+		font-size: 0.75em;
+	}
+}
+
 
 .woocommerce-no-js {
 

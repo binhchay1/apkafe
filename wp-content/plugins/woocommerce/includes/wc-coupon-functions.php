@@ -4,11 +4,13 @@
  *
  * Functions for coupon specific things.
  *
- * @package WooCommerce/Functions
+ * @package WooCommerce\Functions
  * @version 3.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
+
+use Automattic\WooCommerce\Utilities\StringUtil;
 
 /**
  * Get coupon types.
@@ -82,7 +84,7 @@ function wc_get_coupon_code_by_id( $id ) {
 }
 
 /**
- * Get coupon code by ID.
+ * Get coupon ID by code.
  *
  * @since 3.0.0
  * @param string $code    Coupon code.
@@ -91,7 +93,7 @@ function wc_get_coupon_code_by_id( $id ) {
  */
 function wc_get_coupon_id_by_code( $code, $exclude = 0 ) {
 
-	if ( empty( $code ) ) {
+	if ( StringUtil::is_null_or_whitespace( $code ) ) {
 		return 0;
 	}
 

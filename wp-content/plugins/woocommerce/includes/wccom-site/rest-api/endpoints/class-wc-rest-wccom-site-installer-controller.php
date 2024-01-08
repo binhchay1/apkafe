@@ -4,16 +4,18 @@
  *
  * Handles requests to /installer.
  *
- * @package WooCommerce\WooCommerce_Site\Rest_Api
+ * @package WooCommerce\WCCom\API
  * @since   3.7.0
  */
+
+use WC_REST_WCCOM_Site_Installer_Error_Codes as Installer_Error_Codes;
+use WC_REST_WCCOM_Site_Installer_Error as Installer_Error;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * REST API WCCOM Site Installer Controller Class.
  *
- * @package WooCommerce/WCCOM_Site/REST_API
  * @extends WC_REST_Controller
  */
 class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
@@ -33,7 +35,7 @@ class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
 	protected $rest_base = 'installer';
 
 	/**
-	 * Register the routes for product reviews.
+	 * Register the routes for WCCCOM Installer Controller.
 	 *
 	 * @since 3.7.0
 	 */
@@ -78,21 +80,28 @@ class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
 		$current_user = wp_get_current_user();
 
 		if ( empty( $current_user ) || ( $current_user instanceof WP_User && ! $current_user->exists() ) ) {
-			return apply_filters(
+			/**
+			 * This filter allows to provide a custom error message when the user is not authenticated.
+			 *
+			 * @since 3.7.0
+			 */
+			$error = apply_filters(
 				WC_WCCOM_Site::AUTH_ERROR_FILTER_NAME,
-				new WP_Error(
-					WC_REST_WCCOM_Site_Installer_Errors::NOT_AUTHENTICATED_CODE,
-					WC_REST_WCCOM_Site_Installer_Errors::NOT_AUTHENTICATED_MESSAGE,
-					array( 'status' => WC_REST_WCCOM_Site_Installer_Errors::NOT_AUTHENTICATED_HTTP_CODE )
-				)
+				new Installer_Error( Installer_Error_Codes::NOT_AUTHENTICATED )
+			);
+			return new WP_Error(
+				$error->get_error_code(),
+				$error->get_error_message(),
+				array( 'status' => $error->get_http_code() )
 			);
 		}
 
 		if ( ! user_can( $current_user, 'install_plugins' ) || ! user_can( $current_user, 'install_themes' ) ) {
+			$error = new Installer_Error( Installer_Error_Codes::NO_PERMISSION );
 			return new WP_Error(
-				WC_REST_WCCOM_Site_Installer_Errors::NO_PERMISSION_CODE,
-				WC_REST_WCCOM_Site_Installer_Errors::NO_PERMISSION_MESSAGE,
-				array( 'status' => WC_REST_WCCOM_Site_Installer_Errors::NO_PERMISSION_HTTP_CODE )
+				$error->get_error_code(),
+				$error->get_error_message(),
+				array( 'status' => $error->get_http_code() )
 			);
 		}
 
@@ -116,7 +125,7 @@ class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
 	}
 
 	/**
-	 * Install WooCommerce.com products.
+	 * Install Woo.com products.
 	 *
 	 * @since 3.7.0
 	 * @param WP_REST_Request $request Full details about the request.

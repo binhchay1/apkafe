@@ -102,7 +102,7 @@ class Helpers {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @return boolean Whether or not it is on apache.
+	 * @return bool Whether or not it is on nginx.
 	 */
 	public function isNginx() {
 		if ( ! isset( $_SERVER['SERVER_SOFTWARE'] ) ) {
@@ -119,6 +119,46 @@ class Helpers {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks if the server is running on LiteSpeed.
+	 *
+	 * @since 4.5.3
+	 *
+	 * @return bool Whether it is on LiteSpeed.
+	 */
+	public function isLiteSpeed() {
+		if ( ! isset( $_SERVER['SERVER_SOFTWARE'] ) ) {
+			return false;
+		}
+
+		$server = strtolower( sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) );
+
+		return false !== stripos( $server, 'litespeed' );
+	}
+
+	/**
+	 * Returns the server name: Apache, nginx or LiteSpeed.
+	 *
+	 * @since 4.5.3
+	 *
+	 * @return string The server name. An empty string if it's unknown.
+	 */
+	public function getServerName() {
+		if ( aioseo()->helpers->isApache() ) {
+			return 'apache';
+		}
+
+		if ( aioseo()->helpers->isNginx() ) {
+			return 'nginx';
+		}
+
+		if ( aioseo()->helpers->isLiteSpeed() ) {
+			return 'litespeed';
+		}
+
+		return '';
 	}
 
 	/**
@@ -223,6 +263,19 @@ class Helpers {
 		}
 
 		return $string;
+	}
+
+	/**
+	 * Returns a deep clone of the given object.
+	 * The built-in PHP clone KW provides a shallow clone. This method returns a deep clone that also clones nested object properties.
+	 * You can use this method to sever the reference to nested objects.
+	 *
+	 * @since 4.4.7
+	 *
+	 * @return object The cloned object.
+	 */
+	public function deepClone( $object ) {
+		return unserialize( serialize( $object ) );
 	}
 
 	/**

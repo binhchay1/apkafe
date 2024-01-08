@@ -1,31 +1,29 @@
 /**
  * External dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
-import { Fragment, RawHTML } from '@wordpress/element';
-import { escapeHTML } from '@wordpress/escape-html';
+import { __ } from '@wordpress/i18n';
+import { createInterpolateElement } from '@wordpress/element';
+import { BlockControls } from '@wordpress/block-editor';
+import { getAdminLink, getSetting } from '@woocommerce/settings';
 import {
 	Notice,
 	ToggleControl,
-	Toolbar,
+	ToolbarGroup,
 	RangeControl,
 	SelectControl,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
-import { BlockControls } from '@wordpress/editor';
-import { getAdminLink } from '@woocommerce/settings';
-import {
-	ENABLE_REVIEW_RATING,
-	SHOW_AVATARS,
-} from '@woocommerce/block-settings';
-import ToggleButtonControl from '@woocommerce/block-components/toggle-button-control';
 
-export const getBlockControls = ( editMode, setAttributes ) => (
+export const getBlockControls = ( editMode, setAttributes, buttonTitle ) => (
 	<BlockControls>
-		<Toolbar
+		<ToolbarGroup
 			controls={ [
 				{
 					icon: 'edit',
-					title: __( 'Edit', 'woocommerce' ),
+					title: buttonTitle,
 					onClick: () => setAttributes( { editMode: ! editMode } ),
 					isActive: editMode,
 				},
@@ -35,8 +33,10 @@ export const getBlockControls = ( editMode, setAttributes ) => (
 );
 
 export const getSharedReviewContentControls = ( attributes, setAttributes ) => {
+	const showAvatars = getSetting( 'showAvatars', true );
+	const reviewRatingsEnabled = getSetting( 'reviewRatingsEnabled', true );
 	return (
-		<Fragment>
+		<>
 			<ToggleControl
 				label={ __( 'Product rating', 'woocommerce' ) }
 				checked={ attributes.showReviewRating }
@@ -46,26 +46,29 @@ export const getSharedReviewContentControls = ( attributes, setAttributes ) => {
 					} )
 				}
 			/>
-			{ attributes.showReviewRating && ! ENABLE_REVIEW_RATING && (
+			{ attributes.showReviewRating && ! reviewRatingsEnabled && (
 				<Notice
-					className="wc-block-reviews__notice"
+					className="wc-block-base-control-notice"
 					isDismissible={ false }
 				>
-					<RawHTML>
-						{ sprintf(
-							escapeHTML(
-								/* translators: A notice that links to WooCommerce settings. */
-								__(
-									'Product rating is disabled in your %sstore settings%s.',
-									'woocommerce'
-								)
+					{ createInterpolateElement(
+						__(
+							'Product rating is disabled in your <a>store settings</a>.',
+							'woocommerce'
+						),
+						{
+							a: (
+								// eslint-disable-next-line jsx-a11y/anchor-has-content
+								<a
+									href={ getAdminLink(
+										'admin.php?page=wc-settings&tab=products'
+									) }
+									target="_blank"
+									rel="noopener noreferrer"
+								/>
 							),
-							`<a href="${ getAdminLink(
-								'admin.php?page=wc-settings&tab=products'
-							) }" target="_blank">`,
-							'</a>'
-						) }
-					</RawHTML>
+						}
+					) }
 				</Notice>
 			) }
 			<ToggleControl
@@ -105,58 +108,60 @@ export const getSharedReviewContentControls = ( attributes, setAttributes ) => {
 				}
 			/>
 			{ attributes.showReviewImage && (
-				<Fragment>
-					<ToggleButtonControl
+				<>
+					<ToggleGroupControl
 						label={ __(
 							'Review image',
 							'woocommerce'
 						) }
 						value={ attributes.imageType }
-						options={ [
-							{
-								label: __(
-									'Reviewer photo',
-									'woocommerce'
-								),
-								value: 'reviewer',
-							},
-							{
-								label: __(
-									'Product',
-									'woocommerce'
-								),
-								value: 'product',
-							},
-						] }
 						onChange={ ( value ) =>
 							setAttributes( { imageType: value } )
 						}
-					/>
-					{ attributes.imageType === 'reviewer' && ! SHOW_AVATARS && (
+					>
+						<ToggleGroupControlOption
+							value="reviewer"
+							label={ __(
+								'Reviewer photo',
+								'woocommerce'
+							) }
+						/>
+						<ToggleGroupControlOption
+							value="product"
+							label={ __(
+								'Product',
+								'woocommerce'
+							) }
+						/>
+					</ToggleGroupControl>
+					{ attributes.imageType === 'reviewer' && ! showAvatars && (
 						<Notice
-							className="wc-block-reviews__notice"
+							className="wc-block-base-control-notice"
 							isDismissible={ false }
 						>
-							<RawHTML>
-								{ sprintf(
-									escapeHTML(
-										/* translators: A notice that links to WordPress settings. */
-										__(
-											'Reviewer photo is disabled in your %ssite settings%s.',
-											'woocommerce'
-										)
+							{ createInterpolateElement(
+								__(
+									'Reviewer photo is disabled in your <a>site settings</a>.',
+									'woocommerce'
+								),
+								{
+									a: (
+										// eslint-disable-next-line jsx-a11y/anchor-has-content
+										<a
+											href={ getAdminLink(
+												'options-discussion.php'
+											) }
+											target="_blank"
+											rel="noopener noreferrer"
+										/>
 									),
-									`<a href="${ getAdminLink(
-										'options-discussion.php'
-									) }" target="_blank">`,
-									'</a>'
-								) }
-							</RawHTML>
+								}
+							) }
 						</Notice>
 					) }
-				</Fragment>
+				</>
 			) }
-		</Fragment>
+		</>
 	);
 };
 
@@ -165,7 +170,7 @@ export const getSharedReviewListControls = ( attributes, setAttributes ) => {
 	const maxPerPage = 20;
 
 	return (
-		<Fragment>
+		<>
 			<ToggleControl
 				label={ __( 'Order by', 'woocommerce' ) }
 				checked={ attributes.showOrderby }
@@ -219,6 +224,6 @@ export const getSharedReviewListControls = ( attributes, setAttributes ) => {
 					min={ minPerPage }
 				/>
 			) }
-		</Fragment>
+		</>
 	);
 };

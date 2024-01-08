@@ -1732,7 +1732,7 @@ function aaih__analytics_code_insert_on_off( $settings ) {
  */
 function aaih__analytics_id_input( $settings ) {
 	$analytics_id		= $settings['analytics_id']; 	// Tracking ID : UA-000000-2 or Measurement ID : XXXXXXX of G-XXXXXXX
-	$supplement			= __( 'Input Tracking ID ( UA-xxxxx-xx ) or Measurement ID ( G-xxxxxxxx ) .' , AAIH__TEXT_DOMAIN );	// パブリッシャーID は「ca-pub-xxxxx」の「pub-xxxxxx」の部分。
+	$supplement			= __( 'Input Analytics Google Tag ( G-xxxxxxxx / AW-xxxxxxxx ) .' , AAIH__TEXT_DOMAIN );	// ★2023.11.15 UAが廃止されたことで変更。
 ?>
 	<label>
 		<input

@@ -627,29 +627,6 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 	}
 
 	/**
-	 * Get a text field markup.
-	 *
-	 * @param string $id The id of the text field.
-	 * @param string $value The value of the text field.
-	 * @param string $description The description of the text field.
-	 * @param bool   $wide Whether the text field should be wide.
-	 *
-	 * @return string
-	 */
-	public function get_input_text( $id, $value = '', $description = '', $wide = false ) {
-		$class = 'wpcode-regular-text';
-		if ( $wide ) {
-			$class .= ' wpcode-wide-text';
-		}
-		$markup = '<input type="text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $id ) . '" value="' . esc_attr( $value ) . '" class="' . esc_attr( $class ) . '" autocomplete="off">';
-		if ( ! empty( $description ) ) {
-			$markup .= '<p>' . wp_kses_post( $description ) . '</p>';
-		}
-
-		return $markup;
-	}
-
-	/**
 	 * There's no actual value to show in this instance.
 	 *
 	 * @param string $key The key of the option.

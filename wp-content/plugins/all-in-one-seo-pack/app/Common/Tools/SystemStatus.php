@@ -22,7 +22,8 @@ class SystemStatus {
 			'muPlugins'       => self::mustUsePlugins(),
 			'activeTheme'     => self::activeTheme(),
 			'activePlugins'   => self::activePlugins(),
-			'inactivePlugins' => self::inactivePlugins()
+			'inactivePlugins' => self::inactivePlugins(),
+			'database'        => self::getDatabaseInfo()
 		];
 	}
 
@@ -110,6 +111,50 @@ class SystemStatus {
 	}
 
 	/**
+	 * Get an array of database info from WordPress.
+	 *
+	 * @since 4.4.5
+	 *
+	 * @return array An array of database info.
+	 */
+	public static function getDatabaseInfo() {
+		$dbInfo = aioseo()->core->db->getDatabaseInfo();
+		if ( empty( $dbInfo['tables'] ) ) {
+			return [];
+		}
+
+		if ( ! aioseo()->helpers->isDev() ) {
+			return [];
+		}
+
+		$results = [];
+		$tables  = array_merge( $dbInfo['tables']['aioseo'], $dbInfo['tables']['other'] );
+		foreach ( $tables as $tableName => $tableData ) {
+			$results[] = [
+				'header' => $tableName,
+				'value'  => sprintf(
+					// Translators: %1$s is the data size, %2$s is the index size, %3$s is the engine type.
+					__( 'Data: %1$.2f MB / Index: %2$.2f MB / Engine: %3$s / Collation: %4$s', 'all-in-one-seo-pack' ),
+					$tableData['data'],
+					$tableData['index'],
+					$tableData['engine'],
+					$tableData['collation']
+				)
+			];
+		}
+
+		return [
+			'label'   => __( 'Database', 'all-in-one-seo-pack' ),
+			'results' => array_merge( [
+				[
+					'header' => __( 'Database Size', 'all-in-one-seo-pack' ),
+					'value'  => sprintf( '%.2f MB', $dbInfo['size']['data'] + $dbInfo['size']['index'] )
+				]
+			], $results )
+		];
+	}
+
+	/**
 	 * Get an array of system info from WordPress constants.
 	 *
 	 * @since 4.0.0
@@ -174,9 +219,16 @@ class SystemStatus {
 	public static function getServerInfo() {
 		$sqlMode   = null;
 		$mysqlInfo = aioseo()->core->db->db->get_results( "SHOW VARIABLES LIKE 'sql_mode'" );
-		if ( is_array( $mysqlInfo ) ) {
+		if ( ! empty( $mysqlInfo ) && is_array( $mysqlInfo ) ) {
 			$sqlMode = $mysqlInfo[0]->Value;
 		}
+
+		$dbServerInfo = method_exists( aioseo()->core->db->db, 'db_server_info' )
+			? aioseo()->core->db->db->db_server_info()
+			: ( function_exists( 'mysqli_get_server_info' )
+				? mysqli_get_server_info( aioseo()->core->db->db->dbh ) // phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_get_server_info
+				: ''
+		);
 
 		return [
 			'label'   => __( 'Server Info', 'all-in-one-seo-pack' ),
@@ -194,12 +246,16 @@ class SystemStatus {
 					'value'  => function_exists( 'memory_get_usage' ) ? round( memory_get_usage() / 1024 / 1024, 2 ) . 'M' : __( 'N/A', 'all-in-one-seo-pack' )
 				],
 				[
-					'header' => __( 'MySQL Version', 'all-in-one-seo-pack' ),
+					'header' => __( 'Database Powered By', 'all-in-one-seo-pack' ),
+					'value'  => stripos( $dbServerInfo, 'mariadb' ) !== false ? 'MariaDB' : 'MySQL'
+				],
+				[
+					'header' => __( 'Database Version', 'all-in-one-seo-pack' ),
 					'value'  => aioseo()->core->db->db->db_version()
 				],
 				[
-					'header' => __( 'MySQL SQL Mode', 'all-in-one-seo-pack' ),
-					'value'  => empty( $sqlMode ) ? __( 'Not Set', 'all-in-one-seo-pack' ) : $sqlMode
+					'header' => __( 'SQL Mode', 'all-in-one-seo-pack' ),
+					'value'  => $sqlMode ?? __( 'Not Set', 'all-in-one-seo-pack' ),
 				],
 				[
 					'header' => __( 'PHP Version', 'all-in-one-seo-pack' ),

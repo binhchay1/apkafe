@@ -87,11 +87,22 @@ abstract class Base {
 	public function init() {}
 
 	/**
+	 * Check if the integration is active.
+	 *
+	 * @since 4.4.8
+	 *
+	 * @return bool Whether or not the integration is active.
+	 */
+	public function isActive() {
+		return $this->isPluginActive() || $this->isThemeActive();
+	}
+
+	/**
 	 * Check whether or not the plugin is active.
 	 *
 	 * @since 4.1.7
 	 *
-	 * @return boolean Whether or not the plugin is active.
+	 * @return bool Whether or not the plugin is active.
 	 */
 	public function isPluginActive() {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -110,7 +121,7 @@ abstract class Base {
 	 *
 	 * @since 4.1.7
 	 *
-	 * @return boolean Whether or not the theme is active.
+	 * @return bool Whether or not the theme is active.
 	 */
 	public function isThemeActive() {
 		$theme = wp_get_theme();
@@ -132,7 +143,7 @@ abstract class Base {
 	 */
 	public function enqueue() {
 		$integrationSlug = $this->integrationSlug;
-		aioseo()->core->assets->load( "src/vue/standalone/$integrationSlug/main.js", [], aioseo()->helpers->getVueData( 'post', $this->getPostId(), $this->integrationSlug ) );
+		aioseo()->core->assets->load( "src/vue/standalone/page-builders/$integrationSlug/main.js", [], aioseo()->helpers->getVueData( 'post', $this->getPostId(), $integrationSlug ) );
 
 		aioseo()->core->assets->enqueueCss( 'src/vue/assets/scss/integrations/main.scss' );
 
@@ -148,13 +159,13 @@ abstract class Base {
 	 * @return int|null The post ID or null.
 	 */
 	public function getPostId() {
-		if ( ! empty( $_GET['id'] ) ) {
-			return (int) $_GET['id'];
+		// phpcs:disable HM.Security.NonceVerification.Recommended
+		foreach ( [ 'id', 'post', 'post_id' ] as $key ) {
+			if ( ! empty( $_GET[ $key ] ) ) {
+				return (int) $_GET[ $key ];
+			}
 		}
-
-		if ( ! empty( $_GET['post'] ) ) {
-			return (int) $_GET['post'];
-		}
+		// phpcs:enable
 
 		if ( ! empty( $GLOBALS['post'] ) ) {
 			return (int) $GLOBALS['post']->ID;
@@ -185,5 +196,37 @@ abstract class Base {
 	 */
 	public function isBuiltWith( $postId ) { // phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		return false;
+	}
+
+	/**
+	 * Checks whether or not we should prevent the date from being modified.
+	 *
+	 * @since 4.5.2
+	 *
+	 * @param  int  $postId The Post ID.
+	 * @return bool         Whether or not we should prevent the date from being modified.
+	 */
+	public function limitModifiedDate( $postId ) { // phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+		return false;
+	}
+
+	/**
+	 * Returns the processed page builder content.
+	 *
+	 * @since 4.5.2
+	 *
+	 * @param  int    $postId  The post id.
+	 * @param  string $content The raw content.
+	 * @return string          The processed content.
+	 */
+	public function processContent( $postId, $content = '' ) {
+		if ( empty( $content ) ) {
+			$post = get_post( $postId );
+			if ( is_a( $post, 'WP_Post' ) ) {
+				$content = $post->post_content;
+			}
+		}
+
+		return apply_filters( 'the_content', $content );
 	}
 }

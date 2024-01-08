@@ -2,7 +2,7 @@
 /**
  * Admin View: Edit Webhooks
  *
- * @package WooCommerce/Admin/Webhooks/Views
+ * @package WooCommerce\Admin\Webhooks\Views
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<?php esc_html_e( 'Name', 'woocommerce' ); ?>
 						<?php
 						/* translators: %s: date */
-						echo wc_help_tip( sprintf( __( 'Friendly name for identifying this webhook, defaults to Webhook created on %s.', 'woocommerce' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Webhook created on date parsed by strftime', 'woocommerce' ) ) ) ); // @codingStandardsIgnoreLine
+						echo wc_help_tip( sprintf( __( 'Friendly name for identifying this webhook, defaults to Webhook created on %s.', 'woocommerce' ), (new DateTime('now'))->format( _x( 'M d, Y @ h:i A', 'Webhook created on date parsed by DateTime::format', 'woocommerce' ) ) ) ); // @codingStandardsIgnoreLine
 						?>
 					</label>
 				</th>
@@ -63,7 +63,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 							$topic_data = WC_Admin_Webhooks::get_topic_data( $webhook );
 
 							$topics = apply_filters(
-								'woocommerce_webhook_topics', array(
+								'woocommerce_webhook_topics',
+								array(
 									''                 => __( 'Select an option&hellip;', 'woocommerce' ),
 									'coupon.created'   => __( 'Coupon created', 'woocommerce' ),
 									'coupon.updated'   => __( 'Coupon updated', 'woocommerce' ),
@@ -151,7 +152,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</tbody>
 	</table>
 
-	<?php do_action( 'woocommerce_webhook_options' ); ?>
+	<?php
+	/**
+	 * Fires within the webhook editor, after the Webhook Data fields have rendered.
+	 *
+	 * @param WC_Webhook $webhook
+	 */
+	do_action( 'woocommerce_webhook_options', $webhook );
+	?>
 </div>
 
 <div id="webhook-actions" class="settings-panel">
@@ -197,8 +205,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 								add_query_arg(
 									array(
 										'delete' => $webhook->get_id(),
-									), admin_url( 'admin.php?page=wc-settings&tab=advanced&section=webhooks' )
-								), 'delete-webhook'
+									),
+									admin_url( 'admin.php?page=wc-settings&tab=advanced&section=webhooks' )
+								),
+								'delete-webhook'
 							);
 							?>
 							<a style="color: #a00; text-decoration: none; margin-left: 10px;" href="<?php echo esc_url( $delete_url ); ?>"><?php esc_html_e( 'Delete permanently', 'woocommerce' ); ?></a>
@@ -221,6 +231,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			if ( 'action' === current ) {
 				action_event_field.show();
 			}
-		}).change();
+		}).trigger( 'change' );
 	});
 </script>

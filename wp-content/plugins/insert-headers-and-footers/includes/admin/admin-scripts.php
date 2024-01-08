@@ -47,6 +47,14 @@ function wpcode_admin_scripts() {
 				'code_type_options' => wpcode()->execute->get_code_type_options(),
 				'please_wait'       => __( 'Please wait.', 'insert-headers-and-footers' ),
 				'ok'                => __( 'OK', 'insert-headers-and-footers' ),
+				'testing_mode'      => array(
+					'title'           => __( 'Testing Mode is a Premium Feature', 'insert-headers-and-footers' ),
+					'text'            => __( 'Upgrade to PRO today and make changes to your snippets, Header & Footer scripts or Page Scripts without affecting your live site. You choose when and what to publish to your visitors.', 'insert-headers-and-footers' ),
+					'button_text'     => __( 'Upgrade to PRO', 'insert-headers-and-footers' ),
+					'link'            => wpcode_utm_url( 'https://wpcode.com/lite/', 'testing-mode', $current_screen->id ),
+					'learn_more_text' => __( 'Learn more about Testing Mode', 'insert-headers-and-footers' ),
+					'learn_more_link' => wpcode_utm_url( 'https://wpcode.com/docs/testing-mode/', 'testing-mode-learn-more', $current_screen->id ),
+				),
 			)
 		)
 	);
@@ -101,6 +109,10 @@ function wpcode_admin_body_class( $classes ) {
 
 	if ( 'wpcode' === $page_parent ) {
 		$classes .= ' wpcode-admin-page';
+
+		if ( ! empty( wpcode()->settings->get_option( 'dark_mode' ) ) ) {
+			$classes .= ' wpcode-dark-mode';
+		}
 	}
 
 	return $classes;

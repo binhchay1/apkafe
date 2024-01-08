@@ -4,9 +4,10 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { Placeholder, Spinner } from '@wordpress/components';
 import PropTypes from 'prop-types';
-import ErrorPlaceholder from '@woocommerce/block-components/error-placeholder';
-import { IconReviewsByProduct } from '@woocommerce/block-components/icons';
+import ErrorPlaceholder from '@woocommerce/editor-components/error-placeholder';
+import { Icon, commentContent } from '@wordpress/icons';
 import { withProduct } from '@woocommerce/block-hocs';
+import { decodeEntities } from '@wordpress/html-entities';
 
 const NoReviewsPlaceholder = ( { error, getProduct, isLoading, product } ) => {
 	const renderApiError = () => (
@@ -27,11 +28,12 @@ const NoReviewsPlaceholder = ( { error, getProduct, isLoading, product } ) => {
 			<Spinner />
 		) : (
 			sprintf(
+				/* translators: %s is the product name. */
 				__(
 					"This block lists reviews for a selected product. %s doesn't have any reviews yet, but they will show up here when it does.",
 					'woocommerce'
 				),
-				product.name
+				decodeEntities( product.name )
 			)
 		);
 
@@ -39,7 +41,10 @@ const NoReviewsPlaceholder = ( { error, getProduct, isLoading, product } ) => {
 		<Placeholder
 			className="wc-block-reviews-by-product"
 			icon={
-				<IconReviewsByProduct className="block-editor-block-icon" />
+				<Icon
+					icon={ commentContent }
+					className="block-editor-block-icon"
+				/>
 			}
 			label={ __( 'Reviews by Product', 'woocommerce' ) }
 		>

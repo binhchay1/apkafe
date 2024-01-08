@@ -19,9 +19,30 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @class       WC_Gateway_COD
  * @extends     WC_Payment_Gateway
  * @version     2.1.0
- * @package     WooCommerce/Classes/Payment
+ * @package     WooCommerce\Classes\Payment
  */
 class WC_Gateway_COD extends WC_Payment_Gateway {
+
+	/**
+	 * Gateway instructions that will be added to the thank you page and emails.
+	 *
+	 * @var string
+	 */
+	public $instructions;
+
+	/**
+	 * Enable for shipping methods.
+	 *
+	 * @var array
+	 */
+	public $enable_for_methods;
+
+	/**
+	 * Enable for virtual products.
+	 *
+	 * @var bool
+	 */
+	public $enable_for_virtual;
 
 	/**
 	 * Constructor for the gateway.
@@ -41,6 +62,7 @@ class WC_Gateway_COD extends WC_Payment_Gateway {
 		$this->enable_for_methods = $this->get_option( 'enable_for_methods', array() );
 		$this->enable_for_virtual = $this->get_option( 'enable_for_virtual', 'yes' ) === 'yes';
 
+		// Actions.
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 		add_action( 'woocommerce_thankyou_' . $this->id, array( $this, 'thankyou_page' ) );
 		add_filter( 'woocommerce_payment_complete_order_status', array( $this, 'change_payment_complete_order_status' ), 10, 3 );
@@ -74,7 +96,7 @@ class WC_Gateway_COD extends WC_Payment_Gateway {
 			),
 			'title'              => array(
 				'title'       => __( 'Title', 'woocommerce' ),
-				'type'        => 'text',
+				'type'        => 'safe_text',
 				'description' => __( 'Payment method description that the customer will see on your checkout.', 'woocommerce' ),
 				'default'     => __( 'Cash on delivery', 'woocommerce' ),
 				'desc_tip'    => true,
@@ -132,7 +154,7 @@ class WC_Gateway_COD extends WC_Payment_Gateway {
 			$order    = wc_get_order( $order_id );
 
 			// Test if order needs shipping.
-			if ( 0 < count( $order->get_items() ) ) {
+			if ( $order && 0 < count( $order->get_items() ) ) {
 				foreach ( $order->get_items() as $item ) {
 					$_product = $item->get_product();
 					if ( $_product && $_product->needs_shipping() ) {

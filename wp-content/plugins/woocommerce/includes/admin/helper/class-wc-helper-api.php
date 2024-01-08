@@ -1,9 +1,8 @@
 <?php
 /**
- * WooCommerce Admin
+ * WooCommerce Admin Helper API
  *
- * @class    WC_Helper_API
- * @package  WooCommerce/Admin
+ * @package WooCommerce\Admin\Helper
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * WC_Helper_API Class
  *
- * Provides a communication interface with the WooCommerce.com Helper API.
+ * Provides a communication interface with the Woo.com Helper API.
  */
 class WC_Helper_API {
 	/**
@@ -43,12 +42,19 @@ class WC_Helper_API {
 	 * @return array|WP_Error The response from wp_safe_remote_request()
 	 */
 	public static function request( $endpoint, $args = array() ) {
-		$url = self::url( $endpoint );
+		if ( ! isset( $args['query_string'] ) ) {
+			$args['query_string'] = '';
+		}
+		$url = self::url( $endpoint, $args['query_string'] );
 
 		if ( ! empty( $args['authenticated'] ) ) {
 			if ( ! self::_authenticate( $url, $args ) ) {
 				return new WP_Error( 'authentication', 'Authentication failed.' );
 			}
+		}
+
+		if ( ! isset( $args['user-agent'] ) ) {
+			$args['user-agent'] = 'WooCommerce/' . WC()->version . '; ' . get_bloginfo( 'url' );
 		}
 
 		/**
@@ -97,10 +103,11 @@ class WC_Helper_API {
 			$args['headers'] = array();
 		}
 
-		$args['headers'] = array(
+		$headers         = array(
 			'Authorization'   => 'Bearer ' . $auth['access_token'],
 			'X-Woo-Signature' => $signature,
 		);
+		$args['headers'] = wp_parse_args( $headers, $args['headers'] );
 
 		$url = add_query_arg(
 			array(
@@ -140,16 +147,31 @@ class WC_Helper_API {
 	}
 
 	/**
+	 * Wrapper for self::request().
+	 *
+	 * @param string $endpoint The helper API endpoint to request.
+	 * @param array  $args Arguments passed to wp_remote_request().
+	 *
+	 * @return array The response object from wp_safe_remote_request().
+	 */
+	public static function put( $endpoint, $args = array() ) {
+		$args['method'] = 'PUT';
+		return self::request( $endpoint, $args );
+	}
+
+	/**
 	 * Using the API base, form a request URL from a given endpoint.
 	 *
 	 * @param string $endpoint The endpoint to request.
+	 * @param string $query_string Optional query string to append to the URL.
 	 *
 	 * @return string The absolute endpoint URL.
 	 */
-	public static function url( $endpoint ) {
+	public static function url( $endpoint, $query_string = '' ) {
 		$endpoint = ltrim( $endpoint, '/' );
-		$endpoint = sprintf( '%s/%s', self::$api_base, $endpoint );
+		$endpoint = sprintf( '%s/%s/%s', self::$api_base, $endpoint, $query_string );
 		$endpoint = esc_url_raw( $endpoint );
+		$endpoint = rtrim( $endpoint, '/' );
 		return $endpoint;
 	}
 }

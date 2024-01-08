@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Retrieves an associative array of languages to which
+ * this plugin is translated.
+ *
+ * @return array Array of languages.
+ */
 function wpcf7_l10n() {
 	static $l10n = array();
 
@@ -33,11 +39,25 @@ function wpcf7_l10n() {
 	return $l10n;
 }
 
+
+/**
+ * Returns true if the given locale code looks valid.
+ *
+ * @param string $locale Locale code.
+ */
 function wpcf7_is_valid_locale( $locale ) {
+	if ( ! is_string( $locale ) ) {
+		return false;
+	}
+
 	$pattern = '/^[a-z]{2,3}(?:_[a-zA-Z_]{2,})?$/';
 	return (bool) preg_match( $pattern, $locale );
 }
 
+
+/**
+ * Returns true if the given locale is an RTL language.
+ */
 function wpcf7_is_rtl( $locale = '' ) {
 	static $rtl_locales = array(
 		'ar' => 'Arabic',
@@ -56,43 +76,81 @@ function wpcf7_is_rtl( $locale = '' ) {
 	}
 
 	if ( empty( $locale ) ) {
-		$locale = get_locale();
+		$locale = determine_locale();
 	}
 
 	return isset( $rtl_locales[$locale] );
 }
 
-function wpcf7_load_textdomain( $locale = null ) {
-	global $l10n;
 
-	$domain = 'contact-form-7';
+/**
+ * Loads a translation file into the plugin's text domain.
+ *
+ * @param string $locale Locale code.
+ * @return bool True on success, false on failure.
+ */
+function wpcf7_load_textdomain( $locale = '' ) {
+	$mofile = path_join(
+		WP_LANG_DIR . '/plugins/',
+		sprintf( '%s-%s.mo', WPCF7_TEXT_DOMAIN, $locale )
+	);
 
-	if ( ( is_admin() ? get_user_locale() : get_locale() ) === $locale ) {
-		$locale = null;
+	return load_textdomain( WPCF7_TEXT_DOMAIN, $mofile, $locale );
+}
+
+
+/**
+ * Unloads translations for the plugin's text domain.
+ *
+ * @param bool $reloadable Whether the text domain can be loaded
+ *             just-in-time again.
+ * @return bool True on success, false on failure.
+ */
+function wpcf7_unload_textdomain( $reloadable = false ) {
+	return unload_textdomain( WPCF7_TEXT_DOMAIN, $reloadable );
+}
+
+
+/**
+ * Switches translation locale, calls the callback, then switches back
+ * to the original locale.
+ *
+ * @param string $locale Locale code.
+ * @param callable $callback The callable to be called.
+ * @param mixed $args Parameters to be passed to the callback.
+ * @return mixed The return value of the callback.
+ */
+function wpcf7_switch_locale( $locale, callable $callback, ...$args ) {
+	static $available_locales = null;
+
+	if ( ! isset( $available_locales ) ) {
+		$available_locales = array_merge(
+			array( 'en_US' ),
+			get_available_languages()
+		);
 	}
 
-	if ( empty( $locale ) ) {
-		if ( is_textdomain_loaded( $domain ) ) {
-			return true;
-		} else {
-			return load_plugin_textdomain( $domain, false, $domain . '/languages' );
-		}
-	} else {
-		$mo_orig = $l10n[$domain];
-		unload_textdomain( $domain );
+	$previous_locale = determine_locale();
 
-		$mofile = $domain . '-' . $locale . '.mo';
-		$path = WP_PLUGIN_DIR . '/' . $domain . '/languages';
+	$do_switch_locale = (
+		$locale !== $previous_locale &&
+		in_array( $locale, $available_locales, true ) &&
+		in_array( $previous_locale, $available_locales, true )
+	);
 
-		if ( $loaded = load_textdomain( $domain, $path . '/'. $mofile ) ) {
-			return $loaded;
-		} else {
-			$mofile = WP_LANG_DIR . '/plugins/' . $mofile;
-			return load_textdomain( $domain, $mofile );
-		}
-
-		$l10n[$domain] = $mo_orig;
+	if ( $do_switch_locale ) {
+		wpcf7_unload_textdomain();
+		switch_to_locale( $locale );
+		wpcf7_load_textdomain( $locale );
 	}
 
-	return false;
+	$result = call_user_func( $callback, ...$args );
+
+	if ( $do_switch_locale ) {
+		wpcf7_unload_textdomain( true );
+		restore_previous_locale();
+		wpcf7_load_textdomain( $previous_locale );
+	}
+
+	return $result;
 }

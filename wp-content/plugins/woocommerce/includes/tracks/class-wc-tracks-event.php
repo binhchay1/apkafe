@@ -12,17 +12,18 @@ defined( 'ABSPATH' ) || exit;
 /**
  * WC_Tracks_Event class.
  */
+#[AllowDynamicProperties]
 class WC_Tracks_Event {
 
 	/**
 	 * Event name regex.
 	 */
-	const EVENT_NAME_REGEX = '/^(([a-z0-9]+)_){2}([a-z0-9_]+)$/';
+	public const EVENT_NAME_REGEX = '/^(([a-z0-9]+)_){1}([a-z0-9_]+)$/';
 
 	/**
 	 * Property name regex.
 	 */
-	const PROP_NAME_REGEX = '/^[a-z_][a-z0-9_]*$/';
+	public const PROP_NAME_REGEX = '/^[a-z_][a-z0-9_]*$/';
 
 	/**
 	 * Error message as WP_Error.
@@ -54,7 +55,7 @@ class WC_Tracks_Event {
 	 * @return bool Always returns true.
 	 */
 	public function record() {
-		if ( wp_doing_ajax() || Constants::is_true( 'REST_REQUEST' ) ) {
+		if ( wp_doing_ajax() || Constants::is_true( 'REST_REQUEST' ) || Constants::is_true( 'WP_CLI' ) || wp_doing_cron() ) {
 			return WC_Tracks_Client::record_event( $this );
 		}
 
@@ -86,10 +87,20 @@ class WC_Tracks_Event {
 
 		$_event = (object) array_merge( (array) $event, $validated );
 
-		// If you want to blacklist property names, do it here.
+		// If you want to block property names, do it here.
 		// Make sure we have an event timestamp.
 		if ( ! isset( $_event->_ts ) ) {
 			$_event->_ts = WC_Tracks_Client::build_timestamp();
+		}
+
+		if ( ! self::event_name_is_valid( $_event->_en ) ) {
+			return new WP_Error( 'invalid_event_name', __( 'A valid event name must be specified.', 'woocommerce' ) );
+		}
+
+		foreach ( array_keys( (array) $_event ) as $key ) {
+			if ( ! self::prop_name_is_valid( $key ) && '_en' !== $key ) {
+				return new WP_Error( 'invalid_prop_name', __( 'A valid prop name must be specified', 'woocommerce' ) );
+			}
 		}
 
 		return $_event;
@@ -150,13 +161,13 @@ class WC_Tracks_Event {
 			return;
 		}
 
-		$whitelisted_key_names = array(
+		$allowed_key_names = array(
 			'anonId',
 			'Browser_Type',
 		);
 
 		foreach ( array_keys( (array) $event ) as $key ) {
-			if ( in_array( $key, $whitelisted_key_names, true ) ) {
+			if ( in_array( $key, $allowed_key_names, true ) ) {
 				continue;
 			}
 			if ( ! self::prop_name_is_valid( $key ) ) {

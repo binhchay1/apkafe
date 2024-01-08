@@ -16,9 +16,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @deprecated  2.6.0
  * @version     2.3.0
- * @package     WooCommerce/Classes/Shipping
+ * @package     WooCommerce\Classes\Shipping
  */
 class WC_Shipping_Legacy_Local_Pickup extends WC_Shipping_Method {
+
+	/**
+	 * Allowed post/zip codes for the shipping method.
+	 *
+	 * @var string
+	 */
+	public $codes;
 
 	/**
 	 * Constructor.

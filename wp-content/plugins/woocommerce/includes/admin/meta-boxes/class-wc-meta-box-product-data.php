@@ -4,7 +4,7 @@
  *
  * Displays the product data box, tabbed, with several panels covering price, stock etc.
  *
- * @package  WooCommerce/Admin/Meta Boxes
+ * @package  WooCommerce\Admin\Meta Boxes
  * @version  3.0.0
  */
 
@@ -30,7 +30,7 @@ class WC_Meta_Box_Product_Data {
 
 		wp_nonce_field( 'woocommerce_save_data', 'woocommerce_meta_nonce' );
 
-		include 'views/html-product-data-panel.php';
+		include __DIR__ . '/views/html-product-data-panel.php';
 	}
 
 	/**
@@ -39,12 +39,12 @@ class WC_Meta_Box_Product_Data {
 	private static function output_tabs() {
 		global $post, $thepostid, $product_object;
 
-		include 'views/html-product-data-general.php';
-		include 'views/html-product-data-inventory.php';
-		include 'views/html-product-data-shipping.php';
-		include 'views/html-product-data-linked-products.php';
-		include 'views/html-product-data-attributes.php';
-		include 'views/html-product-data-advanced.php';
+		include __DIR__ . '/views/html-product-data-general.php';
+		include __DIR__ . '/views/html-product-data-inventory.php';
+		include __DIR__ . '/views/html-product-data-shipping.php';
+		include __DIR__ . '/views/html-product-data-linked-products.php';
+		include __DIR__ . '/views/html-product-data-attributes.php';
+		include __DIR__ . '/views/html-product-data-advanced.php';
 	}
 
 	/**
@@ -53,25 +53,12 @@ class WC_Meta_Box_Product_Data {
 	 * @return array
 	 */
 	private static function get_product_type_options() {
+		/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 		return apply_filters(
 			'product_type_options',
-			array(
-				'virtual'      => array(
-					'id'            => '_virtual',
-					'wrapper_class' => 'show_if_simple',
-					'label'         => __( 'Virtual', 'woocommerce' ),
-					'description'   => __( 'Virtual products are intangible and are not shipped.', 'woocommerce' ),
-					'default'       => 'no',
-				),
-				'downloadable' => array(
-					'id'            => '_downloadable',
-					'wrapper_class' => 'show_if_simple',
-					'label'         => __( 'Downloadable', 'woocommerce' ),
-					'description'   => __( 'Downloadable products give access to a file upon purchase.', 'woocommerce' ),
-					'default'       => 'no',
-				),
-			)
+			wc_get_default_product_type_options(),
 		);
+		/* phpcs: enable */
 	}
 
 	/**
@@ -80,6 +67,7 @@ class WC_Meta_Box_Product_Data {
 	 * @return array
 	 */
 	private static function get_product_data_tabs() {
+		/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 		$tabs = apply_filters(
 			'woocommerce_product_data_tabs',
 			array(
@@ -116,7 +104,7 @@ class WC_Meta_Box_Product_Data {
 				'variations'     => array(
 					'label'    => __( 'Variations', 'woocommerce' ),
 					'target'   => 'variable_product_options',
-					'class'    => array( 'variations_tab', 'show_if_variable' ),
+					'class'    => array( 'show_if_variable' ),
 					'priority' => 60,
 				),
 				'advanced'       => array(
@@ -127,6 +115,7 @@ class WC_Meta_Box_Product_Data {
 				),
 			)
 		);
+		/* phpcs: enable */
 
 		// Sort tabs based on priority.
 		uasort( $tabs, array( __CLASS__, 'product_data_tabs_sort' ) );
@@ -166,18 +155,31 @@ class WC_Meta_Box_Product_Data {
 	}
 
 	/**
+	 * Filter callback for finding non-variation attributes.
+	 *
+	 * @param  WC_Product_Attribute $attribute Product attribute.
+	 * @return bool
+	 */
+	private static function filter_non_variation_attributes( $attribute ) {
+		return false === $attribute->get_variation();
+	}
+
+	/**
 	 * Show options for the variable product type.
 	 */
 	public static function output_variations() {
 		global $post, $wpdb, $product_object;
 
+		/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 		$variation_attributes   = array_filter( $product_object->get_attributes(), array( __CLASS__, 'filter_variation_attributes' ) );
 		$default_attributes     = $product_object->get_default_attributes();
 		$variations_count       = absint( apply_filters( 'woocommerce_admin_meta_boxes_variations_count', $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'product_variation' AND post_status IN ('publish', 'private')", $post->ID ) ), $post->ID ) );
 		$variations_per_page    = absint( apply_filters( 'woocommerce_admin_meta_boxes_variations_per_page', 15 ) );
 		$variations_total_pages = ceil( $variations_count / $variations_per_page );
+		$modal_title            = get_bloginfo( 'name' ) . __( ' says', 'woocommerce' );
+		/* phpcs: enable */
 
-		include 'views/html-product-data-variations.php';
+		include __DIR__ . '/views/html-product-data-variations.php';
 	}
 
 	/**
@@ -244,7 +246,7 @@ class WC_Meta_Box_Product_Data {
 					continue;
 				}
 				$attribute_id   = 0;
-				$attribute_name = wc_clean( $attribute_names[ $i ] );
+				$attribute_name = wc_clean( esc_html( $attribute_names[ $i ] ) );
 
 				if ( 'pa_' === substr( $attribute_name, 0, 3 ) ) {
 					$attribute_id = wc_attribute_taxonomy_id_by_name( $attribute_name );
@@ -257,7 +259,7 @@ class WC_Meta_Box_Product_Data {
 					$options = wp_parse_id_list( $options );
 				} else {
 					// Terms or text sent in textarea.
-					$options = 0 < $attribute_id ? wc_sanitize_textarea( wc_sanitize_term_text_based( $options ) ) : wc_sanitize_textarea( $options );
+					$options = 0 < $attribute_id ? wc_sanitize_textarea( esc_html( wc_sanitize_term_text_based( $options ) ) ) : wc_sanitize_textarea( esc_html( $options ) );
 					$options = wc_get_text_attributes( $options );
 				}
 
@@ -272,7 +274,9 @@ class WC_Meta_Box_Product_Data {
 				$attribute->set_position( $attribute_position[ $i ] );
 				$attribute->set_visible( isset( $attribute_visibility[ $i ] ) );
 				$attribute->set_variation( isset( $attribute_variation[ $i ] ) );
+				/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 				$attributes[] = apply_filters( 'woocommerce_admin_meta_boxes_prepare_attribute', $attribute, $data, $i );
+				/* phpcs: enable */
 			}
 		}
 		return $attributes;
@@ -349,7 +353,7 @@ class WC_Meta_Box_Product_Data {
 			$date_on_sale_from = wc_clean( wp_unslash( $_POST['_sale_price_dates_from'] ) );
 
 			if ( ! empty( $date_on_sale_from ) ) {
-				$date_on_sale_from = date( 'Y-m-d 00:00:00', strtotime( $date_on_sale_from ) );
+				$date_on_sale_from = date( 'Y-m-d 00:00:00', strtotime( $date_on_sale_from ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 			}
 		}
 
@@ -358,7 +362,7 @@ class WC_Meta_Box_Product_Data {
 			$date_on_sale_to = wc_clean( wp_unslash( $_POST['_sale_price_dates_to'] ) );
 
 			if ( ! empty( $date_on_sale_to ) ) {
-				$date_on_sale_to = date( 'Y-m-d 23:59:59', strtotime( $date_on_sale_to ) );
+				$date_on_sale_to = date( 'Y-m-d 23:59:59', strtotime( $date_on_sale_to ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 			}
 		}
 
@@ -371,7 +375,7 @@ class WC_Meta_Box_Product_Data {
 				'featured'           => isset( $_POST['_featured'] ),
 				'catalog_visibility' => isset( $_POST['_visibility'] ) ? wc_clean( wp_unslash( $_POST['_visibility'] ) ) : null,
 				'tax_status'         => isset( $_POST['_tax_status'] ) ? wc_clean( wp_unslash( $_POST['_tax_status'] ) ) : null,
-				'tax_class'          => isset( $_POST['_tax_class'] ) ? wc_clean( wp_unslash( $_POST['_tax_class'] ) ) : null,
+				'tax_class'          => isset( $_POST['_tax_class'] ) ? sanitize_title( wp_unslash( $_POST['_tax_class'] ) ) : null,
 				'weight'             => isset( $_POST['_weight'] ) ? wc_clean( wp_unslash( $_POST['_weight'] ) ) : null,
 				'length'             => isset( $_POST['_length'] ) ? wc_clean( wp_unslash( $_POST['_length'] ) ) : null,
 				'width'              => isset( $_POST['_width'] ) ? wc_clean( wp_unslash( $_POST['_width'] ) ) : null,
@@ -425,9 +429,9 @@ class WC_Meta_Box_Product_Data {
 
 			$product->get_data_store()->sync_variation_names( $product, $original_post_title, $post_title );
 		}
-
+		/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 		do_action( 'woocommerce_process_product_meta_' . $product_type, $post_id );
-		// phpcs:enable WordPress.Security.NonceVerification.Missing
+		/* phpcs:enable WordPress.Security.NonceVerification.Missing and WooCommerce.Commenting.CommentHooks.MissingHookComment */
 	}
 
 	/**
@@ -437,6 +441,8 @@ class WC_Meta_Box_Product_Data {
 	 * @param WP_Post $post Post object.
 	 */
 	public static function save_variations( $post_id, $post ) {
+		global $wpdb;
+
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['variable_post_id'] ) ) {
 			$parent = wc_get_product( $post_id );
@@ -446,6 +452,26 @@ class WC_Meta_Box_Product_Data {
 			$max_loop   = max( array_keys( wp_unslash( $_POST['variable_post_id'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$data_store = $parent->get_data_store();
 			$data_store->sort_all_product_variations( $parent->get_id() );
+			$new_variation_menu_order_id    = ! empty( $_POST['new_variation_menu_order_id'] ) ? wc_clean( wp_unslash( $_POST['new_variation_menu_order_id'] ) ) : false;
+			$new_variation_menu_order_value = ! empty( $_POST['new_variation_menu_order_value'] ) ? wc_clean( wp_unslash( $_POST['new_variation_menu_order_value'] ) ) : false;
+
+			// Only perform this operation if setting menu order via the prompt.
+			if ( $new_variation_menu_order_id && $new_variation_menu_order_value ) {
+				/*
+				 * We need to gather all the variations with menu order that is
+				 * equal or greater than the menu order that is newly set and
+				 * increment them by one so that we can correctly insert the updated
+				 * variation menu order.
+				 */
+				$wpdb->query(
+					$wpdb->prepare(
+						"UPDATE {$wpdb->posts} SET menu_order = menu_order + 1 WHERE post_type = 'product_variation' AND post_parent = %d AND post_status = 'publish' AND menu_order >= %d AND ID != %d",
+						$post_id,
+						$new_variation_menu_order_value,
+						$new_variation_menu_order_id
+					)
+				);
+			}
 
 			for ( $i = 0; $i <= $max_loop; $i++ ) {
 
@@ -475,7 +501,7 @@ class WC_Meta_Box_Product_Data {
 					$date_on_sale_from = wc_clean( wp_unslash( $_POST['variable_sale_price_dates_from'][ $i ] ) );
 
 					if ( ! empty( $date_on_sale_from ) ) {
-						$date_on_sale_from = date( 'Y-m-d 00:00:00', strtotime( $date_on_sale_from ) );
+						$date_on_sale_from = date( 'Y-m-d 00:00:00', strtotime( $date_on_sale_from ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 					}
 				}
 
@@ -484,7 +510,7 @@ class WC_Meta_Box_Product_Data {
 					$date_on_sale_to = wc_clean( wp_unslash( $_POST['variable_sale_price_dates_to'][ $i ] ) );
 
 					if ( ! empty( $date_on_sale_to ) ) {
-						$date_on_sale_to = date( 'Y-m-d 23:59:59', strtotime( $date_on_sale_to ) );
+						$date_on_sale_to = date( 'Y-m-d 23:59:59', strtotime( $date_on_sale_to ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 					}
 				}
 
@@ -509,6 +535,7 @@ class WC_Meta_Box_Product_Data {
 						),
 						'manage_stock'      => isset( $_POST['variable_manage_stock'][ $i ] ),
 						'stock_quantity'    => $stock,
+						'low_stock_amount'  => isset( $_POST['variable_low_stock_amount'][ $i ] ) && '' !== $_POST['variable_low_stock_amount'][ $i ] ? wc_stock_amount( wp_unslash( $_POST['variable_low_stock_amount'][ $i ] ) ) : '',
 						'backorders'        => isset( $_POST['variable_backorders'], $_POST['variable_backorders'][ $i ] ) ? wc_clean( wp_unslash( $_POST['variable_backorders'][ $i ] ) ) : null,
 						'stock_status'      => isset( $_POST['variable_stock_status'][ $i ] ) ? wc_clean( wp_unslash( $_POST['variable_stock_status'][ $i ] ) ) : null,
 						'image_id'          => isset( $_POST['upload_image_id'][ $i ] ) ? wc_clean( wp_unslash( $_POST['upload_image_id'][ $i ] ) ) : null,
@@ -519,7 +546,7 @@ class WC_Meta_Box_Product_Data {
 						'width'             => isset( $_POST['variable_width'][ $i ] ) ? wc_clean( wp_unslash( $_POST['variable_width'][ $i ] ) ) : '',
 						'height'            => isset( $_POST['variable_height'][ $i ] ) ? wc_clean( wp_unslash( $_POST['variable_height'][ $i ] ) ) : '',
 						'shipping_class_id' => isset( $_POST['variable_shipping_class'][ $i ] ) ? wc_clean( wp_unslash( $_POST['variable_shipping_class'][ $i ] ) ) : null,
-						'tax_class'         => isset( $_POST['variable_tax_class'][ $i ] ) ? wc_clean( wp_unslash( $_POST['variable_tax_class'][ $i ] ) ) : null,
+						'tax_class'         => isset( $_POST['variable_tax_class'][ $i ] ) ? sanitize_title( wp_unslash( $_POST['variable_tax_class'][ $i ] ) ) : null,
 					)
 				);
 
@@ -537,8 +564,9 @@ class WC_Meta_Box_Product_Data {
 				do_action( 'woocommerce_admin_process_variation_object', $variation, $i );
 
 				$variation->save();
-
+				/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 				do_action( 'woocommerce_save_product_variation', $variation_id, $i );
+				/* phpcs: enable */
 			}
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing

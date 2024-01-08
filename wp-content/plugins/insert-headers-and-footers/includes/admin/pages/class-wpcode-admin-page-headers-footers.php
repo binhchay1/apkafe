@@ -10,6 +10,8 @@
  */
 class WPCode_Admin_Page_Headers_Footers extends WPCode_Admin_Page {
 
+	use WPCode_Revisions_Display_Lite;
+
 	/**
 	 * The page slug to be used when adding the submenu.
 	 *
@@ -54,6 +56,8 @@ class WPCode_Admin_Page_Headers_Footers extends WPCode_Admin_Page {
 		}
 		$this->page_title = __( 'Header & Footer', 'insert-headers-and-footers' );
 		parent::__construct();
+
+		add_action( 'wpcode_admin_page_content_wpcode-headers-footers', array( $this, 'revisions_box' ), 260 );
 	}
 
 	/**
@@ -303,5 +307,35 @@ class WPCode_Admin_Page_Headers_Footers extends WPCode_Admin_Page {
 		}
 
 		return str_replace( 'admin.php', 'options-general.php', $url );
+	}
+
+	/**
+	 * Add the revisions box.
+	 *
+	 * @return void
+	 */
+	public function revisions_box() {
+		$html = $this->code_revisions_list_with_notice(
+			esc_html__( 'Code Revisions is a Pro Feature', 'insert-headers-and-footers' ),
+			sprintf(
+				'<p>%s</p>',
+				esc_html__( 'Upgrade to WPCode Pro today and start tracking revisions and see exactly who, when and which changes were made to global Headers & Footers scripts.', 'insert-headers-and-footers' )
+			),
+			array(
+				'text' => esc_html__( 'Upgrade to Pro and Unlock Revisions', 'insert-headers-and-footers' ),
+				'url'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'headers-footers', 'revisions', 'upgrade-to-pro' ),
+			),
+			array(
+				'text' => esc_html__( 'Learn more about all the features', 'insert-headers-and-footers' ),
+				'url'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'headers-footers', 'revisions', 'features' ),
+			)
+		);
+
+		$this->metabox(
+			__( 'Code Revisions', 'wpcode-premium' ),
+			$html,
+			__( 'Easily switch back to a previous version of your global scripts.', 'wpcode-premium' )
+		);
+
 	}
 }

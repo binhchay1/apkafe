@@ -41,20 +41,24 @@ function wpcf7_acceptance_form_tag_handler( $tag ) {
 		'class' => trim( $class ),
 	);
 
-	$item_atts = array();
+	$item_atts = array(
+		'type' => 'checkbox',
+		'name' => $tag->name,
+		'value' => '1',
+		'tabindex' => $tag->get_option( 'tabindex', 'signed_int', true ),
+		'checked' => $tag->has_option( 'default:on' ),
+		'class' => $tag->get_class_option() ? $tag->get_class_option() : null,
+		'id' => $tag->get_id_option(),
+	);
 
-	$item_atts['type'] = 'checkbox';
-	$item_atts['name'] = $tag->name;
-	$item_atts['value'] = '1';
-	$item_atts['tabindex'] = $tag->get_option( 'tabindex', 'signed_int', true );
-	$item_atts['aria-invalid'] = $validation_error ? 'true' : 'false';
-
-	if ( $tag->has_option( 'default:on' ) ) {
-		$item_atts['checked'] = 'checked';
+	if ( $validation_error ) {
+		$item_atts['aria-invalid'] = 'true';
+		$item_atts['aria-describedby'] = wpcf7_get_validation_error_reference(
+			$tag->name
+		);
+	} else {
+		$item_atts['aria-invalid'] = 'false';
 	}
-
-	$item_atts['class'] = $tag->get_class_option();
-	$item_atts['id'] = $tag->get_id_option();
 
 	$item_atts = wpcf7_format_atts( $item_atts );
 
@@ -65,20 +69,39 @@ function wpcf7_acceptance_form_tag_handler( $tag ) {
 	$content = trim( $content );
 
 	if ( $content ) {
+		if ( $tag->has_option( 'label_first' ) ) {
+			$html = sprintf(
+				'<span class="wpcf7-list-item-label">%2$s</span><input %1$s />',
+				$item_atts,
+				$content
+			);
+		} else {
+			$html = sprintf(
+				'<input %1$s /><span class="wpcf7-list-item-label">%2$s</span>',
+				$item_atts,
+				$content
+			);
+		}
+
 		$html = sprintf(
-			'<span class="wpcf7-list-item"><label><input %1$s /><span class="wpcf7-list-item-label">%2$s</span></label></span>',
-			$item_atts, $content );
+			'<span class="wpcf7-list-item"><label>%s</label></span>',
+			$html
+		);
+
 	} else {
 		$html = sprintf(
 			'<span class="wpcf7-list-item"><input %1$s /></span>',
-			$item_atts );
+			$item_atts
+		);
 	}
 
-	$atts = wpcf7_format_atts( $atts );
-
 	$html = sprintf(
-		'<span class="wpcf7-form-control-wrap %1$s"><span %2$s>%3$s</span>%4$s</span>',
-		sanitize_html_class( $tag->name ), $atts, $html, $validation_error );
+		'<span class="wpcf7-form-control-wrap" data-name="%1$s"><span %2$s>%3$s</span>%4$s</span>',
+		esc_attr( $tag->name ),
+		wpcf7_format_atts( $atts ),
+		$html,
+		$validation_error
+	);
 
 	return $html;
 }
@@ -156,12 +179,12 @@ function wpcf7_acceptance_filter( $accepted, $submission ) {
 add_filter( 'wpcf7_form_class_attr',
 	'wpcf7_acceptance_form_class_attr', 10, 1 );
 
-function wpcf7_acceptance_form_class_attr( $class ) {
+function wpcf7_acceptance_form_class_attr( $class_attr ) {
 	if ( wpcf7_acceptance_as_validation() ) {
-		return $class . ' wpcf7-acceptance-as-validation';
+		return $class_attr . ' wpcf7-acceptance-as-validation';
 	}
 
-	return $class;
+	return $class_attr;
 }
 
 function wpcf7_acceptance_as_validation() {
@@ -199,12 +222,13 @@ function wpcf7_acceptance_mail_tag( $replaced, $submitted, $html, $mail_tag ) {
 	$content = trim( $content );
 
 	if ( $content ) {
-		/* translators: 1: 'Consented' or 'Not consented', 2: conditions */
 		$replaced = sprintf(
+			/* translators: 1: 'Consented' or 'Not consented', 2: conditions */
 			_x( '%1$s: %2$s', 'mail output for acceptance checkboxes',
 				'contact-form-7' ),
 			$replaced,
-			$content );
+			$content
+		);
 	}
 
 	return $replaced;
@@ -227,7 +251,7 @@ function wpcf7_tag_generator_acceptance( $contact_form, $args = '' ) {
 
 	$description = __( "Generate a form-tag for an acceptance checkbox. For more details, see %s.", 'contact-form-7' );
 
-	$desc_link = wpcf7_link( __( 'https://contactform7.com/acceptance-checkbox/', 'contact-form-7' ), __( 'Acceptance Checkbox', 'contact-form-7' ) );
+	$desc_link = wpcf7_link( __( 'https://contactform7.com/acceptance-checkbox/', 'contact-form-7' ), __( 'Acceptance checkbox', 'contact-form-7' ) );
 
 ?>
 <div class="control-box">

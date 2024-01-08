@@ -13,23 +13,63 @@
  * @since 2.8.0
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader-skins.php.
  */
+#[AllowDynamicProperties]
 class WP_Upgrader_Skin {
 
+	/**
+	 * Holds the upgrader data.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @var WP_Upgrader
+	 */
 	public $upgrader;
+
+	/**
+	 * Whether header is done.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @var bool
+	 */
 	public $done_header = false;
+
+	/**
+	 * Whether footer is done.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @var bool
+	 */
 	public $done_footer = false;
 
 	/**
 	 * Holds the result of an upgrade.
 	 *
 	 * @since 2.8.0
+	 *
 	 * @var string|bool|WP_Error
 	 */
-	public $result  = false;
+	public $result = false;
+
+	/**
+	 * Holds the options of an upgrade.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @var array
+	 */
 	public $options = array();
 
 	/**
-	 * @param array $args
+	 * Constructor.
+	 *
+	 * Sets up the generic skin for the WordPress Upgrader classes.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array $args Optional. The WordPress upgrader skin arguments to
+	 *                    override default options. Default empty array.
 	 */
 	public function __construct( $args = array() ) {
 		$defaults      = array(
@@ -42,6 +82,8 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 2.8.0
+	 *
 	 * @param WP_Upgrader $upgrader
 	 */
 	public function set_upgrader( &$upgrader ) {
@@ -52,6 +94,7 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 3.0.0
 	 */
 	public function add_strings() {
 	}
@@ -98,6 +141,7 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 2.8.0
 	 */
 	public function header() {
 		if ( $this->done_header ) {
@@ -109,6 +153,7 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 2.8.0
 	 */
 	public function footer() {
 		if ( $this->done_footer ) {
@@ -119,7 +164,9 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @param string|WP_Error $errors
+	 * @since 2.8.0
+	 *
+	 * @param string|WP_Error $errors Errors.
 	 */
 	public function error( $errors ) {
 		if ( ! $this->done_header ) {
@@ -139,37 +186,46 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @param string $string
-	 * @param mixed  ...$args Optional text replacements.
+	 * @since 2.8.0
+	 * @since 5.9.0 Renamed `$string` (a PHP reserved keyword) to `$feedback` for PHP 8 named parameter support.
+	 *
+	 * @param string $feedback Message data.
+	 * @param mixed  ...$args  Optional text replacements.
 	 */
-	public function feedback( $string, ...$args ) {
-		if ( isset( $this->upgrader->strings[ $string ] ) ) {
-			$string = $this->upgrader->strings[ $string ];
+	public function feedback( $feedback, ...$args ) {
+		if ( isset( $this->upgrader->strings[ $feedback ] ) ) {
+			$feedback = $this->upgrader->strings[ $feedback ];
 		}
 
-		if ( strpos( $string, '%' ) !== false ) {
+		if ( str_contains( $feedback, '%' ) ) {
 			if ( $args ) {
-				$args   = array_map( 'strip_tags', $args );
-				$args   = array_map( 'esc_html', $args );
-				$string = vsprintf( $string, $args );
+				$args     = array_map( 'strip_tags', $args );
+				$args     = array_map( 'esc_html', $args );
+				$feedback = vsprintf( $feedback, $args );
 			}
 		}
-		if ( empty( $string ) ) {
+		if ( empty( $feedback ) ) {
 			return;
 		}
-		show_message( $string );
+		show_message( $feedback );
 	}
 
 	/**
+	 * Performs an action before an update.
+	 *
+	 * @since 2.8.0
 	 */
 	public function before() {}
 
 	/**
+	 * Performs and action following an update.
+	 *
+	 * @since 2.8.0
 	 */
 	public function after() {}
 
 	/**
-	 * Output JavaScript that calls function to decrement the update counts.
+	 * Outputs JavaScript that calls function to decrement the update counts.
 	 *
 	 * @since 3.9.0
 	 *
@@ -199,10 +255,24 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 3.0.0
 	 */
 	public function bulk_header() {}
 
 	/**
+	 * @since 3.0.0
 	 */
 	public function bulk_footer() {}
+
+	/**
+	 * Hides the `process_failed` error message when updating by uploading a zip file.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param WP_Error $wp_error WP_Error object.
+	 * @return bool True if the error should be hidden, false otherwise.
+	 */
+	public function hide_process_failed( $wp_error ) {
+		return false;
+	}
 }

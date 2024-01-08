@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @class          WC_Log_Handler_DB
  * @version        1.0.0
- * @package        WooCommerce/Classes/Log_Handlers
+ * @package        WooCommerce\Classes\Log_Handlers
  */
 class WC_Log_Handler_DB extends WC_Log_Handler {
 
@@ -78,7 +78,11 @@ class WC_Log_Handler_DB extends WC_Log_Handler {
 		);
 
 		if ( ! empty( $context ) ) {
-			$insert['context'] = serialize( $context ); // @codingStandardsIgnoreLine.
+			try {
+				$insert['context'] = serialize( $context ); // @codingStandardsIgnoreLine.
+			} catch ( Exception $e ) {
+				$insert['context'] = serialize( 'There was an error while serializing the context: ' . $e->getMessage() );
+			}
 		}
 
 		return false !== $wpdb->insert( "{$wpdb->prefix}woocommerce_log", $insert, $format );

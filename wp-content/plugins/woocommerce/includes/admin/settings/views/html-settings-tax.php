@@ -1,4 +1,10 @@
 <?php
+/**
+ * Admin view: Settings tax
+ *
+ * @package WooCommerce\Admin\Settings
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -50,6 +56,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</tr>
 	</tbody>
 </table>
+
+<div id="rates-bottom-pagination"></div>
 
 <script type="text/html" id="tmpl-wc-tax-table-row">
 	<tr class="tips" data-tip="<?php printf( esc_attr__( 'Tax rate ID: %s', 'woocommerce' ), '{{ data.tax_rate_id }}' ); ?>" data-id="{{ data.tax_rate_id }}">

@@ -57,6 +57,7 @@ class WPCode_Admin_Page_Loader {
 	 * @return void
 	 */
 	public function require_files() {
+		require_once WPCODE_PLUGIN_PATH . 'includes/admin/pages/trait-wpcode-revisions-display.php';
 		require_once WPCODE_PLUGIN_PATH . 'includes/admin/pages/class-wpcode-admin-page.php';
 		require_once WPCODE_PLUGIN_PATH . 'includes/admin/pages/class-wpcode-admin-page-headers-footers.php';
 		require_once WPCODE_PLUGIN_PATH . 'includes/admin/pages/class-wpcode-admin-page-code-snippets.php';

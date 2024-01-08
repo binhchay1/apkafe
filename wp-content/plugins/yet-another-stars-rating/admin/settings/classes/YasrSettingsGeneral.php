@@ -766,6 +766,7 @@ class YasrSettingsGeneral {
                 }
                 ?>
             </div>
+            <?php /*
             <div>
                 <strong>
                     <?php esc_html_e('Do you want to save ip address?', 'yet-another-stars-rating') ?>
@@ -785,9 +786,9 @@ class YasrSettingsGeneral {
                 $string = sprintf(
                     __("In order to prevent a lot of voting fraud and attempts at automated voting, the user's IP is recorded.
                         %s
-                        Please note that, to comply with %s EU law, you must inform your users that you are storing their 
-                        IP only if you also use their IP for statistical reasons. %s 
-                        If you only use the user's IP to prevent spam, there is no need to include this notification. %s 
+                        Please note that, to comply with %s EU law, you must inform your users that you are storing their
+                        IP only if you also use their IP for statistical reasons. %s
+                        If you only use the user's IP to prevent spam, there is no need to include this notification. %s
                         For further information, click %s here. %s",
                         'yet-another-stars-rating'
                     ),
@@ -799,6 +800,7 @@ class YasrSettingsGeneral {
                 echo wp_kses_post($string);
                 ?>
             </div>
+            */ ?>
         </div>
         <?php
     } //End function

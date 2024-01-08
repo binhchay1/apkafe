@@ -4,7 +4,7 @@
  *
  * The default product type kinda product.
  *
- * @package WooCommerce/Classes/Products
+ * @package WooCommerce\Classes\Products
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -70,7 +70,7 @@ class WC_Product_Simple extends WC_Product {
 	 */
 	public function add_to_cart_description() {
 		/* translators: %s: Product title */
-		$text = $this->is_purchasable() && $this->is_in_stock() ? __( 'Add &ldquo;%s&rdquo; to your cart', 'woocommerce' ) : __( 'Read more about &ldquo;%s&rdquo;', 'woocommerce' );
+		$text = $this->is_purchasable() && $this->is_in_stock() ? __( 'Add to cart: &ldquo;%s&rdquo;', 'woocommerce' ) : __( 'Read more about &ldquo;%s&rdquo;', 'woocommerce' );
 
 		return apply_filters( 'woocommerce_product_add_to_cart_description', sprintf( $text, $this->get_name() ), $this );
 	}

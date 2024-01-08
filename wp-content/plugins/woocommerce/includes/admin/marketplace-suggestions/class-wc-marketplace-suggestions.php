@@ -56,7 +56,7 @@ class WC_Marketplace_Suggestions {
 	}
 
 	/**
-	 * Render additional panels in the proudct data metabox.
+	 * Render additional panels in the product data metabox.
 	 */
 	public static function product_data_panels() {
 		include dirname( __FILE__ ) . '/templates/html-product-data-extensions.php';
@@ -145,7 +145,7 @@ class WC_Marketplace_Suggestions {
 	 */
 	public static function show_suggestions_for_screen( $screen_id ) {
 		// We only show suggestions on certain admin screens.
-		if ( ! in_array( $screen_id, array( 'edit-product', 'edit-shop_order', 'product' ), true ) ) {
+		if ( ! in_array( $screen_id, array( 'edit-product', 'edit-shop_order', 'product', wc_get_page_screen_id( 'shop-order' ) ), true ) ) {
 			return false;
 		}
 

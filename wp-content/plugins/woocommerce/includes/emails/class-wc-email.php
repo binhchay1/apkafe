@@ -5,6 +5,10 @@
  * @package WooCommerce\Emails
  */
 
+use Pelago\Emogrifier\CssInliner;
+use Pelago\Emogrifier\HtmlProcessor\CssToAttributeConverter;
+use Pelago\Emogrifier\HtmlProcessor\HtmlPruner;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -20,7 +24,7 @@ if ( class_exists( 'WC_Email', false ) ) {
  *
  * @class       WC_Email
  * @version     2.5.0
- * @package     WooCommerce/Classes/Emails
+ * @package     WooCommerce\Classes\Emails
  * @extends     WC_Settings_API
  */
 class WC_Email extends WC_Settings_API {
@@ -225,6 +229,13 @@ class WC_Email extends WC_Settings_API {
 	public $replace = array();
 
 	/**
+	 * E-mail type: plain, html or multipart.
+	 *
+	 * @var string
+	 */
+	public $email_type;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -233,6 +244,7 @@ class WC_Email extends WC_Settings_API {
 			array(
 				'{site_title}'   => $this->get_blogname(),
 				'{site_address}' => wp_parse_url( home_url(), PHP_URL_HOST ),
+				'{site_url}'     => wp_parse_url( home_url(), PHP_URL_HOST ),
 			),
 			$this->placeholders
 		);
@@ -260,12 +272,19 @@ class WC_Email extends WC_Settings_API {
 	 * @return PHPMailer
 	 */
 	public function handle_multipart( $mailer ) {
-		if ( $this->sending && 'multipart' === $this->get_email_type() ) {
+		if ( ! $this->sending ) {
+			return $mailer;
+		}
+
+		if ( 'multipart' === $this->get_email_type() ) {
 			$mailer->AltBody = wordwrap( // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				preg_replace( $this->plain_search, $this->plain_replace, wp_strip_all_tags( $this->get_content_plain() ) )
 			);
-			$this->sending   = false;
+		} else {
+			$mailer->AltBody = ''; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
+
+		$this->sending = false;
 		return $mailer;
 	}
 
@@ -313,7 +332,18 @@ class WC_Email extends WC_Settings_API {
 	 * Set the locale to the store locale for customer emails to make sure emails are in the store language.
 	 */
 	public function setup_locale() {
-		if ( $this->is_customer_email() && apply_filters( 'woocommerce_email_setup_locale', true ) ) {
+
+		/**
+		 * Filter the ability to switch email locale.
+		 *
+		 * @since 6.8.0
+		 *
+		 * @param bool $default_value The default returned value.
+		 * @param WC_Email $this The WC_Email object.
+		 */
+		$switch_email_locale = apply_filters( 'woocommerce_allow_switching_email_locale', true, $this );
+
+		if ( $switch_email_locale && $this->is_customer_email() && apply_filters( 'woocommerce_email_setup_locale', true ) ) {
 			wc_switch_to_site_locale();
 		}
 	}
@@ -322,7 +352,18 @@ class WC_Email extends WC_Settings_API {
 	 * Restore the locale to the default locale. Use after finished with setup_locale.
 	 */
 	public function restore_locale() {
-		if ( $this->is_customer_email() && apply_filters( 'woocommerce_email_restore_locale', true ) ) {
+
+		/**
+		 * Filter the ability to restore email locale.
+		 *
+		 * @since 6.8.0
+		 *
+		 * @param bool $default_value The default returned value.
+		 * @param WC_Email $this The WC_Email object.
+		 */
+		$restore_email_locale = apply_filters( 'woocommerce_allow_restoring_email_locale', true, $this );
+
+		if ( $restore_email_locale && $this->is_customer_email() && apply_filters( 'woocommerce_email_restore_locale', true ) ) {
 			wc_restore_locale();
 		}
 	}
@@ -366,9 +407,16 @@ class WC_Email extends WC_Settings_API {
 	 * @return string
 	 */
 	public function get_additional_content() {
-		$content = $this->get_option( 'additional_content', '' );
-
-		return apply_filters( 'woocommerce_email_additional_content_' . $this->id, $this->format_string( $content ), $this->object, $this );
+		/**
+		 * Provides an opportunity to inspect and modify additional content for the email.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param string      $additional_content Additional content to be added to the email.
+		 * @param object|bool $object             The object (ie, product or order) this email relates to, if any.
+		 * @param WC_Email    $email              WC_Email instance managing the email.
+		 */
+		return apply_filters( 'woocommerce_email_additional_content_' . $this->id, $this->format_string( $this->get_option( 'additional_content', $this->get_default_additional_content() ) ), $this->object, $this );
 	}
 
 	/**
@@ -558,12 +606,20 @@ class WC_Email extends WC_Settings_API {
 			wc_get_template( 'emails/email-styles.php' );
 			$css = apply_filters( 'woocommerce_email_styles', ob_get_clean(), $this );
 
-			$emogrifier_class = 'Pelago\\Emogrifier';
+			$css_inliner_class = CssInliner::class;
 
-			if ( $this->supports_emogrifier() && class_exists( $emogrifier_class ) ) {
+			if ( $this->supports_emogrifier() && class_exists( $css_inliner_class ) ) {
 				try {
-					$emogrifier = new $emogrifier_class( $content, $css );
-					$content    = $emogrifier->emogrify();
+					$css_inliner = CssInliner::fromHtml( $content )->inlineCss( $css );
+
+					do_action( 'woocommerce_emogrifier', $css_inliner, $this );
+
+					$dom_document = $css_inliner->getDomDocument();
+
+					HtmlPruner::fromDomDocument( $dom_document )->removeElementsWithDisplayNone();
+					$content = CssToAttributeConverter::fromDomDocument( $dom_document )
+						->convertCssToVisualAttributes()
+						->render();
 				} catch ( Exception $e ) {
 					$logger = wc_get_logger();
 					$logger->error( $e->getMessage(), array( 'source' => 'emogrifier' ) );
@@ -593,7 +649,8 @@ class WC_Email extends WC_Settings_API {
 	 * @return string
 	 */
 	public function get_content_plain() {
-		return ''; }
+		return '';
+	}
 
 	/**
 	 * Get the email content in HTML format.
@@ -601,7 +658,8 @@ class WC_Email extends WC_Settings_API {
 	 * @return string
 	 */
 	public function get_content_html() {
-		return ''; }
+		return '';
+	}
 
 	/**
 	 * Get the from name for outgoing emails.
@@ -642,12 +700,25 @@ class WC_Email extends WC_Settings_API {
 
 		$message              = apply_filters( 'woocommerce_mail_content', $this->style_inline( $message ) );
 		$mail_callback        = apply_filters( 'woocommerce_mail_callback', 'wp_mail', $this );
-		$mail_callback_params = apply_filters( 'woocommerce_mail_callback_params', array( $to, $subject, $message, $headers, $attachments ), $this );
+		$mail_callback_params = apply_filters( 'woocommerce_mail_callback_params', array( $to, wp_specialchars_decode( $subject ), $message, $headers, $attachments ), $this );
 		$return               = $mail_callback( ...$mail_callback_params );
 
 		remove_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
 		remove_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
 		remove_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
+
+		// Clear the AltBody (if set) so that it does not leak across to different emails.
+		$this->clear_alt_body_field();
+
+		/**
+		 * Action hook fired when an email is sent.
+		 *
+		 * @since 5.6.0
+		 * @param bool     $return Whether the email was sent successfully.
+		 * @param int      $id     Email ID.
+		 * @param WC_Email $this   WC_Email instance.
+		 */
+		do_action( 'woocommerce_email_sent', $return, $this->id, $this );
 
 		return $return;
 	}
@@ -763,7 +834,7 @@ class WC_Email extends WC_Settings_API {
 	protected function save_template( $template_code, $template_path ) {
 		if ( current_user_can( 'edit_themes' ) && ! empty( $template_code ) && ! empty( $template_path ) ) {
 			$saved = false;
-			$file  = get_stylesheet_directory() . '/' . WC()->template_path() . $template_path;
+			$file  = $this->get_theme_template_file( $template_path );
 			$code  = wp_unslash( $template_code );
 
 			if ( is_writeable( $file ) ) { // phpcs:ignore WordPress.VIP.FileSystemWritesDisallow.file_ops_is_writeable
@@ -1022,7 +1093,7 @@ class WC_Email extends WC_Settings_API {
 
 			<?php
 			wc_enqueue_js(
-				"jQuery( 'select.email_type' ).change( function() {
+				"jQuery( 'select.email_type' ).on( 'change', function() {
 
 					var val = jQuery( this ).val();
 
@@ -1036,20 +1107,23 @@ class WC_Email extends WC_Settings_API {
 						jQuery('.template_plain').hide();
 					}
 
-				}).change();
+				}).trigger( 'change' );
 
 				var view = '" . esc_js( __( 'View template', 'woocommerce' ) ) . "';
 				var hide = '" . esc_js( __( 'Hide template', 'woocommerce' ) ) . "';
 
-				jQuery( 'a.toggle_editor' ).text( view ).toggle( function() {
-					jQuery( this ).text( hide ).closest(' .template' ).find( '.editor' ).slideToggle();
-					return false;
-				}, function() {
-					jQuery( this ).text( view ).closest( '.template' ).find( '.editor' ).slideToggle();
+				jQuery( 'a.toggle_editor' ).text( view ).on( 'click', function() {
+					var label = hide;
+
+					if ( jQuery( this ).closest(' .template' ).find( '.editor' ).is(':visible') ) {
+						var label = view;
+					}
+
+					jQuery( this ).text( label ).closest(' .template' ).find( '.editor' ).slideToggle();
 					return false;
 				} );
 
-				jQuery( 'a.delete_template' ).click( function() {
+				jQuery( 'a.delete_template' ).on( 'click', function() {
 					if ( window.confirm('" . esc_js( __( 'Are you sure you want to delete this template file?', 'woocommerce' ) ) . "') ) {
 						return true;
 					}
@@ -1057,7 +1131,7 @@ class WC_Email extends WC_Settings_API {
 					return false;
 				});
 
-				jQuery( '.editor textarea' ).change( function() {
+				jQuery( '.editor textarea' ).on( 'change', function() {
 					var name = jQuery( this ).attr( 'data-name' );
 
 					if ( name ) {
@@ -1065,6 +1139,17 @@ class WC_Email extends WC_Settings_API {
 					}
 				});"
 			);
+		}
+	}
+
+	/**
+	 * Clears the PhpMailer AltBody field, to prevent that content from leaking across emails.
+	 */
+	private function clear_alt_body_field(): void {
+		global $phpmailer;
+
+		if ( $phpmailer instanceof PHPMailer\PHPMailer\PHPMailer ) {
+			$phpmailer->AltBody = ''; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
 	}
 }

@@ -136,6 +136,8 @@ class WPCode_Error {
 		// Store the error details in the snippet meta.
 		$snippet->set_last_error( $error );
 
+		do_action( 'wpcode_snippet_error_tracked', $error, $snippet );
+
 		// Reset the error count.
 		$this->clear_snippets_errors();
 	}
@@ -171,6 +173,23 @@ class WPCode_Error {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Get the short version of the error message without the file and line number.
+	 *
+	 * @param string $message The error message.
+	 *
+	 * @return string
+	 */
+	public function get_error_message_short( $message ) {
+		$pattern = '/^([^:]+: .+?) in/';
+
+		if ( preg_match( $pattern, $message, $matches ) ) {
+			$message = $matches[1];
+		}
+
+		return $message;
 	}
 
 	/**

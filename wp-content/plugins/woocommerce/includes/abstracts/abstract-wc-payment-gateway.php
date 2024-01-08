@@ -2,14 +2,15 @@
 /**
  * Abstract payment gateway
  *
- * Hanldes generic payment gateway functionality which is extended by idividual payment gateways.
+ * Handles generic payment gateway functionality which is extended by individual payment gateways.
  *
  * @class WC_Payment_Gateway
  * @version 2.1.0
- * @package WooCommerce/Abstracts
+ * @package WooCommerce\Abstracts
  */
 
 use Automattic\Jetpack\Constants;
+use Automattic\WooCommerce\Internal\Utilities\HtmlSanitizer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -23,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @class       WC_Payment_Gateway
  * @extends     WC_Settings_API
  * @version     2.1.0
- * @package     WooCommerce/Abstracts
+ * @package     WooCommerce\Abstracts
  */
 abstract class WC_Payment_Gateway extends WC_Settings_API {
 
@@ -218,7 +219,7 @@ abstract class WC_Payment_Gateway extends WC_Settings_API {
 	/**
 	 * Get the return url (thank you page).
 	 *
-	 * @param WC_Order $order Order object.
+	 * @param WC_Order|null $order Order object.
 	 * @return string
 	 */
 	public function get_return_url( $order = null ) {
@@ -262,7 +263,9 @@ abstract class WC_Payment_Gateway extends WC_Settings_API {
 		// Gets order total from "pay for order" page.
 		if ( 0 < $order_id ) {
 			$order = wc_get_order( $order_id );
-			$total = (float) $order->get_total();
+			if ( $order ) {
+				$total = (float) $order->get_total();
+			}
 
 			// Gets order total from cart/checkout.
 		} elseif ( 0 < WC()->cart->total ) {
@@ -302,7 +305,8 @@ abstract class WC_Payment_Gateway extends WC_Settings_API {
 	 * @return string
 	 */
 	public function get_title() {
-		return apply_filters( 'woocommerce_gateway_title', $this->title, $this->id );
+		$title = wc_get_container()->get( HtmlSanitizer::class )->sanitize( (string) $this->title, HtmlSanitizer::LOW_HTML_BALANCED_TAGS_NO_LINKS );
+		return apply_filters( 'woocommerce_gateway_title', $title, $this->id );
 	}
 
 	/**
@@ -369,10 +373,10 @@ abstract class WC_Payment_Gateway extends WC_Settings_API {
 	 * If the gateway declares 'refunds' support, this will allow it to refund.
 	 * a passed in amount.
 	 *
-	 * @param  int    $order_id Order ID.
-	 * @param  float  $amount Refund amount.
-	 * @param  string $reason Refund reason.
-	 * @return boolean True or false based on success, or a WP_Error object.
+	 * @param  int        $order_id Order ID.
+	 * @param  float|null $amount Refund amount.
+	 * @param  string     $reason Refund reason.
+	 * @return bool|\WP_Error True or false based on success, or a WP_Error object.
 	 */
 	public function process_refund( $order_id, $amount = null, $reason = '' ) {
 		return false;

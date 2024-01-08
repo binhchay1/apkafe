@@ -150,6 +150,7 @@ function aaih__meta_box_callback( $post ) {
 		aaih__show_meta__target_h( $settings, $meta_settings );
 		aaih__show_meta__ad_space( $settings, $meta_settings );
 		aaih__show_meta__ad_num( $settings, $meta_settings );
+		aaih__show_meta__adsense_auto_ads_onoff( $settings, $meta_settings ) ; //★2023.11.15 追加
 		aaih__show_meta__debug_mode( $settings, $meta_settings );
 		aaih__show_meta__shortcode( $settings );
 	?>
@@ -228,10 +229,73 @@ function aaih__show_meta__ad_off( $settings, $meta_settings ) {
 		<input type='checkbox' name='meta__ad_off' <?php checked( $meta_value , 'on' ); ?> value='on'><?php echo esc_attr( $description ); ?>
 	</label>
 	<p class="supplement"><?php echo esc_attr( $supplement1 ); ?><br /><?php echo esc_attr( $supplement2 ); ?></p>
+
+<?php
+	aaih__show_meta__each_ad_onoff( $meta_settings ); 	// ★ 2023.11.15追加
+?>
 	<p class="supplement settings">
 		<span class="first"><?php echo esc_attr( $supplement_setting ); ?></span>
 		<span class="second"><?php echo esc_attr( $supplement_setting2 ); ?></span>
 	</p>
+<?php
+}
+
+/**
+ * オプション：最初のH2タグ前Ad, H2タグ前Ad, 記事下Ad の on/off　カスタムフィールドへHTML表示　★ 2023.11.15 追加
+ *
+ * @param array $settings	設定値全体
+ * @param array $meta_settings		カスタムフィールド設定値全体
+ * @return void
+ */
+function aaih__show_meta__each_ad_onoff( $meta_settings ) {
+	$meta_value__h_tag_ad_onoff			= $meta_settings['meta__h_tag_ad_onoff'];			// on / off　H2タグ前Ad
+	$meta_value__first_h_tag_ad_onoff	= $meta_settings['meta__first_h_tag_ad_onoff'];		// on / off　最初のH2タグ前Ad
+	$meta_value__after_content_ad_onoff	= $meta_settings['meta__after_content_ad_onoff'];	// on / off
+
+	$label__h_tag_ad_onoff				= __( 'Ad before H tag', AAIH__TEXT_DOMAIN );			// H2タグ前Ad
+	$label__first_h_tag_ad_onoff		= __( 'Ad before the first H tag', AAIH__TEXT_DOMAIN );	// 最初のH2タグ前Ad
+	$label__after_content_ad_onoff		= __( 'Ad end of article', AAIH__TEXT_DOMAIN );			// 記事下Ad
+?>
+	<table class="each-ad">
+		<tbody>
+		<tr>
+			<td class="item-label"><?php echo esc_attr( $label__first_h_tag_ad_onoff ); ?> : </td>
+			<td class="same-as-setting">
+				<input type="radio" name="meta__first_h_tag_ad_onoff" value="same" <?php checked( $meta_value__first_h_tag_ad_onoff , 'same' ); ?>><?php _e( 'Same as plugin settings', AAIH__TEXT_DOMAIN ); // 設定値に同じ ?>
+			</td>
+			<td class="on">
+				<input type="radio" name="meta__first_h_tag_ad_onoff" value="on" <?php checked( $meta_value__first_h_tag_ad_onoff , 'on' ); ?> ><?php _e( 'Enable', AAIH__TEXT_DOMAIN ); ?>
+			</td>
+			<td class="off">
+				<input type="radio" name="meta__first_h_tag_ad_onoff" value="off" <?php checked( $meta_value__first_h_tag_ad_onoff , 'off' ); ?> ><?php _e( 'Disable', AAIH__TEXT_DOMAIN ); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="item-label"><?php echo esc_attr( $label__h_tag_ad_onoff ); ?> : </td>
+			<td class="same-as-setting">
+				<input type="radio" name="meta__h_tag_ad_onoff" value="same" <?php checked( $meta_value__h_tag_ad_onoff , 'same' ); ?>><?php _e( 'Same as plugin settings', AAIH__TEXT_DOMAIN ); // 設定値に同じ ?>
+			</td>
+			<td class="on">
+				<input type="radio" name="meta__h_tag_ad_onoff" value="on" <?php checked( $meta_value__h_tag_ad_onoff , 'on' ); ?> ><?php _e( 'Enable', AAIH__TEXT_DOMAIN ); ?>
+			</td>
+			<td class="off">
+				<input type="radio" name="meta__h_tag_ad_onoff" value="off" <?php checked( $meta_value__h_tag_ad_onoff , 'off' ); ?> ><?php _e( 'Disable', AAIH__TEXT_DOMAIN ); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="item-label"><?php echo esc_attr( $label__after_content_ad_onoff ); ?> : </td>
+			<td class="same-as-setting">
+				<input type="radio" name="meta__after_content_ad_onoff" value="same" <?php checked( $meta_value__after_content_ad_onoff , 'same' ); ?>><?php _e( 'Same as plugin settings', AAIH__TEXT_DOMAIN ); // 設定値に同じ ?>
+			</td>
+			<td class="on">
+				<input type="radio" name="meta__after_content_ad_onoff" value="on" <?php checked( $meta_value__after_content_ad_onoff , 'on' ); ?> ><?php _e( 'Enable', AAIH__TEXT_DOMAIN ); ?>
+			</td>
+			<td class="off">
+				<input type="radio" name="meta__after_content_ad_onoff" value="off" <?php checked( $meta_value__after_content_ad_onoff , 'off' ); ?> ><?php _e( 'Disable', AAIH__TEXT_DOMAIN ); ?>
+			</td>
+		</tr>
+	</tbody>
+	</table>
 <?php
 }
 
@@ -368,6 +432,40 @@ function aaih__show_meta__ad_num( $settings, $meta_settings ) {
 <?php
 }
 
+/**
+ *　★2023.11.15 追加
+ *  オプション：アドセンス自動広告のon/off　カスタムフィールドへHTML表示
+ *
+ * @param array $settings	設定値全体
+ * @param array $meta_settings		カスタムフィールド設定値全体
+ * @return void
+ */
+function aaih__show_meta__adsense_auto_ads_onoff( $settings, $meta_settings ) {
+	$adsense_auto_ads_onoff	= $settings['adsense_auto_ads_onoff'];
+	$meta_value			= $meta_settings['meta__adsense_auto_ads_onoff'];	// アドセンス自動広告 on / off
+
+	$str_on		= 'on ( ' . __( 'Enable', AAIH__TEXT_DOMAIN ) . ' )'; 	// アドセンス自動広告 on ( 有効 )
+	$str_off	= 'off ( ' . __( 'Disable', AAIH__TEXT_DOMAIN ) . ' )'; // アドセンス自動広告 off ( 無効 )
+
+	$label				= __( 'AdSense Auto Ads', AAIH__TEXT_DOMAIN );	// アドセンス自動広告
+	$supplement			= __( 'AdSense Auto Ads on / off.', AAIH__TEXT_DOMAIN ); // アドセンス自動広告の on / off
+	$supplement_setting	= __( '[ Plugin settings ] ', AAIH__TEXT_DOMAIN ) . ( 'on' === $adsense_auto_ads_onoff ? $str_on : $str_off ) ; // 【プラグイン設定値】
+?>
+	<hr>
+	<span class="item-label"><?php echo esc_attr( $label ); ?> : </span>
+	<label class="same-as-setting">
+		<input type="radio" name="meta__adsense_auto_ads_onoff" value="same" <?php checked( $meta_value , 'same' ); ?>><?php _e( 'Same as plugin settings', AAIH__TEXT_DOMAIN ); // 設定値に同じ ?>
+	</label>
+	<label class="on">
+		<input type="radio" name="meta__adsense_auto_ads_onoff" value="on" <?php checked( $meta_value , 'on' ); ?> ><?php _e( 'Enable', AAIH__TEXT_DOMAIN ); ?>
+	</label>
+	<label class="off">
+		<input type="radio" name="meta__adsense_auto_ads_onoff" value="off" <?php checked( $meta_value , 'off' ); ?> ><?php _e( 'Disable', AAIH__TEXT_DOMAIN ); ?>
+	</label>
+	<p class="supplement"><?php echo esc_attr( $supplement ); ?></p>
+	<p class="supplement settings"><?php echo esc_attr( $supplement_setting ); ?></p>
+<?php
+}
 
 /**
  * オプション：デバッグモードのon/off　カスタムフィールドへHTML表示
@@ -531,10 +629,14 @@ function aaih__save_meta_box_data( $post_id ) {
 	foreach( array_keys( $meta_settings ) as $key ) {
 		if ( isset( $_POST[ $key ] ) ) {
 			switch ( $key ) {
-				case 'meta__ad_off':			// 広告の表示を全てoff（3つの設定を強制OFF）
-				case 'meta__target_h_tag':		// 対象とするHタグ
-				case 'meta__ad_space_change':	// 広告の間隔を変更するかの on / off
-				case 'meta__debug_mode_onoff':	// デバッグモードの on / off
+				case 'meta__ad_off':					// 広告の表示を全てoff（3つの設定を強制OFF）
+				case 'meta__h_tag_ad_onoff':			// H2タグ前Ad 			★2023.11.15 追加
+				case 'meta__first_h_tag_ad_onoff':		// 最初のH2タグ前Ad 	★2023.11.15 追加
+				case 'meta__after_content_ad_onoff':	// 記事下Ad 			★2023.11.15 追加
+				case 'meta__target_h_tag':				// 対象とするHタグ
+				case 'meta__ad_space_change':			// 広告の間隔を変更するかの on / off
+				case 'meta__adsense_auto_ads_onoff':	// アドセンス自動広告 on / off
+				case 'meta__debug_mode_onoff':			// デバッグモードの on / off
 					$meta_settings[ $key ]	= sanitize_text_field( $_POST[ $key ] );
 					break;
 
@@ -576,6 +678,11 @@ function aaih__get_meta_data( $post_id ) {
 	/*
 	* $meta_names	= array(
 	* 	'meta__ad_off' 				=> 'off',	// 広告の表示を全てoff（3つの設定を強制OFF）
+	*
+	* 	'meta__h_tag_ad_onoff'			=> 'same',	// H2タグ前Adの有効無効 ★2023/11/15 追加
+	* 	'meta__first_h_tag_ad_onoff'	=> 'same',	// 最初のH2タグ前Adの有効無効　★2023/11/15 追加
+	* 	'meta__after_content_ad_onoff'	=> 'same',	// 記事下Adの有効無効　★2023/11/15 追加
+	*
 	* 	'meta__target_h_tag'		=> 'same',	// 対象とするHタグ
 	* 	'meta__ad_space_change'		=> 'same',	// 広告の間隔を変更するかのon/off
 	* 	'meta__ad_space'			=> '',		// int: 広告の間隔（文字数指定）
@@ -619,6 +726,11 @@ function aaih__meta_data_check( $settings ) {
 
 	/* 記事に設定されているメタデータをすべて取得
 	 * オプション：広告非表示
+	 *
+	 * オプション：先頭のHタグ前Ad	★2023/11/15
+	 * オプション：Hタグ前Ad		★2023/11/15
+	 * オプション：記事下Ad			★2023/11/15
+	 *
 	 * オプション：対象Hタグ
 	 * オプション：広告の間隔
 	 * オプション：記事内広告の上限の数
@@ -639,6 +751,26 @@ function aaih__meta_data_check( $settings ) {
 					$settings['after_content_ad_onoff']	= 'off';	// 記事下Ad
 				}
 				break;
+
+			// ★ 以下追加 2023/11/15
+			case 'meta__h_tag_ad_onoff':	// 	same / on / off
+				if ( 'same' !== $value) {
+					$settings['h_tag_ad_onoff'] 	= $value;	// 対象とするHタグ
+				}
+				break;
+
+			case 'meta__first_h_tag_ad_onoff':	// 	same / on / off
+				if ( 'same' !== $value) {
+					$settings['first_h_tag_ad_onoff'] 	= $value;	// 対象とするHタグ
+				}
+				break;
+
+			case 'meta__after_content_ad_onoff':	// 	same / on / off
+				if ( 'same' !== $value) {
+					$settings['after_content_ad_onoff'] 	= $value;	// 対象とするHタグ
+				}
+				break;
+			// 追加はここまで　2023/11/15
 
 			case 'meta__target_h_tag':	// 	same / H_tag_all / H2_only
 				if ( 'same' !== $value) {
@@ -663,11 +795,19 @@ function aaih__meta_data_check( $settings ) {
 				}
 				break;
 
-			case 'meta__debug_mode_onoff':	// same / on / off
+			// ★ 以下追加 2023/11/15
+			case 'meta__adsense_auto_ads_onoff':	// same / on / off
 				if ( 'same' !== $value) {
-					$settings['debug_mode_onoff'] 	= $value;	// デバッグモードの on/off
+					$settings['adsense_auto_ads_onoff'] 	= $value;	// アドセンス自動広告の on/off
 				}
 				break;
+			// 追加はここまで　2023/11/15
+
+			case 'meta__debug_mode_onoff':	// same / on / off
+			if ( 'same' !== $value) {
+				$settings['debug_mode_onoff'] 	= $value;	// デバッグモードの on/off
+			}
+			break;
 
 			default:
 				$alert_msg	= 'aaih__meta_data_check 無効な値 : key:'. $key . ', value:' . $value ;

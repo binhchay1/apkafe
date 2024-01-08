@@ -6,7 +6,7 @@
  *
  * @author      WooThemes
  * @category    Admin
- * @package     WooCommerce/Admin/Meta Boxes
+ * @package     WooCommerce\Admin\Meta Boxes
  * @version     2.1.0
  */
 
@@ -103,7 +103,8 @@ class WC_Meta_Box_Coupon_Data {
 						array(
 							'id'          => 'free_shipping',
 							'label'       => __( 'Allow free shipping', 'woocommerce' ),
-							'description' => sprintf( __( 'Check this box if the coupon grants free shipping. A <a href="%s" target="_blank">free shipping method</a> must be enabled in your shipping zone and be set to require "a valid free shipping coupon" (see the "Free Shipping Requires" setting).', 'woocommerce' ), 'https://docs.woocommerce.com/document/free-shipping/' ),
+							// translators: %s: URL to free shipping document.
+							'description' => sprintf( __( 'Check this box if the coupon grants free shipping. A <a href="%s" target="_blank">free shipping method</a> must be enabled in your shipping zone and be set to require "a valid free shipping coupon" (see the "Free Shipping Requires" setting).', 'woocommerce' ), 'https://woo.com/document/free-shipping/' ),
 							'value'       => wc_bool_to_string( $coupon->get_free_shipping( 'edit' ) ),
 						)
 					);
@@ -194,7 +195,7 @@ class WC_Meta_Box_Coupon_Data {
 						foreach ( $product_ids as $product_id ) {
 							$product = wc_get_product( $product_id );
 							if ( is_object( $product ) ) {
-								echo '<option value="' . esc_attr( $product_id ) . '"' . selected( true, true, false ) . '>' . wp_kses_post( $product->get_formatted_name() ) . '</option>';
+								echo '<option value="' . esc_attr( $product_id ) . '"' . selected( true, true, false ) . '>' . esc_html( wp_strip_all_tags( $product->get_formatted_name() ) ) . '</option>';
 							}
 						}
 						?>
@@ -212,7 +213,7 @@ class WC_Meta_Box_Coupon_Data {
 						foreach ( $product_ids as $product_id ) {
 							$product = wc_get_product( $product_id );
 							if ( is_object( $product ) ) {
-								echo '<option value="' . esc_attr( $product_id ) . '"' . selected( true, true, false ) . '>' . wp_kses_post( $product->get_formatted_name() ) . '</option>';
+								echo '<option value="' . esc_attr( $product_id ) . '"' . selected( true, true, false ) . '>' . esc_html( wp_strip_all_tags( $product->get_formatted_name() ) ) . '</option>';
 							}
 						}
 						?>
@@ -267,7 +268,7 @@ class WC_Meta_Box_Coupon_Data {
 						'id'                => 'customer_email',
 						'label'             => __( 'Allowed emails', 'woocommerce' ),
 						'placeholder'       => __( 'No restrictions', 'woocommerce' ),
-						'description'       => __( 'Whitelist of billing emails to check against when an order is placed. Separate email addresses with commas. You can also use an asterisk (*) to match parts of an email. For example "*@gmail.com" would match all gmail addresses.', 'woocommerce' ),
+						'description'       => __( 'List of allowed billing emails to check against when an order is placed. Separate email addresses with commas. You can also use an asterisk (*) to match parts of an email. For example "*@gmail.com" would match all gmail addresses.', 'woocommerce' ),
 						'value'             => implode( ', ', (array) $coupon->get_email_restrictions( 'edit' ) ),
 						'desc_tip'          => true,
 						'type'              => 'email',

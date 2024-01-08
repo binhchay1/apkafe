@@ -166,12 +166,13 @@ TEMPLATE
 				'sameUsername'   => [
 					'enable'   => [ 'type' => 'boolean', 'default' => false ],
 					'username' => [ 'type' => 'string' ],
-					'included' => [ 'type' => 'array', 'default' => [ 'facebookPageUrl', 'twitterUrl', 'pinterestUrl', 'instagramUrl', 'youtubeUrl', 'linkedinUrl' ] ]
+					'included' => [ 'type' => 'array', 'default' => [ 'facebookPageUrl', 'twitterUrl', 'tiktokUrl', 'pinterestUrl', 'instagramUrl', 'youtubeUrl', 'linkedinUrl' ] ]
 				],
 				'urls'           => [
 					'facebookPageUrl' => [ 'type' => 'string' ],
 					'twitterUrl'      => [ 'type' => 'string' ],
 					'instagramUrl'    => [ 'type' => 'string' ],
+					'tiktokUrl'       => [ 'type' => 'string' ],
 					'pinterestUrl'    => [ 'type' => 'string' ],
 					'youtubeUrl'      => [ 'type' => 'string' ],
 					'linkedinUrl'     => [ 'type' => 'string' ],
@@ -279,7 +280,7 @@ TEMPLATE
 				'useCategoriesForMetaKeywords' => [ 'type' => 'boolean', 'default' => false ],
 				'useTagsForMetaKeywords'       => [ 'type' => 'boolean', 'default' => false ],
 				'dynamicallyGenerateKeywords'  => [ 'type' => 'boolean', 'default' => false ],
-				'pagedFormat'                  => [ 'type' => 'string', 'default' => '- Page #page_number', 'localized' => true ],
+				'pagedFormat'                  => [ 'type' => 'string', 'default' => '#separator_sa Page #page_number', 'localized' => true ],
 				'runShortcodes'                => [ 'type' => 'boolean', 'default' => false ],
 				'crawlCleanup'                 => [
 					'enable'                      => [ 'type' => 'boolean', 'default' => false ],
@@ -407,21 +408,6 @@ TEMPLATE
 			]
 		],
 		'deprecated'       => [
-			'webmasterTools'   => [
-				'googleAnalytics' => [
-					'id'                        => [ 'type' => 'string' ],
-					'advanced'                  => [ 'type' => 'boolean', 'default' => false ],
-					'trackingDomain'            => [ 'type' => 'string' ],
-					'multipleDomains'           => [ 'type' => 'boolean', 'default' => false ],
-					'additionalDomains'         => [ 'type' => 'html' ],
-					'anonymizeIp'               => [ 'type' => 'boolean', 'default' => false ],
-					'displayAdvertiserTracking' => [ 'type' => 'boolean', 'default' => false ],
-					'excludeUsers'              => [ 'type' => 'array', 'default' => [] ],
-					'trackOutboundLinks'        => [ 'type' => 'boolean', 'default' => false ],
-					'enhancedLinkAttribution'   => [ 'type' => 'boolean', 'default' => false ],
-					'enhancedEcommerce'         => [ 'type' => 'boolean', 'default' => false ]
-				]
-			],
 			'searchAppearance' => [
 				'global'   => [
 					'descriptionFormat' => [ 'type' => 'string' ],

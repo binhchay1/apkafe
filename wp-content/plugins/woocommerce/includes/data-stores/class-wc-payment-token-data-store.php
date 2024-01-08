@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @version  3.0.0
  */
-class WC_Payment_Token_Data_Store extends WC_Data_Store_WP implements WC_Payment_Token_Data_Store_Interface, WC_Object_Data_Store_Interface {
+class WC_Payment_Token_Data_Store extends WC_Data_Store_WP implements WC_Object_Data_Store_Interface, WC_Payment_Token_Data_Store_Interface {
 
 	/**
 	 * Meta type. Payment tokens are a new object type.
@@ -264,7 +264,7 @@ class WC_Payment_Token_Data_Store extends WC_Data_Store_WP implements WC_Payment
 		}
 
 		$page           = isset( $args['page'] ) ? absint( $args['page'] ) : 1;
-		$posts_per_page = isset( $args['limit'] ) ? absint( $args['limit'] ) : get_option( 'posts_per_page' );
+		$posts_per_page = absint( isset( $args['limit'] ) ? $args['limit'] : get_option( 'posts_per_page' ) );
 
 		$pgstrt = absint( ( $page - 1 ) * $posts_per_page ) . ', ';
 		$limits = 'LIMIT ' . $pgstrt . $posts_per_page;
@@ -305,7 +305,7 @@ class WC_Payment_Token_Data_Store extends WC_Data_Store_WP implements WC_Payment
 	 * Should contain the fields token_id, gateway_id, token, user_id, type, is_default.
 	 *
 	 * @since 3.0.0
-	 * @param id $token_id Token ID.
+	 * @param int $token_id Token ID.
 	 * @return object
 	 */
 	public function get_token_by_id( $token_id ) {
@@ -322,7 +322,7 @@ class WC_Payment_Token_Data_Store extends WC_Data_Store_WP implements WC_Payment
 	 * Returns metadata for a specific payment token.
 	 *
 	 * @since 3.0.0
-	 * @param id $token_id Token ID.
+	 * @param int $token_id Token ID.
 	 * @return array
 	 */
 	public function get_metadata( $token_id ) {
@@ -333,7 +333,7 @@ class WC_Payment_Token_Data_Store extends WC_Data_Store_WP implements WC_Payment
 	 * Get a token's type by ID.
 	 *
 	 * @since 3.0.0
-	 * @param id $token_id Token ID.
+	 * @param int $token_id Token ID.
 	 * @return string
 	 */
 	public function get_token_type_by_id( $token_id ) {
@@ -353,7 +353,7 @@ class WC_Payment_Token_Data_Store extends WC_Data_Store_WP implements WC_Payment
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param id   $token_id Token ID.
+	 * @param int  $token_id Token ID.
 	 * @param bool $status Whether given payment token is the default payment token or not.
 	 *
 	 * @return void
@@ -362,7 +362,7 @@ class WC_Payment_Token_Data_Store extends WC_Data_Store_WP implements WC_Payment
 		global $wpdb;
 		$wpdb->update(
 			$wpdb->prefix . 'woocommerce_payment_tokens',
-			array( 'is_default' => $status ),
+			array( 'is_default' => (int) $status ),
 			array(
 				'token_id' => $token_id,
 			)

@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @author      WooThemes
  * @category    Admin
- * @package     WooCommerce/Admin/Reports
+ * @package     WooCommerce\Admin\Reports
  * @version     2.1.0
  */
 class WC_Report_Taxes_By_Date extends WC_Admin_Report {
@@ -104,7 +104,7 @@ class WC_Report_Taxes_By_Date extends WC_Admin_Report {
 			),
 		);
 
-		// We exlude on-hold orders are they are still pending payment.
+		// We exclude on-hold orders are they are still pending payment.
 		$tax_rows_orders = $this->get_order_report_data(
 			array(
 				'data'         => $query_data,

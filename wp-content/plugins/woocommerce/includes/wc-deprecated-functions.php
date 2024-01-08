@@ -45,7 +45,7 @@ function wc_do_deprecated_action( $tag, $args, $version, $replacement = null, $m
  */
 function wc_deprecated_function( $function, $version, $replacement = null ) {
 	// @codingStandardsIgnoreStart
-	if ( is_ajax() || WC()->is_rest_api_request() ) {
+	if ( wp_doing_ajax() || WC()->is_rest_api_request() ) {
 		do_action( 'deprecated_function_run', $function, $replacement, $version );
 		$log_string  = "The {$function} function is deprecated since version {$version}.";
 		$log_string .= $replacement ? " Replace with {$replacement}." : '';
@@ -67,7 +67,7 @@ function wc_deprecated_function( $function, $version, $replacement = null ) {
  */
 function wc_deprecated_hook( $hook, $version, $replacement = null, $message = null ) {
 	// @codingStandardsIgnoreStart
-	if ( is_ajax() || WC()->is_rest_api_request() ) {
+	if ( wp_doing_ajax() || WC()->is_rest_api_request() ) {
 		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message );
 
 		$message    = empty( $message ) ? '' : ' ' . $message;
@@ -111,7 +111,7 @@ function wc_doing_it_wrong( $function, $message, $version ) {
 	// @codingStandardsIgnoreStart
 	$message .= ' Backtrace: ' . wp_debug_backtrace_summary();
 
-	if ( is_ajax() || WC()->is_rest_api_request() ) {
+	if ( wp_doing_ajax() || WC()->is_rest_api_request() ) {
 		do_action( 'doing_it_wrong_run', $function, $message, $version );
 		error_log( "{$function} was called incorrectly. {$message}. This message was added in version {$version}." );
 	} else {
@@ -129,7 +129,7 @@ function wc_doing_it_wrong( $function, $message, $version ) {
  * @param  string $replacement
  */
 function wc_deprecated_argument( $argument, $version, $message = null ) {
-	if ( is_ajax() || WC()->is_rest_api_request() ) {
+	if ( wp_doing_ajax() || WC()->is_rest_api_request() ) {
 		do_action( 'deprecated_argument_run', $argument, $message, $version );
 		error_log( "The {$argument} argument is deprecated since version {$version}. {$message}" );
 	} else {
@@ -885,8 +885,7 @@ function woocommerce_track_product_view() {
 }
 
 /**
- * @since 2.3
- * @deprecated has no replacement
+ * @deprecated 2.3 has no replacement
  */
 function woocommerce_compile_less_styles() {
 	wc_deprecated_function( 'woocommerce_compile_less_styles', '2.3' );
@@ -895,7 +894,7 @@ function woocommerce_compile_less_styles() {
 /**
  * woocommerce_calc_shipping was an option used to determine if shipping was enabled prior to version 2.6.0. This has since been replaced with wc_shipping_enabled() function and
  * the woocommerce_ship_to_countries setting.
- * @since 2.6.0
+ * @deprecated 2.6.0
  * @return string
  */
 function woocommerce_calc_shipping_backwards_compatibility( $value ) {
@@ -1099,7 +1098,7 @@ function add_woocommerce_term_meta( $term_id, $meta_key, $meta_value, $unique = 
  * @deprecated 3.6.0
  * @param int    $term_id    Term ID.
  * @param string $meta_key   Meta key.
- * @param string $meta_value Meta value (default: '').
+ * @param mixed  $meta_value Meta value (default: '').
  * @param bool   $deprecated Deprecated param (default: false).
  * @return bool
  */

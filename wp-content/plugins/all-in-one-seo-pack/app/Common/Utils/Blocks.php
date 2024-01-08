@@ -49,7 +49,7 @@ class Blocks {
 		}
 
 		if ( ! $this->isBlockEditorActive() ) {
-			return;
+			return false;
 		}
 
 		// Check if the block requires a minimum WP version.
@@ -72,7 +72,7 @@ class Blocks {
 
 		$args = wp_parse_args( $args, $defaults );
 
-		return register_block_type( $slug, $args );
+		return register_block_type( $slug, $args ); // phpcs:ignore AIOSEO.WpFunctionUse.NewFunctions.register_block_typeFound
 	}
 
 	/**
@@ -100,6 +100,7 @@ class Blocks {
 		aioseo()->core->assets->loadCss( 'src/vue/standalone/blocks/main.js' );
 
 		$dependencies = [
+			'wp-annotations',
 			'wp-blocks',
 			'wp-components',
 			'wp-element',

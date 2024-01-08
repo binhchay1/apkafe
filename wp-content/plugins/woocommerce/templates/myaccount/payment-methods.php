@@ -12,9 +12,9 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
- * @version 2.6.0
+ * @see https://woo.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -35,7 +35,7 @@ do_action( 'woocommerce_before_account_payment_methods', $has_methods ); ?>
 				<?php endforeach; ?>
 			</tr>
 		</thead>
-		<?php foreach ( $saved_methods as $type => $methods ) : // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited ?>
+		<?php foreach ( $saved_methods as $type => $methods ) : // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited ?>
 			<?php foreach ( $methods as $method ) : ?>
 				<tr class="payment-method<?php echo ! empty( $method['is_default'] ) ? ' default-payment-method' : ''; ?>">
 					<?php foreach ( wc_get_account_payment_methods_columns() as $column_id => $column_name ) : ?>
@@ -53,7 +53,7 @@ do_action( 'woocommerce_before_account_payment_methods', $has_methods ); ?>
 							} elseif ( 'expires' === $column_id ) {
 								echo esc_html( $method['expires'] );
 							} elseif ( 'actions' === $column_id ) {
-								foreach ( $method['actions'] as $key => $action ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
+								foreach ( $method['actions'] as $key => $action ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 									echo '<a href="' . esc_url( $action['url'] ) . '" class="button ' . sanitize_html_class( $key ) . '">' . esc_html( $action['name'] ) . '</a>&nbsp;';
 								}
 							}
@@ -67,7 +67,7 @@ do_action( 'woocommerce_before_account_payment_methods', $has_methods ); ?>
 
 <?php else : ?>
 
-	<p class="woocommerce-Message woocommerce-Message--info woocommerce-info"><?php esc_html_e( 'No saved methods found.', 'woocommerce' ); ?></p>
+	<?php wc_print_notice( esc_html__( 'No saved methods found.', 'woocommerce' ), 'notice' ); ?>
 
 <?php endif; ?>
 

@@ -28,6 +28,20 @@ class YasrRichSnippets {
 
         add_filter('yasr_filter_schema_title',    array($this, 'filter_title'));
         add_filter('yasr_filter_existing_schema', array($this, 'additional_schema'), 10, 2);
+
+        //Add yoast compatibility
+        add_filter('wpseo_schema_graph', array($this, 'wpseo_schema_graph'), 10, 2);
+    }
+
+    /**
+     * Add Yoast compatibility
+     * @param $data
+     * @param $context
+     * @return mixed
+     */
+    function wpseo_schema_graph( $data, $context ) {
+        $data[] = $this->addSchema('');
+        return $data;
     }
 
     /**
@@ -81,9 +95,15 @@ class YasrRichSnippets {
             return $script_type . $filtered_schema . $end_script_type;
         }
 
-        //YASR adds microdata only if is_singular() && is_main_query()
+        // add yoast compatibility
+        if ($caller ===  'wpseo_schema_graph') {
+            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, $content, $overall_rating, $visitor_votes, $caller);
+            return $rich_snippet;
+        }
+
+        // YASR adds microdata only if is_singular() && is_main_query()
         if (is_singular() && is_main_query()) {
-            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, $content, $overall_rating, $visitor_votes);
+            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, $content, $overall_rating, $visitor_votes, $caller);
 
             //If $rich snippet here is not false return microdata
             if($rich_snippet !== false) {
@@ -120,6 +140,12 @@ class YasrRichSnippets {
      * @return bool
      */
     public function mustReturn($caller) {
+
+        // Add yoast compatibility
+        if($caller === 'wpseo_schema_graph') {
+            return false;
+        }
+
         //rich snippets already returned
         if(defined('YASR_SCHEMA_RETURNED')) {
             return true;
@@ -163,7 +189,7 @@ class YasrRichSnippets {
      *
      * @return array|bool
      */
-    public function returnRichSnippets($post_id, $review_choosen, $content, $overall_rating, $visitor_votes) {
+    public function returnRichSnippets($post_id, $review_choosen, $content, $overall_rating, $visitor_votes, $caller) {
         $rich_snippet_data = $this->richSnippetsGetData($post_id);
         $cleaned_content   = wp_strip_all_tags(strip_shortcodes($content));
 
@@ -186,6 +212,11 @@ class YasrRichSnippets {
             }
         }
 
+        if ($caller === 'wpseo_schema_graph' && $rich_snippet_data['is_post_a_review'] === 'yes') {
+            $rating = YasrDB::overallRating($post_id);
+            $rich_snippet['aggregateRating'] = $this->richSnippetsAggregateRatingWpSEO($rating);
+        }
+
         //Use this hook to manage itemTypes
         //if doesn't exists a filter for yasr_filter_existing_schema, put $rich_snippet into $more_rich_snippet
         $filtered_rich_snippet = apply_filters('yasr_filter_existing_schema', $rich_snippet, $rich_snippet_data);
@@ -203,6 +234,20 @@ class YasrRichSnippets {
             $this->richSnippetsCommon($review_choosen, $rich_snippet_data, $cleaned_content),
             $rich_snippet
         );
+    }
+
+    private function richSnippetsAggregateRatingWpSEO ($rating) {
+
+        if ($rating) {
+            return array(
+                '@type'       => 'AggregateRating',
+                'ratingValue' => $rating,
+                'ratingCount' => 1,
+                'bestRating'  => 5,
+                'worstRating' => 1,
+            );
+        }
+        return false;
     }
 
     /**

@@ -7,15 +7,17 @@
  * Webhooks are enqueued to their associated actions, delivered, and logged.
  *
  * @version  3.2.0
- * @package  WooCommerce/Webhooks
+ * @package  WooCommerce\Webhooks
  * @since    2.2.0
  */
 
 use Automattic\Jetpack\Constants;
+use Automattic\WooCommerce\Utilities\NumberUtil;
+use Automattic\WooCommerce\Utilities\OrderUtil;
 
 defined( 'ABSPATH' ) || exit;
 
-require_once 'legacy/class-wc-legacy-webhook.php';
+require_once __DIR__ . '/legacy/class-wc-legacy-webhook.php';
 
 /**
  * Webhook class.
@@ -272,21 +274,25 @@ class WC_Webhook extends WC_Legacy_Webhook {
 	private function is_valid_resource( $arg ) {
 		$resource = $this->get_resource();
 
-		if ( in_array( $resource, array( 'order', 'product', 'coupon' ), true ) ) {
+		if ( in_array( $resource, array( 'product', 'coupon' ), true ) ) {
 			$status = get_post_status( absint( $arg ) );
 
 			// Ignore auto drafts for all resources.
 			if ( in_array( $status, array( 'auto-draft', 'new' ), true ) ) {
 				return false;
 			}
+		}
 
-			// Ignore standard drafts for orders.
-			if ( 'order' === $resource && 'draft' === $status ) {
+		if ( 'order' === $resource ) {
+			// Check registered order types for order types args.
+			if ( ! OrderUtil::is_order( absint( $arg ), wc_get_order_types( 'order-webhooks' ) ) ) {
 				return false;
 			}
 
-			// Check registered order types for order types args.
-			if ( 'order' === $resource && ! in_array( get_post_type( absint( $arg ) ), wc_get_order_types( 'order-webhooks' ), true ) ) {
+			$order = wc_get_order( absint( $arg ) );
+
+			// Ignore standard drafts for orders.
+			if ( in_array( $order->get_status(), array( 'draft', 'auto-draft', 'new' ), true ) ) {
 				return false;
 			}
 		}
@@ -346,7 +352,7 @@ class WC_Webhook extends WC_Legacy_Webhook {
 		// Webhook away!
 		$response = wp_safe_remote_request( $this->get_delivery_url(), $http_args );
 
-		$duration = round( microtime( true ) - $start_time, 5 );
+		$duration = NumberUtil::round( microtime( true ) - $start_time, 5 );
 
 		$this->log_delivery( $delivery_id, $http_args, $response, $duration );
 
@@ -481,8 +487,8 @@ class WC_Webhook extends WC_Legacy_Webhook {
 	}
 
 	/**
-	 * Generate a base64-encoded HMAC-SHA256 signature of the payload body so the.
-	 * recipient can verify the authenticity of the webhook. Note that the signature.
+	 * Generate a base64-encoded HMAC-SHA256 signature of the payload body so the
+	 * recipient can verify the authenticity of the webhook. Note that the signature
 	 * is calculated after the body has already been encoded (JSON by default).
 	 *
 	 * @since  2.2.0
@@ -492,6 +498,7 @@ class WC_Webhook extends WC_Legacy_Webhook {
 	public function generate_signature( $payload ) {
 		$hash_algo = apply_filters( 'woocommerce_webhook_hash_algorithm', 'sha256', $payload, $this->get_id() );
 
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 		return base64_encode( hash_hmac( $hash_algo, $payload, wp_specialchars_decode( $this->get_secret(), ENT_QUOTES ), true ) );
 	}
 
@@ -990,9 +997,11 @@ class WC_Webhook extends WC_Legacy_Webhook {
 			),
 			'order.deleted'    => array(
 				'wp_trash_post',
+				'woocommerce_trash_order',
 			),
 			'order.restored'   => array(
 				'untrashed_post',
+				'woocommerce_untrash_order',
 			),
 			'product.created'  => array(
 				'woocommerce_process_product_meta',

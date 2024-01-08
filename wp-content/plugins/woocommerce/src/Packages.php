@@ -1,8 +1,6 @@
 <?php
 /**
- * Loads WooCommece packages from the /packages directory. These are packages developed outside of core.
- *
- * @package Automattic/WooCommerce
+ * Loads WooCommerce packages from the /packages directory. These are packages developed outside of core.
  */
 
 namespace Automattic\WooCommerce;
@@ -27,9 +25,7 @@ class Packages {
 	 * @var array Key is the package name/directory, value is the main package class which handles init.
 	 */
 	protected static $packages = array(
-		'woocommerce-blocks'   => '\\Automattic\\WooCommerce\\Blocks\\Package',
-		'woocommerce-rest-api' => '\\Automattic\\WooCommerce\\RestApi\\Package',
-		'woocommerce-admin'    => '\\Automattic\\WooCommerce\\Admin\\Composer\\Package',
+		'woocommerce-blocks'   => '\\Automattic\\WooCommerce\\Blocks\\Package'
 	);
 
 	/**
@@ -64,12 +60,33 @@ class Packages {
 	 * Each package should include an init file which loads the package so it can be used by core.
 	 */
 	protected static function load_packages() {
+		// Initialize WooCommerce Admin.
+		\Automattic\WooCommerce\Admin\Composer\Package::init();
+
 		foreach ( self::$packages as $package_name => $package_class ) {
 			if ( ! self::package_exists( $package_name ) ) {
 				self::missing_package( $package_name );
 				continue;
 			}
 			call_user_func( array( $package_class, 'init' ) );
+		}
+
+		// Proxies "activated_plugin" hook for embedded packages listen on WC plugin activation
+		// https://github.com/woocommerce/woocommerce/issues/28697.
+		if ( is_admin() ) {
+			$activated_plugin = get_transient( 'woocommerce_activated_plugin' );
+			if ( $activated_plugin ) {
+				delete_transient( 'woocommerce_activated_plugin' );
+
+				/**
+				 * WooCommerce is activated hook.
+				 *
+				 * @since 5.0.0
+				 * @param bool $activated_plugin Activated plugin path,
+				 *                               generally woocommerce/woocommerce.php.
+				 */
+				do_action( 'woocommerce_activated_plugin', $activated_plugin );
+			}
 		}
 	}
 

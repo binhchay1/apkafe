@@ -2,10 +2,10 @@
 Contributors: Chouby
 Donate link: https://polylang.pro
 Tags: Polylang, WPML, importer, multilingual, bilingual
-Requires at least: 3.5
-Tested up to: 4.9
-Stable tag: 0.2.5
-License: GPLv2 or later
+Requires at least: 5.8
+Tested up to: 6.3
+Stable tag: 0.6
+License: GPLv3 or later
 
 Import multilingual data from WPML into Polylang.
 
@@ -13,11 +13,11 @@ Import multilingual data from WPML into Polylang.
 
 = Features =
 
-* Imports languages and WPML options (when the same options exist in Polylang)
-* Imports posts and terms languages as well as translations (including for custom post types and custom taxonomies)
-* Imports multilingual nav menus
-* Imports strings translations
-* Does not delete WPML data
+* Imports languages and WPML options (when the same options exist in Polylang).
+* Imports posts and terms languages as well as translations (including for custom post types and custom taxonomies).
+* Imports multilingual nav menus.
+* Imports strings translations.
+* Does not delete WPML data.
 
 = Important =
 
@@ -26,25 +26,53 @@ Although WPML data should not be corrupted, as Polylang data are created without
 = How to proceed? =
 
 * De-activate WPML
-* Activate [Polylang](https://polylang.pro) and WPML to Polylang. Do *not* create any language with Polylang.
-* Go in Tools -> WPML Importer
-* If all checks are passed, you can click on 'Import'
-* De-activate WPML to Polylang (you can even delete it)
-* Setup a language switcher either as a widget or in nav menus
-* Check that everything is OK
-* If something went wrong and you want to revert to WPML, you can delete Polylang using the red link in the Plugins table (You can delete all data created for Polylang by checking the relevant option in Settings > Languages> Settings > Tools before deleting Polylang) and then re-activate WPML
+* Activate Polylang or [Polylang Pro](https://polylang.pro) and WPML to Polylang. Do **not** create any language with Polylang (they will be imported).
+* Go to Tools -> WPML Importer.
+* If all checks are passed, then you can click on 'Import'.
+* De-activate WPML to Polylang (You can even delete it).
+* Setup a language switcher either as a widget or in nav menus.
+* Check that everything is OK.
+* If something went wrong and you want to revert to WPML, you can delete Polylang using the red link in the Plugins table. To delete all data created for Polylang, Please read [how](https://polylang.pro/doc/how-to-uninstall-polylang/) **before** deleting Polylang. Finally you can re-activate WPML.
 
 = Notes =
 
-This plugin is still experimental and does not include error management. I however tested it successfully to migrate a site with about 9,000 posts and media from WPML 3.7.
-As everything is processed in one unique step, big sites may require to tweak the PHP memory limit and MySQL buffer size.
-Multisite has not been tested.
+This plugin does not include error management. It has however been tested successfully to migrate a site with about 9,000 posts and media.
 
 = Credits =
 
 The banner and icon were designed by [Alex Lopez](http://www.alexlopez.rocks/)
 
 == Changelog ==
+
+= 0.6 (2023-08-10) =
+
+* Min Polylang version is now 3.4
+* Fix deprecated notices with Polylang 3.4
+* Fix infinite loop when processing objects without language with Polylang 3.4
+
+= 0.5 (2022-12-05) =
+
+* Complete rewrite to avoid issues with PHP memory limit and MySQL buffer size. Props Jeremy Simkins for lot of ideas. #19
+* Simplify the UI and attempt to clarify error messages.
+* Fix languages order not imported.
+* Fix media translation setting not imported.
+* Fix nav menu locations per language.
+
+= 0.4 (2021-01-19) =
+
+* Min Polylang version is now 2.8
+* Fix languages incorrectly imported with Polylang 2.8+
+* Fix media translation option incorrectly imported #7
+
+= 0.3.1 (2019-12-26) =
+
+* Fix PHP notices
+
+= 0.3 (2019-06-27) =
+
+* Min Polylang version is now 2.6 #3
+* Fix the front page label not displayed for translations in the pages list table #4
+* Fix deprecated notice related to the screen icon
 
 = 0.2.5 (2018-08-22) =
 

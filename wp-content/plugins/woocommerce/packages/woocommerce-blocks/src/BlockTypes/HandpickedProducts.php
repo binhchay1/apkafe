@@ -1,13 +1,5 @@
 <?php
-/**
- * Hand-picked Products block.
- *
- * @package WooCommerce/Blocks
- */
-
 namespace Automattic\WooCommerce\Blocks\BlockTypes;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * HandpickedProducts class.
@@ -29,7 +21,7 @@ class HandpickedProducts extends AbstractProductGrid {
 		$ids = array_map( 'absint', $this->attributes['products'] );
 
 		$query_args['post__in']       = $ids;
-		$query_args['posts_per_page'] = count( $ids );
+		$query_args['posts_per_page'] = count( $ids ); // phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
 	}
 
 	/**
@@ -54,13 +46,12 @@ class HandpickedProducts extends AbstractProductGrid {
 	 *
 	 * @return array
 	 */
-	protected function get_attributes() {
+	protected function get_block_type_attributes() {
 		return array(
 			'align'             => $this->get_schema_align(),
 			'alignButtons'      => $this->get_schema_boolean( false ),
 			'className'         => $this->get_schema_string(),
 			'columns'           => $this->get_schema_number( wc_get_theme_support( 'product_blocks::default_columns', 3 ) ),
-			'editMode'          => $this->get_schema_boolean( true ),
 			'orderby'           => $this->get_schema_orderby(),
 			'products'          => $this->get_schema_list_ids(),
 			'contentVisibility' => $this->get_schema_content_visibility(),

@@ -7,7 +7,7 @@
 	}
 
 	$( function() {
-		var welcomePanel = $( '#welcome-panel' );
+		var welcomePanel = $( '#wpcf7-welcome-panel' );
 		var updateWelcomePanel;
 
 		updateWelcomePanel = function( visible ) {
@@ -22,6 +22,17 @@
 			event.preventDefault();
 			welcomePanel.addClass( 'hidden' );
 			updateWelcomePanel( 0 );
+			$( '#wpcf7-welcome-panel-show' ).prop( 'checked', false );
+		} );
+
+		$( '#wpcf7-welcome-panel-show' ).click( function( event ) {
+			if ( this.checked ) {
+				welcomePanel.removeClass( 'hidden' );
+				updateWelcomePanel( 1 );
+			} else {
+				welcomePanel.addClass( 'hidden' );
+				updateWelcomePanel( 0 );
+			}
 		} );
 
 		$( '#contact-form-editor' ).tabs( {
@@ -69,9 +80,15 @@
 			var data = [];
 
 			$( this ).closest( 'form' ).find( '[data-config-field]' ).each( function() {
+				var val = $( this ).val();
+
+				if ( $( this ).is( '[type=checkbox]' ) ) {
+					val = $( this ).is( ':checked' ) ? 1 : 0;
+				}
+
 				data.push( {
 					'name': $( this ).attr( 'name' ).replace( /^wpcf7-/, '' ).replace( /-/g, '_' ),
-					'value': $( this ).val()
+					'value': val
 				} );
 			} );
 
@@ -126,6 +143,15 @@
 				$( '#publishing-action .spinner' ).addClass( 'is-active' );
 			}
 		} );
+
+		$( '#wpcf7-ctct-enable-contact-list, #wpcf7-sendinblue-enable-contact-list, #wpcf7-sendinblue-enable-transactional-email' ).on( 'change', function() {
+			if ( $( this ).is( ':checked' ) ) {
+				$( this ).closest( 'tr' ).removeClass( 'inactive' );
+			} else {
+				$( this ).closest( 'tr' ).addClass( 'inactive' );
+			}
+		} );
+
 	} );
 
 	wpcf7.toggleMail2 = function( checkbox ) {
@@ -150,9 +176,11 @@
 
 			var section = $( this ).attr( 'data-config-field' );
 
+			$( this ).attr( 'aria-describedby', 'wpcf7-config-error-for-' + section );
+
 			if ( errors[ section ] ) {
 				var $list = $( '<ul></ul>' ).attr( {
-					'role': 'alert',
+					'id': 'wpcf7-config-error-for-' + section,
 					'class': 'config-error'
 				} );
 

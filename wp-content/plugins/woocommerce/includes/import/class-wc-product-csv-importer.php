@@ -2,9 +2,11 @@
 /**
  * WooCommerce Product CSV importer
  *
- * @package WooCommerce/Import
+ * @package WooCommerce\Import
  * @version 3.1.0
  */
+
+use Automattic\WooCommerce\Utilities\ArrayUtil;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -67,6 +69,17 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 	}
 
 	/**
+	 * Convert a string from the input encoding to UTF-8.
+	 *
+	 * @param string $value The string to convert.
+	 * @return string The converted string.
+	 */
+	private function adjust_character_encoding( $value ) {
+		$encoding = $this->params['character_encoding'];
+		return 'UTF-8' === $encoding ? $value : mb_convert_encoding( $value, 'UTF-8', $encoding );
+	}
+
+	/**
 	 * Read file.
 	 */
 	protected function read_file() {
@@ -77,7 +90,14 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 		$handle = fopen( $this->file, 'r' ); // @codingStandardsIgnoreLine.
 
 		if ( false !== $handle ) {
-			$this->raw_keys = version_compare( PHP_VERSION, '5.3', '>=' ) ? array_map( 'trim', fgetcsv( $handle, 0, $this->params['delimiter'], $this->params['enclosure'], $this->params['escape'] ) ) : array_map( 'trim', fgetcsv( $handle, 0, $this->params['delimiter'], $this->params['enclosure'] ) ); // @codingStandardsIgnoreLine
+			$this->raw_keys = array_map( 'trim', fgetcsv( $handle, 0, $this->params['delimiter'], $this->params['enclosure'], $this->params['escape'] ) ); // @codingStandardsIgnoreLine
+
+			if ( ArrayUtil::is_truthy( $this->params, 'character_encoding' ) ) {
+				$this->raw_keys = array_map( array( $this, 'adjust_character_encoding' ), $this->raw_keys );
+			}
+
+			// Remove line breaks in keys, to avoid mismatch mapping of keys.
+			$this->raw_keys = wc_clean( wp_unslash( $this->raw_keys ) );
 
 			// Remove BOM signature from the first item.
 			if ( isset( $this->raw_keys[0] ) ) {
@@ -89,9 +109,13 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 			}
 
 			while ( 1 ) {
-				$row = version_compare( PHP_VERSION, '5.3', '>=' ) ? fgetcsv( $handle, 0, $this->params['delimiter'], $this->params['enclosure'], $this->params['escape'] ) : fgetcsv( $handle, 0, $this->params['delimiter'], $this->params['enclosure'] ); // @codingStandardsIgnoreLine
+				$row = fgetcsv( $handle, 0, $this->params['delimiter'], $this->params['enclosure'], $this->params['escape'] ); // @codingStandardsIgnoreLine
 
 				if ( false !== $row ) {
+					if ( ArrayUtil::is_truthy( $this->params, 'character_encoding' ) ) {
+						$row = array_map( array( $this, 'adjust_character_encoding' ), $row );
+					}
+
 					$this->raw_data[]                                 = $row;
 					$this->file_positions[ count( $this->raw_data ) ] = ftell( $handle );
 
@@ -400,21 +424,22 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 			$total  = count( $_terms );
 
 			foreach ( $_terms as $index => $_term ) {
-				// Check if category exists. Parent must be empty string or null if doesn't exists.
-				$term = term_exists( $_term, 'product_cat', $parent );
-
-				if ( is_array( $term ) ) {
-					$term_id = $term['term_id'];
-					// Don't allow users without capabilities to create new categories.
-				} elseif ( ! current_user_can( 'manage_product_terms' ) ) {
+				// Don't allow users without capabilities to create new categories.
+				if ( ! current_user_can( 'manage_product_terms' ) ) {
 					break;
-				} else {
-					$term = wp_insert_term( $_term, 'product_cat', array( 'parent' => intval( $parent ) ) );
+				}
 
-					if ( is_wp_error( $term ) ) {
-						break; // We cannot continue if the term cannot be inserted.
+				$term = wp_insert_term( $_term, 'product_cat', array( 'parent' => intval( $parent ) ) );
+
+				if ( is_wp_error( $term ) ) {
+					if ( $term->get_error_code() === 'term_exists' ) {
+						// When term exists, error data should contain existing term id.
+						$term_id = $term->get_error_data();
+					} else {
+						break; // We cannot continue on any other error.
 					}
-
+				} else {
+					// New term.
 					$term_id = $term['term_id'];
 				}
 
@@ -566,6 +591,35 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 	}
 
 	/**
+	 * Parse dates from a CSV.
+	 * Dates can be Unix timestamps or in any format supported by strtotime().
+	 *
+	 * @param string $value Field value.
+	 *
+	 * @return string|null
+	 */
+	public function parse_datetime_field( $value ) {
+		try {
+			// If value is a Unix timestamp, convert it to a datetime string.
+			if ( is_numeric( $value ) ) {
+				$datetime = new DateTime( "@{$value}" );
+				// Return datetime string in ISO8601 format (eg. 2018-01-01T00:00:00Z) to preserve UTC timezone since Unix timestamps are always UTC.
+				return $datetime->format( 'Y-m-d\TH:i:s\Z' );
+			}
+			// Check whether the value is a valid date string.
+			if ( false !== strtotime( $value ) ) {
+				// If the value is a valid date string, return as is.
+				return $value;
+			}
+		} catch ( Exception $e ) {
+			// DateTime constructor throws an exception if the value is not a valid Unix timestamp.
+			return null;
+		}
+		// If value is not valid Unix timestamp or date string, return null.
+		return null;
+	}
+
+	/**
 	 * Parse backorders from a CSV.
 	 *
 	 * @param string $value Field value.
@@ -592,7 +646,7 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 	 * Just skip current field.
 	 *
 	 * By default is applied wc_clean() to all not listed fields
-	 * in self::get_formating_callback(), use this method to skip any formating.
+	 * in self::get_formatting_callback(), use this method to skip any formatting.
 	 *
 	 * @param string $value Field value.
 	 *
@@ -605,7 +659,7 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 	/**
 	 * Parse download file urls, we should allow shortcodes here.
 	 *
-	 * Allow shortcodes if present, othersiwe esc_url the value.
+	 * Allow shortcodes if present, otherwise esc_url the value.
 	 *
 	 * @param string $value Field value.
 	 *
@@ -674,11 +728,22 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 	}
 
 	/**
-	 * Get formatting callback.
+	 * Deprecated get formatting callback method.
 	 *
+	 * @deprecated 4.3.0
 	 * @return array
 	 */
 	protected function get_formating_callback() {
+		return $this->get_formatting_callback();
+	}
+
+	/**
+	 * Get formatting callback.
+	 *
+	 * @since 4.3.0
+	 * @return array
+	 */
+	protected function get_formatting_callback() {
 
 		/**
 		 * Columns not mentioned here will get parsed with 'wc_clean'.
@@ -689,8 +754,8 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 			'type'              => array( $this, 'parse_comma_field' ),
 			'published'         => array( $this, 'parse_published_field' ),
 			'featured'          => array( $this, 'parse_bool_field' ),
-			'date_on_sale_from' => array( $this, 'parse_date_field' ),
-			'date_on_sale_to'   => array( $this, 'parse_date_field' ),
+			'date_on_sale_from' => array( $this, 'parse_datetime_field' ),
+			'date_on_sale_to'   => array( $this, 'parse_datetime_field' ),
 			'name'              => array( $this, 'parse_skip_field' ),
 			'short_description' => array( $this, 'parse_description_field' ),
 			'description'       => array( $this, 'parse_description_field' ),
@@ -807,12 +872,22 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 
 		// Status is mapped from a special published field.
 		if ( isset( $data['published'] ) ) {
+			$published = $data['published'];
+			if ( is_float( $published ) ) {
+				$published = (int) $published;
+			}
+
 			$statuses       = array(
 				-1 => 'draft',
 				0  => 'private',
 				1  => 'publish',
 			);
-			$data['status'] = isset( $statuses[ $data['published'] ] ) ? $statuses[ $data['published'] ] : -1;
+			$data['status'] = $statuses[ $published ] ?? 'draft';
+
+			// Fix draft status of variations.
+			if ( 'variation' === ( $data['type'] ?? null ) && -1 === $published ) {
+				$data['status'] = 'publish';
+			}
 
 			unset( $data['published'] );
 		}
@@ -877,6 +952,12 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 				}
 				unset( $data[ $key ] );
 
+			} elseif ( $this->starts_with( $key, 'downloads:id' ) ) {
+				if ( ! empty( $value ) ) {
+					$downloads[ str_replace( 'downloads:id', '', $key ) ]['id'] = $value;
+				}
+				unset( $data[ $key ] );
+
 			} elseif ( $this->starts_with( $key, 'downloads:name' ) ) {
 				if ( ! empty( $value ) ) {
 					$downloads[ str_replace( 'downloads:name', '', $key ) ]['name'] = $value;
@@ -918,8 +999,9 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 				}
 
 				$data['downloads'][] = array(
-					'name' => $file['name'] ? $file['name'] : wc_get_filename_from_url( $file['url'] ),
-					'file' => $file['url'],
+					'download_id' => isset( $file['id'] ) ? $file['id'] : null,
+					'name'        => $file['name'] ? $file['name'] : wc_get_filename_from_url( $file['url'] ),
+					'file'        => $file['url'],
 				);
 			}
 		}
@@ -935,7 +1017,7 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 	 * Map and format raw data to known fields.
 	 */
 	protected function set_parsed_data() {
-		$parse_functions = $this->get_formating_callback();
+		$parse_functions = $this->get_formatting_callback();
 		$mapped_keys     = $this->get_mapped_keys();
 		$use_mb          = function_exists( 'mb_convert_encoding' );
 
@@ -973,6 +1055,14 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 				$data[ $mapped_keys[ $id ] ] = call_user_func( $parse_functions[ $id ], $value );
 			}
 
+			/**
+			 * Filter product importer parsed data.
+			 *
+			 * @param array $parsed_data Parsed data.
+			 * @param WC_Product_Importer $importer Importer instance.
+			 *
+			 * @since
+			 */
 			$this->parsed_data[] = apply_filters( 'woocommerce_product_importer_parsed_data', $this->expand_data( $data ), $this );
 		}
 	}
@@ -1019,10 +1109,11 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 		$index            = 0;
 		$update_existing  = $this->params['update_existing'];
 		$data             = array(
-			'imported' => array(),
-			'failed'   => array(),
-			'updated'  => array(),
-			'skipped'  => array(),
+			'imported'            => array(),
+			'imported_variations' => array(),
+			'failed'              => array(),
+			'updated'             => array(),
+			'skipped'             => array(),
 		);
 
 		foreach ( $this->parsed_data as $parsed_data_key => $parsed_data ) {
@@ -1089,7 +1180,11 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 			} elseif ( $result['updated'] ) {
 				$data['updated'][] = $result['id'];
 			} else {
-				$data['imported'][] = $result['id'];
+				if ( $result['is_variation'] ) {
+					$data['imported_variations'][] = $result['id'];
+				} else {
+					$data['imported'][] = $result['id'];
+				}
 			}
 
 			$index ++;

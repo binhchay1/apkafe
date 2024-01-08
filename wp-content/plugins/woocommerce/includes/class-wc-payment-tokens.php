@@ -4,7 +4,7 @@
  *
  * An API for storing and managing tokens for gateways and customers.
  *
- * @package WooCommerce/Classes
+ * @package WooCommerce\Classes
  * @version 3.0.0
  * @since   2.6.0
  */
@@ -20,7 +20,7 @@ class WC_Payment_Tokens {
 	 * Gets valid tokens from the database based on user defined criteria.
 	 *
 	 * @since  2.6.0
-	 * @param  array $args Query argyments {
+	 * @param  array $args Query arguments {
 	 *     Array of query parameters.
 	 *
 	 *     @type string $token_id   Token ID.
@@ -74,6 +74,14 @@ class WC_Payment_Tokens {
 			array(
 				'user_id'    => $customer_id,
 				'gateway_id' => $gateway_id,
+				/**
+				 * Controls the maximum number of Payment Methods that will be listed via the My Account page.
+				 *
+				 * @since 7.2.0
+				 *
+				 * @param int $limit Defaults to the value of the `posts_per_page` option.
+				 */
+				'limit'      => apply_filters( 'woocommerce_get_customer_payment_tokens_limit', get_option( 'posts_per_page' ) ),
 			)
 		);
 

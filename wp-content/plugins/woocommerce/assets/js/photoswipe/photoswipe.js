@@ -2861,6 +2861,7 @@ var _getItemAt,
 		};		
 
 		img.src = item.src;// + '?a=' + Math.random();
+		img.alt = item.alt || '';
 
 		return img;
 	},
@@ -3229,7 +3230,7 @@ _registerModule('Tap', {
 				return;
 			}
 
-			if(!_moved && !_isMultitouch && !_numAnimations) {
+			if(!_moved && !_isMultitouch && !_numAnimations && self.container.contains(e.target)) {
 				var p0 = releasePoint;
 				if(tapTimer) {
 					clearTimeout(tapTimer);

@@ -3,7 +3,7 @@
  * Flat Rate Shipping Method.
  *
  * @version 2.6.0
- * @package WooCommerce/Classes/Shipping
+ * @package WooCommerce\Classes\Shipping
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,20 @@ class WC_Shipping_Flat_Rate extends WC_Shipping_Method {
 	 * @var string Cost.
 	 */
 	protected $fee_cost = '';
+
+	/**
+	 * Shipping method cost.
+	 *
+	 * @var string
+	 */
+	public $cost;
+
+	/**
+	 * Shipping method type.
+	 *
+	 * @var string
+	 */
+	public $type;
 
 	/**
 	 * Constructor.
@@ -44,7 +58,7 @@ class WC_Shipping_Flat_Rate extends WC_Shipping_Method {
 	 * Init user set variables.
 	 */
 	public function init() {
-		$this->instance_form_fields = include 'includes/settings-flat-rate.php';
+		$this->instance_form_fields = include __DIR__ . '/includes/settings-flat-rate.php';
 		$this->title                = $this->get_option( 'title' );
 		$this->tax_status           = $this->get_option( 'tax_status' );
 		$this->cost                 = $this->get_option( 'cost' );
@@ -267,7 +281,7 @@ class WC_Shipping_Flat_Rate extends WC_Shipping_Method {
 	public function sanitize_cost( $value ) {
 		$value = is_null( $value ) ? '' : $value;
 		$value = wp_kses_post( trim( wp_unslash( $value ) ) );
-		$value = str_replace( array( get_woocommerce_currency_symbol(), html_entity_decode( get_woocommerce_currency_symbol() ) ), '', $value );
+		$value = str_replace( array( get_woocommerce_currency_symbol(), html_entity_decode( get_woocommerce_currency_symbol() ), wc_get_price_thousand_separator() ), '', $value );
 		// Thrown an error on the front end if the evaluate_cost will fail.
 		$dummy_cost = $this->evaluate_cost(
 			$value,

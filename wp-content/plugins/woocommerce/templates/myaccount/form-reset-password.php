@@ -10,9 +10,9 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
- * @version 3.5.5
+ * @see https://woo.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 7.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,7 +42,7 @@ do_action( 'woocommerce_before_reset_password_form' );
 
 	<p class="woocommerce-form-row form-row">
 		<input type="hidden" name="wc_reset_password" value="true" />
-		<button type="submit" class="woocommerce-Button button" value="<?php esc_attr_e( 'Save', 'woocommerce' ); ?>"><?php esc_html_e( 'Save', 'woocommerce' ); ?></button>
+		<button type="submit" class="woocommerce-Button button<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" value="<?php esc_attr_e( 'Save', 'woocommerce' ); ?>"><?php esc_html_e( 'Save', 'woocommerce' ); ?></button>
 	</p>
 
 	<?php wp_nonce_field( 'reset_password', 'woocommerce-reset-password-nonce' ); ?>

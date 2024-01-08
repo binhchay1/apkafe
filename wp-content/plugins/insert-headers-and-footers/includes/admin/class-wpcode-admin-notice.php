@@ -69,7 +69,7 @@ class WPCode_Notice {
 	/**
 	 * Enqueue assets.
 	 */
-	private function enqueues() {
+	public function enqueues() {
 
 		wp_enqueue_script(
 			'wpcode-admin-notices',

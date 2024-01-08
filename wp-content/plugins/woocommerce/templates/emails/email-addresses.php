@@ -10,9 +10,9 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates/Emails
- * @version 3.9.0
+ * @see https://woo.com/document/template-structure/
+ * @package WooCommerce\Templates\Emails
+ * @version 5.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,7 +42,12 @@ $shipping   = $order->get_formatted_shipping_address();
 			<td style="text-align:<?php echo esc_attr( $text_align ); ?>; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; padding:0;" valign="top" width="50%">
 				<h2><?php esc_html_e( 'Shipping address', 'woocommerce' ); ?></h2>
 
-				<address class="address"><?php echo wp_kses_post( $shipping ); ?></address>
+				<address class="address">
+					<?php echo wp_kses_post( $shipping ); ?>
+					<?php if ( $order->get_shipping_phone() ) : ?>
+						<br /><?php echo wc_make_phone_clickable( $order->get_shipping_phone() ); ?>
+					<?php endif; ?>
+				</address>
 			</td>
 		<?php endif; ?>
 	</tr>

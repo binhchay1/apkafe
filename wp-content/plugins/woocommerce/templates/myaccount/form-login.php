@@ -10,9 +10,9 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see     https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
- * @version 3.6.0
+ * @see     https://woo.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 7.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -51,7 +51,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 					<input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever" /> <span><?php esc_html_e( 'Remember me', 'woocommerce' ); ?></span>
 				</label>
 				<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
-				<button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login" value="<?php esc_attr_e( 'Log in', 'woocommerce' ); ?>"><?php esc_html_e( 'Log in', 'woocommerce' ); ?></button>
+				<button type="submit" class="woocommerce-button button woocommerce-form-login__submit<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" name="login" value="<?php esc_attr_e( 'Log in', 'woocommerce' ); ?>"><?php esc_html_e( 'Log in', 'woocommerce' ); ?></button>
 			</p>
 			<p class="woocommerce-LostPassword lost_password">
 				<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Lost your password?', 'woocommerce' ); ?></a>
@@ -96,15 +96,15 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 			<?php else : ?>
 
-				<p><?php esc_html_e( 'A password will be sent to your email address.', 'woocommerce' ); ?></p>
+				<p><?php esc_html_e( 'A link to set a new password will be sent to your email address.', 'woocommerce' ); ?></p>
 
 			<?php endif; ?>
 
 			<?php do_action( 'woocommerce_register_form' ); ?>
 
-			<p class="woocommerce-FormRow form-row">
+			<p class="woocommerce-form-row form-row">
 				<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-				<button type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
+				<button type="submit" class="woocommerce-Button woocommerce-button button<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?> woocommerce-form-register__submit" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
 			</p>
 
 			<?php do_action( 'woocommerce_register_form_end' ); ?>

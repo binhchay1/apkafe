@@ -15,8 +15,8 @@ class YasrSettingsRightColumn {
                 do_action('yasr_right_settings_panel_box');
                 self::upgradeBox();
                 self::resourcesBox();
-                self::donations();
-                self::relatedPlugins();
+                //self::donations();
+                //self::relatedPlugins();
                 self::askRating();
             ?>
         </div>
@@ -93,13 +93,15 @@ class YasrSettingsRightColumn {
                     <?php esc_html_e('YASR official website', 'yet-another-stars-rating') ?>
                 </a>
             </div>
+
             <div class="yasr-donate-single-resource">
-                <img src="<?php echo esc_attr(YASR_IMG_DIR . 'github.svg') ?>"
+                <img src="<?php  echo esc_attr(YASR_IMG_DIR . 'github.svg') ?>"
                      width="20" height="20" alt="github logo" style="vertical-align: bottom;">
-                <a target="blank" href="https://github.com/Dudo1985/yet-another-stars-rating">
+                <a target="blank" href="https://github.com/maucherOnline/Yet-Another-Stars-Rating">
                     GitHub Page
                 </a>
             </div>
+
             <div class="yasr-donate-single-resource">
                 <span class="dashicons dashicons-edit" style="color: #6c6c6c"></span>
                 <a target="blank" href="https://yetanotherstarsrating.com/docs/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=documentation">
@@ -258,7 +260,7 @@ class YasrSettingsRightColumn {
     public static function askRating() {
         $div = "<div class='yasr-donatedivdx' id='yasr-ask-five-stars'>";
 
-        $text = '<div class="yasr-donate-title">' . esc_html__('Can I ask your help?', 'yet-another-stars-rating') .'</div>';
+        $text = '<div class="yasr-donate-title">' . esc_html__('Leave a review', 'yet-another-stars-rating') .'</div>';
         $text .= '<div style="font-size: 32px; color: #F1CB32; text-align:center; margin-bottom: 20px; margin-top: -5px;">
                 <span class="dashicons dashicons-star-filled" style="font-size: 26px;"></span>
                 <span class="dashicons dashicons-star-filled" style="font-size: 26px;"></span>

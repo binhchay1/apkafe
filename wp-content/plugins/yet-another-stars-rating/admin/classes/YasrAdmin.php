@@ -134,7 +134,9 @@ class YasrAdmin {
         if ($hook === 'yet-another-stars-rating_page_yasr_pricing_page'
             || $hook === 'yet-another-stars-rating_page_yasr_settings_page-pricing') {
 
+
             if(!isset($_GET['trial'])) {
+
                 wp_enqueue_style(
                     'yasrcss-pricing',
                     YASR_CSS_DIR_ADMIN . 'yasr-pricing-page.css',
@@ -143,7 +145,9 @@ class YasrAdmin {
                 );
 
                 YasrScriptsLoader::loadPrincingPage();
+
             }
+
         }
 
         if ($hook === 'index.php'

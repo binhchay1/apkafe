@@ -7,7 +7,7 @@
  *
  * @class    WC_Session_Handler
  * @version  2.5.0
- * @package  WooCommerce/Classes
+ * @package  WooCommerce\Classes
  */
 
 use Automattic\Jetpack\Constants;
@@ -75,7 +75,7 @@ class WC_Session_Handler extends WC_Session {
 		add_action( 'wp_logout', array( $this, 'destroy_session' ) );
 
 		if ( ! is_user_logged_in() ) {
-			add_filter( 'nonce_user_logged_out', array( $this, 'nonce_user_logged_out' ) );
+			add_filter( 'nonce_user_logged_out', array( $this, 'maybe_update_nonce_user_logged_out' ), 10, 2 );
 		}
 	}
 
@@ -88,11 +88,17 @@ class WC_Session_Handler extends WC_Session {
 		$cookie = $this->get_session_cookie();
 
 		if ( $cookie ) {
+			// Customer ID will be an MD5 hash id this is a guest session.
 			$this->_customer_id        = $cookie[0];
 			$this->_session_expiration = $cookie[1];
 			$this->_session_expiring   = $cookie[2];
 			$this->_has_cookie         = true;
 			$this->_data               = $this->get_session_data();
+
+			if ( ! $this->is_session_cookie_valid() ) {
+				$this->destroy_session();
+				$this->set_session_expiration();
+			}
 
 			// If the user logs in, update session.
 			if ( is_user_logged_in() && strval( get_current_user_id() ) !== $this->_customer_id ) {
@@ -113,6 +119,30 @@ class WC_Session_Handler extends WC_Session {
 			$this->_customer_id = $this->generate_customer_id();
 			$this->_data        = $this->get_session_data();
 		}
+	}
+
+	/**
+	 * Checks if session cookie is expired, or belongs to a logged out user.
+	 *
+	 * @return bool Whether session cookie is valid.
+	 */
+	private function is_session_cookie_valid() {
+		// If session is expired, session cookie is invalid.
+		if ( time() > $this->_session_expiration ) {
+			return false;
+		}
+
+		// If user has logged out, session cookie is invalid.
+		if ( ! is_user_logged_in() && ! $this->is_customer_guest( $this->_customer_id ) ) {
+			return false;
+		}
+
+		// Session from a different user is not valid. (Although from a guest user will be valid)
+		if ( is_user_logged_in() && ! $this->is_customer_guest( $this->_customer_id ) && strval( get_current_user_id() ) !== $this->_customer_id ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -181,7 +211,68 @@ class WC_Session_Handler extends WC_Session {
 		if ( empty( $customer_id ) ) {
 			require_once ABSPATH . 'wp-includes/class-phpass.php';
 			$hasher      = new PasswordHash( 8, false );
-			$customer_id = md5( $hasher->get_random_bytes( 32 ) );
+			$customer_id = 't_' . substr( md5( $hasher->get_random_bytes( 32 ) ), 2 );
+		}
+
+		return $customer_id;
+	}
+
+	/**
+	 * Checks if this is an auto-generated customer ID.
+	 *
+	 * @param string|int $customer_id Customer ID to check.
+	 *
+	 * @return bool Whether customer ID is randomly generated.
+	 */
+	private function is_customer_guest( $customer_id ) {
+		$customer_id = strval( $customer_id );
+
+		if ( empty( $customer_id ) ) {
+			return true;
+		}
+
+		if ( 't_' === substr( $customer_id, 0, 2 ) ) {
+			return true;
+		}
+
+		/**
+		 * Legacy checks. This is to handle sessions that were created from a previous release.
+		 * Maybe we can get rid of them after a few releases.
+		 */
+
+		// Almost all random $customer_ids will have some letters in it, while all actual ids will be integers.
+		if ( strval( (int) $customer_id ) !== $customer_id ) {
+			return true;
+		}
+
+		// Performance hack to potentially save a DB query, when same user as $customer_id is logged in.
+		if ( is_user_logged_in() && strval( get_current_user_id() ) === $customer_id ) {
+			return false;
+		} else {
+			$customer = new WC_Customer( $customer_id );
+
+			if ( 0 === $customer->get_id() ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get session unique ID for requests if session is initialized or user ID if logged in.
+	 * Introduced to help with unit tests.
+	 *
+	 * @since 5.3.0
+	 * @return string
+	 */
+	public function get_customer_unique_id() {
+		$customer_id = '';
+
+		if ( $this->has_session() && $this->_customer_id ) {
+			$customer_id = $this->_customer_id;
+		} elseif ( is_user_logged_in() ) {
+			$customer_id = (string) get_current_user_id();
 		}
 
 		return $customer_id;
@@ -201,7 +292,13 @@ class WC_Session_Handler extends WC_Session {
 			return false;
 		}
 
-		list( $customer_id, $session_expiration, $session_expiring, $cookie_hash ) = explode( '||', $cookie_value );
+		$parsed_cookie = explode( '||', $cookie_value );
+
+		if ( count( $parsed_cookie ) < 4 ) {
+			return false;
+		}
+
+		list( $customer_id, $session_expiration, $session_expiring, $cookie_hash ) = $parsed_cookie;
 
 		if ( empty( $customer_id ) ) {
 			return false;
@@ -278,7 +375,11 @@ class WC_Session_Handler extends WC_Session {
 	public function forget_session() {
 		wc_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), true );
 
-		wc_empty_cart();
+		if ( ! is_admin() ) {
+			include_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+
+			wc_empty_cart();
+		}
 
 		$this->_data        = array();
 		$this->_dirty       = false;
@@ -288,11 +389,31 @@ class WC_Session_Handler extends WC_Session {
 	/**
 	 * When a user is logged out, ensure they have a unique nonce by using the customer/session ID.
 	 *
+	 * @deprecated 5.3.0
 	 * @param int $uid User ID.
-	 * @return string
+	 * @return int|string
 	 */
 	public function nonce_user_logged_out( $uid ) {
+		wc_deprecated_function( 'WC_Session_Handler::nonce_user_logged_out', '5.3', 'WC_Session_Handler::maybe_update_nonce_user_logged_out' );
+
 		return $this->has_session() && $this->_customer_id ? $this->_customer_id : $uid;
+	}
+
+	/**
+	 * When a user is logged out, ensure they have a unique nonce to manage cart and more using the customer/session ID.
+	 * This filter runs everything `wp_verify_nonce()` and `wp_create_nonce()` gets called.
+	 *
+	 * @since 5.3.0
+	 * @param int    $uid    User ID.
+	 * @param string $action The nonce action.
+	 * @return int|string
+	 */
+	public function maybe_update_nonce_user_logged_out( $uid, $action ) {
+		if ( Automattic\WooCommerce\Utilities\StringUtil::starts_with( $action, 'woocommerce' ) ) {
+			return $this->has_session() && $this->_customer_id ? $this->_customer_id : $uid;
+		}
+
+		return $uid;
 	}
 
 	/**
@@ -311,7 +432,7 @@ class WC_Session_Handler extends WC_Session {
 	/**
 	 * Returns the session.
 	 *
-	 * @param string $customer_id Custo ID.
+	 * @param string $customer_id Customer ID.
 	 * @param mixed  $default Default session value.
 	 * @return string|array
 	 */

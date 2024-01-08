@@ -1,38 +1,19 @@
 /**
  * External dependencies
  */
-import { getRegisteredInnerBlocks } from '@woocommerce/blocks-registry';
-import {
-	ProductTitle,
-	ProductPrice,
-	ProductButton,
-	ProductImage,
-	ProductRating,
-	ProductSummary,
-	ProductSaleBadge,
-} from '@woocommerce/atomic-components/product';
+import classnames from 'classnames';
 
 /**
- * Map blocks names to components.
- *
- * @param {string} blockName Name of the parent block. Used to get extension children.
+ * Internal dependencies
  */
-export const getBlockMap = ( blockName ) => ( {
-	'woocommerce/product-price': ProductPrice,
-	'woocommerce/product-image': ProductImage,
-	'woocommerce/product-title': ProductTitle,
-	'woocommerce/product-rating': ProductRating,
-	'woocommerce/product-button': ProductButton,
-	'woocommerce/product-summary': ProductSummary,
-	'woocommerce/product-sale-badge': ProductSaleBadge,
-	...getRegisteredInnerBlocks( blockName ),
-} );
+import addToCartButtonMetadata from '../../atomic/blocks/product-elements/button/block.json';
+import { ImageSizing } from '../../atomic/blocks/product-elements/image/types';
 
 /**
  * The default layout built from the default template.
  */
 export const DEFAULT_PRODUCT_LIST_LAYOUT = [
-	[ 'woocommerce/product-image' ],
+	[ 'woocommerce/product-image', { imageSizing: ImageSizing.THUMBNAIL } ],
 	[ 'woocommerce/product-title' ],
 	[ 'woocommerce/product-price' ],
 	[ 'woocommerce/product-rating' ],
@@ -59,6 +40,22 @@ export const getProductLayoutConfig = ( innerBlocks ) => {
 					block.innerBlocks.length > 0
 						? getProductLayoutConfig( block.innerBlocks )
 						: [],
+				/**
+				 * Add custom width class to Add to cart button,
+				 * This is needed to support "Width Setting" controls available in
+				 * "woocommerce/product-button" block.
+				 */
+				...( block.name === addToCartButtonMetadata.name && {
+					className: classnames( block.attributes.className, {
+						[ `has-custom-width wp-block-button__width-${ block.attributes?.width }` ]:
+							block.attributes?.width,
+					} ),
+				} ),
+				/**
+				 * For product elements, special handing is required if product
+				 * elements are used in the "All Products" block.
+				 */
+				isDescendantOfAllProducts: true,
 			},
 		];
 	} );

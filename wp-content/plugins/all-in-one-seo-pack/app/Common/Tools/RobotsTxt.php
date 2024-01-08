@@ -55,18 +55,21 @@ class RobotsTxt {
 		}
 
 		if ( ! aioseo()->options->tools->robots->enable ) {
-			$networkAndOriginal = $this->mergeRules( $originalRules, $this->groupRulesByUserAgent( $networkRules ) );
-
-			return $this->stringifyRuleset( $networkAndOriginal );
+			$ruleset = $this->mergeRules( $originalRules, $this->groupRulesByUserAgent( $networkRules ) );
+		} else {
+			$ruleset = $this->mergeRules(
+				$originalRules,
+				$this->mergeRules( $this->groupRulesByUserAgent( $networkRules ), $this->groupRulesByUserAgent( aioseo()->options->tools->robots->rules ) ),
+				true
+			);
 		}
 
-		$allRules = $this->mergeRules(
-			$originalRules,
-			$this->mergeRules( $this->groupRulesByUserAgent( $networkRules ), $this->groupRulesByUserAgent( aioseo()->options->tools->robots->rules ) ),
-			true
-		);
-
-		return $this->stringifyRuleset( $allRules );
+		/**
+		 * Any plugin can wrongly modify the robots.txt output by hoking into the `do_robots` action hook,
+		 * instead of hooking into the `robots_txt` filter hook.
+		 * For the first scenario, to make sure our output doesn't conflict with theirs, a new line is necessary.
+		 */
+		return $this->stringifyRuleset( $ruleset ) . "\n";
 	}
 
 	/**
@@ -339,6 +342,8 @@ class RobotsTxt {
 			return $value;
 		}
 
+		$value = preg_replace( '/[><]/', '', $value );
+
 		if ( 'user-agent' === $directive ) {
 			$value = preg_replace( '/[^a-z0-9\-_*,.\s]/i', '', $value );
 		}
@@ -380,9 +385,9 @@ class RobotsTxt {
 			'type'              => 'error',
 			'level'             => [ 'all' ],
 			'button1_label'     => __( 'Import and Delete', 'all-in-one-seo-pack' ),
-			'button1_action'    => 'http://action#tools/import-robots-txt?redirect=aioseo-tools',
+			'button1_action'    => 'http://action#tools/import-robots-txt?redirect=aioseo-tools:robots-editor',
 			'button2_label'     => __( 'Delete', 'all-in-one-seo-pack' ),
-			'button2_action'    => 'http://action#tools/delete-robots-txt?redirect=aioseo-tools',
+			'button2_action'    => 'http://action#tools/delete-robots-txt?redirect=aioseo-tools:robots-editor',
 			'start'             => gmdate( 'Y-m-d H:i:s' )
 		] );
 	}
@@ -419,7 +424,7 @@ class RobotsTxt {
 
 			return true;
 		} catch ( \Exception $e ) {
-			throw new \Exception( $e->getMessage() );
+			throw new \Exception( esc_html( $e->getMessage() ) );
 		}
 	}
 
@@ -484,6 +489,32 @@ class RobotsTxt {
 		$options->tools->robots->rules = aioseo()->robotsTxt->prepareRobotsTxt( $newRules );
 
 		return true;
+	}
+
+	/**
+	 * Deletes the physical robots.txt file.
+	 *
+	 * @since 4.4.5
+	 *
+	 * @throws \Exception If the file is not readable, or it can't be deleted.
+	 * @return true       True if the file was successfully deleted.
+	 */
+	public function deletePhysicalRobotsTxt() {
+		try {
+			$fs = aioseo()->core->fs;
+			if (
+				! $fs->isWpfsValid() ||
+				! $fs->fs->delete( trailingslashit( $fs->fs->abspath() ) . 'robots.txt' )
+			) {
+				throw new \Exception( __( 'There was an error deleting the physical robots.txt file.', 'all-in-one-seo-pack' ) );
+			}
+
+			Models\Notification::deleteNotificationByName( 'robots-physical-file' );
+
+			return true;
+		} catch ( \Exception $e ) {
+			throw new \Exception( esc_html( $e->getMessage() ) );
+		}
 	}
 
 	/**
@@ -564,12 +595,11 @@ class RobotsTxt {
 		remove_filter( 'robots_txt', [ $this, 'buildRules' ], 10000 );
 
 		ob_start();
-		do_action( 'do_robots' );
+		do_robots();
 		if ( is_admin() ) {
-			// conflict with WooCommerce etc. cause the page to render as text/plain.
-			header( 'Content-Type:text/html' );
+			header( 'Content-Type: text/html; charset=utf-8' );
 		}
-		$rules = ob_get_clean();
+		$rules = strval( ob_get_clean() );
 
 		// Add the filter back.
 		add_filter( 'robots_txt', [ $this, 'buildRules' ], 10000 );

@@ -2,7 +2,7 @@
 /**
  * Order Notes
  *
- * @package WooCommerce/Admin/Meta Boxes
+ * @package WooCommerce\Admin\Meta Boxes
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,18 +17,24 @@ class WC_Meta_Box_Order_Notes {
 	/**
 	 * Output the metabox.
 	 *
-	 * @param WP_Post $post Post object.
+	 * @param WP_Post|WC_Order $post Post or order object.
 	 */
 	public static function output( $post ) {
-		global $post;
+		if ( $post instanceof WC_Order ) {
+			$order_id = $post->get_id();
+		} else {
+			$order_id = $post->ID;
+		}
 
-		$args = array(
-			'order_id' => $post->ID,
-		);
+		$args = array( 'order_id' => $order_id );
 
-		$notes = wc_get_order_notes( $args );
+		if ( 0 !== $order_id ) {
+			$notes = wc_get_order_notes( $args );
+		} else {
+			$notes = array();
+		}
 
-		include 'views/html-order-notes.php';
+		include __DIR__ . '/views/html-order-notes.php';
 		?>
 		<div class="add_note">
 			<p>

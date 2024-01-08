@@ -2,13 +2,32 @@
 /**
  * WooCommerce Updates
  *
- * Functions for updating data, used by the background updater.
+ * Functions for updating data, used by the background updater. These functions must be included
+ * in the list returned by WC_Install::get_db_update_callbacks.
  *
- * @package WooCommerce/Functions
+ * Please note that these functions are invoked when WooCommerce is updated from a previous version,
+ * but NOT when WooCommerce is newly installed.
+ *
+ * Database schema changes must be incorporated to the SQL returned by WC_Install::get_schema, which is applied
+ * via dbDelta at both install and update time. If any other kind of database change is required
+ * at install time (e.g. populating tables), use the 'woocommerce_installed' hook.
+ *
+ * @package WooCommerce\Functions
  * @version 3.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
+
+use Automattic\WooCommerce\Database\Migrations\MigrationHelper;
+use Automattic\WooCommerce\Internal\Admin\Marketing\MarketingSpecs;
+use Automattic\WooCommerce\Internal\AssignDefaultCategory;
+use Automattic\WooCommerce\Internal\DataStores\Orders\DataSynchronizer;
+use Automattic\WooCommerce\Internal\DataStores\Orders\OrdersTableDataStore;
+use Automattic\WooCommerce\Internal\ProductAttributesLookup\DataRegenerator;
+use Automattic\WooCommerce\Internal\ProductAttributesLookup\LookupDataStore;
+use Automattic\WooCommerce\Internal\ProductDownloads\ApprovedDirectories\Register as Download_Directories;
+use Automattic\WooCommerce\Internal\ProductDownloads\ApprovedDirectories\Synchronize as Download_Directories_Sync;
+use Automattic\WooCommerce\Utilities\StringUtil;
 
 /**
  * Update file paths for 2.0
@@ -28,6 +47,7 @@ function wc_update_200_file_paths() {
 			$old_file_path = trim( $existing_file_path->meta_value );
 
 			if ( ! empty( $old_file_path ) ) {
+				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 				$file_paths = serialize( array( md5( $old_file_path ) => $old_file_path ) );
 
 				$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->postmeta} SET meta_key = '_file_paths', meta_value = %s WHERE meta_id = %d", $file_paths, $existing_file_path->meta_id ) );
@@ -53,11 +73,11 @@ function wc_update_200_permalinks() {
 
 		$base_slug = $shop_page_id > 0 && get_post( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop';
 
-		$category_base = get_option( 'woocommerce_prepend_shop_page_to_urls' ) == 'yes' ? trailingslashit( $base_slug ) : '';
+		$category_base = 'yes' === get_option( 'woocommerce_prepend_shop_page_to_urls' ) ? trailingslashit( $base_slug ) : '';
 		$category_slug = get_option( 'woocommerce_product_category_slug' ) ? get_option( 'woocommerce_product_category_slug' ) : _x( 'product-category', 'slug', 'woocommerce' );
 		$tag_slug      = get_option( 'woocommerce_product_tag_slug' ) ? get_option( 'woocommerce_product_tag_slug' ) : _x( 'product-tag', 'slug', 'woocommerce' );
 
-		if ( 'yes' == get_option( 'woocommerce_prepend_shop_page_to_products' ) ) {
+		if ( 'yes' === get_option( 'woocommerce_prepend_shop_page_to_products' ) ) {
 			$product_base = trailingslashit( $base_slug );
 		} else {
 			$product_slug = get_option( 'woocommerce_product_slug' );
@@ -68,7 +88,7 @@ function wc_update_200_permalinks() {
 			}
 		}
 
-		if ( get_option( 'woocommerce_prepend_category_to_products' ) == 'yes' ) {
+		if ( 'yes' === get_option( 'woocommerce_prepend_category_to_products' ) ) {
 			$product_base .= trailingslashit( '%product_cat%' );
 		}
 
@@ -90,16 +110,16 @@ function wc_update_200_permalinks() {
  */
 function wc_update_200_subcat_display() {
 	// Update subcat display settings.
-	if ( get_option( 'woocommerce_shop_show_subcategories' ) == 'yes' ) {
-		if ( get_option( 'woocommerce_hide_products_when_showing_subcategories' ) == 'yes' ) {
+	if ( 'yes' === get_option( 'woocommerce_shop_show_subcategories' ) ) {
+		if ( 'yes' === get_option( 'woocommerce_hide_products_when_showing_subcategories' ) ) {
 			update_option( 'woocommerce_shop_page_display', 'subcategories' );
 		} else {
 			update_option( 'woocommerce_shop_page_display', 'both' );
 		}
 	}
 
-	if ( get_option( 'woocommerce_show_subcategories' ) == 'yes' ) {
-		if ( get_option( 'woocommerce_hide_products_when_showing_subcategories' ) == 'yes' ) {
+	if ( 'yes' === get_option( 'woocommerce_show_subcategories' ) ) {
+		if ( 'yes' === get_option( 'woocommerce_hide_products_when_showing_subcategories' ) ) {
 			update_option( 'woocommerce_category_archive_display', 'subcategories' );
 		} else {
 			update_option( 'woocommerce_category_archive_display', 'both' );
@@ -128,7 +148,7 @@ function wc_update_200_taxrates() {
 
 				foreach ( $states as $state ) {
 
-					if ( '*' == $state ) {
+					if ( '*' === $state ) {
 						$state = '';
 					}
 
@@ -160,7 +180,7 @@ function wc_update_200_taxrates() {
 
 			$location_type = ( 'postcode' === $tax_rate['location_type'] ) ? 'postcode' : 'city';
 
-			if ( '*' == $tax_rate['state'] ) {
+			if ( '*' === $tax_rate['state'] ) {
 				$tax_rate['state'] = '';
 			}
 
@@ -246,7 +266,7 @@ function wc_update_200_line_items() {
 				)
 			);
 
-			 // Add line item meta.
+			// Add line item meta.
 			if ( $item_id ) {
 				wc_add_order_item_meta( $item_id, '_qty', absint( $order_item['qty'] ) );
 				wc_add_order_item_meta( $item_id, '_tax_class', $order_item['tax_class'] );
@@ -324,7 +344,7 @@ function wc_update_200_line_items() {
 					)
 				);
 
-				 // Add line item meta.
+				// Add line item meta.
 				if ( $item_id ) {
 					wc_add_order_item_meta( $item_id, 'compound', absint( isset( $order_tax['compound'] ) ? $order_tax['compound'] : 0 ) );
 					wc_add_order_item_meta( $item_id, 'tax_amount', wc_clean( $order_tax['cart_tax'] ) );
@@ -341,8 +361,6 @@ function wc_update_200_line_items() {
 						$order_tax_row->post_id
 					)
 				);
-
-				unset( $tax_amount );
 			}
 		}
 	}
@@ -393,6 +411,8 @@ function wc_update_200_db_version() {
 function wc_update_209_brazillian_state() {
 	global $wpdb;
 
+	// phpcs:disable WordPress.DB.SlowDBQuery
+
 	// Update brazillian state codes.
 	$wpdb->update(
 		$wpdb->postmeta,
@@ -434,6 +454,8 @@ function wc_update_209_brazillian_state() {
 			'meta_value' => 'BH',
 		)
 	);
+
+	// phpcs:enable WordPress.DB.SlowDBQuery
 }
 
 /**
@@ -492,6 +514,7 @@ function wc_update_210_file_paths() {
 					}
 				}
 				if ( $needs_update ) {
+					// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 					$new_value = serialize( $new_value );
 
 					$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->postmeta} SET meta_key = %s, meta_value = %s WHERE meta_id = %d", '_downloadable_files', $new_value, $existing_file_path->meta_id ) );
@@ -695,6 +718,7 @@ function wc_update_230_options() {
 	// _money_spent and _order_count may be out of sync - clear them
 	delete_metadata( 'user', 0, '_money_spent', '', true );
 	delete_metadata( 'user', 0, '_order_count', '', true );
+	delete_metadata( 'user', 0, '_last_order', '', true );
 
 	// To prevent taxes being hidden when using a default 'no address' in a store with tax inc prices, set the woocommerce_default_customer_address to use the store base address by default.
 	if ( '' === get_option( 'woocommerce_default_customer_address', false ) && wc_prices_include_tax() ) {
@@ -857,6 +881,8 @@ function wc_update_240_api_keys() {
  * @return void
  */
 function wc_update_240_webhooks() {
+	// phpcs:disable WordPress.DB.SlowDBQuery
+
 	/**
 	 * Webhooks.
 	 * Make sure order.update webhooks get the woocommerce_order_edit_status hook.
@@ -873,6 +899,8 @@ function wc_update_240_webhooks() {
 		$webhook = new WC_Webhook( $order_update_webhook->ID );
 		$webhook->set_topic( 'order.updated' );
 	}
+
+	// phpcs:enable WordPress.DB.SlowDBQuery
 }
 
 /**
@@ -993,6 +1021,8 @@ function wc_update_250_currency() {
 		update_option( 'woocommerce_currency', 'LAK' );
 	}
 
+	// phpcs:disable WordPress.DB.SlowDBQuery
+
 	// Update LAK currency code.
 	$wpdb->update(
 		$wpdb->postmeta,
@@ -1005,6 +1035,7 @@ function wc_update_250_currency() {
 		)
 	);
 
+	// phpcs:enable WordPress.DB.SlowDBQuery
 }
 
 /**
@@ -1184,6 +1215,8 @@ function wc_update_260_db_version() {
  * @return void
  */
 function wc_update_300_webhooks() {
+	// phpcs:disable WordPress.DB.SlowDBQuery
+
 	/**
 	 * Make sure product.update webhooks get the woocommerce_product_quick_edit_save
 	 * and woocommerce_product_bulk_edit_save hooks.
@@ -1200,6 +1233,8 @@ function wc_update_300_webhooks() {
 		$webhook = new WC_Webhook( $product_update_webhook->ID );
 		$webhook->set_topic( 'product.updated' );
 	}
+
+	// phpcs:enable WordPress.DB.SlowDBQuery
 }
 
 /**
@@ -1549,31 +1584,12 @@ function wc_update_330_webhooks() {
  * Assign default cat to all products with no cats.
  */
 function wc_update_330_set_default_product_cat() {
-	global $wpdb;
-
-	$default_category = get_option( 'default_product_cat', 0 );
-
-	if ( $default_category ) {
-		$wpdb->query(
-			$wpdb->prepare(
-				"INSERT INTO {$wpdb->term_relationships} (object_id, term_taxonomy_id)
-				SELECT DISTINCT posts.ID, %s FROM {$wpdb->posts} posts
-				LEFT JOIN
-					(
-						SELECT object_id FROM {$wpdb->term_relationships} term_relationships
-						LEFT JOIN {$wpdb->term_taxonomy} term_taxonomy ON term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id
-						WHERE term_taxonomy.taxonomy = 'product_cat'
-					) AS tax_query
-				ON posts.ID = tax_query.object_id
-				WHERE posts.post_type = 'product'
-				AND tax_query.object_id IS NULL",
-				$default_category
-			)
-		);
-		wp_cache_flush();
-		delete_transient( 'wc_term_counts' );
-		wp_update_term_count_now( array( $default_category ), 'product_cat' );
-	}
+	/*
+	 * When a product category is deleted, we need to check
+	 * if the product has no categories assigned. Then assign
+	 * it a default category.
+	 */
+	wc_get_container()->get( AssignDefaultCategory::class )->maybe_assign_default_product_cat();
 }
 
 /**
@@ -1601,7 +1617,7 @@ function wc_update_330_product_stock_status() {
 				AND t3.meta_key = '_backorders' AND ( t3.meta_value = 'yes' OR t3.meta_value = 'notify' )",
 			$min_stock_amount
 		)
-	); // WPCS: db call ok, unprepared SQL ok, cache ok.
+	);
 
 	if ( empty( $post_ids ) ) {
 		return;
@@ -1609,12 +1625,14 @@ function wc_update_330_product_stock_status() {
 
 	$post_ids = array_map( 'absint', $post_ids );
 
+	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 	// Set the status to onbackorder for those products.
 	$wpdb->query(
 		"UPDATE $wpdb->postmeta
 		SET meta_value = 'onbackorder'
 		WHERE meta_key = '_stock_status' AND post_id IN ( " . implode( ',', $post_ids ) . ' )'
-	); // WPCS: db call ok, unprepared SQL ok, cache ok.
+	);
+	// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 }
 
 /**
@@ -1828,18 +1846,14 @@ function wc_update_340_db_version() {
 function wc_update_343_cleanup_foreign_keys() {
 	global $wpdb;
 
-	$results = $wpdb->get_results(
-		"SELECT CONSTRAINT_NAME
-		FROM information_schema.TABLE_CONSTRAINTS
-		WHERE CONSTRAINT_SCHEMA = '{$wpdb->dbname}'
-		AND CONSTRAINT_NAME LIKE '%wc_download_log_ib%'
-		AND CONSTRAINT_TYPE = 'FOREIGN KEY'
-		AND TABLE_NAME = '{$wpdb->prefix}wc_download_log'"
-	);
+	$create_table_sql = $wpdb->get_var( "SHOW CREATE TABLE {$wpdb->prefix}wc_download_log", 1 );
 
-	if ( $results ) {
-		foreach ( $results as $fk ) {
-			$wpdb->query( "ALTER TABLE {$wpdb->prefix}wc_download_log DROP FOREIGN KEY {$fk->CONSTRAINT_NAME}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	if ( ! empty( $create_table_sql ) ) {
+		// Extract and remove the foreign key constraints matching %wc_download_log_ib%.
+		if ( preg_match_all( '/CONSTRAINT `([^`]*wc_download_log_ib[^`]*)` FOREIGN KEY/', $create_table_sql, $matches ) && ! empty( $matches[1] ) ) {
+			foreach ( $matches[1] as $foreign_key_name ) {
+				$wpdb->query( "ALTER TABLE {$wpdb->prefix}wc_download_log DROP FOREIGN KEY `{$foreign_key_name}`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			}
 		}
 	}
 }
@@ -1891,24 +1905,19 @@ function wc_update_350_db_version() {
 }
 
 /**
- * Drop the fk_wc_download_log_permission_id FK as we use a new one with the table and blog prefix for MS compatability.
+ * Drop the fk_wc_download_log_permission_id FK as we use a new one with the table and blog prefix for MS compatibility.
  *
  * @return void
  */
 function wc_update_352_drop_download_log_fk() {
 	global $wpdb;
-	$results = $wpdb->get_results(
-		"SELECT CONSTRAINT_NAME
-		FROM information_schema.TABLE_CONSTRAINTS
-		WHERE CONSTRAINT_SCHEMA = '{$wpdb->dbname}'
-		AND CONSTRAINT_NAME = 'fk_wc_download_log_permission_id'
-		AND CONSTRAINT_TYPE = 'FOREIGN KEY'
-		AND TABLE_NAME = '{$wpdb->prefix}wc_download_log'"
-	);
 
-	// We only need to drop the old key as WC_Install::create_tables() takes care of creating the new FK.
-	if ( $results ) {
-		$wpdb->query( "ALTER TABLE {$wpdb->prefix}wc_download_log DROP FOREIGN KEY fk_wc_download_log_permission_id" ); // phpcs:ignore WordPress.WP.PreparedSQL.NotPrepared
+	$create_table_sql = $wpdb->get_var( "SHOW CREATE TABLE {$wpdb->prefix}wc_download_log", 1 );
+
+	if ( ! empty( $create_table_sql ) ) {
+		if ( strpos( $create_table_sql, 'CONSTRAINT `fk_wc_download_log_permission_id` FOREIGN KEY' ) !== false ) {
+			$wpdb->query( "ALTER TABLE {$wpdb->prefix}wc_download_log DROP FOREIGN KEY fk_wc_download_log_permission_id" ); // phpcs:ignore WordPress.WP.PreparedSQL.NotPrepared
+		}
 	}
 }
 
@@ -2065,7 +2074,8 @@ function wc_update_390_move_maxmind_database() {
 	$new_path    = apply_filters( 'woocommerce_geolocation_local_database_path', $new_path, 2 );
 	$new_path    = apply_filters( 'woocommerce_maxmind_geolocation_database_path', $new_path );
 
-	@rename( $old_path, $new_path ); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+	@rename( $old_path, $new_path );
 }
 
 /**
@@ -2095,7 +2105,7 @@ function wc_update_400_increase_size_of_column() {
 /**
  * Reset ActionScheduler migration status. Needs AS >= 3.0 shipped with WC >= 4.0.
  */
-function wc_reset_action_scheduler_migration_status() {
+function wc_update_400_reset_action_scheduler_migration_status() {
 	if (
 		class_exists( 'ActionScheduler_DataController' ) &&
 		method_exists( 'ActionScheduler_DataController', 'mark_migration_incomplete' )
@@ -2109,4 +2119,523 @@ function wc_reset_action_scheduler_migration_status() {
  */
 function wc_update_400_db_version() {
 	WC_Install::update_db_version( '4.0.0' );
+}
+
+/**
+ * Register attributes as terms for variable products, in increments of 100 products.
+ *
+ * This migration was added to support a new mechanism to improve the filtering of
+ * variable products by attribute (https://github.com/woocommerce/woocommerce/pull/26260),
+ * however that mechanism was later reverted (https://github.com/woocommerce/woocommerce/pull/27625)
+ * due to numerous issues found. Thus the migration is no longer needed.
+ *
+ * @return bool true if the migration needs to be run again.
+ */
+function wc_update_440_insert_attribute_terms_for_variable_products() {
+	return false;
+}
+
+/**
+ * Update DB version.
+ */
+function wc_update_440_db_version() {
+	WC_Install::update_db_version( '4.4.0' );
+}
+
+/**
+ * Update DB version to 4.5.0.
+ */
+function wc_update_450_db_version() {
+	WC_Install::update_db_version( '4.5.0' );
+}
+
+/**
+ * Sanitize all coupons code.
+ *
+ * @return bool True to run again, false if completed.
+ */
+function wc_update_450_sanitize_coupons_code() {
+	global $wpdb;
+
+	$coupon_id      = 0;
+	$last_coupon_id = get_option( 'woocommerce_update_450_last_coupon_id', '0' );
+
+	$coupons = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT ID, post_title FROM $wpdb->posts WHERE ID > %d AND post_type = 'shop_coupon' LIMIT 10",
+			$last_coupon_id
+		),
+		ARRAY_A
+	);
+
+	if ( empty( $coupons ) ) {
+		delete_option( 'woocommerce_update_450_last_coupon_id' );
+		return false;
+	}
+
+	foreach ( $coupons as $key => $data ) {
+		$coupon_id = intval( $data['ID'] );
+		$code      = trim( wp_filter_kses( $data['post_title'] ) );
+
+		if ( ! empty( $code ) && $data['post_title'] !== $code ) {
+			$wpdb->update(
+				$wpdb->posts,
+				array(
+					'post_title' => $code,
+				),
+				array(
+					'ID' => $coupon_id,
+				),
+				array(
+					'%s',
+				),
+				array(
+					'%d',
+				)
+			);
+
+			// Clean cache.
+			clean_post_cache( $coupon_id );
+			wp_cache_delete( WC_Cache_Helper::get_cache_prefix( 'coupons' ) . 'coupon_id_from_code_' . $data['post_title'], 'coupons' );
+		}
+	}
+
+	// Start the run again.
+	if ( $coupon_id ) {
+		return update_option( 'woocommerce_update_450_last_coupon_id', $coupon_id );
+	}
+
+	delete_option( 'woocommerce_update_450_last_coupon_id' );
+	return false;
+}
+
+/**
+ * Fixes product review count that might have been incorrect.
+ *
+ * See @link https://github.com/woocommerce/woocommerce/issues/27688.
+ */
+function wc_update_500_fix_product_review_count() {
+	global $wpdb;
+
+	$product_id      = 0;
+	$last_product_id = get_option( 'woocommerce_update_500_last_product_id', '0' );
+
+	$products_data = $wpdb->get_results(
+		$wpdb->prepare(
+			"
+				SELECT post_id, meta_value
+				FROM $wpdb->postmeta
+				JOIN $wpdb->posts
+					ON $wpdb->postmeta.post_id = $wpdb->posts.ID
+				WHERE
+					post_type = 'product'
+					AND post_status = 'publish'
+					AND post_id > %d
+					AND meta_key = '_wc_review_count'
+				ORDER BY post_id ASC
+				LIMIT 10
+			",
+			$last_product_id
+		),
+		ARRAY_A
+	);
+
+	if ( empty( $products_data ) ) {
+		delete_option( 'woocommerce_update_500_last_product_id' );
+		return false;
+	}
+
+	$product_ids_to_check = array_column( $products_data, 'post_id' );
+	$actual_review_counts = WC_Comments::get_review_counts_for_product_ids( $product_ids_to_check );
+
+	foreach ( $products_data as $product_data ) {
+		$product_id           = intval( $product_data['post_id'] );
+		$current_review_count = intval( $product_data['meta_value'] );
+
+		if ( intval( $actual_review_counts[ $product_id ] ) !== $current_review_count ) {
+			WC_Comments::clear_transients( $product_id );
+		}
+	}
+
+	// Start the run again.
+	if ( $product_id ) {
+		return update_option( 'woocommerce_update_500_last_product_id', $product_id );
+	}
+
+	delete_option( 'woocommerce_update_500_last_product_id' );
+	return false;
+}
+
+/**
+ * Update DB version to 5.0.0.
+ */
+function wc_update_500_db_version() {
+	WC_Install::update_db_version( '5.0.0' );
+}
+
+/**
+ * Creates the refund and returns policy page.
+ *
+ * See @link https://github.com/woocommerce/woocommerce/issues/29235.
+ */
+function wc_update_560_create_refund_returns_page() {
+	/**
+	 * Filter on the pages created to return what we expect.
+	 *
+	 * @param array $pages The default WC pages.
+	 */
+	function filter_created_pages( $pages ) {
+		$page_to_create = array( 'refund_returns' );
+
+		return array_intersect_key( $pages, array_flip( $page_to_create ) );
+	}
+
+	add_filter( 'woocommerce_create_pages', 'filter_created_pages' );
+
+	WC_Install::create_pages();
+
+	remove_filter( 'woocommerce_create_pages', 'filter_created_pages' );
+}
+
+/**
+ * Update DB version to 5.6.0.
+ */
+function wc_update_560_db_version() {
+	WC_Install::update_db_version( '5.6.0' );
+}
+
+/**
+ * Migrate rate limit options to the new table.
+ *
+ * See @link https://github.com/woocommerce/woocommerce/issues/27103.
+ */
+function wc_update_600_migrate_rate_limit_options() {
+	global $wpdb;
+
+	$rate_limits   = $wpdb->get_results(
+		"
+			SELECT option_name, option_value
+			FROM $wpdb->options
+			WHERE option_name LIKE 'woocommerce_rate_limit_add_payment_method_%'
+		",
+		ARRAY_A
+	);
+	$prefix_length = strlen( 'woocommerce_rate_limit_' );
+
+	foreach ( $rate_limits as $rate_limit ) {
+		$new_delay = (int) $rate_limit['option_value'] - time();
+
+		// Migrate the limit if it hasn't expired yet.
+		if ( 0 < $new_delay ) {
+			$action_id = substr( $rate_limit['option_name'], $prefix_length );
+			WC_Rate_Limiter::set_rate_limit( $action_id, $new_delay );
+		}
+
+		delete_option( $rate_limit['option_name'] );
+	}
+}
+
+/**
+ * Update DB version to 6.0.0.
+ */
+function wc_update_600_db_version() {
+	WC_Install::update_db_version( '6.0.0' );
+}
+
+/**
+ * Create the product attributes lookup table and initiate its filling,
+ * unless the table had been already created manually (via the tools page).
+ *
+ * @return false Always false, since the LookupDataStore class handles all the data filling process.
+ */
+function wc_update_630_create_product_attributes_lookup_table() {
+	$data_store       = wc_get_container()->get( LookupDataStore::class );
+	$data_regenerator = wc_get_container()->get( DataRegenerator::class );
+
+	/**
+	 * If the table exists and contains data, it was manually created by user before the migration ran.
+	 * If the table exists but is empty, it was likely created right now via dbDelta, so a table regenerations is needed (unless one is in progress already).
+	 */
+	if ( ! $data_store->check_lookup_table_exists() || ( ! $data_store->lookup_table_has_data() && ! $data_store->regeneration_is_in_progress() ) ) {
+		$data_regenerator->initiate_regeneration();
+	}
+
+	return false;
+}
+
+/**
+ *
+ * Update DB version to 6.3.0.
+ */
+function wc_update_630_db_version() {
+	WC_Install::update_db_version( '6.3.0' );
+}
+
+/**
+ * Create the primary key for the product attributes lookup table if it doesn't exist already.
+ *
+ * @return bool Always false.
+ */
+function wc_update_640_add_primary_key_to_product_attributes_lookup_table() {
+	wc_get_container()->get( DataRegenerator::class )->create_table_primary_index();
+
+	return false;
+}
+
+/**
+ *
+ * Update DB version to 6.4.0.
+ */
+function wc_update_640_db_version() {
+	WC_Install::update_db_version( '6.4.0' );
+}
+
+/**
+ * Add the standard WooCommerce upload directories to the Approved Product Download Directories list
+ * and start populating it based on existing product download URLs, but do not enable the feature
+ * (for existing installations, a site admin should review and make a conscious decision to enable).
+ */
+function wc_update_650_approved_download_directories() {
+	$directory_sync = wc_get_container()->get( Download_Directories_Sync::class );
+	$directory_sync->init_hooks();
+	$directory_sync->init_feature( true, false );
+}
+
+/**
+ * In some cases, the approved download directories table may not have been successfully created during the update to
+ * 6.5.0. If this was the case we will need to re-initialize the feature.
+ */
+function wc_update_651_approved_download_directories() {
+	global $wpdb;
+
+	$download_directories = wc_get_container()->get( Download_Directories::class );
+	$directory_sync       = wc_get_container()->get( Download_Directories_Sync::class );
+
+	// Check if at least 1 row exists, without scanning the entire table.
+	$is_populated = (bool) $wpdb->get_var(
+		'SELECT 1 FROM ' . $download_directories->get_table() . ' LIMIT 1'
+	);
+
+	// If the table contains rules (or does not yet, but a sync is in-progress) we should do nothing else at this point.
+	if ( $is_populated || $directory_sync->in_progress() ) {
+		return;
+	}
+
+	// Otherwise, it seems reasonable to assume that the feature was not initialized as expected during the update to
+	// 6.5.0. Let's give that another try.
+	$directory_sync->init_hooks();
+	$directory_sync->init_feature( true, false );
+}
+
+/**
+ * Purges the comments count cache after 6.7.0 split reviews from the comments page.
+ */
+function wc_update_670_purge_comments_count_cache() {
+	if ( ! is_callable( 'WC_Comments::delete_comments_count_cache' ) ) {
+		return;
+	}
+
+	WC_Comments::delete_comments_count_cache();
+}
+/**
+ * Remove unnecessary foreign keys.
+ *
+ * @return void
+ */
+function wc_update_700_remove_download_log_fk() {
+	global $wpdb;
+
+	$create_table_sql = $wpdb->get_var( "SHOW CREATE TABLE {$wpdb->prefix}wc_download_log", 1 );
+
+	if ( ! empty( $create_table_sql ) ) {
+		if ( preg_match_all( '/CONSTRAINT `([^`]*)` FOREIGN KEY/', $create_table_sql, $matches ) && ! empty( $matches[1] ) ) {
+			foreach ( $matches[1] as $foreign_key_name ) {
+				$wpdb->query( "ALTER TABLE {$wpdb->prefix}wc_download_log DROP FOREIGN KEY `{$foreign_key_name}`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			}
+		}
+	}
+}
+
+/**
+ * Remove the transient data for recommended marketing extensions.
+ */
+function wc_update_700_remove_recommended_marketing_plugins_transient() {
+	delete_transient( MarketingSpecs::RECOMMENDED_PLUGINS_TRANSIENT );
+}
+
+/**
+ * Update the New Zealand state codes in the database
+ * after they were updated in code to the CLDR standard.
+ */
+function wc_update_721_adjust_new_zealand_states() {
+	return MigrationHelper::migrate_country_states(
+		'NZ',
+		array(
+			'NL' => 'NTL',
+			'AK' => 'AUK',
+			'WA' => 'WKO',
+			'BP' => 'BOP',
+			'TK' => 'TKI',
+			'GI' => 'GIS',
+			'HB' => 'HKB',
+			'MW' => 'MWT',
+			'WE' => 'WGN',
+			'NS' => 'NSN',
+			'MB' => 'MBH',
+			'TM' => 'TAS',
+			'WC' => 'WTC',
+			'CT' => 'CAN',
+			'OT' => 'OTA',
+			'SL' => 'STL',
+		)
+	);
+}
+
+/**
+ * Update the Ukraine state codes in the database
+ * after they were updated in code to the CLDR standard.
+ */
+function wc_update_721_adjust_ukraine_states() {
+	return MigrationHelper::migrate_country_states(
+		'UA',
+		array(
+			'VN' => 'UA05',
+			'LH' => 'UA09',
+			'VL' => 'UA07',
+			'DP' => 'UA12',
+			'DT' => 'UA14',
+			'ZT' => 'UA18',
+			'ZK' => 'UA21',
+			'ZP' => 'UA23',
+			'IF' => 'UA26',
+			'KV' => 'UA32',
+			'KH' => 'UA35',
+			'LV' => 'UA46',
+			'MY' => 'UA48',
+			'OD' => 'UA51',
+			'PL' => 'UA53',
+			'RV' => 'UA56',
+			'SM' => 'UA59',
+			'TP' => 'UA61',
+			'KK' => 'UA63',
+			'KS' => 'UA65',
+			'KM' => 'UA68',
+			'CK' => 'UA71',
+			'CH' => 'UA74',
+			'CV' => 'UA77',
+		)
+	);
+}
+
+/**
+ * Update the New Zealand state codes in the database after they were updated in code to the CLDR standard.
+ *
+ * This is a simple wrapper for the corresponding 7.2.1 update function. The reason we do this (instead of
+ * reusing the original function directly) is for better traceability in the Action Scheduler log, in case
+ * of problems.
+ */
+function wc_update_722_adjust_new_zealand_states() {
+	return wc_update_721_adjust_new_zealand_states();
+}
+
+/**
+ * Update the Ukraine state codes in the database after they were updated in code to the CLDR standard.
+ *
+ * This is a simple wrapper for the corresponding 7.2.1 update function. The reason we do this (instead of
+ * reusing the original function directly) is for better traceability in the Action Scheduler log, in case
+ * of problems.
+ */
+function wc_update_722_adjust_ukraine_states() {
+	return wc_update_721_adjust_ukraine_states();
+}
+
+/**
+ * Add new columns date_paid and date_completed to wp_wc_order_stats table in order to provide the option
+ * of using the dates in the reports
+ */
+function wc_update_750_add_columns_to_order_stats_table() {
+	global $wpdb;
+
+	$wpdb->query(
+		"UPDATE {$wpdb->prefix}wc_order_stats AS order_stats
+		INNER JOIN {$wpdb->postmeta} AS postmeta
+			ON postmeta.post_id = order_stats.order_id
+			and postmeta.meta_key = '_date_paid'
+		SET order_stats.date_paid = IFNULL(FROM_UNIXTIME(postmeta.meta_value), '0000-00-00 00:00:00');"
+	);
+
+	$wpdb->query(
+		"UPDATE {$wpdb->prefix}wc_order_stats AS order_stats
+		INNER JOIN {$wpdb->postmeta} AS postmeta
+			ON postmeta.post_id = order_stats.order_id
+			and postmeta.meta_key = '_date_completed'
+		SET order_stats.date_completed = IFNULL(FROM_UNIXTIME(postmeta.meta_value), '0000-00-00 00:00:00');"
+	);
+
+}
+
+/**
+ * Disable the experimental product management experience.
+ *
+ * @return void
+ */
+function wc_update_750_disable_new_product_management_experience() {
+	if ( 'yes' === get_option( 'woocommerce_new_product_management_enabled' ) ) {
+		update_option( 'woocommerce_new_product_management_enabled', 'no' );
+	}
+}
+
+/**
+ * Remove the multichannel marketing feature flag and options. This feature is now enabled by default.
+ */
+function wc_update_770_remove_multichannel_marketing_feature_options() {
+	delete_option( 'woocommerce_multichannel_marketing_enabled' );
+	delete_option( 'woocommerce_marketing_overview_welcome_hidden' );
+}
+
+/**
+ * Migrate transaction data which was being incorrectly stored in the postmeta table to HPOS tables.
+ *
+ * @return bool Whether there are pending migration recrods.
+ */
+function wc_update_810_migrate_transactional_metadata_for_hpos() {
+	global $wpdb;
+
+	$data_synchronizer = wc_get_container()->get( DataSynchronizer::class );
+	if ( ! $data_synchronizer->get_table_exists() ) {
+		return false;
+	}
+
+	$orders_table      = OrdersTableDataStore::get_orders_table_name();
+	$orders_meta_table = OrdersTableDataStore::get_meta_table_name();
+
+	/**
+	 * We are migrating payment_tokens meta that is stored in wp_postmeta table to the HPOS table. To do this with minimum db ops:
+	 * 1. We join postmeta table with wc_orders table directly, this filters out orders that are yet to be migrated and any post with non-order post type.
+	 * 2. A combination of filter on wc_orders_meta.meta_key = _payment_tokens in the join condition itself, along with a null check in a WHERE condition, allows us to only get the orders where the meta is not yet migrated.
+	 */
+	$select_query = "
+SELECT post_id, '_payment_tokens', {$wpdb->postmeta}.meta_value
+FROM {$wpdb->postmeta}
+JOIN $orders_table ON {$wpdb->postmeta}.post_id = $orders_table.id
+LEFT JOIN $orders_meta_table ON $orders_meta_table.order_id = $orders_table.id AND $orders_meta_table.meta_key = '_payment_tokens'
+WHERE
+	{$wpdb->postmeta}.meta_key = '_payment_tokens'
+	AND $orders_meta_table.order_id IS NULL
+	";
+
+	// No need to get the data in application, we can insert directly. Sync setting does not matter as this data already exist in the post table. Limit the batch size to 250.
+	$query =
+		"
+INSERT INTO $orders_meta_table (order_id, meta_key, meta_value)
+$select_query
+LIMIT 250
+";
+	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No user input in the query, everything hardcoded.
+	$wpdb->query( $query );
+
+	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- No user input in the query, everything hardcoded.
+	$has_pending = $wpdb->query( "$select_query LIMIT 1;" );
+
+	return ! empty( $has_pending );
 }

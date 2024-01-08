@@ -94,8 +94,12 @@ class WPCode_Install {
 			return;
 		}
 
-		if ( version_compare( $activated['version'], '2.1.4', '<' ) ) {
+		if ( isset( $activated['version'] ) && version_compare( $activated['version'], '2.1.4', '<' ) ) {
 			$this->update_2_1_4();
+		}
+
+		if ( isset( $activated['version'] ) && version_compare( $activated['version'], '2.1.5', '<' ) ) {
+			$this->update_2_1_5();
 		}
 
 		// Give other plugins a chance to run an upgrade routine.
@@ -159,17 +163,37 @@ class WPCode_Install {
 			wpcode()->error->clear_snippets_errors();
 		}
 
+		$this->add_columns_to_hidden( array( 'id', 'code_type', 'shortcode' ) );
+	}
+
+	/**
+	 * Upgrade routine for 2.1.5.
+	 * Add the priority column to the hidden columns.
+	 *
+	 * @return void
+	 */
+	public function update_2_1_5() {
+		$this->add_columns_to_hidden( array( 'priority' ) );
+	}
+
+	/**
+	 * Add columns to the hidden columns for users that set their screen settings.
+	 *
+	 * @param array $new_columns The columns to add.
+	 *
+	 * @return void
+	 */
+	public function add_columns_to_hidden( $new_columns ) {
 		// Let's add the new columns to the hidden array for users that set their screen settings.
 		$meta_key = 'managetoplevel_page_wpcodecolumnshidden';
 
-		$users       = get_users(
+		$users = get_users(
 			array(
 				'meta_key'     => $meta_key, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'meta_compare' => 'EXISTS',
 				'fields'       => 'ID',
 			)
 		);
-		$new_columns = array( 'id', 'code_type', 'shortcode' );
 
 		foreach ( $users as $user_id ) {
 			$columns = get_user_meta( $user_id, $meta_key, true );

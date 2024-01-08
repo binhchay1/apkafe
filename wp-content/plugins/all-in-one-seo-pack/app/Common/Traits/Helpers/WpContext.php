@@ -125,7 +125,9 @@ trait WpContext {
 
 		$post = aioseo()->helpers->getPost( $post );
 
-		return ( 'page' === get_option( 'show_on_front' ) && ! empty( $post->ID ) && (int) get_option( 'page_on_front' ) === $post->ID );
+		$isHomePage = ( 'page' === get_option( 'show_on_front' ) && ! empty( $post->ID ) && (int) get_option( 'page_on_front' ) === $post->ID );
+
+		return $isHomePage;
 	}
 
 	/**
@@ -146,8 +148,20 @@ trait WpContext {
 	 *
 	 * @return bool Whether the current page is the static posts page.
 	 */
-	public function isStaticPostsPage() {
-		return is_home() && ( 0 !== (int) get_option( 'page_for_posts' ) );
+	public function isStaticPostsPage( $post = null ) {
+		static $isStaticPostsPage = null;
+		if ( null !== $isStaticPostsPage ) {
+			return $isStaticPostsPage;
+		}
+
+		$post = aioseo()->helpers->getPost( $post );
+
+		$isStaticPostsPage = (
+			( is_home() && ( 0 !== (int) get_option( 'page_for_posts' ) ) ) ||
+			( ! empty( $post->ID ) && (int) get_option( 'page_for_posts' ) === $post->ID )
+		);
+
+		return $isStaticPostsPage;
 	}
 
 	/**
@@ -196,6 +210,9 @@ trait WpContext {
 		if ( ! $postId && $learnPressLesson ) {
 			$postId = $learnPressLesson;
 		}
+
+		// Allow other plugins to filter the post ID e.g. for a special archive page.
+		$postId = apply_filters( 'aioseo_get_post_id', $postId );
 
 		// We need to check these conditions and cannot always return get_post() because we'll return the first post on archive pages (dynamic homepage, term pages, etc.).
 		if (
@@ -287,10 +304,18 @@ trait WpContext {
 			return $postContent;
 		}
 
+		// Because do_blocks() and do_shortcodes() can trigger conflicts, we need to clone these objects and restore them afterwards.
+		// We need to clone deep to sever pointers/references because these have nested object properties.
+		global $wp_query, $post;
+		$this->originalQuery = $this->deepClone( $wp_query );
+		$this->originalPost  = is_a( $post, 'WP_Post' ) ? $this->deepClone( $post ) : null;
+
 		// The order of the function calls below is intentional and should NOT change.
 		$postContent = function_exists( 'do_blocks' ) ? do_blocks( $postContent ) : $postContent; // phpcs:ignore AIOSEO.WpFunctionUse.NewFunctions.do_blocksFound
 		$postContent = wpautop( $postContent );
 		$postContent = $this->doShortcodes( $postContent );
+
+		$this->restoreWpQuery();
 
 		return $postContent;
 	}
@@ -344,17 +369,14 @@ trait WpContext {
 		foreach ( $keys as $key ) {
 			// Try ACF.
 			if ( isset( $acfFields[ $key ] ) ) {
-				$customFieldContent .= "{$acfFields[$key]} ";
+				$customFieldContent .= "$acfFields[$key] ";
 				continue;
 			}
 
 			// Fallback to post meta.
 			$value = get_post_meta( $post->ID, $key, true );
-			if ( $value ) {
-				if ( ! is_string( $value ) ) {
-					$value = strval( $value );
-				}
-				$customFieldContent .= "{$value} ";
+			if ( $value && is_scalar( $value ) ) {
+				$customFieldContent .= $value . ' ';
 			}
 		}
 
@@ -412,9 +434,16 @@ trait WpContext {
 	 * @return int|false The page number or false if we're not on a comment page.
 	 */
 	public function getCommentPageNumber() {
-		$cpage = get_query_var( 'cpage' );
+		$cpage = get_query_var( 'cpage', null );
+		if ( $this->isBlockTheme() ) {
+			global $wp_query;
 
-		return ! empty( $cpage ) ? (int) $cpage : false;
+			// For block themes we can't rely on `get_query_var()` because of {@see build_comment_query_vars_from_block()},
+			// so we need to check the query directly.
+			$cpage = $wp_query->query['cpage'] ?? null;
+		}
+
+		return isset( $cpage ) ? (int) $cpage : false;
 	}
 
 	/**
@@ -710,7 +739,8 @@ trait WpContext {
 	 * @return bool Login or register page.
 	 */
 	public function isWpLoginPage() {
-		$self = ! empty( $_SERVER['PHP_SELF'] ) ? wp_unslash( $_SERVER['PHP_SELF'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		// We can't sanitize the filename using sanitize_file_name() here because it will cause issues with custom login pages and certain plugins/themes where this function is not defined.
+		$self = ! empty( $_SERVER['PHP_SELF'] ) ? wp_unslash( $_SERVER['PHP_SELF'] ) : ''; // phpcs:ignore HM.Security.ValidatedSanitizedInput.InputNotSanitized
 		if ( preg_match( '/wp-login\.php$|wp-register\.php$/', $self ) ) {
 			return true;
 		}
@@ -771,13 +801,15 @@ trait WpContext {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param  \WP_Post $wpPost The post object.
+	 * @param  \WP_Post|int $wpPost The post object or ID.
 	 * @return void
 	 */
 	public function setWpQueryPost( $wpPost ) {
+		$wpPost = is_a( $wpPost, 'WP_Post' ) ? $wpPost : get_post( $wpPost );
+
 		global $wp_query, $post;
-		$this->originalQuery = clone $wp_query;
-		$this->originalPost  = $post;
+		$this->originalQuery = $this->deepClone( $wp_query );
+		$this->originalPost  = is_a( $post, 'WP_Post' ) ? $this->deepClone( $post ) : null;
 
 		$wp_query->posts                 = [ $wpPost ];
 		$wp_query->post                  = $wpPost;
@@ -802,18 +834,54 @@ trait WpContext {
 	 * @return void
 	 */
 	public function restoreWpQuery() {
-		if ( null === $this->originalQuery ) {
-			return;
+		global $wp_query, $post;
+		if ( is_a( $this->originalQuery, 'WP_Query' ) ) {
+			// Loop over all properties and replace the ones that have changed.
+			// We want to avoid replacing the entire object because it can cause issues with other plugins.
+			foreach ( $this->originalQuery as $key => $value ) {
+				if ( $value !== $wp_query->{$key} ) {
+					$wp_query->{$key} = $value;
+				}
+			}
 		}
 
-		global $wp_query, $post;
-		$wp_query = clone $this->originalQuery;
-
-		if ( null !== $this->originalPost ) {
-			$post = $this->originalPost;
+		if ( is_a( $this->originalPost, 'WP_Post' ) ) {
+			foreach ( $this->originalPost as $key => $value ) {
+				if ( $value !== $post->{$key} ) {
+					$post->{$key} = $value;
+				}
+			}
 		}
 
 		$this->originalQuery = null;
-		$this->originalPost = null;
+		$this->originalPost  = null;
+	}
+
+	/**
+	 * Gets the list of theme features.
+	 *
+	 * @since 4.4.9
+	 *
+	 * @return array List of theme features.
+	 */
+	public function getThemeFeatures() {
+		global $_wp_theme_features;
+
+		return isset( $_wp_theme_features ) && is_array( $_wp_theme_features ) ? $_wp_theme_features : [];
+	}
+
+	/**
+	 * Returns whether the active theme is a block-based theme or not.
+	 *
+	 * @since 4.5.3
+	 *
+	 * @return bool Whether the active theme is a block-based theme or not.
+	 */
+	public function isBlockTheme() {
+		if ( function_exists( 'wp_is_block_theme' ) ) {
+			return wp_is_block_theme(); // phpcs:ignore
+		}
+
+		return false;
 	}
 }

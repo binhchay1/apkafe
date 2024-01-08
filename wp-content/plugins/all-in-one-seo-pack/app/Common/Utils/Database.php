@@ -278,7 +278,7 @@ class Database {
 	 *
 	 * @since 4.3.0
 	 */
-	private $lastQuery = '';
+	public $lastQuery = '';
 
 	/**
 	 * Prepares the database class for use.
@@ -314,6 +314,66 @@ class Database {
 		$results = $this->db->get_results( 'SHOW TABLES', 'ARRAY_N' );
 
 		return ! empty( $results ) ? wp_list_pluck( $results, 0 ) : [];
+	}
+
+	/**
+	 * Get all the database info such as data size, index size, table list.
+	 *
+	 * @since 4.4.5
+	 *
+	 * @return array An array of the database info.
+	 */
+	public function getDatabaseInfo() {
+		$tables       = [];
+		$databaseSize = [];
+
+		if ( defined( 'DB_NAME' ) ) {
+			$databaseTableInformation = $this->db->get_results(
+				$this->db->prepare(
+					"SELECT
+						table_name AS 'name',
+						table_collation AS 'collation',
+						engine AS 'engine',
+						round( ( data_length / 1024 / 1024 ), 2 ) 'data',
+						round( ( index_length / 1024 / 1024 ), 2 ) 'index'
+					FROM information_schema.TABLES
+					WHERE table_schema = %s
+					ORDER BY name ASC;",
+					DB_NAME
+				)
+			);
+
+			$databaseSize = [
+				'data'  => 0,
+				'index' => 0,
+			];
+
+			$siteTablesPrefix = $this->db->get_blog_prefix( get_current_blog_id() );
+			$globalTables     = $this->db->tables( 'global', true );
+			foreach ( $databaseTableInformation as $table ) {
+				// Only include tables matching the prefix of the current site, this is to prevent displaying all tables on a MS install not relating to the current.
+				if ( is_multisite() && 0 !== strpos( $table->name, $siteTablesPrefix ) && ! in_array( $table->name, $globalTables, true ) ) {
+					continue;
+				}
+
+				$tableType = ( 0 === strpos( $table->name, aioseo()->core->db->prefix . 'aioseo' ) ) ? 'aioseo' : 'other';
+
+				$tables[ $tableType ][ $table->name ] = [
+					'data'      => $table->data,
+					'index'     => $table->index,
+					'engine'    => $table->engine,
+					'collation' => $table->collation
+				];
+
+				$databaseSize['data']  += $table->data;
+				$databaseSize['index'] += $table->index;
+			}
+		}
+
+		return [
+			'tables' => $tables,
+			'size'   => $databaseSize,
+		];
 	}
 
 	/**
@@ -1081,7 +1141,7 @@ class Database {
 			}
 
 			if ( is_object( $value ) ) {
-				throw new \Exception( 'Cannot save an unserialized object in the database. Data passed was: ' . $value );
+				throw new \Exception( 'Cannot save an unserialized object in the database. Data passed was: ' . esc_html( $value ) );
 			}
 
 			$preparedSet[] = sprintf( "`$field` = %s", $this->escape( $value, $this->getEscapeOptions() | self::ESCAPE_QUOTE ) );
@@ -1672,5 +1732,34 @@ class Database {
 	 */
 	public function noConflict() {
 		return clone $this;
+	}
+
+	/**
+	 * Checks whether the given index exists on the given table.
+	 *
+	 * @since 4.4.8
+	 *
+	 * @param  string $tableName      The table name.
+	 * @param  string $indexName      The index name.
+	 * @param  bool   $includesPrefix Whether the table name includes the WordPress prefix or not.
+	 * @return bool                   Whether the index exists or not.
+	 */
+	public function indexExists( $tableName, $indexName, $includesPrefix = false ) {
+		$prefix    = $includesPrefix ? '' : $this->prefix;
+		$tableName = strtolower( $prefix . $tableName );
+		$indexName = strtolower( $indexName );
+
+		$indexes = $this->db->get_results( "SHOW INDEX FROM `$tableName`" );
+		foreach ( $indexes as $index ) {
+			if ( empty( $index->Key_name ) ) {
+				continue;
+			}
+
+			if ( strtolower( $index->Key_name ) === $indexName ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

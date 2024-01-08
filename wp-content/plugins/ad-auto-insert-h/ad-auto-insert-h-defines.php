@@ -120,7 +120,7 @@ define( 'AAIH__ADSENSE_MULTIPLEX_AD_CODE__END' , '></ins>
 /* -----------------------------------
  * グーグルアナリティクス：トラッキングコードフォーマット
  * ------------------------------------ */
-define( 'AAIH__ANALYTICS_CODE__URL_BEFORE_ID',	'<!-- Global site tag (gtag.js) - Google Analytics -->
+define( 'AAIH__ANALYTICS_CODE__URL_BEFORE_ID',	'<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=' );
 
 define( 'AAIH__ANALYTICS_CODE__URL_AFTER_ID',	'"></script>
@@ -189,7 +189,7 @@ define( 'AAIH__ADSENSE_AUTO_AD_SCRIPT_MAXLENGTH',	500 	);	// ★ アドセンス
 
 // アナリティクス
 define( 'AAIH__ANALYTICS_ID_MAXLENGTH',			30	);					// ★ アナリティクス : Tracking ID 00000 of UA-000000-2 , Measurement ID	XXXXXXX of G-XXXXXXX の最大文字数
-define( 'AAIH__ANALYTICS_ID_NOTHING_ALL_STR' , 'UA-xxxxx-xx/G-xxxxx' );	// アナリティクス : ID入力が無い場合の表示文字列
+define( 'AAIH__ANALYTICS_ID_NOTHING_ALL_STR' , 'G-xxxxx/AW-xxxx' );	// アナリティクス : ID入力が無い場合の表示文字列 ★2023.11.15 UAは削除
 
 // 遅延読込み
 define( 'AAIH__AD_LAZY_LOAD_AUTO_INIT',	3 	);	// 遅延読み込み（Lazy Load）の自動読み込み時間（秒）：初期値
@@ -277,12 +277,16 @@ define( 'AAIH__SHORTCODE_NAME'		, 'aaih' );		// ショートコードの名称
  * ------------------------------------ */
 // same: 設定値に同じ
 define( 'AAIH__META_DEFAULT', array(
-		'meta__ad_off' 				=> 'off',					// 広告の表示を全てoff（3つの設定を強制OFF） on / off
-		'meta__target_h_tag'		=> 'same',					// 対象とするHタグ	same / H_tag_all / H2_only
-		'meta__ad_space_change'		=> 'same',					// 広告の間隔を変更するかのon/off	same / change
-		'meta__ad_space'			=> AAIH__AD_SPACE_INIT,		// absint: 広告の間隔（文字数指定）
-		'meta__debug_mode_onoff'	=> 'same',					// デバッグモード same / on / off
-		'meta__ad_show_num'			=> -1,						// int: 記事内広告の上限（ 0：無制限）
+		'meta__ad_off' 					=> 'off',					// 広告の表示を全てoff（3つの設定を強制OFF） on / off
+		'meta__h_tag_ad_onoff'			=> 'same',					// H2タグ前Adの有効無効 ★2023/11/15 追加
+		'meta__first_h_tag_ad_onoff'	=> 'same',					// 最初のH2タグ前Adの有効無効　★2023/11/15 追加
+		'meta__after_content_ad_onoff'	=> 'same',					// 記事下Adの有効無効　★2023/11/15 追加
+		'meta__target_h_tag'			=> 'same',					// 対象とするHタグ	same / H_tag_all / H2_only
+		'meta__ad_space_change'			=> 'same',					// 広告の間隔を変更するかのon/off	same / change
+		'meta__ad_space'				=> AAIH__AD_SPACE_INIT,		// absint: 広告の間隔（文字数指定）
+		'meta__adsense_auto_ads_onoff'	=> 'same',					// アドセンス自動広告 有効無効　★2023/11/15 追加
+		'meta__debug_mode_onoff'		=> 'same',					// デバッグモード same / on / off
+		'meta__ad_show_num'				=> -1,						// int: 記事内広告の上限（ 0：無制限）
 	)
 );
 

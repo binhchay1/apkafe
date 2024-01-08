@@ -2,7 +2,7 @@
 /**
  * WooCommerce Attribute Functions
  *
- * @package WooCommerce/Functions
+ * @package WooCommerce\Functions
  * @version 2.1.0
  */
 
@@ -51,7 +51,7 @@ function wc_get_attribute_taxonomies() {
 	$cache_key   = $prefix . 'attributes';
 	$cache_value = wp_cache_get( $cache_key, 'woocommerce-attributes' );
 
-	if ( $cache_value ) {
+	if ( false !== $cache_value ) {
 		return $cache_value;
 	}
 
@@ -72,7 +72,7 @@ function wc_get_attribute_taxonomies() {
 	 */
 	$raw_attribute_taxonomies = (array) array_filter( apply_filters( 'woocommerce_attribute_taxonomies', $raw_attribute_taxonomies ) );
 
-	// Index by ID for easer lookups.
+	// Index by ID for easier lookups.
 	$attribute_taxonomies = array();
 
 	foreach ( $raw_attribute_taxonomies as $result ) {
@@ -95,7 +95,7 @@ function wc_get_attribute_taxonomy_ids() {
 	$cache_key   = $prefix . 'ids';
 	$cache_value = wp_cache_get( $cache_key, 'woocommerce-attributes' );
 
-	if ( $cache_value ) {
+	if ( false !== $cache_value ) {
 		return $cache_value;
 	}
 
@@ -117,7 +117,7 @@ function wc_get_attribute_taxonomy_labels() {
 	$cache_key   = $prefix . 'labels';
 	$cache_value = wp_cache_get( $cache_key, 'woocommerce-attributes' );
 
-	if ( $cache_value ) {
+	if ( false !== $cache_value ) {
 		return $cache_value;
 	}
 
@@ -185,9 +185,9 @@ function wc_attribute_taxonomy_id_by_name( $name ) {
  */
 function wc_attribute_label( $name, $product = '' ) {
 	if ( taxonomy_is_product_attribute( $name ) ) {
-		$name       = wc_attribute_taxonomy_slug( $name );
+		$slug       = wc_attribute_taxonomy_slug( $name );
 		$all_labels = wc_get_attribute_taxonomy_labels();
-		$label      = isset( $all_labels[ $name ] ) ? $all_labels[ $name ] : $name;
+		$label      = isset( $all_labels[ $slug ] ) ? $all_labels[ $slug ] : $slug;
 	} elseif ( $product ) {
 		if ( $product->is_type( 'variation' ) ) {
 			$product = wc_get_product( $product->get_parent_id() );
@@ -483,7 +483,7 @@ function wc_create_attribute( $args ) {
 	}
 
 	// Validate slug.
-	if ( strlen( $slug ) >= 28 ) {
+	if ( strlen( $slug ) > 28 ) {
 		/* translators: %s: attribute slug */
 		return new WP_Error( 'invalid_product_attribute_slug_too_long', sprintf( __( 'Slug "%s" is too long (28 characters max). Shorten it, please.', 'woocommerce' ), $slug ), array( 'status' => 400 ) );
 	} elseif ( wc_check_if_attribute_name_is_reserved( $slug ) ) {
@@ -569,7 +569,7 @@ function wc_create_attribute( $args ) {
 			// Update taxonomy ordering term meta.
 			$wpdb->update(
 				$wpdb->termmeta,
-				array( 'meta_key' => 'order_pa_' . sanitize_title( $data['attribute_name'] ) ), // WPCS: slow query ok.
+				array( 'meta_key' => 'order' ), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				array( 'meta_key' => 'order_pa_' . sanitize_title( $old_slug ) ) // WPCS: slow query ok.
 			);
 
@@ -722,7 +722,7 @@ function wc_attribute_taxonomy_slug( $attribute_name ) {
 	$cache_key   = $prefix . 'slug-' . $attribute_name;
 	$cache_value = wp_cache_get( $cache_key, 'woocommerce-attributes' );
 
-	if ( $cache_value ) {
+	if ( false !== $cache_value ) {
 		return $cache_value;
 	}
 

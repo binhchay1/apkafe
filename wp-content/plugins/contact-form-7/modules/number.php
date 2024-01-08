@@ -11,7 +11,11 @@ add_action( 'wpcf7_init', 'wpcf7_add_form_tag_number', 10, 0 );
 
 function wpcf7_add_form_tag_number() {
 	wpcf7_add_form_tag( array( 'number', 'number*', 'range', 'range*' ),
-		'wpcf7_number_form_tag_handler', array( 'name-attr' => true ) );
+		'wpcf7_number_form_tag_handler',
+		array(
+			'name-attr' => true,
+		)
+	);
 }
 
 function wpcf7_number_form_tag_handler( $tag ) {
@@ -34,19 +38,27 @@ function wpcf7_number_form_tag_handler( $tag ) {
 	$atts['class'] = $tag->get_class_option( $class );
 	$atts['id'] = $tag->get_id_option();
 	$atts['tabindex'] = $tag->get_option( 'tabindex', 'signed_int', true );
-	$atts['min'] = $tag->get_option( 'min', 'signed_int', true );
-	$atts['max'] = $tag->get_option( 'max', 'signed_int', true );
-	$atts['step'] = $tag->get_option( 'step', 'int', true );
+	$atts['min'] = $tag->get_option( 'min', 'signed_num', true );
+	$atts['max'] = $tag->get_option( 'max', 'signed_num', true );
+	$atts['step'] = $tag->get_option( 'step', 'num', true );
+	$atts['readonly'] = $tag->has_option( 'readonly' );
 
-	if ( $tag->has_option( 'readonly' ) ) {
-		$atts['readonly'] = 'readonly';
-	}
+	$atts['autocomplete'] = $tag->get_option(
+		'autocomplete', '[-0-9a-zA-Z]+', true
+	);
 
 	if ( $tag->is_required() ) {
 		$atts['aria-required'] = 'true';
 	}
 
-	$atts['aria-invalid'] = $validation_error ? 'true' : 'false';
+	if ( $validation_error ) {
+		$atts['aria-invalid'] = 'true';
+		$atts['aria-describedby'] = wpcf7_get_validation_error_reference(
+			$tag->name
+		);
+	} else {
+		$atts['aria-invalid'] = 'false';
+	}
 
 	$value = (string) reset( $tag->values );
 
@@ -62,52 +74,99 @@ function wpcf7_number_form_tag_handler( $tag ) {
 
 	$atts['value'] = $value;
 
-	if ( wpcf7_support_html5() ) {
-		$atts['type'] = $tag->basetype;
-	} else {
-		$atts['type'] = 'text';
+	if ( 'range' === $tag->basetype ) {
+		if ( ! wpcf7_is_number( $atts['min'] ) ) {
+			$atts['min'] = '0';
+		}
+
+		if ( ! wpcf7_is_number( $atts['max'] ) ) {
+			$atts['max'] = '100';
+		}
+
+		if ( '' === $atts['value'] ) {
+			if ( $atts['min'] < $atts['max'] ) {
+				$atts['value'] = ( $atts['min'] + $atts['max'] ) / 2;
+			} else {
+				$atts['value'] = $atts['min'];
+			}
+		}
 	}
 
+	$atts['type'] = $tag->basetype;
 	$atts['name'] = $tag->name;
 
-	$atts = wpcf7_format_atts( $atts );
-
 	$html = sprintf(
-		'<span class="wpcf7-form-control-wrap %1$s"><input %2$s />%3$s</span>',
-		sanitize_html_class( $tag->name ), $atts, $validation_error );
+		'<span class="wpcf7-form-control-wrap" data-name="%1$s"><input %2$s />%3$s</span>',
+		esc_attr( $tag->name ),
+		wpcf7_format_atts( $atts ),
+		$validation_error
+	);
 
 	return $html;
 }
 
 
-/* Validation filter */
+add_action(
+	'wpcf7_swv_create_schema',
+	'wpcf7_swv_add_number_rules',
+	10, 2
+);
 
-add_filter( 'wpcf7_validate_number', 'wpcf7_number_validation_filter', 10, 2 );
-add_filter( 'wpcf7_validate_number*', 'wpcf7_number_validation_filter', 10, 2 );
-add_filter( 'wpcf7_validate_range', 'wpcf7_number_validation_filter', 10, 2 );
-add_filter( 'wpcf7_validate_range*', 'wpcf7_number_validation_filter', 10, 2 );
+function wpcf7_swv_add_number_rules( $schema, $contact_form ) {
+	$tags = $contact_form->scan_form_tags( array(
+		'basetype' => array( 'number', 'range' ),
+	) );
 
-function wpcf7_number_validation_filter( $result, $tag ) {
-	$name = $tag->name;
+	foreach ( $tags as $tag ) {
+		if ( $tag->is_required() ) {
+			$schema->add_rule(
+				wpcf7_swv_create_rule( 'required', array(
+					'field' => $tag->name,
+					'error' => wpcf7_get_message( 'invalid_required' ),
+				) )
+			);
+		}
 
-	$value = isset( $_POST[$name] )
-		? trim( strtr( (string) $_POST[$name], "\n", " " ) )
-		: '';
+		$schema->add_rule(
+			wpcf7_swv_create_rule( 'number', array(
+				'field' => $tag->name,
+				'error' => wpcf7_get_message( 'invalid_number' ),
+			) )
+		);
 
-	$min = $tag->get_option( 'min', 'signed_int', true );
-	$max = $tag->get_option( 'max', 'signed_int', true );
+		$min = $tag->get_option( 'min', 'signed_num', true );
+		$max = $tag->get_option( 'max', 'signed_num', true );
 
-	if ( $tag->is_required() and '' == $value ) {
-		$result->invalidate( $tag, wpcf7_get_message( 'invalid_required' ) );
-	} elseif ( '' != $value and ! wpcf7_is_number( $value ) ) {
-		$result->invalidate( $tag, wpcf7_get_message( 'invalid_number' ) );
-	} elseif ( '' != $value and '' != $min and (float) $value < (float) $min ) {
-		$result->invalidate( $tag, wpcf7_get_message( 'number_too_small' ) );
-	} elseif ( '' != $value and '' != $max and (float) $max < (float) $value ) {
-		$result->invalidate( $tag, wpcf7_get_message( 'number_too_large' ) );
+		if ( 'range' === $tag->basetype ) {
+			if ( ! wpcf7_is_number( $min ) ) {
+				$min = '0';
+			}
+
+			if ( ! wpcf7_is_number( $max ) ) {
+				$max = '100';
+			}
+		}
+
+		if ( wpcf7_is_number( $min ) ) {
+			$schema->add_rule(
+				wpcf7_swv_create_rule( 'minnumber', array(
+					'field' => $tag->name,
+					'threshold' => $min,
+					'error' => wpcf7_get_message( 'number_too_small' ),
+				) )
+			);
+		}
+
+		if ( wpcf7_is_number( $max ) ) {
+			$schema->add_rule(
+				wpcf7_swv_create_rule( 'maxnumber', array(
+					'field' => $tag->name,
+					'threshold' => $max,
+					'error' => wpcf7_get_message( 'number_too_large' ),
+				) )
+			);
+		}
 	}
-
-	return $result;
 }
 
 
@@ -119,17 +178,17 @@ function wpcf7_number_messages( $messages ) {
 	return array_merge( $messages, array(
 		'invalid_number' => array(
 			'description' => __( "Number format that the sender entered is invalid", 'contact-form-7' ),
-			'default' => __( "The number format is invalid.", 'contact-form-7' )
+			'default' => __( "Please enter a number.", 'contact-form-7' ),
 		),
 
 		'number_too_small' => array(
 			'description' => __( "Number is smaller than minimum limit", 'contact-form-7' ),
-			'default' => __( "The number is smaller than the minimum allowed.", 'contact-form-7' )
+			'default' => __( "This field has a too small number.", 'contact-form-7' ),
 		),
 
 		'number_too_large' => array(
 			'description' => __( "Number is larger than maximum limit", 'contact-form-7' ),
-			'default' => __( "The number is larger than the maximum allowed.", 'contact-form-7' )
+			'default' => __( "This field has a too large number.", 'contact-form-7' ),
 		),
 	) );
 }
@@ -151,7 +210,7 @@ function wpcf7_tag_generator_number( $contact_form, $args = '' ) {
 
 	$description = __( "Generate a form-tag for a field for numeric value input. For more details, see %s.", 'contact-form-7' );
 
-	$desc_link = wpcf7_link( __( 'https://contactform7.com/number-fields/', 'contact-form-7' ), __( 'Number Fields', 'contact-form-7' ) );
+	$desc_link = wpcf7_link( __( 'https://contactform7.com/number-fields/', 'contact-form-7' ), __( 'Number fields', 'contact-form-7' ) );
 
 ?>
 <div class="control-box">

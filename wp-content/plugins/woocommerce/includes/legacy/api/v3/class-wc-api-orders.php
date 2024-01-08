@@ -6,7 +6,7 @@
  *
  * @author      WooThemes
  * @category    API
- * @package     WooCommerce/API
+ * @package     WooCommerce\RestApi
  * @since       2.1
  */
 
@@ -220,7 +220,7 @@ class WC_API_Orders extends WC_API_Resource {
 		foreach ( $order->get_items() as $item_id => $item ) {
 			$product    = $item->get_product();
 			$hideprefix = ( isset( $filter['all_item_meta'] ) && 'true' === $filter['all_item_meta'] ) ? null : '_';
-			$item_meta  = $item->get_formatted_meta_data( $hideprefix );
+			$item_meta  = $item->get_all_formatted_meta_data( $hideprefix );
 
 			foreach ( $item_meta as $key => $values ) {
 				$item_meta[ $key ]->label = $values->display_key;
@@ -805,7 +805,7 @@ class WC_API_Orders extends WC_API_Resource {
 	 *
 	 * @param WC_Order $order
 	 * @param array $posted
-	 * @param string $type
+	 * @param string $type Type of address; 'billing' or 'shipping'.
 	 */
 	protected function update_address( $order, $posted, $type = 'billing' ) {
 		foreach ( $posted as $key => $value ) {
@@ -1570,7 +1570,7 @@ class WC_API_Orders extends WC_API_Resource {
 			foreach ( $refund->get_items( 'line_item' ) as $item_id => $item ) {
 				$product    = $item->get_product();
 				$hideprefix = ( isset( $filter['all_item_meta'] ) && 'true' === $filter['all_item_meta'] ) ? null : '_';
-				$item_meta  = $item->get_formatted_meta_data( $hideprefix );
+				$item_meta  = $item->get_all_formatted_meta_data( $hideprefix );
 
 				foreach ( $item_meta as $key => $values ) {
 					$item_meta[ $key ]->label = $values->display_key;
