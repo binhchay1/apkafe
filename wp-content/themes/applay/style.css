@@ -81,7 +81,7 @@
 .nav_container .nav_new {
   transition-duration: 300ms;
   transition-property: left, right;
-  left: -420px;
+  left: -505px;
   position: fixed;
   background-color: #fff;
   top: 0;
@@ -6311,4 +6311,8 @@ ul.products li.product .product-title {
     top: -10px;
     left: 8px;
   }
+}
+
+iframe {
+  width: 100% !important;
 }
