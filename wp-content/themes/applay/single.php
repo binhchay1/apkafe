@@ -10,9 +10,8 @@ get_header();
 <div id="body">
 	<div class="container">
 		<?php
-		if (function_exists('yoast_breadcrumb')) {
-			yoast_breadcrumb('<p id="breadcrumbs">', '</p>');
-		}
+
+		echo wc_get_product_category_list(get_the_ID(), ' » ', '<p id="breadcrumbs"><span><span><a href="/">Home</a> » ', '</span>' . ' » ' . '<span class="breadcrumb_last" aria-current="page">' . get_the_title(get_the_ID()) . '</span></span></p>');
 		?>
 		<?php if ($content_padding != 'off') { ?>
 			<div class="content-pad-4x">

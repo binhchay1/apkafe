@@ -30,11 +30,13 @@ if (!is_page_template('page-templates/front-page.php') && $ct_hd == '') {
         </style>
     <?php }
     if (is_singular('app_portfolio') || is_singular('product')) { ?>
-        <?php
-        if (function_exists('yoast_breadcrumb')) {
-            yoast_breadcrumb('<div class="container"><p id="breadcrumbs">', '</p></div>');
-        }
-        ?>
+        <div class="container">
+            <?php
+
+            echo wc_get_product_category_list(get_the_ID(), ' » ', '<p id="breadcrumbs"><span><span><a href="/">Home</a> » ', '</span>' . ' » ' . '<span class="breadcrumb_last" aria-current="page">' . get_the_title(get_the_ID()) . '</span></span></p>');
+            ?>
+        </div>
+
         <div class="page-heading main-color-1-bg dark-div">
             <div class="container">
 
