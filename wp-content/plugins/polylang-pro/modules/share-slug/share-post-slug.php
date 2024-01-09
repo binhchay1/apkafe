@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Polylang-Pro
+ */
 
 /**
  * Base class to manage shared slugs for posts
@@ -6,14 +9,36 @@
  * @since 1.9
  */
 class PLL_Share_Post_Slug {
-	public $options, $model, $links_model, $curlang;
+	/**
+	 * Stores the plugin options.
+	 *
+	 * @var array
+	 */
+	public $options;
+
+	/**
+	 * @var PLL_Model
+	 */
+	public $model;
+
+	/**
+	 * @var PLL_Links_Model
+	 */
+	public $links_model;
+
+	/**
+	 * The current language.
+	 *
+	 * @var PLL_Language|null
+	 */
+	public $curlang;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.9
 	 *
-	 * @param object $polylang
+	 * @param object $polylang Polylang object.
 	 */
 	public function __construct( &$polylang ) {
 		$this->options     = &$polylang->options;
@@ -21,15 +46,15 @@ class PLL_Share_Post_Slug {
 		$this->links_model = &$polylang->links_model;
 		$this->curlang     = &$polylang->curlang;
 
-		// Get page by pagename and lang
-		add_action( 'parse_query', array( $this, 'parse_query' ), 0 ); // Before all other functions hooked to 'parse_query'
+		// Get page by pagename and lang.
+		add_action( 'parse_query', array( $this, 'parse_query' ), 0 ); // Before all other functions hooked to 'parse_query'.
 
-		// Get post by name and lang
+		// Get post by name and lang.
 		add_filter( 'posts_join', array( $this, 'posts_join' ), 10, 2 );
 		add_filter( 'posts_where', array( $this, 'posts_where' ), 10, 2 );
 
 		add_filter( 'wp_unique_post_slug', array( $this, 'wp_unique_post_slug' ), 10, 6 );
-		add_action( 'pll_translate_media', array( $this, 'pll_translate_media' ), 20, 3 ); // After PLL_Admin_Sync to avoid reverse sync
+		add_action( 'pll_translate_media', array( $this, 'pll_translate_media' ), 20, 2 ); // After PLL_Admin_Sync to avoid reverse sync.
 	}
 
 	/**
@@ -38,26 +63,38 @@ class PLL_Share_Post_Slug {
 	 *
 	 * @since 1.9
 	 *
-	 * @param object $query reference to query object
+	 * @param WP_Query $query Reference to a WP_Query object.
+	 * @return void
 	 */
 	public function parse_query( $query ) {
 		if ( $lang = $this->get_language_for_filter( $query ) ) {
 			$qv = $query->query_vars;
 
-			// For hierarchical custom post types
+			// For hierarchical custom post types.
 			if ( empty( $qv['pagename'] ) && ! empty( $qv['name'] ) && ! empty( $qv['post_type'] ) && array_intersect( get_post_types( array( 'hierarchical' => true ) ), (array) $qv['post_type'] ) ) {
 				$qv['pagename'] = $qv['name'];
 			}
 
 			if ( ! empty( $qv['pagename'] ) ) {
-				// A simpler solution is avalaible at https://github.com/mirsch/polylang-slug/commit/4bf2cb80256fc31347455f6539fac0c20f403c04
-				// But it supposes that pages sharing slug are translations of each other which we don't.
-				$query->queried_object = $this->get_page_by_path( $qv['pagename'], $lang->slug, OBJECT, empty( $qv['post_type'] ) ? 'page' : $qv['post_type'] );
+				/*
+				 * A simpler solution is available at https://github.com/mirsch/polylang-slug/commit/4bf2cb80256fc31347455f6539fac0c20f403c04
+				 * But it supposes that pages sharing slug are translations of each other which we don't.
+				 */
+				/** @var WP_Post|null $queried_object */
+				$queried_object = $this->get_page_by_path( $qv['pagename'], $lang->slug, OBJECT, empty( $qv['post_type'] ) ? 'page' : $qv['post_type'] );
 
-				if ( ! empty( $query->queried_object ) ) {
-					$query->queried_object_id = (int) $query->queried_object->ID;
-				} else {
-					unset( $query->queried_object );
+				// If we got nothing or an attachment, check if we also have a post with the same slug. See https://core.trac.wordpress.org/ticket/24612
+				if ( empty( $qv['post_type'] ) && ( empty( $queried_object ) || 'attachment' === $queried_object->post_type ) && preg_match( '/^[^%]*%(?:postname)%/', get_option( 'permalink_structure' ) ) ) {
+					/** @var WP_Post|null $post */
+					$post = $this->get_page_by_path( $qv['pagename'], $lang->slug, OBJECT, 'post' );
+					if ( $post ) {
+						$queried_object = $post;
+					}
+				}
+
+				if ( ! empty( $queried_object ) ) {
+					$query->queried_object    = $queried_object;
+					$query->queried_object_id = (int) $queried_object->ID;
 				}
 			}
 		}
@@ -70,11 +107,14 @@ class PLL_Share_Post_Slug {
 	 *
 	 * @since 1.9
 	 *
-	 * @param string       $page_path Page path
-	 * @param string       $lang      Language slug
-	 * @param string       $output    Optional. Output type. Accepts OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
-	 * @param string|array $post_type Optional. Post type or array of post types. Default 'page'.
-	 * @return WP_Post|null WP_Post on success or null on failure.
+	 * @param string          $page_path Page path.
+	 * @param string          $lang      Language slug.
+	 * @param string          $output    Optional. Output type. Accepts OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
+	 * @param string|string[] $post_type Optional. Post type or array of post types. Default 'page'.
+	 * @return WP_Post|mixed[]|null WP_Post on success or null on failure.
+	 *
+	 * @phpstan-param non-empty-string $lang
+	 * @phpstan-return array<int|string, mixed>|WP_Post|null
 	 */
 	protected function get_page_by_path( $page_path, $lang, $output = OBJECT, $post_type = 'page' ) {
 		global $wpdb;
@@ -83,10 +123,10 @@ class PLL_Share_Post_Slug {
 		$page_path = str_replace( '%2F', '/', $page_path );
 		$page_path = str_replace( '%20', ' ', $page_path );
 		$parts = explode( '/', trim( $page_path, '/' ) );
-		$parts = esc_sql( $parts );
 		$parts = array_map( 'sanitize_title_for_query', $parts );
+		$escaped_parts = esc_sql( $parts );
 
-		$in_string = "'" . implode( "','", $parts ) . "'";
+		$in_string = "'" . implode( "','", (array) $escaped_parts ) . "'";
 
 		if ( is_array( $post_type ) ) {
 			$post_types = $post_type;
@@ -137,14 +177,14 @@ class PLL_Share_Post_Slug {
 	}
 
 	/**
-	 * Adds our join clause to sql query
-	 * Useful when querying a post by name
+	 * Adds our join clause to sql query.
+	 * Useful when querying a post by name.
 	 *
 	 * @since 1.9
 	 *
-	 * @param string $join  Original join clause
-	 * @param object $query
-	 * @return string modified join clause
+	 * @param string   $join  Original join clause.
+	 * @param WP_Query $query The WP_Query object.
+	 * @return string Modified join clause.
 	 */
 	public function posts_join( $join, $query ) {
 		if ( $this->get_language_for_filter( $query ) ) {
@@ -154,14 +194,14 @@ class PLL_Share_Post_Slug {
 	}
 
 	/**
-	 * Adds our where clause to sql query
-	 * Useful when querying a post by name
+	 * Adds our where clause to sql query.
+	 * Useful when querying a post by name.
 	 *
 	 * @since 1.9
 	 *
-	 * @param string $where Original where clause
-	 * @param object $query
-	 * @return string modified where clause
+	 * @param string   $where Original where clause.
+	 * @param WP_Query $query The WP_Query object.
+	 * @return string Modified where clause.
 	 */
 	public function posts_where( $where, $query ) {
 		if ( $language = $this->get_language_for_filter( $query ) ) {
@@ -175,31 +215,61 @@ class PLL_Share_Post_Slug {
 	 *
 	 * @since 1.9
 	 *
-	 * @param object $query
-	 * @return bool
+	 * @param WP_Query $query The WP_Query object.
+	 * @return PLL_Language|false The language to use for the filter, false if the query should be kept unfiltered.
 	 */
 	protected function get_language_for_filter( $query ) {
 		$qv = $query->query_vars;
 
+		if ( empty( $qv['name'] ) && empty( $qv['pagename'] ) ) {
+			return false;
+		}
+
 		$post_type = empty( $qv['post_type'] ) ? 'post' : $qv['post_type'];
 
-		if ( ( ! empty( $qv['name'] ) || ! empty( $qv['pagename'] ) ) && $this->model->is_translated_post_type( $post_type ) ) {
-			if ( ! empty( $qv['lang'] ) ) {
-				return $this->model->get_language( $qv['lang'] );
-			}
+		if ( ! empty( $qv['attachment'] ) ) {
+			$post_type = 'attachment';
+		}
 
-			if ( isset( $qv['tax_query'] ) && is_array( $qv['tax_query'] ) ) {
-				foreach ( $qv['tax_query'] as $tax_query ) {
-					if ( isset( $tax_query['taxonomy'] ) && 'language' === $tax_query['taxonomy'] ) {
-						return $this->model->get_language( $tax_query['terms'] );
+		if ( ! $this->model->is_translated_post_type( $post_type ) ) {
+			return false;
+		}
+
+		if ( ! empty( $qv['lang'] ) ) {
+			return $this->model->get_language( $qv['lang'] );
+		}
+
+		if ( isset( $qv['tax_query'] ) && is_array( $qv['tax_query'] ) ) {
+			foreach ( $qv['tax_query'] as $tax_query ) {
+				if ( isset( $tax_query['taxonomy'] ) && 'language' === $tax_query['taxonomy'] ) {
+					if ( is_array( $tax_query['terms'] ) ) {
+						if ( 1 < count( $tax_query['terms'] ) ) {
+							// Several language terms queried.
+							continue;
+						}
+
+						$term = reset( $tax_query['terms'] );
+					} else {
+						$term = $tax_query['terms'];
+					}
+
+					if ( isset( $tax_query['field'] ) && 'term_taxonomy_id' === $tax_query['field'] ) {
+						$term = "tt:{$term}";
+					}
+
+					$lang = $this->model->get_language( $term );
+
+					if ( $lang ) {
+						return $lang;
 					}
 				}
 			}
-
-			if ( ! empty( $this->curlang ) ) {
-				return $this->curlang;
-			}
 		}
+
+		if ( ! empty( $this->curlang ) ) {
+			return $this->curlang;
+		}
+
 		return false;
 	}
 
@@ -210,18 +280,18 @@ class PLL_Share_Post_Slug {
 	 *
 	 * @since 1.9
 	 *
-	 * @param string $slug          The slug defined by wp_unique_post_slug in WP
-	 * @param int    $post_ID
-	 * @param string $post_status   Not used
-	 * @param string $post_type     Post type
-	 * @param int    $post_parent   Parent ID
-	 * @param string $original_slug The original slug before it is modified by wp_unique_post_slug in WP
-	 * @return string Original slug if it is unique in the language or the modified slug otherwise
+	 * @param string $slug          The slug defined by wp_unique_post_slug() in WP.
+	 * @param int    $post_ID       The post id.
+	 * @param string $post_status   Not used.
+	 * @param string $post_type     The Post type.
+	 * @param int    $post_parent   The id of the post parent.
+	 * @param string $original_slug The original slug before it is modified by wp_unique_post_slug in WP.
+	 * @return string Original slug if it is unique in the language or the modified slug otherwise.
 	 */
 	public function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent, $original_slug ) {
 		global $wpdb;
 
-		// Return slug if it was not changed
+		// Return slug if it was not changed.
 		if ( $original_slug === $slug || 0 === $this->options['force_lang'] || ! $this->model->is_translated_post_type( $post_type ) ) {
 			return $slug;
 		}
@@ -274,11 +344,14 @@ class PLL_Share_Post_Slug {
 	 *
 	 * @since 1.9
 	 *
-	 * @param int $post_id original attachment id
-	 * @param int $tr_id   translated attachment id
+	 * @param int $post_id Original attachment id.
+	 * @param int $tr_id   Translated attachment id.
+	 * @return void
 	 */
 	public function pll_translate_media( $post_id, $tr_id ) {
 		$post = get_post( $post_id );
-		wp_update_post( array( 'ID' => $tr_id, 'post_name' => $post->post_name ) );
+		if ( $post ) {
+			wp_update_post( array( 'ID' => $tr_id, 'post_name' => $post->post_name ) );
+		}
 	}
 }

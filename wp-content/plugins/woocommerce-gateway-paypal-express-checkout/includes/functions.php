@@ -7,7 +7,7 @@ function woo_pp_start_checkout() {
 		$redirect_url = $checkout->start_checkout_from_cart();
 		wp_safe_redirect( $redirect_url );
 		exit;
-	} catch( PayPal_API_Exception $e ) {
+	} catch ( PayPal_API_Exception $e ) {
 		wc_add_notice( $e->getMessage(), 'error' );
 
 		$redirect_url = wc_get_cart_url();
@@ -21,10 +21,10 @@ function woo_pp_start_checkout() {
 				if( ( window.opener != null ) && ( window.opener !== window ) &&
 						( typeof window.opener.paypal != "undefined" ) &&
 						( typeof window.opener.paypal.checkout != "undefined" ) ) {
-					window.opener.location.assign( "<?php echo $redirect_url; ?>" );
+					window.opener.location.assign( "<?php echo $redirect_url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" );
 					window.close();
 				} else {
-					window.location.assign( "<?php echo $redirect_url; ?>" );
+					window.location.assign( "<?php echo $redirect_url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" );
 				}
 			</script>
 			<?php
@@ -33,7 +33,6 @@ function woo_pp_start_checkout() {
 			wp_safe_redirect( $redirect_url );
 			exit;
 		}
-
 	}
 }
 
@@ -64,7 +63,7 @@ function wc_gateway_ppec_log( $message ) {
 	$wc_ppec_logger->add( 'wc_gateway_ppec', $message );
 
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		error_log( $message );
+		error_log( $message ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 	}
 }
 
@@ -76,8 +75,7 @@ function wc_gateway_ppec_log( $message ) {
  * @return bool Returns true if PayPal credit is supported
  */
 function wc_gateway_ppec_is_credit_supported() {
-	$base = wc_get_base_location();
-	return 'US' === $base['country'] && 'USD' === get_woocommerce_currency();
+	return wc_gateway_ppec_is_US_based_store() && 'USD' === get_woocommerce_currency();
 }
 
 /**
@@ -88,7 +86,7 @@ function wc_gateway_ppec_is_credit_supported() {
  * @return bool Returns true if buyer is checking out with PayPal Credit
  */
 function wc_gateway_ppec_is_using_credit() {
-	return ! empty( $_GET['use-ppc'] ) && 'true' === $_GET['use-ppc'];
+	return ! empty( $_GET['use-ppc'] ) && 'true' === $_GET['use-ppc']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 }
 
 const PPEC_FEE_META_NAME_OLD = 'PayPal Transaction Fee';
@@ -153,4 +151,70 @@ function wc_gateway_ppec_get_transaction_fee( $order ) {
 	}
 
 	return $fee;
+}
+
+/**
+ * Checks whether the store is based in the US.
+ *
+ * Stores with a base location in the US, Puerto Rico, Guam, US Virgin Islands, American Samoa, or Northern Mariana Islands are considered US based stores.
+ *
+ * @return bool True if the store is located in the US or US Territory, otherwise false.
+ */
+function wc_gateway_ppec_is_US_based_store() {
+	$base_location = wc_get_base_location();
+	return in_array( $base_location['country'], array( 'US', 'PR', 'GU', 'VI', 'AS', 'MP' ), true );
+}
+
+/**
+ * Saves the transaction details from the transaction response into a post meta.
+ *
+ * @since 2.0
+ *
+ * @param object $order                Order for which the transaction was made
+ * @param object $transaction_response Response from a transaction, which contains the transaction details
+ * @param object $prefix               A prefix string which is empty for Reference Transactions and is 'PAYMENTINFO_0_' for Express Checkout
+ * @return void
+ */
+function wc_gateway_ppec_save_transaction_data( $order, $transaction_response, $prefix = '' ) {
+
+	$settings = wc_gateway_ppec()->settings;
+	$old_wc   = version_compare( WC_VERSION, '3.0', '<' );
+	$order_id = $old_wc ? $order->id : $order->get_id();
+	$meta     = $old_wc ? get_post_meta( $order_id, '_woo_pp_txnData', true ) : $order->get_meta( '_woo_pp_txnData', true );
+
+	if ( ! empty( $meta ) ) {
+		$txnData = $meta;
+	} else {
+		$txnData = array( 'refundable_txns' => array() );
+	}
+
+	$txn = array(
+		'txnID'           => $transaction_response[ $prefix . 'TRANSACTIONID' ],
+		'amount'          => $transaction_response[ $prefix . 'AMT' ],
+		'refunded_amount' => 0,
+	);
+
+	$status = ! empty( $transaction_response[ $prefix . 'PAYMENTSTATUS' ] ) ? $transaction_response[ $prefix . 'PAYMENTSTATUS' ] : '';
+
+	if ( 'Completed' === $status ) {
+		$txn['status'] = 'Completed';
+	} else {
+		$txn['status'] = $status . '_' . $transaction_response[ $prefix . 'REASONCODE' ];
+	}
+	$txnData['refundable_txns'][] = $txn;
+
+	$paymentAction = $settings->get_paymentaction();
+
+	if ( 'authorization' === $paymentAction ) {
+		$txnData['auth_status'] = 'NotCompleted';
+	}
+
+	$txnData['txn_type'] = $paymentAction;
+
+	if ( $old_wc ) {
+		update_post_meta( $order_id, '_woo_pp_txnData', $txnData );
+	} else {
+		$order->update_meta_data( '_woo_pp_txnData', $txnData );
+		$order->save();
+	}
 }

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Polylang-Pro
+ */
 
 /**
  * An abstract class to handle cross domain data and single sign on
@@ -7,7 +10,28 @@
  * @since 2.0
  */
 abstract class PLL_Xdata_Base {
-	public $options, $model, $links_model;
+	/**
+	 * Stores the plugin options.
+	 *
+	 * @var array
+	 */
+	public $options;
+
+	/**
+	 * @var PLL_Model
+	 */
+	public $model;
+
+	/**
+	 * @var PLL_Links_Model
+	 */
+	public $links_model;
+
+	/**
+	 * Session token.
+	 *
+	 * @var string
+	 */
 	private $token;
 
 	/**
@@ -15,27 +39,27 @@ abstract class PLL_Xdata_Base {
 	 *
 	 * @since 2.0
 	 *
-	 * @param object $polylang
+	 * @param object $polylang Polylang object.
 	 */
 	public function __construct( &$polylang ) {
 		$this->options     = &$polylang->options;
 		$this->model       = &$polylang->model;
 		$this->links_model = &$polylang->links_model;
 
-		if ( empty( $_POST['wp_customize'] ) ) {
-			// Don't do that in the customizr as the redirect breaks things
+		if ( empty( $_POST['wp_customize'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			// Don't do that in the customizr as the redirect breaks things.
 			add_action( 'wp_ajax_pll_xdata_get', array( $this, 'xdata_get' ) );
 			add_action( 'wp_ajax_nopriv_pll_xdata_get', array( $this, 'xdata_get' ) );
 			add_action( 'wp_ajax_pll_xdata_set', array( $this, 'xdata_set' ) );
 			add_action( 'wp_ajax_nopriv_pll_xdata_set', array( $this, 'xdata_set' ) );
 		}
 
-		// Login redirect
+		// Login redirect.
 		add_action( 'set_auth_cookie', array( $this, 'set_auth_cookie' ), 10, 5 );
-		add_action( 'login_redirect', array( $this, 'login_redirect' ), 10, 3 ); // Must be defined in child class
-		add_filter( 'admin_url', array( $this, 'admin_url' ) );
+		add_action( 'login_redirect', array( $this, 'login_redirect' ), 10, 3 ); // Must be defined in child class.
+		add_filter( 'admin_url', array( $this, 'admin_url' ), 5 ); // Before PLL_Frontend_Filters_Links.
 
-		// Customizer
+		// Customizer.
 		add_filter( 'customize_allowed_urls', array( $this, 'customize_allowed_urls' ) );
 		add_filter( 'allowed_http_origins', array( $this, 'allowed_http_origins' ) );
 	}
@@ -66,8 +90,8 @@ abstract class PLL_Xdata_Base {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $action
-	 * @return string
+	 * @param string $action Context of the nonce.
+	 * @return string The nonce value.
 	 */
 	public function create_nonce( $action ) {
 		$i = $this->nonce_tick();
@@ -79,9 +103,9 @@ abstract class PLL_Xdata_Base {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $nonce
-	 * @param string $action
-	 * @return bool
+	 * @param string $nonce  The nonce value.
+	 * @param string $action Context of the nonce.
+	 * @return bool True if the nonce value is correct, false otherwise.
 	 */
 	public function verify_nonce( $nonce, $action ) {
 		$nonce = (string) $nonce;
@@ -93,7 +117,7 @@ abstract class PLL_Xdata_Base {
 		$i = $this->nonce_tick();
 
 		$expected = substr( wp_hash( $i . '|' . $action, 'nonce' ), -12, 10 );
-		if ( hash_equals( $expected, $nonce ) ) {
+		if ( hash_equals( $expected, $nonce ) ) { // Since WP 3.9.2.
 			return true;
 		}
 
@@ -106,9 +130,9 @@ abstract class PLL_Xdata_Base {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $lang
-	 * @param array  $args
-	 * @return string
+	 * @param string              $lang The language slug.
+	 * @param (string|int|bool)[] $args Existing url parameters.
+	 * @return string The ajax url.
 	 */
 	public function ajax_url( $lang, $args ) {
 		$url = admin_url( 'admin-ajax.php' );
@@ -120,9 +144,9 @@ abstract class PLL_Xdata_Base {
 	/**
 	 * Stores data to transfer in a user session
 	 *
-	 * @param string $redirect Url to redirect to
-	 * @param bool   $nologin  True if we shoul not attempt to login
-	 * @return string session key
+	 * @param string $redirect Url to redirect to.
+	 * @param bool   $nologin  True if we shoul not attempt to login.
+	 * @return string Session key.
 	 */
 	protected function create_data_session( $redirect, $nologin ) {
 		$key = '';
@@ -132,7 +156,7 @@ abstract class PLL_Xdata_Base {
 		 *
 		 * @since 2.0
 		 *
-		 * @param array $data
+		 * @param array $data The data to transfer from one domain to the other.
 		 */
 		$data = apply_filters( 'pll_get_xdata', array() );
 
@@ -151,7 +175,7 @@ abstract class PLL_Xdata_Base {
 			 *
 			 * @since 2.0
 			 *
-			 * @param string $class class name
+			 * @param string $class Class name of the session manager.
 			 */
 			$session_manager_class = apply_filters( 'pll_xdata_session_manager', 'PLL_Xdata_Session_Manager' );
 
@@ -167,17 +191,17 @@ abstract class PLL_Xdata_Base {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $redirect Redirect url
-	 * @param string $lang     New language slug
-	 * @return string Javascript code
+	 * @param string $redirect Redirect url.
+	 * @param string $lang     New language slug.
+	 * @return string Javascript code.
 	 */
 	protected function maybe_get_xdomain_js( $redirect, $lang ) {
 		if ( ! empty( $_COOKIE[ PLL_COOKIE ] ) && $_COOKIE[ PLL_COOKIE ] !== $lang ) {
 			$args = array(
 				'action'   => 'pll_xdata_get',
-				'redirect' => $redirect,
+				'redirect' => urlencode( $redirect ),
 				'nonce'    => $this->create_nonce( 'xdata_get' ),
-				'nologin'  => ! empty( $_GET['nologin'] ),
+				'nologin'  => ! empty( $_GET['nologin'] ), // phpcs:ignore WordPress.Security.NonceVerification
 			);
 
 			return sprintf(
@@ -190,7 +214,7 @@ abstract class PLL_Xdata_Base {
 					}
 				}
 				xhr.send();',
-				esc_url_raw( $this->ajax_url( $_COOKIE[ PLL_COOKIE ], $args ) ),
+				esc_url_raw( $this->ajax_url( sanitize_key( $_COOKIE[ PLL_COOKIE ] ), $args ) ),
 				esc_url_raw( $this->ajax_url( $lang, array( 'action' => 'pll_xdata_set' ) ) )
 			);
 		}
@@ -202,20 +226,21 @@ abstract class PLL_Xdata_Base {
 	 * Writes cross domain data in a user session
 	 *
 	 * @since 2.0
+	 *
+	 * @return void
 	 */
 	public function xdata_get() {
-		// Whitelist origin + nonce verification
-		if ( ! is_allowed_http_origin() || ! $this->verify_nonce( $_GET['nonce'], 'xdata_get' ) ) {
+		// Whitelist origin + nonce verification.
+		if ( ! is_allowed_http_origin() || ! isset( $_GET['nonce'], $_GET['redirect'] ) || ! $this->verify_nonce( sanitize_key( $_GET['nonce'] ), 'xdata_get' ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			wp_die();
 		}
 
-		// CORS
-		header( sprintf( 'Access-Control-Allow-Origin: %s', $_SERVER['HTTP_ORIGIN'] ) );
-		header( 'Access-Control-Allow-Credentials: true' );
+		// CORS.
+		send_origin_headers();
 
-		// Response
-		$key = $this->create_data_session( wp_unslash( $_GET['redirect'] ), ! empty( $_GET['nologin'] ) );
-		die( empty( $key ) ? '-1' : $key );
+		// Response.
+		$key = $this->create_data_session( esc_url_raw( wp_unslash( $_GET['redirect'] ) ), ! empty( $_GET['nologin'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		wp_die( empty( $key ) ? '-1' : esc_html( $key ) );
 	}
 
 	/**
@@ -225,17 +250,22 @@ abstract class PLL_Xdata_Base {
 	 * Redirect to the url requested by the usee
 	 *
 	 * @since 2.0
+	 *
+	 * @return void
 	 */
 	public function xdata_set() {
+		if ( empty( $_GET['key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			wp_die();
+		}
+
 		/** This filter is documented in modules/xdata/xdata.php */
 		$session_manager_class = apply_filters( 'pll_xdata_session_manager', 'PLL_Xdata_Session_Manager' );
 
 		$session_manager = new $session_manager_class();
 
-		$data = $session_manager->get( wp_unslash( $_GET['key'] ) );
+		$data = $session_manager->get( sanitize_key( $_GET['key'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 
 		if ( ! empty( $data['user_id'] ) && ! empty( $data['token'] ) && time() < $data['time'] + 2 * MINUTE_IN_SECONDS ) {
-			$manager = WP_Session_Tokens::get_instance( $data['user_id'] );
 			// FIXME Use auth_cookie_expiration to sync the expiration time?
 			wp_set_auth_cookie( $data['user_id'], false, '', $data['token'] ); // WP 4.3+
 		}
@@ -245,10 +275,13 @@ abstract class PLL_Xdata_Base {
 		 *
 		 * @since 2.0
 		 *
-		 * @param array $data Data transferred from one domain to the other
+		 * @param array $data Data transferred from one domain to the other.
 		 */
 		do_action( 'pll_set_xdata', $data );
-		wp_redirect( $data['redirect'] );
+		if ( empty( $data['redirect'] ) ) {
+			$data['redirect'] = admin_url();
+		}
+		wp_safe_redirect( $data['redirect'] );
 		exit;
 	}
 
@@ -262,6 +295,7 @@ abstract class PLL_Xdata_Base {
 	 * @param int    $expiration  Duration in seconds the authentication cookie should be valid.
 	 * @param int    $user_id     User ID.
 	 * @param string $scheme      Authentication scheme. Values include 'auth', 'secure_auth', or 'logged_in'.
+	 * @return void
 	 */
 	public function set_auth_cookie( $auth_cookie, $expire, $expiration, $user_id, $scheme ) {
 		$cookie      = wp_parse_auth_cookie( $auth_cookie, $scheme );
@@ -297,8 +331,10 @@ abstract class PLL_Xdata_Base {
 		$session_manager = new $session_manager_class();
 		$session_manager->set( $key, $data, $user->ID );
 
-		// Login on main domain to access admin
-		// Or if the wp-login.php is already on main domain, login on the current domain
+		/*
+		 * Login on main domain to access admin.
+		 * Or if the wp-login.php is already on main domain, login on the current domain.
+		 */
 		$url  = admin_url( 'admin-ajax.php' );
 		$lang = $this->links_model->get_language_from_url();
 		if ( ! empty( $lang ) ) {
@@ -313,7 +349,7 @@ abstract class PLL_Xdata_Base {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $url
+	 * @param string $url An admin url.
 	 * @return string
 	 */
 	public function admin_url( $url ) {
@@ -325,8 +361,8 @@ abstract class PLL_Xdata_Base {
 	 *
 	 * @since 2.0
 	 *
-	 * @param array $urls List of allowed urls
-	 * @return array
+	 * @param string[] $urls List of allowed urls.
+	 * @return string[] Modified list of urls.
 	 */
 	public function customize_allowed_urls( $urls ) {
 		foreach ( $this->links_model->get_hosts() as $host ) {
@@ -340,8 +376,8 @@ abstract class PLL_Xdata_Base {
 	 *
 	 * @since 2.0
 	 *
-	 * @param array $origins List of allowed urls
-	 * @return array
+	 * @param string[] $origins List of allowed urls.
+	 * @return string[] Modified list of urls.
 	 */
 	public function allowed_http_origins( $origins ) {
 		foreach ( $this->links_model->get_hosts() as $host ) {

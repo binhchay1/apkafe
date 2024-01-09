@@ -22,30 +22,82 @@ class WC_Gateway_PPEC_Settings {
 	 * @var array
 	 */
 	protected $_supported_locales = array(
+		'ar_EG',
+		'cs_CZ',
 		'da_DK',
 		'de_DE',
+		'el_GR',
 		'en_AU',
+		'en_IN',
 		'en_GB',
 		'en_US',
+		'en_CA',
+		'en_NZ',
 		'es_ES',
+		'es_XC',
+		'fi_FI',
 		'fr_CA',
 		'fr_FR',
+		'fr_XC',
 		'he_IL',
+		'hu_HU',
 		'id_ID',
 		'it_IT',
 		'ja_JP',
+		'ko_KR',
 		'nl_NL',
 		'no_NO',
 		'pl_PL',
 		'pt_BR',
 		'pt_PT',
 		'ru_RU',
+		'sk_SK',
 		'sv_SE',
 		'th_TH',
-		'tr_TR',
 		'zh_CN',
 		'zh_HK',
 		'zh_TW',
+		'zh_XC',
+	);
+
+	/**
+	 * Mapping between WP locale codes and PayPal locale codes
+	 *
+	 * @var array
+	 */
+	protected $_locales_mapping = array(
+		'ar'             => 'ar_EG',
+		'arq'            => 'ar_EG',
+		'ary'            => 'ar_EG',
+		'de_AT'          => 'de_DE',
+		'de_CH'          => 'de_DE',
+		'de_CH_informal' => 'de_DE',
+		'de_DE_formal'   => 'de_DE',
+		'el'             => 'el_GR',
+		'es_AR'          => 'es_ES',
+		'es_CL'          => 'es_ES',
+		'es_CO'          => 'es_ES',
+		'es_CR'          => 'es_ES',
+		'es_DO'          => 'es_ES',
+		'es_GT'          => 'es_ES',
+		'es_HN'          => 'es_ES',
+		'es_MX'          => 'es_ES',
+		'es_PE'          => 'es_ES',
+		'es_PR'          => 'es_ES',
+		'es_ES'          => 'es_ES',
+		'es_UY'          => 'es_ES',
+		'es_VE'          => 'es_ES',
+		'fi'             => 'fi_FI',
+		'fr_BE'          => 'fr_FR',
+		'ja'             => 'ja_JP',
+		'nb_NO'          => 'no_NO',
+		'nn_NO'          => 'no_NO',
+		'nl_BE'          => 'nl_NL',
+		'nl_NL_formal'   => 'nl_NL',
+		'pt_AO'          => 'pt_PT',
+		'pt_PT_ao90'     => 'pt_PT',
+		'th'             => 'th_TH',
+		'zh_SG'          => 'zh_CN',
 	);
 
 	/**
@@ -89,8 +141,9 @@ class WC_Gateway_PPEC_Settings {
 		if ( $this->_is_setting_loaded && ! $force_reload ) {
 			return $this;
 		}
-		$this->_settings          = (array) get_option( 'woocommerce_ppec_paypal_settings', array() );
-		$this->_is_setting_loaded = true;
+		$this->_settings            = (array) get_option( 'woocommerce_ppec_paypal_settings', array() );
+		$this->_settings['use_spb'] = ! apply_filters( 'woocommerce_paypal_express_checkout_disable_smart_payment_buttons', false, $this ) ? 'yes' : 'no';
+		$this->_is_setting_loaded   = true;
 		return $this;
 	}
 
@@ -120,7 +173,7 @@ class WC_Gateway_PPEC_Settings {
 	 */
 	public function get_live_api_credentials() {
 		if ( $this->api_certificate ) {
-			return new WC_Gateway_PPEC_Client_Credential_Certificate( $this->api_username, $this->api_password, $this->api_certificate, $this->api_subject );
+			return new WC_Gateway_PPEC_Client_Credential_Certificate( $this->api_username, $this->api_password, base64_decode( $this->api_certificate ), $this->api_subject ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 		}
 
 		return new WC_Gateway_PPEC_Client_Credential_Signature( $this->api_username, $this->api_password, $this->api_signature, $this->api_subject );
@@ -133,7 +186,7 @@ class WC_Gateway_PPEC_Settings {
 	 */
 	public function get_sandbox_api_credentials() {
 		if ( $this->sandbox_api_certificate ) {
-			return new WC_Gateway_PPEC_Client_Credential_Certificate( $this->sandbox_api_username, $this->sandbox_api_password, $this->sandbox_api_certificate, $this->sandbox_api_subject );
+			return new WC_Gateway_PPEC_Client_Credential_Certificate( $this->sandbox_api_username, $this->sandbox_api_password, base64_decode( $this->sandbox_api_certificate ), $this->sandbox_api_subject ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 		}
 
 		return new WC_Gateway_PPEC_Client_Credential_Signature( $this->sandbox_api_username, $this->sandbox_api_password, $this->sandbox_api_signature, $this->sandbox_api_subject );
@@ -146,6 +199,26 @@ class WC_Gateway_PPEC_Settings {
 	 */
 	public function get_active_api_credentials() {
 		return 'live' === $this->get_environment() ? $this->get_live_api_credentials() : $this->get_sandbox_api_credentials();
+	}
+
+	/**
+	 * Get the REST Client ID for a live environment.
+	 *
+	 * @since 2.0
+	 * @return string
+	 */
+	public function get_live_rest_client_id() {
+		return 'AQbghYd-7mRPyimEriYScIgTnYUsLnr5wVnPnmfPaSzwKrUe3qNzfEc5hXr9Ucf_JG_HFAZpJMJYXMuk';
+	}
+
+	/**
+	 * Get the REST Client ID for current environment.
+	 *
+	 * @since 2.0
+	 * @return string
+	 */
+	public function get_active_rest_client_id() {
+		return 'live' === $this->get_environment() ? $this->get_live_rest_client_id() : 'sb';
 	}
 
 	/**
@@ -167,7 +240,7 @@ class WC_Gateway_PPEC_Settings {
 			$url .= 'sandbox.';
 		}
 
-		$url .= 'paypal.com/checkoutnow?token=' . urlencode( $token );
+		$url .= 'paypal.com/checkoutnow?token=' . urlencode( $token ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.urlencode_urlencode
 
 		if ( $commit ) {
 			$url .= '&useraction=commit';
@@ -190,9 +263,11 @@ class WC_Gateway_PPEC_Settings {
 		_deprecated_function( __METHOD__, '1.2.0', 'WC_Gateway_PPEC_Client::get_set_express_checkout_params' );
 
 		// Still missing order_id in args.
-		return wc_gateway_ppec()->client->get_set_express_checkout_params( array(
-			'skip_checkout' => false,
-		) );
+		return wc_gateway_ppec()->client->get_set_express_checkout_params(
+			array(
+				'skip_checkout' => false,
+			)
+		);
 	}
 
 	/**
@@ -209,7 +284,7 @@ class WC_Gateway_PPEC_Settings {
 		$params = array();
 		if ( ! is_array( $buckets ) ) {
 			$num_buckets = $buckets;
-			$buckets = array();
+			$buckets     = array();
 			for ( $i = 0; $i < $num_buckets; $i++ ) {
 				$buckets[] = $i;
 			}
@@ -219,7 +294,12 @@ class WC_Gateway_PPEC_Settings {
 			$params[ 'PAYMENTREQUEST_' . $bucket_num . '_NOTIFYURL' ]     = WC()->api_request_url( 'WC_Gateway_PPEC' );
 			$params[ 'PAYMENTREQUEST_' . $bucket_num . '_PAYMENTACTION' ] = $this->get_paymentaction();
 			$params[ 'PAYMENTREQUEST_' . $bucket_num . '_INVNUM' ]        = $this->invoice_prefix . $order->get_order_number();
-			$params[ 'PAYMENTREQUEST_' . $bucket_num . '_CUSTOM' ]        = json_encode( array( 'order_id' => $order->id, 'order_key' => $order->order_key ) );
+			$params[ 'PAYMENTREQUEST_' . $bucket_num . '_CUSTOM' ]        = wp_json_encode(
+				array(
+					'order_id'  => $order->id,
+					'order_key' => $order->order_key,
+				)
+			);
 		}
 
 		return $params;
@@ -290,7 +370,7 @@ class WC_Gateway_PPEC_Settings {
 		return (
 			'yes' === $this->enabled
 			&&
-			in_array( get_woocommerce_currency(), array( 'HUF', 'TWD', 'JPY' ) )
+			in_array( get_woocommerce_currency(), array( 'HUF', 'TWD', 'JPY' ), true )
 			&&
 			0 !== absint( get_option( 'woocommerce_price_num_decimals', 2 ) )
 		);
@@ -303,9 +383,26 @@ class WC_Gateway_PPEC_Settings {
 	 */
 	public function get_paypal_locale() {
 		$locale = get_locale();
-		if ( ! in_array( $locale, $this->_supported_locales ) ) {
-			$locale = 'en_US';
+
+		// For stores based in the US, we need to do some special mapping so PayPal Credit is allowed.
+		if ( wc_gateway_ppec_is_US_based_store() ) {
+			// PayPal has support for French, Spanish and Chinese languages based in the US. See https://developer.paypal.com/docs/archive/checkout/reference/supported-locales/
+			preg_match( '/^(fr|es|zh)_/', $locale, $language_code );
+
+			if ( ! empty( $language_code ) ) {
+				$locale = $language_code[0] . 'US';
+			} else {
+				$locale = 'en_US';
+			}
+		} elseif ( ! in_array( $locale, $this->_supported_locales, true ) ) {
+			// Mapping some WP locales to PayPal locales.
+			if ( isset( $this->_locales_mapping[ $locale ] ) ) {
+				$locale = $this->_locales_mapping[ $locale ];
+			} else {
+				$locale = 'en_US';
+			}
 		}
+
 		return apply_filters( 'woocommerce_paypal_express_checkout_paypal_locale', $locale );
 	}
 
@@ -360,7 +457,7 @@ class WC_Gateway_PPEC_Settings {
 	 * @return bool Returns true if currency supports 0 decimal places
 	 */
 	public function is_currency_supports_zero_decimal() {
-		return in_array( get_woocommerce_currency(), array( 'HUF', 'JPY', 'TWD' ) );
+		return in_array( get_woocommerce_currency(), array( 'HUF', 'JPY', 'TWD' ), true );
 	}
 
 	/**
@@ -373,4 +470,16 @@ class WC_Gateway_PPEC_Settings {
 	public function get_number_of_decimal_digits() {
 		return $this->is_currency_supports_zero_decimal() ? 0 : 2;
 	}
+
+	/**
+	 * Whether to use checkout.js or the latest available SDK.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @return bool
+	 */
+	public function use_legacy_checkout_js() {
+		return (bool) apply_filters( 'woocommerce_paypal_express_checkout_use_legacy_checkout_js', false );
+	}
+
 }

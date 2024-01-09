@@ -672,7 +672,7 @@ function vc_theme_before_vc_row($atts, $content = null)
 	/*Custom functions */
 	//pll_register_string('', '', 'true');
 
-	pll_register_string('Woocommerce description', 'syduc_test_translate', true);
+	// pll_register_string('Woocommerce description', 'syduc_test_translate', true);
 
 	/*End Custom functions */
 
@@ -697,8 +697,8 @@ function vc_theme_before_vc_row($atts, $content = null)
 */
 	function remove_output_structured_data()
 	{
-		remove_action('wp_footer', array(WC()->structured_data, 'output_structured_data'), 10); // Frontend pages
-		remove_action('woocommerce_email_order_details', array(WC()->structured_data, 'output_email_structured_data'), 30); // Emails
+		// remove_action('wp_footer', array(WC()->structured_data, 'output_structured_data'), 10); // Frontend pages
+		// remove_action('woocommerce_email_order_details', array(WC()->structured_data, 'output_email_structured_data'), 30); // Emails
 	}
 	add_action('init', 'remove_output_structured_data');
 

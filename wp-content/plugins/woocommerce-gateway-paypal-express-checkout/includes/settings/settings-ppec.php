@@ -1,18 +1,22 @@
 <?php
+// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$api_username         = $this->get_option( 'api_username' );
-$sandbox_api_username = $this->get_option( 'sandbox_api_username' );
+$live_credentials       = wc_gateway_ppec()->settings->get_live_api_credentials();
+$sandbox_credentials    = wc_gateway_ppec()->settings->get_sandbox_api_credentials();
+$has_live_credential    = is_a( $live_credentials, 'WC_Gateway_PPEC_Client_Credential_Signature' ) ? (bool) $live_credentials->get_signature() : (bool) $live_credentials->get_certificate();
+$has_sandbox_credential = is_a( $sandbox_credentials, 'WC_Gateway_PPEC_Client_Credential_Signature' ) ? (bool) $sandbox_credentials->get_signature() : (bool) $sandbox_credentials->get_certificate();
 
-$needs_creds         = empty( $api_username );
-$needs_sandbox_creds = empty( $sandbox_api_username );
+$needs_creds         = ! $has_live_credential && ! (bool) $live_credentials->get_username() && ! (bool) $live_credentials->get_password();
+$needs_sandbox_creds = ! $has_sandbox_credential && ! (bool) $sandbox_credentials->get_username() && ! (bool) $sandbox_credentials->get_password();
 $enable_ips          = wc_gateway_ppec()->ips->is_supported();
 
 if ( $enable_ips && $needs_creds ) {
-	$ips_button         = '<a href="' . esc_url( wc_gateway_ppec()->ips->get_signup_url( 'live' ) ) . '" class="button button-primary">' . __( 'Setup or link an existing PayPal account', 'woocommerce-gateway-paypal-express-checkout' ) . '</a>';
+	$ips_button = '<a href="' . esc_url( wc_gateway_ppec()->ips->get_signup_url( 'live' ) ) . '" class="button button-primary">' . __( 'Setup or link an existing PayPal account', 'woocommerce-gateway-paypal-express-checkout' ) . '</a>';
+	// Translators: placeholder is the button "Setup or link an existing PayPal account".
 	$api_creds_text = sprintf( __( '%s or <a href="#" class="ppec-toggle-settings">click here to toggle manual API credential input</a>.', 'woocommerce-gateway-paypal-express-checkout' ), $ips_button );
 } else {
 	$reset_link = add_query_arg(
@@ -24,11 +28,18 @@ if ( $enable_ips && $needs_creds ) {
 		wc_gateway_ppec()->get_admin_setting_link()
 	);
 
-	$api_creds_text = sprintf( __( 'To reset current credentials and use other account <a href="%1$s" title="%2$s">click here</a>.', 'woocommerce-gateway-paypal-express-checkout' ), $reset_link, __( 'Reset current credentials', 'woocommerce-gateway-paypal-express-checkout' ) );
+	$api_creds_text = sprintf(
+		// Translators: Placeholders are opening an closing link HTML tags.
+		__( 'To reset current credentials and use another account %1$sclick here%2$s. %3$sLearn more about your API Credentials%2$s.', 'woocommerce-gateway-paypal-express-checkout' ),
+		'<a href="' . $reset_link . '" title="' . __( 'Reset current credentials', 'woocommerce-gateway-paypal-express-checkout' ) . '">',
+		'</a>',
+		'<a href="https://docs.woocommerce.com/document/paypal-express-checkout/#section-4" title="' . __( 'Learn more', 'woocommerce-gateway-paypal-express-checkout' ) . '">'
+	);
 }
 
 if ( $enable_ips && $needs_sandbox_creds ) {
 	$sandbox_ips_button = '<a href="' . esc_url( wc_gateway_ppec()->ips->get_signup_url( 'sandbox' ) ) . '" class="button button-primary">' . __( 'Setup or link an existing PayPal Sandbox account', 'woocommerce-gateway-paypal-express-checkout' ) . '</a>';
+	// Translators: placeholder is the button "Setup or link an existing PayPal sandbox account".
 	$sandbox_api_creds_text = sprintf( __( '%s or <a href="#" class="ppec-toggle-sandbox-settings">click here to toggle manual API credential input</a>.', 'woocommerce-gateway-paypal-express-checkout' ), $sandbox_ips_button );
 } else {
 	$reset_link = add_query_arg(
@@ -40,212 +51,21 @@ if ( $enable_ips && $needs_sandbox_creds ) {
 		wc_gateway_ppec()->get_admin_setting_link()
 	);
 
-	$sandbox_api_creds_text = sprintf( __( 'Your account setting is set to sandbox, no real charging takes place. To accept live payments, switch your environment to live and connect your PayPal account. To reset current credentials and use other sandbox account <a href="%1$s" title="%2$s">click here</a>.', 'woocommerce-gateway-paypal-express-checkout' ), $reset_link, __( 'Reset current sandbox credentials', 'woocommerce-gateway-paypal-express-checkout' ) );
+	$sandbox_api_creds_text = sprintf(
+		// Translators: Placeholders are opening and closing link HTML tags.
+		__( 'Your account setting is set to sandbox, no real charging takes place. To accept live payments, switch your environment to live and connect your PayPal account. To reset current credentials and use other sandbox account %1$sclick here%2$s. %3$sLearn more about your API Credentials%2$s.', 'woocommerce-gateway-paypal-express-checkout' ),
+		'<a href="' . $reset_link . '" title="' . __( 'Reset current credentials', 'woocommerce-gateway-paypal-express-checkout' ) . '">',
+		'</a>',
+		'<a href="https://docs.woocommerce.com/document/paypal-express-checkout/#section-4" title="' . __( 'Learn more', 'woocommerce-gateway-paypal-express-checkout' ) . '">'
+	);
 }
 
-$credit_enabled_label = __( 'Enable PayPal Credit', 'woocommerce-gateway-paypal-express-checkout' );
+$credit_enabled_label = __( 'Enable PayPal Credit to eligible customers', 'woocommerce-gateway-paypal-express-checkout' );
 if ( ! wc_gateway_ppec_is_credit_supported() ) {
 	$credit_enabled_label .= '<p><em>' . __( 'This option is disabled. Currently PayPal Credit only available for U.S. merchants using USD currency.', 'woocommerce-gateway-paypal-express-checkout' ) . '</em></p>';
 }
 
-$credit_enabled_description  = __( 'This enables PayPal Credit, which displays a PayPal Credit button next to the primary PayPal Checkout button. PayPal Checkout lets you give customers access to financing through PayPal Credit® - at no additional cost to you. You get paid up front, even though customers have more time to pay. A pre-integrated payment button shows up next to the PayPal Button, and lets customers pay quickly with PayPal Credit®. (Should be unchecked for stores involved in Real Money Gaming.)', 'woocommerce-gateway-paypal-express-checkout' );
-
-wc_enqueue_js( "
-	jQuery( function( $ ) {
-		var ppec_mark_fields      = '#woocommerce_ppec_paypal_title, #woocommerce_ppec_paypal_description';
-		var ppec_live_fields      = '#woocommerce_ppec_paypal_api_username, #woocommerce_ppec_paypal_api_password, #woocommerce_ppec_paypal_api_signature, #woocommerce_ppec_paypal_api_certificate, #woocommerce_ppec_paypal_api_subject';
-		var ppec_sandbox_fields   = '#woocommerce_ppec_paypal_sandbox_api_username, #woocommerce_ppec_paypal_sandbox_api_password, #woocommerce_ppec_paypal_sandbox_api_signature, #woocommerce_ppec_paypal_sandbox_api_certificate, #woocommerce_ppec_paypal_sandbox_api_subject';
-
-		var enable_toggle         = $( 'a.ppec-toggle-settings' ).length > 0;
-		var enable_sandbox_toggle = $( 'a.ppec-toggle-sandbox-settings' ).length > 0;
-
-		$( '#woocommerce_ppec_paypal_environment' ).change(function(){
-			$( ppec_sandbox_fields + ',' + ppec_live_fields ).closest( 'tr' ).hide();
-
-			if ( 'live' === $( this ).val() ) {
-				$( '#woocommerce_ppec_paypal_api_credentials, #woocommerce_ppec_paypal_api_credentials + p' ).show();
-				$( '#woocommerce_ppec_paypal_sandbox_api_credentials, #woocommerce_ppec_paypal_sandbox_api_credentials + p' ).hide();
-
-				if ( ! enable_toggle ) {
-					$( ppec_live_fields ).closest( 'tr' ).show();
-				}
-			} else {
-				$( '#woocommerce_ppec_paypal_api_credentials, #woocommerce_ppec_paypal_api_credentials + p' ).hide();
-				$( '#woocommerce_ppec_paypal_sandbox_api_credentials, #woocommerce_ppec_paypal_sandbox_api_credentials + p' ).show();
-
-				if ( ! enable_sandbox_toggle ) {
-					$( ppec_sandbox_fields ).closest( 'tr' ).show();
-				}
-			}
-		}).change();
-
-		$( '#woocommerce_ppec_paypal_enabled' ).change(function(){
-			if ( $( this ).is( ':checked' ) ) {
-				$( ppec_mark_fields ).closest( 'tr' ).show();
-			} else {
-				$( ppec_mark_fields ).closest( 'tr' ).hide();
-			}
-		}).change();
-
-		$( '#woocommerce_ppec_paypal_paymentaction' ).change(function(){
-			if ( 'sale' === $( this ).val() ) {
-				$( '#woocommerce_ppec_paypal_instant_payments' ).closest( 'tr' ).show();
-			} else {
-				$( '#woocommerce_ppec_paypal_instant_payments' ).closest( 'tr' ).hide();
-			}
-		}).change();
-
-		if ( enable_toggle ) {
-			$( document ).off( 'click', '.ppec-toggle-settings' );
-			$( document ).on( 'click', '.ppec-toggle-settings', function( e ) {
-				$( ppec_live_fields ).closest( 'tr' ).toggle( 'fast' );
-				e.preventDefault();
-			} );
-		}
-		if ( enable_sandbox_toggle ) {
-			$( document ).off( 'click', '.ppec-toggle-sandbox-settings' );
-			$( document ).on( 'click', '.ppec-toggle-sandbox-settings', function( e ) {
-				$( ppec_sandbox_fields ).closest( 'tr' ).toggle( 'fast' );
-				e.preventDefault();
-			} );
-		}
-
-		$( '.woocommerce_ppec_paypal_button_layout' ).change( function( event ) {
-			if ( ! $( '#woocommerce_ppec_paypal_use_spb' ).is( ':checked' ) ) {
-				return;
-			}
-
-			// Show settings that pertain to selected layout in same section
-			var isVertical = 'vertical' === $( event.target ).val();
-			var table      = $( event.target ).closest( 'table' );
-			table.find( '.woocommerce_ppec_paypal_vertical' ).closest( 'tr' ).toggle( isVertical );
-			table.find( '.woocommerce_ppec_paypal_horizontal' ).closest( 'tr' ).toggle( ! isVertical );
-
-			// Disable 'small' button size option in vertical layout only
-			var button_size        = table.find( '.woocommerce_ppec_paypal_button_size' );
-			var button_size_option = button_size.find( 'option[value=\"small\"]' );
-			if ( button_size_option.prop( 'disabled' ) !== isVertical ) {
-				button_size.removeClass( 'enhanced' )
-				button_size_option.prop( 'disabled', isVertical );
-				$( document.body ).trigger( 'wc-enhanced-select-init' );
-				! button_size.val() && button_size.val( 'responsive' ).change();
-			}
-		} ).change();
-
-		// Hide default layout and size settings if they'll be overridden anyway.
-		function showHideDefaultButtonSettings() {
-			var display =
-				$( '#woocommerce_ppec_paypal_cart_checkout_enabled' ).is( ':checked' ) ||
-				( $( '#woocommerce_ppec_paypal_checkout_on_single_product_enabled' ).is( ':checked' ) && ! $( '#woocommerce_ppec_paypal_single_product_settings_toggle' ).is( ':checked' ) ) ||
-				( $( '#woocommerce_ppec_paypal_mark_enabled' ).is( ':checked' ) && ! $( '#woocommerce_ppec_paypal_mark_settings_toggle' ).is( ':checked' ) );
-
-			$( '#woocommerce_ppec_paypal_button_layout, #woocommerce_ppec_paypal_button_size, #woocommerce_ppec_paypal_hide_funding_methods, #woocommerce_ppec_paypal_credit_enabled' ).closest( 'tr' ).toggle( display );
-			display && $( '#woocommerce_ppec_paypal_button_layout' ).change();
-		}
-
-		// Toggle mini-cart section based on whether checkout on cart page is enabled
-		$( '#woocommerce_ppec_paypal_cart_checkout_enabled' ).change( function( event ) {
-			if ( ! $( '#woocommerce_ppec_paypal_use_spb' ).is( ':checked' ) ) {
-				return;
-			}
-
-			var checked = $( event.target ).is( ':checked' );
-			$( '#woocommerce_ppec_paypal_mini_cart_settings_toggle, .woocommerce_ppec_paypal_mini_cart' )
-				.closest( 'tr' )
-				.add( '#woocommerce_ppec_paypal_mini_cart_settings' ) // Select title.
-					.next( 'p' ) // Select description if present.
-				.addBack()
-				.toggle( checked );
-			checked && $( '#woocommerce_ppec_paypal_mini_cart_settings_toggle' ).change();
-			showHideDefaultButtonSettings();
-		} ).change();
-
-		$( '#woocommerce_ppec_paypal_mini_cart_settings_toggle' ).change( function( event ) {
-			// Only show settings specific to mini-cart if configured to override global settings.
-			var checked = $( event.target ).is( ':checked' );
-			$( '.woocommerce_ppec_paypal_mini_cart' ).closest( 'tr' ).toggle( checked );
-			checked && $( '#woocommerce_ppec_paypal_mini_cart_button_layout' ).change();
-			showHideDefaultButtonSettings();
-		} ).change();
-
-		$( '#woocommerce_ppec_paypal_checkout_on_single_product_enabled, #woocommerce_ppec_paypal_single_product_settings_toggle' ).change( function( event ) {
-			if ( ! $( '#woocommerce_ppec_paypal_use_spb' ).is( ':checked' ) ) {
-				return;
-			}
-
-			if ( ! $( '#woocommerce_ppec_paypal_checkout_on_single_product_enabled' ).is( ':checked' ) ) {
-				// If product page button is disabled, hide remaining settings in section.
-				$( '#woocommerce_ppec_paypal_single_product_settings_toggle, .woocommerce_ppec_paypal_single_product' ).closest( 'tr' ).hide();
-			} else if ( ! $( '#woocommerce_ppec_paypal_single_product_settings_toggle' ).is( ':checked' ) ) {
-				// If product page button is enabled but not configured to override global settings, hide remaining settings in section.
-				$( '#woocommerce_ppec_paypal_single_product_settings_toggle' ).closest( 'tr' ).show();
-				$( '.woocommerce_ppec_paypal_single_product' ).closest( 'tr' ).hide();
-			} else {
-				// Show all settings in section.
-				$( '#woocommerce_ppec_paypal_single_product_settings_toggle, .woocommerce_ppec_paypal_single_product' ).closest( 'tr' ).show();
-				$( '#woocommerce_ppec_paypal_single_product_button_layout' ).change();
-			}
-			showHideDefaultButtonSettings();
-		} ).change();
-
-		$( '#woocommerce_ppec_paypal_mark_enabled, #woocommerce_ppec_paypal_mark_settings_toggle' ).change( function() {
-			if ( ! $( '#woocommerce_ppec_paypal_use_spb' ).is( ':checked' ) ) {
-				return;
-			}
-
-			if ( ! $( '#woocommerce_ppec_paypal_mark_enabled' ).is( ':checked' ) ) {
-				// If checkout page button is disabled, hide remaining settings in section.
-				$( '#woocommerce_ppec_paypal_mark_settings_toggle, .woocommerce_ppec_paypal_mark' ).closest( 'tr' ).hide();
-			} else if ( ! $( '#woocommerce_ppec_paypal_mark_settings_toggle' ).is( ':checked' ) ) {
-				// If checkout page button is enabled but not configured to override global settings, hide remaining settings in section.
-				$( '#woocommerce_ppec_paypal_mark_settings_toggle' ).closest( 'tr' ).show();
-				$( '.woocommerce_ppec_paypal_mark' ).closest( 'tr' ).hide();
-			} else {
-				// Show all settings in section.
-				$( '#woocommerce_ppec_paypal_mark_settings_toggle, .woocommerce_ppec_paypal_mark' ).closest( 'tr' ).show();
-				$( '#woocommerce_ppec_paypal_mark_button_layout' ).change();
-			}
-			showHideDefaultButtonSettings();
-		} ).change();
-
-		// Make sure handlers are only attached once if script is loaded multiple times.
-		$( '#woocommerce_ppec_paypal_use_spb' ).off( 'change' );
-
-		$( '#woocommerce_ppec_paypal_use_spb' ).change( function( event ) {
-			var checked = $( event.target ).is( ':checked' );
-
-			// Show settings specific to Smart Payment Buttons only if enabled.
-			$( '.woocommerce_ppec_paypal_spb' ).not( 'h3 ').closest( 'tr' ).toggle( checked );
-			$( '.woocommerce_ppec_paypal_spb' ).filter( 'h3' ).next( 'p' ).addBack().toggle( checked );
-
-			if ( checked ) {
-				// Trigger all logic that controls visibility of other settings.
-				$( '.woocommerce_ppec_paypal_visibility_toggle' ).change();
-			} else {
-				// If non-SPB mode is enabled, show all settings that may have been hidden.
-				$( '#woocommerce_ppec_paypal_button_size, #woocommerce_ppec_paypal_credit_enabled' ).closest( 'tr' ).show();
-			}
-
-			// Hide 'Responsive' button size option in SPB mode, and make sure to show 'Small' option.
-			var button_size = $( '#woocommerce_ppec_paypal_button_size' ).removeClass( 'enhanced' );
-			button_size.find( 'option[value=\"responsive\"]' ).prop( 'disabled', ! checked );
-			! checked && button_size.find( 'option[value=\"small\"]' ).prop( 'disabled', false );
-			$( document.body ).trigger( 'wc-enhanced-select-init' );
-		} ).change();
-
-		// Reset button size values to default when switching modes.
-		$( '#woocommerce_ppec_paypal_use_spb' ).change( function( event ) {
-			if ( $( event.target ).is( ':checked' ) ) {
-				// In SPB mode, set to recommended 'Responsive' value so it is not missed.
-				$( '#woocommerce_ppec_paypal_button_size' ).val( 'responsive' ).change();
-			} else if ( ! $( '#woocommerce_ppec_paypal_button_size' ).val() ) {
-				// Set back to original default for non-SPB mode.
-				$( '#woocommerce_ppec_paypal_button_size' ).val( 'large' ).change();
-			}
-		} );
-
-	});
-" );
+$credit_enabled_description = __( 'This enables PayPal Credit, which displays a PayPal Credit button next to the primary PayPal Checkout button. PayPal Checkout lets you give customers access to financing through PayPal Credit® - at no additional cost to you. You get paid up front, even though customers have more time to pay. A pre-integrated payment button shows up next to the PayPal Button, and lets customers pay quickly with PayPal Credit®. (Should be unchecked for stores involved in Real Money Gaming.)', 'woocommerce-gateway-paypal-express-checkout' );
 
 /**
  * Settings for PayPal Gateway.
@@ -323,7 +143,7 @@ $settings = array(
 	'api_certificate' => array(
 		'title'       => __( 'Live API Certificate', 'woocommerce-gateway-paypal-express-checkout' ),
 		'type'        => 'file',
-		'description' => $this->get_certificate_info( $this->get_option( 'api_certificate' ) ),
+		'description' => $this->get_certificate_setting_description(),
 		'default'     => '',
 	),
 	'api_subject' => array(
@@ -334,7 +154,6 @@ $settings = array(
 		'desc_tip'    => true,
 		'placeholder' => __( 'Optional', 'woocommerce-gateway-paypal-express-checkout' ),
 	),
-
 	'sandbox_api_credentials' => array(
 		'title'       => __( 'Sandbox API Credentials', 'woocommerce-gateway-paypal-express-checkout' ),
 		'type'        => 'title',
@@ -360,13 +179,13 @@ $settings = array(
 		'description' => __( 'Get your API credentials from PayPal.', 'woocommerce-gateway-paypal-express-checkout' ),
 		'default'     => '',
 		'desc_tip'    => true,
+		'placeholder' => __( 'Optional if you provide a certificate below', 'woocommerce-gateway-paypal-express-checkout' ),
 	),
 	'sandbox_api_certificate' => array(
 		'title'       => __( 'Sandbox API Certificate', 'woocommerce-gateway-paypal-express-checkout' ),
 		'type'        => 'file',
-		'description' => __( 'Get your API credentials from PayPal.', 'woocommerce-gateway-paypal-express-checkout' ),
+		'description' => $this->get_certificate_setting_description( 'sandbox' ),
 		'default'     => '',
-		'desc_tip'    => true,
 	),
 	'sandbox_api_subject' => array(
 		'title'       => __( 'Sandbox API Subject', 'woocommerce-gateway-paypal-express-checkout' ),
@@ -376,7 +195,6 @@ $settings = array(
 		'desc_tip'    => true,
 		'placeholder' => __( 'Optional', 'woocommerce-gateway-paypal-express-checkout' ),
 	),
-
 	'paypal_hosted_settings' => array(
 		'title'       => __( 'PayPal-hosted Checkout Settings', 'woocommerce-gateway-paypal-express-checkout' ),
 		'type'        => 'title',
@@ -451,14 +269,19 @@ $settings = array(
 		'type'        => 'checkbox',
 		'label'       => __( 'Require Billing Address', 'woocommerce-gateway-paypal-express-checkout' ),
 		'default'     => 'no',
-		'description' => sprintf( __( 'PayPal only returns a shipping address back to the website. To make sure billing address is returned as well, please enable this functionality on your PayPal account by calling %1$sPayPal Technical Support%2$s.', 'woocommerce-gateway-paypal-express-checkout' ), '<a href="https://www.paypal.com/us/selfhelp/contact/call">', '</a>' ),
+		'description' => sprintf(
+			/* Translators: 1) is an <a> tag linking to PayPal's contact info, 2) is the closing </a> tag. */
+			__( 'PayPal only returns a shipping address back to the website. To make sure billing address is returned as well, please enable this functionality on your PayPal account by calling %1$sPayPal Technical Support%2$s.', 'woocommerce-gateway-paypal-express-checkout' ),
+			'<a href="https://www.paypal.com/us/selfhelp/contact/call">',
+			'</a>'
+		),
 	),
 	'require_phone_number' => array(
 		'title'       => __( 'Require Phone Number', 'woocommerce-gateway-paypal-express-checkout' ),
 		'type'        => 'checkbox',
 		'label'       => __( 'Require Phone Number', 'woocommerce-gateway-paypal-express-checkout' ),
 		'default'     => 'no',
-		'description' => __( 'Require buyer to enter their telephone number during checkout if none is provided by PayPal', 'woocommerce-gateway-paypal-express-checkout' ),
+		'description' => __( 'Require buyer to enter their telephone number during checkout if none is provided by PayPal. Disabling this option doesn\'t affect direct Debit or Credit Card payments offered by PayPal.', 'woocommerce-gateway-paypal-express-checkout' ),
 	),
 	'paymentaction' => array(
 		'title'       => __( 'Payment Action', 'woocommerce-gateway-paypal-express-checkout' ),
@@ -503,7 +326,11 @@ $settings = array(
 		'type'        => 'checkbox',
 		'default'     => $this->get_option( 'button_size' ) ? 'no' : 'yes', // A 'button_size' value having been set indicates that settings have been initialized before, requiring merchant opt-in to SPB.
 		'label'       => __( 'Use Smart Payment Buttons', 'woocommerce-gateway-paypal-express-checkout' ),
-		'description' => sprintf( __( 'PayPal Checkout\'s Smart Payment Buttons provide a variety of button customization options, such as color, language, shape, and multiple button layout. <a href="%s">Learn more about Smart Payment Buttons</a>.', 'woocommerce-gateway-paypal-express-checkout' ), 'https://developer.paypal.com/docs/integration/direct/express-checkout/integration-jsv4/#smart-payment-buttons' ),
+		'description' => sprintf(
+			/* Translators: %s is the URL of the Smart Payment Buttons integration docs. */
+			__( 'PayPal Checkout\'s Smart Payment Buttons provide a variety of button customization options, such as color, language, shape, and multiple button layout. <a href="%s">Learn more about Smart Payment Buttons</a>.', 'woocommerce-gateway-paypal-express-checkout' ),
+			'https://developer.paypal.com/docs/integration/direct/express-checkout/integration-jsv4/#smart-payment-buttons'
+		),
 	),
 	'button_color' => array(
 		'title'       => __( 'Button Color', 'woocommerce-gateway-paypal-express-checkout' ),
@@ -529,6 +356,20 @@ $settings = array(
 		'options'     => array(
 			'pill' => __( 'Pill', 'woocommerce-gateway-paypal-express-checkout' ),
 			'rect' => __( 'Rectangle', 'woocommerce-gateway-paypal-express-checkout' ),
+		),
+	),
+	'button_label' => array(
+		'title'       => __( 'Button Label', 'woocommerce-gateway-paypal-express-checkout' ),
+		'type'        => 'select',
+		'class'       => 'wc-enhanced-select woocommerce_ppec_paypal_spb',
+		'default'     => 'paypal',
+		'desc_tip'    => true,
+		'description' => __( 'This controls the label on the primary button.', 'woocommerce-gateway-paypal-express-checkout' ),
+		'options'     => array(
+			'paypal'   => __( 'PayPal', 'woocommerce-gateway-paypal-express-checkout' ),
+			'checkout' => __( 'PayPal Checkout', 'woocommerce-gateway-paypal-express-checkout' ),
+			'buynow'   => __( 'PayPal Buy Now', 'woocommerce-gateway-paypal-express-checkout' ),
+			'pay'      => __( 'Pay with PayPal', 'woocommerce-gateway-paypal-express-checkout' ),
 		),
 	),
 );
@@ -563,21 +404,46 @@ $per_context_settings = array(
 			'large'      => __( 'Large', 'woocommerce-gateway-paypal-express-checkout' ),
 		),
 	),
+	'button_label' => array(
+		'title'       => __( 'Button Label', 'woocommerce-gateway-paypal-express-checkout' ),
+		'type'        => 'select',
+		'class'       => 'wc-enhanced-select woocommerce_ppec_paypal_spb',
+		'default'     => 'paypal',
+		'desc_tip'    => true,
+		'description' => __( 'PayPal offers different labels on the "PayPal Checkout" buttons, allowing you to select a suitable label.)', 'woocommerce-gateway-paypal-express-checkout' ),
+		'options'     => array(
+			'paypal'   => __( 'PayPal', 'woocommerce-gateway-paypal-express-checkout' ),
+			'checkout' => __( 'PayPal Checkout', 'woocommerce-gateway-paypal-express-checkout' ),
+			'buynow'   => __( 'PayPal Buy Now', 'woocommerce-gateway-paypal-express-checkout' ),
+			'pay'      => __( 'Pay with PayPal', 'woocommerce-gateway-paypal-express-checkout' ),
+		),
+	),
 	'hide_funding_methods' => array(
 		'title'       => 'Hide Funding Method(s)',
 		'type'        => 'multiselect',
-		'class'       => 'wc-enhanced-select woocommerce_ppec_paypal_spb woocommerce_ppec_paypal_vertical',
+		'class'       => 'wc-enhanced-select woocommerce_ppec_paypal_spb woocommerce_ppec_funding_methods_select woocommerce_ppec_paypal_vertical',
 		'default'     => array( 'CARD' ),
 		'desc_tip'    => true,
 		'description' => __( 'Hides the specified funding methods.', 'woocommerce-gateway-paypal-express-checkout' ),
 		'options'     => array(
-			'CREDIT' => __( 'PayPal Credit', 'woocommerce-gateway-paypal-express-checkout' ),
-			'ELV'    => __( 'ELV', 'woocommerce-gateway-paypal-express-checkout' ),
-			'CARD'   => __( 'Credit Card', 'woocommerce-gateway-paypal-express-checkout' ),
+			'CARD'        => __( 'Credit or debit cards', 'woocommerce-gateway-paypal-express-checkout' ),
+			'CREDIT'      => __( 'PayPal Credit', 'woocommerce-gateway-paypal-express-checkout' ),
+			'BANCONTACT'  => __( 'Bancontact', 'woocommerce-gateway-paypal-express-checkout' ),
+			'BLIK'        => __( 'BLIK', 'woocommerce-gateway-paypal-express-checkout' ),
+			'ELV'         => __( 'ELV', 'woocommerce-gateway-paypal-express-checkout' ),
+			'EPS'         => __( 'eps', 'woocommerce-gateway-paypal-express-checkout' ),
+			'GIROPAY'     => __( 'giropay', 'woocommerce-gateway-paypal-express-checkout' ),
+			'IDEAL'       => __( 'iDEAL', 'woocommerce-gateway-paypal-express-checkout' ),
+			'MERCADOPAGO' => __( 'MercadoPago', 'woocommerce-gateway-paypal-express-checkout' ),
+			'MYBANK'      => __( 'MyBank', 'woocommerce-gateway-paypal-express-checkout' ),
+			'P24'         => __( 'Przelewy24', 'woocommerce-gateway-paypal-express-checkout' ),
+			'SEPA'        => __( 'SEPA-Lastschrift', 'woocommerce-gateway-paypal-express-checkout' ),
+			'SOFORT'      => __( 'Sofort', 'woocommerce-gateway-paypal-express-checkout' ),
+			'VENMO'       => __( 'Venmo', 'woocommerce-gateway-paypal-express-checkout' ),
 		),
 	),
 	'credit_enabled' => array(
-		'title'       => __( 'Enable PayPal Credit', 'woocommerce-gateway-paypal-express-checkout' ),
+		'title'       => __( 'Enable PayPal Credit to eligible customers', 'woocommerce-gateway-paypal-express-checkout' ),
 		'type'        => 'checkbox',
 		'label'       => $credit_enabled_label,
 		'disabled'    => ! wc_gateway_ppec_is_credit_supported(),
@@ -586,21 +452,124 @@ $per_context_settings = array(
 		'desc_tip'    => true,
 		'description' => $credit_enabled_description,
 	),
+
+	'credit_message_enabled' => array(
+		'title'       => 'Enable PayPal Credit messages',
+		'type'        => 'checkbox',
+		'class'       => '',
+		'disabled'    => ! wc_gateway_ppec_is_credit_supported(),
+		'default'     => 'yes',
+		'label'       => __( 'Enable PayPal Credit messages', 'woocommerce-gateway-paypal-express-checkout' ),
+		'desc_tip'    => true,
+		'description' => __( 'Display credit messages on your website to promote special financing offers, which help increase sales.', 'woocommerce-gateway-paypal-express-checkout' ),
+	),
+	'credit_message_layout' => array(
+		'title'   => __( 'Credit Messaging Layout', 'woocommerce-gateway-paypal-express-checkout' ),
+		'type'    => 'select',
+		'class'   => 'wc-enhanced-select',
+		'default' => 'text',
+		'options' => array(
+			'text' => __( 'Text', 'woocommerce-gateway-paypal-express-checkout' ),
+			'flex' => __( 'Graphic', 'woocommerce-gateway-paypal-express-checkout' ),
+		),
+		'disabled' => ! wc_gateway_ppec_is_credit_supported(),
+		'desc_tip' => true,
+		'description' => __( 'The layout of the message.', 'woocommerce-gateway-paypal-express-checkout' ),
+	),
+	'credit_message_logo' => array(
+		'title'   => __( 'Credit Messaging logo', 'woocommerce-gateway-paypal-express-checkout' ),
+		'type'    => 'select',
+		'class'   => 'wc-enhanced-select',
+		'default' => 'primary',
+		'options' => array(
+			'primary'     => __( 'Primary', 'woocommerce-gateway-paypal-express-checkout' ),
+			'alternative' => __( 'Alternative', 'woocommerce-gateway-paypal-express-checkout' ),
+			'inline'      => __( 'In-Line', 'woocommerce-gateway-paypal-express-checkout' ),
+			'none'        => __( 'None', 'woocommerce-gateway-paypal-express-checkout' ),
+		),
+		'disabled' => ! wc_gateway_ppec_is_credit_supported(),
+		'desc_tip' => true,
+		'description' => __( 'PayPal Credit logo used in the message.', 'woocommerce-gateway-paypal-express-checkout' ),
+	),
+	'credit_message_logo_position' => array(
+		'title'  => __( 'Credit Messaging logo position', 'woocommerce-gateway-paypal-express-checkout' ),
+		'type'   => 'select',
+		'class'   => 'wc-enhanced-select',
+		'default' => 'left',
+		'options' => array(
+			'left'  => __( 'Left', 'woocommerce-gateway-paypal-express-checkout' ),
+			'right' => __( 'Right', 'woocommerce-gateway-paypal-express-checkout' ),
+			'top'   => __( 'Top', 'woocommerce-gateway-paypal-express-checkout' ),
+		),
+		'disabled' => ! wc_gateway_ppec_is_credit_supported(),
+		'desc_tip' => true,
+		'description' => __( 'Position of the PayPal logo in the message.', 'woocommerce-gateway-paypal-express-checkout' ),
+	),
+	'credit_message_text_color' => array(
+		'title'   => __( 'Credit Messaging text color', 'woocommerce-gateway-paypal-express-checkout' ),
+		'type'    => 'select',
+		'class'   => 'wc-enhanced-select',
+		'default' => 'black',
+		'options' => array(
+			'black'      => __( 'Black', 'woocommerce-gateway-paypal-express-checkout' ),
+			'white'      => __( 'White', 'woocommerce-gateway-paypal-express-checkout' ),
+			'monochrome' => __( 'Monochrome', 'woocommerce-gateway-paypal-express-checkout' ),
+			'grayscale'  => __( 'Grayscale', 'woocommerce-gateway-paypal-express-checkout' ),
+		),
+		'disabled' => ! wc_gateway_ppec_is_credit_supported(),
+		'desc_tip' => true,
+		'description' => __( 'Text and logo color of the message.', 'woocommerce-gateway-paypal-express-checkout' ),
+	),
+	'credit_message_flex_color' => array(
+		'title' => __( 'Credit Messaging color', 'woocommerce-gateway-paypal-express-checkout' ),
+		'type' => 'select',
+		'class' => 'wc-enhanced-select',
+		'default' => 'black',
+		'options' => array(
+			'black'           => __( 'Black', 'woocommerce-gateway-paypal-express-checkout' ),
+			'blue'            => __( 'Blue', 'woocommerce-gateway-paypal-express-checkout' ),
+			'monochrome'      => __( 'Monochrome', 'woocommerce-gateway-paypal-express-checkout' ),
+			'gray'            => __( 'Gray', 'woocommerce-gateway-paypal-express-checkout' ),
+			'grayscale'       => __( 'Grayscale', 'woocommerce-gateway-paypal-express-checkout' ),
+			'white'           => __( 'White', 'woocommerce-gateway-paypal-express-checkout' ),
+			'white-no-border' => __( 'White no border', 'woocommerce-gateway-paypal-express-checkout' ),
+		),
+		'disabled' => ! wc_gateway_ppec_is_credit_supported(),
+		'desc_tip' => true,
+		'description' => __( 'Color of the message.', 'woocommerce-gateway-paypal-express-checkout' ),
+	),
+	'credit_message_flex_ratio' => array(
+		'title' => __( 'Credit Messaging ratio', 'woocommerce-gateway-paypal-express-checkout' ),
+		'type' => 'select',
+		'class' => 'wc-enhanced-select',
+		'default' => '1x1',
+		'options' => array(
+			'1x1'  => __( '1x1', 'woocommerce-gateway-paypal-express-checkout' ),
+			'1x4'  => __( '1x4', 'woocommerce-gateway-paypal-express-checkout' ),
+			'8x1'  => __( '8x1', 'woocommerce-gateway-paypal-express-checkout' ),
+			'20x1' => __( '20x1', 'woocommerce-gateway-paypal-express-checkout' ),
+		),
+		'disabled' => ! wc_gateway_ppec_is_credit_supported(),
+		'desc_tip' => true,
+		'description' => __( 'Shape and size of the message.', 'woocommerce-gateway-paypal-express-checkout' ),
+	),
+
 );
+
 
 /**
  * Cart / global button settings.
  */
 $settings = array_merge( $settings, $per_context_settings );
-$per_context_settings['button_size']['class'] .= ' woocommerce_ppec_paypal_spb';
+
+$per_context_settings['button_size']['class']    .= ' woocommerce_ppec_paypal_spb';
 $per_context_settings['credit_enabled']['class'] .= ' woocommerce_ppec_paypal_spb';
 
 $settings['cart_checkout_enabled'] = array(
-	'title'       => __( 'Checkout on cart page', 'woocommerce-gateway-paypal-express-checkout' ),
+	'title'       => __( 'Enable on the cart page', 'woocommerce-gateway-paypal-express-checkout' ),
 	'type'        => 'checkbox',
 	'class'       => 'woocommerce_ppec_paypal_visibility_toggle',
-	'label'       => __( 'Enable PayPal Checkout on the cart page', 'woocommerce-gateway-paypal-express-checkout' ),
-	'description' => __( 'This shows or hides the PayPal Checkout button on the cart page.', 'woocommerce-gateway-paypal-express-checkout' ),
+	'label'       => __( 'Enable PayPal Checkout buttons on the cart page', 'woocommerce-gateway-paypal-express-checkout' ),
 	'desc_tip'    => true,
 	'default'     => 'yes',
 );
@@ -609,10 +578,11 @@ $settings['cart_checkout_enabled'] = array(
  * Mini-cart button settings.
  */
 $settings['mini_cart_settings'] = array(
-	'title'       => __( 'Mini-cart Button Settings', 'woocommerce-gateway-paypal-express-checkout' ),
-	'type'        => 'title',
-	'class'       => 'woocommerce_ppec_paypal_spb',
+	'title' => __( 'Mini-cart Button Settings', 'woocommerce-gateway-paypal-express-checkout' ),
+	'type'  => 'title',
+	'class' => 'woocommerce_ppec_paypal_spb',
 );
+
 $settings['mini_cart_settings_toggle'] = array(
 	'title'       => __( 'Configure Settings', 'woocommerce-gateway-paypal-express-checkout' ),
 	'label'       => __( 'Configure settings specific to mini-cart', 'woocommerce-gateway-paypal-express-checkout' ),
@@ -622,8 +592,13 @@ $settings['mini_cart_settings_toggle'] = array(
 	'desc_tip'    => true,
 	'description' => __( 'Optionally override global button settings above and configure buttons for this context.', 'woocommerce-gateway-paypal-express-checkout' ),
 );
-foreach( $per_context_settings as $key => $value ) {
-	$value['class'] .= ' woocommerce_ppec_paypal_mini_cart';
+foreach ( $per_context_settings as $key => $value ) {
+	// No PayPal Credit messaging settings for mini-cart.
+	if ( 0 === strpos( $key, 'credit_message_' ) ) {
+		continue;
+	}
+
+	$value['class']                 .= ' woocommerce_ppec_paypal_mini_cart';
 	$settings[ 'mini_cart_' . $key ] = $value;
 }
 
@@ -631,19 +606,20 @@ foreach( $per_context_settings as $key => $value ) {
  * Single product button settings.
  */
 $settings['single_product_settings'] = array(
-	'title'       => __( 'Single Product Button Settings', 'woocommerce-gateway-paypal-express-checkout' ),
-	'type'        => 'title',
-	'class'       => 'woocommerce_ppec_paypal_spb',
+	'title' => __( 'Single Product Button Settings', 'woocommerce-gateway-paypal-express-checkout' ),
+	'type'  => 'title',
+	'class' => 'woocommerce_ppec_paypal_spb',
 );
+
 $settings['checkout_on_single_product_enabled'] = array(
-	'title'       => __( 'Checkout on Single Product', 'woocommerce-gateway-paypal-express-checkout' ),
+	'title'       => __( 'Enable on the single product page', 'woocommerce-gateway-paypal-express-checkout' ),
 	'type'        => 'checkbox',
 	'class'       => 'woocommerce_ppec_paypal_visibility_toggle',
-	'label'       => __( 'Checkout on Single Product', 'woocommerce-gateway-paypal-express-checkout' ),
+	'label'       => __( 'Enable PayPal Checkout buttons on the single product page', 'woocommerce-gateway-paypal-express-checkout' ),
 	'default'     => 'yes',
 	'desc_tip'    => true,
-	'description' => __( 'Enable PayPal Checkout on Single Product view.', 'woocommerce-gateway-paypal-express-checkout' ),
 );
+
 $settings['single_product_settings_toggle'] = array(
 	'title'       => __( 'Configure Settings', 'woocommerce-gateway-paypal-express-checkout' ),
 	'label'       => __( 'Configure settings specific to Single Product view', 'woocommerce-gateway-paypal-express-checkout' ),
@@ -653,8 +629,8 @@ $settings['single_product_settings_toggle'] = array(
 	'desc_tip'    => true,
 	'description' => __( 'Optionally override global button settings above and configure buttons for this context.', 'woocommerce-gateway-paypal-express-checkout' ),
 );
-foreach( $per_context_settings as $key => $value ) {
-	$value['class'] .= ' woocommerce_ppec_paypal_single_product';
+foreach ( $per_context_settings as $key => $value ) {
+	$value['class']                      .= ' woocommerce_ppec_paypal_single_product';
 	$settings[ 'single_product_' . $key ] = $value;
 }
 $settings['single_product_button_layout']['default'] = 'horizontal';
@@ -663,19 +639,20 @@ $settings['single_product_button_layout']['default'] = 'horizontal';
  * Regular checkout button settings.
  */
 $settings['mark_settings'] = array(
-	'title'       => __( 'Regular Checkout Button Settings', 'woocommerce-gateway-paypal-express-checkout' ),
-	'type'        => 'title',
-	'class'       => 'woocommerce_ppec_paypal_spb',
+	'title' => __( 'Regular Checkout Button Settings', 'woocommerce-gateway-paypal-express-checkout' ),
+	'type'  => 'title',
+	'class' => 'woocommerce_ppec_paypal_spb',
 );
+
 $settings['mark_enabled'] = array(
-	'title'       => __( 'PayPal Mark', 'woocommerce-gateway-paypal-express-checkout' ),
+	'title'       => __( 'Enable on the checkout page', 'woocommerce-gateway-paypal-express-checkout' ),
 	'type'        => 'checkbox',
 	'class'       => 'woocommerce_ppec_paypal_visibility_toggle',
-	'label'       => __( 'Enable the PayPal Mark on regular checkout', 'woocommerce-gateway-paypal-express-checkout' ),
-	'description' => __( 'This enables the PayPal mark, which can be shown on regular WooCommerce checkout to use PayPal Checkout like a regular WooCommerce gateway.', 'woocommerce-gateway-paypal-express-checkout' ),
+	'label'       => __( 'Enable PayPal Checkout buttons on the regular checkout page', 'woocommerce-gateway-paypal-express-checkout' ),
 	'desc_tip'    => true,
 	'default'     => 'yes',
 );
+
 $settings['mark_settings_toggle'] = array(
 	'title'       => __( 'Configure Settings', 'woocommerce-gateway-paypal-express-checkout' ),
 	'label'       => __( 'Configure settings specific to regular checkout', 'woocommerce-gateway-paypal-express-checkout' ),
@@ -685,9 +662,11 @@ $settings['mark_settings_toggle'] = array(
 	'desc_tip'    => true,
 	'description' => __( 'Optionally override global button settings above and configure buttons for this context.', 'woocommerce-gateway-paypal-express-checkout' ),
 );
-foreach( $per_context_settings as $key => $value ) {
-	$value['class'] .= ' woocommerce_ppec_paypal_mark';
+foreach ( $per_context_settings as $key => $value ) {
+	$value['class']            .= ' woocommerce_ppec_paypal_mark';
 	$settings[ 'mark_' . $key ] = $value;
 }
 
 return apply_filters( 'woocommerce_paypal_express_checkout_settings', $settings );
+
+// phpcs:enable

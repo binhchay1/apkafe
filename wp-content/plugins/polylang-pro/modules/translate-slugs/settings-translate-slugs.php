@@ -1,48 +1,44 @@
 <?php
+/**
+ * @package Polylang-Pro
+ */
 
 /**
- * Settings class to advertize the Translate slugs module
+ * Settings class to display information for the Translate slugs module.
  *
- * @since 1.9
+ * @since 3.1
  */
-class PLL_Settings_Translate_Slugs extends PLL_Settings_Module {
+class PLL_Settings_Translate_Slugs extends PLL_Settings_Preview_Translate_Slugs {
 	/**
-	 * Constructor
+	 * Returns the module description.
 	 *
-	 * @since 1.9
+	 * @since 3.1
 	 *
-	 * @param object $polylang polylang object
+	 * @return string
 	 */
-	public function __construct( &$polylang ) {
-		parent::__construct(
-			$polylang,
-			array(
-				'module'      => 'translate-slugs',
-				'title'       => __( 'Translate slugs', 'polylang' ),
-				'description' => __( 'Allows to translate custom post types and taxonomies slugs in urls.', 'polylang' ),
-			)
-		);
+	protected function get_description() {
+		return parent::get_description() . ' ' . __( 'The module is automatically deactivated when using plain permalinks.', 'polylang-pro' );
 	}
 
 	/**
-	 * Tells if the module is active
+	 * Tells if the module is active.
 	 *
 	 * @since 1.9
 	 *
 	 * @return bool
 	 */
 	public function is_active() {
-		return class_exists( 'PLL_Translate_Slugs_Model', true ) && get_option( 'permalink_structure' );
+		return get_option( 'permalink_structure' );
 	}
 
 	/**
-	 * Displays upgrade message
+	 * Avoid displaying the upgrade message.
 	 *
 	 * @since 1.9
 	 *
 	 * @return string
 	 */
 	public function get_upgrade_message() {
-		return class_exists( 'PLL_Translate_Slugs_Model', true ) ? '' : $this->default_upgrade_message();
+		return '';
 	}
 }

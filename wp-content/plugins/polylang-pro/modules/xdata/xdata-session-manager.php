@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Polylang-Pro
+ */
 
 /**
  * A class to store cross domain data
@@ -11,9 +14,10 @@ class PLL_Xdata_Session_Manager {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $key     A unique hash key
-	 * @param array  $data    Data to store in the session
-	 * @param int    $user_id Optional, user id
+	 * @param string $key     A unique hash key.
+	 * @param array  $data    Data to store in the session.
+	 * @param int    $user_id Optional, user id.
+	 * @return void
 	 */
 	public function set( $key, $data, $user_id = 0 ) {
 		if ( empty( $user_id ) ) {
@@ -23,7 +27,7 @@ class PLL_Xdata_Session_Manager {
 		if ( empty( $user_id ) ) {
 			update_option( 'pll_xdata_' . $key, $data );
 		} else {
-			update_user_meta( $user_id, 'pll_xdata_' . $key, $data );
+			update_user_meta( $user_id, wp_slash( 'pll_xdata_' . $key ), wp_slash( $data ) );
 		}
 	}
 
@@ -33,8 +37,8 @@ class PLL_Xdata_Session_Manager {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $key
-	 * @return array $data
+	 * @param string $key The session key.
+	 * @return array
 	 */
 	public function get( $key ) {
 		$key = 'pll_xdata_' . $key;
@@ -44,7 +48,7 @@ class PLL_Xdata_Session_Manager {
 		if ( ! empty( $users ) ) {
 			$user = reset( $users );
 			$data = get_user_meta( $user->ID, $key, true );
-			delete_user_meta( $user->ID, $key ); // No replay
+			delete_user_meta( $user->ID, wp_slash( $key ) ); // No replay.
 			$data['user_id'] = $user->ID;
 			return $data;
 		}
@@ -52,10 +56,10 @@ class PLL_Xdata_Session_Manager {
 		$data = get_option( $key, array() );
 
 		if ( ! empty( $data ) ) {
-			delete_option( $key ); // No replay
+			delete_option( $key ); // No replay.
 			return $data;
 		}
 
-		wp_die( esc_html__( 'Cheatin&#8217; uh?' ) );
+		wp_die( esc_html__( 'An error has occurred.', 'polylang-pro' ) );
 	}
 }

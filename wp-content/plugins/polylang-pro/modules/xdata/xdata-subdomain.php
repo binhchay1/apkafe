@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Polylang-Pro
+ */
 
 /**
  * A class to handle cross domain data and single sign on for subdomains
@@ -6,14 +9,26 @@
  * @since 2.0
  */
 class PLL_Xdata_Subdomain extends PLL_Xdata_Base {
-	private $curlang, $ajax_urls;
+	/**
+	 * Current language (defined by its slug).
+	 *
+	 * @var string
+	 */
+	private $curlang;
+
+	/**
+	 * The list of ajax endpoints for each subdomain.
+	 *
+	 * @var string[]
+	 */
+	private $ajax_urls;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 2.0
 	 *
-	 * @param object $polylang
+	 * @param object $polylang Polylang object.
 	 */
 	public function __construct( &$polylang ) {
 		parent::__construct( $polylang );
@@ -28,13 +43,13 @@ class PLL_Xdata_Subdomain extends PLL_Xdata_Base {
 			$this->ajax_urls[ $lang->slug ] = $this->links_model->switch_language_in_link( admin_url( 'admin-ajax.php' ), $this->model->get_language( $lang ) );
 		}
 
-		if ( empty( $_POST['wp_customize'] ) ) {
+		if ( empty( $_POST['wp_customize'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			add_action( 'wp_head', array( $this, 'maybe_language_switched' ) );
 		}
 
 		// Post preview
-		if ( isset( $_GET['preview_id'] ) ) {
-			add_action( 'init', array( $this, 'maybe_language_switched' ), 5 ); // Before _show_post_preview
+		if ( isset( $_GET['preview_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			add_action( 'init', array( $this, 'maybe_language_switched' ), 5 ); // Before _show_post_preview.
 		}
 
 		add_filter( 'site_url', array( $this, 'site_url' ) );
@@ -44,13 +59,13 @@ class PLL_Xdata_Subdomain extends PLL_Xdata_Base {
 
 	/**
 	 * Builds an ajax request url to the domain defined by a language
-	 * Overrides parent method to take care of inactive languages
+	 * Overrides the parent method to take care of inactive languages
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $lang
-	 * @param array  $args
-	 * @return string
+	 * @param string   $lang The language slug.
+	 * @param string[] $args Existing url parameters.
+	 * @return string The ajax url.
 	 */
 	public function ajax_url( $lang, $args ) {
 		return add_query_arg( $args, $this->ajax_urls[ $lang ] );
@@ -60,13 +75,19 @@ class PLL_Xdata_Subdomain extends PLL_Xdata_Base {
 	 * Outputs the javascript to create the cross domain request when the language just switched
 	 *
 	 * @since 2.0
+	 *
+	 * @return void
 	 */
 	public function maybe_language_switched() {
-		$redirect = urlencode( ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$js = $this->maybe_get_xdomain_js( pll_get_requested_url(), $this->curlang );
 
-		if ( $js = $this->maybe_get_xdomain_js( $redirect, $this->curlang ) ) {
-			echo '<script async type="text/javascript">' . $js . '</script>';
+		if ( empty( $js ) ) {
+			return;
 		}
+
+		$type_attr = current_theme_supports( 'html5', 'script' ) ? '' : ' type="text/javascript"';
+
+		echo "<script{$type_attr} async>\n{$js}\n</script>\n"; // phpcs:ignore WordPress.Security.EscapeOutput
 	}
 
 	/**
@@ -91,7 +112,7 @@ class PLL_Xdata_Subdomain extends PLL_Xdata_Base {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $url
+	 * @param string $url The main site url.
 	 * @return string
 	 */
 	public function site_url( $url ) {
@@ -106,23 +127,14 @@ class PLL_Xdata_Subdomain extends PLL_Xdata_Base {
 	 *
 	 * @since 2.1
 	 *
-	 * @param string $location Redirect url
+	 * @param string $location Redirect url.
 	 * @return string
 	 */
 	public function fix_cookie_in_redirect( $location ) {
-		if ( ! empty( $location ) && isset( $_COOKIE[ PLL_COOKIE ] ) && ! empty( $this->curlang ) && $_COOKIE[ PLL_COOKIE ] != $this->curlang ) {
+		$cookie = PLL_Cookie::get();
 
-			/** This filter is documented in frontend/choose-lang.php */
-			$expiration = apply_filters( 'pll_cookie_expiration', YEAR_IN_SECONDS );
-
-			setcookie(
-				PLL_COOKIE,
-				$_COOKIE[ PLL_COOKIE ],
-				time() + $expiration,
-				COOKIEPATH,
-				parse_url( $this->links_model->home, PHP_URL_HOST ),
-				is_ssl()
-			);
+		if ( ! empty( $location ) && $cookie && ! empty( $this->curlang ) && $cookie !== $this->curlang ) {
+			PLL_Cookie::set( $cookie, array( 'domain' => wp_parse_url( $this->links_model->home, PHP_URL_HOST ) ) );
 		}
 
 		return $location;
