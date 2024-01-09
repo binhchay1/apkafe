@@ -26,5 +26,9 @@ $lang = [
     'Hot Games' => 'Hot Games',
     'Hot Apps' => 'Hot Apps',
     'Latest Update Games' => 'Latest Update Games',
-    'Latest Update Apps' => 'Latest Update Apps'
+    'Latest Update Apps' => 'Latest Update Apps',
+    'Oops! This Page Could Not Be Found' => 'Oops! This Page Could Not Be Found',
+    'Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable' => 'Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable',
+    'Go To Homepage' => 'Go To Homepage',
+    'No results found' => 'No results found'
 ];

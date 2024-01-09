@@ -26,5 +26,9 @@ $lang = [
     'Hot Games' => '人気のゲーム',
     'Hot Apps' => '人気のアプリ',
     'Latest Update Games' => '最新のアップデートゲーム',
-    'Latest Update Apps' => '最新のアップデートアプリ'
+    'Latest Update Apps' => '最新のアップデートアプリ',
+    'Oops! This Page Could Not Be Found' => 'おっとっと！ このページは見つかりませんでした',
+    'Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable' => '申し訳ありませんが、お探しのページは存在しないため、削除されました。 名前が変更されたか、一時的に利用できなくなりました',
+    'Go To Homepage' => 'ホームページへ',
+    'No results found' => '結果が見つかりません'
 ];

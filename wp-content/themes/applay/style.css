@@ -6298,10 +6298,6 @@ ul.products li.product .product-title {
 }
 
 @media (min-width: 1155px) {
-  .widget-title:before {
-    left: 74.5%;
-  }
-
   .nav_submenu::before {
     content: " ";
     border-left: 10px solid transparent;
@@ -6315,4 +6311,9 @@ ul.products li.product .product-title {
 
 iframe {
   width: 100% !important;
+}
+
+.icon-center-loop-none {
+  display: flex;
+  justify-content: center;
 }
