@@ -45,15 +45,11 @@ error_reporting(E_ALL);
 
 */
 
-define('WP_ALLOW_REPAIR', true);
-define( 'WP_DEBUG', true );
+define('WP_DEBUG', false);
 define('FORCE_SSL', false);
 define('FORCE_SSL_ADMIN', false);
 define('WP_SITEURL','http://localhost/apkafe/');
 define('WP_HOME','http://localhost/apkafe/');
-
- // Added by WP Rocket
-define('FS_METHOD', 'direct');
 
 error_reporting(1);
 @ini_set('display_errors', 1);

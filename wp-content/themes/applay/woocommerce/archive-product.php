@@ -500,7 +500,37 @@ require $listLang;
 <?php } else { ?>
 	<div class="container">
 		<?php
-		echo wc_get_product_category_list(get_the_ID(), ' » ', '<p id="breadcrumbs"><span><span><a href="/">Home</a> » ', '</span>' . ' » ' . '<span class="breadcrumb_last" aria-current="page">' . get_the_title(get_the_ID()) . '</span></span></p>');
+		function get_all_terms($ter, $breadcrumb, $listTermShift)
+		{
+			$terms_parent = get_term($ter->parent, $ter->taxonomy);
+			$listTermShift[] = $terms_parent;
+			if ($terms_parent->parent == 0) {
+				$listTermShift = array_reverse($listTermShift);
+				foreach ($listTermShift as $key => $term) {
+					if ($key == (count($listTermShift) - 1)) {
+						$breadcrumb .= '<span class="breadcrumb_last" aria-current="page">' . $term->name . '</span></span></span></p>';
+					} else {
+						$breadcrumb .= '<a href="' . get_term_link($term->slug, $term->taxonomy) . '" rel="tag">' . $term->name . '</a> » ';
+					}
+				}
+
+				echo $breadcrumb;
+			} else {
+				get_all_categories($cate_parent, $breadcrumb, $listCategoryShift);
+			}
+		}
+
+		$term = get_queried_object();
+		$breadcrumb = '<p id="breadcrumbs"><span><span><a href="/">Home</a> » ';
+
+		if ($term->parent == 0) {
+			$breadcrumb .= '<span class="breadcrumb_last" aria-current="page">' . $term->name . '</span></span></span></p>';
+
+			echo $breadcrumb;
+		} else {
+			$listTermShift[] = $term;
+			get_all_terms($term, $breadcrumb, $listTermShift);
+		}
 		?>
 		<?php if ($content_padding != 'off') { ?>
 			<div class="content-pad-4x">
