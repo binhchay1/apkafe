@@ -33,7 +33,9 @@ get_header();
 		$categories = get_the_category(get_the_ID());
 		$breadcrumb = '<p id="breadcrumbs"><span><span><a href="/">Home</a> » ';
 		if ($categories[0]->category_parent == 0) {
-			$breadcrumb = $breadcrumb . '<a href="' . get_category_link($categories[0]) . '" rel="tag">' . $categories[0]->name . '</a></span> » <span class="breadcrumb_last" aria-current="page">' . get_the_title(get_the_ID()) . '</span>';
+			$breadcrumb = $breadcrumb . '<a href="' . get_category_link($categories[0]) . '" rel="tag">' . $categories[0]->name . '</a></span> » <span class="breadcrumb_last" aria-current="page">' . get_the_title(get_the_ID()) . '</span></span></span></p>';
+
+			echo $breadcrumb;
 		} else {
 			$listCategoryShift[] = $categories[0];
 			get_all_categories($categories[0], $breadcrumb, $listCategoryShift);
