@@ -32,8 +32,39 @@ if (!is_page_template('page-templates/front-page.php') && $ct_hd == '') {
     if (is_singular('app_portfolio') || is_singular('product')) { ?>
         <div class="container">
             <?php
+            function get_all_categories($cate, $breadcrumb, $listCategoryShift)
+            {
+                $cate_parent = get_term($cate->parent, $cate->taxonomy);
+                $listCategoryShift[] = $cate_parent;
+                if ($cate_parent->parent == 0) {
 
-            echo wc_get_product_category_list(get_the_ID(), ' » ', '<p id="breadcrumbs"><span><span><a href="/">Home</a> » ', '</span>' . ' » ' . '<span class="breadcrumb_last" aria-current="page">' . get_the_title(get_the_ID()) . '</span></span></p>');
+                    $listCategoryShift = array_reverse($listCategoryShift);
+                    foreach ($listCategoryShift as $key => $category) {
+                        if ($key == (count($listCategoryShift) - 1)) {
+                            $breadcrumb .= '<a href="' . get_category_link($category) . '" rel="tag">' . $category->name . '</a></span> » <span class="breadcrumb_last" aria-current="page">' . get_the_title(get_the_ID()) . '</span>';
+                        } else {
+                            $breadcrumb .= '<a href="' . get_category_link($category) . '" rel="tag">' . $category->name . '</a> » ';
+                        }
+                    }
+
+                    echo $breadcrumb;
+                } else {
+                    get_all_categories($cate_parent, $breadcrumb, $listCategoryShift);
+                }
+            }
+
+            global $product;
+
+            $categories = get_the_terms($product->id, 'product_cat');
+            $breadcrumb = '<p id="breadcrumbs"><span><span><a href="/">Home</a> » ';
+            if ($categories[0]->parent == 0) {
+                $breadcrumb = $breadcrumb . '<a href="' . get_category_link($categories[0]) . '" rel="tag">' . $categories[0]->name . '</a></span> » <span class="breadcrumb_last" aria-current="page">' . get_the_title(get_the_ID()) . '</span></span></span></p>';
+
+                echo $breadcrumb;
+            } else {
+                $listCategoryShift[] = $categories[0];
+                get_all_categories($categories[0], $breadcrumb, $listCategoryShift);
+            }
             ?>
         </div>
 

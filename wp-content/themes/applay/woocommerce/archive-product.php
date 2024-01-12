@@ -233,7 +233,7 @@ require $listLang;
 								</div>
 							</span>
 						</span>
-						<span class="text-btn" title="Search APK"><input class="si" type="submit" value="" dt-eid="search_button" dt-params="small_position=1" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"></span>
+						<span class="text-btn d-flex-justify-center" title="Search APK"><button type="submit" style="background: none; border: none"><i class="fa fa-search"></i></button></span>
 					</form>
 					<div class="trending-title"><?php echo $lang['Trending Searches'] ?></div>
 					<div class="trending-content">
@@ -442,8 +442,12 @@ require $listLang;
 							<div class="tt-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;">
 								<div class="tt-dataset tt-dataset-1"></div>
 							</div>
-						</span></span><span class="text-btn" title="Search APK"><i class="fa fa-search" style="margin: 10px 20px; font-size: 15px;"></i><input class="si" type="submit" value="">
-
+						</span>
+					</span>
+					<span class="text-btn d-flex-justify-center" title="Search APK">
+						<button type="submit" style="background: none; border: none;">
+							<i class="fa fa-search"></i>
+						</button>
 					</span>
 				</form>
 				<div class="trending-title"><?php echo $lang['Trending Searches'] ?></div>
@@ -467,6 +471,13 @@ require $listLang;
 		var tranferCurrent = -880;
 		var dotsID = 'dots-1';
 
+		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+			var wMobile = window.innerWidth;
+			var wImageMobile = wMobile - 5;
+			tranferCurrent = -(wMobile + 2);
+			jQuery(".banner-item").attr('style', 'width: ' + wImageMobile + 'px !important');
+		}
+
 		function slideMainAuto() {
 			let split = dotsID.split('-');
 			let currentDotsId = split[1];
@@ -484,14 +495,27 @@ require $listLang;
 			jQuery(idElementDotsNext).addClass("on");
 			jQuery(idElementDotsPres).removeClass("on");
 
-			if (tranferCurrent == 0) {
-				tranferCurrent = -880;
-			} else {
-				tranferCurrent = tranferCurrent + tranferCurrent;
-			}
+			if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+				var wMobile = window.innerWidth;
+				if (tranferCurrent == 0) {
+					tranferCurrent = -(wMobile + 2);
+				} else {
+					tranferCurrent = tranferCurrent + tranferCurrent;
+				}
 
-			if (parseInt(tranferCurrent) <= (-3520)) {
-				tranferCurrent = 0;
+				if (parseInt(tranferCurrent) <= -(wMobile * 4)) {
+					tranferCurrent = 0;
+				}
+			} else {
+				if (tranferCurrent == 0) {
+					tranferCurrent = -880;
+				} else {
+					tranferCurrent = tranferCurrent + tranferCurrent;
+				}
+
+				if (parseInt(tranferCurrent) <= (-3520)) {
+					tranferCurrent = 0;
+				}
 			}
 		}
 

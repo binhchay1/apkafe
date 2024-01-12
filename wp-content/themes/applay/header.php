@@ -134,7 +134,7 @@ require $listLang;
                         </div>
                     </div>
                     <button type="button" class="menu_btn" onclick="openMenu()">
-                        <i class="icon icon_menu"></i>
+                        <i class="fa fa-bars"></i>
                     </button>
                     <a class="search_btn" title="search" href="#search" id="btn-search-m">
                         <i class="fa fa-search"></i>

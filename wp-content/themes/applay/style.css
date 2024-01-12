@@ -42,7 +42,6 @@
   height: 45px;
   border: none;
   background: 0 0;
-  color: #24cd77;
   opacity: .8;
   position: absolute;
   left: 0;
@@ -146,7 +145,6 @@
 }
 
 .nav_container .icon {
-  background: url("https://static.apkpure.com/www/static/imgs/svg_icon.svg") no-repeat;
   width: 24px;
   height: 24px
 }
@@ -196,7 +194,6 @@
 
 .so .search-btn .search-btn-icon {
   display: inline-block;
-  background: url("https://static.apkpure.com/www/static/imgs/svg_icon.svg") no-repeat;
   width: 24px;
   height: 24px;
   background-position: 0px -24px;
@@ -240,7 +237,6 @@
   display: inline-block;
   width: 20px;
   height: 20px;
-  background: url("https://static.apkpure.com/www/static/imgs/svg_icon.svg") no-repeat;
   background-position: 0 -320px;
   background-size: 200px;
   vertical-align: middle
@@ -268,7 +264,7 @@
   vertical-align: middle;
   width: 20px;
   height: 20px;
-  background: url("https://static.apkpure.com/www/static/imgs/svg_icon.svg") no-repeat;
+
   background-position: 0 -340px;
   background-size: 200px
 }
@@ -295,7 +291,6 @@
   vertical-align: middle;
   width: 16px;
   height: 16px;
-  background: url("https://static.apkpure.com/www/static/imgs/svg_icon.svg") no-repeat;
   background-position: -20px -40px;
   background-size: 200px
 }
@@ -475,7 +470,6 @@
 }
 
 .nav_new .menu-item-pwa .menu-icon-pwa {
-  background-image: url("https://static.apkpure.com/mobile/static/imgs/home_screen.svg");
   display: inline-block;
   background-size: 24px;
   height: 24px;
@@ -753,16 +747,13 @@
   width: 12px;
   top: 1px;
   position: relative;
-  background: url("https://static.apkpure.com/www/static/imgs/stars.svg") no-repeat left center
 }
 
 .nav_new .search .search-package .package-info .info .info-intro i.user {
-  background-image: url("https://static.apkpure.com/www/static/imgs/comment_user.png");
   background-size: 10px
 }
 
 .nav_new .search .search-package .package-info .info .info-intro i.download {
-  background-image: url("https://static.apkpure.com/www/static/imgs/download-icon.png");
   background-size: contain
 }
 
@@ -782,7 +773,6 @@
   vertical-align: middle;
   width: 16px;
   height: 16px;
-  background: url("https://static.apkpure.com/www/static/imgs/svg_icon.svg") no-repeat;
   background-position: -20px -40px;
   background-size: 200px;
   cursor: pointer;
@@ -986,29 +976,16 @@
   width: 12px;
   height: 12px;
   background-size: 12px;
-  background-image: url("https://static.apkpure.com/www/static/imgs/stars.svg")
 }
 
 .tt-dataset .info .info-intro .score[data-score="0.0"] span {
   color: #A6A6A6
 }
 
-.tt-dataset .info .info-intro .score[data-score="0.0"]::before {
-  background-image: url("https://static.apkpure.com/www/static/imgs/stars_fill.svg")
-}
-
 .tt-dataset .info .info-intro .install-total {
   font-size: 12px;
   line-height: 16px;
   color: #A6A6A6
-}
-
-.tt-dataset .info .info-intro .install-total::before {
-  background-image: url("https://static.apkpure.com/www/static/imgs/icon_download.svg")
-}
-
-.tt-dataset .info .info-intro .score-total::before {
-  background-image: url("https://static.apkpure.com/www/static/imgs/icon_comment_count.svg")
 }
 
 @media (min-width: 1155px) {
@@ -1372,7 +1349,6 @@
     vertical-align: middle;
     width: 20px;
     height: 20px;
-    background: url("https://static.apkpure.com/www/static/imgs/svg_icon.svg") no-repeat;
     background-position: 0 -340px;
     background-size: 200px
   }
@@ -1398,7 +1374,6 @@
     vertical-align: middle;
     width: 16px;
     height: 16px;
-    background: url("https://static.apkpure.com/www/static/imgs/svg_icon.svg") no-repeat;
     background-position: -20px -40px;
     background-size: 200px
   }
@@ -1594,7 +1569,6 @@
   display: inline-block;
   width: 25px;
   height: 25px;
-  background: url("https://static.apkpure.com/www/static/imgs/svg_icon.svg") no-repeat;
   background-position: 0 -264px
 }
 
@@ -1724,7 +1698,6 @@
   -moz-background-size: 100%;
   -o-background-size: 100%;
   background-size: 100%;
-  background: url("https://static.apkpure.com/www/static/imgs/svg_icon.svg") no-repeat;
   background-position: 0 -240px
 }
 
@@ -2112,13 +2085,11 @@ template {
 .float-shortcut-button__icon {
   width: 40px;
   height: 40px;
-  background: url("https://static.apkpure.com/mobile/static/imgs/float-shortcut.svg") center no-repeat;
   animation: bounce_icon 2s cubic-bezier(0.65, 0, 0.35, 1) 0.5s both
 }
 
 .share-shortcut .icon {
   background-color: #24CD77;
-  background-image: url("https://static.apkpure.com/www/static/imgs/shortcut.svg")
 }
 
 .share-counter {
@@ -2390,16 +2361,8 @@ html[lang="ur"] {
   background: #00A6ED
 }
 
-.float-shortcut-button .icon {
-  background: url("https://static.apkpure.com/mobile/static/imgs/float-shortcut.svg") center no-repeat
-}
-
 .float-request-notification-permission-button {
   background: #FDC14C
-}
-
-.float-request-notification-permission-button .icon {
-  background: url("https://static.apkpure.com/mobile/static/imgs/icon-bell-float.svg") center no-repeat
 }
 
 body,
@@ -2531,7 +2494,6 @@ body.compensate-for-scrollbar {
   content: "";
   width: 12px;
   height: 12px;
-  background: url("https://static.apkpure.com/mobile/static/imgs/icon-close.svg")
 }
 
 @keyframes pwa-dialog-show {
@@ -2880,7 +2842,6 @@ html[dir="rtl"] .index_r_s .text-box input.tt-hint {
 
 .index_r_s .search-package .package-info .info .info-intro i.user,
 .index_r_s .search-package .package-info .info .info-intro i.download {
-  background: url("https://static.apkpure.com/www/static/imgs/comment_user.png") no-repeat left center;
   display: inline-block;
   height: 12px;
   background-size: 10px;
@@ -2890,7 +2851,6 @@ html[dir="rtl"] .index_r_s .text-box input.tt-hint {
 }
 
 .index_r_s .search-package .package-info .info .info-intro i.download {
-  background-image: url("https://static.apkpure.com/www/static/imgs/download-icon.png");
   background-size: contain
 }
 
@@ -3207,7 +3167,6 @@ body .nav_new .search .search-mask span {
   width: 36px;
   height: 36px;
   margin: 0 16px;
-  background-image: url(https://static.apkpure.com/www/static/imgs/icon-slide-banner-prev.svg);
   position: absolute;
   top: 50%;
   left: 0;
@@ -3560,7 +3519,6 @@ html[dir="rtl"] .slide-banner .info {
   height: 34px;
   vertical-align: bottom;
   border: none;
-  background: url("https://static.apkpure.com/www/static/imgs/icon-search-white.svg") no-repeat center/24px
 }
 
 .search-box .trending-title {
@@ -3602,7 +3560,6 @@ html[dir="rtl"] .slide-banner .info {
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: url("https://static.apkpure.com/www/static/imgs/search_hot.png");
   vertical-align: middle;
   margin-right: 4px
 }
@@ -3751,7 +3708,6 @@ html[dir="rtl"] .search-box .search-package .package-info .info .info-intro>span
     display: inline-block;
     width: 10px;
     height: 10px;
-    background: url("https://static.apkpure.com/www/static/imgs/icon-apk-list-star.svg");
     margin: 0 4px
   }
 
@@ -3787,7 +3743,6 @@ html[dir="rtl"] .search-box .search-package .package-info .info .info-intro>span
 
   .aegon .shortcut::before {
     content: "";
-    background: url(https://static.apkpure.com/www/static/imgs/shortcut-blue.svg);
     width: 15px;
     height: 14px;
     display: inline-block;
@@ -3828,44 +3783,20 @@ html[dir="rtl"] .search-box .search-package .package-info .info .info-intro>span
     color: #2AABEE
   }
 
-  .aegon .social-network .telegram::before {
-    background-image: url(https://static.apkpure.com/www/static/imgs/icon-telegram.svg)
-  }
-
-  .aegon .social-network .fb::before {
-    background-image: url(https://static.apkpure.com/www/static/imgs/icon-facebook.svg)
-  }
-
   .aegon .social-network .tw {
     color: #00A6ED
-  }
-
-  .aegon .social-network .tw::before {
-    background-image: url(https://static.apkpure.com/www/static/imgs/icon-twitter-v1.svg)
   }
 
   .aegon .social-network .glp {
     color: #DD1829
   }
 
-  .aegon .social-network .glp::before {
-    background-image: url(https://static.apkpure.com/www/static/imgs/icon-youtube.svg)
-  }
-
   .aegon .social-network .vk {
     color: #0077FF
   }
 
-  .aegon .social-network .vk::before {
-    background-image: url(https://static.apkpure.com/www/static/imgs/icon-vk.svg)
-  }
-
   .aegon .social-network .ok_ru {
     color: #F6822A
-  }
-
-  .aegon .social-network .ok_ru::before {
-    background-image: url(https://static.apkpure.com/www/static/imgs/icon-ok-ru.svg)
   }
 }
 
@@ -4158,16 +4089,11 @@ html[dir="rtl"] .apk-list-1001.enable-wrap a:last-child {
   display: inline-block;
   width: 10px;
   height: 10px;
-  background: url("https://static.apkpure.com/www/static/imgs/icon-apk-list-star.svg");
   margin-right: 4px
 }
 
 .apk-list-1002 .score.n-stars {
   color: transparent
-}
-
-.apk-list-1002 .score.n-stars::before {
-  background: url("https://static.apkpure.com/www/static/imgs/icon-apk-list-star-grey.svg")
 }
 
 @media screen and (min-width: 996px) {
@@ -4267,16 +4193,11 @@ html[dir="rtl"] .apk-list-1002 a .score::before {
   display: inline-block;
   width: 10px;
   height: 10px;
-  background: url("https://static.apkpure.com/www/static/imgs/icon-apk-list-star.svg");
   margin-inline-end: 4px
 }
 
 .apk-list-1003 .score.n-stars {
   color: transparent
-}
-
-.apk-list-1003 .score.n-stars::before {
-  background: url("https://static.apkpure.com/www/static/imgs/icon-apk-list-star-grey.svg")
 }
 
 @media screen and (min-width: 996px) {
@@ -4807,7 +4728,6 @@ html[dir="rtl"] .apk-list-1005 {
   display: inline-block;
   width: 10px;
   height: 10px;
-  background: url("https://static.apkpure.com/www/static/imgs/icon_download.svg");
   margin-right: 4px;
   margin-top: 4px
 }
@@ -5976,7 +5896,7 @@ h6 {
 }
 
 .search-box-m {
-  width: 380px;
+  width: 100%;
   padding: 12px 16px;
   background-color: white;
   margin-bottom: 8px;
@@ -6314,6 +6234,24 @@ iframe {
 }
 
 .icon-center-loop-none {
+  display: flex;
+  justify-content: center;
+}
+
+.formsearch {
+  display: flex;
+}
+
+.d-flex-justify-center {
+  display: flex !important;
+  justify-content: center;
+}
+
+.fa-navicon:before, .fa-reorder:before, .fa-bars:before {
+  font-size: 20px !important;
+}
+
+.wmpl-lang .menu-item-depth-0 {
   display: flex;
   justify-content: center;
 }
