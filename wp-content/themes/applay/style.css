@@ -6247,11 +6247,30 @@ iframe {
   justify-content: center;
 }
 
-.fa-navicon:before, .fa-reorder:before, .fa-bars:before {
+.fa-navicon:before,
+.fa-reorder:before,
+.fa-bars:before {
   font-size: 20px !important;
 }
 
 .wmpl-lang .menu-item-depth-0 {
   display: flex;
   justify-content: center;
+}
+
+.woocommerce .star-rating span:before {
+  display: none !important;
+}
+
+.woocommerce .star-rating:before {
+  display: none !important;
+}
+
+.woocommerce .star-rating {
+  position: inherit !important;
+}
+
+.woocommerce .star-rating span {
+  float: none !important;
+  position: inherit !important;
 }
