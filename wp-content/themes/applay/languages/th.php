@@ -30,5 +30,6 @@ $lang = [
     'Oops! This Page Could Not Be Found' => 'อ๊ะ! ไม่พบหน้านี้',
     'Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable' => 'ขออภัย หน้าที่คุณกำลังมองหาไม่มีอยู่ ถูกลบออกแล้ว เปลี่ยนชื่อหรือไม่สามารถใช้งานได้ชั่วคราว',
     'Go To Homepage' => 'ไปที่หน้าแรก',
-    'No results found' => 'ไม่พบผลลัพธ์'
+    'No results found' => 'ไม่พบผลลัพธ์',
+    'Disclamer' => 'ข้อสงวนสิทธิ์',
 ];

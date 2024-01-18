@@ -6274,3 +6274,13 @@ iframe {
   float: none !important;
   position: inherit !important;
 }
+
+.wp-pagenavi {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.wp-pagenavi {
+  clear: both;
+
+}

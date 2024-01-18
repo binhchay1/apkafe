@@ -75,6 +75,7 @@ require $listLang;
                     <li><a href="/about-us/"><?php echo $lang['About Us'] ?></a></li>
                     <li><a href="/privacy-policy/"><?php echo $lang['Privacy Policy'] ?></a></li>
                     <li><a href="/terms-of-use/"><?php echo $lang['Term of use'] ?></a></li>
+                    <li><a href="/disclaimer/"><?php echo $lang['Disclamer'] ?></a></li>
                 </ul>
             </div>
             <div class="item">

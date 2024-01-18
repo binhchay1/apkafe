@@ -30,5 +30,6 @@ $lang = [
     'Oops! This Page Could Not Be Found' => 'おっとっと！ このページは見つかりませんでした',
     'Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable' => '申し訳ありませんが、お探しのページは存在しないため、削除されました。 名前が変更されたか、一時的に利用できなくなりました',
     'Go To Homepage' => 'ホームページへ',
-    'No results found' => '結果が見つかりません'
+    'No results found' => '結果が見つかりません',
+    'Disclamer' => '免責事項',
 ];
