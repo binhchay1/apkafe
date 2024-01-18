@@ -6282,5 +6282,64 @@ iframe {
 
 .wp-pagenavi {
   clear: both;
+}
 
+/* Center the pagination, add spacing, and clear it */
+.wp-pagenavi {
+  text-align: center;
+  border: 0;
+  clear: both;
+}
+
+/* Add a border */
+.wp-pagenavi span,
+.wp-pagenavi a,
+.wp-pagenavi :last-child {
+  padding: 6px 12px;
+  margin: 0;
+  border: 2px solid #e9eff5 !important;
+}
+
+.wp-pagenavi span,
+.wp-pagenavi a {
+  border-right: none !important;
+}
+
+/* Style the numbers */
+.wp-pagenavi span,
+.wp-pagenavi a {
+  font-weight: bold !important;
+  color: #000 !important;
+  font-size: 18px !important;
+  line-height: 2em !important;
+}
+
+/* Style the current and hovered page link */
+.wp-pagenavi span.current,
+.wp-pagenavi a:hover {
+  color: #000 !important;
+  background-color: #e9eff5 !important;
+}
+
+/* Style the page count text */
+.wp-pagenavi :first-child {
+  color: #666 !important;
+}
+
+/* Add before and after text to link arrows */
+.wp-pagenavi .nextpostslink:before {
+  content: 'Next ';
+}
+
+.wp-pagenavi .previouspostslink:after {
+  content: ' Prev';
+}
+
+nav.woocommerce-pagination {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  overflow: visible !important
 }
