@@ -1,5 +1,5 @@
 <?php
-define( 'WP_CACHE', true ); // Added by WP Rocket
+define( 'WP_CACHE', false ); // Added by WP Rocket
 
 
 /** Enable W3 Total Cache */
@@ -47,7 +47,7 @@ error_reporting(E_ALL);
 
 */
 
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
 define('FORCE_SSL', false);
 define('FORCE_SSL_ADMIN', false);
 define('WP_SITEURL','http://localhost/apkafe/');

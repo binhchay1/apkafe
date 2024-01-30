@@ -41,6 +41,9 @@ get_header();
 			get_all_categories($categories[0], $breadcrumb, $listCategoryShift);
 		}
 		?>
+		<?php $meta_key = get_post_meta(get_the_ID(), 'custom_heading');
+		echo '<h1>' . $meta_key[0] . '</h1>'
+		?>
 		<?php if ($content_padding != 'off') { ?>
 			<div class="content-pad-4x">
 			<?php } ?>
