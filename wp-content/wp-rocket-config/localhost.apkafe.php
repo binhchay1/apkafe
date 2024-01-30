@@ -1,16 +1,14 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
-$rocket_cookie_hash = '61e4bb735a444e187016eb18a93b04c4';
-$rocket_logged_in_cookie = 'wordpress_logged_in_61e4bb735a444e187016eb18a93b04c4';
+$rocket_cookie_hash = '259ac5d219e79f2ab19848ae3788c572';
+$rocket_logged_in_cookie = 'wordpress_logged_in_259ac5d219e79f2ab19848ae3788c572';
 $rocket_cache_mobile_files_tablet = 'desktop';
 $rocket_cache_mobile = 1;
-$rocket_cache_reject_uri = '/(.+/)?feed/?.+/?|/(?:.+/)?embed/|/wc-api/v(.*)|/(index\.php/)?wp\-json(/.*|$)';
+$rocket_cache_reject_uri = '/apkafe(/(.+/)?feed/?.+/?|/(?:.+/)?embed/|/hello-world/(.*)|/wc-api/v(.*)|/(index\.php/)?wp\-json(/.*|$))';
 $rocket_cache_reject_cookies = 'wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_';
 $rocket_cache_reject_ua = 'facebookexternalhit';
-$rocket_cache_query_strings = array(
-  0 => 'q',
-);
+$rocket_cache_query_strings = array();
 $rocket_cache_webp = 1;
 $rocket_secret_cache_key = '5e66770955d6a183181260';
 $rocket_cache_ssl = 1;

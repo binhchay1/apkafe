@@ -1,4 +1,6 @@
 <?php
+define( 'WP_CACHE', true ); // Added by WP Rocket
+
 
 /** Enable W3 Total Cache */
  // Added by WP Rocket

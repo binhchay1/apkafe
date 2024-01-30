@@ -12,6 +12,7 @@
 $url = home_url();
 $listLang = get_template_directory() . '/languages/en.php';
 $pos = strpos($url, '/ja');
+
 if ($pos > 0) {
     $listLang = get_template_directory() . '/languages/ja.php';
 }
@@ -62,12 +63,24 @@ require $listLang;
         <div id="wrap">
             <header id="header" data-search-sug-download="1">
                 <div class="nav_container">
-                    <h1 class="logo">
+                    <?php $paths = explode('/', $_SERVER['REQUEST_URI']);
+                    foreach ($paths as $path) {
+                        if ($path == 'product-category' || $path == 'category') { ?>
+                            <h1 style="font-size: 14px;"><?php wp_title() ?></h1>
+                    <?php  }
+                    } ?>
+                    <?php if (is_front_page() || is_home()) { ?>
+                        <h1 style="font-size: 14px;"><?php wp_title() ?></h1>
+                    <?php } ?>
+                </div>
+
+                <div class="nav_container">
+                    <div class="logo">
                         <a title="Apkafe" href="/">
                             <img alt="Apkafe" src="/wp-content/uploads/2019/04/fav_apkafe-2.png" height="65" width="47" class="p_logo" style="height: 65px;">
                             <img alt="Logo" src="/wp-content/uploads/2019/04/fav_apkafe-2.png" height="65" width="30" class="m_logo" style="height: 40px;">
                         </a>
-                    </h1>
+                    </div>
                     <div class="shadow" id="shadow" onclick="closeMenu()" style="display: none;"></div>
                     <div class="nav_new" id="nav_new">
                         <div class="item close_item">

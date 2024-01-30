@@ -120,6 +120,7 @@ $upload_path = $uploads['baseurl'];
 $url = home_url();
 $listLang = get_template_directory() . '/languages/en.php';
 $pos = strpos($url, '/ja');
+
 if ($pos > 0) {
 	$listLang = get_template_directory() . '/languages/ja.php';
 }

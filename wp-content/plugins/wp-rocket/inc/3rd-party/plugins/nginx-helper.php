@@ -64,6 +64,8 @@ if ( isset( $nginx_helper ) ) :
 
 		if ( 0 !== strpos( $referer, 'http' ) ) {
 			$parse_url = get_rocket_parse_url( untrailingslashit( home_url() ) );
+			echo'<pre>';var_dump($parse_url);echo'</pre>';
+			
 			$referer   = $parse_url['scheme'] . '://' . $parse_url['host'] . $referer;
 		}
 
