@@ -4,7 +4,7 @@
   Plugin URI: https://wordpress.org/plugins/wp-file-manager
   Description: Manage your WP files.
   Author: mndpsingh287
-  Version: 7.2.1
+  Version: 7.2.2
   Author URI: https://profiles.wordpress.org/mndpsingh287
   License: GPLv2
  **/
@@ -16,7 +16,7 @@ if (!class_exists('mk_file_folder_manager')):
     class mk_file_folder_manager
     {
         protected $SERVER = 'https://searchpro.ai/api/plugindata/api.php';
-        var $ver = '7.2.1';
+        var $ver = '7.2.2';
         /* Auto Load Hooks */
         public function __construct()
         {
@@ -48,7 +48,7 @@ if (!class_exists('mk_file_folder_manager')):
             add_action('wp_ajax_mk_file_manager_single_backup_logs', array(&$this, 'mk_file_manager_single_backup_logs_callback'));
             add_action('wp_ajax_mk_file_manager_single_backup_restore', array(&$this, 'mk_file_manager_single_backup_restore_callback'));
             add_action( 'rest_api_init', function () {
-                if(is_user_logged_in() && current_user_can('manage_options')){
+            if(current_user_can('manage_options') || (is_multisite() && current_user_can( 'manage_network' ))){
                     register_rest_route( 'v1', '/fm/backup/(?P<backup_id>[a-zA-Z0-9-=]+)/(?P<type>[a-zA-Z0-9-=]+)/(?P<key>[a-zA-Z0-9-=]+)', array(
                         'methods' => 'GET',
                         'callback' => array( $this, 'fm_download_backup' ),
@@ -485,7 +485,7 @@ if (!class_exists('mk_file_folder_manager')):
             global $wpdb;
             $fmdb = $wpdb->prefix.'wpfm_backup';
             $date = date('Y-m-d H:i:s');
-            $file_number = 'backup_'.date('Y_m_d_H_i_s-').rand(0,9999);
+            $file_number = 'backup_'.date('Y_m_d_H_i_s-').bin2hex(openssl_random_pseudo_bytes(4));
             $nonce = sanitize_text_field($_POST['nonce']);
             $database = sanitize_text_field($_POST['database']);
             $files = sanitize_text_field($_POST['files']);
