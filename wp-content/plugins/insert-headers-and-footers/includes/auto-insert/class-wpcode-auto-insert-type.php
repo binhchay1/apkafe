@@ -17,6 +17,13 @@ abstract class WPCode_Auto_Insert_Type {
 	public $label;
 
 	/**
+	 * A unique name for this type.
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
 	 * An array of locations.
 	 * This is an array of unique locations where snippets can be executed in the form
 	 * of key => label where the keys should be unique for all the options across
@@ -240,7 +247,7 @@ abstract class WPCode_Auto_Insert_Type {
 
 		$this->snippets = array();
 		$args           = array(
-			'post_type'      => 'wpcode',
+			'post_type'      => wpcode_get_post_type(),
 			'posts_per_page' => - 1,
 			'post_status'    => 'publish',
 			'cache_results'  => false, // We don't want to cache this query ever as it should only run when snippets are preloaded in case of an error it will provide false values if cached.
@@ -254,7 +261,7 @@ abstract class WPCode_Auto_Insert_Type {
 				continue;
 			}
 			$location_key                      = $snippet_locations[0];
-			$this->snippets[ $location_key ][] = new WPCode_Snippet( $snippet );
+			$this->snippets[ $location_key ][] = wpcode_get_snippet( $snippet );
 		}
 	}
 

@@ -15,14 +15,14 @@ class WPCode_Snippet_Cache {
 	 *
 	 * @var string
 	 */
-	private $option_name = 'wpcode_snippets';
+	protected $option_name = 'wpcode_snippets';
 
 	/**
 	 * The snippets stored in the db.
 	 *
 	 * @var array
 	 */
-	private $snippets;
+	protected $snippets;
 
 	/**
 	 * Get the snippets data from the cache.
@@ -31,7 +31,7 @@ class WPCode_Snippet_Cache {
 	 */
 	public function get_cached_snippets() {
 		if ( ! isset( $this->snippets ) ) {
-			$all_snippets = (array) get_option( $this->option_name, array() );
+			$all_snippets = $this->get_option();
 			foreach ( $all_snippets as $location => $snippets ) {
 				if ( empty( $snippets ) ) {
 					continue;
@@ -41,7 +41,7 @@ class WPCode_Snippet_Cache {
 				}
 				// Load minimal snippet data from array.
 				foreach ( $snippets as $key => $snippet ) {
-					$all_snippets[ $location ][ $key ] = new WPCode_Snippet( $snippet );
+					$all_snippets[ $location ][ $key ] = $this->load_snippet( $snippet );
 				}
 
 				usort( $all_snippets[ $location ], array( $this, 'priority_order' ) );
@@ -51,6 +51,17 @@ class WPCode_Snippet_Cache {
 		}
 
 		return $this->snippets;
+	}
+
+	/**
+	 * Load a snippet by id, WP_Post or array.
+	 *
+	 * @param array|int|WP_Post $snippet_data Load a snippet by id, WP_Post or array.
+	 *
+	 * @return WPCode_Snippet
+	 */
+	public function load_snippet( $snippet_data ) {
+		return new WPCode_Snippet( $snippet_data );
 	}
 
 	/**
@@ -118,7 +129,27 @@ class WPCode_Snippet_Cache {
 			$data_for_cache[ $location ] = $this->prepare_snippets_for_caching( $snippets );
 		}
 
-		update_option( $this->option_name, $data_for_cache );
+		$this->update_option( $data_for_cache );
+	}
+
+	/**
+	 * Update the option with the new data.
+	 *
+	 * @param array $data_for_cache The data to store in the option.
+	 *
+	 * @return bool
+	 */
+	public function update_option( $data_for_cache ) {
+		return update_option( $this->option_name, $data_for_cache );
+	}
+
+	/**
+	 * Get the option from the db.
+	 *
+	 * @return array
+	 */
+	public function get_option() {
+		return (array) get_option( $this->option_name, array() );
 	}
 
 	/**

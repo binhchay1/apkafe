@@ -364,7 +364,7 @@ class WPCode_Library {
 
 		$snippet_data = apply_filters( 'wpcode_library_import_snippet_data', $snippet_data );
 
-		$snippet = new WPCode_Snippet( $snippet_data );
+		$snippet = wpcode_get_snippet( $snippet_data );
 
 		$snippet->save();
 
@@ -409,7 +409,7 @@ class WPCode_Library {
 			$snippets_from_library = array();
 
 			$args     = array(
-				'post_type'   => 'wpcode',
+				'post_type'   => wpcode_get_post_type(),
 				'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'     => $this->snippet_library_id_meta_key,

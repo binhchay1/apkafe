@@ -29,7 +29,7 @@ class Ht_Easy_Ga4 {
 	public static $htga4_rest_base_url = '';
 
 	public function __construct() {
-		self::$htga4_rest_base_url = $this->get_config('javascript_origins') . '/index.php?rest_route=/htga4/';
+		self::$htga4_rest_base_url = $this->get_config('redirect_uris') . '/index.php?rest_route=/htga4/';
 
 		// Load text domain.
 		add_action( 'init', array( $this, 'i18n' ) );
@@ -53,7 +53,27 @@ class Ht_Easy_Ga4 {
 			add_action( 'wp_head', array( $this, 'header_scirpt_render' ) );
 		}
 
-		// Generate access token for existing user.
+		// Save the code for after login
+		add_action('plugins_loaded', function(){
+			$htga4_email = !empty( $_GET['email']) ? sanitize_email( $_GET['email']) : '';
+			$htga4_sr_api_key = !empty( $_GET['key']) ? sanitize_text_field( $_GET['key']) : '';
+
+			if( $htga4_email && current_user_can('manage_options') ){
+				update_option('htga4_email', $htga4_email);
+				update_option('htga4_sr_api_key', $htga4_sr_api_key);
+
+				$admin_url 		= admin_url('admin.php?page=ht-easy-ga4-setting-page');
+				$forwarded_host = !empty($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : ''; // development mode
+
+				if( $forwarded_host == 'dominant-fleet-swan.ngrok-free.app' ){
+					$admin_url = 'https://dominant-fleet-swan.ngrok-free.app/wp-admin/admin.php?page=ht-easy-ga4-setting-page';
+				}
+
+				header("Location:$admin_url");
+			}
+		});
+
+		// Generate access token after expired
 		if ( get_option( 'htga4_email' ) && ! get_transient( 'htga4_access_token' ) && $this->get_data( 'page' ) == 'ht-easy-ga4-setting-page' ) {
 			$this->generate_access_token( get_option( 'htga4_email' ) );
 		}
@@ -61,9 +81,6 @@ class Ht_Easy_Ga4 {
 		// Action when login & logout.
 		add_action( 'admin_init', array( $this, 'login' ) );
 		add_action( 'admin_init', array( $this, 'logout' ) );
-
-		// For adding access token from the Auth plugin.
-		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 	}
 
 	public function i18n() {
@@ -99,13 +116,18 @@ class Ht_Easy_Ga4 {
 	public function login() {
 		$get_data = wp_unslash( $_GET );
 
-		if ( ! empty( $get_data['access_token'] ) && ! empty( $get_data['email'] ) ) {
+		if (  current_user_can('manage_options') && ! empty( $get_data['access_token'] ) && ! empty( $get_data['email'] ) ) {
 			set_transient( 'htga4_access_token', sanitize_text_field( $get_data['access_token'] ), ( MINUTE_IN_SECONDS * 58 ) );
 			update_option( 'htga4_email', sanitize_email( $get_data['email'] ) );
 		}
 	}
 
 	public function logout() {
+		// Previllage check.
+		if( !current_user_can('manage_options') ){
+			return;
+		}
+		
 		$get_data = wp_unslash( $_GET );
 
 		// Return if there is no email, so no post request is sent.
@@ -188,69 +210,7 @@ class Ht_Easy_Ga4 {
 		delete_transient( 'htga4_properties' );
 		delete_transient( 'htga4_data_streams' );
 
-		delete_option( 'htga4_client_secreet' );
-	}
-
-	public function register_routes() {
-		register_rest_route(
-			'htga4/v1',
-			'/add-access-token',
-			array(
-				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_access_token_callback' ),
-				'permission_callback' => function( WP_REST_Request $request ) {
-					if ( get_option( 'htga4_client_secreet' ) === $request->get_param( 'client_secreet' ) ) {
-						return true;
-					}
-
-					return false;
-				},
-			)
-		);
-
-		register_rest_route(
-			'htga4/v1',
-			'/add-client-secreet',
-			array(
-				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_client_secreet_callback' ),
-				'permission_callback' => '__return_true',
-			)
-		);
-	}
-
-	public function add_access_token_callback( $request ) {
-		if ( $request->has_param( 'email' ) && $request->has_param( 'access_token' ) ) {
-			if ( $request->get_param( 'email' ) && $request->get_param( 'access_token' ) ) {
-				update_option( 'htga4_email', $request->get_param( 'email' ) );
-				set_transient( 'htga4_access_token', $request->get_param( 'access_token' ), ( MINUTE_IN_SECONDS * 58 ) );
-
-				return new WP_REST_Response(
-					array(
-						'success'      => true,
-						'email'        => $request->get_param( 'email' ),
-						'access_token' => $request->get_param( 'access_token' ),
-					)
-				);
-			}
-		}
-
-		return new WP_Error( 'error', __( 'Email & Access token is empty.', 'htga4' ) );
-	}
-
-	public function add_client_secreet_callback( $request ) {
-		if ( $request->has_param( 'client_secreet' ) ) {
-			update_option( 'htga4_client_secreet', $request->get_param( 'client_secreet' ) );
-
-			return new WP_REST_Response(
-				array(
-					'success'        => true,
-					'client_secreet' => sanitize_text_field( $request->get_param( 'client_secreet' ) ),
-				)
-			);
-		}
-
-		return new WP_Error( 'error', __( 'Client secreet is empty.', 'htga4' ) );
+		delete_option( 'htga4_sr_api_key' );
 	}
 
 	/**

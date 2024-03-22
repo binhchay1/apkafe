@@ -82,6 +82,7 @@ class WPCode_Connect {
 
 		if ( ! is_wp_error( $active ) ) {
 
+			update_option( 'wpcode_install', 1 ); // Run install routines.
 			// Deactivate Lite.
 			$plugin = plugin_basename( WPCODE_FILE );
 

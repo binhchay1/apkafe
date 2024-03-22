@@ -298,7 +298,7 @@ abstract class WPCode_Admin_Bar_Info {
 				$location_info['snippets'][] = array(
 					'id'        => $snippet->get_id(),
 					'title'     => esc_html( $snippet->get_title() ),
-					'edit_link' => $this->get_snippet_edit_link( $snippet->get_id() )
+					'edit_link' => $this->get_snippet_edit_link( $snippet ),
 				);
 			}
 			$location_info['count'] = count( $snippets );
@@ -323,12 +323,12 @@ abstract class WPCode_Admin_Bar_Info {
 	/**
 	 * Get the snippet edit link based on the snippet id.
 	 *
-	 * @param int|string $snippet_id The snippet id.
+	 * @param WPCode_Snippet $snippet The snippet object.
 	 *
 	 * @return string
 	 */
-	public function get_snippet_edit_link( $snippet_id ) {
-		return admin_url( 'admin.php?page=wpcode-snippet-manager&snippet_id=' . $snippet_id );
+	public function get_snippet_edit_link( $snippet ) {
+		return apply_filters( 'wpcode_admin_bar_edit_snippet_link', admin_url( 'admin.php?page=wpcode-snippet-manager&snippet_id=' . $snippet->get_id() ), $snippet );
 	}
 
 	/**

@@ -35,6 +35,8 @@ class WPCode_Install {
 
 		// Use an action to have a single activation hook plugin-wide.
 		do_action( 'wpcode_plugin_activation' );
+
+		set_transient( 'wpcode_just_activated', class_exists( 'WPCode_License' ) ? 'pro' : 'lite', 60 );
 	}
 
 	/**

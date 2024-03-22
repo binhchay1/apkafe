@@ -406,7 +406,7 @@ class WPCode_Generator_Query extends WPCode_Generator_Type {
 							'repeater'    => 'tax_query',
 							'default'     => 'term_id',
 							'options'     => array(
-								'term_id'          => __( 'Term ID (default', 'insert-headers-and-footers' ),
+								'term_id'          => __( 'Term ID (default)', 'insert-headers-and-footers' ),
 								'name'             => __( 'Term Name', 'insert-headers-and-footers' ),
 								'slug'             => __( 'Term Slug', 'insert-headers-and-footers' ),
 								'term_taxonomy_id' => __( 'Term Taxonomy ID', 'insert-headers-and-footers' ),

@@ -1,26 +1,37 @@
-=== reSmush.it : the only free Image Optimizer & compress plugin  ===
-Contributors: resmushit
-Tags: image, optimizer, image optimization, resmush.it, smush, jpg, png, gif, optimization, compression, Compress, Images, Pictures, Reduce Image Size, Smush, Smush.it
+=== reSmush.it : The original free image compressor and optimizer plugin  ===
+Contributors: ShortPixel, resmushit
+Donate link: https://ko-fi.com/resmushit
+Tags: image, optimizer, image optimization, smush, free image optimization
 Requires at least: 4.0.0
-Tested up to: 6.3.2
-Stable tag: 0.4.13
+Tested up to: 6.4
+Requires PHP: 5.6
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The FREE Image Optimizer which will compress your pictures and improve your SEO & performances by using reSmush.it, the 20+ billion images API optimizer.
+reSmush.it is the FREE image compressor and optimizer plugin - use it to optimize your images and improve the SEO and performance of your website.
 
 == Description ==
+The reSmush.it Image Optimizer is a **free WordPress image compressor and optimizer** plugin which allows you to smush your website's images so that they load faster.
+The plugin is **super easy to use** (just 2 clicks!), supports JPG, PNG and GIF image formats and can be used to bulk optimize current (past) images and automatically optimize all new images.
+You can also adjust the optimization levels and exclude certain images.
+Since its launch more than 9 years ago, <a href="https://resmush.it" target="_blank">reSmush.it</a> has become the preferred choice for WordPress image optimization as it allows you to smush the images for free.
+reSmush.it image optimization service works on <a href="https://resmush.it/tools/" target="_blank">various CMS platforms</a> (WordPress, Drupal, Joomla, Magento, Prestashop, etc.) and is used by **more than 400,000 websites** worldwide.
+reSmush.it has earned the reputation of being the best free, fast and easy image optimization plugin out there :-)
 
-reSmush.it Image Optimizer allow to use **free Image optimization** based on [reSmush.it API](http://www.resmush.it/ "Image Optimization API, developped by Charles Bourgeaux"). reSmush.it provides image size reduction based on several advanced algorithms. The API accept JPG, PNG and GIF files up to **5MB**.
+**Features:**
+- Free bulk image compressor
+- Automatic image optimization on upload
+- Keep or remove EXIF data
+- Image quality selector
+- Exclude images from optimization
+- Powerful and free image optimizer API
+- Customizable settings for image quality
+- Automatic image optimization with CRON
+- Backup and restore original images
+- Image statistics
+- File logging for developers
 
-This plugin includes a bulk operation to optimize all your pictures in 2 clicks ! Change your image optimization level to fit your needs !
-This service is used by more than **400,000*php* websites on different CMS (Wordpress, Drupal, Joomla, Magento, Prestashop...).
-
-The plugin includes an option to exclude some pictures of the optimizer.
-
-Since Aug. 2016, reSmush.it allows to optimize pictures up to 5MB, for free !
-
-[](http://coderisk.com/wp/plugin/resmushit-image-optimizer/RIPS-Af6lJWjjj5)
 
 == Installation ==
 
@@ -31,48 +42,82 @@ Since Aug. 2016, reSmush.it allows to optimize pictures up to 5MB, for free !
 
 == Frequently Asked Questions ==
 
+= How does reSmush.it Image Optimizer compare to other image optimization plugins (e.g. Smush, Imagify, TinyPNG, Kraken, EWWW, Optimole)?
 
-= How great is reSmush.it ? =
+reSmush.it Image Optimizer offers advanced image optimization and provides many of the premium features you'll find in competing services for free.
+Plus, we've earned a reputation for being the best free, fast and easy image optimization plugin out there:-)
 
-Since we've optimized more than 15,000,000,000 pictures, we've risen new skills. Our service is still in development to bring you new crazy functionalities.
+= How great is reSmush.it? =
 
-= What about WebP and next generation image formats ? =
+Since we have optimized more than 25,000,000,000 images, we have acquired new skills. Our service is still in development to bring you new useful features.
 
-We're working on a new offer to bring you the best of these new features. Please be patient, it will come soon :)
+= What about WebP and next-generation image formats? =
 
-= Is there an "Optimize on upload" feature ? =
+We are working on a new offer to give you the best of these new features. Please be patient, it will be coming soon :)
 
-Absolutely, this feature is enabled for all new pictures to be added, and can be disabled on will.
+= Is there a function "Optimize on upload"? =
 
-= Is there a CRON feature ? =
+Absolutely, this function is activated for all newly added images and can be deactivated if desired.
 
-Yes, for big (and even for small) media Libraries, you can optimize your pictures using Cronjobs.
+= Is there a CRON function? =
 
-= Can I choose an optimisation level ? =
+Yes, you can optimize your images with cronjobs for large (and also for small) media libraries.
 
-Yes, by default the optimization level is set at 92. But you can optimize more your pictures by reducing this optimization level.
+= Can I choose an optimization level? =
 
-= Can I go back to my original pictures ? =
+Yes, by default the optimization level is set to 82. However, you can further optimize your images by reducing the optimization level.
 
-Yes, by excluding/reverting this asset you'll have your original image available.
+= Can I return to my original images? =
 
-= Is it possible to exclude some pictures from the optimizer ? =
+Yes, by excluding/reverting an image, you will have your original image available again.
 
-Yes, since version 0.1.2, you can easily exclude an asset from the optimizer.
+= Is it possible to exclude some images from the optimizer? =
 
-= Have I a risk to lose my existing pictures ? =
+Yes, since version 0.1.2, you can easily exclude an image from the optimizer.
 
-Nope ! reSmush.it Image Optimizer creates a copy of the original pictures, and will perform optimizations only on copies.
+= Am I at risk of losing my existing images? =
 
-= Is it free ? =
+No! reSmush.it Image Optimizer creates a copy of the original images and performs optimizations only on the copies.
 
-Yes ! Absolutely free, the only restriction is to send images below 5MB.
+= Is it free? =
+
+Yes ! Absolutely free, the only restriction is that the images must not be larger than 5 MB.
+
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the reSmush.it Image Optimizer plugin through the [Patchstack Vulnerability Disclosure Program](https://patchs
+tack.com/database/vdp/resmushit-image-optimizer). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Screenshots ==
 
 1. The simple interface
 
 == Changelog ==
+= 1.0.1 =
+Release date March 12, 2024
+* Fix: A PHP Notice was displayed in the logs for certain settings;
+* Tweak: Updated the settings page and added a "Support Us" button.
+
+= 1.0.0 =
+Release date February 22, 2024
+* New: The plugin settings have been moved to the "Settings" menu and the layout has been updated;
+* New: Added a Restore button next to each item in the Media Library;
+* New: An improved logging mechanism has been added;
+* New: The columns of the Media Library have been restructured and the layout and texts have been updated;
+* New: A dedicated reSmush.it box has been added on the image edit screen, with all the plugin actions;
+* Compat: The plugin is compatible and tested with PHP versions up to 8.3;
+* Fix: The exclude function can now be used directly in the list view of the Media Library;
+* Fix: The bulk restore function has been improved and should now work better;
+* Fix: The wording of the plugin has been updated and the JS messages have been converted to translatable strings;
+* Fix: The languages folder has been removed so that the plugin can be translated via the <a href="https://translate.wordpress.org/projects/wp-plugins/resmushit-image
+-optimizer/" target="_blank">Translate WordPress project</a>;
+* Fix: The JS part has been updated to fix the deprecated jQuery JSON parser;
+* Fix: The jQuery events are now associated with the "click" action instead of "mouseup";
+* Fix: The plugin actions of files that cannot be processed (PDF, SVG, etc.) have been removed;
+
+= 0.4.14 =
+* Fix Optimize button in listing
+
 = 0.4.13 =
 * Patreon new message
 
@@ -148,7 +193,7 @@ Yes ! Absolutely free, the only restriction is to send images below 5MB.
 * Fix : Links verification format for admin menu
 
 = 0.3.6 =
-* Fix : cron multiple run issue. 
+* Fix : cron multiple run issue.
 
 = 0.3.5 =
 * New header image, new WP description for plugin page.
@@ -285,7 +330,7 @@ Yes ! Absolutely free, the only restriction is to send images below 5MB.
 
 = 0.1.1 =
 * Optimize on upload
-* Statistics 
+* Statistics
 * Log services
 * Interface rebuild
 * News feed from feed.resmush.it

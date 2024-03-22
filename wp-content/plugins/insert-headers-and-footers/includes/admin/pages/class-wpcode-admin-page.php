@@ -132,6 +132,15 @@ abstract class WPCode_Admin_Page {
 	}
 
 	/**
+	 * Get the post type for this page.
+	 *
+	 * @return string
+	 */
+	public function get_post_type() {
+		return wpcode_get_post_type();
+	}
+
+	/**
 	 * Override in child class to define page-specific hooks that will run only
 	 * after checks have been passed.
 	 *
@@ -402,7 +411,7 @@ abstract class WPCode_Admin_Page {
 	 * @return void
 	 */
 	public function logo_image( $id = 'wpcode-header-logo' ) {
-		$logo = get_wpcode_icon( 'logo-text', 132, 33, '0 0 132 33' );
+		$logo = get_wpcode_icon( 'logo-text', 132, 33, '0 0 132 33', $id );
 
 		if ( wpcode()->settings->get_option( 'dark_mode' ) ) {
 			$logo = str_replace( '11293E', 'CCCCCC', $logo );
@@ -576,7 +585,7 @@ abstract class WPCode_Admin_Page {
 			$args['snippet_id'] = $this->snippet_id;
 		}
 
-		return add_query_arg( $args, admin_url( 'admin.php' ) );
+		return add_query_arg( $args, $this->admin_url( 'admin.php' ) );
 	}
 
 	/**
@@ -716,7 +725,7 @@ abstract class WPCode_Admin_Page {
 					'page'   => 'wpcode-snippet-manager',
 					'custom' => true,
 				),
-				admin_url( 'admin.php' )
+				$this->admin_url( 'admin.php' )
 			);
 			if ( 0 !== $snippet['library_id'] ) {
 				if ( ! empty( $used_library_snippets[ $snippet['library_id'] ] ) ) {
@@ -1124,7 +1133,7 @@ abstract class WPCode_Admin_Page {
 				'page' => $this->page_slug,
 				'view' => $view,
 			),
-			admin_url( 'admin.php' )
+			$this->admin_url( 'admin.php' )
 		);
 	}
 
@@ -1279,7 +1288,7 @@ abstract class WPCode_Admin_Page {
 		}
 		if ( false !== get_transient( 'wpcode_deploy_snippet_id' ) ) {
 			// Don't delete the transient here, it will be deleted in the 1-click page.
-			wp_safe_redirect( admin_url( 'admin.php?page=wpcode-click' ) );
+			wp_safe_redirect( $this->admin_url( 'admin.php?page=wpcode-click' ) );
 			exit;
 		}
 	}
@@ -1335,5 +1344,16 @@ abstract class WPCode_Admin_Page {
 	 */
 	public function get_input_email( $id, $value = '', $description = '', $wide = false ) {
 		return $this->get_input_text( $id, $value, $description, $wide, 'email' );
+	}
+
+	/**
+	 * Get an admin URL.
+	 *
+	 * @param string $path The path to append to the admin URL.
+	 *
+	 * @return string
+	 */
+	public function admin_url( $path ) {
+		return admin_url( $path );
 	}
 }

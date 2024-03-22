@@ -98,7 +98,7 @@ class WPCode_Admin_Page_Library extends WPCode_Admin_Page {
 					'page'       => 'wpcode-snippet-manager',
 					'snippet_id' => $snippet->get_id(),
 				),
-				admin_url( 'admin.php' )
+				$this->admin_url( 'admin.php' )
 			);
 		} else {
 			$url = add_query_arg(

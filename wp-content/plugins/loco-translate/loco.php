@@ -4,10 +4,10 @@ Plugin Name: Loco Translate
 Plugin URI: https://wordpress.org/plugins/loco-translate/
 Description: Translate themes and plugins directly in WordPress
 Author: Tim Whitlock
-Version: 2.6.6
+Version: 2.6.7
 Requires at least: 5.2
 Requires PHP: 5.6.20
-Tested up to: 6.3.1
+Tested up to: 6.5.0
 Author URI: https://localise.biz/wordpress/plugin
 Text Domain: loco-translate
 Domain Path: /languages/
@@ -33,7 +33,7 @@ function loco_plugin_file(){
  * @return string
  */
 function loco_plugin_version(){
-    return '2.6.6';
+    return '2.6.7';
 }
 
 
@@ -136,8 +136,8 @@ function loco_check_extension( $name ) {
         else {
             // translators: %s refers to the name of a missing PHP extension, for example "mbstring".
             Loco_error_AdminNotices::warn( sprintf( __('Loco Translate requires the "%s" PHP extension. Ask your hosting provider to install it','loco-translate'), $name ) );
-            $class = 'Loco_compat_'.ucfirst($name).'Extension.php';
-            $cache[$name] = class_exists($class);
+            class_exists( ucfirst($name).'Extension' ); // <- pings Loco_hooks_AdminHooks::autoload_compat
+            $cache[$name] = false;
         }
     }
     return $cache[$name];
@@ -147,7 +147,6 @@ function loco_check_extension( $name ) {
 /**
  * Class autoloader for Loco classes under src directory.
  * e.g. class "Loco_foo_Bar" will be found in "src/foo/Bar.php"
- * Also does autoload for polyfills under "src/compat" if $name < 20 chars
  * 
  * @internal 
  * @param $name string
@@ -156,12 +155,6 @@ function loco_check_extension( $name ) {
 function loco_autoload( $name ){
     if( 'Loco_' === substr($name,0,5) ){
         loco_include( 'src/'.strtr( substr($name,5), '_', '/' ).'.php' );
-    }
-    else if( strlen($name) < 20 ){
-        $path = loco_plugin_root().'/src/compat/'.$name.'.php';
-        if( file_exists($path) ){
-            require $path;
-        }
     }
 }
 

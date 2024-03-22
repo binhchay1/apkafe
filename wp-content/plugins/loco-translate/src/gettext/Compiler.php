@@ -93,16 +93,22 @@ class Loco_gettext_Compiler {
      */
     public function writeMo( Loco_gettext_Data $po ){
         try {
-            $file = $this->files->getBinary();
-            $this->fs->authorizeSave($file);
-            $bytes = $file->putContents( $po->msgfmt() );
+            $mofile = $this->files->getBinary();
+            $this->fs->authorizeSave($mofile);
+            $bytes = $mofile->putContents( $po->msgfmt() );
             $this->progress['mobytes'] = $bytes;
+            // write PHP cache, if WordPress >= 6.5
+            $phfile = $this->files->getCache();
+            if( $phfile && class_exists('WP_Translation_File_PHP') ){
+                $this->progress['phbytes'] = $phfile->putContents( Loco_gettext_PhpCache::render($po) );
+            }
         }
         catch( Exception $e ){
             Loco_error_AdminNotices::debug( $e->getMessage() );
             Loco_error_AdminNotices::warn( __('PO file saved, but MO file compilation failed','loco-translate') );
             $bytes = 0;
         }
+
         return $bytes;
     }
 
@@ -141,29 +147,27 @@ class Loco_gettext_Compiler {
             /* @var Loco_gettext_Data $fragment */
             foreach( $po->exportRefs('\\.js') as $ref => $fragment ){
                 $use = null;
-                // Reference could be a js source file, or a minified version.
-                // Some build systems may differ, but WordPress only supports this. See WP-CLI MakeJsonCommand.
+                // Reference could be a js source file, or a minified version. We'll try .min.js first, then .js
+                // Build systems may differ, but WordPress only supports these suffixes. See WP-CLI MakeJsonCommand.
                 if( substr($ref,-7) === '.min.js' ) {
-                    $min = $ref;
-                    $src = substr($ref,-7).'.js';
+                    $paths = [ $ref, substr($ref,-7).'.js' ];
                 }
                 else {
-                    $src = $ref;
-                    $min = substr($ref,0,-3).'.min.js';
+                    $paths = [ substr($ref,0,-3).'.min.js', $ref ];
                 }
                 // Try .js and .min.js paths to check whether deployed script actually exists
-                foreach( [$min,$src] as $try ){
+                foreach( $paths as $path ){
                     // Hook into load_script_textdomain_relative_path like load_script_textdomain() does.
-                    $url = $project->getBundle()->getDirectoryUrl().$try;
-                    $try = apply_filters( 'load_script_textdomain_relative_path', $try, $url );
-                    if( ! is_string($try) || '' === $try ){
+                    $url = $project->getBundle()->getDirectoryUrl().$path;
+                    $path = apply_filters( 'load_script_textdomain_relative_path', $path, $url );
+                    if( ! is_string($path) || '' === $path ){
                         continue;
                     }
                     // by default ignore js file that is not in deployed code
-                    $file = new Loco_fs_File($try);
+                    $file = new Loco_fs_File($path);
                     $file->normalize($base_dir);
-                    if( apply_filters('loco_compile_script_reference',$file->exists(),$try,$domain) ){
-                        $use = $try;
+                    if( apply_filters('loco_compile_script_reference',$file->exists(),$path,$domain) ){
+                        $use = $path;
                         break;
                     }
                 }
@@ -182,7 +186,7 @@ class Loco_gettext_Compiler {
             if( $buffer ){
                 // write all buffered fragments to their computed JSON paths
                 foreach( $buffer as $ref => $fragment ) {
-                    $jsonfile = $this->cloneJson($pofile,$ref,$domain);
+                    $jsonfile = self::cloneJson($pofile,$ref,$domain);
                     try {
                         $this->writeFile( $jsonfile, $fragment->msgjed($domain,$ref) );
                         $jsons->add($jsonfile);
@@ -219,7 +223,7 @@ class Loco_gettext_Compiler {
      * Clone localised file as a WordPress script translation file
      * @return Loco_fs_File
      */
-    private function cloneJson( Loco_fs_File $pofile, $ref, $domain ){
+    private static function cloneJson( Loco_fs_File $pofile, $ref, $domain ){
         $name = $pofile->filename();
         // Theme author PO files have no text domain, but JSON files must always be prefixed
         if( $domain && 'default' !== $domain && preg_match('/^[a-z]{2,3}(?:_[a-z\\d_]+)?$/i',$name) ){
@@ -227,13 +231,23 @@ class Loco_gettext_Compiler {
         }
         // Hashable reference is always finally unminified, as per load_script_textdomain()
         if( is_string($ref) && '' !== $ref ){
-            if( substr($ref,-7) === '.min.js' ) {
-                $ref = substr($ref,0,-7).'.js';
-            }
-            $name .= '-'.md5($ref);
+            $name .= '-'.self::hashRef($ref);
         }
         return $pofile->cloneBasename( $name.'.json' );
-    } 
+    }
+
+
+    /**
+     * Hashable reference is always finally unminified, as per load_script_textdomain()
+     * @param string $ref script path relative to plugin base
+     * @return string
+     */
+    private static function hashRef( $ref ){
+        if( substr($ref,-7) === '.min.js' ) {
+            $ref = substr($ref,0,-7).'.js';
+        }
+        return md5($ref);
+    }
 
 
     /**

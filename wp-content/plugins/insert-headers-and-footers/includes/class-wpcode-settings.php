@@ -15,7 +15,7 @@ class WPCode_Settings {
 	 *
 	 * @var string
 	 */
-	private $settings_key = 'wpcode_settings';
+	protected $settings_key = 'wpcode_settings';
 
 	/**
 	 * Options as they are loaded from the db.
@@ -23,7 +23,7 @@ class WPCode_Settings {
 	 * @var array
 	 * @see WPCode_Settings::get_options
 	 */
-	private $options;
+	protected $options;
 
 	/**
 	 * Get an option by name with an optional default value.
@@ -41,7 +41,9 @@ class WPCode_Settings {
 			$value = $options[ $option_name ];
 		}
 
-		return apply_filters( "wpcode_get_option_{$option_name}", $value );
+		$value = apply_filters( 'wpcode_get_option', $value, $option_name );
+
+		return apply_filters( "wpcode_get_option_{$option_name}", $value, $option_name );
 	}
 
 	/**
@@ -51,7 +53,21 @@ class WPCode_Settings {
 	 */
 	public function get_options() {
 		if ( ! isset( $this->options ) ) {
-			$this->options = get_option( $this->settings_key, array(
+			$this->options = $this->load_options();
+		}
+
+		return $this->options;
+	}
+
+	/**
+	 * Load the options from the db.
+	 *
+	 * @return array
+	 */
+	protected function load_options() {
+		return get_option(
+			$this->settings_key,
+			array(
 				'facebook_pixel_events'  => array(
 					'page_view'      => 1,
 					'add_to_cart'    => 1,
@@ -79,10 +95,8 @@ class WPCode_Settings {
 					'begin_checkout' => 1,
 					'purchase'       => 1,
 				),
-			) );
-		}
-
-		return $this->options;
+			)
+		);
 	}
 
 	/**
@@ -127,7 +141,7 @@ class WPCode_Settings {
 	 *
 	 * @return void
 	 */
-	private function save_options() {
+	protected function save_options() {
 		update_option( $this->settings_key, (array) $this->options );
 	}
 

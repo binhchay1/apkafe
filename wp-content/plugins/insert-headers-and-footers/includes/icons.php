@@ -12,10 +12,11 @@
  * @param int    $width The width.
  * @param int    $height The height.
  * @param string $viewbox The viewbox, will be auto-built from width and height if not set.
+ * @param string $id The id of the icon.
  *
  * @return string
  */
-function get_wpcode_icon( $name, $width = 20, $height = 20, $viewbox = '' ) {
+function get_wpcode_icon( $name, $width = 20, $height = 20, $viewbox = '', $id = '' ) {
 	$icons = wpcode_icons();
 
 	if ( ! isset( $icons[ $name ] ) ) {
@@ -27,12 +28,13 @@ function get_wpcode_icon( $name, $width = 20, $height = 20, $viewbox = '' ) {
 	}
 
 	return sprintf(
-		'<svg class="wpcode-icon wpcode-icon-%5$s" width="%1$s" height="%2$s" viewBox="%3$s" fill="none" xmlns="http://www.w3.org/2000/svg">%4$s</svg>',
-		$width,
-		$height,
-		$viewbox,
+		'<svg class="wpcode-icon wpcode-icon-%5$s" width="%1$s" height="%2$s" viewBox="%3$s" fill="none" xmlns="http://www.w3.org/2000/svg" id="%6$s">%4$s</svg>',
+		esc_attr( $width ),
+		esc_attr( $height ),
+		esc_attr( $viewbox ),
 		$icons[ $name ],
-		$name
+		esc_attr( $name ),
+		esc_attr( $id )
 	);
 }
 
@@ -43,11 +45,12 @@ function get_wpcode_icon( $name, $width = 20, $height = 20, $viewbox = '' ) {
  * @param int    $width The width.
  * @param int    $height The height.
  * @param string $viewbox The viewbox, will be auto-built from width and height if not set.
+ * @param string $id The id of the icon.
  *
  * @return void
  */
-function wpcode_icon( $name, $width = 20, $height = 20, $viewbox = '' ) {
-	$icon = get_wpcode_icon( $name, $width, $height, $viewbox );
+function wpcode_icon( $name, $width = 20, $height = 20, $viewbox = '', $id = '' ) {
+	$icon = get_wpcode_icon( $name, $width, $height, $viewbox, $id );
 
 	if ( ! empty( $icon ) ) {
 		echo wp_kses(
@@ -75,6 +78,7 @@ function wpcode_get_icon_allowed_tags() {
 			'width'           => true,
 			'height'          => true,
 			'viewbox'         => true,
+			'id'              => true,
 		),
 		'g'        => array(
 			'fill'      => true,

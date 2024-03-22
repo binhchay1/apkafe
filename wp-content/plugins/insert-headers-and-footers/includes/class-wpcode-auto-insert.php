@@ -85,9 +85,9 @@ class WPCode_Auto_Insert {
 	 * @return void
 	 */
 	public function register_type( $type ) {
-		$this->types[] = $type;
+		$this->types[ $type->name ] = $type;
 		if ( isset( $type->category ) ) {
-			$this->type_categories[ $type->category ]['types'][] = $type;
+			$this->type_categories[ $type->category ]['types'][ $type->name ] = $type;
 		}
 	}
 

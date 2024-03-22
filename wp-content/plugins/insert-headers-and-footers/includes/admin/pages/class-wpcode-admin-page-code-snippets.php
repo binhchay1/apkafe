@@ -23,7 +23,7 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 	 * @see WP_List_Table
 	 * @var WPCode_Code_Snippets_Table
 	 */
-	private $snippets_table;
+	protected $snippets_table;
 
 	/**
 	 * Call this just to set the page title translatable.
@@ -79,7 +79,7 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 				add_query_arg(
 					'page',
 					'wpcode',
-					admin_url( 'admin.php' )
+					$this->admin_url( 'admin.php' )
 				)
 			);
 
@@ -136,7 +136,7 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 		$failed = 0;
 		if ( 'enable' === $action ) {
 			foreach ( $ids as $key => $id ) {
-				$snippet = new WPCode_Snippet( $id );
+				$snippet = wpcode_get_snippet( $id );
 				$snippet->activate();
 				if ( ! $snippet->active ) {
 					// If failed to activate don't count it.
@@ -147,7 +147,7 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 		}
 		if ( 'disable' === $action ) {
 			foreach ( $ids as $id ) {
-				$snippet = new WPCode_Snippet( $id );
+				$snippet = wpcode_get_snippet( $id );
 				$snippet->deactivate();
 			}
 		}
@@ -161,7 +161,7 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 		if ( 'duplicate' === $action ) {
 			foreach ( $ids as $id ) {
 				// Load all the snippet data in the object.
-				$snippet = new WPCode_Snippet( $id );
+				$snippet = wpcode_get_snippet( $id );
 				$snippet->duplicate();
 			}
 		}
@@ -210,7 +210,7 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 		$this->snippets_table->prepare_items();
 
 		?>
-		<form id="wpcode-code-snippets-table" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=wpcode' ) ); ?>">
+		<form id="wpcode-code-snippets-table" method="get" action="<?php echo esc_url( $this->admin_url( 'admin.php?page=wpcode' ) ); ?>">
 			<input type="hidden" name="page" value="wpcode"/>
 			<?php
 			$this->snippets_table->search_box( esc_html__( 'Search Snippets', 'insert-headers-and-footers' ), 'wpcode_snippet_search' );
@@ -228,7 +228,7 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 	 * @return void
 	 */
 	public function output_header_bottom() {
-		$add_new_url = admin_url( 'admin.php?page=wpcode-snippet-manager' );
+		$add_new_url = $this->admin_url( 'admin.php?page=wpcode-snippet-manager' );
 		?>
 		<div class="wpcode-column wpcode-title-button">
 			<h1><?php esc_html_e( 'All Snippets', 'insert-headers-and-footers' ); ?></h1>
@@ -325,7 +325,7 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 				'page' => 'wpcode-settings',
 				'view' => 'errors',
 			),
-			admin_url( 'admin.php' )
+			$this->admin_url( 'admin.php' )
 		);
 
 		?>

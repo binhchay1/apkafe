@@ -136,7 +136,7 @@ class WPCode_Generator_Sidebar extends WPCode_Generator_Type {
 						array(
 							'type'        => 'text',
 							'label'       => __( 'Description', 'insert-headers-and-footers' ),
-							'description' => __( 'A short description for the the admin area..', 'insert-headers-and-footers' ),
+							'description' => __( 'A short description for the the admin area.', 'insert-headers-and-footers' ),
 							'id'          => 'sidebar_description',
 							'name'        => 'sidebar_description[]',
 							'repeater'    => 'sidebars',

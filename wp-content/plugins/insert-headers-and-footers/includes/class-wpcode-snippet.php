@@ -574,9 +574,18 @@ class WPCode_Snippet {
 		 */
 		do_action( 'wpcode_snippet_after_update', $this->id, $this );
 
-		wpcode()->cache->cache_all_loaded_snippets();
+		$this->rebuild_cache();
 
 		return $this->id;
+	}
+
+	/**
+	 * Method for rebuilding all snippets cache.
+	 *
+	 * @return void
+	 */
+	public function rebuild_cache() {
+		wpcode()->cache->cache_all_loaded_snippets();
 	}
 
 	/**
@@ -697,7 +706,7 @@ class WPCode_Snippet {
 
 		if ( $update ) {
 			// Rebuild cache to avoid the snippet being loaded again.
-			wpcode()->cache->cache_all_loaded_snippets();
+			$this->rebuild_cache();
 
 			wpcode()->error->add_error(
 				array(

@@ -1,5 +1,5 @@
 <?php exit; ?>{
-    "version": "2.6.1",
+    "version": "2.7.0",
     "cluster.messagebus.debug": false,
     "cluster.messagebus.enabled": false,
     "cluster.messagebus.sns.region": "",
@@ -1008,7 +1008,6 @@
     "config.path": "",
     "widget.latest.items": 3,
     "widget.latest_news.items": 5,
-    "widget.pagespeed.enabled": false,
     "widget.pagespeed.access_token": "{\"access_token\":\"ya29.a0AfB_byDhF7kV6oSJtgWVrkpY-Wa60oqurcoMRo1ENznmh9fBumElSv-aDDLZp4LZKzXjEbKXtvG4E5ENjgkGvAuObFXY-WbOkfxpznZFr-TqooIKKZYjaDG_AVPxcQ3a_T_p0J3SNePb3VWcjQkHlV5qQ4Dn_y96bPVoaCgYKAWISARASFQHGX2Mi6E2JjKogD1DOoNuPp6FDCw0171\",\"expires_in\":3599,\"scope\":\"openid\",\"token_type\":\"Bearer\",\"id_token\":\"eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg1ZTU1MTA3NDY2YjdlMjk4MzYxOTljNThjNzU4MWY1YjkyM2JlNDQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiODg3MTczNTI3NTgzLW12dHBtNDY1OTg1aDhwb2tiM29zNzE1czlzM2Vtdjc4LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiODg3MTczNTI3NTgzLW12dHBtNDY1OTg1aDhwb2tiM29zNzE1czlzM2Vtdjc4LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTEwNzY4MjE2NDUxMDIxOTc2ODU2IiwiYXRfaGFzaCI6IjFyWjFLM3ZYeUFLcVpPcV9EQkZfeHciLCJpYXQiOjE3MDY1ODg1OTcsImV4cCI6MTcwNjU5MjE5N30.ZrPFUHWsRhdOZLkmLCMUE6TQuHBbe8aAg_eePSF0EBFwllcTxXJ47dfAkOhozNy1rxjOO5CSvxauaKTnvrlPvRPf3p0Fawy2aOzt6A1OuzkvW4HwfmGxIEasGQqz8rWhGywBZtoKJ_XgQEysQZc8tV5aiPj_nRt1DWCuVFU0lPRxYZefmP9qArY0qEaic0kMkGqIKx-j1McwHIRkjdOB0KNEA9gYEdPTyPHhIqN0CXPMtlETRSssl7P_Y_4uTSKegrwzHoZcDR6e6ObIzYe-WXoFA81kKGD6wiaxfkoXtguA4A_ss1gG_mDdu5TkqOt0j7kkUEBwehgnfD7JNTUG5Q\",\"created\":1706588492}",
     "widget.pagespeed.w3tc_pagespeed_key": "5c600ac7e9e74e9284f8e512f2eec7c8",
     "timelimit.email_send": 180,
@@ -1045,6 +1044,7 @@
     "fragmentcache": {
         "engine": "file"
     },
+    "widget.pagespeed.enabled": false,
     "page": "w3tc_general",
     "_wpnonce": "2e1ccfef7a",
     "_wp_http_referer": "\/wp-admin\/admin.php?page=w3tc_general&w3tc_message=65b877760e7d5",
@@ -1057,5 +1057,9 @@
     "extension.user-experience-oembed": "1",
     "file_locking": "0",
     "file_nfs": "0",
-    "extension.imageservice": "0"
+    "extension.imageservice": "0",
+    "pgcache.bad_behavior_path": "",
+    "newrelic": {
+        "monitoring_type": "apm"
+    }
 }

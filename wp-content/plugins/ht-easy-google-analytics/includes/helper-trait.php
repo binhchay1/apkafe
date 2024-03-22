@@ -80,9 +80,9 @@ trait Helper_Trait {
      * > It sends a POST request to our server endpoint with the user's email address, and if the
      * request is successful, it returns the new access token
      * 
-     * @param email The email address of the user you want to get an access token for.
+     * @param email The email address of the user to get an access token.
      * 
-     * @return string access token is being returned.
+     * @return string
      */
     function generate_access_token( $email ){
         $request_url = \Ht_Easy_Ga4::$htga4_rest_base_url . 'v1/get-access-token';
@@ -91,6 +91,7 @@ trait Helper_Trait {
             'timeout'     => 10,
             'body'        => array(
                 'email' => sanitize_email($email),
+                'key'   => get_option('htga4_sr_api_key') // The key is used to authenticate the request.
             ),
             'sslverify' => false,
         ));
@@ -1370,4 +1371,8 @@ trait Helper_Trait {
 
 		return $options;
 	}
+    
+    public function str_contains($haystack, $needle) {
+        return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+    }
 }

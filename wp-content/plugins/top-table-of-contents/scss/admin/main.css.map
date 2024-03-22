@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAQ,yHAAiH;ACIzG,8GAAY;EACR,OAAO,EAAE,IAAI;AAGjB,yGAAS;EACL,OAAO,EAAE,aAAa;EACtB,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,OAAO;EACf,SAAS,EAAE,IAAI;;AAS3B,yCAAc;EACV,gBAAgB,EAAE,IAAI;EACtB,OAAO,EAAE,IAAI;EAGL,0DAAa;IACT,aAAa,EAAE,CAAC;;AC1BxC;;;;;;;;;;;;;;EAcE",
-"sources": ["main.scss","modules/_codestar.scss","mixins/_media-queries.scss"],
-"names": [],
-"file": "main.css"
-}

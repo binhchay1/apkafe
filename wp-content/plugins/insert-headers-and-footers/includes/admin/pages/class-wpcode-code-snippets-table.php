@@ -71,6 +71,26 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Load the snippet for the columns.
+	 *
+	 * @param WP_Post $post The post object.
+	 *
+	 * @return WPCode_Snippet
+	 */
+	public function get_snippet( $post ) {
+		return new WPCode_Snippet( $post );
+	}
+
+	/**
+	 * The post type for this view.
+	 *
+	 * @return string
+	 */
+	public function get_post_type() {
+		return wpcode_get_post_type();
+	}
+
+	/**
 	 * Render the columns.
 	 *
 	 * @param WP_Post $item CPT object as a snippet representation.
@@ -79,7 +99,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_default( $item, $column_name ) {
-		$snippet = new WPCode_Snippet( $item );
+		$snippet = $this->get_snippet( $item );
 
 		switch ( $column_name ) {
 			case 'id':
@@ -177,7 +197,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 							'filter_action' => 'Filter',
 							'type'          => $code_type,
 						),
-						admin_url( 'admin.php?page=wpcode' )
+						$this->admin_url( 'admin.php?page=wpcode' )
 					);
 					$value = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), esc_html( $code_type ) );
 				}
@@ -274,12 +294,26 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 					add_query_arg(
 						'snippet_id',
 						$snippet->ID,
-						admin_url( 'admin.php?page=wpcode-snippet-manager' )
+						$this->admin_url( 'admin.php?page=wpcode-snippet-manager' )
 					)
 				),
 				esc_attr__( 'Edit This Snippet', 'insert-headers-and-footers' ),
 				esc_html( $title )
 			);
+		}
+
+		// Check if snippet is locked for editing.
+		$post_lock = wp_check_post_lock( $snippet );
+		if ( $post_lock ) {
+			$user = get_user_by( 'id', $post_lock );
+
+			$currently_editing = sprintf(
+				/* translators: %s: User display name */
+				esc_html__( '%s is currently editing', 'insert-headers-and-footers' ),
+				esc_html( $user->display_name )
+			);
+
+			$name = '<div class="wpcode-locked-snippet">' . $currently_editing . '</div>' . $name;
 		}
 
 		return $name;
@@ -312,7 +346,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 									'action'     => 'untrash',
 									'snippet_id' => $snippet->ID,
 								),
-								admin_url( 'admin.php?page=wpcode' )
+								$this->admin_url( 'admin.php?page=wpcode' )
 							),
 							'wpcode_untrash_nonce'
 						)
@@ -329,7 +363,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 									'action'     => 'delete',
 									'snippet_id' => $snippet->ID,
 								),
-								admin_url( 'admin.php?page=wpcode' )
+								$this->admin_url( 'admin.php?page=wpcode' )
 							),
 							'wpcode_delete_nonce'
 						)
@@ -343,7 +377,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 			if ( current_user_can( 'edit_post', $snippet->ID ) ) {
 				$actions['edit'] = sprintf(
 					'<a href="%s" title="%s">%s</a>',
-					esc_url( add_query_arg( 'snippet_id', $snippet->ID, admin_url( 'admin.php?page=wpcode-snippet-manager' ) ) ),
+					esc_url( add_query_arg( 'snippet_id', $snippet->ID, $this->admin_url( 'admin.php?page=wpcode-snippet-manager' ) ) ),
 					esc_attr__( 'Edit This Snippet', 'insert-headers-and-footers' ),
 					esc_html__( 'Edit', 'insert-headers-and-footers' )
 				);
@@ -359,7 +393,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 									'action'     => 'trash',
 									'snippet_id' => $snippet->ID,
 								),
-								admin_url( 'admin.php?page=wpcode' )
+								$this->admin_url( 'admin.php?page=wpcode' )
 							),
 							'wpcode_trash_nonce'
 						)
@@ -379,7 +413,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 									'action'     => 'duplicate',
 									'snippet_id' => $snippet->ID,
 								),
-								admin_url( 'admin.php?page=wpcode' )
+								$this->admin_url( 'admin.php?page=wpcode' )
 							),
 							'wpcode_duplicate_nonce'
 						)
@@ -453,7 +487,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 		);
 
 		// Set column headers.
-		$this->_column_headers = array( $columns, $hidden, $sortable );
+		$this->_column_headers = array( $columns, $hidden, $sortable, 'name' );
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$page = $this->get_pagenum();
@@ -494,7 +528,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 			'paged'          => $page,
 			'no_found_rows'  => false,
 			'post_status'    => array( 'publish', 'draft' ),
-			'post_type'      => 'wpcode',
+			'post_type'      => $this->get_post_type(),
 		);
 
 		if ( 'priority' === $order_by ) {
@@ -688,7 +722,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 		}
 
 		// Count all snippets.
-		$counts                  = wp_count_posts( 'wpcode' );
+		$counts                  = wp_count_posts( $this->get_post_type() );
 		$this->count['all']      = array_sum( array( $counts->publish, $counts->draft ) );
 		$this->count['active']   = $counts->publish;
 		$this->count['inactive'] = $counts->draft;
@@ -698,7 +732,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 			// Grab a count of all the snippets with the '_wpcode_last_error' meta key.
 			$threw_error              = get_posts(
 				array(
-					'post_type'      => 'wpcode',
+					'post_type'      => $this->get_post_type(),
 					'post_status'    => array( 'draft', 'publish' ),
 					'posts_per_page' => - 1,
 					'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
@@ -823,8 +857,9 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 	 */
 	protected function extra_tablenav( $which ) {
 		if ( 'top' === $which && 'trash' !== $this->view ) {
-			$this->type_dropdown( 'wpcode' );
-			$this->location_dropdown( 'wpcode' );
+			echo '<div class="actions alignleft">';
+			$this->type_dropdown( $this->get_post_type() );
+			$this->location_dropdown( $this->get_post_type() );
 
 			submit_button( __( 'Filter', 'insert-headers-and-footers' ), '', 'filter_action', false, array( 'id' => 'wpcode-filter-submit' ) );
 
@@ -832,6 +867,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 				echo '&nbsp;';
 				submit_button( __( 'Clear', 'insert-headers-and-footers' ), '', 'filter_clear', false, array( 'id' => 'wpcode-filter-clear' ) );
 			}
+			echo '</div>';
 		}
 	}
 
@@ -968,5 +1004,16 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 		$count    = isset( $this->count[ $slug ] ) ? $this->count[ $slug ] : 0;
 
 		return sprintf( '<a href="%1$s"%2$s>%3$s&nbsp;<span class="count">(%4$d)</span></a>', esc_url( $url ), $class, esc_html( $label ), esc_html( $count ) );
+	}
+
+	/**
+	 * Get an admin URL.
+	 *
+	 * @param string $path The path to append to the admin URL.
+	 *
+	 * @return string
+	 */
+	public function admin_url( $path ) {
+		return admin_url( $path );
 	}
 }

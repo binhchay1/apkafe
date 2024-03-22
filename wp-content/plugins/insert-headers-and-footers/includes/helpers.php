@@ -199,6 +199,8 @@ function wpcode_get_auto_insert_locations_with_number() {
 		'after_paragraph',
 		'archive_before_post',
 		'archive_after_post',
+		'after_words',
+		'every_words',
 	);
 }
 

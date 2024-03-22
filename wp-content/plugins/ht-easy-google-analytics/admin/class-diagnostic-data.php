@@ -90,13 +90,23 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
             $this->project_pro_installed = $this->is_pro_plugin_installed();
             $this->project_pro_version = $this->get_pro_version();
 
+            if( get_option('htga4_diagnostic_data_agreed') === 'yes' || get_option('htga4_diagnostic_data_notice') === 'no' ){
+                return;
+            }
+
             add_action( 'admin_notices', function () {
                 $this->show_notices();
             }, 0 );
+           
+            add_action('plugins_loaded', function(){
+                $agreed  = ( isset( $_GET['htga4_diagnostic_data_agreed'] ) ? sanitize_key( $_GET['htga4_diagnostic_data_agreed'] ) : '' );
 
-            add_action( 'wp_ajax_htga4_diagnostic_data', function () {
-                $this->process_data();
-            } );
+                if( $agreed === 'yes' ){
+                    $this->process_data( $agreed );
+                } elseif( $agreed === 'no' ) {
+                    $this->process_data( $agreed );
+                }
+            });
         }
 
         /**
@@ -159,21 +169,8 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
         /**
          * Process data.
          */
-        private function process_data() {
-
-            $nonce = isset( $_POST['nonce'] ) ? $_POST['nonce'] : '';
-
-            if ( ! wp_verify_nonce( $nonce, 'htga4_diagnostic_data_nonce' ) ) {
-                $errormessage = array(
-                    'message'  => __('Nonce Varification fail','htga4')
-                );
-                wp_send_json_error( $errormessage );
-            }
-
-            $agreed = ( isset( $_POST['agreed'] ) ? sanitize_key( $_POST['agreed'] ) : 'no' );
-            $agreed = ( ( 'yes' === $agreed ) ? 'yes' : 'no' );
-
-            $notice = 'no';
+        private function process_data( $agreed ) {
+            $notice  = 'no';
 
             if ( 'yes' === $agreed ) {
                 $data = $this->get_data();
@@ -190,17 +187,6 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
 
             update_option( 'htga4_diagnostic_data_agreed', $agreed );
             update_option( 'htga4_diagnostic_data_notice', $notice );
-
-            $response = array(
-                'success' => $agreed,
-                'notice' => $notice,
-            );
-
-            if ( 'yes' === $agreed ) {
-                $response['thanks_notice'] = $this->get_thanks_notice();
-            }
-
-            wp_send_json( $response );
         }
 
         /**
@@ -489,10 +475,10 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
             $message_l2 = sprintf( esc_html__( 'Server information (Web server, PHP version, MySQL version), WordPress information, site name, site URL, number of plugins, number of users, your name, and email address. You can rest assured that no sensitive data will be collected or tracked. %1$sLearn more%2$s.', 'htga4' ), '<a target="_blank" href="' . esc_url( $this->privacy_policy ) . '">', '</a>' );
 
             $button_text_1 = esc_html__( 'Count Me In', 'htga4' );
-            $button_link_1 = add_query_arg( array( 'htga4-diagnostic-data-agreed' => 1 ) );
+            $button_link_1 = add_query_arg( array( 'htga4_diagnostic_data_agreed' => 'yes' ) );
 
             $button_text_2 = esc_html__( 'No, Thanks', 'htga4' );
-            $button_link_2 = add_query_arg( array( 'htga4-diagnostic-data-agreed' => 0 ) );
+            $button_link_2 = add_query_arg( array( 'htga4_diagnostic_data_agreed' => 'no' ) );
             ?>
             <div class="htga4-diagnostic-data-style"><style>.htga4-diagnostic-data-notice,.woocommerce-embed-page .htga4-diagnostic-data-notice{padding-top:.75em;padding-bottom:.75em;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-buttons,.htga4-diagnostic-data-notice .htga4-diagnostic-data-list,.htga4-diagnostic-data-notice .htga4-diagnostic-data-message{padding:.25em 2px;margin:0;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-list{display:none;color:#646970;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-buttons{padding-top:.75em;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-buttons .button{margin-right:5px;box-shadow:none;}.htga4-diagnostic-data-loading{position:relative;}.htga4-diagnostic-data-loading::before{position:absolute;content:"";width:100%;height:100%;top:0;left:0;background-color:rgba(255,255,255,.5);z-index:999;}.htga4-diagnostic-data-disagree{border-width:0px !important;background-color: transparent!important; padding: 0!important;}h4.htga4-diagnostic-data-title {margin: 0 0 10px 0;font-size: 1.04em;font-weight: 600;}</style></div>
             <div class="htga4-diagnostic-data-notice notice notice-success">
@@ -504,20 +490,8 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
                     <a href="<?php echo esc_url( $button_link_2 ); ?>" class="htga4-diagnostic-data-button htga4-diagnostic-data-disagree button button-secondary"><?php echo esc_html( $button_text_2 ); ?></a>
                 </p>
             </div>
-            <div class="htga4-diagnostic-data-script"><script type="text/javascript">;(function($){"use strict";function htga4DissmissThanksNotice(noticeWrap){$('.htga4-diagnostic-data-thanks .notice-dismiss').on('click',function(e){e.preventDefault();let thisButton=$(this),noticeWrap=thisButton.closest('.htga4-diagnostic-data-thanks');noticeWrap.fadeTo(100,0,function(){noticeWrap.slideUp(100,function(){noticeWrap.remove()})})})};$(".htga4-diagnostic-data-list-toogle").on("click",function(e){e.preventDefault();$(this).parents(".htga4-diagnostic-data-notice").find(".htga4-diagnostic-data-list").slideToggle("fast")});$(".htga4-diagnostic-data-button").on("click",function(e){e.preventDefault();let thisButton=$(this),noticeWrap=thisButton.closest(".htga4-diagnostic-data-notice"),agreed=thisButton.hasClass("htga4-diagnostic-data-agree")?"yes":"no",styleWrap=$(".htga4-diagnostic-data-style"),scriptWrap=$(".htga4-diagnostic-data-script");$.ajax({type:"POST",url:ajaxurl,data:{action:"htga4_diagnostic_data",agreed:agreed,nonce:'<?php echo wp_create_nonce( 'htga4_diagnostic_data_nonce' );?>'},beforeSend:function(){noticeWrap.addClass("htga4-diagnostic-data-loading")},success:function(response){response="object"===typeof response?response:{};let success=response.hasOwnProperty("success")?response.success:"no",notice=response.hasOwnProperty("notice")?response.notice:"no",thanks_notice=response.hasOwnProperty("thanks_notice")?response.thanks_notice:"";if("yes"===success){noticeWrap.replaceWith(thanks_notice);styleWrap.remove();scriptWrap.remove()}else if("no"===notice){noticeWrap.remove();styleWrap.remove();scriptWrap.remove()};noticeWrap.removeClass("htga4-diagnostic-data-loading");htga4DissmissThanksNotice()},error:function(){noticeWrap.removeClass("htga4-diagnostic-data-loading")},})})})(jQuery);</script></div>
             <?php
         }
-
-        /**
-         * Get thanks notice.
-         */
-        private function get_thanks_notice() {
-            $message = sprintf( esc_html__( 'Thank you very much for supporting %2$s%1$s%3$s.', 'htga4' ), $this->project_name, '<strong>', '</strong>' );
-            $notice = sprintf( '<div class="htga4-diagnostic-data-thanks notice notice-success is-dismissible"><p>%1$s</p><button type="button" class="notice-dismiss"><span class="screen-reader-text"></span></button></div>', wp_kses_post( $message ) );
-
-            return $notice;
-        }
-
     }
 
     // Returns the instance.

@@ -15,6 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WPCode_Auto_Insert_Everywhere extends WPCode_Auto_Insert_Type {
 
 	/**
+	 * The type unique name (slug).
+	 *
+	 * @var string
+	 */
+	public $name = 'everywhere';
+
+	/**
 	 * The category of this type.
 	 *
 	 * @var string

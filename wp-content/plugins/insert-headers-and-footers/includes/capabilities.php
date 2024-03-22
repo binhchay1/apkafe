@@ -69,3 +69,19 @@ function wpcode_custom_capabilities() {
 		),
 	);
 }
+
+/**
+ * Return just the keys to avoid a gettext call that causes an endless loop with TranslatePress.
+ *
+ * @return string[]
+ */
+function wpcode_custom_capabilities_keys() {
+	return array(
+		'wpcode_edit_text_snippets',
+		'wpcode_edit_html_snippets',
+		'wpcode_edit_php_snippets',
+		'wpcode_manage_conversion_pixels',
+		'wpcode_file_editor',
+	);
+}
+

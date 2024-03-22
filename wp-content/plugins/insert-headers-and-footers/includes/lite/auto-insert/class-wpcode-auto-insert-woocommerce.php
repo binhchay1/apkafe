@@ -16,6 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WPCode_Auto_Insert_WooCommerce_Lite extends WPCode_Auto_Insert_Type {
 
 	/**
+	 * The type unique name (slug).
+	 *
+	 * @var string
+	 */
+	public $name = 'woocommerce';
+	/**
 	 * The category of this type.
 	 *
 	 * @var string

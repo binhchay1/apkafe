@@ -667,7 +667,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 		$markup .= '<p>';
 		$markup .= sprintf(
 		// translators: %s a html break.
-			__( 'Advanced eCommerce tracking is available for WooCommerce, Easy Digital Downloads and MemberPress. %s These plugins are detected automatically and when available you can toggle individual events using the options below.' ),
+			__( 'Advanced eCommerce tracking is available for WooCommerce, Easy Digital Downloads and MemberPress. %s These plugins are detected automatically and when available you can toggle individual events using the options below.', 'insert-headers-and-footers' ),
 			'</br>'
 		);
 		$markup .= '</p>';

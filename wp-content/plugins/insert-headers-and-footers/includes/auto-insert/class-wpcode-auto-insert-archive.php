@@ -13,7 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class WPCode_Auto_Insert_Archive.
  */
 class WPCode_Auto_Insert_Archive extends WPCode_Auto_Insert_Type {
-
+	/**
+	 * The type unique name (slug).
+	 *
+	 * @var string
+	 */
+	public $name = 'archive';
 	/**
 	 * The category of this type.
 	 *

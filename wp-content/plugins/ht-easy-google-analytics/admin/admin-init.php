@@ -19,7 +19,9 @@ class Ht_Easy_Ga4_Admin_Setting {
 
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_menu', array( $this, 'upgrade_submenu' ), 99999 );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'admin_footer', [ $this, 'enqueue_admin_head_scripts'], 11 );
 
 		// Analytics data permission.
 		if( $this->get_access_token() ){
@@ -70,6 +72,18 @@ class Ht_Easy_Ga4_Admin_Setting {
 			add_filter('pre_update_option_ht_easy_ga4_options', array( $this, 'ecommerce_events_option_update' ), 10, 3 );
 		}
 	}
+
+	function enqueue_admin_head_scripts() {
+		printf( '<style>%s</style>', '#adminmenu .toplevel_page_ht-easy-ga4-setting-page a.htga4-upgrade-pro { font-weight: 600; background-color: #ff6e30; color: #ffffff; text-align: center; margin-top: 4px;}' );
+        $script = '(function ($) {
+            $("#toplevel_page_ht-easy-ga4-setting-page .wp-submenu a").each(function() {
+                if($(this)[0].href === "https://hasthemes.com/plugins/google-analytics-plugin-for-wordpress/?utm_source=admin&utm_medium=mainmenu&utm_campaign=free#pricing") {
+                    $(this).addClass("htga4-upgrade-pro").attr("target", "_blank");
+                }
+            })
+        })(jQuery);';
+		printf( '<script>%s</script>', $script );
+    }
 
 	public function is_ga4_admin_screen(){
 		$screen = get_current_screen();
@@ -203,6 +217,8 @@ class Ht_Easy_Ga4_Admin_Setting {
 	}
 
 	public function admin_menu() {
+		global $submenu;
+
 		add_menu_page(
 			__( 'HT Easy GA4', 'ht-easy-ga4' ),
 			__( 'HT Easy GA4', 'ht-easy-ga4' ),
@@ -245,6 +261,16 @@ class Ht_Easy_Ga4_Admin_Setting {
 		}
 	}
 
+	public function upgrade_submenu(){
+		add_submenu_page(
+            'ht-easy-ga4-setting-page',
+            __('Upgrade to Pro', 'ht-easy-ga4'),
+            __('Upgrade to Pro', 'ht-easy-ga4'),
+            'manage_options', 
+            'https://hasthemes.com/plugins/google-analytics-plugin-for-wordpress/?utm_source=admin&utm_medium=mainmenu&utm_campaign=free#pricing'
+        );
+	}
+
 	public function admin_init(){
 		register_setting( 'ht-easy-ga4-settings-option', 'ht_easy_ga4_id' );
 		register_setting( 'ht-easy-ga4-settings-option', 'ht_easy_ga4_options' );
@@ -284,7 +310,7 @@ class Ht_Easy_Ga4_Admin_Setting {
 		}
 
 		// Get the current tab or set the default.
-		$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general_options';
+		$current_tab = isset( $_GET['tab'] ) ? sanitize_text_field($_GET['tab']) : 'general_options';
 		?>
 			<div class="wrap htga4">
 				<div id="htga4-loading">
@@ -385,8 +411,8 @@ class Ht_Easy_Ga4_Admin_Setting {
 						<input name="ht_easy_ga4_options[enable_ecommerce_events]" type="hidden" id="" value="0" />
 						<input name="ht_easy_ga4_options[enable_ecommerce_events]" type="checkbox" id="htga4_enable_ecommerce_events" <?php checked( 'on', $settings[ 'enable_ecommerce_events'] ); ?> />
 						<label for="ht_easy_ga4_options[enable_ecommerce_events]">
-							<span class="htga4-checkbox-switch-label on">on</span>
-							<span class="htga4-checkbox-switch-label off">off</span>
+							<span class="htga4-checkbox-switch-label on"><?php echo __('on', 'ht-easy-ga4') ?></span>
+							<span class="htga4-checkbox-switch-label off"><?php echo __('off', 'ht-easy-ga4') ?></span>
 							<span class="htga4-checkbox-switch-indicator"></span>
 						</label>
 					</div>
@@ -419,8 +445,8 @@ class Ht_Easy_Ga4_Admin_Setting {
 								<input name="ht_easy_ga4_options[view_item_event]" type="checkbox" id="view_item_event" <?php checked( 'on', $settings[ 'view_item_event'] ); ?> />							<?php endif; ?>
 
 								<label for="ht_easy_ga4_options[view_item_event]">
-									<span class="htga4-checkbox-switch-label on">on</span>
-									<span class="htga4-checkbox-switch-label off">off</span>
+									<span class="htga4-checkbox-switch-label on"><?php echo __('on', 'ht-easy-ga4') ?></span>
+									<span class="htga4-checkbox-switch-label off"><?php echo __('off', 'ht-easy-ga4') ?></span>
 									<span class="htga4-checkbox-switch-indicator"></span>
 								</label>
 							</div>
@@ -447,8 +473,8 @@ class Ht_Easy_Ga4_Admin_Setting {
 								<input name="ht_easy_ga4_options[view_item_list_event]" type="checkbox" id="htga4_view_item_list_event" <?php checked( 'on', $settings[ 'view_item_list_event'] ); ?> />
 								<?php endif ?>
 								<label for="ht_easy_ga4_options[view_item_list_event]">
-									<span class="htga4-checkbox-switch-label on">on</span>
-									<span class="htga4-checkbox-switch-label off">off</span>
+									<span class="htga4-checkbox-switch-label on"><?php echo __('on', 'ht-easy-ga4') ?></span>
+									<span class="htga4-checkbox-switch-label off"><?php echo __('off', 'ht-easy-ga4') ?></span>
 									<span class="htga4-checkbox-switch-indicator"></span>
 								</label>
 							</div>
@@ -474,8 +500,8 @@ class Ht_Easy_Ga4_Admin_Setting {
 								<input name="ht_easy_ga4_options[add_to_cart_event]" type="checkbox" id="htga4_add_to_cart_event" <?php checked( 'on', $settings[ 'add_to_cart_event'] ); ?> />
 								<?php endif; ?>
 								<label for="ht_easy_ga4_options[add_to_cart_event]">
-									<span class="htga4-checkbox-switch-label on">on</span>
-									<span class="htga4-checkbox-switch-label off">off</span>
+									<span class="htga4-checkbox-switch-label on"><?php echo __('on', 'ht-easy-ga4') ?></span>
+									<span class="htga4-checkbox-switch-label off"><?php echo __('off', 'ht-easy-ga4') ?></span>
 									<span class="htga4-checkbox-switch-indicator"></span>
 								</label>
 							</div>
@@ -502,8 +528,8 @@ class Ht_Easy_Ga4_Admin_Setting {
 								<input name="ht_easy_ga4_options[begin_checkout_event]" type="checkbox" id="htga4_begin_checkout_event" <?php checked( 'on', $settings[ 'begin_checkout_event'] ); ?> />
 								<?php endif; ?>
 								<label for="ht_easy_ga4_options[begin_checkout_event]">
-									<span class="htga4-checkbox-switch-label on">on</span>
-									<span class="htga4-checkbox-switch-label off">off</span>
+									<span class="htga4-checkbox-switch-label on"><?php echo __('on', 'ht-easy-ga4') ?></span>
+									<span class="htga4-checkbox-switch-label off"><?php echo __('off', 'ht-easy-ga4') ?></span>
 									<span class="htga4-checkbox-switch-indicator"></span>
 								</label>
 							</div>
@@ -529,8 +555,8 @@ class Ht_Easy_Ga4_Admin_Setting {
                                 <input name="ht_easy_ga4_options[purchase_event]" type="hidden" id="" value="0" />
 					            <input name="ht_easy_ga4_options[purchase_event]" type="checkbox" id="htga4_purchase_event" <?php checked( 'on', $settings[ 'purchase_event'] ); ?> />		<?php endif; ?>
 								<label for="ht_easy_ga4_options[purchase_event]">
-									<span class="htga4-checkbox-switch-label on">on</span>
-									<span class="htga4-checkbox-switch-label off">off</span>
+									<span class="htga4-checkbox-switch-label on"><?php echo __('on', 'ht-easy-ga4') ?></span>
+									<span class="htga4-checkbox-switch-label off"><?php echo __('off', 'ht-easy-ga4') ?></span>
 									<span class="htga4-checkbox-switch-indicator"></span>
 								</label>
 							</div>
@@ -562,8 +588,8 @@ class Ht_Easy_Ga4_Admin_Setting {
 								<input name="ht_easy_ga4_options[vimeo_video_event]" type="checkbox" id="htga4_vimeo_video_event" <?php checked( 'on', $settings[ 'vimeo_video_event'] ); ?> />
 								<?php endif; ?>
 								<label for="ht_easy_ga4_options[vimeo_video_event]">
-									<span class="htga4-checkbox-switch-label on">on</span>
-									<span class="htga4-checkbox-switch-label off">off</span>
+									<span class="htga4-checkbox-switch-label on"><?php echo __('on', 'ht-easy-ga4') ?></span>
+									<span class="htga4-checkbox-switch-label off"><?php echo __('off', 'ht-easy-ga4') ?></span>
 									<span class="htga4-checkbox-switch-indicator"></span>
 								</label>
 							</div>
@@ -589,8 +615,8 @@ class Ht_Easy_Ga4_Admin_Setting {
 								<input name="ht_easy_ga4_options[self_hosted_video_event]" type="checkbox" id="htga4_self_hosted_video_event" <?php checked( 'on', $settings[ 'self_hosted_video_event'] ); ?> />
 								<?php endif; ?>
 								<label for="ht_easy_ga4_options[self_hosted_video_event]">
-									<span class="htga4-checkbox-switch-label on">on</span>
-									<span class="htga4-checkbox-switch-label off">off</span>
+									<span class="htga4-checkbox-switch-label on"><?php echo __('on', 'ht-easy-ga4') ?></span>
+									<span class="htga4-checkbox-switch-label off"><?php echo __('off', 'ht-easy-ga4') ?></span>
 									<span class="htga4-checkbox-switch-indicator"></span>
 								</label>
 							</div>
@@ -623,8 +649,8 @@ class Ht_Easy_Ga4_Admin_Setting {
 								<?php endif; ?>
 								
 								<label for="ht_easy_ga4_options[self_hosted_audio_event]">
-									<span class="htga4-checkbox-switch-label on">on</span>
-									<span class="htga4-checkbox-switch-label off">off</span>
+									<span class="htga4-checkbox-switch-label on"><?php echo __('on', 'ht-easy-ga4') ?></span>
+									<span class="htga4-checkbox-switch-label off"><?php echo __('off', 'ht-easy-ga4') ?></span>
 									<span class="htga4-checkbox-switch-indicator"></span>
 								</label>
 							</div>
@@ -821,7 +847,7 @@ class Ht_Easy_Ga4_Admin_Setting {
 					</th>
 					<td>
 						<div class="htga4-select2-parent">
-							<select id="ht_easy_ga4_options[exclude_roles]" name="ht_easy_ga4_options[exclude_roles][]" multiple data-placeholder="Select Role">
+							<select id="ht_easy_ga4_options[exclude_roles]" name="ht_easy_ga4_options[exclude_roles][]" multiple data-placeholder="<?php echo __('Select Role', 'ht-easy-ga4') ?>">
 							<?php
 								foreach ($user_roles as $role_slug => $role_label) {
 									$selected = in_array($role_slug, $selected_roles) ? 'selected' : '';
@@ -902,15 +928,15 @@ class Ht_Easy_Ga4_Admin_Setting {
 		}
 
 		if ( get_option( 'htga4_email' ) && $does_not_have_proper_api_info ) {
-			echo '<div class="htga4-notice notice-warning"><p>' . esc_html__( 'Select the Account, Property and Measurement ID to display the reports from "General Options" tab.' ) . '</p></div>';
+			echo '<div class="htga4-notice notice-warning"><p>' . esc_html__( 'Select the Account, Property and Measurement ID to display the reports from "General Options" tab.', 'ht-easy-ga4' ) . '</p></div>';
 			return;
 		} elseif ( ! get_option( 'htga4_email' ) && $does_not_have_proper_api_info ) {
-			echo '<div class="htga4-notice notice-warning"><p>' . esc_html__( 'Sign in with your Google Analytics account to view the reports!' ) . '</p></div>';
+			echo '<div class="htga4-notice notice-warning"><p>' . esc_html__( 'Sign in with your Google Analytics account to view the reports!', 'ht-easy-ga4' ) . '</p></div>';
 			return;
 		}
 
 		if ( ! is_array( $this->reports ) ) {
-			echo '<div class="htga4-notice notice-warning"><p>this->reports is not array</p></div>';
+			echo '<div class="htga4-notice notice-warning"><p>this->'. __('reports does not have proper data', 'ht-easy-ga4') .'</p></div>';
 			return;
 		}
 

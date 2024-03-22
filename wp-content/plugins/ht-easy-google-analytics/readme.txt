@@ -2,8 +2,8 @@
 Contributors: htplugins, hasthemes, zenaulislam, aslamhasib, tarekht
 Tags: google, analytics, google analytics, google analytics plugin, ga4, ga, google analytics dashboard, google analytics widget, WordPress analytics, web analytics, ecommerce
 Requires at least: 5.0
-Tested up to: 6.4
-Stable tag: 1.1.5
+Tested up to: 6.5
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -182,6 +182,24 @@ Needs assistance to use this plugin?
 Feel free to [Contact us](https://hasthemes.com/contact-us/)
 
 == Changelog ==
+= Version: 1.2.0 - Date: 2024-03-21 =
+* Fixed: An issue with login data being updated by non-privileged users
+
+= Version: 1.1.9 - Date: 2024-03-18 =
+* Fixed: Transition issue with cross browser Compatibility
+* Tested: With WordPress 6.5 version
+
+= Version: 1.1.8 - Date: 2024-03-08 =
+* Fixed: Removed public REST API endpoint to prevent unauthorized access, and managed it differently
+* Fixed: Sanitization and escaping issues in a few areas
+
+= Version: 1.1.7 - Date: 2024-02-20 =
+* Improved: Removed dependecny on JS for Diagnostic data notice dismiss issue
+
+= Version: 1.1.6 - Date: 2024-02-08 =
+* Fixed: Some sanitization and escaping issue
+* Fixed: Prevented unauthorized access to the REST API
+
 = Version: 1.1.5 - Date: 2023-12-31 =
 * Fixed: Empty Notice shows instead of showing the standard report
 * Tweak: Opt-in message to provide non-sensitive diagnostic data and usage information to improve the plugin

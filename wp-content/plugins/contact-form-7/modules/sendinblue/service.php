@@ -47,7 +47,7 @@ class WPCF7_Sendinblue extends WPCF7_Service {
 
 	public function link() {
 		echo wpcf7_link(
-			'https://www.brevo.com/',
+			'https://get.brevo.com/wpcf7-integration',
 			'brevo.com'
 		);
 	}
@@ -88,9 +88,7 @@ class WPCF7_Sendinblue extends WPCF7_Service {
 				$this->reset_data();
 				$redirect_to = $this->menu_page_url( 'action=setup' );
 			} else {
-				$this->api_key = isset( $_POST['api_key'] )
-					? trim( $_POST['api_key'] )
-					: '';
+				$this->api_key = trim( $_POST['api_key'] ?? '' );
 
 				$confirmed = $this->confirm_key();
 
@@ -252,12 +250,14 @@ trait WPCF7_Sendinblue_API {
 	}
 
 
-	public function get_lists() {
+	public function get_lists( $options = '' ) {
+		$options = wp_parse_args( $options, array(
+			'limit' => 50,
+			'offset' => 0,
+		) );
+
 		$endpoint = add_query_arg(
-			array(
-				'limit' => 50,
-				'offset' => 0,
-			),
+			$options,
 			'https://api.sendinblue.com/v3/contacts/lists'
 		);
 

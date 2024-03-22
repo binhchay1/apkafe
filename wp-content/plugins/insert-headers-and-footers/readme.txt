@@ -1,27 +1,27 @@
 === WPCode - Insert Headers and Footers + Custom Code Snippets - WordPress Code Manager ===
 Contributors: WPbeginner, smub, gripgrip, wpcodeteam
-Tags: code, css, php, footer, functions, content, facebook pixel, footer code, footer scripts, footers, google analytics, head, header, header code, header scripts, headers, insert, insert code, insert scripts, js, meta, meta tags, scripts, html, javascript, multisite, code snippets
+Tags: code, css, php, header, code snippets
 Requires at least: 4.6
 Tested up to: 6.4
 Requires PHP: 5.5
-Stable tag: 2.1.7
+Stable tag: 2.1.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Easily add code snippets in WordPress. Insert header and footer scripts, add PHP code snippets with conditional logic, insert ads pixel code, and more.
+Easily add code snippets in WordPress. Insert header & footer scripts, add PHP code snippets with conditional logic, insert ads pixel code, and more.
 
 
 == Description ==
 
 = Insert Headers & Footers + Full WordPress Code Snippets Plugin =
 
-<a href="https://wpcode.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend" title="WPCode">WPCode</a> (formerly known as Insert Headers and Footers by WPBeginner) is the most popular code snippets plugin for WordPress used by over 2 million websites.
+[WPCode](https://wpcode.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin) (formerly known as Insert Headers and Footers by WPBeginner) is the most popular code snippets plugin for WordPress used by over 2 million websites.
 
 We make it easy for you to add code snippets in WordPress without having to edit your theme's functions.php file.
 
 Our simple insert headers and footers interface allows you to insert code like Google Analytics, custom CSS, Facebook Pixel, and more to your WordPress site's header and footer as well other areas of your website. No need to edit your theme files!
 
-Aside from Header and Footer scripts, you can also use WPCode to insert custom PHP code snippets, JavaScript code snippets, CSS code snipets, HTML code snippets, and text snippets with full conditional logic and code priority support.
+Aside from Header and Footer scripts, you can also use WPCode to insert custom PHP code snippets, JavaScript code snippets, CSS code snippets, HTML code snippets, and text snippets with full conditional logic support.
 
 We took the pain out of adding custom code snippets in WordPress and made it easy.
 
@@ -33,11 +33,11 @@ We took the pain out of adding custom code snippets in WordPress and made it eas
 https://www.youtube.com/watch?v=Fo-7MKRRUec
 
 > <strong>Introducing New WPCode Pro</strong><br />
-> While WPCode Lite offers tons of powerful features for free, we listened to user feedback and created WPCode Pro with even more amazing features to improve your workflow. This includes smart conditional logic, saving code snippets to cloud library, code revisions, page-specific snippets, deeper integration with popular plugins like WooCommerce, Easy Digital Downloads, and so much more. <a href="https://wpcode.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend" title="WPCode">Click here to purchase the best premium WordPress code snippet plugin now!</a>
+> While WPCode Lite offers tons of powerful features for free, we listened to user feedback and created WPCode Pro with even more amazing features to improve your workflow. This includes smart conditional logic, saving code snippets to cloud library, code revisions, page-specific snippets, deeper integration with popular plugins like WooCommerce, Easy Digital Downloads, and so much more. [Click here to purchase the best premium WordPress code snippet plugin now!](https://wpcode.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin)
 
 = Future Proof Code Snippet Management =
 
-Most <a href="https://www.wpbeginner.com/category/wp-tutorials/">WordPress tutorial websites</a> ask you to add code snippets to your theme's functions.php file. This makes managing code snippets messy, and it also prevents you from updating your theme.
+Most [WordPress tutorial websites](https://www.wpbeginner.com/category/wp-tutorials/) ask you to add code snippets to your theme's functions.php file. This makes managing code snippets messy, and it also prevents you from updating your theme.
 
 If you ever update your theme or switch to another theme, then you will lose all custom code functions that you added in your functions.php file.
 
@@ -45,9 +45,7 @@ WPCode solves this by providing you an easy way to insert header and footer scri
 
 Our smart code snippet validation helps you prevent common code errors to ensure you never break your website when adding code snippets or header and footer scripts.
 
-You can manage all your header and footer scripts as well as other custom code snippets from a single screen. We even make it easy for you to organize code snippets using Tags and add reminder notes with each code snippet.
-
-<strong>New WPCode Cloud Library</strong> even allows you to store all your custom code snippets in a cloud library, so you can easily re-use code snippets across multiple website projects and save time. You can keep your code snippets completely private or <a href="https://library.wpcode.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend" title="WPCode">share it with the community</a> to give back while boosting your social profile.
+<strong>New WPCode Cloud Library</strong> even allows you to store all your custom code snippets in a cloud library, so you can easily re-use code snippets across multiple website projects and save time. You can keep your code snippets completely private or [share it with the community](https://library.wpcode.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin) to give back while boosting your social profile.
 
 > This plugin allows me to not only add things to my site whenever needed, but it takes me only seconds to accomplish it.
 > David Weber - WordPress user
@@ -58,29 +56,16 @@ Ever wanted a central place to find all the most popular WordPress code snippets
 
 When we started Insert Headers and Footers plugin, we did too. So we built a WordPress code snippets library right inside the WPCode plugin.
 
-This makes it easy for you to customize WordPress functions with just a click using expert written code snippets.
-
 You will find verified PHP code snippets for popular feature requests like disable REST API, disable XML-RPC, disable comments, allow SVG file uploads, disable Gutenberg, add Classic Editor, and more without installing separate plugins for each.
 
 > I was very hesitant to get into any of the code for my website. Your plugin made it easy for me to do.
 > Conbrio75 - WordPress user
 
-We also built the ability to save your code snippets to <a href="https://library.wpcode.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend" title="WPCode">WPCode Cloud Library</a>, so you can easily re-use it on your other websites, client projects, or even share it with the larger community.
+We also built the ability to save your code snippets to [WPCode Cloud Library](https://library.wpcode.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin), so you can easily re-use it on your other websites, client projects, or even share it with the larger community.
 
 WPCode Cloud Library helps you better organize your code snippets in one central location, so you can save more time and speed up your workflow when managing websites. No more wasting time looking for custom notes or Github gists.
 
 Aside from our growing code snippets library, we also have WordPress code generators to help you quickly get ready-to-use custom code using the latest WordPress coding standards and API's.
-
-Examples of Custom Code Generators with Admin UI include:
-
-* Custom Post Type Generator - Create custom code snippet for Post Types.
-* Custom Taxonomy Generator - Get custom code snippet for Taxonomies.
-* WP Query Generator - Get custom code snippet for WP_Query to load posts.
-* Custom Sidebar Generator - Create custom code snippet to register custom sidebars or widget-ready areas.
-* Custom Widget Generator - Custom code snippet to register custom widgets.
-* Navigation Menu Generator - Custom code snippet for registering new navigation menu locations in your theme.
-
-Aside from the above, we also have code snippet generator for scheduling a cron job, registering scripts & stylesheets, adding custom post status, and more.
 
 = Conditional Logic for Code Snippets + Code Insertion Priority =
 
@@ -109,7 +94,7 @@ Our Auto Insert feature allows you to run the code snippet everywhere or choose 
 * Insert PHP code snippet before or after post content
 * Insert code snippet before or after specific paragraph
 * Insert code snippet on specific archive pages
-* Insert code snippets after specific WooCommerce function (<a href="https://wpcode.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend" title="WPCode">Pro Feature</a>)
+* Insert code snippets after specific WooCommerce function ([Pro Feature](https://wpcode.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin))
 
 Aside from that, we also added a visual code snippet priority system, so you can choose the order for your custom functions to avoid code conflict.
 
@@ -126,30 +111,8 @@ We offer an easy way to import and export your custom code snippets, functions, 
 
 You can also save your code snippets to WPCode Cloud (Pro feature), so you can easily re-use the same code snippets across multiple websites. This also allows you to better organize your code snippets instead of wasting time searching for random Github gists.
 
-Switching from another code snippets plugin?
-
-We have an automatic import feature that imports your custom code snippets from both Woody Code Snippets and Code Snippets Pro plugin.
-
 > Simple plugin I use in quite every site. Very useful to insert scripts and tags.
 > tommasoperego - WordPress user
-
-= Example Use Cases =
-
-WPCode is the most powerful code snippet + headers and footers plugin for WordPress. Here are some of the top use-cases why smart website owners and developers love us:
-
-* Insert Headers and Footers scripts
-* Insert Google Analytics Tracking Code in Header and Footer
-* Insert PHP Code Snippets or JavaScript code snippet without modifying theme's functions.php file
-* Insert Facebook Pixels code, Google Conversion Pixels code, and other Advertising Conversion Pixel Scripts in WordPress header and footer with conditional logic
-* Insert Google AdSense Ads code, Amazon Native Contextual Ads code, and other Media Ads code
-* Insert Custom JavaScript, CSS, and HTML code
-* Insert Site Verification Meta tags for Social Media, Google Search Console, and other Domain verification in the header and footer of your site
-* Insert re-usable custom content blocks and PHP code snippets
-* Insert Ads code in content after specific paragraphs
-* Show or hide custom code snippets based on conditional logic
-* Disable XML-RPC, Disable Rest API, disable comments, allow SVG file uploads, disable Gutenberg and enable Classic Editor without adding extra plugins.
-
-Simply put, WPCode is the one plugin that helps you get rid of dozens of other plugins without losing functionality.
 
 = Full WPCode Feature List =
 
@@ -175,14 +138,14 @@ Below is a full list of WPCode features:
 * Manually insert PHP code snippets using shortcodes anywhere on website
 * Add Rich Text Ads and Content Snippets automatically on posts & pages.
 * Export / Import Code Snippets
-* <strong>New</strong> Save snippets to Cloud Library - no more wasting time finding Github gists or custom notes. All your snippets stored in your private code snippet cloud.
+* <strong>New</strong> Save snippets to Cloud Library - All your snippets stored in your private code snippet cloud.
 * <strong>New</strong> Deep integrations with Gutenberg, WooCommerce, and more.
 * Device specific code snippets (such as load code snippets on mobile only, desktop only, etc)
 * and more features coming soon.
 
 = Credits =
 
-Insert Headers and Footers plugin was first created by <a href="https://syedbalkhi.com/" rel="friend" title="Syed Balkhi">Syed Balkhi</a> and the <a href="http://www.wpbeginner.com/" rel="friend" title="WPBeginner">WPBeginner</a> team in 2011.
+Insert Headers and Footers plugin was first created by [Syed Balkhi](https://syedbalkhi.com/) and the [WPBeginner](http://www.wpbeginner.com/) team in 2011.
 
 It was later rebranded to WPCode in 2022 by Syed Balkhi to add powerful code snippets features that users were requesting for.
 
@@ -194,30 +157,6 @@ WPCode (correct)
 WP Code (incorrect)
 wpcode (incorrect)
 wp code snippets (incorrect)
-
-= What's Next =
-
-If you find this plugin useful to insert header and footer + custom code snippets, then please leave a good rating and consider checking out our other projects:
-
-* <a href="https://wpforms.com/">WPForms</a> - #1 drag & drop online form builder for WordPress (trusted by 5 million sites).
-* <a href="https://optinmonster.com/">OptinMonster</a> - Get More Email Subscribers with the most popular conversion optimization plugin for WordPress.
-* <a href="https://www.monsterinsights.com/">MonsterInsights</a> - See the stats that matter and grow your business with confidence. The best Google Analytics plugin for WordPress.
-* <a href="https://www.seedprod.com/">SeedProd</a> - Create beautiful landing pages with our powerful drag & drop landing page builder.
-* <a href="https://wpmailsmtp.com">WP Mail SMTP</a> - Improve email deliverability for your contact form with the most popular SMTP plugin for WordPress.
-* <a href="https://rafflepress.com/">RafflePress</a> - Best WordPress giveaway and contest plugin to grow traffic and social followers.
-* <a href="https://smashballoon.com/">Smash Balloon</a> - #1 social feeds plugin for WordPress - display social media content in WordPress without code.
-* <a href="https://aioseo.com/">AIOSEO</a> - The original WordPress SEO plugin to help you rank higher in search results (trusted by over 3 million sites).
-* <a href="https://www.pushengage.com/">Push Engage</a> - Connect with visitors after they leave your website with the leading web push notification plugin.
-* <a href="https://trustpulse.com/">TrustPulse</a> - Add real-time social proof notifications to boost your store conversions by up to 15%.
-* <a href="https://searchwp.com/">SearchWP</a> - The most advanced custom WordPress search plugin to improve WordPress search quality.
-* <a href="https://affiliatewp.com/">AffiliateWP</a> - #1 affiliate management plugin for WordPress. Add a referral program to your online store.
-* <a href="https://wpsimplepay.com/">WP Simple Pay</a> - #1 Stripe payments plugin for WordPress. Start accepting one-time or recurring payments without a shopping cart.
-* <a href="https://easydigitaldownloads.com/">Easy Digital Downloads</a> - The best WordPress eCommerce plugin to sell digital products (eBooks, software, music, and more).
-* <a href="https://sugarcalendar.com/">Sugar Calendar</a> - A simple event calendar plugin for WordPress that's both easy and powerful.
-* <a href="https://www.wpcharitable.com/">WP Charitable</a> - Top-rated WordPress donation and fundraising plugin for non-profits.
-
-Visit <a href="https://www.wpbeginner.com/" rel="friend" title="WPBeginner">WPBeginner</a> to learn from our <a href="https://www.wpbeginner.com/category/wp-tutorials/" rel="friend" title="WordPress Tutorials">WordPress Tutorials</a> and find out about other <a href="https://www.wpbeginner.com/category/plugins/" rel="friend" title="Best WordPress Plugins">best WordPress plugins</a>.
-
 
 == Installation ==
 
@@ -291,22 +230,20 @@ WPCode comes with a ready-made code snippets library that allows you to replace 
 
 ... and basically any plugin that adds a functionality which can be added via custom code snippets.
 
-= Is WPCode translation ready? =
-
-Yes, WPCode has full translation and localization support via the insert-headers-and-footers textdomain. Based on your site language, required .mo and .po translation files will be downloaded and placed into the default WordPress languages directory.
-
-== Notes ==
-
-Insert Headers and Footers by WPCode is the easiest way to insert code in your WordPress headers and footers.
-
-Our goal is to make using WordPress easy, both with our <a href="http://www.wpbeginner.com/wordpress-plugins/" rel="friend" title="WordPress Plugins">WordPress plugins</a> and resources like <a href="http://www.wpbeginner.com/" rel="friend">WPBeginner</a>, the largest WordPress resource site for beginners.
-
-I feel that we have done that here. I hope you find Insert Headers and Footers useful to insert scripts on your site.
-
-Thank you
-Syed Balkhi
-
 == Changelog ==
+
+= 2.1.10 =
+* New: When another user is editing the same snippet, we now show a warning to avoid conflicts.
+* Tweak: Improved mobile styles across the plugin admin for better readability.
+
+= 2.1.9 =
+* New: Conditional logic rule for Blog home page (posts page)
+* Tweak: Improved the connect to library flow to avoid the connect window from getting blocked.
+* Fix: Author archive condition was not working as intended.
+
+= 2.1.8 =
+* Tweak: We changed the way the code generators are loaded to improve performance overall.
+* Tweak: We changed the way translations are loaded for better performance.
 
 = 2.1.7 =
 * New: WPCode now has a Dark Mode for those late night coding sessions. Enable it on the settings page.
@@ -418,107 +355,3 @@ Syed Balkhi
 * New: We added a new search field for snippets in the admin list which allows you to search using all snippet fields.
 * New: When adding a JavaScript snippet, WPCode will attempt to remove HTML script tags, if present.
 
-= 2.0.4.4 =
-* Fix: Added an extra check to prevent errors in setups where the closed metaboxes user option is not an array.
-
-= 2.0.4.3 =
-* Tweak: We updated the default behaviour of our page scripts metabox so that it is collapsed by default.
-
-= 2.0.4.2 =
-* Tweak: Changing SweetAlert library version to prevent the interference on .ru sites.
-
-= 2.0.4.1 =
-* Fix: Don't show the metabox when headers & footers only mode is enabled.
-
-= 2.0.4 =
-* New: We added more free snippets to the snippet library, simply connect your website to the WPCode Library and load them directly from the WPCode plugin.
-* New: We added a new code type for CSS Styles that many of you requested, so now it's even easier to add custom styles to your site with all the powerful WPCode features.
-* Tweak: We added an extra check to make sure when you copy-paste a PHP snippet it's easier to use by removing the opening tag, if present.
-* Fix: We fixed a bug where in certain scenarios a snippet's code would get changed when changing its status from the list of snippets.
-
-= 2.0.3 =
-* Tweak: Adjusted the hook used to load "Run Everywhere" PHP snippets to "plugins_loaded" to allow running snippets on earlier hooks.
-* Fix: Adjusted the link in the plugins list to point to the correct admin page in headers & footers mode.
-* Fix: Adjusted logic for headers & footers page when user is not allowed to edit HTML & improved messaging based on permissions.
-
-= 2.0.2 =
-* Tweak: Snippets used as shortcodes will no longer be executed if they are inactive.
-* Fix: Conditional logic rules for homepage were not working correctly in all scenarios.
-* Fix: Improved auto-insert location matching to avoid snippets not loading in some setups.
-* Fix: We improved the importer tools to avoid unslashing certain types of PHP code.
-
-= 2.0.1 =
-* Tweak: Auto-insert is now the default option when creating a new snippet.
-* Tweak: We updated the way we add custom capabilities to improve a scenario where the plugin needed to be reactivated.
-* Fix: We updated the way PHP code is saved to improve support for backslashes.
-* Fix: We tweaked the Page URL rules that were not matching in some cases.
-
-= 2.0.0 =
-* New: Insert Headers and Footers is now WPCode - We make it easy for you to add code snippets in WordPress without having to edit your theme's functions.php file.
-* New: Full Code Snippets Library - WordPress code snippets library right inside the WPCode plugin.
-* New: WordPress code generators to help you quickly generate ready-to-use code using the latest WordPress coding standards and APIs.
-* New: Conditional Logic for Code Snippets - Instead of learning the various WordPress conditional logic queries, you can use our beginner-friendly conditional logic user interface.
-* New: Auto-insert in various locations of your site or manual code output using shortcodes.
-
-= 1.6.2 =
-* Fix: Reverted a method visibility that was conflicting with other plugins using it.
-
-= 1.6.1 =
-* Tested compatibility with WordPress 5.9
-
-= 1.6.0 =
-* Fix: Only show settings CTA to users able to visit the settings page.
-* Enhancement: Improve settings page user experience on heavily customized WordPress installs.
-
-= 1.5.0 =
-* New: Code editors now use CodeMirror for syntax highlighting.
-
-= 1.4.6 =
-* Tested compatibility with WordPress 5.4.2
-
-= 1.4.5 =
-* Tested compatibility with WordPress 5.3.2
-* Add support for printing scripts right after the opening body tag using the `wp_body_open` action
-
-= 1.4.4 =
-* Tested compatibility with WordPress 5.2
-* Updated text-domain standards and in plugin header
-
-= 1.4.3 =
-* Update FAQs
-* Introduce three new filters: disable_ihaf, disable_ihaf_footer, disable_ihaf_header
-
-= 1.4.2 =
-* Code cleanups
-
-= 1.4.1 =
-* Fixes for users running PHP version less than 5.5
-
-= 1.4 =
-* Tested with WordPress 4.7.2
-* cleaned up code
-
-= 1.3.3 =
-* Tested with WordPress 4.3
-* Fix: plugin_dir_path() and plugin_dir_url() used for Multisite / symlink support
-
-= 1.3.2 =
-* Fix: Dashboard widget logo URL when RSS feed cannot be loaded
-* Fix: WordPress 4.0 support
-* Added: POT language file
-
-= 1.3.1 =
-* Improved settings UI for WordPress 3.8+
-* Bumped minimum version requirement
-
-= 1.3 =
-* fixed readme file
-
-= 1.2 =
-* cleaned up code
-
-= 1.1 =
-* fixed unnecessary CSS loading
-
-= 1.0 =
-* Initial version
