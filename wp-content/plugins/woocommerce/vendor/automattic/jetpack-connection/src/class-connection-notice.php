@@ -240,4 +240,5 @@ class Connection_Notice {
 		echo '</p>';
 		echo '</div>';
 	}
+
 }

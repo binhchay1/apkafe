@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
+.csf-fieldset-content .csf-field.csf-field-typography:last-child .csf--block.csf--block-font-color .csf--title {
+  display: none; }
+.csf-fieldset-content .csf-field.csf-field-typography:last-child .csf--block.csf--block-font-color:before {
+  content: 'Hover Color';
+  color: #777;
+  margin: 0 0 2px;
+  font-size: 12px; }
+
+.csf-field.csf-field-checkbox.select_post {
+  background-color: #fff;
+  padding: 15px; }
+  .csf-field.csf-field-checkbox.select_post ul li:last-child {
+    margin-bottom: 0; }
+
+/*
+0-600px:        Phone
+600-991px:      Tablet Portrait
+992-1200px:     Tablet Landscape
+[1200-1800px:]  is where our normal styles apply
+1800px + :      Big Desktop
+
+$breakpoint argument choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+1em = 16px
+*/
+
+/*# sourceMappingURL=main.css.map */

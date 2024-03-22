@@ -1,5 +1,14 @@
 <?php
+/**
+ * System Info File.
+ *
+ * @author Brainstorm Force
+ * @package bsf-core
+ */
 
+/**
+ *  Display system info.
+ */
 function bsf_systeminfo() {
 
 	?>
@@ -7,20 +16,20 @@ function bsf_systeminfo() {
 	<table class="wp-list-table widefat fixed bsf-sys-info">
 		<tbody>
 		<tr class="alternate">
-			<th colspan="2"><?php echo __( 'WordPress Environment', 'bsf' ); ?></th>
+			<th colspan="2"><?php esc_html_e( 'WordPress Environment', 'bsf' ); ?></th>
 		</tr>
 		<tr>
 			<td>Home URL</td>
-			<td><?php echo site_url(); ?></td>
+			<td><?php echo esc_url( site_url() ); ?></td>
 		</tr>
 		<tr>
 			<td>Site URL</td>
-			<td><?php echo site_url(); ?></td>
+			<td><?php echo esc_url( site_url() ); ?></td>
 		</tr>
 		<tr>
 			<?php global $wp_version; ?>
 			<td>WP Version</td>
-			<td><?php echo $wp_version; ?></td>
+			<td><?php echo floatval( $wp_version ); ?></td>
 		</tr>
 		<tr>
 			<td>Multisite</td>
@@ -33,16 +42,16 @@ function bsf_systeminfo() {
 		<tr>
 			<td>Memory Usage</td>
 			<td>
-				<?php echo $usage; ?>
+				<?php echo floatval( $usage ); ?>
 				MB of
-				<?php echo $limit; ?>
+				<?php echo intval( $limit ); ?>
 				MB
 			</td>
 		</tr>
 		<tr>
 			<td>WP Memory Limit</td>
 			<td>
-				<?php echo WP_MEMORY_LIMIT; ?>
+				<?php echo intval( WP_MEMORY_LIMIT ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -51,7 +60,8 @@ function bsf_systeminfo() {
 		</tr>
 		<tr>
 			<td>WP Lang</td>
-			<td><?php echo $currentlang = get_bloginfo( 'language' ); ?></td>
+			<?php $currentlang = get_bloginfo( 'language' ); ?>
+			<td><?php echo esc_html( $currentlang ); ?></td>
 		</tr>
 		<tr>
 			<td>WP Uploads Directory</td>
@@ -65,7 +75,7 @@ function bsf_systeminfo() {
 		<tr>
 			<td>BSF Updater Path</td>
 			<td>
-				<?php echo '(v' . BSF_UPDATER_VERSION . ') ' . BSF_UPDATER_PATH; ?>
+				<?php echo '(v' . esc_attr( BSF_UPDATER_VERSION ) . ') ' . esc_attr( BSF_UPDATER_PATH ); ?>
 			</td>
 		</tr>
 		<?php if ( defined( 'WPB_VC_VERSION' ) ) : ?>
@@ -89,10 +99,10 @@ function bsf_systeminfo() {
 				}
 			endforeach;
 		endif;
-		if ( defined( 'BSF_CHECK_PRODUCT_UPDATES' ) && BSF_CHECK_PRODUCT_UPDATES == false ) {
+		if ( defined( 'BSF_CHECK_PRODUCT_UPDATES' ) && false === BSF_CHECK_PRODUCT_UPDATES ) {
 			$temp_constant .= 'BSF_CHECK_PRODUCT_UPDATES';
 		}
-		if ( $temp_constant != '' ) {
+		if ( '' !== $temp_constant ) {
 			if ( ! defined( 'BSF_RESTRICTED_UPDATES' ) ) {
 				define( 'BSF_RESTRICTED_UPDATES', $temp_constant );
 			}
@@ -102,7 +112,7 @@ function bsf_systeminfo() {
 			<tr>
 				<td>Restrited Updates Filter</td>
 				<td>
-					<?php echo BSF_RESTRICTED_UPDATES; ?>
+					<?php echo esc_html( BSF_RESTRICTED_UPDATES ); ?>
 				</td>
 			</tr>
 		<?php endif; ?>
@@ -111,50 +121,50 @@ function bsf_systeminfo() {
 	<table class="wp-list-table widefat fixed bsf-sys-info">
 		<tbody>
 		<tr class="alternate">
-			<th colspan="2"><?php echo __( 'Server Environment', 'bsf' ); ?></th>
+			<th colspan="2"><?php esc_html_e( 'Server Environment', 'bsf' ); ?></th>
 		</tr>
 		<tr>
 			<td>Server Info</td>
-			<td><?php echo $_SERVER['SERVER_SOFTWARE']; ?></td>
+			<td><?php echo esc_html( $_SERVER['SERVER_SOFTWARE'] ); ?></td>
 		</tr>
 		<tr>
 			<td>PHP Version</td>
-			<td><?php echo ( function_exists( 'phpversion' ) ) ? phpversion() : 'Not sure'; ?></td>
+			<td><?php echo ( function_exists( 'phpversion' ) ) ? floatval( phpversion() ) : 'Not sure'; ?></td>
 		</tr>
 		<tr>
 			<td>MYSQL Version</td>
 			<td>
 			<?php
 				global $wpdb;
-				echo $wpdb->db_version();
+				echo floatval( $wpdb->db_version() );
 			?>
 				</td>
 		</tr>
 		<tr>
 			<td>PHP Post Max Size</td>
-			<td><?php echo ini_get( 'post_max_size' ); ?></td>
+			<td><?php echo esc_attr( ini_get( 'post_max_size' ) ); ?></td>
 		</tr>
 		<tr>
 			<td>PHP Max Execution Time</td>
-			<td><?php echo ini_get( 'max_execution_time' ); ?> Seconds</td>
+			<td><?php echo esc_attr( ini_get( 'max_execution_time' ) ); ?> Seconds</td>
 		</tr>
 		<tr>
 			<td>PHP Max Input Vars</td>
-			<td><?php echo ini_get( 'max_input_vars' ); // PHPCS:ignore:PHPCompatibility.IniDirectives.NewIniDirectives.max_input_varsFound ?></td>
+			<td><?php echo intval( ini_get( 'max_input_vars' ) ); // PHPCS:ignore:PHPCompatibility.IniDirectives.NewIniDirectives.max_input_varsFound ?></td>
 		</tr>
 		<tr>
 			<td>Max Upload Size</td>
-			<td><?php echo ini_get( 'upload_max_filesize' ); ?></td>
+			<td><?php echo intval( ini_get( 'upload_max_filesize' ) ); ?></td>
 		</tr>
 		<tr>
 			<td>Default Time Zone</td>
 			<td>
 				<?php
 				if ( date_default_timezone_get() ) {
-					echo date_default_timezone_get();
+					echo esc_html( date_default_timezone_get() );
 				}
 				if ( ini_get( 'date.timezone' ) ) {
-					echo ' ' . ini_get( 'date.timezone' );
+					echo ' ' . esc_html( ini_get( 'date.timezone' ) );
 				}
 				?>
 			</td>
@@ -179,9 +189,9 @@ function bsf_systeminfo() {
 					$curl_info = curl_version();
 					?>
 
-					<div>Version : <strong><?php echo $curl_info['version']; ?></strong></div>
-					<div>SSL Version : <strong><?php echo $curl_info['ssl_version']; ?></strong></div>
-					<div>Host : <strong><?php echo $curl_info['host']; ?></strong></div>
+					<div>Version : <strong><?php echo floatval( $curl_info['version'] ); ?></strong></div>
+					<div>SSL Version : <strong><?php echo floatval( $curl_info['ssl_version'] ); ?></strong></div>
+					<div>Host : <strong><?php echo esc_html( $curl_info['host'] ); ?></strong></div>
 
 					<?php
 				} else {
@@ -201,11 +211,11 @@ function bsf_systeminfo() {
 				<?php
 				if ( is_wp_error( $connection ) || 200 !== wp_remote_retrieve_response_code( $connection ) ) {
 					echo 'Connection to Support API has error';
-					echo '<p class="description">Status Code: ' . wp_remote_retrieve_response_code( $connection ) . '</p>';
-					echo '<p class="description">Error Message: ' . $connection->get_error_message() . '</p>';
+					echo '<p class="description">Status Code: ' . esc_attr( wp_remote_retrieve_response_code( $connection ) ) . '</p>';
+					echo '<p class="description">Error Message: ' . esc_attr( $connection->get_error_message() ) . '</p>';
 				} else {
 					echo 'Connecion to Support API was successful';
-					echo '<p class="description">Status Code: ' . wp_remote_retrieve_response_code( $connection ) . '</p>';
+					echo '<p class="description">Status Code: ' . esc_attr( wp_remote_retrieve_response_code( $connection ) ) . '</p>';
 				}
 				?>
 			</td>
@@ -215,27 +225,29 @@ function bsf_systeminfo() {
 	<table class="wp-list-table widefat fixed bsf-sys-info">
 		<tbody>
 		<tr class="alternate">
-			<th colspan="2"><?php echo __( 'Theme Information', 'bsf' ); ?></th>
+			<th colspan="2"><?php esc_html_e( 'Theme Information', 'bsf' ); ?></th>
 		</tr>
 		<?php $theme_data = wp_get_theme(); ?>
 		<tr>
 			<td>Name</td>
-			<td><?php echo $theme_data->Name; ?></td>
+			<td><?php echo esc_html( $theme_data->Name ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase ?></td>
 		</tr>
 		<tr>
 			<td>Version</td>
-			<td><?php echo $theme_data->Version; ?></td>
+			<td><?php echo floatval( $theme_data->Version ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase ?></td>
 		</tr>
 		<tr>
 			<td>Author</td>
-			<td><a href="<?php echo $theme_data->ThemeURI; ?>"><?php echo $theme_data->Author; ?></a></td>
+			<td>
+				<?php echo wp_kses_post( $theme_data->Author ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase ?>
+			</td>
 		</tr>
 		</tbody>
 	</table>
 	<table class="wp-list-table widefat fixed bsf-sys-info bsf-table-active-plugin">
 		<tbody>
 		<tr class="alternate">
-			<th colspan="4"><?php echo __( 'Installed Plugins', 'bsf' ); ?></th>
+			<th colspan="4"><?php esc_html_e( 'Installed Plugins', 'bsf' ); ?></th>
 		</tr>
 		<?php
 		$plugins = get_plugins();
@@ -243,18 +255,18 @@ function bsf_systeminfo() {
 		foreach ( $plugins as $plugin_file => $plugin_data ) {
 			?>
 			<tr>
-				<td><?php echo str_pad( $plugin_data['Title'], 30 ); ?></td>
+				<td><?php echo esc_html( str_pad( $plugin_data['Title'], 30 ) ); ?></td>
 				<td>
 					<?php
 					if ( is_plugin_active( $plugin_file ) ) {
-						echo str_pad( 'Active', 10 );
+						echo esc_html( str_pad( 'Active', 10 ) );
 					} else {
-						echo str_pad( 'Inactive', 10 );
+						echo esc_html( str_pad( 'Inactive', 10 ) );
 					}
 					?>
 				</td>
-				<td><?php echo str_pad( $plugin_data['Version'], 10 ); ?></td>
-				<td><?php echo $plugin_data['Author']; ?></td>
+				<td><?php echo esc_html( str_pad( $plugin_data['Version'], 10 ) ); ?></td>
+				<td><?php echo esc_html( $plugin_data['Author'] ); ?></td>
 			</tr>
 			<?php
 		}
@@ -265,7 +277,9 @@ function bsf_systeminfo() {
 	<?php
 }
 
-
+/**
+ *  Get BSF systeminfo.
+ */
 function get_bsf_systeminfo() {
 	$table = '<div class="bsf-system-info-wrapper">';
 	ob_start();

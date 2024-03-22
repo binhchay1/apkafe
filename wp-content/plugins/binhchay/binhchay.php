@@ -26,6 +26,32 @@ add_action('template_redirect', function () {
 
 	global $wp_query;
 	if ($wp_query->is_404 === false) {
+
+		$paths = explode('/', $_SERVER['REQUEST_URI']);
+		foreach ($paths as $path) {
+			if ($path == '404') {
+				if (end($paths) == '') {
+					status_header(200);
+					$wp_query->is_404  = false;
+					return;
+				}
+			}
+
+			if ($path == 'ja') {
+				$redirect = 'ja';
+			}
+	
+			if ($path == 'ultimate-guide-to-unleashing-natures-fury-master-the-minecraft-weather-mod') {
+				$status_redirect = true;
+			}
+		}
+		
+		if($redirect == 'ja' && $status_redirect == true) {
+			wp_redirect('/minecraft-weather-mod/');
+
+			return;
+		}
+		
 		return;
 	} else {
 		$paths = explode('/', $_SERVER['REQUEST_URI']);

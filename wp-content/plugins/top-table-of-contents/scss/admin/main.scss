@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import "typhography";
+@import "variables";
+@import "modules/modules";
+@import "partials/partials";
+@import "pages/pages";
+@import "mixins/mixins";
+
+
+.bd_toc_setting_button {
+  color: #2271b1;
+  text-shadow: 1px 1px 1px #eee;
+  font-weight: normal;
+}
+.bd_toc_pro_button {
+  color: #93003c;
+  text-shadow: 1px 1px 1px #eee;
+  font-weight: 700;
+}
+
+.Premium_feature_message {
+  font-size: 17px;
+  margin-top: 15px;
+}
+.Premium_feature_video {
+  margin: 30px 0;
+  padding: 30px;
+  max-width: 830px;
+  background: #fff;
+  box-shadow: 0px 35px 70px -10px rgba(20, 20, 43, 0.2);
+  border-radius: 15px;
+  text-align: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+.Premium_feature_video {
+  iframe {
+    border-radius: 15px;
+  }
+}
+
+.contents_message {
+  margin-top: 30px;
+}
+
+
+
+
+
+
+

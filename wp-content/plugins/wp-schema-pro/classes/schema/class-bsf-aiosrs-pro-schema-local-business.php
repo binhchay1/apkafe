@@ -27,27 +27,21 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Local_Business' ) ) {
 
 			$schema['@context'] = 'https://schema.org';
 
-			if ( isset( $data['schema-type'] ) && ! empty( $data['schema-type'] ) ) {
+			if ( isset( $data['schema-type'] ) && ! empty( $data['schema-type'] ) && 'ProfessionalService' !== $data['schema-type'] ) {
 				$schema['@type'] = $data['schema-type'];
 			} else {
 				$schema['@type'] = 'LocalBusiness';
 			}
 
-			if ( isset( $data['name'] ) && ! empty( $data['name'] ) ) {
-				$schema['name'] = esc_html( wp_strip_all_tags( $data['name'] ) );
-			}
+			$schema['name'] = ! empty( $data['name'] ) ? wp_strip_all_tags( (string) $data['name'] ) : null;
 
 			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['image'] );
 			}
 
-			if ( isset( $data['telephone'] ) && ! empty( $data['telephone'] ) ) {
-				$schema['telephone'] = esc_html( wp_strip_all_tags( $data['telephone'] ) );
-			}
+			$schema['telephone'] = ! empty( $data['telephone'] ) ? wp_strip_all_tags( (string) $data['telephone'] ) : null;
 
-			if ( isset( $data['url'] ) && ! empty( $data['url'] ) ) {
-				$schema['url'] = wp_strip_all_tags( $data['url'] );
-			}
+			$schema['url'] = ! empty( $data['url'] ) ? wp_strip_all_tags( (string) $data['url'] ) : null;
 
 			if ( ( isset( $data['location-street'] ) && ! empty( $data['location-street'] ) ) ||
 				( isset( $data['location-locality'] ) && ! empty( $data['location-locality'] ) ) ||
@@ -57,39 +51,22 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Local_Business' ) ) {
 
 				$schema['address']['@type'] = 'PostalAddress';
 
-				if ( isset( $data['location-street'] ) && ! empty( $data['location-street'] ) ) {
-					$schema['address']['streetAddress'] = esc_html( wp_strip_all_tags( $data['location-street'] ) );
-				}
-				if ( isset( $data['location-locality'] ) && ! empty( $data['location-locality'] ) ) {
-					$schema['address']['addressLocality'] = esc_html( wp_strip_all_tags( $data['location-locality'] ) );
-				}
-				if ( isset( $data['location-postal'] ) && ! empty( $data['location-postal'] ) ) {
-					$schema['address']['postalCode'] = esc_html( wp_strip_all_tags( $data['location-postal'] ) );
-				}
-				if ( isset( $data['location-region'] ) && ! empty( $data['location-region'] ) ) {
-					$schema['address']['addressRegion'] = esc_html( wp_strip_all_tags( $data['location-region'] ) );
-				}
-				if ( isset( $data['location-country'] ) && ! empty( $data['location-country'] ) ) {
-					$schema['address']['addressCountry'] = esc_html( wp_strip_all_tags( $data['location-country'] ) );
-				}
+				$schema['address']['streetAddress']   = ! empty( $data['location-street'] ) ? wp_strip_all_tags( (string) $data['location-street'] ) : null;
+				$schema['address']['addressLocality'] = ! empty( $data['location-locality'] ) ? wp_strip_all_tags( (string) $data['location-locality'] ) : null;
+				$schema['address']['postalCode']      = ! empty( $data['location-postal'] ) ? wp_strip_all_tags( (string) $data['location-postal'] ) : null;
+				$schema['address']['addressRegion']   = ! empty( $data['location-region'] ) ? wp_strip_all_tags( (string) $data['location-region'] ) : null;
+				$schema['address']['addressCountry']  = ! empty( $data['location-country'] ) ? wp_strip_all_tags( (string) $data['location-country'] ) : null;
 			}
 
-			if ( ( isset( $data['rating'] ) && ! empty( $data['rating'] ) ) ||
-				( isset( $data['review-count'] ) && ! empty( $data['review-count'] ) ) ) {
+			if ( ! empty( $data['rating'] ) && ! empty( $data['review-count'] ) && 'none' !== $data['rating'] && 'none' !== $data['review-count'] ) {
 
 				$schema['aggregateRating']['@type'] = 'AggregateRating';
 
-				if ( isset( $data['rating'] ) && ! empty( $data['rating'] ) ) {
-					$schema['aggregateRating']['ratingValue'] = wp_strip_all_tags( $data['rating'] );
-				}
-				if ( isset( $data['review-count'] ) && ! empty( $data['review-count'] ) ) {
-					$schema['aggregateRating']['reviewCount'] = wp_strip_all_tags( $data['review-count'] );
-				}
+				$schema['aggregateRating']['ratingValue'] = ! empty( $data['rating'] ) ? wp_strip_all_tags( (string) $data['rating'] ) : null;
+				$schema['aggregateRating']['reviewCount'] = ! empty( $data['review-count'] ) ? wp_strip_all_tags( (string) $data['review-count'] ) : null;
 			}
 
-			if ( isset( $data['price-range'] ) && ! empty( $data['price-range'] ) ) {
-				$schema['priceRange'] = wp_strip_all_tags( $data['price-range'] );
-			}
+			$schema['priceRange'] = ! empty( $data['price-range'] ) ? wp_strip_all_tags( (string) $data['price-range'] ) : null;
 
 			if ( isset( $data['hours-specification'] ) && ! empty( $data['hours-specification'] ) ) {
 				foreach ( $data['hours-specification'] as $key => $value ) {
@@ -101,40 +78,36 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Local_Business' ) ) {
 					$schema['openingHoursSpecification'][ $key ]['closes']    = $value['closes'];
 				}
 			}
+			if ( isset( $data['geo-latitude'] ) && isset( $data['geo-longitude'] ) ) {
+				$schema['geo']['@type']     = 'GeoCoordinates';
+				$schema['geo']['latitude']  = wp_strip_all_tags( (string) $data['geo-latitude'] );
+				$schema['geo']['longitude'] = wp_strip_all_tags( (string) $data['geo-longitude'] );
 
-			$contact_type = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-corporate-contact'];
-			$contact_hear = isset( $contact_type['contact-hear'] ) ? $contact_type['contact-hear'] : '';
-			$contact_toll = isset( $contact_type['contact-toll'] ) ? $contact_type['contact-toll'] : '';
-			$contactpoint = array( $contact_hear, $contact_toll );
-			if ( '1' === isset( $contact_type['cp-schema-type'] ) && true === apply_filters( 'wp_schema_pro_contactpoint_local_business_schema_enabled', true ) ) {
-				if ( isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) ) {
+			}
+			$contact_type       = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-corporate-contact'];
+			$contact_hear       = isset( $contact_type['contact-hear'] ) ? $contact_type['contact-hear'] : '';
+			$contact_toll       = isset( $contact_type['contact-toll'] ) ? $contact_type['contact-toll'] : '';
+			$contact_point_type = $contact_hear . ' ' . $contact_toll;
+			$contact_point_type = explode( ' ', $contact_point_type );
+			if ( '1' === $contact_type['cp-schema-type'] && true === apply_filters( 'wp_schema_pro_contactpoint_local_business_schema_enabled', true ) && isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) ) {
 						$schema['ContactPoint']['@type'] = 'ContactPoint';
 
-					if ( isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) ) {
-						$schema ['ContactPoint']['contactType'] = esc_html( wp_strip_all_tags( $contact_type['contact-type'] ) );
-					}
-					if ( isset( $contact_type['telephone'] ) && ! empty( $contact_type['telephone'] ) ) {
-						$schema ['ContactPoint']['telephone'] = esc_html( wp_strip_all_tags( $contact_type['telephone'] ) );
-					}
-					if ( isset( $contact_type['url'] ) && ! empty( $contact_type['url'] ) ) {
-						$schema ['ContactPoint']['url'] = esc_url( $contact_type['url'] );
-					}
-					if ( isset( $contact_type['email'] ) && ! empty( $contact_type['email'] ) ) {
-						$schema ['ContactPoint']['email'] = esc_html( wp_strip_all_tags( $contact_type['email'] ) );
-					}
-					if ( isset( $contact_type['areaServed'] ) && ! empty( $contact_type['areaServed'] ) ) {
-						$schema ['ContactPoint']['areaServed'] = esc_html( wp_strip_all_tags( $contact_type['areaServed'] ) );
-					}
-					if ( isset( $contactpoint ) && ! empty( $contactpoint ) ) {
-
-						$schema ['ContactPoint']['contactOption'] = esc_html( wp_strip_all_tags( $contactpoint ) );
-
-					}
-
-					if ( isset( $contact_type['availableLanguage'] ) && ! empty( $contact_type['availableLanguage'] ) ) {
-						$schema ['ContactPoint']['availableLanguage'] = esc_html( wp_strip_all_tags( $contact_type['availableLanguage'] ) );
+				$schema ['ContactPoint']['contactType'] = ! empty( $contact_type['contact-type'] ) ? wp_strip_all_tags( (string) $contact_type['contact-type'] ) : null;
+				$schema ['ContactPoint']['telephone']   = ! empty( $contact_type['telephone'] ) ? wp_strip_all_tags( (string) $contact_type['telephone'] ) : null;
+				if ( isset( $contact_type['url'] ) && ! empty( $contact_type['url'] ) ) {
+					$schema ['ContactPoint']['url'] = esc_url( $contact_type['url'] );
+				}
+				$schema ['ContactPoint']['email'] = ! empty( $contact_type['email'] ) ? wp_strip_all_tags( (string) $contact_type['email'] ) : null;
+				if ( isset( $contact_type['areaServed'] ) && ! empty( $contact_type['areaServed'] ) ) {
+					$language = explode( ',', $contact_type['areaServed'] );
+					foreach ( $language as $key => $value ) {
+						$schema ['ContactPoint']['areaServed'][ $key ] = wp_strip_all_tags( (string) $value );
 					}
 				}
+				foreach ( $contact_point_type  as $key => $value ) {
+					$schema ['ContactPoint']['contactOption'][ $key ] = wp_strip_all_tags( (string) $value );
+				}
+				$schema ['ContactPoint']['availableLanguage'] = ! empty( $contact_type['availableLanguage'] ) ? wp_strip_all_tags( (string) $contact_type['availableLanguage'] ) : null;
 			}
 
 			return apply_filters( 'wp_schema_pro_schema_local_business', $schema, $data, $post );

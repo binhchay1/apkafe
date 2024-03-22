@@ -1,5 +1,5 @@
 /* global wp, pwsL10n, wc_password_strength_meter_params */
-jQuery( function( $ ) {
+( function( $ ) {
     'use strict';
 	/**
 	 * Password Strength Meter class.
@@ -129,4 +129,4 @@ jQuery( function( $ ) {
 	};
 
 	wc_password_strength_meter.init();
-} );
+})( jQuery );

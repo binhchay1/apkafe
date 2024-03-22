@@ -28,62 +28,42 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Job_Posting' ) ) {
 			$schema['@context'] = 'https://schema.org';
 			$schema['@type']    = 'JobPosting';
 
-			if ( isset( $data['title'] ) && ! empty( $data['title'] ) ) {
-				$schema['title'] = esc_html( wp_strip_all_tags( $data['title'] ) );
+			$schema['title'] = ! empty( $data['title'] ) ? wp_strip_all_tags( (string) $data['title'] ) : null;
+
+			$schema['description'] = ! empty( $data['description'] ) ? (string) $data['description'] : null;
+
+			$schema['datePosted'] = ! empty( $data['start-date'] ) ? wp_strip_all_tags( (string) $data['start-date'] ) : null;
+
+			$schema['validThrough'] = ! empty( $data['expiry-date'] ) ? wp_strip_all_tags( (string) $data['expiry-date'] ) : null;
+
+			$schema['employmentType'] = ! empty( $data['job-type'] ) ? wp_strip_all_tags( (string) $data['job-type'] ) : null;
+
+			if ( ! empty( $data['education-requirements'] ) && 'none' !== $data['education-requirements'] ) {
+				$schema['educationRequirements']['@type']              = 'EducationalOccupationalCredential';
+				$schema['educationRequirements']['credentialCategory'] = wp_strip_all_tags( (string) $data['education-requirements'] );
 			}
 
-			if ( isset( $data['description'] ) && ! empty( $data['description'] ) ) {
-				$schema['description'] = esc_html( wp_strip_all_tags( $data['description'] ) );
+			if ( ! empty( $data['experience-requirements'] ) && 'none' !== $data['experience-requirements'] ) {
+				$schema['experienceRequirements']['@type']              = 'OccupationalExperienceRequirements';
+				$schema['experienceRequirements']['monthsOfExperience'] = wp_strip_all_tags( (string) $data['experience-requirements'] );
 			}
 
-			if ( isset( $data['start-date'] ) && ! empty( $data['start-date'] ) ) {
-				$schema['datePosted'] = esc_html( wp_strip_all_tags( $data['start-date'] ) );
-			}
+			$schema['industry'] = ! empty( $data['industry'] ) ? wp_strip_all_tags( (string) $data['industry'] ) : null;
 
-			if ( isset( $data['expiry-date'] ) && ! empty( $data['expiry-date'] ) ) {
-				$schema['validThrough'] = esc_html( wp_strip_all_tags( $data['expiry-date'] ) );
-			}
+			$schema['qualifications'] = ! empty( $data['qualifications'] ) ? wp_strip_all_tags( (string) $data['qualifications'] ) : null;
 
-			if ( isset( $data['job-type'] ) && ! empty( $data['job-type'] ) ) {
-				$schema['employmentType'] = esc_html( wp_strip_all_tags( $data['job-type'] ) );
-			}
+			$schema['responsibilities'] = ! empty( $data['responsibilities'] ) ? wp_strip_all_tags( (string) $data['responsibilities'] ) : null;
 
-			if ( isset( $data['education-requirements'] ) && ! empty( $data['education-requirements'] ) ) {
-				$schema['educationRequirements'] = esc_html( wp_strip_all_tags( $data['education-requirements'] ) );
-			}
+			$schema['skills'] = ! empty( $data['skills'] ) ? wp_strip_all_tags( (string) $data['skills'] ) : null;
 
-			if ( isset( $data['experience-requirements'] ) && ! empty( $data['experience-requirements'] ) ) {
-				$schema['experienceRequirements'] = esc_html( wp_strip_all_tags( $data['experience-requirements'] ) );
-			}
-
-			if ( isset( $data['industry'] ) && ! empty( $data['industry'] ) ) {
-				$schema['industry'] = esc_html( wp_strip_all_tags( $data['industry'] ) );
-			}
-
-			if ( isset( $data['qualifications'] ) && ! empty( $data['qualifications'] ) ) {
-				$schema['qualifications'] = esc_html( wp_strip_all_tags( $data['qualifications'] ) );
-			}
-
-			if ( isset( $data['responsibilities'] ) && ! empty( $data['responsibilities'] ) ) {
-				$schema['responsibilities'] = esc_html( wp_strip_all_tags( $data['responsibilities'] ) );
-			}
-
-			if ( isset( $data['skills'] ) && ! empty( $data['skills'] ) ) {
-				$schema['skills'] = esc_html( wp_strip_all_tags( $data['skills'] ) );
-			}
-
-			if ( isset( $data['work-hours'] ) && ! empty( $data['work-hours'] ) ) {
-				$schema['workHours'] = esc_html( wp_strip_all_tags( $data['work-hours'] ) );
-			}
+			$schema['workHours'] = ! empty( $data['work-hours'] ) ? wp_strip_all_tags( (string) $data['work-hours'] ) : null;
 
 			if ( ( isset( $data['orgnization-name'] ) && ! empty( $data['orgnization-name'] ) ) ||
 				( isset( $data['same-as'] ) && ! empty( $data['same-as'] ) ) ) {
 
 				$schema['hiringOrganization']['@type'] = 'Organization';
 
-				if ( isset( $data['orgnization-name'] ) && ! empty( $data['orgnization-name'] ) ) {
-					$schema['hiringOrganization']['name'] = esc_html( wp_strip_all_tags( $data['orgnization-name'] ) );
-				}
+				$schema['hiringOrganization']['name'] = wp_strip_all_tags( (string) $data['orgnization-name'] );
 				if ( isset( $data['same-as'] ) && ! empty( $data['same-as'] ) ) {
 					$schema['hiringOrganization']['sameAs'] = esc_url( $data['same-as'] );
 				}
@@ -102,26 +82,30 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Job_Posting' ) ) {
 				$schema['jobLocation']['@type']            = 'Place';
 				$schema['jobLocation']['address']['@type'] = 'PostalAddress';
 
-				if ( isset( $data['location-street'] ) && ! empty( $data['location-street'] ) ) {
-					$schema['jobLocation']['address']['streetAddress'] = esc_html( wp_strip_all_tags( $data['location-street'] ) );
+				$schema['jobLocation']['address']['streetAddress']   = ! empty( $data['location-street'] ) ? wp_strip_all_tags( (string) $data['location-street'] ) : null;
+				$schema['jobLocation']['address']['addressLocality'] = ! empty( $data['location-locality'] ) ? wp_strip_all_tags( (string) $data['location-locality'] ) : null;
+				$schema['jobLocation']['address']['postalCode']      = ! empty( $data['location-postal'] ) ? wp_strip_all_tags( (string) $data['location-postal'] ) : null;
+				$schema['jobLocation']['address']['addressRegion']   = ! empty( $data['location-region'] ) ? wp_strip_all_tags( (string) $data['location-region'] ) : null;
+				$schema['jobLocation']['address']['addressCountry']  = ! empty( $data['location-country'] ) ? wp_strip_all_tags( (string) $data['location-country'] ) : null;
+			}
+
+			$schema['jobLocationType'] = ( ! empty( $data['job-location-type'] ) && 'none' !== $data['job-location-type'] ) ? wp_strip_all_tags( (string) $data['job-location-type'] ) : null;
+
+			if ( isset( $data['remote-location'] ) && ! empty( $data['remote-location'] ) ) {
+				foreach ( $data['remote-location'] as $key => $value ) {
+					$schema['applicantLocationRequirements'][ $key ]['@type'] = 'Country';
+					$schema['applicantLocationRequirements'][ $key ]['name']  = wp_strip_all_tags( (string) $value['applicant-location'] );
 				}
-				if ( isset( $data['location-locality'] ) && ! empty( $data['location-locality'] ) ) {
-					$schema['jobLocation']['address']['addressLocality'] = esc_html( wp_strip_all_tags( $data['location-locality'] ) );
-				}
-				if ( isset( $data['location-postal'] ) && ! empty( $data['location-postal'] ) ) {
-					$schema['jobLocation']['address']['postalCode'] = esc_html( wp_strip_all_tags( $data['location-postal'] ) );
-				}
-				if ( isset( $data['location-region'] ) && ! empty( $data['location-region'] ) ) {
-					$schema['jobLocation']['address']['addressRegion'] = esc_html( wp_strip_all_tags( $data['location-region'] ) );
-				}
-				if ( isset( $data['location-country'] ) && ! empty( $data['location-country'] ) ) {
-					$schema['jobLocation']['address']['addressCountry'] = esc_html( wp_strip_all_tags( $data['location-country'] ) );
+			} else {
+				if ( isset( $data['applicant-location'] ) && ! empty( $data['applicant-location'] ) ) {
+					$schema['applicantLocationRequirements']['@type'] = 'Country';
+					$schema['applicantLocationRequirements']['name']  = wp_strip_all_tags( (string) $data['applicant-location'] );
 				}
 			}
 
 			if ( isset( $data['salary-currency'] ) && ! empty( $data['salary-currency'] ) ) {
 				$schema['baseSalary']['@type']    = 'MonetaryAmount';
-				$schema['baseSalary']['currency'] = esc_html( wp_strip_all_tags( $data['salary-currency'] ) );
+				$schema['baseSalary']['currency'] = wp_strip_all_tags( (string) $data['salary-currency'] );
 			}
 
 			if ( ( isset( $data['salary'] ) && ! empty( $data['salary'] ) ) ||
@@ -130,18 +114,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Job_Posting' ) ) {
 				$schema['baseSalary']['@type']          = 'MonetaryAmount';
 				$schema['baseSalary']['value']['@type'] = 'QuantitativeValue';
 
-				if ( isset( $data['salary'] ) && ! empty( $data['salary'] ) ) {
-					$schema['baseSalary']['value']['value'] = esc_html( wp_strip_all_tags( $data['salary'] ) );
-				}
-				if ( isset( $data['salary-min-value'] ) && ! empty( $data['salary-min-value'] ) ) {
-					$schema['baseSalary']['value']['minValue'] = esc_html( wp_strip_all_tags( $data['salary-min-value'] ) );
-				}
-				if ( isset( $data['salary-max-value'] ) && ! empty( $data['salary-max-value'] ) ) {
-					$schema['baseSalary']['value']['maxValue'] = esc_html( wp_strip_all_tags( $data['salary-max-value'] ) );
-				}
-				if ( isset( $data['salary-unit'] ) && ! empty( $data['salary-unit'] ) ) {
-					$schema['baseSalary']['value']['unitText'] = esc_html( wp_strip_all_tags( $data['salary-unit'] ) );
-				}
+				$schema['baseSalary']['value']['value']    = ! empty( $data['salary'] ) ? wp_strip_all_tags( (string) $data['salary'] ) : null;
+				$schema['baseSalary']['value']['minValue'] = ( ! empty( $data['salary-min-value'] ) && 'none' !== $data['salary-min-value'] ) ? wp_strip_all_tags( (string) $data['salary-min-value'] ) : null;
+				$schema['baseSalary']['value']['maxValue'] = ( ! empty( $data['salary-max-value'] ) && 'none' !== $data['salary-max-value'] ) ? wp_strip_all_tags( (string) $data['salary-max-value'] ) : null;
+				$schema['baseSalary']['value']['unitText'] = ! empty( $data['salary-unit'] ) ? wp_strip_all_tags( (string) $data['salary-unit'] ) : null;
 			}
 
 			return apply_filters( 'wp_schema_pro_schema_job_posting', $schema, $data, $post );

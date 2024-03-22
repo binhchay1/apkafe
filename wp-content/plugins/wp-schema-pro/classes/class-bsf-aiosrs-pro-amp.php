@@ -64,16 +64,21 @@ final class BSF_AIOSRS_Pro_Amp {
 			$settings      = BSF_AIOSRS_Pro_Helper::$settings['aiosrs-pro-settings'];
 			$schema_markup = BSF_AIOSRS_Pro_Markup::get_instance();
 
-			switch ( $settings['schema-location'] ) {
-				case 'head':
-					add_action( 'amp_post_template_head', array( $schema_markup, 'schema_markup' ) );
-					add_action( 'amp_post_template_head', array( $schema_markup, 'global_schemas_markup' ) );
-					break;
+			if ( isset( $settings['schema-location'] ) ) {
 
-				case 'footer':
-					add_action( 'amp_post_template_footer', array( $schema_markup, 'schema_markup' ) );
-					add_action( 'amp_post_template_footer', array( $schema_markup, 'global_schemas_markup' ) );
-					break;
+				switch ( $settings['schema-location'] ) {
+					case 'head':
+						add_action( 'amp_post_template_head', array( $schema_markup, 'schema_markup' ) );
+						add_action( 'amp_post_template_head', array( $schema_markup, 'global_schemas_markup' ) );
+						break;
+
+					case 'footer':
+						add_action( 'amp_post_template_footer', array( $schema_markup, 'schema_markup' ) );
+						add_action( 'amp_post_template_footer', array( $schema_markup, 'global_schemas_markup' ) );
+						break;
+					default:
+						break;
+				}
 			}
 		}
 	}

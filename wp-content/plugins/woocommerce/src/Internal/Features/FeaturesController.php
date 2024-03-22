@@ -165,10 +165,7 @@ class FeaturesController {
 				),
 				'new_navigation'       => array(
 					'name'            => __( 'Navigation', 'woocommerce' ),
-					'description'     => __(
-						'Add the new WooCommerce navigation experience to the dashboard',
-						'woocommerce'
-					),
+					'description'     => __( 'Add the new WooCommerce navigation experience to the dashboard', 'woocommerce' ),
 					'option_key'      => Init::TOGGLE_OPTION_NAME,
 					'is_experimental' => false,
 					'disable_ui'      => false,
@@ -186,12 +183,8 @@ class FeaturesController {
 					'desc_tip'        => function() {
 						$string = '';
 						if ( version_compare( get_bloginfo( 'version' ), '6.2', '<' ) ) {
-							$string = __(
-								'⚠ This feature is compatible with WordPress version 6.2 or higher.',
-								'woocommerce'
-							);
+							$string = __( '⚠ This feature is compatible with WordPress version 6.2 or higher.', 'woocommerce' );
 						}
-
 						return $string;
 					},
 				),
@@ -209,21 +202,8 @@ class FeaturesController {
 					),
 					'is_experimental'    => false,
 					'enabled_by_default' => true,
-					'disable_ui'         => true,
-					'is_legacy'          => true,
-				),
-				// Marked as a legacy feature to avoid compatibility checks, which aren't really relevant to this feature.
-				// https://github.com/woocommerce/woocommerce/pull/39701#discussion_r1376976959.
-				'order_attribution'    => array(
-					'name'               => __( 'Order Attribution', 'woocommerce' ),
-					'description'        => __(
-						'Enable this feature to track and credit channels and campaigns that contribute to orders on your site',
-						'woocommerce'
-					),
-					'enabled_by_default' => true,
 					'disable_ui'         => false,
 					'is_legacy'          => true,
-					'is_experimental'    => false,
 				),
 			);
 

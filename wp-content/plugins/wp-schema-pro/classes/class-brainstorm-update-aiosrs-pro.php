@@ -70,9 +70,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 				$product_name = $branding['sp_plugin_name'];
 			}
 			/* translators: %s: search term */
-			$message = sprintf( __( 'Please <a href= %1$s class="bsf-core-license-form-btn" plugin-slug="wp-schema-pro"> activate </a>your copy of the<i> %2$s </i>to get update notifications, access to support features & other resources!', 'wp-schema-pro' ), $url, $product_name );
-
-			return $message;
+			return sprintf( __( 'Please <a href= %1$s class="bsf-core-license-form-btn" plugin-slug="wp-schema-pro"> activate </a>your copy of the<i> %2$s </i>to get update notifications, access to support features & other resources!', 'wp-schema-pro' ), $url, $product_name );
 		}
 
 		/**
@@ -100,7 +98,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		 *
 		 * @since 1.1.0
 		 */
-		public function bsf_aiosrs_pro_bsf_registration_page_url() {
+		public function bsf_aiosrs_pro_bsf_registration_page_url() { // phpcs:ignore WordPressVIPMinimum.Hooks.AlwaysReturnInFilter.MissingReturnStatement
 			if ( is_multisite() ) {
 				return network_admin_url( 'plugins.php?bsf-inline-license-form=wp-schema-pro' );
 			} else {
@@ -151,7 +149,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 				$version      = file_get_contents( realpath( plugin_dir_path( BSF_AIOSRS_PRO_FILE ) . '/admin/bsf-core/version.yml' ) );
 
 				// Compare versions.
-				if ( version_compare( $version, $bsf_core_version, '>' ) ) {
+				if ( version_compare( $version, (string) $bsf_core_version, '>' ) ) {
 					$bsf_core_version = $version;
 					$bsf_core_path    = $bsf_core_dir;
 				}
@@ -161,12 +159,12 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		/**
 		 * Add Message for license.
 		 *
-		 * @param  string $content       get the link content.
+		 * @param  string $content  Content.
 		 * @param  string $purchase_url  purchase_url.
 		 * @return string                output message.
 		 */
 		public function license_message_aiosrs_pro( $content, $purchase_url ) {
-			$purchase_url = apply_filters( 'uael_licence_url', $purchase_url );
+			$purchase_url = apply_filters( 'wp_schema_pro_licence_url', $purchase_url );
 
 			$message = "<p><a target='_blank' href='" . esc_url( $purchase_url ) . "'>" . esc_html__( 'Get the license >>', 'wp-schema-pro' ) . '</a></p>';
 

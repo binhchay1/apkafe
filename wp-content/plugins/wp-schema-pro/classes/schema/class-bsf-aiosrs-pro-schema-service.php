@@ -28,13 +28,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Service' ) ) {
 			$schema['@context'] = 'https://schema.org';
 			$schema['@type']    = 'Service';
 
-			if ( isset( $data['name'] ) && ! empty( $data['name'] ) ) {
-				$schema['name'] = esc_html( wp_strip_all_tags( $data['name'] ) );
-			}
+			$schema['name'] = ! empty( $data['name'] ) ? wp_strip_all_tags( (string) $data['name'] ) : null;
 
-			if ( isset( $data['type'] ) && ! empty( $data['type'] ) ) {
-				$schema['serviceType'] = esc_html( wp_strip_all_tags( $data['type'] ) );
-			}
+			$schema['serviceType'] = ! empty( $data['type'] ) ? wp_strip_all_tags( (string) $data['type'] ) : null;
 
 			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['image'] );
@@ -47,18 +43,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Service' ) ) {
 
 				$schema['provider']['@type'] = 'LocalBusiness';
 
-				if ( isset( $data['provider'] ) && ! empty( $data['provider'] ) ) {
-					$schema['provider']['name'] = esc_html( wp_strip_all_tags( $data['provider'] ) );
-				}
+				$schema['provider']['name'] = ! empty( $data['provider'] ) ? wp_strip_all_tags( (string) $data['provider'] ) : null;
 				if ( isset( $data['location-image'] ) && ! empty( $data['location-image'] ) ) {
 					$schema['provider']['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['location-image'] );
 				}
-				if ( isset( $data['telephone'] ) && ! empty( $data['telephone'] ) ) {
-					$schema['provider']['telephone'] = esc_html( wp_strip_all_tags( $data['telephone'] ) );
-				}
-				if ( isset( $data['price-range'] ) && ! empty( $data['price-range'] ) ) {
-					$schema['provider']['priceRange'] = esc_html( wp_strip_all_tags( $data['price-range'] ) );
-				}
+				$schema['provider']['telephone']  = ! empty( $data['telephone'] ) ? wp_strip_all_tags( (string) $data['telephone'] ) : null;
+				$schema['provider']['priceRange'] = ! empty( $data['price-range'] ) ? wp_strip_all_tags( (string) $data['price-range'] ) : null;
 			}
 
 			if ( ( isset( $data['location-locality'] ) && ! empty( $data['location-locality'] ) ) ||
@@ -68,25 +58,17 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Service' ) ) {
 				$schema['provider']['@type']            = 'LocalBusiness';
 				$schema['provider']['address']['@type'] = 'PostalAddress';
 
-				if ( isset( $data['location-locality'] ) && ! empty( $data['location-locality'] ) ) {
-					$schema['provider']['address']['addressLocality'] = esc_html( wp_strip_all_tags( $data['location-locality'] ) );
-				}
-				if ( isset( $data['location-region'] ) && ! empty( $data['location-region'] ) ) {
-					$schema['provider']['address']['addressRegion'] = esc_html( wp_strip_all_tags( $data['location-region'] ) );
-				}
-				if ( isset( $data['location-street'] ) && ! empty( $data['location-street'] ) ) {
-					$schema['provider']['address']['streetAddress'] = esc_html( wp_strip_all_tags( $data['location-street'] ) );
-				}
+				$schema['provider']['address']['addressLocality'] = ! empty( $data['location-locality'] ) ? wp_strip_all_tags( (string) $data['location-locality'] ) : null;
+				$schema['provider']['address']['addressRegion']   = ! empty( $data['location-region'] ) ? wp_strip_all_tags( (string) $data['location-region'] ) : null;
+				$schema['provider']['address']['streetAddress']   = ! empty( $data['location-street'] ) ? wp_strip_all_tags( (string) $data['location-street'] ) : null;
 			}
 
 			if ( isset( $data['area'] ) && ! empty( $data['area'] ) ) {
 				$schema['areaServed']['@type'] = 'State';
-				$schema['areaServed']['name']  = esc_html( wp_strip_all_tags( $data['area'] ) );
+				$schema['areaServed']['name']  = wp_strip_all_tags( (string) $data['area'] );
 			}
 
-			if ( isset( $data['description'] ) && ! empty( $data['description'] ) ) {
-				$schema['description'] = esc_html( wp_strip_all_tags( $data['description'] ) );
-			}
+			$schema['description'] = ! empty( $data['description'] ) ? wp_strip_all_tags( (string) $data['description'] ) : null;
 
 			return apply_filters( 'wp_schema_pro_schema_service', $schema, $data, $post );
 		}

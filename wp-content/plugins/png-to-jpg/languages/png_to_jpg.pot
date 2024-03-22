@@ -1,0 +1,141 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: png-to-jpg\n"
+"POT-Creation-Date: 2023-10-27 07:52+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Ing. Jakub Novák <info@kubiq.sk>\n"
+"Language-Team: KubiQ <info@kubiq.sk>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ./.."
+
+#: png-to-jpg.php:227
+msgid "%d images converted"
+msgstr ""
+
+#: png-to-jpg.php:235
+#, php-format
+msgid "%s saved"
+msgstr ""
+
+#: png-to-jpg.php:282
+msgid "Autodetect transparency for existing PNG images"
+msgstr ""
+
+#: png-to-jpg.php:413
+msgid "Background switch:"
+msgstr ""
+
+#: png-to-jpg.php:154
+msgid "Convert existing PNGs"
+msgstr ""
+
+#. Description of the plugin
+msgid "Convert PNG images to JPG, free up web space and speed up your webpage"
+msgstr ""
+
+#: png-to-jpg.php:249
+msgid "Convert PNG to JPG during upload"
+msgstr ""
+
+#: png-to-jpg.php:337 png-to-jpg.php:396
+msgid "Convert selected PNGs"
+msgstr ""
+
+#: png-to-jpg.php:316
+msgid "Converted images will be fixed only in these tables:"
+msgstr ""
+
+#: png-to-jpg.php:313
+msgid ""
+"Do you have BACKUP? This operation will alter your original images and "
+"cannot be undone!"
+msgstr ""
+
+#: png-to-jpg.php:355
+msgid "Has transparency"
+msgstr ""
+
+#: png-to-jpg.php:318
+msgid ""
+"If you need support for more database tables from various plugins, let me "
+"know by mail to info@kubiq.sk"
+msgstr ""
+
+#: png-to-jpg.php:290
+msgid "Images per page in Convert existing tab"
+msgstr ""
+
+#: png-to-jpg.php:241
+msgid "JPG quality"
+msgstr ""
+
+#: png-to-jpg.php:274
+msgid "Leave original PNG images on the server"
+msgstr ""
+
+#: png-to-jpg.php:266
+msgid "Only convert image if JPG filesize is lower than PNG filesize"
+msgstr ""
+
+#: png-to-jpg.php:555
+msgid "Please wait, converting your PNG images is in progress..."
+msgstr ""
+
+#: png-to-jpg.php:332
+msgid "Please wait, I'm getting transparency status for images..."
+msgstr ""
+
+#. Name of the plugin
+#: png-to-jpg.php:136 png-to-jpg.php:137 png-to-jpg.php:198
+msgid "PNG to JPG"
+msgstr ""
+
+#: png-to-jpg.php:218
+msgid "PNG to JPG requires gd library enabled!"
+msgstr ""
+
+#: png-to-jpg.php:84 png-to-jpg.php:103
+msgid "PNG to JPG saved:"
+msgstr ""
+
+#: png-to-jpg.php:324
+msgid "Reindex everything"
+msgstr ""
+
+#: png-to-jpg.php:339 png-to-jpg.php:398
+msgid "Select all non-transparent PNGs"
+msgstr ""
+
+#: png-to-jpg.php:338 png-to-jpg.php:397
+msgid "Select all transparent PNGs"
+msgstr ""
+
+#: png-to-jpg.php:330
+msgid "Stop it"
+msgstr ""
+
+#: png-to-jpg.php:506
+msgid ""
+"This will empty yoast indexable database tables and redirect you to Yoast "
+"SEO where you need to click on Start SEO data optimization"
+msgstr ""
+
+#: png-to-jpg.php:259
+msgid "Yes, but only images without transparency"
+msgstr ""
+
+#: png-to-jpg.php:323
+msgid ""
+"You are using Yoast SEO plugin and you will need to reindex everything after "
+"conversion of existing images."
+msgstr ""

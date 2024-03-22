@@ -1,0 +1,28 @@
+.wpsp-howto__cost-wrap {
+	display: block;
+}
+
+.wpsp-howto__cost-wrap .wpsp-howto-estcost-text,
+.wpsp-howto__cost-wrap .wpsp-howto-estcost-value,
+.wpsp-howto__cost-wrap .wpsp-howto-estcost-type {
+	display: inline-flex;
+}
+
+.wpsp-howto__time-wrap {
+	display: block;
+}
+
+.wpsp-howto__time-wrap .wpsp-howto-timeNeeded-text,
+.wpsp-howto__time-wrap .wpsp-howto-timeNeeded-value,
+.wpsp-howto__time-wrap .wpsp-howto-timeINmin-text {
+	display: inline-flex;
+}
+
+.wpsp-howto__time-wrap .wpsp-howto-timeINmin-text {
+	margin-left: 5px;
+}
+
+.wpsp-how-to-main-wrap .wpsp-tools__wrap,
+.wpsp-how-to-main-wrap .wpsp-how-to-materials {
+	margin-bottom: 20px;
+}

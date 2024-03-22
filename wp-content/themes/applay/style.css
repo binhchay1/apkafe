@@ -6334,12 +6334,3 @@ iframe {
 .wp-pagenavi .previouspostslink:after {
   content: ' Prev';
 }
-
-nav.woocommerce-pagination {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  overflow: visible !important
-}

@@ -81,7 +81,7 @@ class XMLRPC_Async_Call {
 	public static function do_calls() {
 		foreach ( self::$clients as $client_blog_id => $blog_clients ) {
 			if ( $client_blog_id > 0 ) {
-				$switch_success = switch_to_blog( $client_blog_id );
+				$switch_success = switch_to_blog( $client_blog_id, true );
 
 				if ( ! $switch_success ) {
 					continue;

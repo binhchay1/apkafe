@@ -1,3 +1,7 @@
 /modobom
 /wp-content/uploads/*
 /wp-content/cache/*
+/thumbnail_games
+/wp-content/gravatars/*
+/wp-content/languages/plugins/*
+wp-config.php

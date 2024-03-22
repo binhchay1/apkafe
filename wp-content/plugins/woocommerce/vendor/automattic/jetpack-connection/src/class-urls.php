@@ -90,7 +90,6 @@ class Urls {
 		$option_key = self::HTTPS_CHECK_OPTION_PREFIX . $callable;
 
 		$parsed_url = wp_parse_url( $new_value );
-
 		if ( ! $parsed_url ) {
 			return $new_value;
 		}
@@ -99,12 +98,7 @@ class Urls {
 		} else {
 			$scheme = '';
 		}
-		$scheme_history = get_option( $option_key, array() );
-
-		if ( ! is_array( $scheme_history ) ) {
-			$scheme_history = array();
-		}
-
+		$scheme_history   = get_option( $option_key, array() );
 		$scheme_history[] = $scheme;
 
 		// Limit length to self::HTTPS_CHECK_HISTORY.
@@ -189,4 +183,5 @@ class Urls {
 	public static function main_network_site_url() {
 		return self::get_protocol_normalized_url( 'main_network_site_url', network_site_url() );
 	}
+
 }

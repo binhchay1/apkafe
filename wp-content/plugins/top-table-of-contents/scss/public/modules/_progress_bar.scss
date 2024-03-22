@@ -1,0 +1,14 @@
+.bd_toc_progress_bar {
+    &.progress_bar_open{
+        .bd_toc_widget_progress_bar {
+            position: fixed;
+            margin: 0;
+            padding: 0;
+            left: 0; 
+            height: 5px; 
+            background-color: rgba(17,64,255,0.71); 
+            transition: all linear 0.1s; 
+            z-index: 999999999999;
+        }
+    }
+}

@@ -60,9 +60,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 				if ( '' !== $branding_notice['sp_plugin_name'] ) {
 					/* translators: %s: search term */
 					$brand_notice = sprintf( esc_html__( 'Configure %s step by step. ', 'wp-schema-pro' ), $branding_notice['sp_plugin_name'] );
-					echo '<p>' . esc_html( $brand_notice ) . '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Start setup wizard &raquo;', 'wp-schema-pro' ) . '</a></p>';
+					echo '<p>' . esc_html( $brand_notice ) . '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Start Setup Wizard &raquo;', 'wp-schema-pro' ) . '</a></p>';
 				} else {
-					echo '<p>' . esc_html__( 'Configure Schema Pro step by step. ', 'wp-schema-pro' ) . '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Start setup wizard &raquo;', 'wp-schema-pro' ) . '</a></p>';
+					echo '<p>' . esc_html__( 'Not sure where to start with Schema Pro? Check out our initial ', 'wp-schema-pro' ) . '<a href="' . esc_url( $url ) . '">' . esc_html__( 'setup wizard first &raquo;', 'wp-schema-pro' ) . '</a></p>';
 				}
 
 				echo '</div>';
@@ -91,7 +91,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 		 * @return void
 		 */
 		public function wp_schema_pro_setup_wizard_notice_callback() {
-			wp_verify_nonce( $_POST['nonce'], 'wp-schema-pro-setup-wizard-notice' );
+
+			check_ajax_referer( 'wp-schema-pro-setup-wizard-notice', 'nonce' );
 
 			delete_transient( 'wp-schema-pro-activated' );
 			wp_send_json_success();

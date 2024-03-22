@@ -6,7 +6,6 @@
  */
 
 use Automattic\Jetpack\Constants;
-use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -649,8 +648,6 @@ class WC_Helper {
 			return;
 		}
 
-		self::maybe_redirect_to_new_marketplace_installer();
-
 		if ( empty( $_GET['section'] ) || 'helper' !== $_GET['section'] ) {
 			return;
 		}
@@ -685,47 +682,16 @@ class WC_Helper {
 	}
 
 	/**
-	 * Maybe redirect to the new Marketplace installer.
-	 */
-	private static function maybe_redirect_to_new_marketplace_installer() {
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		// Redirect requires the "install" URL parameter to be passed.
-		if ( empty( $_GET['install'] ) ) {
-			return;
-		}
-
-		wp_safe_redirect(
-			self::get_helper_redirect_url(
-				array(
-					'page'    => 'wc-addons',
-					'section' => 'helper',
-				),
-				isset( $_GET['redirect-to-wc-admin'] ),
-				sanitize_text_field( wp_unslash( $_GET['install'] ) )
-			)
-		);
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
-	}
-
-	/**
 	 * Get helper redirect URL.
 	 *
-	 * @param array  $args Query args.
-	 * @param bool   $redirect_to_wc_admin Whether to redirect to WC Admin.
-	 * @param string $install_product_key Optional Product key to install.
+	 * @param array $args Query args.
+	 * @param bool  $redirect_to_wc_admin Whether to redirect to WC Admin.
 	 * @return string
 	 */
-	private static function get_helper_redirect_url( $args = array(), $redirect_to_wc_admin = false, $install_product_key = '' ) {
+	private static function get_helper_redirect_url( $args = array(), $redirect_to_wc_admin = false ) {
 		global $current_screen;
-		if (
-			'woocommerce_page_wc-addons' === $current_screen->id &&
-			FeaturesUtil::feature_is_enabled( 'marketplace' ) &&
-			(
-				true === $redirect_to_wc_admin ||
-				false === empty( $install_product_key )
-			)
-		) {
-			$new_url = add_query_arg(
+		if ( true === $redirect_to_wc_admin && 'woocommerce_page_wc-addons' === $current_screen->id ) {
+			return add_query_arg(
 				array(
 					'page' => 'wc-admin',
 					'tab'  => 'my-subscriptions',
@@ -733,15 +699,6 @@ class WC_Helper {
 				),
 				admin_url( 'admin.php' )
 			);
-			if ( ! empty( $install_product_key ) ) {
-				$new_url = add_query_arg(
-					array(
-						'install' => $install_product_key,
-					),
-					$new_url
-				);
-			}
-			return $new_url;
 		}
 
 		return add_query_arg(
@@ -768,10 +725,6 @@ class WC_Helper {
 
 		if ( isset( $_GET['redirect-to-wc-admin'] ) ) {
 			$redirect_url_args['redirect-to-wc-admin'] = 1;
-		}
-
-		if ( isset( $_GET['install'] ) ) {
-			$redirect_url_args['install'] = sanitize_text_field( wp_unslash( $_GET['install'] ) );
 		}
 
 		$redirect_uri = add_query_arg(
@@ -842,8 +795,7 @@ class WC_Helper {
 						'page'    => 'wc-addons',
 						'section' => 'helper',
 					),
-					isset( $_GET['redirect-to-wc-admin'] ),
-					isset( $_GET['install'] ) ? sanitize_text_field( wp_unslash( $_GET['install'] ) ) : ''
+					isset( $_GET['redirect-to-wc-admin'] )
 				)
 			);
 			die();
@@ -906,8 +858,7 @@ class WC_Helper {
 					'section'          => 'helper',
 					'wc-helper-status' => 'helper-connected',
 				),
-				isset( $_GET['redirect-to-wc-admin'] ),
-				isset( $_GET['install'] ) ? sanitize_text_field( wp_unslash( $_GET['install'] ) ) : ''
+				isset( $_GET['redirect-to-wc-admin'] )
 			)
 		);
 		die();
@@ -933,8 +884,7 @@ class WC_Helper {
 				'section'          => 'helper',
 				'wc-helper-status' => 'helper-disconnected',
 			),
-			isset( $_GET['redirect-to-wc-admin'] ),
-			isset( $_GET['install'] ) ? sanitize_text_field( wp_unslash( $_GET['install'] ) ) : ''
+			isset( $_GET['redirect-to-wc-admin'] )
 		);
 
 		self::disconnect();
@@ -961,8 +911,7 @@ class WC_Helper {
 				'filter'           => self::get_current_filter(),
 				'wc-helper-status' => 'helper-refreshed',
 			),
-			isset( $_GET['redirect-to-wc-admin'] ),
-			isset( $_GET['install'] ) ? sanitize_text_field( wp_unslash( $_GET['install'] ) ) : ''
+			isset( $_GET['redirect-to-wc-admin'] )
 		);
 
 		wp_safe_redirect( $redirect_uri );
@@ -1175,40 +1124,6 @@ class WC_Helper {
 		self::_flush_subscriptions_cache();
 
 		return $deactivated;
-	}
-
-	/**
-	 * Get a subscriptions install URL.
-	 *
-	 * @param string $product_key Subscription product key.
-	 * @return string
-	 */
-	public static function get_subscription_install_url( $product_key ) {
-		$install_url_response = WC_Helper_API::post(
-			'install-url',
-			array(
-				'authenticated' => true,
-				'body'          => wp_json_encode(
-					array(
-						'product_key' => $product_key,
-						'wc_version'  => WC()->version,
-					)
-				),
-			)
-		);
-
-		$code = wp_remote_retrieve_response_code( $install_url_response );
-		if ( 200 !== $code ) {
-			self::log( sprintf( 'Install URL API call returned a non-200 response code (%d)', $code ) );
-			return '';
-		}
-
-		$body = json_decode( wp_remote_retrieve_body( $install_url_response ), true );
-		if ( empty( $body['data']['url'] ) ) {
-			self::log( sprintf( 'Install URL API call returned an invalid body: %s', wp_remote_retrieve_body( $install_url_response ) ) );
-			return '';
-		}
-		return $body['data']['url'];
 	}
 
 	/**

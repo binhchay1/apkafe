@@ -81,6 +81,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 		switch ( $column_name ) {
 			case 'post_title':
 			case 'date':
+			default:
 		}
 
 		do_action( 'manage_' . $this->custom_post_type . '_posts_custom_column', $column_name, $item['ID'] );
@@ -107,13 +108,13 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * @return array $result sortable columns.
 	 */
 	public function usort_reorder( $a, $b ) {
-		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
 				return;
 		}
 		// If no sort, default to title.
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'post_title';
+		$orderby = ( ! empty( $_GET['orderby'] ) ) ? sanitize_text_field( $_GET['orderby'] ) : 'post_title';
 		// If no order, default to asc.
-		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
+		$order = ( ! empty( $_GET['order'] ) ) ? sanitize_text_field( $_GET['order'] ) : 'asc';
 		// Determine sort order.
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
 		// Send final sort direction to usort.
@@ -140,10 +141,10 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * @return array $actions bulk actions.
 	 */
 	public function get_bulk_actions() {
-		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
 			return;
 		}
-		$current = ( ! empty( $_REQUEST['post_status'] ) ? $_REQUEST['post_status'] : 'all' );
+		$current = ( ! empty( $_REQUEST['post_status'] ) ? sanitize_text_field( $_REQUEST['post_status'] ) : 'all' );
 		if ( 'trash' === $current ) {
 			$actions = array(
 				'restore' => esc_html__( 'Restore', 'wp-schema-pro' ),
@@ -168,41 +169,49 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	public function process_bulk_action() {
 
 		// security check!
-		if ( isset( $_POST['_wpnonce'] ) && ! empty( $_POST['_wpnonce'] ) ) {
+		$action = $this->current_action();
+		if ( 'trash' === $action || 'delete' === $action || 'draft' === $action || 'restore' === $action ) {
+			if ( isset( $_POST['_wpnonce'] ) && ! empty( $_POST['_wpnonce'] ) ) {
 
-			$nonce  = filter_input( INPUT_POST, '_wpnonce', FILTER_SANITIZE_STRING );
-			$action = 'bulk-' . $this->_args['plural'];
+				$nonce  = sanitize_text_field( $_POST['_wpnonce'] );
+				$action = 'bulk-' . $this->_args['plural'];
 
-			if ( ! wp_verify_nonce( $nonce, $action ) ) {
+				if ( ! wp_verify_nonce( $nonce, $action ) ) {
+					wp_die( 'Nope! Security check failed!' );
+				}
+			} else {
 				wp_die( 'Nope! Security check failed!' );
 			}
+
+			// Detect when a bulk action is being triggered...
+			if ( 'trash' === $this->current_action() && isset( $_POST[ $this->_args['singular'] ] ) ) {
+				foreach ( array_map( 'sanitize_text_field', $_POST[ $this->_args['singular'] ] ) as $id ) {
+					wp_trash_post( $id );
+				}
+			}
+			if ( 'delete' === $this->current_action() && isset( $_POST[ $this->_args['singular'] ] ) ) {
+				foreach ( array_map( 'sanitize_text_field', $_POST[ $this->_args['singular'] ] ) as $id ) {
+					wp_delete_post( $id );
+				}
+			}
+			if ( 'draft' === $this->current_action() && isset( $_POST[ $this->_args['singular'] ] ) ) {
+				foreach ( array_map( 'sanitize_text_field', $_POST[ $this->_args['singular'] ] ) as $id ) {
+					$post = array(
+						'ID'          => $id,
+						'post_status' => 'draft',
+					);
+					wp_update_post( $post );
+				}
+			}
+			if ( 'restore' === $this->current_action() && isset( $_POST[ $this->_args['singular'] ] ) ) {
+				foreach ( array_map( 'sanitize_text_field', $_POST[ $this->_args['singular'] ] ) as $id ) {
+					wp_untrash_post( $id );
+				}
+			}
+		} else {
+			return;
 		}
 
-		// Detect when a bulk action is being triggered...
-		if ( 'trash' === $this->current_action() ) {
-			foreach ( $_POST[ $this->_args['singular'] ] as $id ) {
-				wp_trash_post( $id );
-			}
-		}
-		if ( 'delete' === $this->current_action() ) {
-			foreach ( $_POST[ $this->_args['singular'] ] as $id ) {
-				wp_delete_post( $id );
-			}
-		}
-		if ( 'draft' === $this->current_action() ) {
-			foreach ( $_POST[ $this->_args['singular'] ] as $id ) {
-				$post = array(
-					'ID'          => $id,
-					'post_status' => 'draft',
-				);
-				wp_update_post( $post );
-			}
-		}
-		if ( 'restore' === $this->current_action() ) {
-			foreach ( $_POST[ $this->_args['singular'] ] as $id ) {
-				wp_untrash_post( $id );
-			}
-		}
 	}
 
 	/**
@@ -226,20 +235,18 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * @return array columns.
 	 */
 	public function column_post_title( $item ) {
-		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
 			return;
 		}
 
-		$edit_post_link         = get_edit_post_link( $item['ID'] );
-		$delete_post_link       = get_delete_post_link( $item['ID'] );
-		$force_delete_post_link = get_delete_post_link( $item['ID'], '', true );
+		$edit_post_link = get_edit_post_link( $item['ID'] );
 
 		$post_type_object = get_post_type_object( $this->custom_post_type );
 		$can_edit_post    = current_user_can( 'edit_post', $item['ID'] );
 		$actions          = array();
 		$title            = _draft_or_post_title();
 
-		$post_status = ( ! empty( $_REQUEST['post_status'] ) ) ? $_REQUEST['post_status'] : 'all';
+		$post_status = ( ! empty( $_REQUEST['post_status'] ) ) ? sanitize_text_field( $_REQUEST['post_status'] ) : 'all';
 		if ( $can_edit_post && 'trash' !== $post_status ) {
 			$actions['edit'] = sprintf(
 				'<a href="%s" aria-label="%s">%s</a>',
@@ -326,7 +333,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * @return int Current page number
 	 */
 	public function get_paged() {
-		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
 			return;
 		}
 		return isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
@@ -408,7 +415,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 		} else {
 
 			/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
-			echo '<abbr title="' . esc_html( $t_time ) . '">' . esc_html( apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) ) . '</abbr>';
+			echo '<abbr title="' . esc_attr( $t_time ) . '">' . esc_html( apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) ) . '</abbr>';
 		}
 	}
 
@@ -439,10 +446,10 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 */
 	public function prepare_items( $search = '' ) {
 
-		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
 			return;
 		}
-		$post_status = ( ! empty( $_REQUEST['post_status'] ) ) ? $_REQUEST['post_status'] : 'any';
+		$post_status = ( ! empty( $_REQUEST['post_status'] ) ) ? sanitize_text_field( $_REQUEST['post_status'] ) : 'any';
 		$data        = array();
 		$args        = array(
 			'post_type'      => $this->custom_post_type,
@@ -499,7 +506,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * @return array list of all views.
 	 */
 	public function get_views() {
-		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
 			return;
 		}
 		$status_links = array();
@@ -554,7 +561,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * Render List Table Markup.
 	 */
 	public function render_markup() {
-		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
 			return;
 		}
 		$this->prepare_items();
@@ -570,21 +577,21 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 				echo ' <a href="' . esc_url( admin_url( $post_new_file ) ) . '" class="page-title-action">' . esc_html( $post_obj->labels->add_new_item ) . '</a>';
 			}
 			// Search results for.
-			$s = isset( $_REQUEST['s'] ) ? filter_input( INPUT_POST, 's', FILTER_SANITIZE_STRING ) : '';
-			if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
+			$s = isset( $_REQUEST['s'] ) && strlen( sanitize_text_field( $_REQUEST['s'] ) ) ? sanitize_text_field( $_REQUEST['s'] ) : null;
+			if ( $s ) {
 				/* translators: %s: search keywords */
 				printf( '<span class="subtitle">' . esc_html__( 'Search results for &#8220;%s&#8221;', 'wp-schema-pro' ) . '</span>', esc_html( $s ) );
 			}
 			?>
-			<hr class="wp-header-end">
+			<br><br>
 		<?php
 		// table post views with count.
 		$this->views();
 		?>
 			<form id="<?php echo esc_attr( $post_type ); ?>-filter" method="post">
 			<?php
-			if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
-				$this->prepare_items( $_REQUEST['s'] );
+			if ( $s ) {
+				$this->prepare_items( $s );
 			} else {
 				$this->prepare_items();
 			}

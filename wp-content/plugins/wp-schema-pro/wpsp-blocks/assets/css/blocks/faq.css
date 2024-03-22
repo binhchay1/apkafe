@@ -1,0 +1,9 @@
+.wp-block-wpsp-faq.wpsp-faq-layout-accordion .wpsp-faq-child__outer-wrap .wpsp-faq-questions-button {
+	cursor: pointer;
+}
+
+.wpsp-faq-layout-grid.wpsp-faq-equal-height .wpsp-faq__wrap .wpsp-faq-child__outer-wrap,
+.wpsp-faq-layout-grid.wpsp-faq-equal-height .wpsp-faq__wrap .wpsp-faq-child__wrapper,
+.wpsp-faq-layout-grid.wpsp-faq-equal-height .wpsp-faq__wrap .wpsp-faq-item {
+	height: 100%;
+}

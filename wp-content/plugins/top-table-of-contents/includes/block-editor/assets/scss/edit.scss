@@ -1,0 +1,31 @@
+.is-root-container {
+    .is-selected {
+        &.wp-block-boomdevs-toc {
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+}
+
+.wp-block-boomdevs-toc {
+    .bd_toc_block_wrapper {
+        background-color: #EFF7FF;
+        border: 1px solid #D4ECFF;
+        border-radius: 10px;
+        padding: 15px;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 60px;
+            margin-right: 20px;
+        }
+
+        h2 {
+            font-size: 20px !important;
+            margin: 0;
+        }
+    }
+}

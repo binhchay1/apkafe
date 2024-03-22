@@ -76,7 +76,7 @@ if ( ! class_exists( 'WP_Schema_Pro_Yoast_Compatibility' ) ) {
 				return true;
 			}
 			if ( empty( self::$wpseo ) && method_exists( 'WPSEO_Options', 'get_options' ) ) {
-				self::$wpseo = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social', 'wpseo_internallinks' ) );
+				self::$wpseo = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social', 'wpseo_internallinks', 'wpseo_titles' ) );
 			}
 
 			return isset( self::$wpseo[ $key ] ) ? self::$wpseo[ $key ] : false;

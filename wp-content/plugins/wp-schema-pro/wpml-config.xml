@@ -1,0 +1,24 @@
+<wpml-config>
+	<gutenberg-blocks>
+		<gutenberg-block type="wpsp/faq-child" translate="1">
+			<xpath>//div[@class="wpsp-question"]</xpath>
+			<xpath>//div[@class="wpsp-faq-content"]</xpath>
+		</gutenberg-block>
+		<gutenberg-block type="wpsp/how-to" translate="1">
+			<xpath>//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]</xpath>
+			<xpath>//p[@class="wpsp-howto-desc-text"]</xpath>
+			<xpath>//h4[@class="wpsp-howto-timeNeeded-text"]</xpath>
+			<xpath>//p[@class="wpsp-howto-timeINmin-text"]</xpath>
+			<xpath>//h4[@class="wpsp-howto-estcost-text"]</xpath>
+			<xpath>//p[@class="wpsp-howto-estcost-type"]</xpath>
+			<xpath>//h4[@class="wpsp-howto-req-tools-text"]</xpath>
+			<xpath>//div[@class="wpsp-tools__label"]</xpath>
+			<xpath>//h4[@class="wpsp-howto-req-materials-text"]</xpath>
+			<xpath>//div[@class="wpsp-materials__label"]</xpath>
+		</gutenberg-block>
+		<gutenberg-block type="wpsp/how-to-child" translate="1">
+			<xpath>//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]</xpath>
+			<xpath>//p[@class="wpsp-ifb-desc"]</xpath>
+		</gutenberg-block>
+	</gutenberg-blocks>
+</wpml-config>

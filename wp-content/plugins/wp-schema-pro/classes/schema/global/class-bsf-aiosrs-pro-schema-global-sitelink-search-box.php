@@ -28,7 +28,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Sitelink_Search_Box' ) ) {
 			$schema['@context'] = 'https://schema.org';
 			$schema['@type']    = 'WebSite';
 			$schema['name']     = ( isset( $general_settings['site-name'] ) && ! empty( $general_settings['site-name'] ) ) ? $general_settings['site-name'] : wp_strip_all_tags( get_bloginfo( 'name' ) );
-			$schema['url']      = site_url();
+			$schema['url']      = home_url();
 
 			$potential_action = array();
 

@@ -41,13 +41,8 @@ class Init {
 		}
 
 		foreach ( $specs as $spec ) {
-			try {
-				$suggestion    = EvaluateSuggestion::evaluate( $spec );
-				$suggestions[] = $suggestion;
-				// phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-			} catch ( \Throwable $e ) {
-				// Ignore errors.
-			}
+			$suggestion    = EvaluateSuggestion::evaluate( $spec );
+			$suggestions[] = $suggestion;
 		}
 
 		return array_values(

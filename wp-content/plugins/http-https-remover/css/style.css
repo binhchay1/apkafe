@@ -1,0 +1,23 @@
+.green {
+	color: #008000;
+}
+.notices {
+	padding: 10px 0;
+}
+.notice_links {
+	width: 33.333%;
+	float: left;
+	text-align: left;
+}
+.gray {
+	color: #999;
+}
+.http_custom_class .notice-dismiss {
+	display: none;
+}
+.textarea {
+	width: 60%;
+}
+.form-table td {
+	padding: 20px 10px;
+}

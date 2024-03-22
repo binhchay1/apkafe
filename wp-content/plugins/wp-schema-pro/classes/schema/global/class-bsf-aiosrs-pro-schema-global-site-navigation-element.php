@@ -58,8 +58,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Site_Navigation_Element' ) ) 
 					$schema['@graph'][ $key2 ]['@context'] = 'https://schema.org';
 					$schema['@graph'][ $key2 ]['@type']    = 'SiteNavigationElement';
 					$schema['@graph'][ $key2 ]['id']       = 'site-navigation';
-					$schema['@graph'][ $key2 ]['name']     = $value2['name'];
-					$schema['@graph'][ $key2 ]['url']      = $value2['url'];
+					$schema['@graph'][ $key2 ]['name']     = isset( $value2['name'] ) ? $value2['name'] : '';
+					$schema['@graph'][ $key2 ]['url']      = isset( $value2['url'] ) ? $value2['url'] : '';
 				}
 			}
 

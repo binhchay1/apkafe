@@ -28,9 +28,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Person' ) ) {
 			$schema['@context'] = 'https://schema.org';
 			$schema['@type']    = 'Person';
 
-			if ( isset( $data['name'] ) && ! empty( $data['name'] ) ) {
-				$schema['name'] = esc_html( wp_strip_all_tags( $data['name'] ) );
-			}
+			$schema['name'] = ! empty( $data['name'] ) ? wp_strip_all_tags( (string) $data['name'] ) : null;
 
 			if ( ( isset( $data['street'] ) && ! empty( $data['street'] ) ) ||
 				( isset( $data['locality'] ) && ! empty( $data['locality'] ) ) ||
@@ -39,55 +37,35 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Person' ) ) {
 
 				$schema['address']['@type'] = 'PostalAddress';
 
-				if ( isset( $data['locality'] ) && ! empty( $data['locality'] ) ) {
-					$schema['address']['addressLocality'] = esc_html( wp_strip_all_tags( $data['locality'] ) );
-				}
+				$schema['address']['addressLocality'] = ! empty( $data['locality'] ) ? wp_strip_all_tags( (string) $data['locality'] ) : null;
 
-				if ( isset( $data['region'] ) && ! empty( $data['region'] ) ) {
-					$schema['address']['addressRegion'] = esc_html( wp_strip_all_tags( $data['region'] ) );
-				}
+				$schema['address']['addressRegion'] = ! empty( $data['region'] ) ? wp_strip_all_tags( (string) $data['region'] ) : null;
 
-				if ( isset( $data['postal'] ) && ! empty( $data['postal'] ) ) {
-					$schema['address']['postalCode'] = esc_html( wp_strip_all_tags( $data['postal'] ) );
-				}
+				$schema['address']['postalCode'] = ! empty( $data['postal'] ) ? wp_strip_all_tags( (string) $data['postal'] ) : null;
 
-				if ( isset( $data['street'] ) && ! empty( $data['street'] ) ) {
-					$schema['address']['streetAddress'] = esc_html( wp_strip_all_tags( $data['street'] ) );
-				}
+				$schema['address']['streetAddress'] = ! empty( $data['street'] ) ? wp_strip_all_tags( (string) $data['street'] ) : null;
 			}
 
-			if ( isset( $data['email'] ) && ! empty( $data['email'] ) ) {
-				$schema['email'] = esc_html( wp_strip_all_tags( $data['email'] ) );
-			}
+			$schema['email'] = ! empty( $data['email'] ) ? wp_strip_all_tags( (string) $data['email'] ) : null;
 
-			if ( isset( $data['gender'] ) && ! empty( $data['gender'] ) ) {
-				$schema['gender'] = esc_html( wp_strip_all_tags( $data['gender'] ) );
-			}
+			$schema['gender'] = ! empty( $data['gender'] ) ? wp_strip_all_tags( (string) $data['gender'] ) : null;
 
 			if ( isset( $data['dob'] ) && ! empty( $data['dob'] ) ) {
 				$date_informat       = gmdate( 'Y.m.d', strtotime( $data['dob'] ) );
-				$schema['birthDate'] = esc_html( wp_strip_all_tags( $date_informat ) );
+				$schema['birthDate'] = wp_strip_all_tags( (string) $date_informat );
 			}
 
-			if ( isset( $data['member'] ) && ! empty( $data['member'] ) ) {
-				$schema['memberOf'] = esc_html( wp_strip_all_tags( $data['member'] ) );
-			}
+			$schema['memberOf'] = ! empty( $data['member'] ) ? wp_strip_all_tags( (string) $data['member'] ) : null;
 
-			if ( isset( $data['nationality'] ) && ! empty( $data['nationality'] ) ) {
-				$schema['nationality'] = esc_html( wp_strip_all_tags( $data['nationality'] ) );
-			}
+			$schema['nationality'] = ! empty( $data['nationality'] ) ? wp_strip_all_tags( (string) $data['nationality'] ) : null;
 
 			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['image'] );
 			}
 
-			if ( isset( $data['job-title'] ) && ! empty( $data['job-title'] ) ) {
-				$schema['jobTitle'] = esc_html( wp_strip_all_tags( $data['job-title'] ) );
-			}
+			$schema['jobTitle'] = ! empty( $data['job-title'] ) ? wp_strip_all_tags( (string) $data['job-title'] ) : null;
 
-			if ( isset( $data['telephone'] ) && ! empty( $data['telephone'] ) ) {
-				$schema['telephone'] = esc_html( wp_strip_all_tags( $data['telephone'] ) );
-			}
+			$schema['telephone'] = ! empty( $data['telephone'] ) ? wp_strip_all_tags( (string) $data['telephone'] ) : null;
 
 			if ( isset( $data['homepage-url'] ) && ! empty( $data['homepage-url'] ) ) {
 				$schema['url'] = esc_url( $data['homepage-url'] );
@@ -100,39 +78,30 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Person' ) ) {
 					}
 				}
 			}
-			$contact_type = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-corporate-contact'];
-			$contact_hear = isset( $contact_type['contact-hear'] ) ? $contact_type['contact-hear'] : '';
-			$contact_toll = isset( $contact_type['contact-toll'] ) ? $contact_type['contact-toll'] : '';
-			$contactpoint = array( $contact_hear, $contact_toll );
-			if ( '1' === isset( $contact_type['cp-schema-type'] ) && true === apply_filters( 'wp_schema_pro_contactpoint_person_schema_enabled', true ) ) {
-				if ( isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) ) {
+			$contact_type       = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-corporate-contact'];
+			$contact_hear       = isset( $contact_type['contact-hear'] ) ? $contact_type['contact-hear'] : '';
+			$contact_toll       = isset( $contact_type['contact-toll'] ) ? $contact_type['contact-toll'] : '';
+			$contact_point_type = $contact_hear . ' ' . $contact_toll;
+			$contact_point_type = explode( ' ', $contact_point_type );
+			if ( '1' === $contact_type['cp-schema-type'] && true === apply_filters( 'wp_schema_pro_contactpoint_person_schema_enabled', true ) && isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) ) {
 						$schema['ContactPoint']['@type'] = 'ContactPoint';
 
-					if ( isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) ) {
-						$schema ['ContactPoint']['contactType'] = esc_html( wp_strip_all_tags( $contact_type['contact-type'] ) );
-					}
-					if ( isset( $contact_type['telephone'] ) && ! empty( $contact_type['telephone'] ) ) {
-						$schema ['ContactPoint']['telephone'] = esc_html( wp_strip_all_tags( $contact_type['telephone'] ) );
-					}
-					if ( isset( $contact_type['url'] ) && ! empty( $contact_type['url'] ) ) {
-						$schema ['ContactPoint']['url'] = esc_url( $contact_type['url'] );
-					}
-					if ( isset( $contact_type['email'] ) && ! empty( $contact_type['email'] ) ) {
-						$schema ['ContactPoint']['email'] = esc_html( wp_strip_all_tags( $contact_type['email'] ) );
-					}
-					if ( isset( $contact_type['areaServed'] ) && ! empty( $contact_type['areaServed'] ) ) {
-						$schema ['ContactPoint']['areaServed'] = esc_html( wp_strip_all_tags( $contact_type['areaServed'] ) );
-					}
-					if ( isset( $contactpoint ) && ! empty( $contactpoint ) ) {
-
-						$schema ['ContactPoint']['contactOption'] = esc_html( wp_strip_all_tags( $contactpoint ) );
-
-					}
-
-					if ( isset( $contact_type['availableLanguage'] ) && ! empty( $contact_type['availableLanguage'] ) ) {
-						$schema ['ContactPoint']['availableLanguage'] = esc_html( wp_strip_all_tags( $contact_type['availableLanguage'] ) );
+				$schema ['ContactPoint']['contactType'] = ! empty( $contact_type['contact-type'] ) ? wp_strip_all_tags( (string) $contact_type['contact-type'] ) : null;
+				$schema ['ContactPoint']['telephone']   = ! empty( $contact_type['telephone'] ) ? wp_strip_all_tags( (string) $contact_type['telephone'] ) : null;
+				if ( isset( $contact_type['url'] ) && ! empty( $contact_type['url'] ) ) {
+					$schema ['ContactPoint']['url'] = esc_url( $contact_type['url'] );
+				}
+				$schema ['ContactPoint']['email'] = ! empty( $contact_type['email'] ) ? wp_strip_all_tags( (string) $contact_type['email'] ) : null;
+				if ( isset( $contact_type['areaServed'] ) && ! empty( $contact_type['areaServed'] ) ) {
+					$language = explode( ',', $contact_type['areaServed'] );
+					foreach ( $language as $key => $value ) {
+						$schema ['ContactPoint']['areaServed'][ $key ] = wp_strip_all_tags( (string) $value );
 					}
 				}
+				foreach ( $contact_point_type  as $key => $value ) {
+					$schema ['ContactPoint']['contactOption'][ $key ] = wp_strip_all_tags( (string) $value );
+				}
+				$schema ['ContactPoint']['availableLanguage'] = ! empty( $contact_type['availableLanguage'] ) ? wp_strip_all_tags( (string) $contact_type['availableLanguage'] ) : null;
 			}
 
 			return apply_filters( 'wp_schema_pro_schema_person', $schema, $data, $post );

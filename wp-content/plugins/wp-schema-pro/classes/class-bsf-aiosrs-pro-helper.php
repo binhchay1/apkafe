@@ -56,6 +56,9 @@ class BSF_AIOSRS_Pro_Helper {
 			'pinterest'   => '',
 			'soundcloud'  => '',
 			'tumblr'      => '',
+			'wikipedia'   => '',
+			'myspace'     => '',
+			'other'       => array(),
 		),
 
 		// Global Schemas.
@@ -69,10 +72,11 @@ class BSF_AIOSRS_Pro_Helper {
 
 		// Advanced Settings.
 		'aiosrs-pro-settings'              => array(
-			'quick-test'          => 1,
+			'quick-test'          => '1',
 			'menu-position'       => 'options-general.php',
 			'schema-location'     => 'head',
-			'yoast-compatibility' => 1,
+			'yoast-compatibility' => '1',
+			'schema-validation'   => '',
 			'default_image'       => '',
 			'delete-schema-data'  => '',
 
@@ -80,15 +84,20 @@ class BSF_AIOSRS_Pro_Helper {
 
 		// Corporate Contact.
 		'wp-schema-pro-corporate-contact'  => array(
-			'contact-type'      => '',
-			'telephone'         => '',
-			'url'               => '',
-			'email'             => '',
-			'areaServed'        => '',
-			'contact-hear'      => '',
-			'contact-toll'      => '',
-			'availableLanguage' => '',
-			'cp-schema-type'    => '',
+			'contact-type'       => '',
+			'telephone'          => '',
+			'url'                => '',
+			'email'              => '',
+			'areaServed'         => '',
+			'contact-hear'       => '',
+			'contact-toll'       => '',
+			'availableLanguage'  => '',
+			'cp-schema-type'     => '',
+			'areaserved-type'    => '',
+			'country'            => array(),
+			'place'              => '',
+			'contact-page-id'    => '',
+			'contact-type-other' => '',
 
 		),
 
@@ -99,12 +108,13 @@ class BSF_AIOSRS_Pro_Helper {
 			'sp_plugin_desc'        => '',
 			'sp_plugin_author_name' => '',
 			'sp_plugin_author_url'  => '',
-			'sp_hide_label'         => '',
+			'sp_hide_label'         => 'disabled',
 		),
 		'wp-schema-pro-breadcrumb-setting' => array(
-			'product'     => '',
-			'product_cat' => '',
-			'product_tag' => '',
+			'product'      => '',
+			'product_cat'  => '',
+			'product_tag'  => '',
+			'enable_bread' => '1',
 		),
 	);
 
@@ -138,20 +148,43 @@ class BSF_AIOSRS_Pro_Helper {
 	}
 
 	/**
+	 *  Enqueue the scripts at the backend.
+	 */
+	public static function bsf_schema_pro_enqueue_admin_script() {
+		global $pagenow;
+			return 'post-new.php' === $pagenow || 'post.php' === $pagenow;
+	}
+
+	/**
 	 *  Set default options.
 	 */
 	public static function bsf_schema_pro_set_default_options() {
 
 		foreach ( self::$default_options as $key => $default_option ) {
+			$settings = get_option( $key );
 			if ( ! get_option( $key ) ) {
 				update_option( $key, $default_option );
+			} else {
+				foreach ( $default_option as $name => $setting ) {
+					if ( ! isset( $settings[ $name ] ) ) {
+						$settings[ $name ] = $default_option[ $name ];
+					}
+				}
+				// Updated settings if new settings added.
+				update_option( $key, $settings );
 			}
 		}
 
 		// Delete decrypted cached structured option data.
-		delete_option( 'wp_schema_pro_optimized_structured_data' );
+		delete_option( BSF_AIOSRS_PRO_CACHE_KEY );
 	}
 
+	/**
+	 *  Return the WP_debug.
+	 */
+	public static function bsf_schema_pro_is_wp_debug_enable() {
+		return true === ( defined( 'WP_DEBUG' ) && WP_DEBUG );
+	}
 }
 
 

@@ -31,7 +31,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Breadcrumb' ) ) {
 			foreach ( $breadcrumb_list as $key => $breadcrumb ) {
 				$schema['itemListElement'][ $key ]['@type']        = 'ListItem';
 				$schema['itemListElement'][ $key ]['position']     = $key + 1;
-				$schema['itemListElement'][ $key ]['item']['@id']  = $breadcrumb['url'];
+				$schema['itemListElement'][ $key ]['item']['@id']  = esc_url( $breadcrumb['url'] );
 				$schema['itemListElement'][ $key ]['item']['name'] = $breadcrumb['title'];
 			}
 

@@ -192,12 +192,7 @@ class ProductVariationTemplate extends AbstractProductFormTemplate implements Pr
 					'order'      => 40,
 					'attributes' => array(
 						'title'       => __( 'Downloads', 'woocommerce' ),
-						'description' => sprintf(
-						/* translators: %1$s: Downloads settings link opening tag. %2$s: Downloads settings link closing tag. */
-							__( 'Add any files you\'d like to make available for the customer to download after purchasing, such as instructions or warranty info. Store-wide updates can be managed in your %1$sproduct settings%2$s.', 'woocommerce' ),
-							'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=products&section=downloadable' ) . '" target="_blank" rel="noreferrer">',
-							'</a>'
-						),
+						'description' => __( "Add any files you'd like to make available for the customer to download after purchasing, such as instructions or warranty info.", 'woocommerce' ),
 					),
 				)
 			)->add_block(
@@ -405,24 +400,43 @@ class ProductVariationTemplate extends AbstractProductFormTemplate implements Pr
 				),
 			)
 		);
-		$product_inventory_inner_section->add_block(
+		$product_inventory_quantity_conditional = $product_inventory_inner_section->add_block(
 			array(
-				'id'             => 'product-variation-inventory-quantity',
-				'blockName'      => 'woocommerce/product-inventory-quantity-field',
-				'order'          => 10,
-				'hideConditions' => array(
-					array(
-						'expression' => 'editedProduct.manage_stock === false',
+				'id'         => 'product-variation-inventory-quantity-conditional-wrapper',
+				'blockName'  => 'woocommerce/conditional',
+				'order'      => 30,
+				'attributes' => array(
+					'mustMatch' => array(
+						'manage_stock' => array( true ),
 					),
 				),
 			)
 		);
-		$product_inventory_section->add_block(
+		$product_inventory_quantity_conditional->add_block(
 			array(
-				'id'             => 'product-variation-stock-status',
-				'blockName'      => 'woocommerce/product-radio-field',
-				'order'          => 10,
-				'attributes'     => array(
+				'id'        => 'product-variation-inventory-quantity',
+				'blockName' => 'woocommerce/product-inventory-quantity-field',
+				'order'     => 10,
+			)
+		);
+		$product_stock_status_conditional = $product_inventory_section->add_block(
+			array(
+				'id'         => 'product-variation-stock-status-conditional-wrapper',
+				'blockName'  => 'woocommerce/conditional',
+				'order'      => 20,
+				'attributes' => array(
+					'mustMatch' => array(
+						'manage_stock' => array( false ),
+					),
+				),
+			)
+		);
+		$product_stock_status_conditional->add_block(
+			array(
+				'id'         => 'product-variation-stock-status',
+				'blockName'  => 'woocommerce/product-radio-field',
+				'order'      => 10,
+				'attributes' => array(
 					'title'    => __( 'Stock status', 'woocommerce' ),
 					'property' => 'stock_status',
 					'options'  => array(
@@ -438,11 +452,6 @@ class ProductVariationTemplate extends AbstractProductFormTemplate implements Pr
 							'label' => __( 'On backorder', 'woocommerce' ),
 							'value' => 'onbackorder',
 						),
-					),
-				),
-				'hideConditions' => array(
-					array(
-						'expression' => 'editedProduct.manage_stock === true',
 					),
 				),
 			)

@@ -1,75 +1,97 @@
-;(function ( $, window, undefined ) {
-
-	var user_role_update_close_button = function(wrapper) {
-
-		type 		= wrapper.closest('.bsf-user-role-wrapper').attr('data-type');
-		rules 		= wrapper.find('.bsf-user-role-condition');
-		show_close	= false;
+/* eslint-env jquery */
+( function ( $ ) {
+	const userRoleUpdateCloseButton = function ( wrapper ) {
+		const rules = wrapper.find( '.bsf-user-role-condition' );
+		let showClose = false;
 
 		if ( rules.length > 1 ) {
-			show_close = true;
+			showClose = true;
 		}
 
-		rules.each(function() {
-			if ( show_close ) {
-				jQuery(this).find('.user_role-condition-delete').removeClass('bsf-hidden');
-			}else{
-				jQuery(this).find('.user_role-condition-delete').addClass('bsf-hidden');
+		rules.each( function () {
+			if ( showClose ) {
+				jQuery( this )
+					.find( '.user_role-condition-delete' )
+					.removeClass( 'bsf-hidden' );
+			} else {
+				jQuery( this )
+					.find( '.user_role-condition-delete' )
+					.addClass( 'bsf-hidden' );
 			}
-		});
+		} );
 	};
 
-	$(document).ready(function($) {
+	$( document ).ready( function () {
+		jQuery( '.bsf-user-role-selector-wrapper' ).each( function () {
+			userRoleUpdateCloseButton( jQuery( this ) );
+		} );
 
-		jQuery('.bsf-user-role-selector-wrapper').each(function() {
-			user_role_update_close_button( jQuery(this) );
-		})
-		
-		jQuery( '.bsf-user-role-selector-wrapper' ).on( 'click', '.user_role-add-rule-wrap a', function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			var $this 		= jQuery( this ),
-				id 			= $this.attr( 'data-rule-id' ),
-				new_id 		= parseInt(id) + 1,
-				rule_wrap 	= $this.closest('.bsf-user-role-selector-wrapper').find('.user_role-builder-wrap'),
-				template  	= wp.template( 'bsf-user-role-condition' ),
-				field_wrap 	= $this.closest('.bsf-user-role-wrapper');
+		jQuery( '.bsf-user-role-selector-wrapper' ).on(
+			'click',
+			'.user_role-add-rule-wrap a',
+			function ( e ) {
+				e.preventDefault();
+				e.stopPropagation();
+				const $this = jQuery( this ),
+					id = $this.attr( 'data-rule-id' ),
+					newId = parseInt( id ) + 1,
+					ruleWrap = $this
+						.closest( '.bsf-user-role-selector-wrapper' )
+						.find( '.user_role-builder-wrap' ),
+					template = wp.template( 'bsf-user-role-condition' ),
+					fieldWrap = $this.closest( '.bsf-user-role-wrapper' );
 
-			rule_wrap.append( template( { id : new_id } ) );
-			
-			$this.attr( 'data-rule-id', new_id );
+				ruleWrap.append( template( { id: newId } ) );
 
-			user_role_update_close_button( field_wrap );
-		});
+				$this.attr( 'data-rule-id', newId );
 
-		jQuery( '.bsf-user-role-selector-wrapper' ).on( 'click', '.user_role-condition-delete', function(e) {
-			var $this 			= jQuery( this ),
-				rule_condition 	= $this.closest('.bsf-user-role-condition'),
-				field_wrap 		= $this.closest('.bsf-user-role-wrapper');
-				cnt 			= 0,
-				data_type 		= field_wrap.attr( 'data-type' ),
-				optionVal 		= $this.siblings('.user_role-condition-wrap').children('.user_role-condition').val();
+				userRoleUpdateCloseButton( fieldWrap );
+			}
+		);
 
-			rule_condition.remove();
+		jQuery( '.bsf-user-role-selector-wrapper' ).on(
+			'click',
+			'.user_role-condition-delete',
+			function () {
+				const $this = jQuery( this ),
+					ruleCondition = $this.closest( '.bsf-user-role-condition' ),
+					fieldWrap = $this.closest( '.bsf-user-role-wrapper' );
+				let cnt = 0;
+				ruleCondition.remove();
 
-			field_wrap.find('.bsf-user-role-condition').each(function(i) {
-				var condition       = jQuery( this ),
-					old_rule_id     = condition.attr('data-rule'),
-					select_location = condition.find('.user_role-condition'),
-					location_name   = select_location.attr( 'name' );
-					
-				condition.attr( 'data-rule', i );
+				fieldWrap
+					.find( '.bsf-user-role-condition' )
+					.each( function ( i ) {
+						const condition = jQuery( this ),
+							oldRuleId = condition.attr( 'data-rule' ),
+							selectLocation = condition.find(
+								'.user_role-condition'
+							),
+							locationName = selectLocation.attr( 'name' );
 
-				select_location.attr( 'name', location_name.replace('['+old_rule_id+']', '['+i+']') );
+						condition.attr( 'data-rule', i );
 
-				condition.removeClass('bsf-user-role-'+old_rule_id).addClass('bsf-user-role-'+i);
+						selectLocation.attr(
+							'name',
+							locationName.replace(
+								'[' + oldRuleId + ']',
+								'[' + i + ']'
+							)
+						);
 
-				cnt = i;
-			});
+						condition
+							.removeClass( 'bsf-user-role-' + oldRuleId )
+							.addClass( 'bsf-user-role-' + i );
 
-			field_wrap.find('.user_role-add-rule-wrap a').attr( 'data-rule-id', cnt )
+						cnt = i;
+					} );
 
-			user_role_update_close_button( field_wrap );
-		});
-	});
-}(jQuery, window));
+				fieldWrap
+					.find( '.user_role-add-rule-wrap a' )
+					.attr( 'data-rule-id', cnt );
+
+				userRoleUpdateCloseButton( fieldWrap );
+			}
+		);
+	} );
+} )( jQuery );

@@ -3,8 +3,9 @@ body.aiosrs-pro-license-form-open {
 }
 
 #aiosrs-pro-license-form p {
-	padding: 5px 0px 5px 0px;
+	padding: 5px 0 5px 0;
 }
+
 #aiosrs-pro-license-form .aiosrs-pro-license-form-overlay {
 	background: #000;
 	opacity: 0.7;
@@ -29,8 +30,8 @@ body.aiosrs-pro-license-form-open {
 	left: 50%;
 	-webkit-transform: translateX(-50%) translateY(-50%);
 	transform: translateX(-50%) translateY(-50%);
-	-webkit-box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
-	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+	-webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 #aiosrs-pro-license-form-close-btn {
@@ -45,15 +46,17 @@ body.aiosrs-pro-license-form-open {
 	background: none;
 	cursor: pointer;
 	outline: none;
-	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
-	-webkit-transform: translateX(100%);  
+	-webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+	-webkit-transform: translateX(100%);
 	transform: translateX(100%);
-	transition: color .1s ease-in-out, background .1s ease-in-out;
+	transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
 	color: #eee;
 }
+
 #aiosrs-pro-license-form-close-btn:hover {
 	color: #00a0d2;
 }
+
 #aiosrs-pro-license-form-close-btn .dashicons {
 	display: block;
 	text-align: center;
@@ -76,9 +79,11 @@ body.aiosrs-pro-license-form-open {
 	display: block;
 	margin-bottom: 0.5em;
 }
+
 .bsf-current-license-error-wp-schema-pro {
-	color: #F44336;
+	color: #f44336;
 }
+
 .bsf-current-license-success-wp-schema-pro {
 	color: #008000;
 }
@@ -87,6 +92,7 @@ body.aiosrs-pro-license-form-open {
 #aiosrs-pro-license-form-btn.active {
 	color: #3db634;
 }
+
 #aiosrs-pro-license-form-btn.inactive {
-	color: #F44336;
+	color: #f44336;
 }

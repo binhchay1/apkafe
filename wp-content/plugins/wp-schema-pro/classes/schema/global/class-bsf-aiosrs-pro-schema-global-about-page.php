@@ -39,8 +39,14 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_About_Page' ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $thumb_image );
 			}
 
-			$settings                     = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-general-settings'];
-			$schema['publisher']['@type'] = $settings['site-represent'];
+			$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-general-settings'];
+			if ( 'person' === $settings['site-represent'] || 'personblog' === $settings['site-represent'] ) {
+				$settings['site-represent'] = 'person';
+			}
+			if ( 'organization' === $settings['site-represent'] || 'Webshop' === $settings['site-represent'] || 'Smallbusiness' === $settings['site-represent'] || 'Otherbusiness' === $settings['site-represent'] ) {
+				$settings['site-represent'] = 'organization';
+			}
+			$schema['publisher']['@type'] = ( isset( $settings['site-represent'] ) && ! empty( $settings['site-represent'] ) ) ? $settings['site-represent'] : 'Organization';
 			if ( 'organization' === $settings['site-represent'] ) {
 				$schema['publisher']['name'] = ( isset( $settings['site-name'] ) && ! empty( $settings['site-name'] ) ) ? $settings['site-name'] : wp_strip_all_tags( get_bloginfo( 'name' ) );
 			} else {

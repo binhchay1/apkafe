@@ -1171,6 +1171,7 @@
       // the field which we query against
       rule: {} // the rule [field, operator, value]
     },
+
     events: {
       change: 'change',
       keyup: 'change',
@@ -1537,6 +1538,7 @@
       // Reference used during "change" event.
       groups: [] // The groups of condition instances.
     },
+
     setup: function (field) {
       // data
       this.data.field = field;

@@ -1,0 +1,62 @@
+.wp-block-wpsp-faq-child.wpsp-faq-child__outer-wrap .wpsp-faq-item:focus,
+.wp-block-wpsp-faq-child.wpsp-faq-child__outer-wrap .wpsp-faq-item:active {
+	outline: thin dotted;
+}
+
+.wp-block-wpsp-faq-child .wpsp-faq-questions-button {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.wp-block-wpsp-faq-child .wpsp-faq-questions-button .wpsp-faq-icon-wrap {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.wp-block-wpsp-faq-child .wpsp-faq-questions-button .wpsp-question {
+	width: 100%;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.wp-block-wpsp-faq-child .wpsp-icon svg,
+.wp-block-wpsp-faq-child .wpsp-icon-active svg {
+	width: 15px;
+	height: 15px;
+	font-size: 15px;
+}
+
+.wp-block-wpsp-faq-child .wpsp-faq-content span {
+	display: inline-block;
+}
+
+.wp-block-wpsp-faq-child .wpsp-faq-content p {
+	margin: 0;
+}
+
+.wp-block-wpsp-faq-child.wpsp-faq-child__outer-wrap .wpsp-faq-item .wpsp-icon-active,
+.wp-block-wpsp-faq-child.wpsp-faq-child__outer-wrap .wpsp-faq-item.wpsp-faq-item-active .wpsp-icon {
+	display: none;
+	width: 0;
+	padding: 0;
+	height: 0;
+	margin: 0;
+}
+
+.wp-block-wpsp-faq-child.wpsp-faq-child__outer-wrap .wpsp-faq-item .wpsp-icon,
+.wp-block-wpsp-faq-child.wpsp-faq-child__outer-wrap .wpsp-faq-item.wpsp-faq-item-active .wpsp-icon-active {
+	display: inline-block;
+	width: auto;
+	height: auto;
+}
+
+.wpsp-faq-layout-grid .wpsp-faq-child__outer-wrap .wpsp-faq-item .wpsp-icon,
+.wpsp-faq-layout-grid .wpsp-faq-child__outer-wrap .wpsp-faq-item.wpsp-faq-item-active .wpsp-icon-active {
+	display: none;
+}
+
+.wpsp-faq-layout-grid .wpsp-faq-child__outer-wrap .wpsp-faq-item span.wpsp-icon-active.wpsp-faq-icon-wrap,
+.wpsp-faq-layout-grid .wpsp-faq-child__outer-wrap .wpsp-faq-item.wpsp-faq-item-active .wpsp-icon-active {
+	display: none;
+}

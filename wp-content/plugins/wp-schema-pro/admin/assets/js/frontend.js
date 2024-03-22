@@ -1,82 +1,102 @@
-
-(function($){
-
+/* eslint-env jquery */
+(function ($) {
 	/**
 	 * AIOSRS Frontend
 	 *
-	 * @class WP_Schema_Pro_Frontend
+	 * @class WPSchemaProFrontend
 	 * @since 1.0
 	 */
-	WP_Schema_Pro_Frontend = {
-		
+	const WPSchemaProFrontend = {
 		/**
 		 * Initializes a AIOSRS Frontend.
 		 *
 		 * @since 1.0
-		 * @method init
+		 * @function init
 		 */
 		container: '',
 
+		init() {
+			const self = this;
+			jQuery(document).on(
+				'click',
+				'.aiosrs-rating-wrap .aiosrs-star-rating',
+				function (e) {
+					e.preventDefault();
 
-		init: function() {
-
-			var self = this;
-			jQuery(document).on( 'click', '.aiosrs-rating-wrap .aiosrs-star-rating', function(e) {
-				e.preventDefault();
-
-				self.star_rating(this);
-			});
-
-			jQuery(document).on( 'mouseover', '.aiosrs-rating-wrap .aiosrs-star-rating', function(e) {
-				e.preventDefault();
-				self.hover_star_rating(this);
-			});
-
-			jQuery(document).on( 'mouseout', '.aiosrs-rating-wrap .aiosrs-star-rating-wrap', function(e) {
-				e.preventDefault();
-				if ( ! $(this).hasClass('disabled') ) {
-					index = $(this).parent().find('.aiosrs-rating').text();
-					self.update_stars( $(this), index );
+					self.star_rating(this);
 				}
-			});
+			);
+
+			jQuery(document).on(
+				'mouseover',
+				'.aiosrs-rating-wrap .aiosrs-star-rating',
+				function (e) {
+					e.preventDefault();
+					self.hover_star_rating(this);
+				}
+			);
+
+			jQuery(document).on(
+				'mouseout',
+				'.aiosrs-rating-wrap .aiosrs-star-rating-wrap',
+				function (e) {
+					e.preventDefault();
+					if (!$(this).hasClass('disabled')) {
+						const index = $(this)
+							.parent()
+							.find('.aiosrs-rating')
+							.text();
+						self.update_stars($(this), index);
+					}
+				}
+			);
 		},
 
-		hover_star_rating: function( field ) {
-			var self   = this,
+		hover_star_rating(field) {
+			const self = this,
 				parent = $(field).closest('.aiosrs-star-rating-wrap'),
-				index  = $(field).data('index');
+				index = $(field).data('index');
 
-			if ( ! parent.hasClass('disabled') ) {
-				self.update_stars( parent, index );
+			if (!parent.hasClass('disabled')) {
+				self.update_stars(parent, index);
 			}
 		},
 
-		update_stars: function( wrap, rating ) {
+		update_stars(wrap, rating) {
+			let filled = rating > 5 ? 5 : parseInt(rating);
 
-			var filled = ( rating > 5 ) ? 5 : ( ( rating < 0 ) ? 0 : parseInt(rating) ),
-				half   = ( rating == filled || rating > 5 || rating < 0 ) ? 0 : 1;
-
-			wrap.find('span').each(function(index, el) {
-				$(this).removeClass('dashicons-star-filled dashicons-star-half dashicons-star-empty');
-				if( index < filled ) {
+			if (rating > 5) {
+				filled = 5;
+			} else if (rating < 0) {
+				filled = 0;
+			} else {
+				filled = parseInt(rating);
+			}
+			const half = rating === filled || rating > 5 || rating < 0 ? 0 : 1;
+			wrap.find('span').each(function (index) {
+				$(this).removeClass(
+					'dashicons-star-filled dashicons-star-half dashicons-star-empty'
+				);
+				if (index < filled) {
 					$(this).addClass('dashicons-star-filled');
-				} else if( index == filled && half == 1 ) {
-					$(this).addClass('dashicons-star-half');
+				} else if (index === filled && half === 1) {
+					$(this).addClass('dashicons-star-empty');
 				} else {
 					$(this).addClass('dashicons-star-empty');
 				}
 			});
 		},
 
-		star_rating: function( field ) {
-			var self      = this,
-				schema_id = $(field).closest('.aiosrs-rating-wrap').data( 'schema-id' ),
-				parent    = $(field).closest('.aiosrs-star-rating-wrap'),
-				index     = $(field).data('index');
+		star_rating(field) {
+			const self = this,
+				schemaId = $(field)
+					.closest('.aiosrs-rating-wrap')
+					.data('schema-id'),
+				parent = $(field).closest('.aiosrs-star-rating-wrap'),
+				index = $(field).data('index');
 
-			if ( ! parent.hasClass('disabled') ) {
-
-				self.update_stars( parent, index );
+			if (!parent.hasClass('disabled')) {
+				self.update_stars(parent, index);
 				parent.addClass('disabled');
 
 				$.ajax({
@@ -85,37 +105,43 @@
 					data: {
 						action: 'aiosrs_user_rating',
 						rating: index,
-						schema_id: schema_id,
+						schemaId,
 						post_id: AIOSRS_Frontend.post_id,
-						nonce: AIOSRS_Frontend.user_rating_nonce
-					}
-				}).success(function( response ) {
-					if( response['success'] == true ) {
-						var summary_wrap = parent.next('.aiosrs-rating-summary-wrap'),
-							rating       = response['rating'],
-							avg_rating   = response['rating-avg'],
-							review_count = response['review-count'];
+						nonce: AIOSRS_Frontend.user_rating_nonce,
+					},
+				}).success(function (response) {
+					if (response.success === true) {
+						const summaryWrap = parent.next(
+							'.aiosrs-rating-summary-wrap'
+						),
+							rating = response.rating,
+							avgRating = response['rating-avg'],
+							reviewCount = response['review-count'];
 
-						summary_wrap.find('.aiosrs-rating').text(avg_rating);
-						summary_wrap.find('.aiosrs-rating-count').text(review_count);
-						if( parent.next('.success-msg').length == 0 ) {
-							parent.after('<span class="success-msg">'+ AIOSRS_Frontend.success_msg +'</span>');
+						summaryWrap.find('.aiosrs-rating').text(avgRating);
+						summaryWrap
+							.find('.aiosrs-rating-count')
+							.text(reviewCount);
+						if (parent.next('.success-msg').length === 0) {
+							parent.after(
+								'<span class="success-msg">' +
+								AIOSRS_Frontend.success_msg +
+								'</span>'
+							);
 						}
-						setTimeout(function(){
+						setTimeout(function () {
 							parent.parent().find('.success-msg').remove();
 							parent.removeClass('disabled');
 						}, 5000);
-						self.update_stars( parent, rating );
+						self.update_stars(parent, rating);
 					}
 				});
 			}
-		}
-	}
+		},
+	};
 
 	/* Initializes the AIOSRS Frontend. */
-	$(function(){
-
-		WP_Schema_Pro_Frontend.init();
+	$(function () {
+		WPSchemaProFrontend.init();
 	});
-
 })(jQuery);

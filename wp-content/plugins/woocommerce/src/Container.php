@@ -19,10 +19,8 @@ use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\OrderM
 use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\ObjectCacheServiceProvider;
 use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\OrdersDataStoreServiceProvider;
 use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\OptionSanitizerServiceProvider;
-use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\OrderAttributionServiceProvider;
 use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\ProductAttributesLookupServiceProvider;
 use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\ProductDownloadsServiceProvider;
-use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\ProductImageBySKUServiceProvider;
 use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\ProductReviewsServiceProvider;
 use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\ProxiesServiceProvider;
 use Automattic\WooCommerce\Internal\DependencyManagement\ServiceProviders\RestockRefundedItemsAdjusterServiceProvider;
@@ -60,14 +58,12 @@ final class Container {
 		OrdersDataStoreServiceProvider::class,
 		ProductAttributesLookupServiceProvider::class,
 		ProductDownloadsServiceProvider::class,
-		ProductImageBySKUServiceProvider::class,
 		ProductReviewsServiceProvider::class,
 		ProxiesServiceProvider::class,
 		RestockRefundedItemsAdjusterServiceProvider::class,
 		UtilsClassesServiceProvider::class,
 		COTMigrationServiceProvider::class,
 		OrdersControllersServiceProvider::class,
-		OrderAttributionServiceProvider::class,
 		ObjectCacheServiceProvider::class,
 		BatchProcessingServiceProvider::class,
 		OrderMetaBoxServiceProvider::class,
@@ -112,7 +108,7 @@ final class Container {
 	 *
 	 * @return mixed Entry.
 	 */
-	public function get( string $id ) {
+	public function get( string $id ): object {
 		return $this->container->get( $id );
 	}
 

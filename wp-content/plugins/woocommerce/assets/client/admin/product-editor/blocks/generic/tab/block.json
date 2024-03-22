@@ -28,5 +28,6 @@
         "isInSelectedTab": "isSelected"
     },
     "usesContext": ["selectedTab"],
-    "editorStyle": "file:./editor.css"
+    "editorStyle": "file:./editor.css",
+    "templateLock": "contentOnly"
 }

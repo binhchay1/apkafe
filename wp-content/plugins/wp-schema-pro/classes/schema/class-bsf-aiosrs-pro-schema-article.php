@@ -36,30 +36,25 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Article' ) ) {
 				$schema['mainEntityOfPage']['@id']   = esc_url( $data['main-entity'] );
 			}
 
-			if ( isset( $data['name'] ) && ! empty( $data['name'] ) ) {
-				$schema['headline'] = esc_html( wp_strip_all_tags( $data['name'] ) );
-			}
+			$schema['headline'] = ! empty( $data['name'] ) ? wp_strip_all_tags( (string) $data['name'] ) : null;
 
 			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['image'] );
 			}
 
-			if ( isset( $data['published-date'] ) && ! empty( $data['published-date'] ) ) {
-				$schema['datePublished'] = esc_html( wp_strip_all_tags( $data['published-date'] ) );
-			}
+			$schema['datePublished'] = ! empty( $data['published-date'] ) ? wp_strip_all_tags( (string) $data['published-date'] ) : null;
 
-			if ( isset( $data['modified-date'] ) && ! empty( $data['modified-date'] ) ) {
-				$schema['dateModified'] = esc_html( wp_strip_all_tags( $data['modified-date'] ) );
-			}
+			$schema['dateModified'] = ! empty( $data['modified-date'] ) ? wp_strip_all_tags( (string) $data['modified-date'] ) : null;
 
-			if ( isset( $data['author'] ) && ! empty( $data['author'] ) ) {
+			if ( ! empty( $data['author'] ) ) {
 				$schema['author']['@type'] = 'Person';
-				$schema['author']['name']  = esc_html( wp_strip_all_tags( $data['author'] ) );
+				$schema['author']['name']  = wp_strip_all_tags( (string) $data['author'] );
+				$schema['author']['url']   = ! empty( $data['author-url'] ) ? wp_strip_all_tags( (string) $data['author-url'] ) : null;
 			}
 
-			if ( isset( $data['orgnization-name'] ) && ! empty( $data['orgnization-name'] ) ) {
+			if ( ! empty( $data['orgnization-name'] ) ) {
 				$schema['publisher']['@type'] = 'Organization';
-				$schema['publisher']['name']  = esc_html( wp_strip_all_tags( $data['orgnization-name'] ) );
+				$schema['publisher']['name']  = wp_strip_all_tags( (string) $data['orgnization-name'] );
 			}
 
 			if ( isset( $data['site-logo'] ) && ! empty( $data['site-logo'] ) ) {
@@ -85,9 +80,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Article' ) ) {
 				}
 			}
 
-			if ( isset( $data['description'] ) && ! empty( $data['description'] ) ) {
-				$schema['description'] = esc_html( wp_strip_all_tags( $data['description'] ) );
-			}
+			$schema['description'] = ! empty( $data['description'] ) ? wp_strip_all_tags( (string) $data['description'] ) : null;
 
 			return apply_filters( 'wp_schema_pro_schema_article', $schema, $data, $post );
 		}

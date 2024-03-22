@@ -1,0 +1,340 @@
+h1, h2, h3, h4, h5, h6 p {
+  margin: 0;
+  padding: 0;
+}
+.toc_main_wrapper {
+  .toc_header_wrapper {
+    margin-top: 50px;
+    .container {
+      text-align: center;
+      .title {
+        h1 {
+          font-family: 'Red Hat Display';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 59px;
+          line-height: 79px;
+          text-align: center;
+          letter-spacing: -0.02em;
+          color: #09213D;
+        }
+      }
+      .text {
+        p {
+          font-family: 'Raleway';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 36px;
+          text-align: center;
+          letter-spacing: -0.01em;
+          color: #727F9F;
+          margin: 22px 0 24px;
+        }
+      }
+      .header_btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .left_btn {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  .toc_money_back_guarantee_wrapper {
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      background: #FFFFFF;
+      border: 1px solid #EFF0F6;
+      box-shadow: 0px 35px 70px rgba(20, 20, 43, 0.03);
+      border-radius: 5px;
+      padding: 25px 0;
+      margin-top: 100px;
+      .money_back_guarantee_logo {
+
+      }
+      .money_back_guarantee_text {
+          h3 {
+            font-family: 'Red Hat Display';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 28px;
+            line-height: 44px;
+            color: #09213D;
+          }
+        p {
+          font-family: 'Raleway';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 30px;
+          letter-spacing: -0.01em;
+          color: #727F9F;
+          margin-top: 10px;
+
+        }
+      }
+      .money_back_guarantee_btn {
+
+      }
+    }
+  }
+  .toc_pricing_wrapper {
+    margin-top: 100px;
+    .container {
+      width: 70%;
+      margin: 0 auto;
+      .toc_pricing_content {
+        .toc_pricing_content_header {
+          text-align: center;
+          span {
+            font-family: 'Raleway';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 19px;
+            text-align: center;
+            color: #2271b1;
+          }
+          h2 {
+            font-family: 'Red Hat Display';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 50px;
+            line-height: 70px;
+            text-align: center;
+            letter-spacing: -0.02em;
+            color: #09213D;
+            margin: 12px 0;
+          }
+          p {
+            font-family: 'Raleway';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 30px;
+            text-align: center;
+            letter-spacing: -0.01em;
+            color: #727F9F;
+            margin: 0;
+          }
+        }
+        .toc_pricing_content_table {
+          margin-top: 50px;
+          .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            th, td {
+              text-align: center;
+              padding: 1rem;
+              border: 1px solid #ccc;
+              font-family: 'Raleway';
+              font-style: normal;
+              font-weight: 600;
+              line-height: 36px;
+              text-align: center;
+              letter-spacing: -0.01em;
+              color: #727F9F;
+            }
+            th {
+              background-color: #eee;
+              font-weight: bold;
+              font-size: 18px;
+              color: #09213D;
+            }
+            td:first-child {
+              text-align: left;
+              font-weight: bold;
+              font-size: 14px;
+            }
+            tr:nth-child(even) {
+              background-color: #f2f2f2;
+            }
+            .tick, .cross {
+              font-weight: bold;
+            }
+            .cross {
+              color: red;
+            }
+            .tick {
+              color: green;
+              font-size: 18px;
+            }
+            .row-cross .cross {
+              display: block;
+            }
+            .row-cross .tick {
+              display: none;
+            }
+            .row-cross .tick::before {
+              content: "\2714";
+              color: green;
+              font-weight: bold;
+            }
+            .row-tick .cross {
+              display: none;
+            }
+            .row-tick .tick::before {
+              content: "\2714";
+              color: green;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+  .toc_testimonial_wrapper {
+    margin: 100px 0 100px;
+    .container {
+      .toc_testimonial_content {
+        .toc_testimonial_content_header {
+          text-align: center;
+          span {
+            font-family: 'Raleway';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 19px;
+            text-align: center;
+            color: #2271b1;
+          }
+          h2 {
+            font-family: 'Red Hat Display';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 50px;
+            line-height: 70px;
+            text-align: center;
+            letter-spacing: -0.02em;
+            color: #09213D;
+            margin: 12px 0;
+          }
+          p {
+            font-family: 'Raleway';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 30px;
+            text-align: center;
+            letter-spacing: -0.01em;
+            color: #727F9F;
+            margin: 0;
+          }
+        }
+        .testimonial-cards {
+          display: flex;
+          justify-content: space-between;
+
+          .card {
+            width: 30%;
+            padding: 30px;
+            background: #FFFFFF;
+            border: 1px solid #EFF0F6;
+            box-shadow: 0px 35px 70px rgba(20, 20, 43, 0.03);
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 50px;
+
+            .logo {
+              img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 50%;
+              }
+            }
+
+            .content {
+              p {
+                font-family: 'Raleway';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 30px;
+                letter-spacing: -0.01em;
+                color: #727F9F;
+                border-bottom: 1px solid rgba(227, 229, 236, 0.5);
+                padding: 20px 0 30px;
+              }
+            }
+
+            .details {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-top: 20px;
+
+              .name {
+                text-align: left;
+                p {
+                  font-family: 'Red Hat Display';
+                  font-style: normal;
+                  font-weight: 700;
+                  font-size: 16px;
+                  line-height: 21px;
+                  color: #09213D;
+                  margin-bottom: 10px;
+                }
+                span{
+                  font-family: 'Raleway';
+                  font-style: normal;
+                  font-weight: 600;
+                  font-size: 14px;
+                  line-height: 16px;
+                  letter-spacing: -0.01em;
+                  color: #727F9F;
+                }
+              }
+
+              .rating {
+                .fas.fa-star {
+                  color: gold;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .toc_coupon_wrapper {
+    display: none;
+    margin: 100px 0 200px;
+    .container {
+      .toc_coupon_content {
+        .toc_coupon_content_header {
+          text-align: center;
+          h2 {
+            font-family: 'Red Hat Display';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 50px;
+            line-height: 70px;
+            text-align: center;
+            letter-spacing: -0.02em;
+            color: #09213D;
+            margin: 12px 0;
+          }
+          p {
+            font-family: 'Raleway';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 30px;
+            text-align: center;
+            letter-spacing: -0.01em;
+            color: #727F9F;
+            margin: 0;
+          }
+          a {
+            margin-top: 50px;
+          }
+        }
+      }
+    }
+  }
+}

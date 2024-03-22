@@ -1,0 +1,357 @@
+.bd_toc_container {
+    position: relative;
+    margin: 0;
+
+    .bd_toc_arrow {
+        border: solid black;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 3px;
+        transform: rotate(-45deg);
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .bd_toc_wrapper {
+        max-width: 100%;
+        overflow: hidden;
+
+        .bd_toc_wrapper_item {
+            .bd_toc_header {
+                transition: all 0.2s;
+
+                .bd_toc_header_title {
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .bd_toc_content {
+            &.list-type {
+                &-number {
+                    ul {
+                        counter-reset: List;
+
+                        li {
+                            counter-increment: List;
+
+                            a {
+                                &:before {
+                                    content: counters(List, ".") '.';
+                                    z-index: 9;
+                                    margin-right: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &-disc {
+                    ul {
+                        li {
+                            a {
+                                &:before {
+                                    content: "";
+                                    width: 6px;
+                                    height: 6px;
+                                    position: absolute;
+                                    border-radius: 6px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &-none {
+                    ul {
+                        list-style: none;
+                    }
+                }
+            }
+
+            &_list {
+                &_item {
+                    >ul {
+                        >li {
+                            a {
+                                // font-weight: bold;
+                            }
+                        }
+                    }
+
+                    ul {
+                        li {
+                            ul {
+                                li {
+                                    a {
+                                        font-weight: normal;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    ul {
+                        padding: 0;
+                        margin: 0;
+                        list-style: none;
+
+                        li {
+                            position: relative;
+                            margin: 0;
+
+                            .collaps-button {
+                                position: absolute;
+                                top: 16px;
+                                right: 30px;
+                                left: auto;
+                                width: 30px;
+                                height: 30px;
+                                align-items: center;
+                                justify-content: center;
+
+                                .bd_toc_arrow {
+                                    transform: rotate(-135deg);
+                                    cursor: pointer;
+                                }
+                            }
+
+                            &.collapsed {
+                                >ul {
+                                    display: none;
+                                }
+                            }
+
+                            a {
+                                position: relative;
+                                display: block;
+                                text-decoration: none !important;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                
+                                &:focus {
+                                    outline: none !important;
+                                }
+
+                                .left-indicator {
+                                    display: none;
+                                }
+                                &:hover {
+                                    text-decoration: underline !important;
+                                }
+                            }
+
+                            &.collapsed {
+                                &>a {
+                                    outline: none !important;
+                                    text-decoration: none !important;
+                                }
+
+                                &>.collaps-button {
+                                    .bd_toc_arrow {
+                                        transform: rotate(-45deg);
+                                    }
+                                }
+                            }
+
+                            &>ul {
+                                padding-left: 15px;
+
+                                &>li {
+                                    position: relative;
+
+                                    .left-indicator {
+                                        position: absolute;
+                                        top: calc(50% - 7px);
+                                        left: -18px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .bd_toc_wrapper_item {
+            overflow: hidden;
+
+            .bd_toc_header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+
+                .bd_toc_switcher_hide_show_icon {
+                    cursor: pointer;
+                }
+
+                &.active {
+                    .bd_toc_arrow {
+                        transform: rotate(-135deg);
+                    }
+                }
+            }
+
+            .bd_toc_content {
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+
+
+                .bd_toc_content_list {
+                    .bd_toc_content_list_item {
+                        transition: height 0.2s ease-in-out;
+
+                        &>.collaps-button {
+                            display: none !important;
+                        }
+                    }
+
+                    &.heading_toggle_icon {
+                        .collaps-button {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    }
+                }
+            }
+        }
+
+        .side_button {
+            i {
+                display: none;
+            }
+        }
+    }
+
+    &.show_left_indicator {
+        .bd_toc_wrapper {
+            ul {
+                li {
+                    &>ul {
+
+                        .left-indicator {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .layout_toggle_button {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: calc(0% - 124px);
+        bottom: calc(0% + 200px);
+        width: 130px;
+        box-sizing: content-box;
+        border-width: 50px 35px 0;
+        border-style: solid;
+        border-color: #000 transparent;
+        transform: rotate(-90deg);
+        cursor: pointer;
+        z-index: 3;
+        filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
+
+        @media only screen and (max-width: 767px) {
+            right: calc(0% - 62px);
+            bottom: calc(0% + 200px);
+            width: 40px;
+            border-width: 25px 30px 0;
+        }
+
+        .bd_toc_arrow {
+            transform: rotate(45deg);
+            transition: transform 0.5s ease-in-out;
+            margin-top: -45px;
+
+            @media only screen and (max-width: 767px) {
+                margin-top: -30px;
+            }
+        }
+    }
+
+    &.scroll-to-fixed-fixed {
+        height: 100vh;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+
+        .bd_toc_wrapper {
+            height: 100%;
+            max-height: 100%;
+            overflow: visible;
+            opacity: 0;
+
+            .bd_toc_content{
+                &.scroll {
+                    overflow-y: scroll;
+
+                    &::-webkit-scrollbar {
+                        width: 5px;
+                    }
+    
+                    &::-webkit-scrollbar-thumb {
+                        opacity: 0;
+                        visibility: hidden;
+                        transition: 0.5s ease-in-out;
+                        background: #EFEFEF;
+                        border-radius: 10px;
+                    }
+    
+                    &:hover {
+                        &::-webkit-scrollbar-thumb {
+                            opacity: 1;
+                            visibility: visible;
+                        }
+                    }
+                }
+            }
+
+            .bd_toc_wrapper_item {
+
+                .bd_toc_content_list_item {
+                    height: calc(90vh - 50px) !important;
+                }
+
+                .bd_toc_header {
+                    .bd_toc_header_title {
+                        font-size: 24px !important;
+                    }
+                }
+            }
+        }
+
+        .layout_toggle_button {
+            display: flex;
+        }
+
+        &.active {
+            .bd_toc_wrapper {
+                opacity: 1;
+            }
+
+            .layout_toggle_button {
+                display: flex;
+
+                .bd_toc_arrow {
+                    transform: rotate(-135deg);
+                }
+            }
+        }
+    }
+
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0
+    }
+
+    100% {
+        opacity: 1
+    }
+}

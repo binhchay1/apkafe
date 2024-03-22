@@ -91,9 +91,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 
 			add_action( 'load-post.php', array( $this, 'init_metabox' ) );
 			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
-
 			add_action( 'wp_ajax_bsf_get_specific_meta_fields', array( $this, 'bsf_get_specific_meta_fields' ) );
-
 			add_action( 'wp_ajax_fetch_item_type_html', array( $this, 'get_review_item_type_html' ) );
 
 			add_filter( 'post_updated_messages', array( $this, 'custom_post_type_post_update_messages' ) );
@@ -112,16 +110,39 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 
 			add_filter( 'wp_schema_pro_meta_options', array( $this, 'rating_options' ), 10, 3 );
 			add_filter( 'wp_schema_pro_mapping_option_string_custom-text', array( $this, 'custom_text_string' ), 10, 2 );
+
+			add_action( 'admin_enqueue_scripts', array( $this, 'wpsp_scripts' ) );
+
+		}
+
+		/**
+		 *  Add script for Datetimepicker.
+		 */
+		public function wpsp_scripts() {
+
+			$schema_post_type_name = get_current_screen()->post_type;
+			$enqueue_admin_script  = BSF_AIOSRS_Pro_Helper::bsf_schema_pro_enqueue_admin_script();
+
+			if ( true === $enqueue_admin_script || 'aiosrs-schema' === $schema_post_type_name ) {
+				wp_enqueue_script(
+					'wpsp_datetimepicker_script',
+					BSF_AIOSRS_PRO_URI . 'admin/assets/js/timpepicker.min.js',
+					array( 'jquery-ui-datepicker', 'jquery-ui-slider' ),
+					BSF_AIOSRS_PRO_VER,
+					true
+				);
+
+				wp_enqueue_style( 'wpsp_jquery_ui_css', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css', false, BSF_AIOSRS_PRO_VER, false );
+			}
 		}
 
 		/**
 		 *  Delete the store cache of HTML Markup.
-		 *
-		 *  @param int $post_id Post id.
 		 */
-		public function bsf_delete_cached_json_ld( $post_id ) {
+		public function bsf_delete_cached_json_ld() {
 
-			delete_post_meta( $post_id, 'wp_schema_pro_optimized_structured_data' );
+			global  $wpdb;
+			$wpdb->delete( $wpdb->postmeta, array( 'meta_key' => BSF_AIOSRS_PRO_CACHE_KEY ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		}
 
 		/**
@@ -135,7 +156,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 
 			check_ajax_referer( 'schema_nonce', 'nonce' );
 
-			$item_type        = filter_input( INPUT_POST, 'item_type', FILTER_SANITIZE_STRING );
+			$item_type        = isset( $_POST['itemType'] ) ? sanitize_text_field( $_POST['itemType'] ) : '';
 			$post_id          = filter_input( INPUT_POST, 'post_id', FILTER_VALIDATE_INT );
 			$item_type_fields = self::$schema_item_types[ $item_type ]['subkeys'];
 
@@ -195,6 +216,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 
 				case 'rating':
 					$label = __( 'Fixed Rating', 'wp-schema-pro' );
+					break;
+				default:
 					break;
 			}
 			return $label;
@@ -317,7 +340,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 
 			global $wpdb;
 			// WPCS: unprepared SQL OK.
-			$aiosrs_meta_array = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE '%{$search_string}%'", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$aiosrs_meta_array = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE '%{$search_string}%'", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 			$schema_post_meta_fields = array_merge( self::$schema_meta_keys, array( 'bsf-aiosrs-schema-type', 'bsf-aiosrs-schema-location', 'bsf-aiosrs-schema-exclusion' ) );
 			if ( isset( $aiosrs_meta_array ) && ! empty( $aiosrs_meta_array ) ) {
@@ -341,14 +364,42 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 		}
 
 		/**
+		 * Get an array of timezones
+		 *
+		 * @return array
+		 */
+		public static function timezone_options() {
+
+			$html = wp_timezone_choice( 'UTC+0' );
+
+			$dom = new DOMDocument();
+
+			$dom->loadHTML( $html );
+
+			$result = array();
+
+			foreach ( $dom->getElementsByTagName( 'optgroup' ) as $optgroup ) {
+				$label = $optgroup->getAttribute( 'label' );
+				foreach ( $optgroup->getElementsByTagName( 'option' ) as $option ) {
+					$value            = $option->getAttribute( 'value' );
+					$name             = $option->nodeValue; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+					$result[ $value ] = $name;
+				}
+			}
+			return $result;
+		}
+
+		/**
 		 * Initialize Schema Meta fields.
 		 *
 		 * @return void
 		 */
 		public function init_schema_fields() {
-			$doc_link  = '';
-			$brand_adv = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
-			if ( ( '1' === $brand_adv['sp_hide_label'] ) || true === ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
+			$doc_link         = '';
+			$brand_adv        = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
+			$brand_hide_label = isset( $brand_adv['sp_hide_label'] ) ? $brand_adv['sp_hide_label'] : '';
+
+			if ( ( '1' === $brand_hide_label ) || true === ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
 				$doc_link = 'whit-label';
 			}
 
@@ -369,8 +420,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'choices'  => array(
 									'Article'          => esc_html__( 'Article (General)', 'wp-schema-pro' ),
 									'AdvertiserContentArticle' => esc_html__( 'Advertiser Content Article', 'wp-schema-pro' ),
-									'BlogPosting'      => esc_html__( 'BlogPosting', 'wp-schema-pro' ),
-									'NewsArticle'      => esc_html__( 'NewsArticle', 'wp-schema-pro' ),
+									'BlogPosting'      => esc_html__( 'Blog Posting', 'wp-schema-pro' ),
+									'NewsArticle'      => esc_html__( 'News Article', 'wp-schema-pro' ),
 									'Report'           => esc_html__( 'Report', 'wp-schema-pro' ),
 									'SatiricalArticle' => esc_html__( 'Satirical Article', 'wp-schema-pro' ),
 									'ScholarlyArticle' => esc_html__( 'Scholarly Article', 'wp-schema-pro' ),
@@ -379,41 +430,46 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'required' => true,
 							),
 							'author'           => array(
-								'label'    => esc_html__( 'Article\'s Author Name', 'wp-schema-pro' ),
+								'label'    => esc_html__( 'Author Name', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'author_name',
 								'required' => true,
 							),
+							'author-url'       => array(
+								'label'   => esc_html__( 'Author URL', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'author_url',
+							),
 							'image'            => array(
-								'label'    => esc_html__( 'Article Image', 'wp-schema-pro' ),
+								'label'    => esc_html__( 'Image', 'wp-schema-pro' ),
 								'type'     => 'image',
 								'default'  => 'featured_img',
 								'required' => true,
 							),
 							'description'      => array(
-								'label'   => esc_html__( 'Article Short Description', 'wp-schema-pro' ),
+								'label'   => esc_html__( 'Short Description', 'wp-schema-pro' ),
 								'type'    => 'textarea',
 								'default' => 'post_excerpt',
 							),
 							'main-entity'      => array(
-								'label'   => esc_html__( 'Article URL ( Main Entity Of Page)', 'wp-schema-pro' ),
+								'label'   => esc_html__( 'URL', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'post_permalink',
 							),
 							'name'             => array(
-								'label'    => esc_html__( 'Article Headline', 'wp-schema-pro' ),
+								'label'    => esc_html__( 'Headline', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_title',
 								'required' => true,
 							),
 							'published-date'   => array(
-								'label'    => esc_html__( 'Article Published Date', 'wp-schema-pro' ),
+								'label'    => esc_html__( 'Published Date', 'wp-schema-pro' ),
 								'type'     => 'date',
 								'default'  => 'post_date',
 								'required' => true,
 							),
 							'modified-date'    => array(
-								'label'    => esc_html__( 'Article Modified Date', 'wp-schema-pro' ),
+								'label'    => esc_html__( 'Modified Date', 'wp-schema-pro' ),
 								'type'     => 'date',
 								'default'  => 'post_modified',
 								'required' => true,
@@ -457,13 +513,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'required' => true,
 							),
 							'url'          => array(
-								'label'    => esc_html__( 'URL Of The Page About The Book', 'wp-schema-pro' ),
+								'label'    => esc_html__( 'URL', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_permalink',
 								'required' => true,
 							),
 							'work-example' => array(
-								'label'    => esc_html__( 'Work Example (The Editions Of Book)', 'wp-schema-pro' ),
+								'label'    => esc_html__( 'Book Edition Name', 'wp-schema-pro' ),
 								'type'     => 'repeater',
 								'required' => true,
 								'fields'   => array(
@@ -490,19 +546,19 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									),
 
 									'url-template'    => array(
-										'label'       => esc_html__( 'EntryPoint URL Template', 'wp-schema-pro' ),
+										'label'       => esc_html__( 'Platform URL Template', 'wp-schema-pro' ),
 										'type'        => 'text',
 										'default'     => 'none',
 										'required'    => true,
-										'description' => esc_html__( 'Link(s) to content. The EntryPoint serves as the mechanism for you to provide the deep links to your books.', 'wp-schema-pro' ),
+										'description' => esc_html__( 'Provide the link in which platform works. For example desktop web browsers link', 'wp-schema-pro' ),
 									),
 									'action-platform' => array(
-										'label'         => esc_html__( 'EntryPoint Action Platform', 'wp-schema-pro' ),
+										'label'         => esc_html__( ' Work Platforms', 'wp-schema-pro' ),
 										'type'          => 'multi-select',
 										'default'       => 'none',
 										'dropdown-type' => 'action-platform',
 										'required'      => true,
-										'description'   => esc_html__( 'The platform(s) on which the link works', 'wp-schema-pro' ),
+										'description'   => esc_html__( 'The platform(s) on which the link works For example Works on desktop web browsers, Works on mobile web browsers.', 'wp-schema-pro' ),
 									),
 									'price'           => array(
 										'label'    => esc_html__( 'Offer Price', 'wp-schema-pro' ),
@@ -522,7 +578,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 										'dropdown-type' => 'currency',
 									),
 									'country'         => array(
-										'label'         => esc_html__( 'Offer Eligible Region', 'wp-schema-pro' ),
+										'label'         => esc_html__( 'Offer Eligible Country', 'wp-schema-pro' ),
 										'type'          => 'multi-select',
 										'default'       => 'none',
 										'dropdown-type' => 'country',
@@ -536,7 +592,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								),
 							),
 							'same-as'      => array(
-								'label'       => esc_html__( 'Same As', 'wp-schema-pro' ),
+								'label'       => esc_html__( 'A Reference Link', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'none',
 								'description' => esc_html__( 'A reference page that unambiguously indicates the item\'s identity; for example, the URL of the item\'s Wikipedia page, Freebase page, or official website.', 'wp-schema-pro' ),
@@ -551,13 +607,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						'path'           => BSF_AIOSRS_PRO_DIR . 'classes/schema/',
 						'subkeys'        => array(
 							'name'             => array(
-								'label'    => esc_html__( 'Title Of The Course.', 'wp-schema-pro' ),
+								'label'    => esc_html__( 'Course Title', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_title',
 								'required' => true,
 							),
 							'description'      => array(
-								'label'       => esc_html__( 'Course Description', 'wp-schema-pro' ),
+								'label'       => esc_html__( 'Description', 'wp-schema-pro' ),
 								'type'        => 'textarea',
 								'default'     => 'post_content',
 								'description' => esc_html__( 'A description of the course. Display limit of 60 characters.', 'wp-schema-pro' ),
@@ -572,59 +628,132 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							'orgnization-name' => array(
 								'label'       => esc_html__( 'Course Provider', 'wp-schema-pro' ),
 								'type'        => 'text',
-								'default'     => 'blogname',
+								'default'     => 'create-field',
 								'description' => esc_html__( 'The organization that publishes the source content of the course. For example, UC Berkeley.', 'wp-schema-pro' ),
 							),
+							'offer-category'   => array(
+								'label'       => esc_html__( 'Offer Category', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'description' => esc_html__( 'The pricing category of the course.(e.g. Free, Partially Free, Subscription, Paid).', 'wp-schema-pro' ),
+							),
 							'course-instance'  => array(
-								'label'  => esc_html__( 'Course Instance', 'wp-schema-pro' ),
-								'type'   => 'repeater',
-								'fields' => array(
-									'name'             => array(
+								'label'       => esc_html__( 'Course Instance', 'wp-schema-pro' ),
+								'type'        => 'repeater',
+								'description' => esc_html__( 'An offering of the course at a specific time and place or through specific media or mode of study or to a specific section of students.', 'wp-schema-pro' ),
+								'fields'      => array(
+									'name'                 => array(
 										'label'    => esc_html__( 'Instance Name', 'wp-schema-pro' ),
 										'type'     => 'text',
 										'default'  => 'none',
 										'required' => true,
 									),
-									'description'      => array(
+									'description'          => array(
 										'label'    => esc_html__( 'Instance Description', 'wp-schema-pro' ),
 										'type'     => 'textarea',
 										'default'  => 'none',
 										'required' => true,
 									),
-									'course-mode'      => array(
+									'course-mode'          => array(
 										'label'       => esc_html__( 'Course Mode', 'wp-schema-pro' ),
 										'type'        => 'text',
 										'default'     => 'none',
 										'description' => esc_html__( 'The medium or means of delivery of the course instance or the mode of study, either as a text label (e.g. "online", "onsite" or "blended"; "synchronous" or "asynchronous"; "full-time" or "part-time") or as a URL reference to a term from a controlled vocabulary (e.g. https://ceds.ed.gov/element/001311#Asynchronous )', 'wp-schema-pro' ),
 									),
-									'image'            => array(
+									'image'                => array(
 										'label'   => esc_html__( 'Image', 'wp-schema-pro' ),
 										'type'    => 'image',
 										'default' => 'none',
 									),
-									'start-date'       => array(
+									'event-status'         => array(
+										'label'         => esc_html__( 'Course Status', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'custom-text',
+										'dropdown-type' => 'event-status',
+										'required'      => false,
+										'description'   => esc_html__( 'The status of the Course Instance.', 'wp-schema-pro' ),
+
+									),
+									'event-attendance-mode' => array(
+										'label'         => esc_html__( 'Course Attendance Mode', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'custom-text',
+										'dropdown-type' => 'event-attendance-mode',
+										'required'      => false,
+										'description'   => esc_html__( 'The location of the Course Instance. There are different requirements depending on if the Course is happening online or at a physical location.', 'wp-schema-pro' ),
+
+									),
+									'start-date'           => array(
 										'label'    => esc_html__( 'Start Date', 'wp-schema-pro' ),
 										'type'     => 'date',
 										'default'  => 'none',
 										'required' => true,
 									),
-									'end-date'         => array(
+									'end-date'             => array(
 										'label'   => esc_html__( 'End Date', 'wp-schema-pro' ),
 										'type'    => 'date',
 										'default' => 'none',
 									),
-									'location-name'    => array(
-										'label'   => esc_html__( 'Location Name', 'wp-schema-pro' ),
+									'repeat-count'         => array(
+										'label'   => esc_html__( 'Repeat Count', 'wp-schema-pro' ),
+										'type'    => 'number',
+										'default' => 'none',
+										'attrs'   => array(
+											'min'  => '0',
+											'step' => 'any',
+										),
+									),
+									'repeat-frequency'     => array(
+										'label'   => esc_html__( 'Repeat Frequency', 'wp-schema-pro' ),
 										'type'    => 'text',
 										'default' => 'none',
 									),
-									'location-address' => array(
+									'course-workload'      => array(
+										'label'   => esc_html__( 'Course Workload', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'none',
+									),
+									'previous-date'        => array(
+										'label'   => esc_html__( 'Course Previous Start Date', 'wp-schema-pro' ),
+										'type'    => 'datetime-local',
+										'class'   => 'wpsp-event-status-rescheduled',
+										'default' => 'custom-text',
+									),
+									'online-location'      => array(
+										'label'   => esc_html__( 'Online Course URL', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'class'   => 'wpsp-event-status-online',
+										'default' => 'post_permalink',
+									),
+									'course-organizer-name' => array(
+										'label'       => esc_html__( 'Course Organizer Name', 'wp-schema-pro' ),
+										'type'        => 'text',
+										'default'     => 'create-field',
+										'required'    => false,
+										'description' => esc_html__( 'The person or organization that is hosting the Course.', 'wp-schema-pro' ),
+
+									),
+									'course-organizer-url' => array(
+										'label'    => esc_html__( 'Course Organizer URL', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'create-field',
+										'required' => false,
+									),
+									'location-name'        => array(
+										'label'       => esc_html__( 'Location Name', 'wp-schema-pro' ),
+										'type'        => 'text',
+										'class'       => 'wpsp-event-status-offline',
+										'default'     => 'none',
+										'description' => esc_html__( 'The venue of the course.', 'wp-schema-pro' ),
+									),
+									'location-address'     => array(
 										'label'    => esc_html__( 'Location Address', 'wp-schema-pro' ),
 										'type'     => 'text',
 										'default'  => 'none',
+										'class'    => 'wpsp-event-status-offline',
 										'required' => true,
 									),
-									'price'            => array(
+									'price'                => array(
 										'label'   => esc_html__( 'Price', 'wp-schema-pro' ),
 										'type'    => 'number',
 										'default' => 'none',
@@ -633,29 +762,29 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 											'step' => 'any',
 										),
 									),
-									'currency'         => array(
+									'currency'             => array(
 										'label'         => esc_html__( 'Currency', 'wp-schema-pro' ),
 										'type'          => 'dropdown',
-										'default'       => 'none',
+										'default'       => 'custom-text',
 										'dropdown-type' => 'currency',
 									),
-									'valid-from'       => array(
+									'valid-from'           => array(
 										'label'   => esc_html__( 'Valid From', 'wp-schema-pro' ),
 										'type'    => 'date',
 										'default' => 'none',
 									),
-									'url'              => array(
+									'url'                  => array(
 										'label'   => esc_html__( 'Offer URL', 'wp-schema-pro' ),
 										'type'    => 'text',
 										'default' => 'none',
 									),
-									'avail'            => array(
+									'avail'                => array(
 										'label'         => esc_html__( 'Availability', 'wp-schema-pro' ),
 										'type'          => 'dropdown',
 										'default'       => 'none',
 										'dropdown-type' => 'availability',
 									),
-									'performer'        => array(
+									'performer'            => array(
 										'label'   => esc_html__( 'Performer', 'wp-schema-pro' ),
 										'type'    => 'text',
 										'default' => 'none',
@@ -663,7 +792,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								),
 							),
 							'same-as'          => array(
-								'label'       => esc_html__( 'Same As', 'wp-schema-pro' ),
+								'label'       => esc_html__( 'A Reference Link', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'none',
 								'description' => esc_html__( 'A reference page that unambiguously indicates the item\'s identity; for example, the URL of the item\'s Wikipedia page, Freebase page, or official website.', 'wp-schema-pro' ),
@@ -674,9 +803,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'none',
 							),
 							'review-count'     => array(
-								'label'   => esc_html__( 'Review Count', 'wp-schema-pro' ),
-								'type'    => 'number',
-								'default' => 'none',
+								'label'       => esc_html__( 'Review Count', 'wp-schema-pro' ),
+								'type'        => 'number',
+								'default'     => 'none',
+								'description' => esc_html__( 'The count of total number of reviews. e.g. "11"', 'wp-schema-pro' ),
 							),
 						),
 					),
@@ -717,23 +847,23 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								),
 							),
 							'name'                  => array(
-								'label'    => esc_html__( 'Event Name', 'wp-schema-pro' ),
+								'label'    => esc_html__( ' Name', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_title',
 								'required' => true,
 							),
 							'description'           => array(
-								'label'   => esc_html__( 'Event Description', 'wp-schema-pro' ),
+								'label'   => esc_html__( ' Description', 'wp-schema-pro' ),
 								'type'    => 'textarea',
 								'default' => 'post_content',
 							),
 							'image'                 => array(
-								'label'   => esc_html__( 'Event Image/Logo', 'wp-schema-pro' ),
+								'label'   => esc_html__( ' Image/Logo', 'wp-schema-pro' ),
 								'type'    => 'image',
 								'default' => 'featured_img',
 							),
 							'event-status'          => array(
-								'label'         => esc_html__( 'Event Status', 'wp-schema-pro' ),
+								'label'         => esc_html__( ' Status', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'custom-text',
 								'dropdown-type' => 'event-status',
@@ -742,7 +872,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 
 							),
 							'event-attendance-mode' => array(
-								'label'         => esc_html__( 'Event Attendance Mode', 'wp-schema-pro' ),
+								'label'         => esc_html__( ' Attendance Mode', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'custom-text',
 								'dropdown-type' => 'event-attendance-mode',
@@ -751,55 +881,70 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 
 							),
 							'start-date'            => array(
-								'label'    => esc_html__( 'Event Start Date', 'wp-schema-pro' ),
+								'label'    => esc_html__( 'Start Date', 'wp-schema-pro' ),
 								'type'     => 'datetime-local',
 								'default'  => 'none',
 								'required' => true,
 							),
 							'end-date'              => array(
-								'label'   => esc_html__( 'Event End Date', 'wp-schema-pro' ),
+								'label'   => esc_html__( 'End Date', 'wp-schema-pro' ),
 								'type'    => 'datetime-local',
 								'default' => 'none',
 							),
+							'timezone'              => array(
+								'label'         => esc_html__( 'Timezone', 'wp-schema-pro' ),
+								'type'          => 'dropdown',
+								'default'       => 'custom-text',
+								'dropdown-type' => 'timezone',
+								'class'         => 'wpsp-online-event-timezone',
+								'required'      => false,
+							),
 							'previous-date'         => array(
-								'label'   => esc_html__( 'Event Previous Start Date', 'wp-schema-pro' ),
+								'label'   => esc_html__( 'Previous Start Date', 'wp-schema-pro' ),
 								'type'    => 'datetime-local',
+								'class'   => 'wpsp-event-status-rescheduled',
 								'default' => 'custom-text',
 							),
 							'online-location'       => array(
 								'label'   => esc_html__( 'Online Event URL', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'post_permalink',
+								'class'   => 'wpsp-event-status-online',
 
 							),
 							'location'              => array(
-								'label'       => esc_html__( 'Event Location Name', 'wp-schema-pro' ),
+								'label'       => esc_html__( 'Location Name', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'none',
+								'class'       => 'wpsp-event-status-offline',
 								'description' => esc_html__( 'The detailed name of the place or venue where the event is being held. This property is only recommended for events that take place at a physical location.', 'wp-schema-pro' ),
 							),
 							'location-street'       => array(
 								'label'    => esc_html__( 'Street Address', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'none',
+								'class'    => 'wpsp-event-status-offline',
 								'required' => true,
 							),
 							'location-locality'     => array(
 								'label'    => esc_html__( 'Locality', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'none',
+								'class'    => 'wpsp-event-status-offline',
 								'required' => true,
 							),
 							'location-postal'       => array(
 								'label'    => esc_html__( 'Postal Code', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'none',
+								'class'    => 'wpsp-event-status-offline',
 								'required' => true,
 							),
 							'location-region'       => array(
 								'label'    => esc_html__( 'Region', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'none',
+								'class'    => 'wpsp-event-status-offline',
 								'required' => true,
 							),
 							'location-country'      => array(
@@ -807,17 +952,19 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'type'          => 'dropdown',
 								'default'       => 'none',
 								'required'      => true,
+								'class'         => 'wpsp-event-status-offline',
 								'dropdown-type' => 'country',
 							),
 
 							'avail'                 => array(
-								'label'         => esc_html__( 'Offer Availability', 'wp-schema-pro' ),
+								'label'         => esc_html__( 'Availability', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'none',
 								'dropdown-type' => 'availability',
+								'description'   => esc_html__( 'The availability of this event, for example In stock, Out of stock, Pre-order, etc.', 'wp-schema-pro' ),
 							),
 							'price'                 => array(
-								'label'   => esc_html__( 'Offer Price', 'wp-schema-pro' ),
+								'label'   => esc_html__( 'Price', 'wp-schema-pro' ),
 								'type'    => 'number',
 								'default' => 'none',
 								'attrs'   => array(
@@ -826,18 +973,18 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								),
 							),
 							'currency'              => array(
-								'label'         => esc_html__( 'Offer 	Currency', 'wp-schema-pro' ),
+								'label'         => esc_html__( 'Currency', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'none',
 								'dropdown-type' => 'currency',
 							),
 							'valid-from'            => array(
-								'label'   => esc_html__( 'Offer Valid From', 'wp-schema-pro' ),
+								'label'   => esc_html__( 'Valid From', 'wp-schema-pro' ),
 								'type'    => 'date',
 								'default' => 'none',
 							),
 							'ticket-buy-url'        => array(
-								'label'   => esc_html__( 'Offer Online Ticket URL', 'wp-schema-pro' ),
+								'label'   => esc_html__( 'Online Ticket URL', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'none',
 							),
@@ -845,6 +992,22 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'   => esc_html__( 'Performer', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'none',
+							),
+							'event-organizer-name'  => array(
+								'label'         => esc_html__( 'Organizer Name', 'wp-schema-pro' ),
+								'type'          => 'text',
+								'default'       => 'none',
+								'dropdown-type' => 'event-attendance-mode',
+								'required'      => false,
+								'description'   => esc_html__( 'The person or organization that is hosting the event.', 'wp-schema-pro' ),
+
+							),
+							'event-organizer-url'   => array(
+								'label'         => esc_html__( 'Organizer URL', 'wp-schema-pro' ),
+								'type'          => 'text',
+								'default'       => 'none',
+								'dropdown-type' => 'event-attendance-mode',
+								'required'      => false,
 							),
 						),
 					),
@@ -870,14 +1033,14 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							'same-as'                 => array(
 								'label'       => esc_html__( 'Hiring Organization URL', 'wp-schema-pro' ),
 								'type'        => 'text',
-								'default'     => 'none',
+								'default'     => 'site_url',
 								'required'    => true,
-								'description' => esc_html__( 'A reference page that unambiguously indicates the item\'s identity; for example, the URL of the item\'s Wikipedia page, Freebase page, or official website.', 'wp-schema-pro' ),
+								'description' => esc_html__( 'A referenced URL of the organization page to identity information. E.g. The URL of the Organization Wikipedia page, Wikidata entry, or official website.', 'wp-schema-pro' ),
 							),
 							'organization-logo'       => array(
 								'label'   => esc_html__( 'Hiring Organization Logo', 'wp-schema-pro' ),
 								'type'    => 'image',
-								'default' => 'create-field',
+								'default' => 'site_logo',
 							),
 							'industry'                => array(
 								'label'   => esc_html__( 'Industry', 'wp-schema-pro' ),
@@ -908,19 +1071,21 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'none',
 							),
 							'education-requirements'  => array(
-								'label'   => esc_html__( 'Education Requirements', 'wp-schema-pro' ),
-								'type'    => 'text',
-								'default' => 'none',
+								'label'       => esc_html__( 'Education', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'description' => esc_html__( 'Educational background needed for the position or Occupation.', 'wp-schema-pro' ),
 							),
 							'experience-requirements' => array(
-								'label'   => esc_html__( 'Experience Requirements', 'wp-schema-pro' ),
+								'label'   => esc_html__( 'Job Experience', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'none',
 							),
 							'qualifications'          => array(
-								'label'   => esc_html__( 'Qualifications', 'wp-schema-pro' ),
-								'type'    => 'text',
-								'default' => 'none',
+								'label'       => esc_html__( 'Qualifications', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'description' => esc_html__( 'Specific qualifications required for this role or Occupation.For example A diploma, academic degree, certification.', 'wp-schema-pro' ),
 							),
 							'responsibilities'        => array(
 								'label'   => esc_html__( 'Responsibilities', 'wp-schema-pro' ),
@@ -936,6 +1101,26 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'   => esc_html__( 'Work Hours', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'none',
+							),
+							'job-location-type'       => array(
+								'label'       => esc_html__( 'Job Location Type', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'required'    => false,
+								'description' => esc_html__( 'Use value "TELECOMMUTE" for jobs in which the employee may or must work remotely 100% of the time.', 'wp-schema-pro' ),
+							),
+							'remote-location'         => array(
+								'label'  => esc_html__( 'Remote Location', 'wp-schema-pro' ),
+								'type'   => 'repeater',
+								'fields' => array(
+									'applicant-location' => array(
+										'label'       => esc_html__( 'Applicant Location', 'wp-schema-pro' ),
+										'type'        => 'text',
+										'default'     => 'create-field',
+										'required'    => false,
+										'description' => esc_html__( 'The geographic location(s) in which employees may be located to be eligible for the Remote job.', 'wp-schema-pro' ),
+									),
+								),
 							),
 							'location-street'         => array(
 								'label'    => esc_html__( 'Street Address', 'wp-schema-pro' ),
@@ -994,6 +1179,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'type'          => 'dropdown',
 								'default'       => 'none',
 								'dropdown-type' => 'time-unit',
+								'description'   => esc_html__( 'A string or text indicating the unit of salary measurement. For example MONTH, YEAR.', 'wp-schema-pro' ),
 							),
 						),
 					),
@@ -1035,7 +1221,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									'Locksmith'            => esc_html__( 'Locksmith', 'wp-schema-pro' ),
 									'LodgingBusiness'      => esc_html__( 'Lodging', 'wp-schema-pro' ),
 									'MedicalBusiness'      => esc_html__( 'Medical Business', 'wp-schema-pro' ),
-									'ProfessionalService'  => esc_html__( 'Professional Service', 'wp-schema-pro' ),
 									'RadioStation'         => esc_html__( 'Radio Station', 'wp-schema-pro' ),
 									'RealEstateAgent'      => esc_html__( 'Real Estate Agent', 'wp-schema-pro' ),
 									'RecyclingCenter'      => esc_html__( 'Recycling Center', 'wp-schema-pro' ),
@@ -1060,10 +1245,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'none',
 							),
 							'price-range'         => array(
-								'label'    => esc_html__( 'Price Range', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'none',
-								'required' => true,
+								'label'       => esc_html__( 'Price Range', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'description' => esc_html__( 'The relative price range of a business, commonly specified by either a numerical range (for example, "$10-15") or a normalized number of currency signs (for example, "$$$")', 'wp-schema-pro' ),
 							),
 							'url'                 => array(
 								'label'   => esc_html__( 'URL', 'wp-schema-pro' ),
@@ -1099,7 +1284,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'type'          => 'dropdown',
 								'default'       => 'none',
 								'dropdown-type' => 'country',
+								'required'      => true,
 							),
+
 							'hours-specification' => array(
 								'label'  => esc_html__( 'Hours Specification', 'wp-schema-pro' ),
 								'type'   => 'repeater',
@@ -1110,6 +1297,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 										'default'       => 'none',
 										'required'      => true,
 										'dropdown-type' => 'days',
+										'description'   => esc_html__( 'Here, you can select multiple days. e.g. "11"', 'wp-schema-pro' ),
 									),
 									'opens'  => array(
 										'label'    => esc_html__( 'Opens', 'wp-schema-pro' ),
@@ -1125,15 +1313,36 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									),
 								),
 							),
+							'geo-latitude'        => array(
+								'label'       => esc_html__( ' Latitude', 'wp-schema-pro' ),
+								'type'        => 'number',
+								'default'     => 'create-field',
+								'required'    => false,
+								'attrs'       => array(
+									'step' => 'any',
+								),
+								'description' => esc_html__( 'The latitude of the business location. . e.g. "37.293058"', 'wp-schema-pro' ),
+							),
+							'geo-longitude'       => array(
+								'label'       => esc_html__( 'Longitude', 'wp-schema-pro' ),
+								'type'        => 'number',
+								'default'     => 'create-field',
+								'required'    => false,
+								'attrs'       => array(
+									'step' => 'any',
+								),
+								'description' => esc_html__( 'The longitude of the business location. e.g. "-121.988331"', 'wp-schema-pro' ),
+							),
 							'rating'              => array(
 								'label'   => esc_html__( 'Rating', 'wp-schema-pro' ),
 								'type'    => 'rating',
 								'default' => 'accept-user-rating',
 							),
 							'review-count'        => array(
-								'label'   => esc_html__( 'Review Count', 'wp-schema-pro' ),
-								'type'    => 'number',
-								'default' => 'none',
+								'label'       => esc_html__( 'Review Count', 'wp-schema-pro' ),
+								'type'        => 'number',
+								'default'     => 'none',
+								'description' => esc_html__( 'The count of total number of reviews. e.g. "11"', 'wp-schema-pro' ),
 							),
 						),
 					),
@@ -1161,34 +1370,17 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									'bsf-aiosrs-organization' => esc_html__( 'Organization', 'wp-schema-pro' ),
 								),
 							),
-							'item'           => array(
-								'label'    => esc_html__( 'Review Item', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'none',
-								'required' => true,
-							),
-							'item-image'     => array(
-								'label'   => esc_html__( 'Review Item Image', 'wp-schema-pro' ),
-								'type'    => 'image',
-								'default' => 'none',
-							),
-							'description'    => array(
-								'label'    => esc_html__( 'Review Description', 'wp-schema-pro' ),
-								'type'     => 'textarea',
-								'default'  => 'post_content',
-								'required' => true,
-							),
 							'review-body'    => array(
 								'label'    => esc_html__( 'Review Body', 'wp-schema-pro' ),
 								'type'     => 'textarea',
 								'default'  => 'post_content',
-								'required' => true,
+								'required' => false,
 							),
 							'date'           => array(
 								'label'    => esc_html__( 'Review Date', 'wp-schema-pro' ),
 								'type'     => 'date',
 								'default'  => 'post_date',
-								'required' => true,
+								'required' => false,
 							),
 							'rating'         => array(
 								'label'   => esc_html__( 'Review Rating', 'wp-schema-pro' ),
@@ -1214,11 +1406,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'type'    => 'text',
 								'default' => 'author_name',
 							),
-							'url'            => array(
-								'label'   => esc_html__( 'URL', 'wp-schema-pro' ),
-								'type'    => 'text',
-								'default' => 'post_permalink',
-							),
 						),
 					),
 					'bsf-aiosrs-person'               => array(
@@ -1236,20 +1423,21 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'required' => true,
 							),
 							'gender'       => array(
-								'label'         => esc_html__( 'Person Gender', 'wp-schema-pro' ),
+								'label'         => esc_html__( 'Gender', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'dropdown-type' => 'gender-select',
 								'default'       => 'none',
 							),
 							'dob'          => array(
-								'label'   => esc_html__( 'Person DOB', 'wp-schema-pro' ),
+								'label'   => esc_html__( 'DOB', 'wp-schema-pro' ),
 								'type'    => 'date',
 								'default' => 'none',
 							),
 							'member'       => array(
-								'label'   => esc_html__( 'Member of', 'wp-schema-pro' ),
-								'type'    => 'text',
-								'default' => 'none',
+								'label'       => esc_html__( 'Member Of', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'description' => esc_html__( 'An Organization (or ProgramMembership) to which this Person or Organization belongs.', 'wp-schema-pro' ),
 							),
 							'email'        => array(
 								'label'    => esc_html__( 'Person Email', 'wp-schema-pro' ),
@@ -1314,9 +1502,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'dropdown-type' => 'country',
 							),
 							'add-url'      => array(
-								'label'  => esc_html__( 'Same As', 'wp-schema-pro' ),
-								'type'   => 'repeater',
-								'fields' => array(
+								'label'       => esc_html__( 'A Reference Link', 'wp-schema-pro' ),
+								'type'        => 'repeater',
+								'description' => esc_html__( 'A reference page that unambiguously indicates the item\'s identity; for example, the URL of the item\'s Wikipedia page, Freebase page, or official website.', 'wp-schema-pro' ),
+								'fields'      => array(
 									'same-as' => array(
 										'label'    => esc_html__( 'URL', 'wp-schema-pro' ),
 										'type'     => 'text',
@@ -1400,15 +1589,78 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default'       => 'none',
 								'dropdown-type' => 'currency',
 							),
+							'product-review'    => array(
+								'label'  => esc_html__( 'Review', 'wp-schema-pro' ),
+								'type'   => 'repeater',
+								'fields' => array(
+									'reviewer-type'  => array(
+										'label'   => esc_html__( 'Reviewer Type', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'Person',
+										'choices' => array(
+											'Person'       => esc_html__( 'Person', 'wp-schema-pro' ),
+											'Organization' => esc_html__( 'Organization', 'wp-schema-pro' ),
+										),
+									),
+									'reviewer-name'  => array(
+										'label'    => esc_html__( 'Reviewer Name', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'author_name',
+										'required' => true,
+									),
+									'product-rating' => array(
+										'label'   => esc_html__( 'Product Rating', 'wp-schema-pro' ),
+										'type'    => 'rating',
+										'default' => 'none',
+									),
+									'review-body'    => array(
+										'label'   => esc_html__( 'Review Body', 'wp-schema-pro' ),
+										'type'    => 'textarea',
+										'default' => 'post_content',
+									),
+								),
+							),
 							'rating'            => array(
 								'label'   => esc_html__( 'Rating', 'wp-schema-pro' ),
 								'type'    => 'rating',
 								'default' => 'accept-user-rating',
 							),
 							'review-count'      => array(
-								'label'   => esc_html__( 'Review Count', 'wp-schema-pro' ),
-								'type'    => 'text',
-								'default' => 'none',
+								'label'       => esc_html__( 'Review Count', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'description' => esc_html__( 'The count of total number of reviews. e.g. "11"', 'wp-schema-pro' ),
+							),
+							'product-review'    => array(
+								'label'  => esc_html__( 'Review', 'wp-schema-pro' ),
+								'type'   => 'repeater',
+								'fields' => array(
+									'reviewer-type'  => array(
+										'label'   => esc_html__( 'Reviewer Type', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'Person',
+										'choices' => array(
+											'Person'       => esc_html__( 'Person', 'wp-schema-pro' ),
+											'Organization' => esc_html__( 'Organization', 'wp-schema-pro' ),
+										),
+									),
+									'reviewer-name'  => array(
+										'label'    => esc_html__( 'Reviewer Name', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'author_name',
+										'required' => true,
+									),
+									'product-rating' => array(
+										'label'   => esc_html__( 'Product Rating', 'wp-schema-pro' ),
+										'type'    => 'rating',
+										'default' => 'none',
+									),
+									'review-body'    => array(
+										'label'   => esc_html__( 'Review Body', 'wp-schema-pro' ),
+										'type'    => 'textarea',
+										'default' => 'post_content',
+									),
+								),
 							),
 						),
 					),
@@ -1437,7 +1689,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'post_content',
 							),
 							'reviewer-type'       => array(
-								'label'   => esc_html__( 'Reviewer Type', 'wp-schema-pro' ),
+								'label'   => esc_html__( 'Author Type', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'Person',
 								'choices' => array(
@@ -1490,15 +1742,40 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default'     => 'none',
 								'description' => esc_html__( 'Ingredient used in the recipe. Separate multiple ingredients with comma(,).', 'wp-schema-pro' ),
 							),
+							'recipe-yield'        => array(
+								'label'    => esc_html__( 'Recipe Yield', 'wp-schema-pro' ),
+								'type'     => 'text',
+								'default'  => 'create-field',
+								'required' => false,
+							),
 							'recipe-instructions' => array(
 								'label'  => esc_html__( 'Recipe Instructions', 'wp-schema-pro' ),
 								'type'   => 'repeater',
 								'fields' => array(
+									'name'  => array(
+										'label'    => esc_html__( 'Instructions Name', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'create-field',
+										'required' => false,
+									),
 									'steps' => array(
 										'label'   => esc_html__( 'Instructions Step', 'wp-schema-pro' ),
 										'type'    => 'text',
 										'default' => 'create-field',
 									),
+									'url'   => array(
+										'label'    => esc_html__( 'Instructions URL', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'create-field',
+										'required' => false,
+									),
+									'image' => array(
+										'label'    => esc_html__( 'Instructions Image', 'wp-schema-pro' ),
+										'type'     => 'image',
+										'default'  => 'create-field',
+										'required' => false,
+									),
+
 								),
 							),
 							'recipe-video'        => array(
@@ -1519,15 +1796,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 										'required' => true,
 									),
 									'video-image' => array(
-										'label'    => esc_html__( 'Thumbnail Url', 'wp-schema-pro' ),
+										'label'    => esc_html__( 'Thumbnail URL', 'wp-schema-pro' ),
 										'type'     => 'image',
 										'default'  => 'create-field',
 										'required' => true,
 									),
 									'recipe-video-content-url' => array(
-										'label'   => esc_html__( 'Content URL', 'wp-schema-pro' ),
-										'type'    => 'text',
-										'default' => 'create-field',
+										'label'    => esc_html__( 'Content URL', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'create-field',
+										'required' => true,
 									),
 									'recipe-video-embed-url' => array(
 										'label'   => esc_html__( 'Embed URL', 'wp-schema-pro' ),
@@ -1551,9 +1829,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 										'default' => 'create-field',
 									),
 									'recipe-video-interaction-count' => array(
-										'label'   => esc_html__( 'Interaction Count', 'wp-schema-pro' ),
-										'type'    => 'number',
-										'default' => 'create-field',
+										'label'       => esc_html__( 'Interaction Count', 'wp-schema-pro' ),
+										'type'        => 'number',
+										'default'     => 'create-field',
+										'description' => esc_html__( 'The number of times the video has been watched.', 'wp-schema-pro' ),
 									),
 								),
 							),
@@ -1563,9 +1842,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'accept-user-rating',
 							),
 							'review-count'        => array(
-								'label'   => esc_html__( 'Review Count', 'wp-schema-pro' ),
-								'type'    => 'text',
-								'default' => 'none',
+								'label'       => esc_html__( 'Review Count', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'description' => esc_html__( 'The count of total number of reviews. e.g. "11"', 'wp-schema-pro' ),
 							),
 						),
 					),
@@ -1583,10 +1863,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'required' => true,
 							),
 							'type'              => array(
-								'label'    => esc_html__( 'Service Type', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'none',
-								'required' => true,
+								'label'       => esc_html__( 'Service Type', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'required'    => true,
+								'description' => esc_html__( 'The type of service being offered, e.g. Broadcast Service, Cable Or Satellite Service, etc.', 'wp-schema-pro' ),
 							),
 							'area'              => array(
 								'label'       => esc_html__( 'Service Area', 'wp-schema-pro' ),
@@ -1601,10 +1882,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'required' => true,
 							),
 							'location-image'    => array(
-								'label'    => esc_html__( 'Service Location Image', 'wp-schema-pro' ),
-								'type'     => 'image',
-								'default'  => 'none',
-								'required' => true,
+								'label'       => esc_html__( 'Service Provider Image', 'wp-schema-pro' ),
+								'type'        => 'image',
+								'default'     => 'none',
+								'required'    => true,
+								'description' => esc_html__( 'The service provider or service operator Image .', 'wp-schema-pro' ),
 							),
 							'description'       => array(
 								'label'   => esc_html__( 'Service Description', 'wp-schema-pro' ),
@@ -1612,9 +1894,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'post_content',
 							),
 							'image'             => array(
-								'label'   => esc_html__( 'Service Image', 'wp-schema-pro' ),
-								'type'    => 'image',
-								'default' => 'featured_img',
+								'label'       => esc_html__( 'Service Image', 'wp-schema-pro' ),
+								'type'        => 'image',
+								'default'     => 'featured_img',
+								'description' => esc_html__( 'Here,you can add specific service image.', 'wp-schema-pro' ),
 							),
 							'location-locality' => array(
 								'label'   => esc_html__( 'Locality', 'wp-schema-pro' ),
@@ -1660,14 +1943,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'         => esc_html__( 'Application Type', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'none',
-								'required'      => true,
 								'dropdown-type' => 'software-category',
 							),
 							'operating-system' => array(
 								'label'       => esc_html__( 'Operating System', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'none',
-								'required'    => true,
 								'description' => esc_html__( 'Software for the operating system, for example, "Windows 7", "OSX 10.6", "Android 1.6"', 'wp-schema-pro' ),
 							),
 							'price'            => array(
@@ -1684,7 +1965,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'         => esc_html__( 'Currency', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'none',
-								'required'      => true,
 								'dropdown-type' => 'currency',
 							),
 							'image'            => array(
@@ -1693,14 +1973,17 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'featured_img',
 							),
 							'rating'           => array(
-								'label'   => esc_html__( 'Rating', 'wp-schema-pro' ),
-								'type'    => 'rating',
-								'default' => 'accept-user-rating',
+								'label'    => esc_html__( 'Rating', 'wp-schema-pro' ),
+								'type'     => 'rating',
+								'required' => true,
+								'default'  => 'accept-user-rating',
 							),
 							'review-count'     => array(
-								'label'   => esc_html__( 'Review Count', 'wp-schema-pro' ),
-								'type'    => 'number',
-								'default' => 'none',
+								'label'       => esc_html__( 'Review Count', 'wp-schema-pro' ),
+								'type'        => 'number',
+								'required'    => true,
+								'default'     => 'none',
+								'description' => esc_html__( 'The count of total number of reviews. e.g. "11"', 'wp-schema-pro' ),
 							),
 						),
 					),
@@ -1712,64 +1995,300 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						'guideline-link' => empty( $doc_link ) ? 'https://wpschema.com/docs/how-to-add-a-schema-markup-for-a-video-object/' : 'https://developers.google.com/search/docs/data-types/videos',
 						'path'           => BSF_AIOSRS_PRO_DIR . 'classes/schema/',
 						'subkeys'        => array(
-							'name'              => array(
+							'name'                       => array(
 								'label'    => esc_html__( 'Video Title', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_title',
 								'required' => true,
 							),
-							'description'       => array(
+							'description'                => array(
 								'label'    => esc_html__( 'Video Description', 'wp-schema-pro' ),
 								'type'     => 'textarea',
 								'default'  => 'post_content',
 								'required' => true,
 							),
-							'image'             => array(
+							'image'                      => array(
 								'label'    => esc_html__( 'Video Thumbnail', 'wp-schema-pro' ),
 								'type'     => 'image',
 								'default'  => 'featured_img',
 								'required' => true,
 							),
-							'upload-date'       => array(
+							'upload-date'                => array(
 								'label'    => esc_html__( 'Video Upload Date', 'wp-schema-pro' ),
 								'type'     => 'date',
 								'default'  => 'post_date',
 								'required' => true,
 							),
-							'orgnization-name'  => array(
+							'orgnization-name'           => array(
 								'label'   => esc_html__( 'Publisher Name', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'blogname',
 							),
-							'site-logo'         => array(
+							'site-logo'                  => array(
 								'label'   => esc_html__( 'Publisher Logo', 'wp-schema-pro' ),
 								'type'    => 'image',
 								'default' => 'site_logo',
 							),
-							'content-url'       => array(
+							'content-url'                => array(
 								'label'   => esc_html__( 'Content URL', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'none',
 							),
-							'embed-url'         => array(
+							'embed-url'                  => array(
 								'label'   => esc_html__( 'Embed URL', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'none',
 							),
-							'duration'          => array(
+							'duration'                   => array(
 								'label'   => esc_html__( 'Video Duration', 'wp-schema-pro' ),
 								'type'    => 'time-duration',
 								'default' => 'none',
 							),
-							'expires-date'      => array(
+							'expires-date'               => array(
 								'label'   => esc_html__( 'Video Expires On', 'wp-schema-pro' ),
 								'type'    => 'date',
 								'default' => 'none',
 							),
-							'interaction-count' => array(
-								'label'   => esc_html__( 'Video Interaction Count', 'wp-schema-pro' ),
-								'type'    => 'number',
-								'default' => 'none',
+							'interaction-count'          => array(
+								'label'       => esc_html__( 'Video Interaction Count', 'wp-schema-pro' ),
+								'type'        => 'number',
+								'default'     => 'none',
+								'description' => esc_html__( 'The number of times the video has been watched.', 'wp-schema-pro' ),
+							),
+							'clip'                       => array(
+								'label'         => esc_html__( 'Clips', 'wp-schema-pro' ),
+								'type'          => 'repeater',
+								'is_recommnded' => true,
+								'fields'        => array(
+									'clip-name'         => array(
+										'label'   => esc_html__( 'Clip Name', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'none',
+									),
+									'clip-start-offset' => array(
+										'label'       => esc_html__( 'Clip Start Offset', 'wp-schema-pro' ),
+										'type'        => 'number',
+										'default'     => 'none',
+										'description' => esc_html__( 'The start time of the clip expressed as the number of seconds from the beginning of the work.', 'wp-schema-pro' ),
+									),
+									'clip-end-offset'   => array(
+										'label'       => esc_html__( 'Clip End Offset', 'wp-schema-pro' ),
+										'type'        => 'number',
+										'default'     => 'none',
+										'description' => esc_html__( 'The end time of the clip expressed as the number of seconds from the beginning of the work.', 'wp-schema-pro' ),
+									),
+									'clip-url'          => array(
+										'label'       => esc_html__( 'Clip URL', 'wp-schema-pro' ),
+										'type'        => 'text',
+										'default'     => 'none',
+										'description' => esc_html__( 'A URL that points to the start time of the clip.', 'wp-schema-pro' ),
+									),
+								),
+							),
+							'seekto-action-start-offset' => array(
+								'label'       => esc_html__( 'Seek To Action Start Offset', 'wp-schema-pro' ),
+								'type'        => 'number',
+								'default'     => 'none',
+								'description' => esc_html__( 'The number of seconds to skip to.', 'wp-schema-pro' ),
+							),
+							'seekto-action-target'       => array(
+								'label'       => esc_html__( 'Seek To Action target URL', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'description' => esc_html__( 'A URL that points to the start time of the clip.', 'wp-schema-pro' ),
+							),
+						),
+					),
+					'bsf-aiosrs-faq'                  => array(
+						'key'            => 'faq',
+						'icon'           => 'dashicons dashicons-editor-help',
+						'label'          => __( 'FAQ', 'wp-schema-pro' ),
+						'guideline-link' => 'https://developers.google.com/search/docs/data-types/faqpage',
+						'path'           => BSF_AIOSRS_PRO_DIR . 'classes/schema/',
+						'subkeys'        => array(
+
+							'question-answer' => array(
+								'label'  => esc_html__( 'Question-Answer', 'wp-schema-pro' ),
+								'type'   => 'repeater-target',
+								'fields' => array(
+									'question' => array(
+										'label'    => esc_html__( 'Question', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'create-field',
+										'required' => true,
+									),
+									'answer'   => array(
+										'label'    => esc_html__( 'Answer', 'wp-schema-pro' ),
+										'type'     => 'textarea',
+										'default'  => 'create-field',
+										'required' => true,
+									),
+								),
+							),
+						),
+					),
+					'bsf-aiosrs-how-to'               => array(
+						'key'            => 'how-to',
+						'icon'           => 'dashicons dashicons-list-view',
+						'label'          => __( 'How-to', 'wp-schema-pro' ),
+						'guideline-link' => empty( $doc_link ) ? 'https://wpschema.com/docs/add-how-to-schema/' : 'https://schema.org/HowTo',
+						'path'           => BSF_AIOSRS_PRO_DIR . 'classes/schema/',
+						'subkeys'        => array(
+							'name'        => array(
+								'label'    => esc_html__( 'Name', 'wp-schema-pro' ),
+								'type'     => 'text',
+								'default'  => 'post_title',
+								'required' => true,
+							),
+							'description' => array(
+								'label'   => esc_html__( 'Description', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'post_content',
+							),
+							'total-time'  => array(
+								'label'       => esc_html__( 'Total Time', 'wp-schema-pro' ),
+								'type'        => 'time-duration',
+								'default'     => 'create-field',
+								'description' => esc_html__( 'The total time required to perform instructions or a direction (including time to prepare the supplies).', 'wp-schema-pro' ),
+							),
+							'supply'      => array(
+								'label'       => esc_html__( 'Materials', 'wp-schema-pro' ),
+								'type'        => 'repeater-target',
+								'description' => esc_html__( 'The supply property lists the item(s) “consumed when performing instructions or a direction.”', 'wp-schema-pro' ),
+								'fields'      => array(
+									'name' => array(
+										'label'    => esc_html__( 'Name', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'none',
+										'required' => true,
+									),
+								),
+							),
+							'tool'        => array(
+								'label'       => esc_html__( 'Tools', 'wp-schema-pro' ),
+								'type'        => 'repeater-target',
+								'description' => esc_html__( 'The tool property lists the item(s) used (but not consumed) when performing instructions or a direction.', 'wp-schema-pro' ),
+								'fields'      => array(
+									'name' => array(
+										'label'    => esc_html__( 'Name', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'none',
+										'required' => true,
+									),
+								),
+							),
+							'steps'       => array(
+								'label'       => esc_html__( 'Steps', 'wp-schema-pro' ),
+								'type'        => 'repeater-target',
+								'required'    => true,
+								'description' => esc_html__( 'Google needs at least two steps.', 'wp-schema-pro' ),
+								'fields'      => array(
+									'name'        => array(
+										'label'    => esc_html__( 'Step Name', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'none',
+										'required' => false,
+									),
+									'description' => array(
+										'label'    => esc_html__( 'Step Description', 'wp-schema-pro' ),
+										'type'     => 'textarea',
+										'default'  => 'none',
+										'required' => true,
+									),
+									'url'         => array(
+										'label'    => esc_html__( 'Step URL', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'post_permalink',
+										'required' => false,
+									),
+									'image'       => array(
+										'label'    => esc_html__( 'Step Image', 'wp-schema-pro' ),
+										'type'     => 'image',
+										'default'  => 'none',
+										'required' => false,
+									),
+								),
+							),
+
+						),
+					),
+					'bsf-aiosrs-custom-markup'        => array(
+						'key'            => 'custom-markup',
+						'icon'           => 'dashicons dashicons-edit-page',
+						'label'          => __( 'Custom Markup', 'wp-schema-pro' ),
+						'guideline-link' => 'https://wpschema.com/docs/add-custom-schema-markup/',
+						'path'           => BSF_AIOSRS_PRO_DIR . 'classes/schema/',
+						'subkeys'        => array(
+							'custom-markup' => array(
+								'label'       => esc_html__( 'Custom Markup', 'wp-schema-pro' ),
+								'type'        => 'textarea',
+								'default'     => 'none',
+								'description' => esc_html__(
+									'Be sure to add custom schema markup in JSON-LD format.
+								As the custom schema markup in JSON-LD format, make sure to add it in script tag.
+								Validate schema markup with the Structured Data Testing Tool or Rich Results Test before adding to the website.',
+									'wp-schema-pro'
+								),
+								'required'    => false,
+							),
+						),
+					),
+					'bsf-aiosrs-image-license'        => array(
+						'key'            => 'image-license',
+						'icon'           => 'dashicons dashicons-format-image',
+						'label'          => __( 'Image License', 'wp-schema-pro' ),
+
+						'guideline-link' => empty( $doc_link ) ? 'https://wpschema.com/docs/add-image-license-schema/' : 'https://developers.google.com/search/docs/advanced/structured-data/image-license-metadata',
+						'path'           => BSF_AIOSRS_PRO_DIR . 'classes/schema/',
+						'subkeys'        => array(
+							'image-license' => array(
+								'label'       => esc_html__( 'Image License', 'wp-schema-pro' ),
+								'type'        => 'repeater',
+								'description' => esc_html__( 'Include the license property for your image to be eligible to be shown with the Licensable badge', 'wp-schema-pro' ),
+								'fields'      => array(
+									'content-url'          => array(
+										'label'    => esc_html__( 'Content URL', 'wp-schema-pro' ),
+										'type'     => 'image',
+										'default'  => 'featured_img',
+										'required' => true,
+									),
+									'license'              => array(
+										'label'    => esc_html__( 'License', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'default'  => 'create-field',
+										'required' => true,
+									),
+									'acquire-license-Page' => array(
+										'label'   => esc_html__( 'Acquire License Page', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'create-field',
+									),
+									'credit-text'          => array(
+										'label'   => esc_html__( 'Credit Text', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'create-field',
+									),
+									'creator-type'         => array(
+										'label'   => esc_html__( 'Creator Type', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'Person',
+										'choices' => array(
+											'Person'       => esc_html__( 'Person', 'wp-schema-pro' ),
+											'Organization' => esc_html__( 'Organization', 'wp-schema-pro' ),
+										),
+									),
+									'creator'              => array(
+										'label'   => esc_html__( 'Creator', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'author_name',
+									),
+									'copy-right-notice'    => array(
+										'label'   => esc_html__( 'Copy Right Notice', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'create-field',
+									),
+
+								),
 							),
 						),
 					),
@@ -1785,6 +2304,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'    => esc_html__( 'Book Name', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_title',
+								'required' => true,
+							),
+							'description'   => array(
+								'label'    => esc_html__( 'Book Description', 'wp-schema-pro' ),
+								'type'     => 'textarea',
+								'default'  => 'post_content',
 								'required' => true,
 							),
 							'serial-number' => array(
@@ -1805,7 +2330,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'       => esc_html__( 'Same As', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'create-field',
-								'required'    => true,
 								'description' => esc_html__( 'A reference page that unambiguously indicates the item\'s identity; for example, the URL of the item\'s Wikipedia page, Freebase page, or official website.', 'wp-schema-pro' ),
 							),
 						),
@@ -1832,72 +2356,126 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 					),
 					'bsf-aiosrs-event'                => array(
 						'subkeys' => array(
-							'name'              => array(
+							'name'                  => array(
 								'label'    => esc_html__( 'Event Name', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_title',
 								'required' => true,
 							),
-							'image'             => array(
+							'image'                 => array(
 								'label'   => esc_html__( 'Event Image', 'wp-schema-pro' ),
 								'type'    => 'image',
 								'default' => 'featured_img',
 							),
+							'event-status'          => array(
+								'label'         => esc_html__( ' Status', 'wp-schema-pro' ),
+								'type'          => 'dropdown',
+								'default'       => 'custom-text',
+								'dropdown-type' => 'event-status',
+								'required'      => false,
+								'description'   => esc_html__( 'The status of the event. If you don\'t use this field, Google understands the eventStatus to be EventScheduled. ', 'wp-schema-pro' ),
 
-							'start-date'        => array(
+							),
+							'event-attendance-mode' => array(
+								'label'         => esc_html__( ' Attendance Mode', 'wp-schema-pro' ),
+								'type'          => 'dropdown',
+								'default'       => 'custom-text',
+								'dropdown-type' => 'event-attendance-mode',
+								'required'      => false,
+								'description'   => esc_html__( 'The location of the event. There are different requirements depending on if the event is happening online or at a physical location.', 'wp-schema-pro' ),
+
+							),
+							'start-date'            => array(
 								'label'    => esc_html__( 'Event Start Date', 'wp-schema-pro' ),
 								'type'     => 'datetime-local',
 								'default'  => 'create-field',
 								'required' => true,
 							),
-							'end-date'          => array(
+							'end-date'              => array(
 								'label'   => esc_html__( 'Event End Date', 'wp-schema-pro' ),
 								'type'    => 'datetime-local',
 								'default' => 'create-field',
 							),
-							'location'          => array(
+							'previous-date'         => array(
+								'label'   => esc_html__( 'Previous Start Date', 'wp-schema-pro' ),
+								'type'    => 'datetime-local',
+								'class'   => 'wpsp-event-status-rescheduled',
+								'default' => 'custom-text',
+							),
+							'online-location'       => array(
+								'label'   => esc_html__( 'Online Event URL', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'post_permalink',
+								'class'   => 'wpsp-event-status-online',
+
+							),
+							'event-status'          => array(
+								'label'         => esc_html__( ' Status', 'wp-schema-pro' ),
+								'type'          => 'dropdown',
+								'default'       => 'custom-text',
+								'dropdown-type' => 'event-status',
+								'required'      => false,
+								'description'   => esc_html__( 'The status of the event. If you don\'t use this field, Google understands the eventStatus to be EventScheduled. ', 'wp-schema-pro' ),
+
+							),
+							'event-attendance-mode' => array(
+								'label'         => esc_html__( ' Attendance Mode', 'wp-schema-pro' ),
+								'type'          => 'dropdown',
+								'default'       => 'custom-text',
+								'dropdown-type' => 'event-attendance-mode',
+								'required'      => false,
+								'description'   => esc_html__( 'The location of the event. There are different requirements depending on if the event is happening online or at a physical location.', 'wp-schema-pro' ),
+
+							),
+							'location'              => array(
 								'label'   => esc_html__( 'Event Location Name', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'create-field',
+								'class'   => 'wpsp-event-status-offline',
 							),
-							'location-street'   => array(
+							'location-street'       => array(
 								'label'    => esc_html__( 'Event Street Address', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'create-field',
 								'required' => true,
+								'class'    => 'wpsp-event-status-offline',
 							),
-							'location-locality' => array(
+							'location-locality'     => array(
 								'label'    => esc_html__( 'Event Locality', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'create-field',
 								'required' => true,
+								'class'    => 'wpsp-event-status-offline',
 							),
-							'location-postal'   => array(
+							'location-postal'       => array(
 								'label'    => esc_html__( 'Event Postal Code', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'create-field',
 								'required' => true,
+								'class'    => 'wpsp-event-status-offline',
 							),
-							'location-region'   => array(
+							'location-region'       => array(
 								'label'    => esc_html__( 'Event Region', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'create-field',
 								'required' => true,
+								'class'    => 'wpsp-event-status-offline',
 							),
-							'location-country'  => array(
+							'location-country'      => array(
 								'label'         => esc_html__( 'Event Country', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'create-field',
 								'required'      => true,
 								'dropdown-type' => 'country',
+								'class'         => 'wpsp-event-status-offline',
 							),
-							'avail'             => array(
+							'avail'                 => array(
 								'label'         => esc_html__( 'Event Offer Availability', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'create-field',
 								'dropdown-type' => 'availability',
 							),
-							'price'             => array(
+							'price'                 => array(
 								'label'   => esc_html__( 'Event Offer Price', 'wp-schema-pro' ),
 								'type'    => 'number',
 								'default' => 'create-field',
@@ -1906,31 +2484,47 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									'step' => 'any',
 								),
 							),
-							'currency'          => array(
+							'currency'              => array(
 								'label'         => esc_html__( 'Event Currency', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'create-field',
 								'dropdown-type' => 'currency',
 							),
-							'valid-from'        => array(
+							'valid-from'            => array(
 								'label'   => esc_html__( 'Event Offer Valid From', 'wp-schema-pro' ),
 								'type'    => 'date',
 								'default' => 'create-field',
 							),
-							'ticket-buy-url'    => array(
+							'ticket-buy-url'        => array(
 								'label'   => esc_html__( 'Event Ticket Link', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'create-field',
 							),
-							'performer'         => array(
+							'performer'             => array(
 								'label'   => esc_html__( 'Event Performer', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'create-field',
 							),
-							'description'       => array(
+							'description'           => array(
 								'label'   => esc_html__( 'Event Description', 'wp-schema-pro' ),
 								'type'    => 'textarea',
 								'default' => 'post_content',
+							),
+							'event-organizer-name'  => array(
+								'label'         => esc_html__( 'Organizer Name', 'wp-schema-pro' ),
+								'type'          => 'text',
+								'default'       => 'none',
+								'dropdown-type' => 'event-attendance-mode',
+								'required'      => false,
+								'description'   => esc_html__( 'The person or organization that is hosting the event.', 'wp-schema-pro' ),
+
+							),
+							'event-organizer-url'   => array(
+								'label'         => esc_html__( 'Organizer URL', 'wp-schema-pro' ),
+								'type'          => 'text',
+								'default'       => 'none',
+								'dropdown-type' => 'event-attendance-mode',
+								'required'      => false,
 							),
 						),
 
@@ -1985,10 +2579,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'dropdown-type' => 'country',
 							),
 							'price-range'       => array(
-								'label'    => esc_html__( 'Local Business Price Range', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'create-field',
-								'required' => true,
+								'label'   => esc_html__( 'Local Business Price Range', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'create-field',
 							),
 						),
 					),
@@ -2001,10 +2594,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'required' => true,
 							),
 							'brand-name'        => array(
-								'label'    => esc_html__( 'Product Brand Name', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'create-field',
-								'required' => true,
+								'label'   => esc_html__( 'Product Brand Name', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'create-field',
 							),
 							'image'             => array(
 								'label'    => esc_html__( ' Product Image', 'wp-schema-pro' ),
@@ -2013,10 +2605,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'required' => true,
 							),
 							'url'               => array(
-								'label'    => esc_html__( ' Product URL', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'post_permalink',
-								'required' => true,
+								'label'   => esc_html__( ' Product URL', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'post_permalink',
 							),
 							'description'       => array(
 								'label'    => esc_html__( 'Product Description', 'wp-schema-pro' ),
@@ -2029,34 +2620,29 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'type'        => 'text',
 								'default'     => 'create-field',
 								'description' => esc_html__( 'The Stock Keeping Unit (SKU), a merchant-specific identifier for a product or service, or the product e.g. "0446310786"', 'wp-schema-pro' ),
-								'required'    => true,
 							),
 							'mpn'               => array(
 								'label'       => esc_html__( 'Product MPN', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'create-field',
 								'description' => esc_html__( 'The Manufacturer Part Number (MPN) of the product, or the product to which the offer refers. e.g. "925872"', 'wp-schema-pro' ),
-								'required'    => true,
 							),
 							'avail'             => array(
 								'label'         => esc_html__( 'Product Availability', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'create-field',
 								'dropdown-type' => 'availability',
-								'required'      => true,
 							),
 							'price-valid-until' => array(
-								'label'    => esc_html__( 'Product Price Valid Until', 'wp-schema-pro' ),
-								'type'     => 'datetime-local',
-								'default'  => 'create-field',
-								'required' => true,
+								'label'   => esc_html__( 'Product Price Valid Until', 'wp-schema-pro' ),
+								'type'    => 'datetime-local',
+								'default' => 'create-field',
 							),
 							'price'             => array(
-								'label'    => esc_html__( 'Product Price', 'wp-schema-pro' ),
-								'type'     => 'number',
-								'default'  => 'create-field',
-								'required' => true,
-								'attrs'    => array(
+								'label'   => esc_html__( 'Product Price', 'wp-schema-pro' ),
+								'type'    => 'number',
+								'default' => 'create-field',
+								'attrs'   => array(
 									'min'  => '0',
 									'step' => '0.01',
 								),
@@ -2065,7 +2651,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'         => esc_html__( 'Product Currency', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'create-field',
-								'required'      => true,
 								'dropdown-type' => 'currency',
 							),
 							'rating'            => array(
@@ -2074,9 +2659,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'accept-user-rating',
 							),
 							'review-count'      => array(
-								'label'   => esc_html__( 'Product Review Count', 'wp-schema-pro' ),
-								'type'    => 'text',
-								'default' => 'none',
+								'label'       => esc_html__( 'Product Review Count', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'none',
+								'description' => esc_html__( 'The count of total number of reviews. e.g. "11"', 'wp-schema-pro' ),
 							),
 						),
 					),
@@ -2205,9 +2791,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'accept-user-rating',
 							),
 							'review-count'              => array(
-								'label'   => esc_html__( 'Recipe Video Review Count', 'wp-schema-pro' ),
-								'type'    => 'text',
-								'default' => 'number',
+								'label'       => esc_html__( 'Recipe Video Review Count', 'wp-schema-pro' ),
+								'type'        => 'text',
+								'default'     => 'number',
+								'description' => esc_html__( 'The count of total number of reviews. e.g. "11"', 'wp-schema-pro' ),
 							),
 						),
 					),
@@ -2223,25 +2810,26 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'       => esc_html__( 'Software Application Operating System', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'create-field',
-								'required'    => true,
 								'description' => esc_html__( 'Software for the operating system, for example, "Windows 7", "OSX 10.6", "Android 1.6"', 'wp-schema-pro' ),
 							),
 							'category'         => array(
 								'label'         => esc_html__( 'Software Application Category', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'create-field',
-								'required'      => true,
 								'dropdown-type' => 'software-category',
 							),
 							'rating'           => array(
-								'label'   => esc_html__( 'Software Application Rating', 'wp-schema-pro' ),
-								'type'    => 'rating',
-								'default' => 'accept-user-rating',
+								'label'    => esc_html__( 'Software Application Rating', 'wp-schema-pro' ),
+								'type'     => 'rating',
+								'required' => true,
+								'default'  => 'accept-user-rating',
 							),
 							'review-count'     => array(
-								'label'   => esc_html__( 'Software Application Review Count', 'wp-schema-pro' ),
-								'type'    => 'number',
-								'default' => 'number',
+								'label'       => esc_html__( 'Software Application Review Count', 'wp-schema-pro' ),
+								'type'        => 'number',
+								'required'    => true,
+								'default'     => 'number',
+								'description' => esc_html__( 'The count of total number of reviews. e.g. "11"', 'wp-schema-pro' ),
 							),
 							'price'            => array(
 								'label'    => esc_html__( 'Software Application Price', 'wp-schema-pro' ),
@@ -2257,7 +2845,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'         => esc_html__( 'Software Application Currency', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'create-field',
-								'required'      => true,
 								'dropdown-type' => 'currency',
 							),
 						),
@@ -2268,6 +2855,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'    => esc_html__( 'Movie Name', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_title',
+								'required' => true,
+							),
+							'description'   => array(
+								'label'    => esc_html__( 'Movie Description', 'wp-schema-pro' ),
+								'type'     => 'textarea',
+								'default'  => 'post_content',
 								'required' => true,
 							),
 							'same-As'       => array(
@@ -2304,28 +2897,24 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'required' => true,
 							),
 							'location-street'   => array(
-								'label'    => esc_html__( 'Organization Street Address', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'create-field',
-								'required' => true,
+								'label'   => esc_html__( 'Organization Street Address', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'create-field',
 							),
 							'location-locality' => array(
-								'label'    => esc_html__( 'Organization Locality', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'create-field',
-								'required' => true,
+								'label'   => esc_html__( 'Organization Locality', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'create-field',
 							),
 							'location-postal'   => array(
-								'label'    => esc_html__( 'Organization Postal Code', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'create-field',
-								'required' => true,
+								'label'   => esc_html__( 'Organization Postal Code', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'create-field',
 							),
 							'location-region'   => array(
-								'label'    => esc_html__( 'Organization Region', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'create-field',
-								'required' => true,
+								'label'   => esc_html__( 'Organization Region', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'create-field',
 							),
 							'location-country'  => array(
 								'label'         => esc_html__( 'Organization Country', 'wp-schema-pro' ),
@@ -2368,9 +2957,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									'post_content'      => __( 'Content', 'wp-schema-pro' ),
 									'post_excerpt'      => __( 'Excerpt', 'wp-schema-pro' ),
 									'post_permalink'    => __( 'Permalink', 'wp-schema-pro' ),
-									'author_name'       => __( 'Author name', 'wp-schema-pro' ),
-									'author_first_name' => __( 'Author first name', 'wp-schema-pro' ),
-									'author_last_name'  => __( 'Author last name', 'wp-schema-pro' ),
+									'author_name'       => __( 'Author Name', 'wp-schema-pro' ),
+									'author_first_name' => __( 'Author First Name', 'wp-schema-pro' ),
+									'author_last_name'  => __( 'Author Last Name', 'wp-schema-pro' ),
+									'author_url'        => __( 'Author URL', 'wp-schema-pro' ),
 									'post_date'         => __( 'Publish Date', 'wp-schema-pro' ),
 									'post_modified'     => __( 'Last Modify Date', 'wp-schema-pro' ),
 								),
@@ -2399,8 +2989,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							array(
 								'label'     => __( 'Post Meta (Basic Fields)', 'wp-schema-pro' ),
 								'meta-list' => array(
-									'featured_img' => __( 'Featured image', 'wp-schema-pro' ),
-									'author_image' => __( 'Author image', 'wp-schema-pro' ),
+									'featured_img' => __( 'Featured Image', 'wp-schema-pro' ),
+									'author_image' => __( 'Author Image', 'wp-schema-pro' ),
 								),
 							),
 							array(
@@ -2603,11 +3193,30 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 
 				$type = get_post_meta( $post->ID, 'bsf-aiosrs-schema-type', true );
 				if ( ! empty( $type ) ) {
-					$meta_values = get_post_meta( $post->ID, 'bsf-aiosrs-' . $type, true );
+					$meta_values          = get_post_meta( $post->ID, 'bsf-aiosrs-' . $type, true );
+					$schema_meta_repeater = '';
+					$meta_repeater_value  = '';
+					$required_fields      = array();
+					$schema_meta          = self::$schema_meta_fields[ 'bsf-aiosrs-' . $type ]['subkeys'];
+					$schema_meta_keys     = array_keys( $schema_meta );
+					foreach ( $schema_meta as $key ) {
+						if ( 'repeater' === $key['type'] ) {
+							$schema_meta_repeater = $key['fields'];
+						}
+					}
+					if ( ! empty( $schema_meta_repeater ) ) {
+						$schema_meta_repeater_keys = array_keys( $schema_meta_repeater );
+					}
 
-					$required_fields  = array();
-					$schema_meta      = self::$schema_meta_fields[ 'bsf-aiosrs-' . $type ]['subkeys'];
-					$schema_meta_keys = array_keys( $schema_meta );
+					if ( is_array( $meta_values ) ) {
+						foreach ( $meta_values as $index => $repeater_values ) {
+							if ( is_array( $repeater_values ) ) {
+								foreach ( $repeater_values as $repeater_key => $repeater_value ) {
+									$meta_repeater_value = $repeater_value;
+								}
+							}
+						}
+					}
 
 					if ( is_array( $schema_meta_keys ) && is_array( $meta_values ) && ! empty( $meta_values ) ) {
 						foreach ( $schema_meta_keys as $meta_key ) {
@@ -2616,16 +3225,27 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							}
 						}
 					}
-
+					if ( ! empty( $schema_meta_repeater ) && is_array( $schema_meta_repeater_keys ) && is_array( $meta_repeater_value ) && ! empty( $meta_repeater_value ) ) {
+						foreach ( $schema_meta_repeater_keys as $repeater_key ) {
+							if ( ( isset( $schema_meta_repeater[ $repeater_key ]['required'] ) && true === $schema_meta_repeater[ $repeater_key ]['required'] ) && ( ! isset( $meta_repeater_value[ $repeater_key ] ) || 'none' === $meta_repeater_value[ $repeater_key ] ) ) {
+								$required_fields[] = $schema_meta_repeater[ $repeater_key ]['label'];
+							}
+						}
+					}
+					$count = 1;
 					if ( ! empty( $required_fields ) ) {
 						add_action(
 							'admin_notices',
 							function() use ( $required_fields ) {
-
+								$count           = count( $required_fields );
 								$required_fields = '<strong>' . implode( ', ', $required_fields ) . '</strong>';
-
-								/* translators: %s post title. */
-								$notice = sprintf( __( 'Schema required mapping of %s meta fields.', 'wp-schema-pro' ), $required_fields );
+								if ( $count > 1 ) {
+									/* translators: %s post title. */
+									$notice = sprintf( __( 'Schema requires mapping of %s meta fields.', 'wp-schema-pro' ), $required_fields );
+								} else {
+									/* translators: %s post title. */
+									$notice = sprintf( __( 'Schema requires mapping of %s meta field.', 'wp-schema-pro' ), $required_fields );
+								}
 
 								echo '<div class="error">';
 								echo '<p>' . wp_kses_post( $notice ) . '</p>';
@@ -2656,7 +3276,14 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 			wp_nonce_field( basename( __FILE__ ), 'aiosrs-schema' );
 			$stored = get_post_meta( $post->ID );
 
-			$schema_meta_keys = array_merge( self::$schema_meta_keys, array( 'bsf-aiosrs-schema-location', 'bsf-aiosrs-schema-exclusion' ) );
+			$current_post_type = isset( $stored['bsf-aiosrs-schema-type'] ) ? $stored['bsf-aiosrs-schema-type'] : '';
+			$current_post_type = is_array( $current_post_type ) ? 'bsf-aiosrs-' . reset( $current_post_type ) : '';
+
+			if ( empty( $current_post_type ) ) {
+				return;
+			}
+
+			$schema_meta_keys = array( 'bsf-aiosrs-schema-location', 'bsf-aiosrs-schema-exclusion', $current_post_type );
 
 			// Set stored and override defaults.
 			foreach ( $stored as $key => $value ) {
@@ -2683,9 +3310,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 				'exclude-locations' => $exclude_locations,
 			);
 
-			foreach ( self::$schema_meta_keys as $key ) {
-				$schemas_meta[ $key ] = ( isset( $meta[ $key ]['default'] ) ) ? $meta[ $key ]['default'] : array();
-			}
+			$schemas_meta[ $current_post_type ] = ( isset( $meta[ $current_post_type ]['default'] ) ) ? $meta[ $current_post_type ]['default'] : array();
 
 			do_action( 'aiosrs_schema_settings_markup_before', $meta );
 			$this->render( $schemas_meta );
@@ -2698,6 +3323,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 		 * @param  array $meta_values Post meta.
 		 */
 		public function render( $meta_values ) {
+
+			$allowd_fields = array_keys( $meta_values );
+
 			?>
 			<table class="bsf-aiosrs-schema-table widefat">
 				<tr class="bsf-aiosrs-schema-row">
@@ -2726,11 +3354,17 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 					</td>
 				</tr>
 			</table>
+			<div class="bsf-aiosrs-schema-row-select-target">
+			<h2 class="bsf-aiosrs-schema-row-heading-select-target">
+						<label><?php esc_html_e( 'Set Target Location', 'wp-schema-pro' ); ?></label>
+						<i class="bsf-aiosrs-schema-heading-help dashicons dashicons-editor-help" title="<?php echo esc_attr__( 'Select location where this schema should be integrated.', 'wp-schema-pro' ); ?>"></i>
+			</h2>
+			</div>
 			<table class="bsf-aiosrs-schema-table widefat">
 				<tr class="bsf-aiosrs-schema-row">
 					<td class="bsf-aiosrs-schema-row-heading">
 						<label><?php esc_html_e( 'Enable On', 'wp-schema-pro' ); ?></label>
-						<i class="bsf-aiosrs-schema-heading-help dashicons dashicons-editor-help" title="<?php echo esc_attr__( 'Add locations for where this Schema should appear.', 'wp-schema-pro' ); ?>"></i>
+						<i class="bsf-aiosrs-schema-heading-help dashicons dashicons-editor-help" title="<?php echo esc_attr__( 'Add target locations where this Schema should appear.', 'wp-schema-pro' ); ?>"></i>
 					</td>
 					<td class="bsf-aiosrs-schema-row-content">
 					<?php
@@ -2741,14 +3375,14 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'value'          => '[{"type":"basic-global","specific":null}]',
 								'tags'           => 'site,enable,target,pages',
 								'rule_type'      => 'display',
-								'add_rule_label' => __( 'Add And Rule', 'wp-schema-pro' ),
+								'add_rule_label' => __( 'Add “AND” Rule', 'wp-schema-pro' ),
 							),
 							$meta_values['include-locations']
 						);
 					?>
 					</td>
 				</tr>
-				<tr class="bsf-aiosrs-schema-row <?php echo empty( $meta_values['exclude-locations'] ) ? 'bsf-hidden' : ''; ?>">
+				<tr class="bsf-aiosrs-schema-row">
 					<td class="bsf-aiosrs-schema-row-heading">
 						<label><?php esc_html_e( 'Exclude From', 'wp-schema-pro' ); ?></label>
 						<i class="bsf-aiosrs-schema-heading-help dashicons dashicons-editor-help" title="<?php echo esc_attr__( 'This Schema will not appear at these locations.', 'wp-schema-pro' ); ?>"></i>
@@ -2761,7 +3395,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'title'          => __( 'Exclude On', 'wp-schema-pro' ),
 								'value'          => '[]',
 								'tags'           => 'site,enable,target,pages',
-								'add_rule_label' => __( 'Add Or Rule', 'wp-schema-pro' ),
+								'add_rule_label' => __( 'Add “OR” Rule', 'wp-schema-pro' ),
 								'rule_type'      => 'exclude',
 							),
 							$meta_values['exclude-locations']
@@ -2770,7 +3404,20 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 					</td>
 				</tr>
 			</table>
+			<div class="bsf-aiosrs-schema-row-select-target">
+			<h2 class="bsf-aiosrs-schema-row-heading-select-target">
+				<label><?php esc_html_e( 'All Schema Fields', 'wp-schema-pro' ); ?></label>
+				<i class="bsf-aiosrs-schema-heading-help dashicons dashicons-editor-help" title="<?php echo esc_attr__( 'Below are the fields/properties that Google Requires you to fill so that the schema will work properly.', 'wp-schema-pro' ); ?>"></i>
+			</h2>
+			</div>
 			<?php foreach ( self::$schema_meta_fields as $key => $value ) { ?>
+
+				<?php
+				if ( ! in_array( $key, $allowd_fields, true ) ) {
+					continue;
+				}
+				?>
+
 				<table id="bsf-<?php echo esc_attr( $value['key'] ); ?>-schema-meta-wrap" class="bsf-aiosrs-schema-table bsf-aiosrs-schema-meta-wrap widefat" <?php echo ( $value['key'] !== $meta_values['schema_type'] ) ? 'style="display: none;"' : ''; ?> >
 					<?php if ( isset( $value['guideline-link'] ) && ! empty( $value['guideline-link'] ) ) { ?>
 						<tr class="bsf-aiosrs-schema-row">
@@ -2816,7 +3463,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 		 * @param  array $meta_values Meta Values array.
 		 * @return void
 		 */
-		public static function get_meta_markup( $option_meta = array(), $meta_values ) {
+		public static function get_meta_markup( $option_meta, $meta_values ) {
+
 			if ( ! empty( $option_meta ) ) {
 
 				$name   = $option_meta['name'];
@@ -2838,12 +3486,17 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 					$custom_text_value    = ( isset( $meta_values[ $name ][ $subkey . '-custom-text' ] ) && self::is_not_empty( $meta_values[ $name ][ $subkey . '-custom-text' ] ) ) ? $meta_values[ $name ][ $subkey . '-custom-text' ] : '';
 					$fixed_text_value     = ( isset( $meta_values[ $name ][ $subkey . '-fixed-text' ] ) && ! empty( $meta_values[ $name ][ $subkey . '-fixed-text' ] ) ) ? $meta_values[ $name ][ $subkey . '-fixed-text' ] : '';
 					$specific_field_value = ( isset( $meta_values[ $name ][ $subkey . '-specific-field' ] ) && ! empty( $meta_values[ $name ][ $subkey . '-specific-field' ] ) ) ? $meta_values[ $name ][ $subkey . '-specific-field' ] : '';
-				}
 
+				}
+				if ( 'event-status' === $subkey && empty( $custom_text_value ) ) {
+					$custom_text_value = 'EventScheduled';
+				}
+				if ( 'event-attendance-mode' === $subkey && empty( $custom_text_value ) ) {
+					$custom_text_value = 'OfflineEventAttendanceMode';
+				}
 				$required = ( isset( $option_meta['subkey_data']['required'] ) && true === $option_meta['subkey_data']['required'] ) ? true : false;
 
-				$option_type   = isset( $option_meta['subkey_data']['type'] ) ? $option_meta['subkey_data']['type'] : 'text';
-				$get_meta_type = ( 'image' === $option_type ) ? 'image' : 'text';
+				$option_type = isset( $option_meta['subkey_data']['type'] ) ? $option_meta['subkey_data']['type'] : 'text';
 
 				$replace_name = str_replace( array( '][', '-[', ']-', ']', '[' ), '-', $name . '-' );
 				$option_name  = $name . '[' . $subkey . ']';
@@ -2857,7 +3510,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 				$custom_meta_attrs = array(
 					'name'          => $name . '[' . $subkey . '-custom-text]',
 					'id'            => $replace_name . $subkey . '-custom-text',
-					'class'         => $replace_name . $subkey . '-custom-text',
+					'class'         => $replace_name . $subkey . '-custom-text wpsp-' . $option_type . '-' . $subkey,
 					'dropdown-type' => isset( $option_meta['subkey_data']['dropdown-type'] ) ? $option_meta['subkey_data']['dropdown-type'] : '',
 				);
 
@@ -2869,9 +3522,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						$attrs .= $key . '="' . esc_attr( $value ) . '" ';
 					}
 				}
+
+				$dep_class = isset( $option_meta['subkey_data']['class'] ) ? $option_meta['subkey_data']['class'] : '';
+
 				?>
-				<tr class="bsf-aiosrs-schema-row bsf-aiosrs-schema-row-<?php echo esc_attr( $option_type ); ?>-type <?php echo esc_html( $is_item_type_render ); ?>">
-					<td class="bsf-aiosrs-schema-row-heading">
+				<tr class="<?php echo ( 'repeater-target' === $option_meta['subkey_data']['type'] ) ? 'bsf-hidden' : ''; ?> bsf-aiosrs-schema-row bsf-aiosrs-schema-row-<?php echo esc_attr( $option_type ); ?>-type <?php echo esc_html( $is_item_type_render ); ?>">
+					<td class="bsf-aiosrs-schema-row-heading <?php echo esc_attr( $dep_class ); ?>">
 						<label>
 							<?php echo esc_html( $option_meta['subkey_data']['label'] ); ?>
 							<?php if ( $required ) { ?>
@@ -2882,7 +3538,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							<i class="bsf-aiosrs-schema-heading-help dashicons dashicons-editor-help" title="<?php echo esc_attr( $option_meta['subkey_data']['description'] ); ?>"></i>
 						<?php } ?>
 					</td>
-					<td class="bsf-aiosrs-schema-row-content">
+					<td class="bsf-aiosrs-schema-row-content <?php echo esc_attr( $dep_class ); ?>">
 						<div class="bsf-aiosrs-schema-type-wrap">
 							<?php if ( 'repeater' === $option_meta['subkey_data']['type'] ) : ?>
 								<?php
@@ -2933,31 +3589,38 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									</div>
 									<?php } ?>
 								<button type="button" class="bsf-repeater-add-new-btn button">+ Add</button>
+					<?php elseif ( 'repeater-target' === $option_meta['subkey_data']['type'] ) : ?>
+
+								<div class="aiosrs-pro-repeater-table-wrap">
+									<table class="aiosrs-pro-repeater-table">
+										<?php
+										foreach ( $option_meta['subkey_data']['fields'] as $repeater_subkey => $repeater_subkey_data ) {
+											self::get_meta_markup(
+												array(
+													'name' => $name,
+													'name_subkey' => $subkey,
+													'index' => 0,
+													'subkey' => $repeater_subkey,
+													'subkey_data' => $repeater_subkey_data,
+												),
+												$meta_values
+											);
+										}
+										?>
+									</table>
+								</div>
+
 							<?php else : ?>
-								<select id="<?php echo esc_attr( $option_id ); ?>" name="<?php echo esc_attr( $option_name ); ?>" class="<?php echo esc_attr( $option_class ); ?> bsf-aiosrs-schema-meta-field" >
+								<?php
 
-									<?php if ( isset( $option_meta['subkey_data']['choices'] ) && is_array( $option_meta['subkey_data']['choices'] ) && ! empty( $option_meta['subkey_data']['choices'] ) ) : ?>
-										<?php foreach ( $option_meta['subkey_data']['choices'] as $key => $value ) : ?>
-											<option <?php selected( $key, $option_value ); ?> value="<?php echo esc_attr( $key ); ?>" ><?php echo esc_html( $value ); ?></option>
-										<?php endforeach; ?>
-									<?php else : ?>
-										<option value='none'><?php printf( '&mdash; %s &mdash;', esc_html__( 'None', 'wp-schema-pro' ) ); ?></option>
+								$temp_option_meta                 = $option_meta;
+								$temp_option_meta['option_id']    = $option_id;
+								$temp_option_meta['option_name']  = $option_name;
+								$temp_option_meta['option_class'] = $option_class;
 
-										<?php $post_metadata = apply_filters( 'wp_schema_pro_meta_options', self::get_meta_list( $get_meta_type ), $name, $subkey ); ?>
-										<?php if ( is_array( $post_metadata ) && ! empty( $post_metadata ) ) : ?>
-											<?php foreach ( $post_metadata as $post_meta ) : ?>
-												<optgroup label="<?php echo esc_attr( $post_meta['label'] ); ?>">
-													<?php if ( is_array( $post_meta['meta-list'] ) && ! empty( $post_meta['meta-list'] ) ) : ?>
-														<?php foreach ( $post_meta['meta-list'] as $key => $value ) : ?>
-															<?php $value = apply_filters( 'wp_schema_pro_mapping_option_string_' . $key, $value, $option_type ); ?>
-															<option <?php selected( $key, $option_value ); ?> value="<?php echo esc_attr( $key ); ?>" ><?php echo esc_html( $value ); ?></option>
-														<?php endforeach; ?>
-													<?php endif; ?>
-												</optgroup>
-											<?php endforeach; ?>
-										<?php endif; ?>
-									<?php endif; ?>
-								</select>
+								self::render_meta_box_dropdown( $temp_option_meta, $option_value );
+
+								?>
 								<div class="bsf-aiosrs-schema-specific-field-wrap <?php echo ( 'specific-field' !== $option_value ) ? 'bsf-hidden-field' : ''; ?>">
 									<select id="<?php echo esc_attr( $specific_field_name ); ?>" name="<?php echo esc_attr( $specific_field_name ); ?>" class="bsf-aiosrs-schema-select2 bsf-aiosrs-schema-specific-field" >
 										<?php if ( $specific_field_value ) { ?>
@@ -2982,6 +3645,69 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 		}
 
 		/**
+		 * Render meta box dropdown.
+		 *
+		 * @param array  $option_meta option meta.
+		 * @param string $option_value option value.
+		 * @param bool   $connected is connected.
+		 */
+		public static function render_meta_box_dropdown( $option_meta, $option_value = '', $connected = false ) {
+
+			$name   = isset( $option_meta['name'] ) ? $option_meta['name'] : '';
+			$subkey = isset( $option_meta['subkey'] ) ? $option_meta['subkey'] : '';
+
+			$option_id    = $connected ? $name : $option_meta['option_id'];
+			$option_class = $connected ? '' : $option_meta['option_class'];
+			$option_name  = $connected ? $name : $option_meta['option_name'];
+
+			if ( $connected ) {
+				$option_type = isset( $option_meta['type'] ) ? $option_meta['type'] : 'text';
+			} else {
+				$option_type = isset( $option_meta['subkey_data']['type'] ) ? $option_meta['subkey_data']['type'] : 'text';
+			}
+
+			$get_meta_type = ( 'image' === $option_type ) ? 'image' : 'text';
+
+			$attr = isset( $option_meta['attr'] ) ? $option_meta['attr'] : '';
+
+			?>
+			<select <?php echo esc_attr( $attr ); ?> id="<?php echo esc_attr( $option_id ); ?>" name="<?php echo esc_attr( $option_name ); ?>"
+					class="<?php echo esc_attr( $option_class ); ?> bsf-aiosrs-schema-meta-field" >
+
+				<?php if ( isset( $option_meta['subkey_data']['choices'] ) && is_array( $option_meta['subkey_data']['choices'] ) && ! empty( $option_meta['subkey_data']['choices'] ) ) : ?>
+					<?php foreach ( $option_meta['subkey_data']['choices'] as $key => $value ) : ?>
+						<option <?php selected( $key, $option_value ); ?> value="<?php echo esc_attr( $key ); ?>" ><?php echo esc_html( $value ); ?></option>
+					<?php endforeach; ?>
+				<?php else : ?>
+					<option value='none'><?php printf( '&mdash; %s &mdash;', esc_html__( 'None', 'wp-schema-pro' ) ); ?></option>
+
+					<?php $post_metadata = apply_filters( 'wp_schema_pro_meta_options', self::get_meta_list( $get_meta_type ), $name, $subkey ); ?>
+					<?php if ( is_array( $post_metadata ) && ! empty( $post_metadata ) ) : ?>
+						<?php
+						foreach ( $post_metadata as $post_meta ) :
+							?>
+							<optgroup label="<?php echo esc_attr( $post_meta['label'] ); ?>">
+								<?php if ( is_array( $post_meta['meta-list'] ) && ! empty( $post_meta['meta-list'] ) ) : ?>
+									<?php foreach ( $post_meta['meta-list'] as $key => $value ) : ?>
+										<?php
+										if ( $connected && ( 'custom-text' === $key || 'fixed-text' === $key ) ) {
+											continue;
+										}
+										?>
+										<?php $value = apply_filters( 'wp_schema_pro_mapping_option_string_' . $key, $value, $option_type ); ?>
+										<option <?php selected( $key, $option_value ); ?> value="<?php echo esc_attr( $key ); ?>" ><?php echo esc_html( $value ); ?></option>
+									<?php endforeach; ?>
+								<?php endif; ?>
+							</optgroup>
+						<?php endforeach; ?>
+					<?php endif; ?>
+				<?php endif; ?>
+			</select>
+
+			<?php
+		}
+
+		/**
 		 * Get Custom field default value.
 		 *
 		 * @param string $type Custom Field type.
@@ -2995,59 +3721,62 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 			switch ( $type ) {
 				case 'text':
 				case 'number':
+					?>
+					<input type="<?php echo esc_attr( $type ); ?>" id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>" class="<?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>" name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>" value="<?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?>" step="any" <?php echo esc_attr( $field_attrs ); ?> >
+					<?php
+					break;
 				case 'tel':
-				case 'date':
 				case 'time':
+					?>
+				<input
+					type="<?php echo esc_attr( $type ); ?>"
+					id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>"
+					class="<?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>"
+					name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>"
+					value="<?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?>" <?php echo esc_attr( $field_attrs ); ?> />
+					<?php
+					break;
+
 				case 'datetime-local':
 					?>
-					<input type="<?php echo esc_attr( $type ); ?>" id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>" class="<?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>" name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>" value="<?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?>" <?php echo esc_attr( $field_attrs ); ?> >
+					<input
+						type="text"
+						id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>"
+						readonly
+						class="wpsp-datetime-local-field <?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>"
+						name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>"
+						value="<?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?>" <?php echo esc_attr( $field_attrs ); ?> />
+					<?php
+					break;
+
+				case 'date':
+					?>
+					<input
+						type="text"
+						id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>"
+						readonly
+						class="wpsp-date-field <?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>"
+						name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>"
+						value="<?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?>"
+						<?php echo esc_attr( $field_attrs ); ?> />
 					<?php
 					break;
 
 				case 'textarea':
 					?>
-					<textarea id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>" class="bsf-textarea-field <?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>" name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>" <?php echo esc_attr( $field_attrs ); ?> ><?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?></textarea>
+
+					<textarea
+						id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>"
+						class="bsf-textarea-field <?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>"
+						name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>"<?php echo esc_attr( $field_attrs ); ?> ><?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?></textarea>
 					<?php
 					break;
 
 				case 'rating':
 					?>
 					<div class="aiosrs-pro-custom-field-rating">
-						<input type="number" id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>" class="bsf-rating-field <?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>" name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>" value="<?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?>" min="0" max="5" step="0.1" <?php echo esc_attr( $field_attrs ); ?> >
-						<div class="aiosrs-star-rating-wrap" ><!-- comment
-							<?php
-								$filled = 0;
-								$half   = 0;
-
-							$star_index = 1;
-							if ( isset( $default_value ) && is_numeric( $default_value ) ) {
-								$filled = ( $default_value > 5 ) ? 5 : ( $default_value < 0 ? 0 : (int) $default_value );
-								$half   = $default_value === $filled || $default_value > 5 || $default_value < 0 ? 0 : 1;
-
-								for ( $i = 0; $i < $filled; $i++ ) {
-									?>
-										--><span class="aiosrs-star-rating dashicons dashicons-star-filled" data-index="<?php echo esc_attr( $star_index ); ?>"></span><!-- comment
-									<?php
-									$star_index++;
-								}
-
-								if ( $half ) {
-									?>
-										--><span class="aiosrs-star-rating dashicons dashicons-star-half" data-index="<?php echo esc_attr( $star_index ); ?>"></span><!-- comment
-									<?php
-									$star_index++;
-								}
-							}
-
-								$empty = 5 - ( $filled + $half );
-							for ( $i = 0; $i < $empty; $i++ ) {
-								?>
-									--><span class="aiosrs-star-rating dashicons dashicons-star-empty" data-index="<?php echo esc_attr( $star_index ); ?>"></span><!-- comment
-								<?php
-								$star_index++;
-							}
-							?>
-						--></div>
+						<input type="number" id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>" class="bsf-rating-field <?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>" name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>" value="<?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?>" min="1" max="5" step="0.1" <?php echo esc_attr( $field_attrs ); ?> >
+						<?php echo BSF_AIOSRS_Pro_Custom_Fields_Markup::get_star_rating_markup( $default_value ); //phpcs:ignore ?>
 					</div>
 					<?php
 					break;
@@ -3063,7 +3792,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							<a href="#" class="aiosrs-image-select button"><span class="dashicons dashicons-format-image"></span><?php esc_html_e( 'Select Image', 'wp-schema-pro' ); ?></a>
 							<a href="#" class="aiosrs-image-remove dashicons dashicons-no-alt wp-ui-text-highlight"></a>
 							<?php if ( isset( $image_url ) && ! empty( $image_url ) ) : ?>
-								<a href="#" class="aiosrs-image-select img"><img src="<?php echo esc_url( $image_url ); ?>" /></a>
+								<a href="#" class="aiosrs-image-select img"><img src="<?php echo esc_url( $image_url ); ?>" alt = ""; /></a>
 							<?php endif; ?>
 						</div>
 					</div>
@@ -3088,7 +3817,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									$key   = $value[0];
 									$text  = isset( $value[1] ) ? $value[1] : $value[0];
 									?>
-									<option value="<?php echo esc_attr( $key ); ?>" <?php in_array( $key, $selected_options, true ) ? selected( 1 ) : ''; ?>><?php echo esc_attr( $text ); ?></option>
+									<option value="<?php echo esc_attr( $key ); ?>" <?php in_array( $key, $selected_options, true ) ? selected( 1 ) : ''; ?>><?php echo esc_html( $text ); ?></option>
 									<?php
 								}
 							}
@@ -3107,7 +3836,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						if ( ! empty( $option_list ) ) {
 							foreach ( $option_list as $key => $value ) {
 								?>
-								<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $default_value, $key ); ?>><?php echo esc_attr( $value ); ?></option>
+								<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $default_value, $key ); ?>><?php echo esc_html( $value ); ?></option>
 								<?php
 							}
 						}
@@ -3119,22 +3848,15 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 				case 'time-duration':
 					?>
 					<div class="aiosrs-pro-custom-field-time-duration">
-						<input type="hidden" id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>" class="time-duration-field <?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>" name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>" value="<?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?>" <?php echo esc_attr( $field_attrs ); ?> >
+						<input type="hidden" id="<?php echo isset( $attrs['id'] ) ? esc_attr( $attrs['id'] ) : ''; ?>"
+							class="time-duration-field <?php echo isset( $attrs['class'] ) ? esc_attr( $attrs['class'] ) : ''; ?>"
+							name="<?php echo isset( $attrs['name'] ) ? esc_attr( $attrs['name'] ) : ''; ?>"
+							value="<?php echo isset( $default_value ) ? esc_attr( $default_value ) : ''; ?>" <?php echo esc_attr( $field_attrs ); ?> >
 						<div class="time-duration-wrap">
-							<?php
-							if ( ! empty( $default_value ) ) {
-								$interval = new DateInterval( $default_value );
-							}
-
-							$duration_day  = isset( $interval ) ? str_pad( $interval->format( '%d' ), 2, '0', STR_PAD_LEFT ) : '';
-							$duration_hour = isset( $interval ) ? str_pad( $interval->format( '%h' ), 2, '0', STR_PAD_LEFT ) : '';
-							$duration_min  = isset( $interval ) ? str_pad( $interval->format( '%i' ), 2, '0', STR_PAD_LEFT ) : '';
-							$duration_sec  = isset( $interval ) ? str_pad( $interval->format( '%s' ), 2, '0', STR_PAD_LEFT ) : '';
-							?>
-							<input type="number" class="time-duration-day" placeholder="DAYS" min="0" value="<?php echo esc_attr( $duration_day ); ?>"><!--
-							--><input type="number" class="time-duration-hour" placeholder="HOUR" min="0" max="23" value="<?php echo esc_attr( $duration_hour ); ?>"><!--
-							--><input type="number" class="time-duration-min" placeholder="MIN" min="0" max="59" value="<?php echo esc_attr( $duration_min ); ?>"><!--
-							--><input type="number" class="time-duration-sec" placeholder="SEC" min="0" max="59" value="<?php echo esc_attr( $duration_sec ); ?>">
+							<input type="text"
+								readonly
+								class="wpsp-time-duration-field"
+								value="<?php echo esc_attr( self::get_time_duration( $default_value ) ); ?>">
 						</div>
 					</div>
 					<?php
@@ -3146,6 +3868,41 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 					<?php
 					break;
 			}
+		}
+
+
+		/**
+		 * Get the value of time duration from ISO 8601 format.
+		 *
+		 * @param string $option_default time format string.
+		 * @return string
+		 */
+		public static function get_time_duration( $option_default ) {
+
+			$option_default = trim( $option_default );
+			if ( ! empty( $option_default ) ) {
+				if ( strpos( $option_default, ':' ) !== false ) {
+					$option_default = preg_replace( '/:/', 'H', $option_default, 1 );
+					$option_default = preg_replace( '/:/', 'M', $option_default, 1 );
+					$option_default = 'PT' . $option_default . 'S';
+				}
+				try {
+					$interval = new DateInterval( $option_default );
+				} catch ( Exception  $e ) {
+					unset( $interval );
+				}
+			}
+
+			$duration_day  = isset( $interval ) ? $interval->format( '%d' ) : 0;
+			$duration_hour = isset( $interval ) ? $interval->format( '%h' ) : 0;
+			$duration_min  = isset( $interval ) ? $interval->format( '%i' ) : 0;
+			$duration_sec  = isset( $interval ) ? $interval->format( '%s' ) : 0;
+			$duration_hour = $duration_hour + ( $duration_day * 24 );
+
+			return str_pad( $duration_hour, 2, '0', STR_PAD_LEFT )
+				. ':' . str_pad( $duration_min, 2, '0', STR_PAD_LEFT )
+				. ':' . str_pad( $duration_sec, 2, '0', STR_PAD_LEFT );
+
 		}
 
 		/**
@@ -3162,14 +3919,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						'wp_schema_pro_availability_options',
 						array(
 							'Discontinued'        => __( 'Discontinued', 'wp-schema-pro' ),
-							'InStock'             => __( 'InStock', 'wp-schema-pro' ),
-							'InStoreOnly'         => __( 'InStoreOnly', 'wp-schema-pro' ),
-							'LimitedAvailability' => __( 'LimitedAvailability', 'wp-schema-pro' ),
-							'OnlineOnly'          => __( 'OnlineOnly', 'wp-schema-pro' ),
-							'OutOfStock'          => __( 'OutOfStock', 'wp-schema-pro' ),
-							'PreOrder'            => __( 'PreOrder', 'wp-schema-pro' ),
-							'PreSale'             => __( 'PreSale', 'wp-schema-pro' ),
-							'SoldOut'             => __( 'SoldOut', 'wp-schema-pro' ),
+							'InStock'             => __( 'In Stock', 'wp-schema-pro' ),
+							'InStoreOnly'         => __( 'In Store Only', 'wp-schema-pro' ),
+							'LimitedAvailability' => __( 'Limited Availability', 'wp-schema-pro' ),
+							'OnlineOnly'          => __( 'Online Only', 'wp-schema-pro' ),
+							'OutOfStock'          => __( 'Out Of Stock', 'wp-schema-pro' ),
+							'PreOrder'            => __( 'Pre Order', 'wp-schema-pro' ),
+							'PreSale'             => __( 'Pre Sale', 'wp-schema-pro' ),
+							'SoldOut'             => __( 'Sold Out', 'wp-schema-pro' ),
+							'BackOrder'           => __( 'Back Order', 'wp-schema-pro' ),
+
 						)
 					);
 					break;
@@ -3206,6 +3965,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							'MixedEventAttendanceMode'   => __( 'Mix Of Online & Physical Locations', 'wp-schema-pro' ),
 
 						)
+					);
+					break;
+				case 'timezone':
+					$return = apply_filters(
+						'wp_schema_pro_event_timezone_options',
+						self::timezone_options()
 					);
 					break;
 				case 'action-platform':
@@ -3493,13 +4258,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 					$return = apply_filters(
 						'wp_schema_pro_employment_options',
 						array(
-							'FULL_TIME'  => __( 'FULL_TIME', 'wp-schema-pro' ),
-							'PART_TIME'  => __( 'PART_TIME', 'wp-schema-pro' ),
+							'FULL_TIME'  => __( 'FULL TIME', 'wp-schema-pro' ),
+							'PART_TIME'  => __( 'PART TIME', 'wp-schema-pro' ),
 							'CONTRACTOR' => __( 'CONTRACTOR', 'wp-schema-pro' ),
 							'TEMPORARY'  => __( 'TEMPORARY', 'wp-schema-pro' ),
 							'INTERN'     => __( 'INTERN', 'wp-schema-pro' ),
 							'VOLUNTEER'  => __( 'VOLUNTEER', 'wp-schema-pro' ),
-							'PER_DIEM'   => __( 'PER_DIEM', 'wp-schema-pro' ),
+							'PER_DIEM'   => __( 'PER DIEM', 'wp-schema-pro' ),
 							'OTHER'      => __( 'OTHER', 'wp-schema-pro' ),
 						)
 					);
@@ -3714,6 +4479,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							'WEEK'  => 'WEEK',
 							'MONTH' => 'MONTH',
 							'YEAR'  => 'YEAR',
+							'DAY'   => 'DAY',
 						)
 					);
 					break;
@@ -3727,11 +4493,47 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						)
 					);
 					break;
+				case 'Organization-type':
+					$return = apply_filters(
+						'wp_schema_pro_organization_type_options',
+						array(
+							'organization'            => 'General/ Other',
+							'Corporation'             => 'Corporation',
+							'Airline'                 => 'Airline',
+							'Consortium'              => 'Consortium',
+							'EducationalOrganization' => ' Educational Organization',
+							'CollegeOrUniversity'     => '&mdash; College Or University',
+							'ElementarySchool'        => '&mdash; Elementary School',
+							'HighSchool'              => '&mdash; High School',
+							'MiddleSchool'            => '&mdash; Middle School',
+							'Preschool'               => '&mdash; Pre School',
+							'School'                  => '&mdash; School',
+							'GovernmentOrganization'  => 'Government Organization',
+							'MedicalOrganization'     => 'Medical Organization',
+							'DiagnosticLab'           => '&mdash; Diagnostic Lab',
+							'VeterinaryCare'          => '&mdash; Veterinary Care',
+							'NGO'                     => 'NGO',
+							'PerformingGroup'         => 'Performing Group',
+							'DanceGroup'              => '&mdash; Dance Group',
+							'MusicGroup'              => '&mdash; Music Group',
+							'TheaterGroup'            => '&mdash;Theater Group',
+							'NewsMediaOrganization'   => 'News Media Organization',
+							'Project'                 => 'Project',
+							'ResearchProject'         => '&mdash; Research Project',
+							'FundingAgency'           => '&mdash; Funding Agency',
+							'SportsOrganization'      => 'Sports Organization',
+							'SportsTeam'              => '&mdash; Sports Team',
+							'LibrarySystem'           => 'Library System',
+							'WorkersUnion'            => 'Workers Union',
+
+						)
+					);
+					break;
 				default:
 					$return = apply_filters( 'wp_schema_pro_dropdown_options', array() );
 					break;
 			}
-			return $return;
+			return array( '' => __( '-- None --', 'wp-schema-pro' ) ) + $return;
 		}
 
 		/**
@@ -3758,7 +4560,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 			$is_autosave = wp_is_post_autosave( $post_id );
 			$is_revision = wp_is_post_revision( $post_id );
 
-			$is_valid_nonce = ( isset( $_POST['aiosrs-schema'] ) && wp_verify_nonce( $_POST['aiosrs-schema'], basename( __FILE__ ) ) ) ? true : false;
+			$is_valid_nonce = ( isset( $_POST['aiosrs-schema'] ) && wp_verify_nonce( sanitize_text_field( $_POST['aiosrs-schema'] ), basename( __FILE__ ) ) ) ? true : false;
 
 			// Exits script depending on save status.
 			if ( $is_autosave || $is_revision || ! $is_valid_nonce ) {
@@ -3772,19 +4574,27 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 			foreach ( $post_meta as $key => $data ) {
 				if ( in_array( $key, self::$schema_meta_keys, true ) ) {
 
-					$_POST[ $key ] = array_filter( $_POST[ $key ], __CLASS__ . '::is_not_empty' );
+					if ( ! isset( $_POST[ $key ] ) ) {
+						continue;
+					}
+
+					$_POST[ $key ] = array_filter( $_POST[ $key ], __CLASS__ . '::is_not_empty' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 					$meta_value = array();
-					foreach ( $_POST[ $key ] as $meta_key => $value ) {
+					foreach ( $_POST[ $key ] as $meta_key => $value ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						$subkey_type = isset( self::$schema_meta_fields[ $key ]['subkeys'][ $meta_key ]['type'] ) ? self::$schema_meta_fields[ $key ]['subkeys'][ $meta_key ]['type'] : 'text';
-						if ( 'repeater' === $subkey_type && is_array( $value ) ) {
+						if ( ( 'repeater' === $subkey_type || 'repeater-target' === $subkey_type ) && is_array( $value ) ) {
 							$i = 0;
 							foreach ( $value as $repeater_value ) {
 								$meta_value[ $meta_key ][ $i ] = array_map( 'esc_attr', $repeater_value );
 								$i++;
 							}
 						} else {
-							$meta_value[ $meta_key ] = esc_attr( $value );
+							if ( 'custom-markup-custom-text' === $meta_key ) {
+								$meta_value[ $meta_key ] = $value;
+							} else {
+								$meta_value[ $meta_key ] = esc_attr( $value );
+							}
 						}
 					}
 				} elseif ( in_array( $key, array( 'bsf-aiosrs-schema-location', 'bsf-aiosrs-schema-exclusion' ), true ) ) {
@@ -3796,7 +4606,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 					switch ( $sanitize_filter ) {
 
 						case 'FILTER_SANITIZE_STRING':
-							$meta_value = filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING );
+							$meta_value = sanitize_text_field( $_POST[ $key ] );
 							break;
 
 						case 'FILTER_SANITIZE_URL':
@@ -3808,7 +4618,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							break;
 
 						default:
-							$meta_value = filter_input( INPUT_POST, $key, FILTER_DEFAULT );
+							$meta_value = filter_input( INPUT_POST, $key, FILTER_DEFAULT ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
 							break;
 					}
 				}
@@ -3841,7 +4651,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 		 * @return void
 		 */
 		public function redirect_custom_post_type() {
-			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
 				return;
 			}
 			global $pagenow;
@@ -3858,7 +4668,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 		/**
 		 * Back to Schemas link
 		 */
-		public function back_to_schema() {
+		public function back_to_schema() { // phpcs:ignore WordPressVIPMinimum.Hooks.AlwaysReturnInFilter.VoidReturn, WordPressVIPMinimum.Hooks.AlwaysReturnInFilter.MissingReturnStatement
 			global $post_type;
 			if ( 'aiosrs-schema' !== $post_type ) {
 				return;
@@ -3933,8 +4743,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 		 * @param array $messages Array of default messages.
 		 */
 		public function custom_post_type_post_update_messages( $messages ) {
-			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
-				return;
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
+				return false;
 			}
 			$custom_post_type = get_post_type( get_the_ID() );
 

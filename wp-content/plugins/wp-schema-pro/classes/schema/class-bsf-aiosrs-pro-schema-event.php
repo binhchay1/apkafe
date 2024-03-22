@@ -74,29 +74,21 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Event' ) ) {
 		public static function prepare_location( $schema, $data, $offline = true ) {
 
 			if ( $offline ) {
-				if ( isset( $data['location'] ) && ! empty( $data['location'] ) ) {
+				if ( ! empty( $data['location'] ) ) {
 					$schema['location']['@type'] = 'Place';
-					$schema['location']['name']  = esc_html( wp_strip_all_tags( $data['location'] ) );
+					$schema['location']['name']  = wp_strip_all_tags( (string) $data['location'] );
 				}
 
-				$schema['location']['@type']            = 'Place';
-				$schema['location']['address']['@type'] = 'PostalAddress';
-				if ( isset( $data['location-street'] ) && ! empty( $data['location-street'] ) ) {
-					$schema['location']['address']['streetAddress'] = esc_html( wp_strip_all_tags( $data['location-street'] ) );
-				}
-				if ( isset( $data['location-locality'] ) && ! empty( $data['location-locality'] ) ) {
-					$schema['location']['address']['addressLocality'] = esc_html( wp_strip_all_tags( $data['location-locality'] ) );
-				}
-				if ( isset( $data['location-postal'] ) && ! empty( $data['location-postal'] ) ) {
-					$schema['location']['address']['postalCode'] = esc_html( wp_strip_all_tags( $data['location-postal'] ) );
-				}
-				if ( isset( $data['location-region'] ) && ! empty( $data['location-region'] ) ) {
-					$schema['location']['address']['addressRegion'] = esc_html( wp_strip_all_tags( $data['location-region'] ) );
-				}
-				if ( isset( $data['location-country'] ) && ! empty( $data['location-country'] ) ) {
+				$schema['location']['@type']                      = 'Place';
+				$schema['location']['address']['@type']           = 'PostalAddress';
+				$schema['location']['address']['streetAddress']   = ! empty( $data['location-street'] ) ? wp_strip_all_tags( (string) $data['location-street'] ) : null;
+				$schema['location']['address']['addressLocality'] = ! empty( $data['location-locality'] ) ? wp_strip_all_tags( (string) $data['location-locality'] ) : null;
+				$schema['location']['address']['postalCode']      = ! empty( $data['location-postal'] ) ? wp_strip_all_tags( (string) $data['location-postal'] ) : null;
+				$schema['location']['address']['addressRegion']   = ! empty( $data['location-region'] ) ? wp_strip_all_tags( (string) $data['location-region'] ) : null;
+				if ( ! empty( $data['location-country'] ) ) {
 
 					$schema['location']['address']['addressCountry']['@type'] = 'Country';
-					$schema['location']['address']['addressCountry']['name']  = esc_html( wp_strip_all_tags( $data['location-country'] ) );
+					$schema['location']['address']['addressCountry']['name']  = wp_strip_all_tags( (string) $data['location-country'] );
 				}
 			} else {
 				$schema['location']['@type'] = 'VirtualLocation';
@@ -114,20 +106,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Event' ) ) {
 		 */
 		public static function prepare_offer( $schema, $data ) {
 
-			$schema['offers']['@type'] = 'Offer';
-			$schema['offers']['price'] = '0';
-			if ( isset( $data['price'] ) && ! empty( $data['price'] ) ) {
-				$schema['offers']['price'] = esc_html( wp_strip_all_tags( $data['price'] ) );
-			}
-			if ( isset( $data['avail'] ) && ! empty( $data['avail'] ) ) {
-				$schema['offers']['availability'] = esc_html( wp_strip_all_tags( $data['avail'] ) );
-			}
-			if ( isset( $data['currency'] ) && ! empty( $data['currency'] ) ) {
-				$schema['offers']['priceCurrency'] = esc_html( wp_strip_all_tags( $data['currency'] ) );
-			}
-			if ( isset( $data['valid-from'] ) && ! empty( $data['valid-from'] ) ) {
-				$schema['offers']['validFrom'] = esc_html( wp_strip_all_tags( $data['valid-from'] ) );
-			}
+			$schema['offers']['@type']         = 'Offer';
+			$schema['offers']['price']         = '0';
+			$schema['offers']['price']         = ! empty( $data['price'] ) ? wp_strip_all_tags( (string) $data['price'] ) : null;
+			$schema['offers']['availability']  = ! empty( $data['avail'] ) ? wp_strip_all_tags( (string) $data['avail'] ) : null;
+			$schema['offers']['priceCurrency'] = ! empty( $data['currency'] ) ? wp_strip_all_tags( (string) $data['currency'] ) : null;
+			$schema['offers']['validFrom']     = ! empty( $data['valid-from'] ) ? wp_strip_all_tags( (string) $data['valid-from'] ) : null;
 			if ( isset( $data['ticket-buy-url'] ) && ! empty( $data['ticket-buy-url'] ) ) {
 				$schema['offers']['url'] = esc_url( $data['ticket-buy-url'] );
 			}
@@ -145,10 +129,14 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Event' ) ) {
 		 */
 		public static function prepare_performer( $schema, $data ) {
 
-			if ( isset( $data['performer'] ) && ! empty( $data['performer'] ) ) {
+			if ( ! empty( $data['performer'] ) ) {
 				$schema['performer']['@type'] = 'Person';
-				$schema['performer']['name']  = esc_html( wp_strip_all_tags( $data['performer'] ) );
+				$schema['performer']['name']  = wp_strip_all_tags( (string) $data['performer'] );
 			}
+			$schema['organizer']['@type'] = 'Organization';
+			$schema['organizer']['name']  = ! empty( $data['event-organizer-name'] ) ? wp_strip_all_tags( (string) $data['event-organizer-name'] ) : null;
+			$schema['organizer']['url']   = ! empty( $data['event-organizer-url'] ) ? wp_strip_all_tags( (string) $data['event-organizer-url'] ) : null;
+
 			return $schema;
 		}
 
@@ -161,17 +149,24 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Event' ) ) {
 		 */
 		public static function prepare_dates( $schema, $data ) {
 
-			if ( isset( $data['start-date'] ) && ! empty( $data['start-date'] ) ) {
-				$schema['startDate'] = esc_html( wp_strip_all_tags( $data['start-date'] ) );
+			$start_date = gmdate( DATE_ISO8601, strtotime( $data['start-date'] ) );
+			$end_date   = $data['end-date'];
+			if ( 'OnlineEventAttendanceMode' === $data['event-attendance-mode'] && isset( $data['timezone'] ) && 'none' !== $data['timezone'] && '' !== $data['timezone'] ) {
+				$timezone        = new DateTimeZone( $data['timezone'] );
+				$date_time       = new DateTime( 'now', $timezone );
+				$offset          = timezone_offset_get( $timezone, $date_time );
+				$timezone_offset = preg_replace( '/^00:/', '', gmdate( 'h:i', $offset ) );
+				$start_date      = substr( $start_date, 0, -4 );
+				$end_date        = substr( $end_date, 0, -4 );
+				$start_date     .= $timezone_offset;
+				$end_date       .= $timezone_offset;
 			}
 
-			if ( isset( $data['end-date'] ) && ! empty( $data['end-date'] ) ) {
-				$schema['endDate'] = esc_html( wp_strip_all_tags( $data['end-date'] ) );
-			}
+			$schema['startDate'] = ! empty( $start_date ) ? wp_strip_all_tags( $start_date ) : null;
 
-			if ( 'EventRescheduled' === $data['event-status'] ) {
-				$schema['previousStartDate'] = esc_html( wp_strip_all_tags( $data['previous-date'] ) );
-			}
+			$schema['endDate'] = ! empty( $end_date ) ? wp_strip_all_tags( $end_date ) : null;
+
+			$schema['previousStartDate'] = 'EventRescheduled' === $data['event-status'] ? wp_strip_all_tags( (string) $data['previous-date'] ) : null;
 
 			return $schema;
 		}
@@ -184,10 +179,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Event' ) ) {
 		 * @return array
 		 */
 		public static function prepare_attendence_mode( $schema, $data ) {
-			if ( isset( $data['schema-type'] ) && isset( $data['event-attendance-mode'] ) && 'Event' === $data['schema-type'] && ! empty( $data['event-attendance-mode'] ) ) {
 
-				$schema['eventAttendanceMode'] = 'https://schema.org/' . esc_html( wp_strip_all_tags( $data['event-attendance-mode'] ) );
-			}
+			$schema['eventAttendanceMode'] = isset( $data['schema-type'] ) && ! empty( $data['event-attendance-mode'] ) ? 'https://schema.org/' . wp_strip_all_tags( (string) $data['event-attendance-mode'] ) : null;
 
 			return $schema;
 		}
@@ -201,21 +194,15 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Event' ) ) {
 		 */
 		public static function prepare_basics( $schema, $data ) {
 
-			if ( isset( $data['name'] ) && ! empty( $data['name'] ) ) {
-				$schema['name'] = esc_html( wp_strip_all_tags( $data['name'] ) );
-			}
+			$schema['name'] = ! empty( $data['name'] ) ? wp_strip_all_tags( (string) $data['name'] ) : null;
 
-			if ( isset( $data['event-status'] ) && ! empty( $data['event-status'] ) ) {
-				$schema['eventStatus'] = 'https://schema.org/' . esc_html( wp_strip_all_tags( $data['event-status'] ) );
-			}
+			$schema['eventStatus'] = ! empty( $data['event-status'] ) ? 'https://schema.org/' . wp_strip_all_tags( (string) $data['event-status'] ) : null;
 
 			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['image'] );
 			}
 
-			if ( isset( $data['description'] ) && ! empty( $data['description'] ) ) {
-				$schema['description'] = esc_html( wp_strip_all_tags( $data['description'] ) );
-			}
+			$schema['description'] = ! empty( $data['description'] ) ? wp_strip_all_tags( (string) $data['description'] ) : null;
 
 			return $schema;
 		}

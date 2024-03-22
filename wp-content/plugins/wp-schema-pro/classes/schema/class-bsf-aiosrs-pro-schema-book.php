@@ -28,16 +28,14 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Book' ) ) {
 			$schema['@context'] = 'https://schema.org';
 			$schema['@type']    = 'Book';
 
-			if ( isset( $data['name'] ) && ! empty( $data['name'] ) ) {
-				$schema['name'] = esc_html( wp_strip_all_tags( $data['name'] ) );
-			}
+			$schema['name'] = ! empty( $data['name'] ) ? wp_strip_all_tags( (string) $data['name'] ) : null;
 			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['image'] );
 			}
 
-			if ( isset( $data['author'] ) && ! empty( $data['author'] ) ) {
+			if ( ! empty( $data['author'] ) ) {
 				$schema['author']['@type'] = 'Person';
-				$schema['author']['name']  = esc_html( wp_strip_all_tags( $data['author'] ) );
+				$schema['author']['name']  = wp_strip_all_tags( (string) $data['author'] );
 			}
 
 			if ( isset( $data['url'] ) && ! empty( $data['url'] ) ) {
@@ -52,17 +50,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Book' ) ) {
 				foreach ( $data['work-example'] as $key => $value ) {
 
 					$schema['workExample'][ $key ]['@type'] = 'Book';
-					if ( isset( $value['serial-number'] ) && ! empty( $value['serial-number'] ) ) {
-						$schema['workExample'][ $key ]['isbn'] = esc_html( wp_strip_all_tags( $value['serial-number'] ) );
-					}
+					$schema['workExample'][ $key ]['isbn']  = ! empty( $value['serial-number'] ) ? wp_strip_all_tags( (string) $value['serial-number'] ) : null;
 
-					if ( isset( $value['book-edition'] ) && ! empty( $value['book-edition'] ) ) {
-						$schema['workExample'][ $key ]['bookEdition'] = esc_html( wp_strip_all_tags( $value['book-edition'] ) );
-					}
+					$schema['workExample'][ $key ]['bookEdition'] = ! empty( $value['book-edition'] ) ? wp_strip_all_tags( (string) $value['book-edition'] ) : null;
 
-					if ( isset( $value['book-format'] ) && ! empty( $value['book-format'] ) ) {
-						$schema['workExample'][ $key ]['bookFormat'] = 'https://schema.org/' . esc_html( wp_strip_all_tags( $value['book-format'] ) );
-					}
+					$schema['workExample'][ $key ]['bookFormat'] = ! empty( $value['book-format'] ) ? 'https://schema.org/' . wp_strip_all_tags( (string) $value['book-format'] ) : null;
 
 					$schema['workExample'][ $key ]['potentialAction']['@type']           = 'ReadAction';
 					$schema['workExample'][ $key ]['potentialAction']['target']['@type'] = 'EntryPoint';
@@ -73,20 +65,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Book' ) ) {
 
 					$schema['workExample'][ $key ]['potentialAction']['expectsAcceptanceOf']['@type'] = 'Offer';
 					$schema['workExample'][ $key ]['potentialAction']['expectsAcceptanceOf']['price'] = '0';
-					if ( isset( $value['price'] ) && ! empty( $value['price'] ) ) {
-						$schema['workExample'][ $key ]['potentialAction']['expectsAcceptanceOf']['price'] = esc_html( wp_strip_all_tags( $value['price'] ) );
-					}
+					$schema['workExample'][ $key ]['potentialAction']['expectsAcceptanceOf']['price'] = ! empty( $value['price'] ) ? wp_strip_all_tags( (string) $value['price'] ) : null;
 
-					if ( ( isset( $value['currency'] ) && ! empty( $value['currency'] ) ) ||
-						( isset( $value['avail'] ) && ! empty( $value['avail'] ) ) ) {
-
-						if ( isset( $value['currency'] ) && ! empty( $value['currency'] ) ) {
-							$schema['workExample'][ $key ]['potentialAction']['expectsAcceptanceOf']['priceCurrency'] = esc_html( wp_strip_all_tags( $value['currency'] ) );
-						}
-						if ( isset( $value['avail'] ) && ! empty( $value['avail'] ) ) {
-							$schema['workExample'][ $key ]['potentialAction']['expectsAcceptanceOf']['availability'] = esc_html( wp_strip_all_tags( $value['avail'] ) );
-						}
-					}
+					$schema['workExample'][ $key ]['potentialAction']['expectsAcceptanceOf']['priceCurrency'] = ! empty( $value['currency'] ) ? wp_strip_all_tags( (string) $value['currency'] ) : null;
+					$schema['workExample'][ $key ]['potentialAction']['expectsAcceptanceOf']['availability']  = ! empty( $value['avail'] ) ? wp_strip_all_tags( (string) $value['avail'] ) : null;
 
 					if ( isset( $value['country'] ) && ! empty( $value['country'] ) ) {
 						$expects_acceptance = explode( ',', $value['country'] );
