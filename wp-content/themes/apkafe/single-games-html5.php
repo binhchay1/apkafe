@@ -1,9 +1,5 @@
 <?php 
-global $global_page_layout;
-$single_page_layout = get_post_meta(get_the_ID(),'sidebar_layout',true);
-$content_padding = get_post_meta(get_the_ID(),'content_padding',true);
-$layout = $single_page_layout ? $single_page_layout : ($global_page_layout ? $global_page_layout : ot_get_option('post_layout','right'));
-$global_page_layout = $layout;
+
 get_header();
 ?>
 	<?php get_template_part( 'templates/header/header', 'heading' ); ?>   
