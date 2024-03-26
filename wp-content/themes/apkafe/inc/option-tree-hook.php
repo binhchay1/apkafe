@@ -100,11 +100,15 @@ function custom_theme_options()
         'std'         => '',
         'type'        => 'list-item',
         'section'     => 'menu',
-        'rows'        => '5',
-        'post_type'   => '',
-        'taxonomy'    => '',
-        'min_max_step' => '',
-        'class'       => ''
+        'settings'    => array(
+          array(
+            'label'       => 'Link',
+            'id'          => 'link',
+            'type'        => 'text',
+            'desc'        => 'Enter link',
+            'std'         => '',
+          ),
+        ),
       ),
       array(
         'id'          => 'menu_footer',
@@ -222,6 +226,23 @@ function custom_theme_options()
         'taxonomy'    => '',
         'min_max_step' => '',
         'class'       => '',
+      ),
+      array(
+        'id'          => 'custom_section',
+        'label'       => 'Add section',
+        'desc'        => 'Create section in homepage',
+        'std'         => '',
+        'type'        => 'list-item',
+        'section'     => 'homepage',
+        'settings'    => array(
+          array(
+            'label'       => 'Select post',
+            'id'          => 'post_select',
+            'type'        => 'post-list',
+            'desc'        => '',
+            'std'         => '',
+          ),
+        ),
       ),
       array(
         'id'          => 'side_bar_game',

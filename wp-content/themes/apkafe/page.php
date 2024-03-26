@@ -1,4 +1,5 @@
 <?php
+$custom_section = ot_get_option('custom_section');
 get_header();
 ?>
 
@@ -18,24 +19,27 @@ get_header();
                 </a>
             </div>
             <div class="clear mb10"></div>
-            <div class="ac" id="main_list_item_next"><a onclick="get_more_latest_items();" class="more_link" href="javascript:void(0);">Load More Latest Updates </a></div>
-            <div class="clear mb30"></div>
         </div>
         <div class="clear mb10"></div>
-        
-        <div class="widget">
-            <h2 class="widget_head">Top Games</h2>
-            <div class="main_list_item">
-                <a class="side_list_item" href="https://apkmodget.com/games/minecraft-apk-4/">
-                    <img class="item_icon lazyloaded" width="80" height="80" src="https://apkmodget.com/media/2021/11/_1/80x80/Minecraft-Apk.png" data-src="https://apkmodget.com/media/2021/11/_1/80x80/Minecraft-Apk.png" alt="Minecraft Apk Download V1.20.80.23 Free Softonic Android">
-                    <p class="title">Minecraft Apk Download v1.20.80.23 Free Softonic Android</p>
-                    <p class="category">v1.20.80.23 + MOD: Free</p>
-                </a>
+
+        <?php if ($custom_section != '') { ?>
+            <?php foreach ($custom_section as $section) { ?>
+                <div class="widget">
+                    <h2 class="widget_head"><?php echo $section['title'] ?></h2>
+                    <div class="main_list_item">
+                        <?php foreach ($section['post_select'] as $post_id) { ?>
+                            <a class="side_list_item" href="<?php echo get_permalink($post_id) ?>">
+                                <?php echo get_the_post_thumbnail($post_id) ?>
+                                <p class="title"><?php echo get_the_title($post_id) ?></p>
+                                <p class="category"><?php echo get_the_category($post_id)[0]->name ?></p>
+                            </a>
+                            <div class="clear mb10"></div>
+                        <?php } ?>
+                    </div>
+                </div>
                 <div class="clear mb10"></div>
-                <a href="https://apkmodget.com/games/" class="more_link">Get More Games </a>
-            </div>
-        </div>
-        <div class="clear mb10"></div>
+            <?php } ?>
+        <?php } ?>
 
         <div class="cnt_box pad10">
             <h2><strong><span class="s4"><?php echo ot_get_option('homepage_title_description') ?></span></strong></h2>

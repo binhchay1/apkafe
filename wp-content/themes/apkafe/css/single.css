@@ -1,0 +1,271 @@
+.spec_table {
+    width: 100%;
+    margin: 0 auto 20px auto;
+}
+
+.spec_table tr {
+    border-collapse: collapse;
+}
+
+.spec_table tr:last-child {
+    border-bottom: none;
+}
+
+.spec_table th,
+.spec_table td {
+    padding: 10px;
+    font-size: 15px;
+    text-align: left;
+    line-height: 24px;
+    vertical-align: top;
+}
+
+.spec_table th {
+    font-weight: 600;
+}
+
+.spec_table tr:nth-child(odd) {
+    background: rgba(0, 0, 0, .05);
+}
+
+.btn_download {
+    background-color: #24cd77;
+    color: #ffffff;
+    border-color: transparent;
+    display: inline-block;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 8px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 26px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.btn_download:hover {
+    filter: brightness(85%);
+    color: #fff;
+}
+
+.mod_box {
+    float: left;
+    width: 100%;
+    border: 1px solid #dee2e6;
+}
+
+.mod_box h3 {
+    color: #333;
+    font-size: 13px;
+    line-height: 20px;
+    padding: 15px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.mod_box p {
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.mod_box .mod_box_in {
+    padding: 10px;
+}
+
+.mod_box .mod_box_in,
+.mod_box .mod_box_in p {
+    font-size: 14px;
+}
+
+.mod_box .mod_box_in p {
+    margin-bottom: 0;
+}
+
+.mod_box_in_hide {
+    display: none;
+}
+
+.faq_hide {
+    display: none;
+}
+
+.art_box {
+    margin-bottom: 15px;
+    float: left;
+    width: 100%;
+    clear: both;
+    text-align: center;
+}
+
+.art_box p,
+.art_box h2,
+.art_box h3 {
+    text-align: left;
+}
+
+.faq_box h5 {
+    text-align: left;
+}
+
+.rating {
+    display: none;
+    font-size: 35px;
+    font-weight: bold;
+    color: #FF8C00;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.rating .star {
+    display: inline-block;
+    position: relative;
+    letter-spacing: 0.05em;
+}
+
+.rating .star::before {
+    display: inline-block;
+    color: #aaa;
+    content: '☆';
+    width: 1em;
+    height: 1em;
+}
+
+.rating .star::after {
+    display: inline-block;
+    position: absolute;
+    content: '★';
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    transition: all 0.1s linear;
+    overflow: hidden;
+}
+
+.rating:not([disabled]) .star:hover::after,
+.rating .star.active::after {
+    opacity: 1;
+    width: 1em;
+    height: 1em;
+}
+
+.rating .star.active.half::after {
+    width: 0.5em;
+}
+
+.explore_box {
+    border: solid 1px #ccc;
+    width: 75%;
+    margin: 20px auto;
+}
+
+.explore_box .explode_head {
+    text-align: center;
+    font-size: 18px;
+    line-height: 26px;
+    display: block;
+    padding: 10px;
+    border-bottom: solid 1px #ccc;
+}
+
+.explore_box .explore_box_inner {
+    padding: 10px;
+}
+
+.explore_box .explore_box_inner span {
+    background: #e0f7ff;
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    display: inline-block;
+    text-align: center;
+    color: #e0f7ff;
+    font-size: 11px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.explore_box_inner ol {
+    list-style: numeric;
+    padding-left: 20px;
+}
+
+.explore_box_inner ol li::marker {
+    color: #24cd77;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.explore_box .explore_box_inner a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.explore_box_inner ul {
+    list-style: circle;
+    padding-left: 20px;
+}
+
+@media(max-width:600px) {
+    .explore_box {
+        width: 92%;
+    }
+}
+
+.mod_box_in_hide {
+    display: none;
+}
+
+.main_box_wrap {
+    float: left;
+    width: 100%;
+}
+
+.main_box_wrap .main_img_wrap {
+    float: left;
+    width: 30%;
+    text-align: center;
+}
+
+.main_box_wrap .main_spec_wrap {
+    float: right;
+    width: 70%;
+}
+
+.main_box_wrap .main_img_wrap img {
+    margin-top: 120px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+@media(max-width:800px) {
+    .main_box_wrap .main_img_wrap {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .main_box_wrap .main_spec_wrap {
+        width: 100%;
+    }
+
+    .main_box_wrap .main_img_wrap img {
+        margin-top: 0;
+    }
+}
+
+.main_head {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+}

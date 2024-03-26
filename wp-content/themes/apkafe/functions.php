@@ -49,6 +49,10 @@ function apkafe_scripts_styles()
 	 */
 	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/css/fa/css/font-awesome.min.css');
 	wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
+
+	if (is_single()) {
+		wp_enqueue_style('single', get_stylesheet_directory_uri() . '/css/single.css');
+	}
 }
 
 add_action('wp_enqueue_scripts', 'apkafe_scripts_styles');
@@ -83,26 +87,59 @@ function apkafe_get_option($options, $default = NULL)
 	return ot_get_option($options, $default);
 }
 
-function addTitleFieldToCat()
+function add_custom_option_types($types)
 {
-	$cat_title = get_term_meta($_POST['tag_ID'], '_pagetitle', true);
-?>
-	<tr class="form-field">
-		<th scope="row" valign="top"><label for="cat_page_title"><?php _e('Category Page Title'); ?></label></th>
-		<td>
-			<input type="text" name="cat_title" id="cat_title" value="<?php echo $cat_title ?>"><br />
-			<span class="description"><?php _e('Title for the Category '); ?></span>
-		</td>
-	</tr>
-<?php
 
+	$types['post-list'] = 'Post list';
+
+	return $types;
 }
-add_action('edit_category_form_fields', 'addTitleFieldToCat');
+add_filter('ot_option_types_array', 'add_custom_option_types');
 
-function saveCategoryFields()
-{
-	if (isset($_POST['cat_title'])) {
-		update_term_meta($_POST['tag_ID'], '_pagetitle', $_POST['cat_title']);
+if (!function_exists('ot_type_post_list')) {
+
+	function ot_type_post_list($args = array())
+	{
+		wp_enqueue_style('single', get_stylesheet_directory_uri() . '/inc/option-tree/assets/css/custom-type.css');
+		extract($args);
+		$has_desc = $field_desc ? true : false;
+		echo '<div class="format-setting type-post-checkbox type-checkbox ' . ($has_desc ? 'has-desc' : 'no-desc') . '">';
+		if ($has_desc) {
+			echo '<div class="description">' . wp_specialchars_decode($field_desc) . '</div>';
+		}
+
+		echo '<div class="format-setting-inner">';
+		echo '<input type="text" style="margin-bottom: 20px" aria-label="Search list" placeholder="Enter post title" id="search-post-list">';
+		$my_posts = get_posts(apply_filters('ot_type_post_checkbox_query', array('post_type' => array('post'), 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'any'), $field_id));
+		if (is_array($my_posts) && !empty($my_posts)) {
+			foreach ($my_posts as $my_post) {
+				$post_url = get_permalink($my_post->ID);
+				echo '<p class="item-post">';
+				echo '<input type="checkbox" name="' . esc_attr($field_name) . '[' . esc_attr($my_post->ID) . ']" id="' . esc_attr($field_id) . '-' . esc_attr($my_post->ID) . '" value="' . esc_attr($my_post->ID) . '" ' . (isset($field_value[$my_post->ID]) ? checked($field_value[$my_post->ID], $my_post->ID, false) : '') . ' class="option-tree-ui-checkbox ' . esc_attr($field_class) . '" />';
+				echo '<label for="' . esc_attr($field_id) . '-' . esc_attr($my_post->ID) . '">' . $post_url . '</label>';
+				echo '</p>';
+			}
+		} else {
+			echo '<p>' . __('No Posts Found', 'option-tree') . '</p>';
+		}
+
+		echo '</div>';
+		echo '</div>';
+		echo "<script>
+		var input = document.getElementById('search-post-list');
+		var lis = document.getElementsByClassName('item-post');
+
+		input.onkeyup = function () {
+            var filter = input.value.toUpperCase();
+
+            for (var i = 0; i < lis.length; i++) {
+                var text = lis[i].getElementsByTagName('label')[0].innerHTML;
+                if (text.toUpperCase().indexOf(filter) == 0) 
+                    lis[i].style.display = 'block';
+                else
+                    lis[i].style.display = 'none';
+            }
+        }
+		</script>";
 	}
 }
-add_action('edited_category', 'saveCategoryFields');
