@@ -55,7 +55,6 @@ add_action('wp_enqueue_scripts', 'apkafe_scripts_styles');
 function apkafe_admin_scripts_styles()
 {
 	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/css/fa/css/font-awesome.min.css');
-	wp_enqueue_style('admin-style', get_template_directory_uri() . '/admin/style.css');
 	wp_enqueue_style('wc-blocks-style');
 	wp_enqueue_style('dashicons');
 }

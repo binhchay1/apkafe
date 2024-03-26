@@ -59,6 +59,6 @@ get_header();
         </div>
         <div class="clear"></div>
     </div>
-
+    <?php get_sidebar(); ?>
 </div>
 <?php get_footer(); ?>

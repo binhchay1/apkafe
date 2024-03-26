@@ -302,7 +302,6 @@ if (!class_exists('OT_Settings')) {
             if ($show_buttons) {
               echo '<button class="option-tree-ui-button button button-primary right">' . $page['button_text'] . '</button>';
             }
-            echo '<span class="option-tree-ui-button button button-primary right document"><a href="http://demo.leafcolor.com/applay/doc/">Documentation</a></span>';
             //leaf
             echo '</div>';
 

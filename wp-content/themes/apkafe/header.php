@@ -19,6 +19,10 @@
     <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
+    <?php if (ot_get_option('custom_script_header') != '') {
+        echo ot_get_option('custom_script_header');
+    } ?>
+
     <?php wp_head(); ?>
 </head>
 
@@ -28,15 +32,20 @@
             <div class="container">
                 <span id="menu_hndlr" class="menu_hndlr"><i onclick="show_menu_mob();" class="fa fa-bars"></i></span>
                 <div class="logo_wrap">
-                    <a href="https://apkmodget.com/"><img height="38" width="242" class="logo hwa" src="https://apkmodget.com/images/logoapkmodget_c60ef.png" alt="ApkModGet.com"></a>
+                    <?php if (ot_get_option('logo_image') != '') { ?>
+                        <a href="/"><img height="38" width="242" class="logo hwa" src="<?php echo ot_get_option('logo_image') ?>" alt="Apkafe"></a>
+                    <?php } ?>
                 </div>
                 <div id="nav_wrap">
                     <p class="mob_menu_close"><i onclick="hide_menu_mob();" class="fa fa-times"></i></p>
                     <ul class="main_nav">
-                        <li><a class="active" href="https://apkmodget.com/"><i class="mico fa fa-home"></i> Home</a></li>
-                        <li><a href="https://apkmodget.com/games/"><i class="mico fa fa-gamepad"></i> Games</a></li>
-                        <li><a href="https://apkmodget.com/apps/"><i class="mico fa fa-android"></i> Apps</a></li>
-                        <li><a href="https://apkmodget.com/blog/"><i class="mico fa fa-bullseye"></i> Blog</a></li>
+                        <div class="ftr_link_box">
+                            <?php if (!empty(ot_get_option('menu_header'))) {  ?>
+                                <?php foreach (ot_get_option('menu_header') as $menu) { ?>
+                                    <li><a href="<?php echo $menu['link'] ?>"><?php echo $menu['title'] ?></a></li>
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
                     </ul>
                 </div>
                 <div class="lang_box">
