@@ -6,6 +6,8 @@
 require_once 'inc/starter/leaf-core.php';
 require_once 'inc/option-tree-hook.php';
 require_once 'inc/starter/functions-admin.php';
+require_once 'inc/starter/category-image.php';
+
 remove_action('shutdown', 'wp_ob_end_flush_all', 1);
 
 if (!defined('PARENT_THEME')) {
@@ -80,3 +82,27 @@ function apkafe_get_option($options, $default = NULL)
 
 	return ot_get_option($options, $default);
 }
+
+function addTitleFieldToCat()
+{
+	$cat_title = get_term_meta($_POST['tag_ID'], '_pagetitle', true);
+?>
+	<tr class="form-field">
+		<th scope="row" valign="top"><label for="cat_page_title"><?php _e('Category Page Title'); ?></label></th>
+		<td>
+			<input type="text" name="cat_title" id="cat_title" value="<?php echo $cat_title ?>"><br />
+			<span class="description"><?php _e('Title for the Category '); ?></span>
+		</td>
+	</tr>
+<?php
+
+}
+add_action('edit_category_form_fields', 'addTitleFieldToCat');
+
+function saveCategoryFields()
+{
+	if (isset($_POST['cat_title'])) {
+		update_term_meta($_POST['tag_ID'], '_pagetitle', $_POST['cat_title']);
+	}
+}
+add_action('edited_category', 'saveCategoryFields');

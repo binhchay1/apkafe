@@ -11,31 +11,26 @@ function custom_theme_options()
     'sections'        => array(
       array(
         'id'          => 'general',
-        'title'       => '<i class="fa fa-cogs"><!-- --></i>General'
+        'title'       => '<i class="fa fa-cogs"></i>General'
       ),
       array(
         'id'          => 'menu',
-        'title'       => '<i class="fa fa-bars"><!-- --></i>Menu'
+        'title'       => '<i class="fa fa-bars"></i>Menu'
       ),
       array(
         'id'          => 'social_share',
-        'title'       => '<i class="fa fa-share-square"><!-- --></i>Social Sharing'
+        'title'       => '<i class="fa fa-share-square"></i>Social Sharing'
+      ),
+      array(
+        'id'          => 'homepage',
+        'title'       => '<i class="fa fa-home"></i>Home page'
+      ),
+      array(
+        'id'          => 'side_bar',
+        'title'       => '<i class="fa fa-list"></i>Side bar'
       ),
     ),
     'settings'        => array(
-      array(
-        'id'          => 'copyright',
-        'label'       => 'Copyright Text',
-        'desc'        => 'Appear in footer',
-        'std'         => '',
-        'type'        => 'text',
-        'section'     => 'general',
-        'rows'        => '',
-        'post_type'   => '',
-        'taxonomy'    => '',
-        'min_max_step' => '',
-        'class'       => ''
-      ),
       array(
         'id'          => 'favicon',
         'label'       => 'Favicon',
@@ -58,6 +53,19 @@ function custom_theme_options()
         'rows'        => '',
         'post_type'   => '',
         'taxonomy'    => '',
+        'class'       => ''
+      ),
+      array(
+        'id'          => 'copyright',
+        'label'       => 'Copyright Text',
+        'desc'        => 'Appear in footer',
+        'std'         => '',
+        'type'        => 'text',
+        'section'     => 'general',
+        'rows'        => '',
+        'post_type'   => '',
+        'taxonomy'    => '',
+        'min_max_step' => '',
         'class'       => ''
       ),
       array(
@@ -157,6 +165,84 @@ function custom_theme_options()
         'std'         => '',
         'type'        => 'text',
         'section'     => 'social_share',
+        'rows'        => '',
+        'post_type'   => '',
+        'taxonomy'    => '',
+        'min_max_step' => '',
+        'class'       => '',
+      ),
+      array(
+        'id'          => 'homepage_title_short_description',
+        'label'       => 'Title short description',
+        'desc'        => 'Custom title for short description in homepage',
+        'std'         => '',
+        'type'        => 'text',
+        'section'     => 'homepage',
+        'rows'        => '',
+        'post_type'   => '',
+        'taxonomy'    => '',
+        'min_max_step' => '',
+        'class'       => '',
+      ),
+      array(
+        'id'          => 'homepage_short_description',
+        'label'       => 'Short description',
+        'desc'        => 'Custom short description in homepage',
+        'std'         => '',
+        'type'        => 'text',
+        'section'     => 'homepage',
+        'rows'        => '',
+        'post_type'   => '',
+        'taxonomy'    => '',
+        'min_max_step' => '',
+        'class'       => '',
+      ),
+      array(
+        'id'          => 'homepage_title_description',
+        'label'       => 'Title description',
+        'desc'        => 'Custom title for description in homepage',
+        'std'         => '',
+        'type'        => 'text',
+        'section'     => 'homepage',
+        'rows'        => '',
+        'post_type'   => '',
+        'taxonomy'    => '',
+        'min_max_step' => '',
+        'class'       => '',
+      ),
+      array(
+        'id'          => 'homepage_description',
+        'label'       => 'Description',
+        'desc'        => 'Custom description in homepage',
+        'std'         => '',
+        'type'        => 'textarea',
+        'section'     => 'homepage',
+        'rows'        => '',
+        'post_type'   => '',
+        'taxonomy'    => '',
+        'min_max_step' => '',
+        'class'       => '',
+      ),
+      array(
+        'id'          => 'side_bar_game',
+        'label'       => 'Side bar game',
+        'desc'        => 'Display category to sidebar game',
+        'std'         => '',
+        'type'        => 'category-checkbox',
+        'section'     => 'side_bar',
+        'rows'        => '',
+        'post_type'   => '',
+        'taxonomy'    => '',
+        'min_max_step' => '',
+        'class'       => '',
+      ),
+      array(
+        'id'          => 'side_bar_app',
+        'label'       => 'Side bar app',
+        'desc'        => 'Display category to sidebar app',
+        'std'         => '',
+        'type'        => 'category-checkbox',
+        'section'     => 'side_bar',
         'rows'        => '',
         'post_type'   => '',
         'taxonomy'    => '',
