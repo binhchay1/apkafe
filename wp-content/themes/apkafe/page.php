@@ -1,5 +1,13 @@
 <?php
 $custom_section = ot_get_option('custom_section');
+$get_post = new WP_Query(array(
+    'posts_per_page' => 24,
+    'orderby'     => 'modified',
+    'order'       => 'DESC',
+));
+
+var_dump($get_post->posts);
+
 get_header();
 ?>
 
