@@ -4,101 +4,33 @@
  */
 ?>
 
-<?php
-$sql_top_game = "SELECT post_id FROM wp_top_games";
-$top_game = $wpdb->get_results($sql_top_game);
-
-if (empty($top_game)) {
-    $top_game_list_id = [];
-} else {
-    foreach ($top_game as $game) {
-        $top_game_list_id[] = $game->post_id;
-    }
-}
-
-$url = home_url();
-$listLang = get_template_directory() . '/languages/en.php';
-$pos = strpos($url, '/ja');
-if ($pos > 0) {
-    $listLang = get_template_directory() . '/languages/ja.php';
-}
-
-$pos = strpos($url, '/th');
-if ($pos > 0) {
-    $listLang = get_template_directory() . '/languages/th.php';
-}
-
-require $listLang;
-?>
-
-<div id="bottom-sidebar">
+<footer>
     <div class="container">
-        <div class="row normal-sidebar">
-            <?php
-            if (is_active_sidebar('bottom_sidebar')) :
-                dynamic_sidebar('bottom_sidebar');
-            endif;
-            ?>
+        <div class="ftr_link_box">
+            <a href="https://apkmodget.com/information/about-us-1.html">About Us</a><a href="https://apkmodget.com/information/contact-us-1.html">Contact Us</a><a href="https://apkmodget.com/information/cookie-policy-1.html">Cookie Policy</a><a href="https://apkmodget.com/information/copyright-holders.html">Copyright Holders</a><a href="https://apkmodget.com/information/disclaimers.html">DMCA</a><a href="https://apkmodget.com/information/privacy-policy-1.html">Privacy Policy</a><a href="https://apkmodget.com/information/terms-and-conditions-1.html">Terms And Conditions</a><a href="https://apkmodget.com/information/advertisments.html">Advertisement</a>
         </div>
     </div>
-</div>
-<div class="footer_new">
-    <div class="footer_container">
-        <div class="info" style="display: flex; justify-content: space-around;">
-            <div class="item group">
-                <img alt="Apkafe" src="https://apkafe.com/wp-content/uploads/2019/04/fav_apkafe-2.png" height="65" width="47" class="p_logo" style="height: 65px;">
-                <p><?php echo $lang['GS Heim Nippori Room 1101, 2-39-7 Nishi-Nippori Arakawa-ku Tokyo 116-0013'] ?></p>
-            </div>
-            <div class="item">
-                <div class="title" style="text-align: center;"><?php echo $lang['Follow US'] ?></div>
-                <ul class="share-box">
-                    <li>
-                        <a class="facebook" rel="nofollow noopener" target="_blank" title="facebook" href="https://www.facebook.com/apkafedotcom/">
-                            <i class="icon f_icon_facebook"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="youtube" rel="nofollow noopener" target="_blank" title="youtube" href="https://www.youtube.com/channel/UC6py-hSG9D0ryOGDIHoWz4Q">
-                            <i class="icon f_icon_youtube"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="twitter" rel="nofollow noopener" target="_blank" title="twitter" href="https://twitter.com/Apkafeappstore">
-                            <i class="icon f_icon_twitter"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="item">
-                <div class="title"><?php echo $lang['Mainpage'] ?></div>
-                <ul>
-                    <li><a href="/about-us/"><?php echo $lang['About Us'] ?></a></li>
-                    <li><a href="/privacy-policy/"><?php echo $lang['Privacy Policy'] ?></a></li>
-                    <li><a href="/terms-of-use/"><?php echo $lang['Term of use'] ?></a></li>
-                    <li><a href="/disclaimer/"><?php echo $lang['Disclamer'] ?></a></li>
-                </ul>
-            </div>
-            <div class="item">
-                <div class="title"><?php echo $lang['Top Game App'] ?></div>
-                <ul>
-                    <?php foreach ($top_game_list_id as $id) { ?>
-                        <li><a href="<?php echo get_permalink($id) ?>"><?php echo get_the_title($id) ?></a></li>
-                    <?php } ?>
-                </ul>
+    <div class="clear mb15"></div>
+    <div class="footer_main">
+        <div class="container">
+            <div class="ftr_social_box">
+                <a class="fsb_facebook" target="_blank" href="https://www.facebook.com/Apkmodget"><i class="fa fa-facebook"></i></a>
+                <a class="fsb_twitter" target="_blank" href="https://twitter.com/apkmodget"><i class="fa fa-twitter"></i></a>
+                <a class="fsb_youtube" target="_blank" href="https://www.youtube.com/channel/UCdoH73xItV9fofokdqsx84Q"><i class="fa fa-youtube-play"></i></a>
+                <a class="fsb_linkedin" target="_blank" href="https://www.linkedin.com/feed/"><i class="fa fa-linkedin"></i></a>
+                <a class="fsb_telegram" target="_blank" href="https://t.me/apkmodget"><i class="fa fa-paper-plane"></i></a>
             </div>
         </div>
-        <div class="other">
-            <div class="info">
-                <?php echo $lang['Copyright © 2023 Apkafe All rights reserved.'] ?>
-            </div>
-
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div class="footer_bottom">
+        <div class="container">
+            <div class="ac"><?php apkafe_get_option('copyright') ?></div>
         </div>
     </div>
-</div>
-
-<?php echo ot_get_option('google_analytics_code', ''); ?>
-<?php wp_footer(); ?>
-
+    <div class="clear"></div>
+</footer>
 </body>
 
 </html>

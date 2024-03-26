@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Load core
  */
 require_once 'inc/starter/leaf-core.php';
 require_once 'inc/option-tree-hook.php';
 require_once 'inc/starter/functions-admin.php';
+remove_action('shutdown', 'wp_ob_end_flush_all', 1);
 
 if (!defined('PARENT_THEME')) {
 	define('PARENT_THEME', 'Apkafe');
@@ -28,24 +30,6 @@ function apkafe_setup()
 }
 
 add_action('after_setup_theme', 'apkafe_setup');
-
-function apkafe_get_option($options, $default = NULL)
-{
-	global $post;
-	global $wp_query;
-	if (is_singular()) {
-		if (is_singular('tribe_events')) {
-			global $wp_query;
-			global $post;
-			$post = $wp_query->post;
-		}
-		if (isset($post->ID)) {
-			$meta = get_post_meta($post->ID, $options, true);
-		}
-		return $meta != '' ? $meta : ot_get_option($options, $default);
-	}
-	return ot_get_option($options, $default);
-}
 
 /**
  * Enqueues scripts and styles
@@ -79,4 +63,23 @@ function apkafe_admin_scripts_styles()
 }
 add_action('admin_enqueue_scripts', 'apkafe_admin_scripts_styles');
 
-remove_action('shutdown', 'wp_ob_end_flush_all', 1);
+
+function apkafe_get_option($options, $default = NULL)
+{
+	global $post;
+	global $wp_query;
+
+	if (is_singular()) {
+		if (is_singular('tribe_events')) {
+			global $wp_query;
+			global $post;
+			$post = $wp_query->post;
+		}
+		if (isset($post->ID)) {
+			$meta = get_post_meta($post->ID, $options, true);
+		}
+		return $meta != '' ? $meta : ot_get_option($options, $default);
+	}
+
+	return ot_get_option($options, $default);
+}
