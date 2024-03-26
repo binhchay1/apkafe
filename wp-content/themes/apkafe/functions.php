@@ -40,13 +40,11 @@ function apkafe_scripts_styles()
 	 * Loads js.
 	 */
 	wp_enqueue_script('jquery');
-	wp_enqueue_script('bootstrap', get_template_directory_uri() . '/js/bootstrap.min.js', array(), '', true);
-	wp_enqueue_script('template', get_template_directory_uri() . '/js/applay.js', array('jquery'), '', true);
+	wp_enqueue_script('template', get_template_directory_uri() . '/js/apkafe.js', array('jquery'), '', true);
 
 	/*
 	 * Loads css
 	 */
-	wp_enqueue_style('bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css');
 	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/css/fa/css/font-awesome.min.css');
 	wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
 }

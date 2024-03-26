@@ -15,7 +15,6 @@
 [class^="ot-icon-"], 
 [class*=" ot-icon-"] {
   font-family: "option-tree-font";
-  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -1525,7 +1524,6 @@
   line-height: 1.6em;
   letter-spacing: 0;
   padding: 0 0 9px 0;
-  -webkit-user-select: text;
   text-shadow: none;
 }
     
@@ -1860,7 +1858,6 @@ div.option-tree-ui-media-wrap {
   content: "\f142";
   left: 4px;
   font-family: "option-tree-font";
-  speak: none;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
@@ -2227,9 +2224,9 @@ li ul .format-setting-label {
   background-image: url(../images/ot-select-hover.png);
   border-color: #999;
 }
+
 select.option-tree-ui-select {
   cursor: pointer;
-  filter: alpha(opacity: 0);
   font-size: 14px;
   height: 29px;
   margin: 0;
@@ -2617,9 +2614,6 @@ select.option-tree-ui-select option {
 /* -------------------------------------------------- 
   :: Google Font
   ---------------------------------------------------*/
-.type-google-font {
-
-}
 .type-google-font-group-clone {
   display: none;
 }
@@ -2762,7 +2756,7 @@ select.option-tree-ui-select option {
 }
 button.reset-settings {
   position: relative;
-  top: -45px;
+  top: -58px;
   left: 8px;
 }
 
@@ -2772,7 +2766,6 @@ button.reset-settings {
 .option-tree-ui-button .icon {
   color: #3a3a3a;
   display: inline-block;
-  float: left;
   font-size: 20px;
   height: 20px;
   margin-top: 3px;
@@ -3009,19 +3002,6 @@ ul.ot-gallery-list li img {
              box-shadow: inset 0 1px 0 rgba(229,134,119,0.6), 0 1px 0 rgba(0,0,0,.15);
   }
 }
-@media only screen and (-webkit-max-device-pixel-ratio: 2) and (max-device-width: 1280px) {
-  .on-off-switch {
-    -webkit-animation: webkitSiblingBugfix infinite 1s; 
-  } 
-}
-@-webkit-keyframes webkitSiblingBugfix {
-  from {
-    -webkit-transform: translate3d(0, 0, 0); 
-  }
-  to {
-    -webkit-transform: translate3d(0, 0, 0); 
-  } 
-}
 
 /* -------------------------------------------------- 
   :: Simple Input Append & Prepend
@@ -3036,7 +3016,6 @@ ul.ot-gallery-list li img {
 .ot-input-append input {
   position: relative;
   margin-bottom: 0;
-  *margin-left: 0;
   vertical-align: top;
   -webkit-border-radius: 0 2px 2px 0;
      -moz-border-radius: 0 2px 2px 0;

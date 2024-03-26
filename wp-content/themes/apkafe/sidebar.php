@@ -1,21 +1,21 @@
-<?php
-
-/**
- * The sidebar containing the main widget area.
- */
-?>
-<?php if (is_front_page() || is_home()) { ?>
-	<div id="sidebar" class="normal-sidebar" style="margin-left: 30px;">
-	<?php } else { ?>
-		<div id="sidebar" class="normal-sidebar col-md-3">
-		<?php } ?>
-		<?php
-		if (is_front_page() && is_active_sidebar('frontpage_sidebar')) {
-			dynamic_sidebar('frontpage_sidebar');
-		} elseif (is_active_sidebar('woocommerce_sidebar') && function_exists('is_woocommerce') && is_woocommerce()) {
-			dynamic_sidebar('woocommerce_sidebar');
-		} elseif (is_active_sidebar('main_sidebar')) {
-			dynamic_sidebar('main_sidebar');
-		}
-		?>
-		</div><!--#sidebar-->
+<div class="side_bar">
+	<div class="clear"></div>
+	<div class="widget">
+		<h2 class="widget_head">Games</h2>
+		<div class="side_cat_list_wrap">
+			<a class="side_cat_item" href="https://apkmodget.com/action/"><img width="30" height="30" class=" lazyloaded" src="https://apkmodget.com/media/2022/02/_1/30x30/action_825e4.png" data-src="https://apkmodget.com/media/2022/02/_1/30x30/action_825e4.png" alt="Action"> Action</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+	<div class="clear"></div>
+	<div class="widget">
+		<h2 class="widget_head">Apps</h2>
+		<div class="side_cat_list_wrap">
+			<a class="side_cat_item" href="https://apkmodget.com/art-design/"><img width="30" height="30" class=" lazyloaded" src="https://apkmodget.com/media/2022/02/_1/30x30/paint_bc90e.png" data-src="https://apkmodget.com/media/2022/02/_1/30x30/paint_bc90e.png" alt="Art &amp; Design"> Art &amp; Design</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="clear"></div>
