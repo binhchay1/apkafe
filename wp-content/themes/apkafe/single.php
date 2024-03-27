@@ -22,8 +22,8 @@ if (in_array('size', $getMeta)) {
 	$size = $getMeta['size'];
 }
 
-if (in_array('version', $getMeta)) {
-	$version = $getMeta['version'];
+if (in_array('latest_version', $getMeta)) {
+	$version = $getMeta['latest_version'];
 }
 
 if (in_array('mod_infor', $getMeta)) {
@@ -67,7 +67,7 @@ if (in_array('mod_infor', $getMeta)) {
 								</tr>
 								<tr>
 									<th>Size</th>
-									<td><?php echo $size ?></td>
+									<td><?php echo $size ?> MB</td>
 								</tr>
 								<tr>
 									<th>Latest Version</th>
@@ -87,7 +87,7 @@ if (in_array('mod_infor', $getMeta)) {
 				</div>
 				<div class="clear mb10"></div>
 				<div class="ac">
-					<a class="btn_download" href="https://apkmodget.com/apps/line-apk-3/?download=links"> Download APK (<?php echo $size ?>)</a>
+					<a class="btn_download" href="https://apkmodget.com/apps/line-apk-3/?download=links"> Download APK (<?php echo $size ?> MB)</a>
 				</div>
 
 				<div class="clear mb20"></div>
