@@ -6,8 +6,6 @@ $get_post = new WP_Query(array(
     'order'       => 'DESC',
 ));
 
-var_dump($get_post->posts);
-
 get_header();
 ?>
 
@@ -20,11 +18,13 @@ get_header();
         <div class="widget">
             <h2 class="widget_head">Latest Update</h2>
             <div id="main_list_item" class="main_list_item">
-                <a class="side_list_item" href="https://apkmodget.com/apps/mytelkomsel-apk-download-1/">
-                    <img class="item_icon lazyloaded" width="80" height="80" src="https://apkmodget.com/media/2023/10/_1/80x80/mytelkomsel-apk_f9f39.jpg" data-src="https://apkmodget.com/media/2023/10/_1/80x80/mytelkomsel-apk_f9f39.jpg" alt="MyTelkomsel Apk V7.3.0 Download For Android">
-                    <p class="title">MyTelkomsel Apk v7.3.0 Download For Android</p>
-                    <p class="category">v7.3.0 + MOD: For Android</p>
-                </a>
+                <?php foreach ($get_post->posts as $post) { ?>
+                    <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
+                        <?php echo get_the_post_thumbnail($post->ID) ?>
+                        <p class="title"><?php echo get_the_title($post->ID) ?></p>
+                        <p class="category"><?php echo get_the_category($post->ID)[0]->name ?></p>
+                    </a>
+                <?php } ?>
             </div>
             <div class="clear mb10"></div>
         </div>

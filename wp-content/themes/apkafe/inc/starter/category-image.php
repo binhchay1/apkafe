@@ -16,7 +16,6 @@ class ZCategoriesImages
 
         add_action('edit_term', [$this, 'zSaveTaxonomyImage']);
         add_action('create_term', [$this, 'zSaveTaxonomyImage']);
-        add_action('admin_menu', [$this, 'zSettingsMenu']);
         add_filter("plugin_action_links_{$this->plugin_name}", [$this, 'zSettingsLink']);
     }
 
@@ -282,11 +281,6 @@ class ZCategoriesImages
             echo $taxonomy_image;
         else
             return $taxonomy_image;
-    }
-
-    function zSettingsMenu()
-    {
-        add_menu_page(__('Categories Images settings', 'categories-images'), __('Categories Images', 'categories-images'), 'manage_options', 'zci_settings', [$this, 'zSettingsPage'], 'dashicons-format-image', 80);
     }
 
     function zSettingsPage()

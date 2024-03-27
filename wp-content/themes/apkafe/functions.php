@@ -42,7 +42,7 @@ function apkafe_scripts_styles()
 	 * Loads js.
 	 */
 	wp_enqueue_script('jquery');
-	wp_enqueue_script('template', get_template_directory_uri() . '/js/apkafe.js', array('jquery'), '', true);
+	wp_enqueue_script('js', get_template_directory_uri() . '/js/apkafe.js');
 
 	/*
 	 * Loads css
@@ -142,4 +142,69 @@ if (!function_exists('ot_type_post_list')) {
         }
 		</script>";
 	}
+}
+
+function handle_content()
+{
+	$default = get_the_content();
+	$getList = generate_navigation($default);
+
+	$content = '<div class="explore_box"><strong class="explode_head">Table of Contents</strong><div class="explore_box_inner">';
+	$content .= $getList . '</div></div>';
+	$content .= '<div class="clear"></div><div class="cnt_box">';
+	$content .= $default;
+	$content .= '<div id="FAQs" class="art_box faq_box"><h2 class="ac">FAQs</h2></div>';
+	$content .= '</div>';
+
+	return $content;
+}
+
+add_action('the_content', 'handle_content');
+
+function generate_navigation($HTML)
+{
+	$DOM = new DOMDocument();
+	$DOM->loadHTML($HTML);
+
+	$navigation = '<ol>';
+
+	$h2IteratorStatus = 0;
+	$h3IteratorStatus = 0;
+	foreach ($DOM->getElementsByTagName('*') as $element) {
+		if ($element->tagName == 'h2') {
+
+			if ($h3IteratorStatus) {
+				$navigation .= '</ul>';
+				$h3IteratorStatus = 0;
+			}
+
+			if ($h2IteratorStatus) {
+				$navigation .= '</li>';
+				$h2IteratorStatus = 0;
+			}
+
+			$h2IteratorStatus = 1;
+			$idElement = str_replace(' ', '_', $element->textContent);
+			$navigation .= '<li><a onclick="scrollToc(`' . $idElement . '`)" href="#' . $idElement . '">' . $element->textContent . '</a>';
+		} else if ($element->tagName == 'h3') {
+
+			if (!$h3IteratorStatus) {
+				$navigation .= '<ul>';
+				$h3IteratorStatus = 1;
+			}
+
+			$idElement = str_replace(' ', '_', $element->textContent);
+			$navigation .= '<li><a onclick="scrollToc(`' . $idElement . '`)" href="#' . $idElement . '">' . $element->textContent . '</a></li>';
+		}
+	}
+
+	if ($h3IteratorStatus) {
+		$navigation .= '</ul>';
+	}
+
+	if ($h2IteratorStatus) {
+		$navigation .= '</li>';
+	}
+
+	return $navigation . `</ol>`;
 }
