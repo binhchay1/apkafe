@@ -6,6 +6,7 @@
  */
 
 use Automattic\Jetpack\Constants;
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -60,6 +61,7 @@ class WC_Helper {
 		include_once dirname( __FILE__ ) . '/class-wc-helper-compat.php';
 		include_once dirname( __FILE__ ) . '/class-wc-helper-admin.php';
 		include_once dirname( __FILE__ ) . '/class-wc-helper-subscriptions-api.php';
+		include_once dirname( __FILE__ ) . '/class-wc-helper-orders-api.php';
 	}
 
 	/**
@@ -406,7 +408,7 @@ class WC_Helper {
 		}
 
 		$filters = array_fill_keys( array_keys( self::get_filters() ), 0 );
-		if ( empty( $subscriptions ) ) {
+		if ( ! is_array( $subscriptions ) || empty( $subscriptions ) ) {
 			return array();
 		}
 
@@ -648,6 +650,8 @@ class WC_Helper {
 			return;
 		}
 
+		self::maybe_redirect_to_new_marketplace_installer();
+
 		if ( empty( $_GET['section'] ) || 'helper' !== $_GET['section'] ) {
 			return;
 		}
@@ -682,23 +686,76 @@ class WC_Helper {
 	}
 
 	/**
+	 * Maybe redirect to the new Marketplace installer.
+	 */
+	private static function maybe_redirect_to_new_marketplace_installer() {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		// Redirect requires the "install" URL parameter to be passed.
+		if ( empty( $_GET['install'] ) ) {
+			return;
+		}
+
+		wp_safe_redirect(
+			self::get_helper_redirect_url(
+				array(
+					'page'    => 'wc-addons',
+					'section' => 'helper',
+				)
+			)
+		);
+	}
+
+	/**
 	 * Get helper redirect URL.
 	 *
 	 * @param array $args Query args.
-	 * @param bool  $redirect_to_wc_admin Whether to redirect to WC Admin.
 	 * @return string
 	 */
-	private static function get_helper_redirect_url( $args = array(), $redirect_to_wc_admin = false ) {
+	private static function get_helper_redirect_url( $args = array() ) {
 		global $current_screen;
-		if ( true === $redirect_to_wc_admin && 'woocommerce_page_wc-addons' === $current_screen->id ) {
-			return add_query_arg(
-				array(
-					'page' => 'wc-admin',
-					'tab'  => 'my-subscriptions',
-					'path' => rawurlencode( '/extensions' ),
-				),
-				admin_url( 'admin.php' )
-			);
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		$redirect_admin_url = isset( $_GET['redirect_admin_url'] )
+			? esc_url_raw(
+				urldecode(
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					wp_unslash( $_GET['redirect_admin_url'] )
+				)
+			)
+			: '';
+		$install_product_key = isset( $_GET['install'] ) ? sanitize_text_field( wp_unslash( $_GET['install'] ) ) : '';
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		if (
+			'woocommerce_page_wc-addons' === $current_screen->id &&
+			FeaturesUtil::feature_is_enabled( 'marketplace' ) &&
+			(
+				false === empty( $redirect_admin_url ) ||
+				false === empty( $install_product_key )
+			)
+		) {
+			if ( strpos( $redirect_admin_url, admin_url( 'admin.php' ) ) === 0 ) {
+				$new_url = $redirect_admin_url;
+			} else {
+				$new_url = add_query_arg(
+					array(
+						'page' => 'wc-admin',
+						'tab'  => 'my-subscriptions',
+						'path' => rawurlencode( '/extensions' ),
+					),
+					admin_url( 'admin.php' )
+				);
+			}
+
+			if ( ! empty( $install_product_key ) ) {
+				$new_url = add_query_arg(
+					array(
+						'install' => $install_product_key,
+					),
+					$new_url
+				);
+			}
+			return $new_url;
 		}
 
 		return add_query_arg(
@@ -723,8 +780,8 @@ class WC_Helper {
 			'wc-helper-nonce'  => wp_create_nonce( 'connect' ),
 		);
 
-		if ( isset( $_GET['redirect-to-wc-admin'] ) ) {
-			$redirect_url_args['redirect-to-wc-admin'] = 1;
+		if ( isset( $_GET['install'] ) ) {
+			$redirect_url_args['install'] = sanitize_text_field( wp_unslash( $_GET['install'] ) );
 		}
 
 		$redirect_uri = add_query_arg(
@@ -762,9 +819,19 @@ class WC_Helper {
 
 		$connect_url = add_query_arg(
 			array(
-				'home_url'     => rawurlencode( home_url() ),
-				'redirect_uri' => rawurlencode( $redirect_uri ),
-				'secret'       => rawurlencode( $secret ),
+				'home_url'           => rawurlencode( home_url() ),
+				'redirect_uri'       => rawurlencode( $redirect_uri ),
+				'secret'             => rawurlencode( $secret ),
+				'redirect_admin_url' => isset( $_GET['redirect_admin_url'] )
+					? rawurlencode(
+						esc_url_raw(
+							urldecode(
+								// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+								wp_unslash( $_GET['redirect_admin_url'] )
+							)
+						)
+					)
+					: '',
 			),
 			WC_Helper_API::url( 'oauth/authorize' )
 		);
@@ -794,8 +861,7 @@ class WC_Helper {
 					array(
 						'page'    => 'wc-addons',
 						'section' => 'helper',
-					),
-					isset( $_GET['redirect-to-wc-admin'] )
+					)
 				)
 			);
 			die();
@@ -857,8 +923,7 @@ class WC_Helper {
 					'page'             => 'wc-addons',
 					'section'          => 'helper',
 					'wc-helper-status' => 'helper-connected',
-				),
-				isset( $_GET['redirect-to-wc-admin'] )
+				)
 			)
 		);
 		die();
@@ -883,8 +948,7 @@ class WC_Helper {
 				'page'             => 'wc-addons',
 				'section'          => 'helper',
 				'wc-helper-status' => 'helper-disconnected',
-			),
-			isset( $_GET['redirect-to-wc-admin'] )
+			)
 		);
 
 		self::disconnect();
@@ -910,8 +974,7 @@ class WC_Helper {
 				'section'          => 'helper',
 				'filter'           => self::get_current_filter(),
 				'wc-helper-status' => 'helper-refreshed',
-			),
-			isset( $_GET['redirect-to-wc-admin'] )
+			)
 		);
 
 		wp_safe_redirect( $redirect_uri );
@@ -1124,6 +1187,40 @@ class WC_Helper {
 		self::_flush_subscriptions_cache();
 
 		return $deactivated;
+	}
+
+	/**
+	 * Get a subscriptions install URL.
+	 *
+	 * @param string $product_key Subscription product key.
+	 * @return string
+	 */
+	public static function get_subscription_install_url( $product_key ) {
+		$install_url_response = WC_Helper_API::post(
+			'install-url',
+			array(
+				'authenticated' => true,
+				'body'          => wp_json_encode(
+					array(
+						'product_key' => $product_key,
+						'wc_version'  => WC()->version,
+					)
+				),
+			)
+		);
+
+		$code = wp_remote_retrieve_response_code( $install_url_response );
+		if ( 200 !== $code ) {
+			self::log( sprintf( 'Install URL API call returned a non-200 response code (%d)', $code ) );
+			return '';
+		}
+
+		$body = json_decode( wp_remote_retrieve_body( $install_url_response ), true );
+		if ( empty( $body['data']['url'] ) ) {
+			self::log( sprintf( 'Install URL API call returned an invalid body: %s', wp_remote_retrieve_body( $install_url_response ) ) );
+			return '';
+		}
+		return $body['data']['url'];
 	}
 
 	/**
@@ -1364,7 +1461,7 @@ class WC_Helper {
 				if ( is_readable( $txt ) ) {
 					$txt = file_get_contents( $txt );
 					$txt = preg_split( '#\s#', $txt );
-					if ( count( $txt ) >= 2 ) {
+					if ( is_array( $txt ) && count( $txt ) >= 2 ) {
 						$header = sprintf( '%d:%s', $txt[0], $txt[1] );
 					}
 				}

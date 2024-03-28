@@ -8,6 +8,7 @@
 
 use Automattic\Jetpack\Constants;
 use Automattic\WooCommerce\Admin\Notes\Notes;
+use Automattic\WooCommerce\Internal\TransientFiles\TransientFilesEngine;
 use Automattic\WooCommerce\Internal\DataStores\Orders\{ CustomOrdersTableController, DataSynchronizer, OrdersTableDataStore };
 use Automattic\WooCommerce\Internal\Features\FeaturesController;
 use Automattic\WooCommerce\Internal\ProductAttributesLookup\DataRegenerator;
@@ -240,6 +241,12 @@ class WC_Install {
 		'8.1.0' => array(
 			'wc_update_810_migrate_transactional_metadata_for_hpos',
 		),
+		'8.6.0' => array(
+			'wc_update_860_remove_recommended_marketing_plugins_transient',
+		),
+		'8.7.0' => array(
+			'wc_update_870_prevent_listing_of_transient_files_directory',
+		),
 	);
 
 	/**
@@ -453,6 +460,11 @@ class WC_Install {
 		// plugin version update. We base plugin age off of this value.
 		add_option( 'woocommerce_admin_install_timestamp', time() );
 
+		// Force a flush of rewrite rules even if the corresponding hook isn't initialized yet.
+		if ( ! has_action( 'woocommerce_flush_rewrite_rules' ) ) {
+			flush_rewrite_rules();
+		}
+
 		/**
 		 * Flush the rewrite rules after install or update.
 		 *
@@ -554,6 +566,7 @@ class WC_Install {
 		WC()->query->add_endpoints();
 		WC_API::add_endpoint();
 		WC_Auth::add_endpoint();
+		TransientFilesEngine::add_endpoint();
 	}
 
 	/**
@@ -565,9 +578,11 @@ class WC_Install {
 	 * @return boolean
 	 */
 	public static function is_new_install() {
-		$product_count = array_sum( (array) wp_count_posts( 'product' ) );
-
-		return is_null( get_option( 'woocommerce_version', null ) ) || ( 0 === $product_count && -1 === wc_get_page_id( 'shop' ) );
+		return is_null( get_option( 'woocommerce_version', null ) )
+			|| (
+				-1 === wc_get_page_id( 'shop' )
+				&& 0 === array_sum( (array) wp_count_posts( 'product' ) )
+			);
 	}
 
 	/**
@@ -2585,6 +2600,10 @@ EOT;
 <!-- wp:woocommerce/checkout-payment-block -->
 <div class="wp-block-woocommerce-checkout-payment-block"></div>
 <!-- /wp:woocommerce/checkout-payment-block -->
+
+<!-- wp:woocommerce/checkout-additional-information-block -->
+<div class="wp-block-woocommerce-checkout-additional-information-block"></div>
+<!-- /wp:woocommerce/checkout-additional-information-block -->
 
 <!-- wp:woocommerce/checkout-order-note-block -->
 <div class="wp-block-woocommerce-checkout-order-note-block"></div>
