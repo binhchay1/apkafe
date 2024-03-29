@@ -66,7 +66,6 @@ function apkafe_admin_scripts_styles()
 }
 add_action('admin_enqueue_scripts', 'apkafe_admin_scripts_styles');
 
-
 function apkafe_get_option($options, $default = NULL)
 {
 	global $post;
@@ -87,9 +86,46 @@ function apkafe_get_option($options, $default = NULL)
 	return ot_get_option($options, $default);
 }
 
+add_action('init', function ($search) {
+	add_rewrite_rule('search/?$', 'index.php?s=' . $search, 'top');
+	add_rewrite_rule('search/ja/?$', 'index.php?s=' . $search, 'top');
+	add_rewrite_rule('search/th/?$', 'index.php?s=' . $search, 'top');
+});
+
+add_action('wp_head', function () {
+	$paths = explode('/', $_SERVER['REQUEST_URI']);
+	if (is_front_page()) {
+		$urlFontPage = 'https://apkafe.com/';
+		if (in_array('th', $paths)) {
+			$urlFontPage = 'https://apkafe.com/th/';
+		}
+
+		if (in_array('ja', $paths)) {
+			$urlFontPage = 'https://apkafe.com/ja/';
+		}
+
+		echo '<link rel="alternate" href="' . $urlFontPage . '" hreflang="x-default" />';
+	}
+
+	if (in_array('product-category', $paths)) {
+		$host = 'https://apkafe.com';
+		$urlProductCategory = $host . $_SERVER['REQUEST_URI'];
+		echo '<link rel="alternate" href="' . $urlProductCategory . '" hreflang="x-default" />';
+	}
+
+	if (is_admin() || is_user_logged_in()) {
+		$style = '<style type="text/css">
+			#main-nav {
+					margin-top: 30px !important;
+			}
+			</style>';
+
+		echo $style;
+	}
+}, PHP_INT_MAX);
+
 function add_custom_option_types($types)
 {
-
 	$types['post-list'] = 'Post list';
 
 	return $types;
@@ -110,7 +146,7 @@ if (!function_exists('ot_type_post_list')) {
 
 		echo '<div class="format-setting-inner">';
 		echo '<input type="text" style="margin-bottom: 20px" aria-label="Search list" placeholder="Enter post title" id="search-post-list">';
-		$my_posts = get_posts(apply_filters('ot_type_post_checkbox_query', array('post_type' => array('post'), 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'any'), $field_id));
+		$my_posts = get_posts(apply_filters('ot_type_post_checkbox_query', array('posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'any'), $field_id));
 		if (is_array($my_posts) && !empty($my_posts)) {
 			foreach ($my_posts as $my_post) {
 				$post_url = get_permalink($my_post->ID);
@@ -146,17 +182,32 @@ if (!function_exists('ot_type_post_list')) {
 
 function handle_content()
 {
+	global $wp_query;
 	$default = get_the_content();
-	$getList = generate_navigation($default);
 
-	$content = '<div class="explore_box"><strong class="explode_head">Table of Contents</strong><div class="explore_box_inner">';
-	$content .= $getList . '</div></div>';
-	$content .= '<div class="clear"></div><div class="cnt_box">';
-	$content .= $default;
-	$content .= '<div id="FAQs" class="art_box faq_box"><h2 class="ac">FAQs</h2></div>';
-	$content .= '</div>';
+	if ($wp_query->is_404 === false) {
+		$getList = generate_navigation($default);
 
-	return $content;
+		$content = '<div class="explore_box"><strong class="explode_head">Table of Contents</strong><div class="explore_box_inner">';
+		$content .= $getList . '</div></div>';
+		$content .= '<div class="clear"></div><div class="cnt_box">';
+		$content .= $default;
+		$content .= '<div id="FAQs" class="art_box faq_box"><h2 class="ac">FAQs</h2></div>';
+		$content .= '</div>';
+
+		$content .= '
+		<script>
+		let listH2 = jQuery("h2");
+		for(let i = 0; i < listH2.length; i++) {
+			let result = listH2[i].textContent.replaceAll(" ", "_");
+			listH2[i].setAttribute("id", result);
+		}
+		</script>';
+
+		return $content;
+	} else {
+		return $default;
+	}
 }
 
 add_action('the_content', 'handle_content');
@@ -207,4 +258,52 @@ function generate_navigation($HTML)
 	}
 
 	return $navigation . `</ol>`;
+}
+
+add_action('template_redirect', function () {
+
+	if ((defined('DOING_CRON') && DOING_CRON) || (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST) || (defined('DOING_AJAX') && DOING_AJAX)) return;
+
+	if (is_admin()) return;
+
+	global $wp_query;
+	if ($wp_query->is_404 === false) {
+		$paths = explode('/', $_SERVER['REQUEST_URI']);
+		foreach ($paths as $path) {
+			if ($path == '404') {
+				if (end($paths) == '') {
+					status_header(200);
+					$wp_query->is_404  = false;
+					return;
+				}
+			}
+		}
+	} else {
+		$paths = explode('/', $_SERVER['REQUEST_URI']);
+		foreach ($paths as $path) {
+			if ($path == '404') {
+				if (end($paths) == '') {
+					status_header(200);
+					$wp_query->is_404  = false;
+					return;
+				}
+			}
+		}
+	}
+}, PHP_INT_MAX);
+
+function ia_get_attachment_id_from_url($attachment_url = '')
+{
+	global $wpdb;
+	$attachment_id = false;
+
+	if ('' == $attachment_url)
+		return;
+	$upload_dir_paths = wp_upload_dir();
+	if (false !== strpos($attachment_url, $upload_dir_paths['baseurl'])) {
+		$attachment_url = preg_replace('/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $attachment_url);
+		$attachment_url = str_replace($upload_dir_paths['baseurl'] . '/', '', $attachment_url);
+		$attachment_id = $wpdb->get_var($wpdb->prepare("SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url));
+	}
+	return $attachment_id;
 }

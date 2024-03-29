@@ -50,8 +50,6 @@ function share_this(elem) {
 
     var pop_url = '';
 
-    //console.log(url);
-
     if (elem == 'share_facebook') {
         pop_url = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
     }
