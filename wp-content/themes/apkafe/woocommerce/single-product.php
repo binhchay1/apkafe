@@ -26,7 +26,7 @@ $disable_woo = get_post_meta(get_the_ID(), 'disable-woo', true) == 'on';
         <div class="content-pad-4x">
         <?php } ?>
         <div class="row">
-            <div id="content" style="float: left; width: 870px;" class="<?php if ($woo_layout != 'full') { ?> col-md-9 <?php } else { ?>col-md-12 <?php }
+            <div id="content" class="<?php if ($woo_layout != 'full') { ?> col-md-9 <?php } else { ?>col-md-12 <?php }
                                                                                                             if ($woo_layout == 'left') { ?> revert-layout <?php } ?>">
                 <?php while (have_posts()) : the_post(); ?>
 

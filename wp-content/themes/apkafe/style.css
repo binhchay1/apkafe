@@ -1572,3 +1572,23 @@ ul.pagination>.active>span:hover {
   height: auto !important;
   width: auto !important;
 }
+
+#content {
+  float: left;
+  width: 830px;
+  background: #fff;
+  padding: 10px;
+}
+
+#breadcrumbs {
+  width: 830px;
+  background: #fbfbfb;
+  border-bottom: 1px solid #e8e8e8;
+  color: #666;
+  padding: 10px;
+  font-weight: 400;
+  position: relative;
+  margin-bottom: 0;
+  font-size: 16px;
+  color: #888;
+}
