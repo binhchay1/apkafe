@@ -12,6 +12,18 @@
 
 if (!defined('ABSPATH')) exit;
 
+$getCategory = get_the_terms(get_the_ID(), 'product_cat');
+$product_cat_slug = [];
+$slug = 'default';
+
+foreach ($getCategory as $term) {
+    $product_cat_slug[] = $term->slug;
+}
+
+if (in_array('review', $product_cat_slug)) {
+    $slug = 'review';
+}
+
 get_header(); ?>
 <?php
 $content_padding = get_post_meta(get_the_ID(), 'product-contpadding', true);
@@ -20,6 +32,8 @@ if (function_exists('ot_get_option') && !$woo_layout) {
     $woo_layout =  ot_get_option('woocommerce_layout', 'left');
 }
 $disable_woo = get_post_meta(get_the_ID(), 'disable-woo', true) == 'on';
+
+
 ?>
 <div class="container">
     <?php if ($content_padding != 'off') { ?>
@@ -33,10 +47,16 @@ $disable_woo = get_post_meta(get_the_ID(), 'disable-woo', true) == 'on';
                     <?php if ($disable_woo) {
                         the_content();
                     } else {
-                        wc_get_template_part('content', 'single-product');
+                        switch ($slug) {
+                            case 'review':
+                                get_template_part('templates/review', 'review');
+                                break;
+                            default:
+                                wc_get_template_part('content', 'single-product');
+                        }
                     } ?>
 
-                <?php endwhile; 
+                <?php endwhile;
                 ?>
             </div>
             <?php

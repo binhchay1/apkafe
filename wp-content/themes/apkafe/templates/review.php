@@ -1,6 +1,14 @@
 <?php
-$getMeta = get_post_meta(get_the_ID());
-$category = get_the_category(get_the_ID());
+$getCategory = get_the_terms(get_the_ID(), 'product_cat');
+$product_cat_slug = [];
+$slug = 'default';
+foreach ($getCategory as $term) {
+    $product_cat_slug[] = $term->slug;
+    if ($term->slug == 'review') {
+        $urlCategory = get_category_link($term->term_id);
+        $nameCategory = $term->name;
+    }
+}
 
 ?>
 
@@ -10,7 +18,7 @@ $category = get_the_category(get_the_ID());
             <ul id="breadcrumbs" class="bread_crumb">
                 <li><a href="<?php echo home_url() ?>">Home</a></li>
                 <li><i class="fa fa-angle-double-right"></i></li>
-                <li><a href="<?php echo get_category_link($category[0]->term_id) ?>"><?php echo $category[0]->name ?></a></li>
+                <li><a href="<?php echo $urlCategory ?>"><?php echo $nameCategory ?></a></li>
                 <li><i class="fa fa-angle-double-right"></i></li>
                 <li><a class="active" href="<?php echo get_permalink(get_the_ID()) ?>"><?php echo the_title() ?></a></li>
             </ul>

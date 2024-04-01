@@ -10,9 +10,6 @@ $slug = $getCategory[0]->slug;
 		case 'top-list':
 			get_template_part('templates/top-list', 'top-list');
 			break;
-		case 'review':
-			get_template_part('templates/review', 'review');
-			break;
 		default:
 			get_template_part('templates/default', 'default');
 	} ?>
