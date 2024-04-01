@@ -53,6 +53,16 @@ function apkafe_scripts_styles()
 	if (is_single()) {
 		wp_enqueue_style('single', get_stylesheet_directory_uri() . '/css/single.css');
 	}
+
+	if (is_product()) {
+		$getCategory = get_the_terms(get_the_ID(), 'product_cat');
+
+		foreach ($getCategory as $term) {
+			if ($term->slug == 'review') {
+				wp_enqueue_style('review', get_stylesheet_directory_uri() . '/css/review.css');
+			}
+		}
+	}
 }
 
 add_action('wp_enqueue_scripts', 'apkafe_scripts_styles');
@@ -235,8 +245,10 @@ function generate_navigation($HTML)
 			}
 
 			$h2IteratorStatus = 1;
-			$idElement = str_replace(' ', '_', $element->textContent);
-			$navigation .= '<li><a onclick="scrollToc(`' . $idElement . '`)" href="#' . $idElement . '">' . $element->textContent . '</a>';
+			if ($element->textContent != '') {
+				$idElement = str_replace(' ', '_', $element->textContent);
+				$navigation .= '<li><a onclick="scrollToc(`' . $idElement . '`)" href="#' . $idElement . '">' . $element->textContent . '</a>';
+			}
 		} else if ($element->tagName == 'h3') {
 
 			if (!$h3IteratorStatus) {
@@ -244,8 +256,10 @@ function generate_navigation($HTML)
 				$h3IteratorStatus = 1;
 			}
 
-			$idElement = str_replace(' ', '_', $element->textContent);
-			$navigation .= '<li><a onclick="scrollToc(`' . $idElement . '`)" href="#' . $idElement . '">' . $element->textContent . '</a></li>';
+			if ($element->textContent != '') {
+				$idElement = str_replace(' ', '_', $element->textContent);
+				$navigation .= '<li><a onclick="scrollToc(`' . $idElement . '`)" href="#' . $idElement . '">' . $element->textContent . '</a></li>';
+			}
 		}
 	}
 

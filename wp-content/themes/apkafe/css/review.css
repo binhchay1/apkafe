@@ -1,0 +1,77 @@
+:root {
+  --primary-color: #24cd77;
+}
+
+.sapo-review {
+  text-align: center;
+  background: var(--primary-color);
+  border-radius: 20px;
+  padding: 5px;
+  margin-bottom: 20px;
+}
+
+table {
+  margin: 0 auto;
+}
+
+table,
+th,
+td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+}
+
+tr th,
+tr td {
+  padding: 10px;
+}
+
+tr:first-child {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: var(--primary-color);
+}
+
+.feature-highlight {
+  margin: 0 auto;
+  font-size: 19px;
+}
+
+.fs-19 {
+  margin: 0 auto;
+  font-size: 19px;
+}
+
+.accordion {
+  max-width: 500px;
+  width: calc(100% - 20px);
+  margin: 0 auto;
+}
+
+.accordion h4 {
+    text-align: center;
+}
+
+details {
+  background-color: var(--primary-color);
+  margin-bottom: 10px;
+  filter: drop-shadow(5px 5px 0px var(--primary-color));
+}
+
+details:hover {
+  filter: drop-shadow(5px 5px 4px var(--primary-color));
+}
+
+details > summary {
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
+details > p {
+  padding: 5px 10px 10px 20px;
+  color: #ddd;
+  font-size: 1.1em;
+}
