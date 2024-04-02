@@ -63,6 +63,10 @@ function apkafe_scripts_styles()
 			}
 		}
 	}
+
+	if(in_category('top-list')) {
+		wp_enqueue_style('review', get_stylesheet_directory_uri() . '/css/review.css');
+	}
 }
 
 add_action('wp_enqueue_scripts', 'apkafe_scripts_styles');

@@ -21,11 +21,8 @@ $feature_highlight = $product->get_meta('feature_highlight');
 $pros = $product->get_meta('pros');
 $cons = $product->get_meta('cons');
 $how_to = $product->get_meta('how_to');
-$compare_text = $product->get_meta('compare_text');
+$compare = $product->get_meta('compare');
 $faq = $product->get_meta('faq');
-// $get_data = $product->get_data();
-
-// var_dump($get_data);
 
 ?>
 
@@ -94,7 +91,7 @@ $faq = $product->get_meta('faq');
             <div class="clear mb20"></div>
 
             <div class="fs-19">
-                <span><?php echo $compare_text ?></span>
+                <span><?php echo $compare ?></span>
             </div>
             <div class="clear mb20"></div>
 
