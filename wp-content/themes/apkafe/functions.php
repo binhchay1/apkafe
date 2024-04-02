@@ -64,7 +64,7 @@ function apkafe_scripts_styles()
 		}
 	}
 
-	if(in_category('top-list')) {
+	if (in_category('top-list')) {
 		wp_enqueue_style('review', get_stylesheet_directory_uri() . '/css/review.css');
 	}
 }
@@ -206,7 +206,6 @@ function handle_content()
 		$content .= $getList . '</div></div>';
 		$content .= '<div class="clear"></div><div class="cnt_box">';
 		$content .= $default;
-		$content .= '<div id="FAQs" class="art_box faq_box"><h2 class="ac">FAQs</h2></div>';
 		$content .= '</div>';
 
 		$content .= '
@@ -325,3 +324,79 @@ function ia_get_attachment_id_from_url($attachment_url = '')
 	}
 	return $attachment_id;
 }
+
+function create_meta_boxes()
+{
+	add_meta_box('faq-meta-boxes', 'FAQ', 'faq_meta_boxes_callback', 'post');
+}
+add_action('add_meta_boxes', 'create_meta_boxes');
+
+function faq_meta_boxes_callback($post)
+{
+	$get_post_meta = get_post_meta($post->ID, '_faq');
+	wp_nonce_field('faq_meta_boxes_save', 'faq_meta_nonce');
+	echo
+	'<style type="text/css">
+		#table-faq input {
+			width: 600px;
+		}
+	</style>';
+	echo
+	'
+	<button type="button" id="add-faq">Thêm câu hỏi</button>
+	<table id="table-faq">
+		<tr>
+	  		<th>Question</th>
+	  		<th>Answer</th>
+		</tr>';
+	if (empty($get_post_meta)) {
+		echo
+		'<tr>
+			<td><input type="text" name="question[]" placeholder="Nhập câu hỏi" /></td>
+			<td><input type="text" name="answer[]" placeholder="Nhập trả lời" /></td>
+	  	</tr>';
+	} else {
+		$get_post_meta = json_decode($get_post_meta[0], true);
+		foreach ($get_post_meta as $key => $value) {
+			echo
+			'<tr>
+				<td><input type="text" name="question[]" placeholder="Nhập câu hỏi" value="' . $key . '"/></td>
+				<td><input type="text" name="answer[]" placeholder="Nhập trả lời" value="' . $value . '"/></td>
+	  		</tr>';
+		}
+	}
+
+	echo '</table>';
+
+	echo '
+	<script type="text/javascript">
+		jQuery("#add-faq").click(function(){
+			jQuery("#table-faq").append(`<tr><td><input type="text" name="question[]" placeholder="Nhập câu hỏi" /></td><td><input type="text" name="answer[]" placeholder="Nhập trả lời" /></td></tr>`);
+		});
+	</script>';
+}
+
+function faq_meta_boxes_save($post_id)
+{
+	$_nonce = $_POST['faq_meta_nonce'];
+	if (!isset($_nonce)) {
+		return;
+	}
+
+	if (!wp_verify_nonce($_nonce, 'faq_meta_boxes_save')) {
+		return;
+	}
+	
+	$question = $_POST['question'];
+	$answer = $_POST['answer'];
+	$arrInput = [];
+
+
+	foreach ($question as $key => $value) {
+		$arrInput[$value] = $answer[$key];
+	}
+
+	$faq = json_encode($arrInput);
+	update_post_meta($post_id, '_faq', $faq);
+}
+add_action('save_post', 'faq_meta_boxes_save');
