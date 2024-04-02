@@ -1,7 +1,13 @@
 <?php
 get_header();
 $getCategory = get_the_category(get_the_ID());
-$slug = $getCategory[0]->slug;
+$slug = 'default';
+foreach ($getCategory as $category) {
+	if ($category->slug == 'top-list') {
+		$slug = $category->slug;
+	}
+}
+
 ?>
 
 <div class="container">
