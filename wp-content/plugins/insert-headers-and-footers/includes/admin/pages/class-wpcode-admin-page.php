@@ -653,23 +653,25 @@ abstract class WPCode_Admin_Page {
 	 *
 	 * @param string $label The label of the field.
 	 * @param string $input The field input (html).
-	 * @param string $id The id for the row.
+	 * @param string $input_id The id of the input that we use in the label.
 	 * @param string $show_if_id Conditional logic id, automatically hide if the value of the field with this id doesn't match show if value.
 	 * @param string $show_if_value Value(s) to match against, can be comma-separated string for multiple values.
 	 * @param string $description Description to show under the input.
 	 * @param bool   $is_pro Whether this is a pro feature and the pro indicator should be shown next to the label.
+	 * $param string $id The id of the metabox row.
 	 *
 	 * @return void
 	 */
-	public function metabox_row( $label, $input, $id = '', $show_if_id = '', $show_if_value = '', $description = '', $is_pro = false ) {
+	public function metabox_row( $label, $input, $input_id = '', $show_if_id = '', $show_if_value = '', $description = '', $is_pro = false, $id = '' ) {
 		$show_if_rules = '';
 		if ( ! empty( $show_if_id ) ) {
-			$show_if_rules = sprintf( 'data-show-if-id="%1$s" data-show-if-value="%2$s"', $show_if_id, $show_if_value );
+			$show_if_rules = sprintf( 'data-show-if-id="%1$s" data-show-if-value="%2$s"', esc_attr( $show_if_id ), esc_attr( $show_if_value ) );
 		}
+		$id = ! empty( $id ) ? 'id="' . esc_attr( $id ) . '"' : '';
 		?>
-		<div class="wpcode-metabox-form-row" <?php echo $show_if_rules; ?>>
+		<div class="wpcode-metabox-form-row" <?php echo $show_if_rules; ?> <?php echo $id; ?>>
 			<div class="wpcode-metabox-form-row-label">
-				<label for="<?php echo esc_attr( $id ); ?>">
+				<label for="<?php echo esc_attr( $input_id ); ?>">
 					<?php echo esc_html( $label ); ?>
 					<?php
 					if ( $is_pro ) {

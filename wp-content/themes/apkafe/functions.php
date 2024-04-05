@@ -386,7 +386,7 @@ function faq_meta_boxes_save($post_id)
 	if (!wp_verify_nonce($_nonce, 'faq_meta_boxes_save')) {
 		return;
 	}
-	
+
 	$question = $_POST['question'];
 	$answer = $_POST['answer'];
 	$arrInput = [];

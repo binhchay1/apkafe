@@ -2,10 +2,10 @@
 /**
  * Plugin Name: WPCode Lite
  * Plugin URI: https://www.wpcode.com/
- * Version: 2.1.10
+ * Version: 2.1.11
  * Requires at least: 4.6
  * Requires PHP: 5.5
- * Tested up to: 6.4
+ * Tested up to: 6.5
  * Author: WPCode
  * Author URI: https://www.wpcode.com/
  * Description: Easily add code snippets in WordPress. Insert scripts to the header and footer, add PHP code snippets with conditional logic, insert ads pixel, custom content, and more.

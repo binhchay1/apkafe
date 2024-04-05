@@ -27,8 +27,6 @@ class WPCode_Review {
 
 	/**
 	 * Add admin notices as needed for reviews.
-	 *
-	 *
 	 */
 	public function review_request() {
 
@@ -40,6 +38,15 @@ class WPCode_Review {
 		// Don't show notice to headers & footers mode users.
 		if ( wpcode()->settings->get_option( 'headers_footers_mode' ) ) {
 			return;
+		}
+
+		// If this is a multisite and the user is a super admin let's see if they already dismissed this on other sites.
+		if ( is_multisite() && is_super_admin() ) {
+			$dismissed = get_user_meta( get_current_user_id(), 'wpcode_dismissed_review_request', true );
+
+			if ( ! empty( $dismissed ) ) {
+				return;
+			}
 		}
 
 		// Verify that we can do a check for reviews.

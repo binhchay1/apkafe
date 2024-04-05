@@ -172,7 +172,7 @@ class WPCode_Importer_Code_Snippets extends WPCode_Importer_Type {
 		}
 
 		if ( '-css' === substr( $snippet->scope, - 4 ) ) {
-			return 'html';
+			return 'css';
 		}
 
 		if ( '-js' === substr( $snippet->scope, - 3 ) ) {

@@ -37,10 +37,8 @@ class WPCode_Admin_Bar_Info_Lite extends WPCode_Admin_Bar_Info {
 					'id'     => 'wpcode-page-scripts-upgrade',
 					'parent' => 'wpcode-page-scripts',
 					'meta'   => array(
-						'class'  => 'wpcode-admin-bar-upsell-submenu',
-						'target' => '_blank',
-						'rel'    => 'noopener noreferrer',
-						'html'   => $this->get_upsell_markup(),
+						'class' => 'wpcode-admin-bar-upsell-submenu',
+						'html'  => $this->get_upsell_markup(),
 					),
 				)
 			);

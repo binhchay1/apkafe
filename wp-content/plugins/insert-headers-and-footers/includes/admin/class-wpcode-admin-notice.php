@@ -333,6 +333,11 @@ class WPCode_Notice {
 
 		update_option( 'wpcode_admin_notices', $notices, true );
 
+		// If this is a multisite, and they dismissed the review-request let's keep a note in the user's meta.
+		if ( is_multisite() && is_super_admin() && 'review_request' === $id ) {
+			update_user_meta( get_current_user_id(), 'wpcode_dismissed_review_request', true );
+		}
+
 		return $notices;
 	}
 

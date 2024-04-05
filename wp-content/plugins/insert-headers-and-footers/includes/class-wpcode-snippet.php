@@ -214,6 +214,20 @@ class WPCode_Snippet {
 	public $attributes;
 
 	/**
+	 * Whether this snippet should be loaded as a file, specific to CSS and JS snippets.
+	 *
+	 * @var bool
+	 */
+	public $load_as_file;
+
+	/**
+	 * The last time the snippet was modified.
+	 *
+	 * @var int
+	 */
+	public $modified;
+
+	/**
 	 * Constructor. If the post passed is not the correct post type
 	 * the object will clear itself.
 	 *
@@ -565,6 +579,9 @@ class WPCode_Snippet {
 		if ( isset( $this->shortcode_attributes ) ) {
 			update_post_meta( $this->id, '_wpcode_shortcode_attributes', $this->shortcode_attributes );
 		}
+		if ( isset( $this->load_as_file ) && in_array( $this->get_code_type(), array( 'css', 'js' ), true ) ) {
+			update_post_meta( $this->id, '_wpcode_load_as_file', $this->load_as_file );
+		}
 
 		/**
 		 * Run extra logic after the snippet is saved.
@@ -892,6 +909,12 @@ class WPCode_Snippet {
 	 * @return array
 	 */
 	public function get_data_for_caching() {
+		$modified  = 0;
+		$post_data = $this->get_post_data();
+		if ( ! is_null( $post_data ) ) {
+			$modified = $post_data->post_modified;
+		}
+
 		return array(
 			'id'                   => $this->get_id(),
 			'title'                => $this->get_title(),
@@ -905,6 +928,7 @@ class WPCode_Snippet {
 			'priority'             => $this->get_priority(),
 			'location_extra'       => $this->get_location_extra(),
 			'shortcode_attributes' => $this->get_shortcode_attributes(),
+			'modified'             => $modified,
 		);
 	}
 
@@ -1123,5 +1147,21 @@ class WPCode_Snippet {
 	 */
 	public function get_edit_url() {
 		return admin_url( 'admin.php?page=wpcode-snippet-manager&snippet_id=' . absint( $this->get_id() ) );
+	}
+
+	/**
+	 * Whether this snippet should be load as a file (for JS or CSS snippets, returns false for other code types).
+	 *
+	 * @return bool
+	 */
+	public function get_load_as_file() {
+		if ( ! isset( $this->load_as_file ) ) {
+			$this->load_as_file = in_array( $this->get_code_type(), array( 'js', 'css' ), true );
+			if ( $this->load_as_file ) {
+				$this->load_as_file = boolval( get_post_meta( $this->get_id(), '_wpcode_load_as_file', true ) );
+			}
+		}
+
+		return $this->load_as_file;
 	}
 }
