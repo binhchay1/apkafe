@@ -50,7 +50,8 @@ function review_slide_meta_boxes_callback($post)
             }
             echo '</ul>
             <input type="hidden" name="review_slide[]" value="' . implode(',', $listImage) . '" />
-            <button type="button" class="button binhchay-upload-button" onclick="addMediaHandle(jQuery(this))">Add Images</button>';
+            <button type="button" class="button binhchay-upload-button" onclick="addMediaHandle(jQuery(this))">Add Images</button>
+            <button type="button" class="button binhchay-delete-slide" onclick="deleteSlideHandle(jQuery(this))">Delete slide</button>';
             echo "</div><script>
             jQuery('.binhchay-gallery').sortable({
                 items: 'li',

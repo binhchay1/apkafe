@@ -27,3 +27,10 @@
   border: 1px solid slategrey;
   padding: 20px;
 }
+
+.binhchay-delete-slide {
+  background-color: red !important;
+  color: white !important;
+  border: none !important;
+  margin-left: 20px !important;
+}

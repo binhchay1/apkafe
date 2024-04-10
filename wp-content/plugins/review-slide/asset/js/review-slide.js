@@ -63,6 +63,11 @@ function removeMediaHandler(thisBtn) {
     container.parent().sortable('refresh');
 }
 
+function deleteSlideHandle(thisBtn) {
+    const divParent = thisBtn.parent();
+    divParent.remove();
+}
+
 jQuery('#btn-create-review-slide').click(function (event) {
     event.preventDefault();
 
