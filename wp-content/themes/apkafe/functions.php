@@ -402,37 +402,3 @@ function faq_meta_boxes_save($post_id)
 	}
 }
 add_action('save_post', 'faq_meta_boxes_save');
-
-function create_meta_boxes_review_slide()
-{
-	add_meta_box('review-slide-meta-boxes', 'Review Slide', 'review_slide_meta_boxes_callback', 'post');
-}
-add_action('add_meta_boxes', 'create_meta_boxes_review_slide');
-
-function review_slide_meta_boxes_callback($post)
-{
-	wp_enqueue_script('jquery-ui', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js');
-	wp_enqueue_script('review-slide', get_template_directory_uri() . '/js/review-slide.js');
-
-	$get_post_meta = get_post_meta($post->ID, '_review_slide');
-	wp_nonce_field('review_slide_meta_boxes_save', 'review_slide_meta_nonce');
-	echo '<ul class="misha-gallery">';
-	$image_ids = ($image_ids = get_post_meta($post->ID, '_review_slide', true)) ? $image_ids : array();
-
-	// var_dump($image_ids);
-
-	foreach ($image_ids as $i => &$id) {
-		$url = wp_get_attachment_image_url($id, array(80, 80));
-		if ($url) {
-			echo `<li data-id="<?php echo $id ?>">
-				<span style="background-image:url('<?php echo $url ?>')"></span>
-				<a href="#" class="misha-gallery-remove">&times;</a>
-			</li>`;
-		} else {
-			unset($image_ids[$i]);
-		}
-	}
-	echo '</ul>
-	<input type="hidden" name="my_field" value="' . join(',', $image_ids) . '" />
-	<button type="button" class="button misha-upload-button">Add Images</button>';
-}

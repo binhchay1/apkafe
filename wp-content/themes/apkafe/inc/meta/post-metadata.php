@@ -21,29 +21,7 @@ if ( ! function_exists( 'ia_post_meta_boxes' ) ){
 			  'desc'        => __('Select "Default" to use settings in Theme Options','leafcolor'),
 			  'std'         => '',
 			  'type'        => 'radio-image',
-			  'class'       => '',
-			  'choices'     => array(
-				  array(
-					'value'       => '',
-					'label'       => 'Default',
-					'src'         => $theme_uri.'/images/options/layout-default.png'
-				  ),
-				  array(
-					'value'       => 'right',
-					'label'       => 'Sidebar Right',
-					'src'         => $theme_uri.'/images/options/layout-right.png'
-				  ),
-				  array(
-					'value'       => 'left',
-					'label'       => 'Sidebar Left',
-					'src'         => $theme_uri.'/images/options/layout-left.png'
-				  ),
-				  array(
-					'value'       => 'full',
-					'label'       => 'Hidden',
-					'src'         => $theme_uri.'/images/options/layout-full.png'
-				  ),
-			   )
+			  'class'       => ''
 			),
 			array(
 			  'id'          => 'content_padding',

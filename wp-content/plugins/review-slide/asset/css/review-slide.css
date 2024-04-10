@@ -1,0 +1,29 @@
+.binhchay-gallery img {
+  width: 150px;
+  height: 150px;
+}
+
+.binhchay-gallery {
+  display: flex;
+}
+
+.binhchay-li-item {
+  margin-left: 10px;
+}
+
+.binhchay-gallery-remove {
+  background-color: red;
+  color: white;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  padding: 5px 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.group-review-slide {
+  margin-top: 20px;
+  border: 1px solid slategrey;
+  padding: 20px;
+}
