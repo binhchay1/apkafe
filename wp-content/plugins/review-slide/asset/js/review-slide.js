@@ -30,8 +30,6 @@ function addMediaHandle(thisBtn) {
             hiddenFieldValueSplit.push(image.id);
         });
 
-        console.log(hiddenFieldValueSplit)
-
         jQuery('.binhchay-gallery').sortable('refresh');
         hiddenField.val(hiddenFieldValueSplit.join());
 
@@ -67,35 +65,3 @@ function deleteSlideHandle(thisBtn) {
     const divParent = thisBtn.parent();
     divParent.remove();
 }
-
-jQuery('#btn-create-review-slide').click(function (event) {
-    event.preventDefault();
-
-    jQuery('#area-review-slide').append(`<div class="group-review-slide">
-    <label>Title</label>
-    <input type="text" name="title_slide[]"/>
-    <ul class="binhchay-gallery"></ul>
-    <input type="hidden" name="review_slide[]" value="" />
-    <button type="button" class="button binhchay-upload-button" onclick="addMediaHandle(jQuery(this))">Add Images</button>
-    </div>
-    <script>
-    jQuery('.binhchay-gallery').sortable({
-        items: 'li',
-        cursor: '-webkit-grabbing',
-        scrollSensitivity: 40,
-    
-        stop: function (event, ui) {
-            ui.item.removeAttr('style');
-    
-            let sort = new Array()
-            const container = jQuery(this)
-    
-            container.find('li').each(function (index) {
-                sort.push(jQuery(this).attr('data-id'));
-            });
-    
-            container.parent().next().val(sort.join());
-        }
-    });
-    </script>`);
-});

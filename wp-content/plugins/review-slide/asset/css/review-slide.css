@@ -5,10 +5,12 @@
 
 .binhchay-gallery {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .binhchay-li-item {
-  margin-left: 10px;
+  margin-left: 15px;
+  margin-top: 15px;
 }
 
 .binhchay-gallery-remove {
@@ -33,4 +35,25 @@
   color: white !important;
   border: none !important;
   margin-left: 20px !important;
+}
+
+.btn-create-review-slide {
+  background-color: aqua;
+  color: black;
+}
+
+#TB_ajaxContent {
+  width: 900px !important;
+}
+
+#TB_window {
+  width: 900px !important;
+}
+
+#title-slide {
+  margin-left: 20px
+}
+
+#short-code-slide {
+  margin-left: 20px
 }
