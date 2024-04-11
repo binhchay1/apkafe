@@ -367,9 +367,11 @@ class Review_Slide_Admin
         }
 
         $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "review_slide WHERE id = '" . $data['id'] . "'");
+        $getLast = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "review_slide ORDER BY id DESC");
+        $short_code = (int) $getLast[0]->id + 1;
 
         $query = 'INSERT INTO ' . $wpdb->prefix . 'review_slide (`title`, `images`, `short_code`, `description`) VALUES ';
-        $query .= ' ("' . $result[0]->title . '", "' . $result[0]->images . '", "' . $result[0]->short_code . '", "' . $result[0]->description . '")';
+        $query .= ' ("' . $result[0]->title . '", "' . $result[0]->images . '", "' . $short_code . '", "' . $result[0]->description . '")';
         $wpdb->query($query);
 
         echo 'success';

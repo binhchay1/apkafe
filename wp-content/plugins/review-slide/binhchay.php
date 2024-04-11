@@ -91,6 +91,7 @@ foreach ($result as $shortcode) {
                     animation-direction: reverse;
                 }</style>';
         $content .= '<h2 class="text-2xl font-bold text-center mb-4">' . $shortcode->title . '</h2>';
+        $content .= '<p class="text-center mb-4">' . $shortcode->description . '</p>';
         $content .= '<div class="overflow-hidden w-full relative">';
         $content .= '<div class="w-10 md:w-40 h-full left-0 top-0 absolute z-20 bg-gradient-to-r from-white to-transparent"></div>';
         $content .= '<div class="flex ' . $classes . ' -mx-4">';
