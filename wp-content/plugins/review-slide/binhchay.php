@@ -51,15 +51,8 @@ add_action('shutdown', function () {
 global $wpdb;
 $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "review_slide");
 foreach ($result as $shortcode) {
-    add_shortcode('review-slide-shortcode-' . $shortcode->short_code, function () use ($shortcode) {
+    add_shortcode('review-slide-shortcode-' . $shortcode->short_code, function () use ($shortcode, $content) {
 
-        $content = '';
-        $content .= '<section class="w-11/12 lg:w-10/12 mx-auto mb-10 lg:mb-16 relative">';
-        $content .= '<h2 class="sm:text-3xl text-2xl font-bold flex justify-center items-center mb-6 lg:mb-8"><span>Reviews</span></h2>
-                <p class="italic text-witty-black-700 text-center mx-auto mb-4 lg:mb-8 prose">
-                The following reviews were gathered from other, a business software review platform where users can rate and review
-                different software products.
-                </p>';
         $listImg = explode(',', $shortcode->images);
         $countImg = count($listImg);
         $width = $countImg * 7;

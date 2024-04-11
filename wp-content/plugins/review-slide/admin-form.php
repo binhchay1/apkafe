@@ -98,11 +98,7 @@ class Review_Slide_Admin
                     "nonce": "' . $nonce . '"
                 }, 
                 function(response) {
-                    if(response == "failed") {
-                        
-                    } else {
-                        window.location.href = window.location.href;
-                    }
+                    location.reload();
                 });
             });
 
@@ -121,11 +117,7 @@ class Review_Slide_Admin
                     "nonce": "' . $nonce . '"
                 }, 
                 function(response) {
-                    if(response == "failed") {
-                        
-                    } else {
-                        window.location.href = window.location.href;
-                    }
+                    location.reload();
                 });
             });
             </script>';
@@ -151,7 +143,8 @@ class Review_Slide_Admin
             echo '</ul>
                 <input id="review-slide-' . $code->id . '" type="hidden" value="' . $code->images . '" />
                 <button type="button" class="button binhchay-upload-button" onclick="addMediaHandle(jQuery(this))">Add Images</button>';
-            echo "</div>";
+            echo '</div>';
+            echo '</div>';
             echo '</div>';
             echo "<script>
             jQuery('.binhchay-gallery').sortable({
@@ -201,11 +194,7 @@ class Review_Slide_Admin
                     "nonce": "' . $nonce . '"
                 }, 
                 function(response) {
-                    if(response == "failed") {
-                        
-                    } else {
-                        window.location.href = window.location.href;
-                    }
+                    location.reload();
                 });
             });
             </script>';
@@ -275,7 +264,7 @@ class Review_Slide_Admin
                     if(response == "failed") {
                         
                     } else {
-                        window.location.href = window.location.href;
+                        location.reload();
                     }
                 });
             });
