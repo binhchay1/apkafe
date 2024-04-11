@@ -6,6 +6,7 @@
 .binhchay-gallery {
   display: flex;
   flex-wrap: wrap;
+  padding: 0;
 }
 
 .binhchay-li-item {

@@ -39,6 +39,18 @@ function create_review_slide_table()
         add_option('my_db_version', $db_version);
         dbDelta($sql);
     }
+
+    $listColumnsUpdate = ['description'];
+
+    foreach ($listColumnsUpdate as $column) {
+        $row = $wpdb->get_results("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = " . $db_table_name . " AND column_name = '" . $column . "'");
+
+        if (empty($row)) {
+            if ($column == 'description') {
+                $wpdb->query("ALTER TABLE " . $db_table_name . " ADD " . $column . " TEXT NULL");
+            }
+        }
+    }
 }
 
 register_activation_hook(__FILE__, 'create_review_slide_table');

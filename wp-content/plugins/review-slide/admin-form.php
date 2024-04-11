@@ -50,15 +50,16 @@ class Review_Slide_Admin
         add_thickbox();
 
         echo '
-        <div class="container">
+        <div class="container-fluid" style="width: 88% !important">
             <div class="d-flex justify-content-center">
             <span><h2>Review slide <small>with short code</small></h2></span>
             <span class="d-flex" style="align-items: center; margin-left: 10px"><a href="#TB_inline?width=1200&height=550&inlineId=add-slide" class="btn btn-success thickbox">Add slide</a></span>
             </div>
             <ul class="responsive-table">
                 <li class="table-header">
-                    <div class="col col-4">Title</div>
+                    <div class="col col-1">Title</div>
                     <div class="col col-3">Images</div>
+                    <div class="col col-3">Description</div>
                     <div class="col col-4">Short code</div>
                     <div class="col col-3">Action</div>
                 </li>';
@@ -66,7 +67,7 @@ class Review_Slide_Admin
             $images = explode(',', $code->images);
             echo '
             <li class="table-row">
-                <div class="col col-4">' . $code->title . '</div>
+                <div class="col col-1">' . $code->title . '</div>
                 <div class="col col-3">';
             foreach ($images as $id) {
                 $url = wp_get_attachment_image_url($id, array(50, 50));
@@ -74,7 +75,10 @@ class Review_Slide_Admin
             }
 
             echo '</div>
-                <div class="col col-4">review-slide-shortcode-' . $code->short_code . '</div>
+                <div class="col col-3" style="overflow: hidden;">' . $code->description . '</div>
+                <div class="col col-4"><span id="">[review-slide-shortcode-' . $code->short_code . ']</span>
+                <button class="btn" id="copy-shortcode-' . $code->id . '" style="padding: 0 !important; margin-bottom: 7px;"><img style="width: 15px !important" src="' . plugins_url('review-slide/asset/images/icon-copy.jpg') . '"></button>
+                </div>
                 <div class="col col-3">
                     <a href="#TB_inline?height=550&inlineId=edit-slide-' . $code->id . '" class="btn btn-warning thickbox">Edit</a>
                     <button data-id="' . $code->id . '" type="button" class="btn btn-primary" style="margin-left: 10px" id="duplicate-review-slide-' . $code->id . '">Duplicate</button>
@@ -120,6 +124,17 @@ class Review_Slide_Admin
                     location.reload();
                 });
             });
+
+            jQuery("#copy-shortcode-' . $code->id . '").on("click", function(e) {
+                e.preventDefault();
+                jQuery(this).prev().text();
+                var temp = jQuery("<input>");
+                jQuery("body").append(temp);
+                temp.val(jQuery(this).prev().text()).select();
+                document.execCommand("copy");
+                temp.remove();
+            });
+
             </script>';
 
             echo '<div id="edit-slide-' . $code->id . '" style="display:none;">';
@@ -128,10 +143,12 @@ class Review_Slide_Admin
             echo '<div id="area-review-slide">';
             echo '<div class="group-review-slide">';
             echo '<label>Title</label>';
-            echo '<input id="title-slide-' . $code->id . '" type="text" value="' . $code->title . '" style="margin-left: 15px;" required/>';
+            echo '<input id="title-slide-' . $code->id . '" type="text" value="' . $code->title . '" style="margin-left: 15px;" />';
             echo '<input id="id-slide-' . $code->id . '" type="hidden" value="' . $code->id . '"/>';
             echo '<label style="margin-left: 20px">Short code</label>';
-            echo '<input id="short-code-slide-' . $code->id . '" type="text" value="' . $code->short_code . '" required style="margin-left: 15px;"/> <small>Prefix: review-slide-shortcode-</small>';
+            echo '<input id="short-code-slide-' . $code->id . '" type="text" value="' . $code->short_code . '" style="margin-left: 15px;" disabled /> <small>Prefix: review-slide-shortcode-</small>';
+            echo '<label>Description</label>';
+            echo '<input style="margin-top: 20px; margin-left: 20px; width: 85%" id="description-slide-' . $code->id . '" type="text" value="' . $code->description . '"/>';
             echo '<ul class="binhchay-gallery">';
             foreach ($images as $id) {
                 $url = wp_get_attachment_image_url($id, array(50, 50));
@@ -174,9 +191,10 @@ class Review_Slide_Admin
                 let title_slide = jQuery("#title-slide-' . $code->id . '").val();
                 let review_slide = jQuery("#review-slide-' . $code->id . '").val();
                 let short_code_slide = jQuery("#short-code-slide-' . $code->id . '").val();
+                let description_slide = jQuery("#description-slide-' . $code->id . '").val();
                 let id = jQuery("#id-slide-' . $code->id . '").val();
 
-                if(title_slide == "" || review_slide == "" || short_code_slide == "") {
+                if(title_slide == "" || review_slide == "" || short_code_slide == "" || description_slide == "") {
                     return;
                 }
 
@@ -184,6 +202,7 @@ class Review_Slide_Admin
                     "title_slide": title_slide,
                     "review_slide": review_slide,
                     "short_code_slide": short_code_slide,
+                    "description_slide": description_slide,
                     "id": id
                 };
 
@@ -202,6 +221,10 @@ class Review_Slide_Admin
 
         echo '</ul></div>';
 
+        $auto_short_code = 1;
+        if (end($listShortCode)) {
+            $auto_short_code = end($listShortCode)->id;
+        }
         echo '<div id="add-slide" style="display:none;">';
         echo '<h4>Add slide</h4>';
         echo '<button type="button" class="btn btn-create-review-slide" id="btn-create-review-slide">Create slide</button>';
@@ -210,7 +233,9 @@ class Review_Slide_Admin
         echo '<label>Title</label>';
         echo '<input id="title-slide" type="text" required/>';
         echo '<label style="margin-left: 20px">Short code</label>';
-        echo '<input id="short-code-slide" type="text" required/> <small>Prefix: review-slide-shortcode-</small>';
+        echo '<input id="short-code-slide" type="text" value="' . $auto_short_code . '" disabled/> <small>Prefix: review-slide-shortcode-</small>';
+        echo '<label>Description</label>';
+        echo '<input style="margin-top: 20px; margin-left: 20px; width: 85%" id="description-slide" type="text" required/>';
         echo '<ul class="binhchay-gallery">';
         echo '</ul>
                 <input id="review-slide" type="hidden" />
@@ -243,6 +268,7 @@ class Review_Slide_Admin
                 let title_slide = jQuery("#title-slide").val();
                 let review_slide = jQuery("#review-slide").val();
                 let short_code_slide = jQuery("#short-code-slide").val();
+                let description_slide = jQuery("#description-slide").val();
 
                 if(title_slide == "" || review_slide == "" || short_code_slide == "") {
                     return;
@@ -251,7 +277,8 @@ class Review_Slide_Admin
                 let data = {
                     "title_slide": title_slide,
                     "review_slide": review_slide,
-                    "short_code_slide": short_code_slide
+                    "short_code_slide": short_code_slide,
+                    "description_slide": description_slide
                 };
 
                 jQuery.post("' . $link . '", 
@@ -289,13 +316,13 @@ class Review_Slide_Admin
         global $wpdb;
 
         $data = $_REQUEST['data'];
-        if (empty($data['title_slide']) || empty($data['review_slide']) || empty($data['short_code_slide'])) {
+        if (empty($data['title_slide']) || empty($data['review_slide']) || empty($data['short_code_slide']) || empty($data['description_slide'])) {
             echo 'failed';
             die;
         }
 
-        $query = 'INSERT INTO ' . $wpdb->prefix . 'review_slide (`title`, `images`, `short_code`) VALUES ';
-        $query .= ' ("' . $data['title_slide'] . '", "' . $data['review_slide'] . '", "' . $data['short_code_slide'] . '")';
+        $query = 'INSERT INTO ' . $wpdb->prefix . 'review_slide (`title`, `images`, `short_code`, `description`) VALUES ';
+        $query .= ' ("' . $data['title_slide'] . '", "' . $data['review_slide'] . '", "' . $data['short_code_slide'] . '", "' . $data['description_slide'] . '")';
         $wpdb->query($query);
 
         echo 'success';
@@ -311,13 +338,13 @@ class Review_Slide_Admin
 
         $data = $_REQUEST['data'];
 
-        if (empty($data['title_slide']) || empty($data['review_slide']) || empty($data['short_code_slide'])) {
+        if (empty($data['title_slide']) || empty($data['review_slide']) || empty($data['short_code_slide']) || empty($data['description_slide'])) {
             echo 'failed';
             die;
         }
 
         $query = 'UPDATE ' . $wpdb->prefix . 'review_slide';
-        $query .= ' SET `title` = "' . $data['title_slide'] . '", `images` = "' . $data['review_slide'] . '", `short_code` = "' . $data['short_code_slide'] . '"';
+        $query .= ' SET `title` = "' . $data['title_slide'] . '", `images` = "' . $data['review_slide'] . '", `short_code` = "' . $data['short_code_slide'] . '", `description` = "' . $data['description_slide'] . '"';
         $query .= ' WHERE id = "' . $data['id'] . '"';
         $wpdb->query($query);
 
@@ -341,8 +368,8 @@ class Review_Slide_Admin
 
         $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "review_slide WHERE id = '" . $data['id'] . "'");
 
-        $query = 'INSERT INTO ' . $wpdb->prefix . 'review_slide (`title`, `images`, `short_code`) VALUES ';
-        $query .= ' ("' . $result[0]->title . '", "' . $result[0]->images . '", "' . $result[0]->short_code . '")';
+        $query = 'INSERT INTO ' . $wpdb->prefix . 'review_slide (`title`, `images`, `short_code`, `description`) VALUES ';
+        $query .= ' ("' . $result[0]->title . '", "' . $result[0]->images . '", "' . $result[0]->short_code . '", "' . $result[0]->description . '")';
         $wpdb->query($query);
 
         echo 'success';
