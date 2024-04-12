@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 6.5.x - Development - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-07-15 15:29:09+0000\n"
+"PO-Revision-Date: 2024-04-12 07:22:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,8 +37,16 @@ msgctxt "default GMT offset or timezone string"
 msgid "0"
 msgstr "0"
 
+#: wp-admin/menu.php:310 wp-admin/plugins.php:757 wp-admin/network/menu.php:106
+msgid "Add New Plugin"
+msgstr "Cài plugin"
+
+#: wp-admin/update-core.php:1043
+msgid "Restore Plugin or Theme"
+msgstr "Khôi phục Plugin hoặc Giao diện"
+
 #. translators: %s: Version number.
-#: wp-admin/about.php:228
+#: wp-admin/about.php:259
 msgid "Learn more about WordPress %s"
 msgstr "Tìm hiểu thêm về WordPress %s"
 
@@ -617,7 +625,7 @@ msgstr "Thêm mật khẩu ứng dụng mới"
 msgid "Required to create an Application Password, but not to update the user."
 msgstr "Bắt buộc phải tạo Mật khẩu ứng dụng, nhưng không được cập nhật người dùng."
 
-#: wp-admin/about.php:298
+#: wp-admin/about.php:329
 msgid "Go to Updates"
 msgstr "Tới Cập nhật"
 
@@ -1807,6 +1815,10 @@ msgstr "<a href=\"https://developer.wordpress.org/themes/basics/template-tags/\"
 msgid "<a href=\"https://developer.wordpress.org/themes/\">Documentation on Theme Development</a>"
 msgstr "<a href=\"https://developer.wordpress.org/themes/\">Tài liệu hướng dẫn phát triển giao diện</a>"
 
+#: wp-admin/comment.php:71 wp-admin/edit-comments.php:229
+msgid "<a href=\"https://wordpress.org/documentation/article/comments-screen/\">Documentation on Comments</a>"
+msgstr "<a href=\"https://wordpress.org/documentation/article/comments-screen/\">Tài liệu về chức năng Bình luận</a>"
+
 #. translators: %s: UTC time.
 #: wp-admin/options-general.php:389
 msgid "Universal time is %s."
@@ -1891,6 +1903,14 @@ msgstr "Kết nối HTTPS giúp duyệt web an toàn. Nhiều dịch vụ hiện
 #: wp-admin/includes/class-wp-site-health.php:330
 msgid "Your version of WordPress (%s) is up to date"
 msgstr "Phiên bản WordPress của bạn (%s) là bản mới nhất"
+
+#: wp-admin/includes/meta-boxes.php:796
+msgid "https://wordpress.org/documentation/article/introduction-to-blogging/#comments"
+msgstr "https://wordpress.org/documentation/article/introduction-to-blogging/#comments"
+
+#: wp-admin/includes/dashboard.php:2133
+msgid "https://wordpress.org/documentation/article/block-themes/"
+msgstr "https://wordpress.org/documentation/article/block-themes/"
 
 #. translators: Post date information. %s: Date on which the post is to be
 #. published.
@@ -4974,7 +4994,7 @@ msgstr "Gói mở rộng được cài đặt vào WordPress để mở rộng c
 #. translators: Hidden accessibility text.
 #: wp-admin/includes/plugin-install.php:326
 msgid "Search plugins by:"
-msgstr "Tìm gói mở rộng bởi:"
+msgstr "Tìm plugin tạo bởi:"
 
 #: wp-admin/includes/import.php:227
 msgid "Import posts, pages, comments, custom fields, categories, and tags from a WordPress export file."
@@ -5127,7 +5147,7 @@ msgstr "%s giao diện cập nhật thành công."
 #. translators: %s: Number of plugins.
 #: wp-admin/includes/update.php:945
 msgid "%s plugins successfully updated."
-msgstr "%s gói mở rộng cập nhật thành công."
+msgstr "%s plugin đã cập nhật thành công."
 
 #. translators: %s: Number of themes.
 #: wp-admin/includes/update.php:938
@@ -5137,7 +5157,7 @@ msgstr "%s giao diện cập nhật thành công."
 #. translators: %s: Number of plugins.
 #: wp-admin/includes/update.php:933
 msgid "%s plugin successfully updated."
-msgstr "%s gói mở rộng cập nhật thành công."
+msgstr "%s plugin cập nhật thành công."
 
 #. translators: 1: URL to WordPress release notes, 2: New WordPress version.
 #: wp-admin/includes/update.php:339
@@ -5269,7 +5289,7 @@ msgstr "Gói mở rộng đã không thể xóa."
 #: wp-admin/includes/ajax-actions.php:4626 wp-admin/update.php:29
 #: wp-admin/update.php:57 wp-admin/update.php:80
 msgid "Sorry, you are not allowed to update plugins for this site."
-msgstr "Xin lỗi, bạn không có quyền cập nhật các gói mở rộng cho website này."
+msgstr "Xin lỗi, bạn không có quyền cập nhật các plugin cho website."
 
 #: wp-admin/includes/ajax-actions.php:4428
 msgid "Theme could not be deleted."
@@ -5631,7 +5651,7 @@ msgstr "Chỉnh sửa nhanh &#8220;%s&#8221;"
 
 #: wp-admin/includes/class-wp-plugins-list-table.php:423
 msgid "Search for plugins in the WordPress Plugin Directory."
-msgstr "Tìm kiếm Gói mở rộng tại Thư viện Plugin của WordPress."
+msgstr "Tìm kiếm Plugin tại Thư viện Plugin của WordPress."
 
 #. translators: %s: Attachment title.
 #. translators: %s: Post title.
@@ -5748,7 +5768,7 @@ msgid "(Currently set to: %s)"
 msgstr "(Hiện tại: %s)"
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:328
+#: wp-admin/about.php:359
 msgid "<strong>Version %s</strong> addressed one security issue."
 msgstr "<strong>Phiên bản %s</strong> đã giải quyết vấn đề bảo mật."
 
@@ -5760,15 +5780,15 @@ msgstr "https://en.gravatar.com/"
 msgid "Profile Picture"
 msgstr "Ảnh đại diện"
 
-#: wp-admin/about.php:325
+#: wp-admin/about.php:356
 msgid "Maintenance and Security Releases"
 msgstr "Các phiên bản bảo trì và bảo mật"
 
-#: wp-admin/about.php:322
+#: wp-admin/about.php:353
 msgid "Security Releases"
 msgstr "Các phiên bản bảo mật"
 
-#: wp-admin/about.php:319
+#: wp-admin/about.php:350
 msgid "Maintenance Releases"
 msgstr "Các phiên bản bảo trì"
 
@@ -6000,7 +6020,7 @@ msgstr "Chỉnh sửa permalink"
 #. translators: 1: Site Wide Only: true, 2: Network: true
 #: wp-admin/includes/plugin.php:99
 msgid "The %1$s plugin header is deprecated. Use %2$s instead."
-msgstr "%1$s tiêu đề gói mở rộng không phù hợp. Sử dụng %2$s để thay thế."
+msgstr "%1$s tiêu đề plugin đã ngừng hỗ trợ. Sử dụng %2$s để thay thế."
 
 #. translators: Hidden accessibility text.
 #: wp-admin/includes/class-wp-site-health.php:1067
@@ -6469,7 +6489,7 @@ msgstr "nhập định dạng ngày tháng cần hiển thị vào trường sau
 
 #: wp-admin/includes/class-plugin-upgrader.php:66
 msgid "Plugins updated successfully."
-msgstr "Gói mở rộng được kích hoạt thành công."
+msgstr "Plugin được kích hoạt thành công."
 
 #. translators: %s: Number of millions.
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:709
@@ -6823,7 +6843,7 @@ msgstr "Tìm plugins"
 
 #: wp-admin/plugin-install.php:51
 msgid "Add Plugins"
-msgstr "Thêm gói mở rộng"
+msgstr "Cài plugin"
 
 #. translators: 1: WPLANG, 2: wp-config.php
 #: wp-admin/options-general.php:334
@@ -7080,7 +7100,7 @@ msgstr "<strong>Giao diện và Thành phần mở rộng</strong> &mdash; Để
 
 #: wp-admin/update-core.php:990
 msgid "On this screen, you can update to the latest version of WordPress, as well as update your themes, plugins, and translations from the WordPress.org repositories."
-msgstr "Tại màn hình này, bạn có thể nâng cấp WordPress lên phiên bản mới nhất, cũng như cập nhật các giao diện và gói mở rộng từ kho ứng dụng của WordPress.org."
+msgstr "Tại màn hình này, bạn có thể nâng cấp WordPress lên phiên bản mới nhất, cũng như cập nhật các giao diện và plugin từ Thư viện của WordPress.org."
 
 #. translators: 1: Number of megabytes, 2: Percentage.
 #: wp-admin/includes/dashboard.php:1690
@@ -7460,7 +7480,7 @@ msgstr "Dung lượng ổ cứng còn trống không đủ để hoàn thành vi
 #. translators: %s: Plugin name.
 #: wp-admin/includes/class-wp-automatic-updater.php:433
 msgid "Updating plugin: %s"
-msgstr "Đang cập nhật gói mở rộng: %s"
+msgstr "Đang cập nhật plugin: %s"
 
 #. translators: %s: Theme name.
 #: wp-admin/includes/class-wp-automatic-updater.php:421
@@ -7728,6 +7748,11 @@ msgstr "Lặp lại Mật khẩu mới"
 #: wp-admin/includes/nav-menu.php:1251
 msgid "Add menu items from the column on the left."
 msgstr "Thêm các mục từ cột bên trái."
+
+#. translators: %s: https://wordpress.org/plugins
+#: wp-admin/includes/plugin-install.php:413
+msgid "Plugins extend and expand the functionality of WordPress. You may install plugins in the <a href=\"%s\">WordPress Plugin Directory</a> right from here, or upload a plugin in .zip format by clicking the button at the top of this page."
+msgstr "Các plugin giúp thêm chức năng cho WordPress. Bạn có thể cài đặt các plugin từ <a href=\"%s\">Thư viện Plugin trên WordPress</a>, hoặc tải lên plugin có định dạng .zip bằng cách bấm vào nút ở đầu trang này."
 
 #. Plugin URI of the plugin
 #: hello.php
@@ -8136,7 +8161,7 @@ msgstr "Sau khi bạn đã hoàn thành, bấm vào &#8220;Thực hiện tiến 
 
 #: wp-admin/plugin-install.php:115
 msgid "If you want to install a plugin that you&#8217;ve downloaded elsewhere, click the Upload Plugin button above the plugins list. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin."
-msgstr "Nếu bạn muốn cài đặt một gói mở rộng bạn tải về từ nơi khác, bấm vào liên kết Tải Lên ở phía trên bên trái. Bạn sẽ được yêu cầu chọn tập tin định dạng .zip để tải lên, sau khi việc tải lên hoàn tất, bạn có thể kích hoạt gói mở rộng mới."
+msgstr "Nếu bạn muốn cài đặt một plugin tải về từ nơi khác, bấm vào liên kết Tải plugin lên ở phía trên bên trái. Bạn sẽ được yêu cầu chọn file định dạng .zip để tải lên, sau khi hoàn tất, bạn có thể kích hoạt plugin."
 
 #: wp-admin/plugin-install.php:114
 msgid "You can also browse a user&#8217;s favorite plugins, by using the Favorites link above the plugins list and entering their WordPress.org username."
@@ -8177,7 +8202,7 @@ msgstr "Tên tài khoản WordPress.org của bạn:"
 
 #: wp-admin/includes/plugin-install.php:379
 msgid "If you have marked plugins as favorites on WordPress.org, you can browse them here."
-msgstr "Nếu bạn đã đánh dấu yêu thích các gói mở rộng tính năng trên WordPress.org, bạn có thể xem những gói đó ở đây."
+msgstr "Nếu bạn đã đánh dấu yêu thích các plugin trên WordPress.org, bạn có thể xem những plugin đó ở đây."
 
 #: wp-admin/includes/dashboard.php:2079
 msgid "Welcome to WordPress!"
@@ -8799,7 +8824,7 @@ msgstr "Mô tả"
 
 #: wp-admin/includes/plugin-install.php:717
 msgid "Plugin Homepage &#187;"
-msgstr "Trang Chủ Của Gói Mở Rộng &#187;"
+msgstr "Trang của plugin &#187;"
 
 #: wp-admin/export.php:52
 msgid "You can export a file of your site&#8217;s content in order to import it into another installation or platform. The export file will be an XML file format called WXR. Posts, pages, comments, custom fields, categories, and tags can be included. You can choose for the WXR file to include only certain posts or pages by setting the dropdown filters to limit the export by category, author, date range by month, or publishing status."
@@ -8870,45 +8895,47 @@ msgstr "Nhập địa chỉ email người sử dụng trong mạng lưới đ�
 msgid "Show Toolbar when viewing site"
 msgstr "Hiển thị thanh công cụ khi xem trang"
 
+#. translators: %s: HelpHub URL.
 #. translators: %s: Documentation URL.
-#: wp-admin/about.php:351
+#: wp-admin/about.php:63 wp-admin/about.php:382
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr "Để biết thêm thông tin, xem <a href=\"%s\">thông báo phát hành</a>."
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs. More
 #. than one security issue.
-#: wp-admin/about.php:345
+#: wp-admin/about.php:376
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] "<strong>Phiên bản %1$s</strong> đã giải quyết một số vấn đề về bảo mật và sửa %2$s lỗi."
 
+#. translators: 1: WordPress version number, 2: Plural number of bugs.
 #. translators: 1: WordPress version number, 2: Plural number of bugs. Singular
 #. security issue.
-#: wp-admin/about.php:339
+#: wp-admin/about.php:51 wp-admin/about.php:370
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] "<strong>Phiên bản %1$s</strong> đã giải quyết một vấn đề về bảo mật và sửa %2$s lỗi."
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs.
-#: wp-admin/about.php:333
+#: wp-admin/about.php:364
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] "<strong>Phiên bản %1$s</strong> đã giải quyết %2$s lỗi."
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:330
+#: wp-admin/about.php:361
 msgid "<strong>Version %s</strong> addressed some security issues."
 msgstr "<strong>Phiên bản %1$s</strong> đã giải quyết một số vấn đề về bảo mật."
 
-#: wp-admin/about.php:324
+#: wp-admin/about.php:46 wp-admin/about.php:355
 msgid "Maintenance and Security Release"
 msgstr "Các bản Bảo Mật và Bảo Trì"
 
-#: wp-admin/about.php:321
+#: wp-admin/about.php:352
 msgid "Security Release"
 msgstr "Các bản Bảo Mật"
 
-#: wp-admin/about.php:318
+#: wp-admin/about.php:349
 msgid "Maintenance Release"
 msgstr "Các bản Bảo Trì"
 
@@ -9169,11 +9196,11 @@ msgstr "<strong>Biên Tập</strong> đưa bạn tới màn hình soạn thảo 
 msgid "Because this is a multisite installation, you may add accounts that already exist on the Network by specifying a username or email, and defining a role. For more options, such as specifying a password, you have to be a Network Administrator and use the hover link under an existing user&#8217;s name to Edit the user profile under Network Admin > All Users."
 msgstr "Do đây là một bản cài đặt đa mạng, bạn có thể thêm tài khoản đã tồn tại trong Mạng Lưới bằng cách chỉ định tên truy cập hoặc địa chỉ thư điện tử, và lựa chọn một vai trò người dùng. Để có thêm lựa chọn, như chỉ định mật khẩu, bạn phải là Quản Trị Viên Mạng Lưới và sử dụng liên kết hiển thị phía dưới tên người dùng khi di chuột lên để Biên Tập hồ sơ người dùng tại Quản Trị Mạng Lưới > Tất Cả Người Dùng."
 
-#: wp-admin/about.php:305
+#: wp-admin/about.php:336
 msgid "Go to Dashboard &rarr; Home"
 msgstr "Đến Bảng tin &rarr; Trang chủ"
 
-#: wp-admin/about.php:298
+#: wp-admin/about.php:329
 msgid "Go to Dashboard &rarr; Updates"
 msgstr "Tới Bảng tin &rarr; Cập nhật"
 
@@ -10418,7 +10445,7 @@ msgstr "Bạn có thể tùy biến cách hiển thị của màn hình này the
 
 #: wp-admin/plugins.php:793
 msgid "Search Installed Plugins"
-msgstr "Tìm gói mở rộng đã cài đặt"
+msgstr "Tìm các plugin đã cài đặt"
 
 #: wp-admin/nav-menus.php:830
 msgid "Your theme supports one menu. Select which menu you would like to use."
@@ -10789,7 +10816,7 @@ msgstr "Cập nhật %s không thành công."
 #. plugins being updated.
 #: wp-admin/includes/class-bulk-plugin-upgrader-skin.php:33
 msgid "Updating Plugin %1$s (%2$d/%3$d)"
-msgstr "Đang cập nhật gói mở rộng %1$s (%2$d/%3$d)"
+msgstr "Đang cập nhật plugin %1$s (%2$d/%3$d)"
 
 #: wp-admin/includes/upgrade.php:117
 msgid "The password you chose during installation."
@@ -10829,7 +10856,7 @@ msgstr "Cập nhật WordPress"
 msgid "Edit menu item"
 msgstr "Sửa mục trong menu"
 
-#: wp-admin/about.php:305 wp-admin/includes/network.php:166
+#: wp-admin/about.php:336 wp-admin/includes/network.php:166
 msgid "Go to Dashboard"
 msgstr "Xem bảng tin"
 
@@ -10910,7 +10937,7 @@ msgstr "Database class tùy chỉnh."
 
 #: wp-admin/includes/plugin.php:504
 msgid "Advanced caching plugin."
-msgstr "Gói mở rộng lưu trữ nâng cao."
+msgstr "Plugin nâng cao về caching."
 
 #: wp-admin/includes/file.php:938
 msgid "File is empty. Please upload something more substantial."
@@ -11188,7 +11215,7 @@ msgstr "Tải plugin lên"
 #. translators: %s: Plugin name and version.
 #: wp-admin/update.php:135
 msgid "Installing Plugin: %s"
-msgstr "Đang cài đặt gói mở rộng: %s"
+msgstr "Đang cài đặt plugin %s"
 
 #: wp-admin/update.php:96
 msgid "Plugin failed to reactivate due to a fatal error."
@@ -11323,7 +11350,7 @@ msgstr "Plugin không được kích hoạt do một <strong>lỗi không sửa 
 
 #: wp-admin/plugins.php:565
 msgid "Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here."
-msgstr "Các plugin có vai trò mở rộng các chưc năng của WordPress. Một khi plugin được cài đặt, bạn có thể kích hoạt hoặc vô hiệu hóa chúng tại đây."
+msgstr "Các plugin giúp thêm chức năng cho WordPress. Một khi plugin đã được cài đặt, bạn có thể bật hoặc tắt ở đây."
 
 #: wp-admin/plugins.php:419
 msgid "No, return me to the plugin list"
@@ -11829,6 +11856,10 @@ msgstr "Hồ sơ"
 msgid "Comments %s"
 msgstr "Phản hồi %s"
 
+#: wp-admin/menu.php:67
+msgid "Library"
+msgstr "Thư viện"
+
 #: wp-admin/media-new.php:43
 msgid "Upload New Media"
 msgstr "Tải lên"
@@ -12271,7 +12302,7 @@ msgstr "Đường dẫn đến plugin không hợp lệ"
 #. translators: %s: Comma-separated list of plugin filenames.
 #: wp-admin/includes/plugin.php:1053
 msgid "Could not fully remove the plugins %s."
-msgstr "Không thể xoá hoàn toàn gói mở rộng %s."
+msgstr "Không thể xoá hoàn toàn plugin %s."
 
 #: wp-admin/includes/plugin.php:888
 msgid "One of the plugins is invalid."
@@ -12279,7 +12310,7 @@ msgstr "Một trong các plugin không hợp lệ."
 
 #: wp-admin/includes/plugin.php:737
 msgid "The plugin generated unexpected output."
-msgstr "Gói mở rộng trả về dữ liệu không đúng."
+msgstr "Plugin tạo ra dữ liệu hiển thị không mong muốn."
 
 #: wp-admin/includes/plugin-install.php:845
 msgid "<strong>Warning:</strong> This plugin <strong>has not been tested</strong> with your current version of WordPress."
@@ -13170,7 +13201,7 @@ msgstr "Plugin đã được cài đặt thành công."
 
 #: wp-admin/includes/class-plugin-upgrader.php:79
 msgid "Installing the plugin&#8230;"
-msgstr "Đang cài đặt gói mở rộng&#8230;"
+msgstr "Đang cài đặt plugin&#8230;"
 
 #: wp-admin/includes/class-plugin-upgrader.php:78
 #: wp-admin/includes/class-theme-upgrader.php:76
