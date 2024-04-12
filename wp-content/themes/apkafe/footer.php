@@ -46,6 +46,8 @@
 <?php if (ot_get_option('custom_script_footer') != '') {
     echo ot_get_option('custom_script_footer');
 } ?>
+
+<?php wp_footer() ?>
 </body>
 
 </html>

@@ -50,7 +50,6 @@ if (in_array('_faq', $getMeta)) {
 }
 ?>
 
-<link rel="stylesheet" type="text/css" href="/css/review.css" />
 <div class="main_bar">
     <div id="article" class="widget">
         <div class="widget_head">
