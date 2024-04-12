@@ -62,6 +62,7 @@ add_action('shutdown', function () {
 
 global $wpdb;
 $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "review_slide");
+$content = '';
 foreach ($result as $shortcode) {
     add_shortcode('review-slide-shortcode-' . $shortcode->short_code, function () use ($shortcode, $content) {
 
