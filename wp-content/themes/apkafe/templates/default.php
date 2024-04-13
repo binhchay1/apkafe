@@ -107,16 +107,19 @@ if (array_key_exists('h1_sapo', $getMeta)) {
                 <div id="faq">
                     <h1>FAQ</h1>
                     <ul>
-                        <?php if (isset($faq[0])) { ?>
+                        <?php if (isset($faq) && !empty($faq)) { ?>
                             <?php $faq = json_decode($faq[0], true) ?>
                             <?php if ($faq != null) { ?>
                                 <?php foreach ($faq as $key => $value) { ?>
-                                    <li>
-                                        <input type="checkbox" checked>
-                                        <i></i>
-                                        <h2><?php echo $key ?></h2>
-                                        <p><?php echo $value ?></p>
-                                    </li>
+                                    <?php if ($key == '' || $value == '') {
+                                        continue; ?>
+                                        <li>
+                                            <input type="checkbox" checked>
+                                            <i></i>
+                                            <h2><?php echo $key ?></h2>
+                                            <p><?php echo $value ?></p>
+                                        </li>
+                                    <?php } ?>
                                 <?php } ?>
                             <?php } ?>
                         <?php } ?>
