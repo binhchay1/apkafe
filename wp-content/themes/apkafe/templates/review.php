@@ -104,14 +104,14 @@ $faq = $product->get_meta('_faq');
                                 <?php if ($faq != null) { ?>
                                     <?php foreach ($faq as $key => $value) { ?>
                                         <?php if ($key == '' || $value == '') {
-                                            continue; ?>
-                                            <li>
-                                                <input type="checkbox" checked>
-                                                <i></i>
-                                                <h2><?php echo $key ?></h2>
-                                                <p><?php echo $value ?></p>
-                                            </li>
-                                        <?php } ?>
+                                        continue; 
+										}?>
+                                        <li>
+                                            <input type="checkbox" checked>
+                                            <i></i>
+                                            <h2><?php echo $key ?></h2>
+                                            <p><?php echo $value ?></p>
+                                        </li>
                                     <?php } ?>
                                 <?php } ?>
                             <?php } ?>

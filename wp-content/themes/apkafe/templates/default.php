@@ -112,14 +112,14 @@ if (array_key_exists('h1_sapo', $getMeta)) {
                             <?php if ($faq != null) { ?>
                                 <?php foreach ($faq as $key => $value) { ?>
                                     <?php if ($key == '' || $value == '') {
-                                        continue; ?>
+                                        continue; 
+										}?>
                                         <li>
                                             <input type="checkbox" checked>
                                             <i></i>
                                             <h2><?php echo $key ?></h2>
                                             <p><?php echo $value ?></p>
                                         </li>
-                                    <?php } ?>
                                 <?php } ?>
                             <?php } ?>
                         <?php } ?>
