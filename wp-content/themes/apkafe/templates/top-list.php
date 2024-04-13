@@ -3,33 +3,33 @@ $getMeta = get_post_meta(get_the_ID());
 $category = get_the_category(get_the_ID());
 $related = get_posts(array('category__in' => wp_get_post_categories($post->ID), 'numberposts' => 6, 'post__not_in' => array($post->ID)));
 
-$h1_top_list = '';
-$sapo_top_list = '';
-$outer_top_list = '';
-$review = '';
-$summary = '';
-$feature = '';
-$pros = '';
-$cons = '';
-$faq = '';
+$h1_top_list = [];
+$sapo_top_list = [];
+$outer_top_list = [];
+$review = [];
+$summary = [];
+$feature = [];
+$pros = [];
+$cons = [];
+$faq = [];
 
-if (in_array('h1_top_list', $getMeta)) {
+if (array_key_exists('h1_top_list', $getMeta)) {
     $h1_top_list = $getMeta['h1_top_list'];
 }
 
-if (in_array('sapo_top_list', $getMeta)) {
+if (array_key_exists('sapo_top_list', $getMeta)) {
     $sapo_top_list = $getMeta['sapo_top_list'];
 }
 
-if (in_array('outer_top_list', $getMeta)) {
+if (array_key_exists('outer_top_list', $getMeta)) {
     $outer_top_list = $getMeta['outer_top_list'];
 }
 
-if (in_array('review', $getMeta)) {
+if (array_key_exists('review', $getMeta)) {
     $review = $getMeta['review'];
 }
 
-if (in_array('summary', $getMeta)) {
+if (array_key_exists('summary', $getMeta)) {
     $summary = $getMeta['summary'];
 }
 
@@ -37,15 +37,15 @@ if (in_array('feature', $getMeta)) {
     $feature = $getMeta['feature'];
 }
 
-if (in_array('pros', $getMeta)) {
+if (array_key_exists('pros', $getMeta)) {
     $pros = $getMeta['pros'];
 }
 
-if (in_array('cons', $getMeta)) {
+if (array_key_exists('cons', $getMeta)) {
     $cons = $getMeta['cons'];
 }
 
-if (in_array('_faq', $getMeta)) {
+if (array_key_exists('_faq', $getMeta)) {
     $faq = $getMeta['_faq'];
 }
 ?>
@@ -63,14 +63,14 @@ if (in_array('_faq', $getMeta)) {
             <div class="clear"></div>
         </div>
         <div class="pad10">
-            <h1 class="main_head ac"><?php echo $h1_top_list ?></h1>
+            <h1 class="main_head ac"><?php !empty($h1_top_list) ? print_r($h1_top_list[0]) : '' ?></h1>
 
             <div class="sapo-review">
-                <p><?php echo $sapo_top_list ?></p>
+                <p><?php !empty($sapo_top_list) ? print_r($sapo_top_list[0]) : '' ?></p>
             </div>
 
             <div>
-                <?php echo $outer_top_list ?>
+                <?php !empty($outer_top_list) ? print_r($outer_top_list[0]) : '' ?>
             </div>
             <div class="clear mb20"></div>
 
@@ -84,17 +84,17 @@ if (in_array('_faq', $getMeta)) {
             <div class="clear mb20"></div>
 
             <div class="feature-highlight">
-                <?php echo $review ?>
+                <?php !empty($review) ? print_r($review[0]) : '' ?>
             </div>
             <div class="clear mb20"></div>
 
             <div class="feature-highlight">
-                <?php echo $summary ?>
+                <?php !empty($summary) ? print_r($summary[0]) : '' ?>
             </div>
             <div class="clear mb20"></div>
 
             <div class="feature-highlight">
-                <?php echo $feature ?>
+                <?php !empty($feature) ? print_r($feature[0]) : '' ?>
             </div>
             <div class="clear mb20"></div>
 
@@ -105,25 +105,31 @@ if (in_array('_faq', $getMeta)) {
                         <th>Cons</th>
                     </tr>
                     <tr>
-                        <td><?php echo $pros ?></td>
-                        <td><?php echo $cons ?></td>
+                        <td><?php !empty($pros) ? print_r($pros[0]) : '' ?></td>
+                        <td><?php !empty($cons) ? print_r($cons[0]) : '' ?></td>
                     </tr>
                 </table>
             </div>
             <div class="clear mb20"></div>
 
             <div class="fs-19">
-                <div class="accordion">
-                    <h4>FAQ</h4>
-                    <?php $faq = json_decode($faq, true) ?>
-                    <?php if ($faq != null) { ?>
-                        <?php foreach ($faq as $key => $value) { ?>
-                            <details>
-                                <summary><?php $key ?></summary>
-                                <p><?php $value ?></p>
-                            </details>
+                <div id="faq">
+                    <h1>FAQ</h1>
+                    <ul>
+                        <?php if (isset($faq[0])) { ?>
+                            <?php $faq = json_decode($faq[0], true) ?>
+                            <?php if ($faq != null) { ?>
+                                <?php foreach ($faq as $key => $value) { ?>
+                                    <li>
+                                        <input type="checkbox" checked>
+                                        <i></i>
+                                        <h2><?php echo $key ?></h2>
+                                        <p><?php echo $value ?></p>
+                                    </li>
+                                <?php } ?>
+                            <?php } ?>
                         <?php } ?>
-                    <?php } ?>
+                    </ul>
                 </div>
             </div>
             <div class="clear mb20"></div>

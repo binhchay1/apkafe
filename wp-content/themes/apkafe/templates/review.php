@@ -96,15 +96,23 @@ $faq = $product->get_meta('_faq');
 
             <?php if (isset($faq) && !empty($faq)) { ?>
                 <div class="fs-19">
-                    <div class="accordion">
-                        <h4>FAQ</h4>
-                        <?php $faq = json_decode($faq, true) ?>
-                        <?php foreach ($faq as $key => $value) { ?>
-                            <details>
-                                <summary><?php $key ?></summary>
-                                <p><?php $value ?></p>
-                            </details>
-                        <?php } ?>
+                    <div id="faq">
+                        <h1>FAQ</h1>
+                        <ul>
+                            <?php if (isset($faq[0])) { ?>
+                                <?php $faq = json_decode($faq[0], true) ?>
+                                <?php if ($faq != null) { ?>
+                                    <?php foreach ($faq as $key => $value) { ?>
+                                        <li>
+                                            <input type="checkbox" checked>
+                                            <i></i>
+                                            <h2><?php echo $key ?></h2>
+                                            <p><?php echo $value ?></p>
+                                        </li>
+                                    <?php } ?>
+                                <?php } ?>
+                            <?php } ?>
+                        </ul>
                     </div>
                 </div>
                 <div class="clear mb20"></div>

@@ -3,31 +3,41 @@ $getMeta = get_post_meta(get_the_ID());
 $category = get_the_category(get_the_ID());
 $related = get_posts(array('category__in' => wp_get_post_categories($post->ID), 'numberposts' => 6, 'post__not_in' => array($post->ID)));
 
-$appName = '';
-$publisher = '';
-$size = '';
-$version = '';
-$mod_infor = '';
+$size = [];
+$version = [];
+$mod_infor = [];
+$faq = [];
+$sapo = [];
+$h1_sapo = [];
 
-if (in_array('app_name', $getMeta)) {
-    $appName = $getMeta['app_name'];
-}
-
-if (in_array('publisher', $getMeta)) {
-    $publisher = $getMeta['publisher'];
-}
-
-if (in_array('size', $getMeta)) {
+if (array_key_exists('size', $getMeta)) {
     $size = $getMeta['size'];
 }
 
-if (in_array('latest_version', $getMeta)) {
+if (array_key_exists('latest_version', $getMeta)) {
     $version = $getMeta['latest_version'];
 }
 
-if (in_array('mod_infor', $getMeta)) {
+if (array_key_exists('mod_infor', $getMeta)) {
     $mod_infor = $getMeta['mod_infor'];
 }
+
+if (array_key_exists('size', $getMeta)) {
+    $size = $getMeta['size'];
+}
+
+if (array_key_exists('_faq', $getMeta)) {
+    $faq = $getMeta['_faq'];
+}
+
+if (array_key_exists('sapo_default', $getMeta)) {
+    $sapo = $getMeta['sapo_default'];
+}
+
+if (array_key_exists('h1_sapo', $getMeta)) {
+    $h1_sapo = $getMeta['h1_sapo'];
+}
+
 ?>
 
 <div class="main_bar">
@@ -43,7 +53,10 @@ if (in_array('mod_infor', $getMeta)) {
             <div class="clear"></div>
         </div>
         <div class="pad10">
-            <h1 class="main_head ac"><?php the_title() ?></h1>
+            <h1 class="main_head ac"><?php !empty($h1_sapo) ? print_r($h1_sapo[0]) : '' ?></h1>
+            <div class="sapo-review-default">
+                <p><?php !empty($sapo) ? print_r($sapo[0]) : '' ?></p>
+            </div>
             <div class="main_box_wrap">
                 <div class="main_img_wrap">
                     <img id="primaryimage" width="180" height="180" src="<?php echo get_the_post_thumbnail_url(get_the_ID()) ?>" alt="<?php echo the_title() ?>">
@@ -52,28 +65,20 @@ if (in_array('mod_infor', $getMeta)) {
                     <table class="spec_table">
                         <tbody>
                             <tr>
-                                <th>App Name</th>
-                                <td><?php echo $appName ?></td>
-                            </tr>
-                            <tr>
-                                <th>Publisher</th>
-                                <td><?php echo $publisher ?></td>
-                            </tr>
-                            <tr>
                                 <th>Genre</th>
                                 <td><a href="<?php echo get_category_link($category) ?>"><?php echo $category[0]->name ?></a></td>
                             </tr>
                             <tr>
                                 <th>Size</th>
-                                <td><?php echo $size ?> MB</td>
+                                <td><?php !empty($size) ? print_r($size[0]) : '' ?> MB</td>
                             </tr>
                             <tr>
                                 <th>Latest Version</th>
-                                <td><?php echo $version ?></td>
+                                <td><?php !empty($version) ? print_r($version[0]) : '' ?></td>
                             </tr>
                             <tr>
                                 <th>MOD Info</th>
-                                <td><?php echo $mod_infor ?></td>
+                                <td><?php !empty($mod_infor) ? print_r($mod_infor[0]) : '' ?></td>
                             </tr>
                             <tr>
                                 <th>Update</th>
@@ -97,6 +102,28 @@ if (in_array('mod_infor', $getMeta)) {
                 <div id="apk_rate_show_wrap"><span class="rating" id="apk_rate_wrap" data-default-rating="3.92" style="display: inline-block;"><span class="star active"><span class="star active"><span class="star active"><span class="star half active"><span class="star"></span></span></span></span></span></span> <span>3.92 / 5 ( 12 votes )</span></div>
                 <div id="apk_rate_msg_wrap"></div>
             </div>
+
+            <div class="fs-19">
+                <div id="faq">
+                    <h1>FAQ</h1>
+                    <ul>
+                        <?php if (isset($faq[0])) { ?>
+                            <?php $faq = json_decode($faq[0], true) ?>
+                            <?php if ($faq != null) { ?>
+                                <?php foreach ($faq as $key => $value) { ?>
+                                    <li>
+                                        <input type="checkbox" checked>
+                                        <i></i>
+                                        <h2><?php echo $key ?></h2>
+                                        <p><?php echo $value ?></p>
+                                    </li>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+
             <div class="social_sharer">
                 <a id="share_facebook" onclick="share_this('share_facebook')" class="facebook" data-url="<?php echo get_permalink(get_the_ID()) ?>" data-title="Line Apk 13.21.0 Download For Android Latest Version" href="javascript:void(0)"><i class="fa fa-facebook"></i> <span>Facebook</span></a>
                 <a id="share_twitter" onclick="share_this('share_twitter')" class="twitter" data-url="<?php echo get_permalink(get_the_ID()) ?>" data-title="Line Apk 13.21.0 Download For Android Latest Version" href="javascript:void(0)"><i class="fa fa-twitter"></i><span>Twitter</span></a>
