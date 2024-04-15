@@ -1,0 +1,153 @@
+.sp-easy-accordion * {
+    box-sizing: border-box;
+}
+
+#poststuff .eap_section_title,
+.editor-styles-wrapper h2.eap_section_title,
+.eap_section_title {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 30px
+}
+
+.post-type-sp_easy_accordion #poststuff .eap_section_title {
+    padding: 0;
+}
+
+.sp-easy-accordion a:focus,
+.sp-easy-accordion a {
+    box-shadow: none;
+    outline: none;
+}
+
+.sp-easy-accordion .ea-header:before {
+    content: none;
+}
+
+.sp-easy-accordion .ea-header {
+    margin-top: 0
+}
+
+.sp-easy-accordion .sp-ea-single .ea-header {
+    margin-bottom: 0
+}
+
+.sp-easy-accordion .sp-ea-single .ea-header a {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: #444;
+    font-size: 20px;
+    line-height: 28px;
+    box-shadow: none;
+}
+
+.sp-easy-accordion .ea-card {
+    border: none;
+    border-radius: 0;
+}
+
+.sp-easy-accordion .sp-ea-single .ea-header a .ea-expand-icon {
+    color: #444;
+    margin-right: 10px;
+    text-align: center;
+    line-height: inherit;
+    font-size: 20px;
+}
+
+.sp-easy-accordion .sp-ea-single {
+    background: #efefef;
+    margin-bottom: 10px;
+    border-radius: 3px
+}
+
+.sp-easy-accordion .sp-ea-single .ea-body {
+    padding: 15px;
+    background: #fff;
+    border-top: none
+}
+
+.sp-easy-accordion .sp-ea-single .ea-body p:last-of-type {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.sp-easy-accordion>.sp-ea-single>.sp-collapse>.ea-body p:first-of-type {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.sp-ea-one.sp-easy-accordion .sp-ea-single .ea-body {
+    padding: 15px;
+    overflow: hidden;
+}
+
+.sp-ea-one.sp-easy-accordion .sp-ea-single .ea-header a {
+    padding: 15px;
+    color: #444;
+}
+
+.sp-ea-one.sp-easy-accordion .sp-ea-single .ea-header a .ea-expand-icon {
+    color: #444;
+    font-size: 20px;
+}
+
+.ea-youtube-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+
+.ea-youtube-wrapper iframe,
+.ea-youtube-wrapper object,
+.ea-youtube-wrapper embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.spcollapse:not(.show) {
+    display: none
+}
+
+.spcollapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition-property: height;
+    transition-duration: 0.5s;
+    transition-timing-function: linear
+}
+
+.wp-easy-accordion-iframe-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%;
+    /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
+/* Then style the iframe to fit in the container div with full height and width */
+.wp-ea-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.sp-easy-accordion .ea-body .wp-audio-shortcode,
+.sp-easy-accordion video {
+    max-width: 100%;
+}
+
+.sp-easy-accordion audio {
+    width: 100%;
+}

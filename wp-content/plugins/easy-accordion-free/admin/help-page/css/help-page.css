@@ -1,0 +1,665 @@
+/*----------------------------------------*/
+/*  Easy Accordion free help page base css
+/*----------------------------------------*/
+.spea__help.lite-to-pro-page *,
+.spea__help.start-page *,
+.spea__help.about-page *,
+.spea__help.header * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.sp-easy-accordion-help a {
+  text-decoration: none;
+}
+.sp-easy-accordion-help a:focus {
+  box-shadow: none;
+  outline: none;
+}
+.sp-easy-accordion-help {
+  margin-left: -20px;
+}
+.sp-easy-accordion-help .spea-container {
+  padding: 0 15px;
+  max-width: 1240px;
+  margin: auto;
+}
+/*----------------------------------------*/
+/*  Block css
+/*----------------------------------------*/
+.sp-easy-accordion-help .spea-section-title{
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 28px;
+  color: #1D2327;
+}
+.sp-easy-accordion-help .spea-small-paragraph,
+.sp-easy-accordion-help .spea-normal-paragraph{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #3C434A;
+  display: inline-block;
+}
+.sp-easy-accordion-help .spea-small-paragraph {
+  font-size: 12px;
+}
+.sp-easy-accordion-help .spea-section-subtitle {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+}
+.sp-easy-accordion-help .spea-big-btn-border,
+.sp-easy-accordion-help .spea-small-btn,
+.sp-easy-accordion-help .spea-big-btn,
+.sp-easy-accordion-help .spea-medium-btn{
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #6D6B6A;
+  border: 1px solid #6D6B6A;
+  display: inline-block;
+  padding: 14px 24px;
+  border-radius: 4px;
+  transition: .3s;
+}
+.sp-easy-accordion-help .spea-small-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+.sp-easy-accordion-help .spea-arrow-btn {
+  padding: 14px 18px 14px 24px;
+}
+.sp-easy-accordion-help .spea-big-btn:hover {
+  background-color: #009758;
+}
+.sp-easy-accordion-help .spea-big-btn{
+  padding: 16px 30px;
+  background-color: #05AA64;
+  color: #fff;
+  border-color: transparent;
+}
+.sp-easy-accordion-help .spea-big-btn-border {
+  padding: 16px 30px;
+}
+.sp-easy-accordion-help .spea-info-box-title{
+  font-size: 18px;
+  font-weight: 600;
+  color: #1D2327;
+}
+.sp-easy-accordion-help .spea-close-icon,
+.sp-easy-accordion-help .spea-check-icon{
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.sp-easy-accordion-help .spea-close-icon {
+  background-image: url(../img/close-icon.svg);
+}
+.sp-easy-accordion-help .spea-check-icon {
+  background-image: url(../img/check-icon.svg);
+}
+.sp-easy-accordion-help i.spea-hot,
+.sp-easy-accordion-help i.spea-new {
+  display: inline-block;
+  background: #14ae5c;
+  color: #fff;
+  font-size: 10px;
+  text-align: center;
+  border-radius: 40px;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0 8px;
+  margin-left: 5px;
+}
+.sp-easy-accordion-help i.spea-hot {
+  background-color: #EC2121;
+}
+/*----------------------------------------*/
+/*  Header style
+/*----------------------------------------*/
+.sp-easy-accordion-help .spea-header-area-top {
+  text-align: center;
+  background-color: #05AA64;
+  padding: 16px 0;
+}
+.sp-easy-accordion-help .spea-header-area-top a,
+.sp-easy-accordion-help .spea-header-area-top p {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.sp-easy-accordion-help .spea-header-area-top a{
+  text-decoration: underline;
+}
+.sp-easy-accordion-help .spea-header-area {
+  position: relative;
+  background-color: #ffffff;
+  padding: 45px 0 25px;
+}
+.sp-easy-accordion-help .spea-header-logo {
+  position: relative;
+  display: inline-block;
+}
+.sp-easy-accordion-help .spea-header-logo span{
+  position: absolute;
+  top: -15px;
+  right: -55px;
+  display: inline-block;
+  color: #4B4744;
+  background: #FEECEB;
+  padding: 3px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 4px;
+  border: 1px solid #FDB19B;
+}
+.sp-easy-accordion-help .spea-header-logo-shape {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+}
+.sp-easy-accordion-help .spea-header-nav {
+  background-color: #fff;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06);
+}
+.sp-easy-accordion-help .spea-header-nav-menu ul{
+  display: flex;
+}
+.sp-easy-accordion-help .spea-header-nav-menu ul li{
+  list-style: none;
+}
+.sp-easy-accordion-help .spea-header-nav-menu ul li a{
+  padding: 14px 18px;
+  display: inline-block;
+  color: #4B4744;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: .3px;
+}
+.sp-easy-accordion-help .spea-header-nav-menu ul li a.active {
+  background-color: #f0f0f1;
+  border-color: #FF5F42;
+  color: #FF5F42;
+  position: relative;
+  z-index: 2;
+}
+.sp-easy-accordion-help .spea-header-nav-menu ul li a:focus{
+  box-shadow: none;
+  outline: none;
+}
+.sp-easy-accordion-help .spea-header-nav-menu ul li a.active::before{
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f1;
+  top: 10px;
+  left: 0;
+  z-index: -1;
+}
+/*----------------------------------------*/
+/*  Start page style
+/*----------------------------------------*/
+.sp-easy-accordion-help .spea-start-page-wrap {
+  display: flex;
+  gap: 40px;
+  margin-top: 50px;
+}
+.sp-easy-accordion-help .spea-video-area {
+  background: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px 0 rgb(0 0 0 / 6%);
+}
+.sp-easy-accordion-help #about-us-tab,
+.sp-easy-accordion-help #recommended-tab,
+.sp-easy-accordion-help #lite-to-pro-tab {
+  display: none;
+}
+
+.sp-easy-accordion-help .spea-video-area span,
+.sp-easy-accordion-help .spea-video-area h2{
+  margin-bottom: 20px;
+}
+.sp-easy-accordion-help .spea-video-area iframe {
+  border-radius: 6px;
+}
+
+.sp-easy-accordion-help .spea-video-area ul {
+  margin-top: 30px;
+  display: flex;
+}
+.sp-easy-accordion-help .spea-video-area ul li {
+  margin-right: 20px;
+}
+.sp-easy-accordion-help .spea-video-area ul li:nth-child(1) a {
+  color: #fff;
+  background-color: #FF5F42;
+  border-color: #FF5F42;
+}
+.sp-easy-accordion-help .spea-about-btn a:hover:nth-child(1),
+.sp-easy-accordion-help .spea-video-area ul li:nth-child(1) a:hover {
+  background-color: #ff3c23;
+}
+.sp-easy-accordion-help .spea-live-pro-demo,
+.sp-easy-accordion-help .spea-video-area ul li:nth-child(2) a {
+  color: #FF5F42;
+  border-color: #FF5F42;
+}
+.sp-easy-accordion-help .spea-big-btn-border:hover,
+.sp-easy-accordion-help .spea-medium-btn:hover,
+.sp-easy-accordion-help .spea-small-btn:hover,
+.sp-easy-accordion-help .spea-video-area ul li:nth-child(2) a:hover,
+.sp-easy-accordion-help .spea-video-area ul li:nth-child(3) a:hover {
+  color: #fff;
+  background-color: #FF5F42;
+  border-color: transparent;
+}
+.sp-easy-accordion-help .spea-start-page-sidebar-info-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 6px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.06);
+}
+.sp-easy-accordion-help .spea-start-page-sidebar-info-box:not(:last-child){
+  margin-bottom: 40px;
+}
+.sp-easy-accordion-help .spea-start-page-sidebar-info-box .spea-info-box-title {
+  margin-bottom: 12px;
+}
+.sp-easy-accordion-help .spea-start-page-sidebar-info-box span {
+  margin-bottom: 20px;
+}
+.sp-easy-accordion-help .spea-start-page-sidebar-info-box .spea-info-box-title i{
+  color: #FF5F42;
+  font-size: 24px;
+}
+/*----------------------------------------*/
+/*  Lite vs Pro style
+/*----------------------------------------*/
+.sp-easy-accordion-help .spea-call-to-action-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
+.sp-easy-accordion-help .spea-lite-to-pro-wrap {
+  padding: 40px;
+  background: #fff;
+  border-radius: 8px;
+}
+.sp-easy-accordion-help .spea-features{
+  border-radius: 6px;
+  border: 1px solid #CCCCCC;
+  overflow: hidden;
+}
+.sp-easy-accordion-help .spea-features ul li.spea-body,
+.sp-easy-accordion-help .spea-features ul li.spea-header {
+  display: flex;
+  justify-content: space-between;
+  background: #FF5F42;
+  font-size: 20px;
+  color: #fff;
+  font-weight: 600;
+}
+.sp-easy-accordion-help .spea-features ul li.spea-body{
+  background-color: #fff;
+  color: #3C434A;
+  font-size: 16px;
+  font-weight: 400;
+}
+.sp-easy-accordion-help .spea-features ul li.spea-body:nth-child(odd) {
+  background-color: #FFF6F5;
+}
+.sp-easy-accordion-help .spea-features ul li.spea-body .spea-title,
+.sp-easy-accordion-help .spea-features ul li.spea-header .spea-title {
+  flex-basis: 70%;
+  width: 70%;
+  text-align: left;
+}
+.sp-easy-accordion-help .spea-features ul li.spea-body span,
+.sp-easy-accordion-help .spea-features ul li.spea-header span {
+  padding: 28px;
+  width: 15%;
+  text-align: center;
+}
+.sp-easy-accordion-help .spea-features ul li.spea-header span.spea-pro {
+  margin-right: -10px;
+}
+.sp-easy-accordion-help .spea-features ul li.spea-header span.spea-pro i {
+  position: relative;
+  font-size: 18px;
+  left: -30px;
+  top: -2px;
+}
+.sp-easy-accordion-help .spea-features ul li.spea-header span.spea-pro i::before{
+  position: absolute;
+}
+.sp-easy-accordion-help .spea-features ul li.spea-body span {
+  padding: 20px 30px;
+}
+.sp-easy-accordion-help .spea-features ul li.spea-body span:not(:last-of-type){
+  border-right: 1px solid #CCCCCC;
+}
+.sp-easy-accordion-help .spea-upgrade-to-pro {
+  text-align: center;
+  margin: auto;
+  max-width: 750px;
+  margin-top: 60px;
+}
+.sp-easy-accordion-help .spea-upgrade-to-pro .spea-section-subtitle {
+  margin: 20px 0 30px;
+  display: inline-block;
+}
+.sp-easy-accordion-help .spea-upgrade-to-pro .spea-upgrade-to-pro-btn {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+}
+.sp-easy-accordion-help .spea-upgrade-to-pro .spea-upgrade-to-pro-btn .spea-action-btn span {
+  display: block;
+  font-size: 11px;
+}
+.sp-easy-accordion-help .spea-upgrade-to-pro .spea-upgrade-to-pro-btn .spea-action-btn span a{
+  color: inherit;
+  text-decoration: underline dotted;
+  transition: .2s linear;
+}
+.sp-easy-accordion-help .spea-upgrade-to-pro .spea-upgrade-to-pro-btn .spea-action-btn span a:hover{
+  color: #FF5F42;
+}
+/*----------------------------------------*/
+/*  Testimonial style
+/*----------------------------------------*/
+.sp-easy-accordion-help .spea-testimonial .spea-testimonial-title-section {
+  text-align: center;
+  margin: 80px 0 40px;
+}
+.sp-easy-accordion-help .spea-testimonial .spea-testimonial-title-section span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FF5F42;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+.sp-easy-accordion-help .spea-testimonial-wrap {
+  display: flex;
+  gap: 30px;
+}
+.sp-easy-accordion-help .spea-testimonial-content {
+  background-color: #fff;
+  padding: 20px 25px;
+  position: relative;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.06);
+}
+.sp-easy-accordion-help .spea-testimonial-content p {
+  font-size: 16px;
+  line-height: 28px;
+  color: #3C434A;
+}
+.sp-easy-accordion-help .spea-testimonial-content::after {
+  content: "";
+  position: absolute;
+  bottom: -13px;
+  left: 40px;
+  width: 25px;
+  height: 15px;
+  background-color: #ffffff;
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+}
+.sp-easy-accordion-help .spea-testimonial-info {
+  display: flex;
+  gap: 20px;
+  margin-left: 20px;
+}
+.sp-easy-accordion-help .spea-testimonial-info .spea-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+.sp-easy-accordion-help .spea-testimonial-info .spea-img img {
+  border-radius: 50%;
+  width: 60px;
+}
+.sp-easy-accordion-help .spea-testimonial-info .spea-info h3 {
+  font-size: 16px;
+  color: #1D2327;
+}
+.sp-easy-accordion-help .spea-testimonial-info .spea-info p {
+  margin: 4px 0;
+  font-size: 12px;
+  color: #3C434A;
+}
+.sp-easy-accordion-help .spea-testimonial-info .spea-info .spea-star {
+  color: #FFC329;
+  font-size: 17px;
+}
+@media screen and (min-width: 1600px) {
+  .sp-easy-accordion-help .plugin-card {
+      width:48%;
+      width: calc(49% - 8px)
+  }
+
+  .sp-easy-accordion-help .plugin-card:nth-child(odd) {
+      clear: none;
+      margin-left: 8px
+  }
+
+  .sp-easy-accordion-help .plugin-card:nth-child(2n) {
+      margin-right: 0
+  }
+
+  .sp-easy-accordion-help .plugin-card:nth-child(3n+1) {
+      clear: both;
+      margin-left: 8px
+  }
+
+  .sp-easy-accordion-help .plugin-card:nth-child(3n) {
+      margin-right: 8px
+  }
+}
+/*----------------------------------------*/
+/*  Recommended page style
+/*----------------------------------------*/
+.sp-easy-accordion-help .spea-recommended-page h2{
+  margin: 50px 0px 40px 8px;
+}
+/*----------------------------------------*/
+/*  About us page style
+/*----------------------------------------*/
+.sp-easy-accordion-help .spea-about-box {
+  display: flex;
+  background: #fff;
+  margin-top: 50px;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.06);
+}
+.sp-easy-accordion-help .spea-about-img {
+  width: 50%;
+  flex-basis: 50%;
+  flex-shrink: 0;
+  overflow: hidden;
+  align-self: center;
+}
+.sp-easy-accordion-help .spea-about-img span {
+  text-align: center;
+  display: block;
+  margin-top: 12px;
+  font-weight: 400;
+  font-size: 13px;
+  font-style: italic;
+  color: #3C434A;
+}
+.sp-easy-accordion-help .spea-about-img img {
+  width: 100%;
+  display: block;
+  border-radius: 8px;
+}
+.sp-easy-accordion-help .spea-about-info h3 {
+  font-size: 26px;
+  line-height: 32px;
+  margin-bottom: 25px;
+  color: #1D2327;
+}
+.sp-easy-accordion-help .spea-about-info {
+  margin-right: 40px;
+}
+.sp-easy-accordion-help .spea-about-info p{
+  line-height: 28px;
+  margin-bottom: 15px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #3C434A;
+}
+.sp-easy-accordion-help .spea-about-btn{
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+}
+.sp-easy-accordion-help .spea-about-btn a:nth-child(1){
+  background-color: #FF5F42;
+  border-color: transparent;
+  color: #ffffff;
+}
+.sp-easy-accordion-help .spea-our-plugin-list .spea-section-title{
+  margin-top: 80px;
+}
+.sp-easy-accordion-help .spea-our-plugin-list-wrap {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+.sp-easy-accordion-help .spea-our-plugin-list-box img{
+  width: 64px;
+}
+.sp-easy-accordion-help .spea-our-plugin-list-box {
+  background-color: #ffffff;
+  padding: 26px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.06);
+  width: 33%;
+  flex-basis: calc(33% - 40px);
+  border: 1px solid transparent;
+  transition: .3s;
+  position: relative;
+}
+.sp-easy-accordion-help .spea-our-plugin-list-box i {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  font-size: 20px;
+  border: 1px solid #00A1FF;
+  border-radius: 50%;
+  padding: 5px 1px;
+  color: #00A1FF;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: .3s;
+}
+.sp-easy-accordion-help .spea-our-plugin-list-box:hover {
+  border-color: #00A1FF;
+}
+.sp-easy-accordion-help .spea-our-plugin-list-box:hover i {
+  opacity: 1;
+}
+.sp-easy-accordion-help .spea-our-plugin-list-box h4{
+  font-size: 18px;
+  font-weight: 600;
+  margin: 15px 0;
+  color: #1D2327;
+}
+.sp-easy-accordion-help .spea-our-plugin-list-box p{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #3C434A;
+}
+
+/*----------------------------------------*/
+/*  Footer page style
+/*----------------------------------------*/
+.sp-easy-accordion-help .spea-footer-top {
+  text-align: center;
+  margin-top: 80px;
+}
+.sp-easy-accordion-help .spea-footer-top span i {
+  color: #E57373;
+}
+.sp-easy-accordion-help .spea-footer-top ul{
+  display: flex;
+  justify-content: center;
+}
+.sp-easy-accordion-help .spea-footer-top p,
+.sp-easy-accordion-help .spea-footer-top a {
+  color: #6D6B6A;
+  margin: 5px 0;
+}
+.sp-easy-accordion-help .spea-footer-top ul li a{
+  color: #969392;
+  font-size: 18px;
+  margin-right: 3px;
+}
+.sp-easy-accordion-help .spea-footer-top a:hover,
+.sp-easy-accordion-help .spea-footer-top ul li a:hover{
+  color: #FF5F42;
+}
+
+/* Responsive Css */
+@media only screen and (max-width: 1240px) {
+  .sp-easy-accordion-help .spea-video-area iframe{
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 960px) {
+  .sp-easy-accordion-help .spea-about-box,
+  .sp-easy-accordion-help .spea-start-page-wrap {
+    flex-direction: column;
+  }
+  .sp-easy-accordion-help .spea-start-page-sidebar {
+    max-width: 500px;
+    margin: auto;
+  }
+  .sp-easy-accordion-help .spea-about-img {
+    width: 100%;
+    margin-top: 30px;
+  }
+  .sp-easy-accordion-help {
+    margin-left: -10px;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .sp-easy-accordion-help .spea-header-nav-menu ul li a{
+    padding: 8px 8px;
+    font-size: 12px;
+  }
+  .sp-easy-accordion-help .spea-header-nav-menu ul li a i {
+    display: none;
+  }
+  .sp-easy-accordion-help .spea-header-logo-shape{
+    display: none;
+  }
+  .sp-easy-accordion-help .spea-our-plugin-list-wrap,
+  .sp-easy-accordion-help .spea-testimonial-wrap{
+    flex-direction: column;
+  }
+  .sp-easy-accordion-help .spea-about-btn {
+    display: inline-grid;
+  }
+  .sp-easy-accordion-help .spea-our-plugin-list-box {
+    width: 100%;
+  }
+}

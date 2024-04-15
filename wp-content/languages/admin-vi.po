@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 6.5.x - Development - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-04-12 07:22:25+0000\n"
+"PO-Revision-Date: 2024-04-12 16:16:03+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,13 +37,119 @@ msgctxt "default GMT offset or timezone string"
 msgid "0"
 msgstr "0"
 
+#: wp-admin/includes/plugin-install.php:994
+#: wp-admin/includes/plugin-install.php:999
+msgctxt "plugin"
+msgid "Update Now"
+msgstr "Cập nhật ngay"
+
+#: wp-admin/includes/class-wp-theme-install-list-table.php:336
+#: wp-admin/includes/theme-install.php:207
+msgctxt "theme"
+msgid "Install Now"
+msgstr "Cài đặt ngay"
+
+#: wp-admin/includes/class-wp-plugins-list-table.php:1584
+msgid "This plugin cannot be activated because required plugins are missing or inactive."
+msgstr "Plugin này không thể kích hoạt vì thiếu hoặc chưa kích hoạt plugin liên quan."
+
+#. translators: %s: List of dependency names.
+#: wp-admin/includes/class-wp-plugins-list-table.php:1574
+msgid "<strong>Requires:</strong> %s"
+msgstr "<strong>Yêu cầu:</strong> %s"
+
+#. translators: %s: List of dependencies.
+#: wp-admin/includes/class-wp-plugins-list-table.php:1540
+msgid "<strong>Required by:</strong> %s"
+msgstr "<strong>Yêu cầu bởi:</strong> %s"
+
+#: wp-admin/includes/class-wp-plugins-list-table.php:614
+msgctxt "plugin"
+msgid "Deactivate"
+msgstr "Ngừng kích hoạt"
+
+#: wp-admin/includes/class-wp-plugins-list-table.php:610
+#: wp-admin/includes/class-wp-plugins-list-table.php:937
+#: wp-admin/includes/class-wp-plugins-list-table.php:954
+#: wp-admin/includes/plugin-install.php:890
+#: wp-admin/includes/plugin-install.php:1014
+#: wp-admin/includes/plugin-install.php:1045 wp-admin/js/updates.js:971
+#: wp-admin/js/updates.js:1016
+msgctxt "plugin"
+msgid "Activate"
+msgstr "Kích hoạt"
+
+#. translators: %s: Plugin name.
+#: wp-admin/includes/ajax-actions.php:4579
+msgid "%s is already active."
+msgstr "%s đã được kích hoạt."
+
+#: wp-admin/import.php:166 wp-admin/includes/plugin-install.php:364
+#: wp-admin/includes/plugin-install.php:957
+#: wp-admin/includes/plugin-install.php:972
+#: wp-admin/includes/plugin-install.php:977 wp-admin/press-this.php:63
+#: wp-admin/js/updates.js:1303 wp-admin/js/updates.js:2628
+#: wp-admin/js/updates.js:2709
+msgctxt "plugin"
+msgid "Install Now"
+msgstr "Cài đặt ngay"
+
+#: wp-admin/about.php:243
+msgid "Accessibility improvements"
+msgstr "Cải thiện khả năng tiếp cận"
+
+#: wp-admin/about.php:233
+msgid "Performance updates"
+msgstr "Cập nhật hiệu suất"
+
+#: wp-admin/about.php:99
+msgid "Add and manage fonts across your site"
+msgstr "Thêm và quản lý font chữ trên toàn bộ trang web"
+
+#: wp-admin/my-sites.php:81 wp-admin/network/menu.php:53
+#: wp-admin/network/site-new.php:182 wp-admin/network/site-new.php:192
+#: wp-admin/network/sites.php:381
+msgid "Add New Site"
+msgstr "Thêm web mới"
+
 #: wp-admin/menu.php:310 wp-admin/plugins.php:757 wp-admin/network/menu.php:106
 msgid "Add New Plugin"
 msgstr "Cài plugin"
 
+#. translators: %s: WordPress version.
+#: wp-admin/about.php:66
+msgid "https://wordpress.org/support/wordpress-version/version-%s/"
+msgstr "https://wordpress.org/support/wordpress-version/version-%s/"
+
+#: wp-admin/contribute.php:103 wp-admin/credits.php:57 wp-admin/credits.php:65
+msgid "https://make.wordpress.org/contribute/"
+msgstr "https://make.wordpress.org/contribute/"
+
 #: wp-admin/update-core.php:1043
 msgid "Restore Plugin or Theme"
 msgstr "Khôi phục Plugin hoặc Giao diện"
+
+#: wp-admin/includes/image-edit.php:101
+msgid "Save Edits"
+msgstr "Lưu chỉnh sửa"
+
+#: wp-admin/includes/image-edit.php:100
+msgid "Cancel Editing"
+msgstr "Hủy chỉnh sửa"
+
+#. translators: %s: The minimum recommended PHP version.
+#: wp-admin/includes/dashboard.php:1916
+msgid "The minimum recommended version of PHP is %s."
+msgstr "Phiên bản PHP tối thiểu được đề xuất là %s."
+
+#. translators: Localized Support reference.
+#: wp-admin/includes/class-wp-site-health.php:2616
+msgid "https://wordpress.org/documentation/article/optimization/#persistent-object-cache"
+msgstr "https://wordpress.org/documentation/article/optimization/#persistent-object-cache"
+
+#: wp-admin/includes/class-wp-site-health.php:2507
+msgid "https://wordpress.org/documentation/article/optimization/#Caching"
+msgstr "https://wordpress.org/documentation/article/optimization/#Caching"
 
 #. translators: %s: Version number.
 #: wp-admin/about.php:259
@@ -112,6 +218,10 @@ msgstr "Đang kích hoạt"
 #: wp-admin/includes/update-core.php:1022
 msgid "The update cannot be installed because some files could not be copied. This is usually due to inconsistent file permissions."
 msgstr "Không thể cài đặt bản cập nhật vì không thể sao chép một số file. Điều này thường là do quyền đối với file không nhất quán."
+
+#: wp-admin/export-personal-data.php:42
+msgid "<strong>Media</strong> &mdash; A list of URLs for media files the user uploads."
+msgstr "<strong>Thư viện</strong> &mdash; Danh sách các địa chỉ URL file media mà người dùng tải lên."
 
 #: wp-admin/includes/dashboard.php:2115
 msgid "Open the Customizer"
