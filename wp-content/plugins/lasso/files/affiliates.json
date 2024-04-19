@@ -1,0 +1,261 @@
+{
+  "awin": {
+    "name": "Awin",
+    "slug": "awin",
+    "is_affiliate_function": "is_awin",
+    "matches": "/^https?:\\/\\/(www\\.)?((awin1\\.com\\/(awclick|cread|pclick)\\.php)|(tidd\\.ly))/",
+    "sub_ids": ["clickref", "clickref2", "clickref3", "clickref4", "clickref5", "clickref6"]
+  },
+  "cj": {
+    "name": "CJ",
+    "slug": "cj",
+    "is_affiliate_function": "is_cj",
+    "matches": "/^https?:\\/\\/(www\\.)?((anrdoezrs\\.net)|(jdoqocy\\.com)|(tqlkg\\.com)|(tkqlhce\\.com)|(dpbolvw\\.net)|(jqoqocy\\.com)|(kqzfj\\.com)|(kqzyfj\\.com)|(ftjcfx\\.com)|(lduhtrp\\.net)|(qksrv\\.net)|(cj\\.dotomi\\.com))/",
+    "sub_ids": ["sid"]
+  },
+  "financeads": {
+    "name": "FinanceAds",
+    "slug": "financeads",
+    "is_affiliate_function": "is_financeAds",
+    "matches": "/^https?:\\/\\/(www\\.)?financeads\\.net\\/tc\\.php/",
+    "sub_ids": ["subid"]
+  },
+  "impact": {
+    "name": "Impact",
+    "slug": "impact",
+    "is_affiliate_function": "is_impact",
+    "matches": "",
+    "sub_ids": ["subId1", "subId2", "subId3"]
+  },
+  "shareasale": {
+    "name": "ShareASale",
+    "slug": "shareasale",
+    "is_affiliate_function": "is_shareasale",
+    "matches": "/^https?:\\/\\/(www\\.)?shareasale(-analytics)?\\.com\\/(.)+\\.cfm/",
+    "sub_ids": ["afftrack"]
+  },
+  "amazon_associates": {
+    "name": "Amazon Associates",
+    "slug": "amazon_associates",
+    "is_affiliate_function": "is_amazon",
+    "matches": "",
+    "sub_ids": []
+  },
+  "partnerize": {
+    "name": "Partnerize",
+    "slug": "partnerize",
+    "is_affiliate_function": "is_partnerize",
+    "matches": "/^https?:\\/\\/(www\\.)?((partnerize\\.com)|([a-z0-9]*\\.?prf\\.hn))/",
+    "sub_ids": ["pubref"]
+  },
+  "flexoffers": {
+    "name": "FlexOffers",
+    "slug": "flexoffers",
+    "is_affiliate_function": "is_flexoffers",
+    "matches": "/^https?:\\/\\/(www\\.)?(track\\.flexlinks(pro)?\\.com)|(fxo\\.co)|(pav04trk\\.com)/",
+    "sub_ids": ["fobs"]
+  },
+  "refersion": {
+    "name": "Refersion",
+    "slug": "refersion",
+    "is_affiliate_function": "is_refersion",
+    "matches": "/^https?:\\/\\/(.)*refersion\\.com/",
+    "sub_ids": ["subid"]
+  },
+  "postaffiliatepro": {
+    "name": "Post Affiliate Pro",
+    "slug": "postaffiliatepro",
+    "is_affiliate_function": "is_post_affiliate_pro",
+    "matches": "",
+    "sub_ids": ["data1", "data2"]
+  },
+  "avantlink": {
+    "name": "AvantLink",
+    "slug": "avantlink",
+    "is_affiliate_function": "is_avantlink",
+    "matches": "/^https?:\\/\\/((www|classic)\\.avantlink\\.com\\/click\\.php)|(snp\\.link)|(alnk\\.to)/",
+    "sub_ids": ["ctc"]
+  },
+  "pepperjam": {
+    "name": "Pepperjam (Ascend)",
+    "slug": "pepperjam",
+    "is_affiliate_function": "is_pepperjam",
+    "matches": "/^https?:\\/\\/(www\\.)?((pepperjam\\.com)|(pepperjamnetwork\\.com)|(pjtra\\.com)|(gopjn\\.com)|(pjatr\\.com)|(pntra\\.com)|(pntrs\\.com)|(pntrac\\.com))/",
+    "sub_ids": ["sid"]
+  },
+  "everflow": {
+    "name": "Everflow",
+    "slug": "everflow",
+    "is_affiliate_function": "is_everflow",
+    "matches": "/^https?:\\/\\/(www\\.)?everflow\\.io/",
+    "sub_ids": ["sub1", "sub2", "sub3"]
+  },
+  "tune": {
+    "name": "Tune (HasOffers)",
+    "slug": "tune",
+    "is_affiliate_function": "is_tune",
+    "matches": "/((\\?|&|\\/)(aff_c|offer_id)=)|^https?:\\/\\/(redirect\\.outdoorsy\\.com)|(offer\\.zenmate\\.com)|(privateinternetaccess\\.com)|(cybertool\\.co)|(go2cloud\\.org)/",
+    "sub_ids": ["aff_sub", "aff_sub2", "aff_sub3", "aff_sub4", "aff_sub5"]
+  },
+  "partnerstack": {
+    "name": "PartnerStack",
+    "slug": "partnerstack",
+    "is_affiliate_function": "is_partnerstack",
+    "matches": "/^https?:\\/\\/link\\.technologyadvice\\.com/",
+    "sub_ids": ["sid1", "sid2"]
+  },
+  "goaffpro": {
+    "name": "GoAffPro",
+    "slug": "goaffpro",
+    "is_affiliate_function": "is_goaffpro",
+    "matches": "/^https?:\\/\\/(www\\.)?goaffpro\\.(.)*\\.com(.)*ref=/",
+    "sub_ids": []
+  },
+  "aragon": {
+    "name": "Aragon",
+    "slug": "aragon",
+    "is_affiliate_function": "is_aragon",
+    "matches": "/^https?:\\/\\/((www\\.)?((aragon-advertising\\.com)|(jwclicks\\.com)))/",
+    "sub_ids": []
+  },
+  "sovrn": {
+    "name": "Sovrn",
+    "slug": "sovrn",
+    "is_affiliate_function": "is_sovrn",
+    "matches": "/https?:\\/\\/(redirect\\.viglink\\.com)|(sovrn\\.co\\/[0-9a-z]+)/",
+    "sub_ids": []
+  },
+  "rakuten": {
+    "name": "Rakuten",
+    "slug": "rakuten",
+    "is_affiliate_function": "is_rakuten",
+    "matches": "/^https:\\/\\/(www\\.)?(click\\.)?linksynergy(\\.walmart)?\\.com/",
+    "sub_ids": ["u1"]
+  },
+  "skimlinks": {
+    "name": "Skimlinks",
+    "slug": "skimlinks",
+    "is_affiliate_function": "is_skimlinks",
+    "matches": "/^https?:\\/\\/(www\\.)?(fave\\.co)|(go\\.skimresources\\.com)|(go\\.redirectingat\\.com)|(go\\.effortlessgent\\.com)|(id=[0-9A-Z]+&xs=[0-9]&url=(.+))/",
+    "sub_ids": ["xcust"]
+  },
+  "agoda": {
+    "name": "Agoda",
+    "slug": "agoda",
+    "is_affiliate_function": "is_agoda",
+    "matches": "/^https?:\\/\\/www.agoda.com\\/partners\\/(.+)cid=\\d+/",
+    "sub_ids": ["tag"]
+  },
+  "bol": {
+    "name": "Bol.com",
+    "slug": "bol",
+    "is_affiliate_function": "is_bol",
+    "matches": "/^https?:\\/\\/(partner|partnerprogramma)\\.bol\\.com\\/click\\/click/",
+    "sub_ids": ["subid"]
+  },
+  "booking": {
+    "name": "Booking.com",
+    "slug": "booking",
+    "is_affiliate_function": "is_booking",
+    "matches": "/^https?:\\/\\/(www.)?booking\\.com(.+)aid=/",
+    "sub_ids": ["label"]
+  },
+  "cake": {
+    "name": "CAKE",
+    "slug": "cake",
+    "is_affiliate_function": "is_cake",
+    "matches": "/a=\\d+(.)+c=\\d+/",
+    "sub_ids": ["s1", "s2", "s3"]
+  },
+  "clickbank": {
+    "name": "ClickBank",
+    "slug": "clickbank",
+    "is_affiliate_function": "is_clickbank",
+    "matches": "/^https?:\\/\\/((.+)?hop\\.clickbank\\.net)|(www\\.rocketlanguages\\.com(.+)(\\?|&)aff=(.+))/",
+    "sub_ids": ["tid"]
+  },
+  "commission_factory": {
+    "name": "Commission Factory",
+    "slug": "commission_factory",
+    "is_affiliate_function": "is_commission_factory",
+    "matches": "/^https:\\/\\/t\\.cfjump\\.com\\/\\d+\\/(.+)/",
+    "sub_ids": ["UniqueId"]
+  },
+  "daisycon": {
+    "name": "Daisycon",
+    "slug": "daisycon",
+    "is_affiliate_function": "is_daisycon",
+    "matches": "/^https?:\\/\\/[a-z0-9]{3,5}\\.(net|nl)\\/c\\/\\?si=[0-9]{1,}/",
+    "sub_ids": ["ws"]
+  },
+  "ebay": {
+    "name": "eBay Partner Network",
+    "slug": "ebay",
+    "is_affiliate_function": "is_ebay",
+    "matches": "/^(https:\\/\\/.*ebay(\\.[\\w]{2,3})?(\\.[\\w]{2,3})\\/(.+)campid=)|(https:\\/\\/ebay\\.us)/",
+    "sub_ids": ["customid"]
+  },
+  "firstpromoter": {
+    "name": "FirstPromoter",
+    "slug": "firstpromoter",
+    "is_affiliate_function": "is_firstpromoter",
+    "matches": "/(\\?|&)(fp_ref=|fpr=)/",
+    "sub_ids": ["fp_sid"]
+  },
+  "get_your_guide": {
+    "name": "GetYourGuide",
+    "slug": "get_your_guide",
+    "is_affiliate_function": "is_get_your_guide",
+    "matches": "/^https?:\\/\\/(www.)?getyourguide\\.(com|de|ch|fr|nl|no|pl|com\\.mx|fi|pt|com\\.br|se|ru|com\\.tw|co\\.kr|com\\.tr|co.jp|at|dk|co\\.uk|es|it)(.+)(\\?|&partner_id=)/",
+    "sub_ids": ["cmp"]
+  },
+  "idevaffiliate": {
+    "name": "iDevAffiliate",
+    "slug": "idevaffiliate",
+    "is_affiliate_function": "is_idevaffiliate",
+    "matches": "/(\\/idevaffiliate\\.php\\?(.)*id=[\\d]+)|(\\.idevaffiliate\\.com\\/[\\d\\/]+\\.html)/",
+    "sub_ids": ["tid1", "tid2"]
+  },
+  "linkconnector": {
+    "name": "LinkConnector",
+    "slug": "linkconnector",
+    "is_affiliate_function": "is_linkconnector",
+    "matches": "/^https?:\\/\\/www\\.linkconnector\\.com\\/ta\\.php/",
+    "sub_ids": ["atid"]
+  },
+  "maxbounty": {
+    "name": "MaxBounty",
+    "slug": "maxbounty",
+    "is_affiliate_function": "is_maxbounty",
+    "matches": "/^https?:\\/\\/(www\\.)?mb[0-9]{2,3}|afflat3[a-z][1-2]\\.com\\/lnk\\.asp/",
+    "sub_ids": ["s1", "s2"]
+  },
+  "rentalcarscom": {
+    "name": "RentalCars.com",
+    "slug": "rentalcarscom",
+    "is_affiliate_function": "is_rentalcarscom",
+    "matches": "/^https?:\\/\\/www\\.rentalcars\\.com(.+)(\\?|&)affiliateCode=/",
+    "sub_ids": ["adcamp"]
+  },
+  "tradedoubler": {
+    "name": "Tradedoubler",
+    "slug": "tradedoubler",
+    "is_affiliate_function": "is_tradedoubler",
+    "matches": "/clk(.)*\\.tradedoubler\\.com\\/click\\?(.)*p=\\d/",
+    "sub_ids": ["epi"]
+  },
+  "tradetracker": {
+    "name": "TradeTracker",
+    "slug": "tradetracker",
+    "is_affiliate_function": "is_tradetracker",
+    "matches": "/(https?:\\/\\/tc\\.tradetracker\\.net\\/\\?c=[0-9]{1,})|((&|\\?)tt=[0-9_]+)/",
+    "sub_ids": ["r"]
+  },
+  "webgains": {
+    "name": "Webgains",
+    "slug": "webgains",
+    "is_affiliate_function": "is_webgains",
+    "matches": "/^https:\\/\\/track\\.webgains\\.com/",
+    "sub_ids": ["clickref"]
+  }
+}

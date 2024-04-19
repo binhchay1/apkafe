@@ -1,4 +1,4 @@
-/*! elementor - v3.20.0 - 10-04-2024 */
+/*! elementor - v3.21.0 - 18-04-2024 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -820,20 +820,20 @@ var PromptErrorMessage = function PromptErrorMessage(_ref) {
     var featureName = (_error$extra_data = error.extra_data) === null || _error$extra_data === void 0 ? void 0 : _error$extra_data.featureName;
     var messages = {
       default: {
-        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('Unknown error. Please try again later.', 'elementor')),
-        description: (0, _i18n.__)('Error code:', 'elementor') + ' ' + error,
-        buttonText: (0, _i18n.__)('Try Again', 'elementor'),
+        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('There was a glitch.', 'elementor')),
+        description: (0, _i18n.__)('Wait a moment and give it another go, or try tweaking the prompt.', 'elementor'),
+        buttonText: (0, _i18n.__)('Try again', 'elementor'),
         buttonAction: onRetry
       },
       service_outage_internal: {
-        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('Elementor AI is temporarily unavailable', 'elementor')),
-        description: (0, _i18n.__)('Seems like we are experiencing technical difficulty. We should be up and running shortly.', 'elementor'),
-        buttonText: (0, _i18n.__)('Try Again', 'elementor'),
+        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('There was a glitch.', 'elementor')),
+        description: (0, _i18n.__)('Wait a moment and give it another go.', 'elementor'),
+        buttonText: (0, _i18n.__)('Try again', 'elementor'),
         buttonAction: onRetry
       },
       invalid_connect_data: {
-        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('Reconnect your account', 'elementor')),
-        description: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, (0, _i18n.__)('We couldn\'t connect to your account due to technical difficulties on our end. Reconnect your account to continue.', 'elementor'), ' ', /*#__PURE__*/_react.default.createElement("a", {
+        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('There was a glitch.', 'elementor')),
+        description: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, (0, _i18n.__)('Try exiting Elementor and sign in again.', 'elementor'), ' ', /*#__PURE__*/_react.default.createElement("a", {
           href: "https://elementor.com/help/disconnecting-reconnecting-your-elementor-account/",
           target: "_blank",
           rel: "noreferrer"
@@ -853,9 +853,9 @@ var PromptErrorMessage = function PromptErrorMessage(_ref) {
       },
       quota_reached_trail: getQuotaReachedTrailMessage(featureName),
       quota_reached_subscription: {
-        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('It\'s time to upgrade.', 'elementor')),
-        description: (0, _i18n.__)('Love Elementor AI? Upgrade to continue creating with built-in image, text and custom code generators.', 'elementor'),
-        buttonText: (0, _i18n.__)('Upgrade', 'elementor'),
+        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('Looks like you\'re out of credits.', 'elementor')),
+        description: (0, _i18n.__)('Ready to take it to the next level?', 'elementor'),
+        buttonText: (0, _i18n.__)('Upgrade now', 'elementor'),
         buttonAction: function buttonAction() {
           return window.open('https://go.elementor.com/ai-popup-purchase-limit-reached/', '_blank');
         }
@@ -867,6 +867,24 @@ var PromptErrorMessage = function PromptErrorMessage(_ref) {
       invalid_prompts: {
         text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('We were unable to generate that prompt.', 'elementor')),
         description: (0, _i18n.__)('Seems like the prompt contains words that could generate harmful content. Write a different prompt to continue.', 'elementor')
+      },
+      service_unavailable: {
+        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('There was a glitch.', 'elementor')),
+        description: (0, _i18n.__)('Wait a moment and give it another go, or try tweaking the prompt.', 'elementor'),
+        buttonText: (0, _i18n.__)('Try again', 'elementor'),
+        buttonAction: onRetry
+      },
+      request_timeout_error: {
+        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('There was a glitch.', 'elementor')),
+        description: (0, _i18n.__)('Wait a moment and give it another go, or try tweaking the prompt.', 'elementor'),
+        buttonText: (0, _i18n.__)('Try again', 'elementor'),
+        buttonAction: onRetry
+      },
+      invalid_token: {
+        text: /*#__PURE__*/_react.default.createElement(_ui.AlertTitle, null, (0, _i18n.__)('Try again', 'elementor')),
+        description: (0, _i18n.__)('Try exiting Elementor and sign in again.', 'elementor'),
+        buttonText: (0, _i18n.__)('Reconnect', 'elementor'),
+        buttonAction: onRetry
       }
     };
     return messages[errMsg] || messages.default;
@@ -2952,6 +2970,7 @@ UpgradeChip.propTypes = {
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
+/* provided dependency */ var sprintf = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n")["sprintf"];
 /* provided dependency */ var __ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n")["__"];
 /* provided dependency */ var PropTypes = __webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js");
 
@@ -2970,22 +2989,31 @@ var _excluded = ["onClose", "usagePercentage", "hasSubscription"];
 var _title, _description, _url, _title2, _description2, _url2, _title3, _description3, _url3;
 var KEY_SUBSCRIPTION = 'subscription';
 var KEY_NO_SUBSCRIPTION = 'noSubscription';
+var getUsageTitle = function getUsageTitle(percentage) {
+  // Translators: %s refers to the credits percentage usage
+  return sprintf(__('You’ve used %s of credits for this AI feature.', 'elementor'), percentage);
+};
+var CREDITS_95_USAGE_TITLE = getUsageTitle('95%');
+var CREDITS_80_USAGE_TITLE = getUsageTitle('80%');
+var CREDITS_75_USAGE_TITLE = getUsageTitle('75%');
+var DESCRIPTION_SUBSCRIPTION = __('Get maximum access.', 'elementor');
+var DESCRIPTION_NO_SUBSCRIPTION = __('Upgrade now to keep using this feature. You still have credits for other AI features (Text, Code, Images, Containers, etc.)', 'elementor');
 var alertConfigs = [{
   threshold: 95,
-  title: (_title = {}, (0, _defineProperty2.default)(_title, KEY_SUBSCRIPTION, __('You’ve used over 95% of your Elementor AI plan.', 'elementor')), (0, _defineProperty2.default)(_title, KEY_NO_SUBSCRIPTION, __('You’ve used 95% of credits for this AI feature.', 'elementor')), _title),
-  description: (_description = {}, (0, _defineProperty2.default)(_description, KEY_SUBSCRIPTION, __('Get maximum access.', 'elementor')), (0, _defineProperty2.default)(_description, KEY_NO_SUBSCRIPTION, __('Upgrade now to keep using this feature. You still have credits for other AI features (Text, Code, Images, Containers, etc.)', 'elementor')), _description),
+  title: (_title = {}, (0, _defineProperty2.default)(_title, KEY_SUBSCRIPTION, CREDITS_95_USAGE_TITLE), (0, _defineProperty2.default)(_title, KEY_NO_SUBSCRIPTION, CREDITS_95_USAGE_TITLE), _title),
+  description: (_description = {}, (0, _defineProperty2.default)(_description, KEY_SUBSCRIPTION, DESCRIPTION_SUBSCRIPTION), (0, _defineProperty2.default)(_description, KEY_NO_SUBSCRIPTION, DESCRIPTION_NO_SUBSCRIPTION), _description),
   url: (_url = {}, (0, _defineProperty2.default)(_url, KEY_SUBSCRIPTION, 'https://go.elementor.com/ai-banner-paid-95-limit-reach/'), (0, _defineProperty2.default)(_url, KEY_NO_SUBSCRIPTION, 'https://go.elementor.com/ai-banner-free-95-limit-reach/'), _url),
   color: 'error'
 }, {
   threshold: 80,
-  title: (_title2 = {}, (0, _defineProperty2.default)(_title2, KEY_SUBSCRIPTION, __('You’ve used over 80% of your Elementor AI plan.', 'elementor')), (0, _defineProperty2.default)(_title2, KEY_NO_SUBSCRIPTION, __('You’ve used 80% of credits for this AI feature.', 'elementor')), _title2),
-  description: (_description2 = {}, (0, _defineProperty2.default)(_description2, KEY_SUBSCRIPTION, __('Get maximum access.', 'elementor')), (0, _defineProperty2.default)(_description2, KEY_NO_SUBSCRIPTION, __('Upgrade now to keep using this feature. You still have credits for other AI features (Text, Code, Images, Containers, etc.)', 'elementor')), _description2),
+  title: (_title2 = {}, (0, _defineProperty2.default)(_title2, KEY_SUBSCRIPTION, CREDITS_80_USAGE_TITLE), (0, _defineProperty2.default)(_title2, KEY_NO_SUBSCRIPTION, CREDITS_80_USAGE_TITLE), _title2),
+  description: (_description2 = {}, (0, _defineProperty2.default)(_description2, KEY_SUBSCRIPTION, DESCRIPTION_SUBSCRIPTION), (0, _defineProperty2.default)(_description2, KEY_NO_SUBSCRIPTION, DESCRIPTION_NO_SUBSCRIPTION), _description2),
   url: (_url2 = {}, (0, _defineProperty2.default)(_url2, KEY_SUBSCRIPTION, 'https://go.elementor.com/ai-banner-paid-80-limit-reach/'), (0, _defineProperty2.default)(_url2, KEY_NO_SUBSCRIPTION, 'https://go.elementor.com/ai-banner-free-80-limit-reach/'), _url2),
   color: 'warning'
 }, {
   threshold: 75,
-  title: (_title3 = {}, (0, _defineProperty2.default)(_title3, KEY_SUBSCRIPTION, __('You’ve used over 75% of your Elementor AI plan.', 'elementor')), (0, _defineProperty2.default)(_title3, KEY_NO_SUBSCRIPTION, __(' You’ve used 75% of credits for this AI feature.', 'elementor')), _title3),
-  description: (_description3 = {}, (0, _defineProperty2.default)(_description3, KEY_SUBSCRIPTION, __('Get maximum access.', 'elementor')), (0, _defineProperty2.default)(_description3, KEY_NO_SUBSCRIPTION, __('Upgrade now to keep using this feature. You still have credits for other AI features (Text, Code, Images, Containers, etc.)', 'elementor')), _description3),
+  title: (_title3 = {}, (0, _defineProperty2.default)(_title3, KEY_SUBSCRIPTION, CREDITS_75_USAGE_TITLE), (0, _defineProperty2.default)(_title3, KEY_NO_SUBSCRIPTION, CREDITS_75_USAGE_TITLE), _title3),
+  description: (_description3 = {}, (0, _defineProperty2.default)(_description3, KEY_SUBSCRIPTION, DESCRIPTION_SUBSCRIPTION), (0, _defineProperty2.default)(_description3, KEY_NO_SUBSCRIPTION, DESCRIPTION_NO_SUBSCRIPTION), _description3),
   url: (_url3 = {}, (0, _defineProperty2.default)(_url3, KEY_SUBSCRIPTION, 'https://go.elementor.com/ai-banner-paid-80-limit-reach/'), (0, _defineProperty2.default)(_url3, KEY_NO_SUBSCRIPTION, 'https://go.elementor.com/ai-banner-free-80-limit-reach/'), _url3),
   color: 'warning'
 }];
@@ -3320,9 +3348,13 @@ var MONTH_JANUARY_INDEX = 0;
 exports.MONTH_JANUARY_INDEX = MONTH_JANUARY_INDEX;
 var translateDate = function translateDate(format, date, timezone) {
   var _window$wp;
-  var _window$wp$date = (_window$wp = window.wp) === null || _window$wp === void 0 ? void 0 : _window$wp.date,
-    dateI18n = _window$wp$date.dateI18n;
-  return dateI18n(format, date, timezone);
+  if ((_window$wp = window.wp) !== null && _window$wp !== void 0 && _window$wp.date) {
+    var _window$wp2;
+    var _window$wp$date = (_window$wp2 = window.wp) === null || _window$wp2 === void 0 ? void 0 : _window$wp2.date,
+      dateI18n = _window$wp$date.dateI18n;
+    return dateI18n(format, date, timezone);
+  }
+  return date;
 };
 
 /**
@@ -6462,7 +6494,8 @@ Container.propTypes = {
 };
 var ImagesDisplay = function ImagesDisplay(_ref2) {
   var images = _ref2.images,
-    aspectRatio = _ref2.aspectRatio,
+    _ref2$aspectRatio = _ref2.aspectRatio,
+    aspectRatio = _ref2$aspectRatio === void 0 ? '1:1' : _ref2$aspectRatio,
     onUseImage = _ref2.onUseImage,
     onEditImage = _ref2.onEditImage,
     _ref2$transparentCont = _ref2.transparentContainer,

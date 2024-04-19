@@ -1,0 +1,20 @@
+{
+    "require": {
+        "sentry\/sdk": "^3.1",
+        "symfony\/polyfill": "^1.22",
+        "launchdarkly\/server-sdk": "4.3.0",
+        "guzzlehttp\/guzzle": "7.3.0",
+        "http-interop\/http-factory-guzzle": "1.1.1",
+        "kevinrob\/guzzle-cache-middleware": "^3.4",
+        "phpseclib\/phpseclib": "~3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http\/discovery": true,
+            "bamarni\/composer-bin-plugin": true
+        }
+    },
+    "require-dev": {
+        "bamarni\/composer-bin-plugin": "1.8.2"
+    }
+}

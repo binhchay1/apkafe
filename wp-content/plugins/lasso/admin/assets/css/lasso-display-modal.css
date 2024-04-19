@@ -1,0 +1,275 @@
+/**********************************************************/
+:root {
+    --lasso-purple: #5E36CA;
+    --lasso-dark-purple: #40258A;
+    --lasso-light-purple: #B09AE5;
+    --lasso-green: #22BAA0;
+    --lasso-dark-green: #1B8F7B;
+    --lasso-light-green: #91E0D2;
+    --lasso-red: #E06470;
+    --lasso-dark-red: #B1434D;
+    --lasso-blue: #228BC9;
+    --lasso-orange: #F6BD60;
+    --lasso-black: #555555;
+    --lasso-white: #FFFFFF;
+    --lasso-gray: #E2E2E2;
+    --lasso-light-gray: #F7F7FC;
+    --lasso-dark-gray: #AAAAAA;
+    --lasso-default-font: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    --lasso-default-color: rgb(85, 85, 85);
+}
+/**********************************************************/
+
+/*********************************************************
+	MODAL
+*********************************************************/
+.modal-open{overflow: hidden;}
+.modal-open .modal{overflow-x: hidden; overflow-y: auto;}
+.lasso-modal{position: fixed; top: 0; left: 0; z-index: 1050; display: none; width: 100%; height: 100%; overflow-y: scroll; outline: 0;}
+.modal-dialog{position: relative; width: auto; margin: 5rem auto !important;pointer-events: none;}
+.lasso-modal.fade .modal-dialog{transition: -webkit-transform 0.3s ease-out; transition: transform 0.3s ease-out; transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out; -webkit-transform: translate(0, -50px); transform: translate(0, -50px);}
+.lasso-modal.show .modal-dialog{-webkit-transform: none;transform: none;}
+.modal-content{position: relative; display: -ms-flexbox; display: flex; -ms-flex-direction: column; flex-direction: column; width: 100%; pointer-events: auto; background-color: #fff; background-clip: padding-box; border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 0.5rem; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.20) !important; outline: 0; padding: 3rem;}
+.modal-backdrop{position: fixed; top: 0; left: 0; z-index: 1040; width: 100vw; height: 100vh; background-color: #000;}
+.modal-backdrop.fade{opacity: 0;}
+.modal-backdrop.show{opacity: 0.5;}
+.modal-backdrop.show.fade{opacity: 0.5; z-index: 999;}
+.modal-header .close{padding: 1rem 1rem;margin: -1rem -1rem -1rem auto;}
+.fade{transition: opacity 0.15s linear;}
+.lasso-modal.fade:not(.show){opacity: 0;}
+.lasso-display-add-modal-open #wpbody-content { position: relative;z-index: -1;}
+
+/* fix: modal conflicts with bootstrap v3.3 */
+.lasso-modal.fade.in{display: block; opacity: 1;}
+.modal-backdrop.in{opacity: 0.5;}
+.lasso-modal h2 {
+  color: rgb(85, 85, 85);
+  font-family: var(--lasso-default-font);
+  font-weight: 700 !important;
+  font-size: 2rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+  line-height: 2.5rem;
+}
+.lasso-modal h2.product-name {
+    margin-bottom: 2rem;
+}
+.lasso-modal p {
+  font-size: 15px !important;
+}
+.lasso-modal span.btn,
+.lasso-modal .btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.20) !important;
+  background-color: var(--lasso-green);
+  color: white;
+  transition: ease 0.25s !important;
+  white-space: normal;
+  cursor: pointer;
+  border: none;
+  font-family: var(--lasso-default-font);
+}
+.lasso-modal span.btn {
+    display: inline-block;
+    top:0;
+    -webkit-transition:all 0.25s ease;
+    -moz-transition:all 0.25s ease;
+    -ms-transition:all 0.25s ease;
+    -o-transition:all 0.25s ease;
+    transition:all 0.25s ease;
+}
+.lasso-modal span.btn:hover {
+    position: relative;
+    top: 3px;
+    /*transition: ease 0.25s !important;*/
+}
+.lasso-modal .btn:hover {
+  box-shadow: none !important;
+  transform: translateY(3px);
+}
+.lasso-modal .btn.btn-danger {
+    background: var(--lasso-red);
+}
+.lasso-modal .form-control {
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.lasso-modal .form-control:focus {
+  border: 1px solid var(--lasso-light-purple) !important;
+  box-shadow: none;
+}
+.lasso-modal label strong {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--lasso-default-color);
+}
+.lasso-modal label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+.lasso-modal .light-purple,
+.lasso-modal .light-purple a {
+    color: var(--lasso-light-purple) !important;
+}
+.lasso-modal .image_wrapper {
+    border: 2px solid var(--lasso-light-purple);
+    border-radius: 5px;
+    height: 338px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lasso-modal .lasso-image {
+    padding-bottom: 0!important;
+}
+.lasso-modal .lasso-image img {
+    display: inline-block !important;
+    max-width: 100% !important;
+    height: auto;
+    max-height: 250px;
+    width: inherit;
+    object-fit: contain;
+    box-shadow: none;
+}
+.lasso-modal .image_update {
+    font-size: 20px;
+    cursor: pointer;
+}
+.lasso-modal #description {
+    border-radius: 0;
+}
+.lasso-modal .text-danger {
+    color: var(--lasso-red);
+}
+.lasso-modal .ql-editor {
+    padding: 0 !important;
+    line-height: 1.5 !important;
+    min-height: 100px;
+}
+.lasso-modal .form-control::placeholder, .form-control .ql-editor.ql-blank::before {
+    color: var(--lasso-dark-gray) !important;
+    opacity: 0.5 !important;
+    font-style: normal !important;
+    line-height: 1.9;
+}
+.lasso-modal .loader-small{border: 3px solid #E2E2E2; border-radius: 50%; border-top: 3px solid var(--green); width: 25px; height: 25px; -webkit-animation: spin 1s linear infinite; animation: spin 1s linear infinite; margin: 0 auto; }
+.wp-block .lasso-container.lasso-ai {padding: 0 15px !important;} /* Apply in Gutenberg editor only */
+.lasso-ai-wrapper {
+    background: var(--lasso-purple);
+    color: var(--lasso-white);
+}
+.lasso-ai-wrapper .ql-toolbar.ql-snow {
+    background: var(--lasso-white);
+}
+.lasso-ai-wrapper h2, .lasso-ai-wrapper a {
+    color: var(--lasso-white) !important;
+}
+.lasso-ai-wrapper a {
+    font-size: 20px;
+}
+.lasso-ai-wrapper .lasso-response {
+    background: var(--lasso-white);
+    color: var(--lasso-black);
+    font-size: 1rem;
+}
+.lasso-ai-wrapper .lasso-response .btn-add-lasso-ai-text .ls-loader {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #E2E2E2;
+    border-top: 3px solid #22baa0;
+}
+.lasso-ai-wrapper .lasso-response .lasso-quill-wrapper .lasso-quill-content .ql-editor{
+    padding: 5px!important;
+}
+.lasso-ai-wrapper img {
+    max-width: 100%;
+}
+.lasso-ai-wrapper label {
+    font-size: 20px;
+}
+.lasso-ai-wrapper .px-8 {
+    padding-left: 6rem!important;
+    padding-right: 6rem!important;
+}
+.lasso-ai-wrapper #prompt {
+    color: var(--lasso-black)!important;
+}
+@media (min-width: 992px) {
+  .modal-lg, .modal-xl{max-width: 800px;}
+  .modal-sm {
+    max-width: 500px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .modal-xl{max-width: 1140px;}
+  .modal-sm {
+    max-width: 500px;
+  }
+}
+
+
+/*********************************************************
+	ELEMENTS
+*********************************************************/
+input:-webkit-autofill{-webkit-box-shadow: 0 0 0 30px white inset !important; background-color: white !important;}
+.text-break{word-wrap: break-word !important;}
+.form-control{display: block; width: 100%; padding: 0.5rem 0.75rem !important; font-size: 1rem; font-weight: 400; line-height: 1.5; color: #495057; background-color: #fff; background-clip: padding-box; border: 1px solid #ced4da !important; border-radius: 0.5rem; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;}
+input.form-control, textarea.form-control, select.form-control{color: var(--black) !important; padding: 0.5rem 0.75rem !important; border-radius: 0.4rem ; border: 1px solid #ced4da !important; width: 100%; height: auto !important; max-width: 100%;}
+input.form-control.invalid-field {border: 1px solid var(--red) !important;}
+input:focus.form-control, textarea:focus.form-control, select:focus.form-control{border: 1px solid #B09AE5 !important;}
+.text-center{text-align: center;}
+.text-right{text-align: right;}
+.hover-gray:hover{background-color: #F7F7FC;}
+
+
+/*********************************************************
+	DISPLAY
+*********************************************************/
+#lasso-display-add{font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; z-index: 999999999;}
+#lasso-display-add h2{font-size: 2rem; font-weight: 800; color: #555555; margin: 0; padding: 0; line-height: 1.5;}
+.lasso-display-type{color: #22BAA0 !important; cursor: pointer; display: block; padding: 1rem; border-radius: 0.5rem; transition: ease 0.25s;}
+.lasso-display-type h3{color: #22BAA0;}
+
+.lasso-url-image{object-fit: contain; width: 50px; height: 50px; border: 1px solid #dee2e6; border-radius: 50rem;}
+.lasso-url-title{font-size: 1rem; margin-bottom: 0.25rem; display: block; text-align: left;}
+.lasso-url-permalink{color: #AAAAAA; text-align: left; display: block;}
+.lasso-display-add-btn{background-color: #22BAA0; color: #FFFFFF; border-radius: 0.5rem; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.20) !important; padding: 0.75rem 1.5rem; border: none; font-weight: 800; font-size: 1rem; cursor: pointer;}
+.lasso-display-add-btn:hover{box-shadow: none !important; transform: translateY(3px) !important;}
+#lasso-display-add .modal-content #search_key {
+  line-height: 1.5;
+}
+#lasso-display-add .btn-create-link {
+  padding: 10px 15px;
+}
+
+
+/*********************************************************
+    LOADER
+*********************************************************/
+.ls-loader{border: 10px solid #E2E2E2; border-radius: 50%; border-top: 10px solid #22baa0; width: 100px; height: 100px; -webkit-animation: spin 1s linear infinite; animation: spin 1s linear infinite; margin: 0 auto;}
+@-webkit-keyframes spin { 0% { -webkit-transform: rotate(0deg); } 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+
+
+/*********************************************************
+    PAGINATION
+*********************************************************/
+.pagination.simple-pagination ul {display: flex; padding: 2rem 2rem 3rem 2rem;}
+.pagination.simple-pagination ul a{color: #777777 !important; text-decoration: none;}
+.pagination.simple-pagination ul a:hover{color: #5E36CA !important;}
+.pagination.simple-pagination ul li {text-align: center;}
+.pagination.simple-pagination ul li:first-of-type {text-align: left; width: 60%;}
+.pagination.simple-pagination ul li:last-of-type {text-align: right; width: 60%;}
+.pagination.simple-pagination ul .page-link {border: 0px; background: none; padding: 0.5rem 0rem;}
+#lasso-display-add .pagination.simple-pagination ul .page-link {padding: 0.5rem 1rem;}
+.pagination.simple-pagination ul .page-link.ellipse {color: #5E36CA;}
+.pagination.simple-pagination ul .page-item.active .page-link {border-radius: 0.5rem; font-weight: 800; background: #5E36CA; color: #FFFFFF;}
+.pagination.simple-pagination ul .page-item.disabled .page-link {opacity: 0.25;}
+.pagination.simple-pagination ul input[type=number]{padding: 1rem 0.5rem !important; margin-top: -7px !important;}
+.lasso-display-add-modal-open .modal-backdrop.fade {opacity: 0.5!important;}
+.lasso-display-add-modal-open .modal-backdrop {z-index: auto!important;}
