@@ -464,6 +464,8 @@ function clear_notifications() {
 					return;
 				}
 
+				response.status = true;
+
 				if(response.status) {
 					jQuery("#license-activation-progress").attr('aria-valuenow', 100).css('width', '100%');
 					setTimeout(function () {

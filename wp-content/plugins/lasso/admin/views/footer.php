@@ -216,33 +216,3 @@ if ( '' === get_option( 'lasso_amazon_valid', '' ) ) {
 	$table_displays  = $display_counts['table_count'];
 	$tables_created  = ( new Table_Details() )->total_count();
 ?>
-<script>    
-	var APP_ID = '<?php echo LASSO_INTERCOM_APP_ID; // phpcs:ignore ?>';
-	var isAmazonValid = '<?php echo $amazon_valid; // phpcs:ignore ?>' == 1 ? true : false;
-	var isImportPossible = '<?php echo $import_possible; // phpcs:ignore ?>' == 1 ? true : false;
-	var isClassicEditor = '<?php echo $classic_editor; // phpcs:ignore ?>' == 1 ? true : false;
-	var isGAConnected = '<?php echo $ga_set; // phpcs:ignore ?>' == 1 ? true : false;
-	var intercomParams = {
-		app_id: APP_ID,
-		name: '<?php echo addslashes( $user_name ); // phpcs:ignore ?>',
-		email: '<?php echo $user_email; // phpcs:ignore ?>',
-		user_hash: '<?php echo $user_hash; // phpcs:ignore ?>',
-		amazon_activated: isAmazonValid,
-		import_possible: isImportPossible,
-		sentry_loaded: '<?php echo $sentry_loaded; // phpcs:ignore ?>',
-		lasso_version: parseInt('<?php echo LASSO_VERSION; // phpcs:ignore ?>'),
-		classic_editor: isClassicEditor,
-		ga_connected: isGAConnected,
-		keyword_count: <?php echo $keyword_count; // phpcs:ignore ?>,
-		wp_admin_url: '<?php echo admin_url(); // phpcs:ignore ?>',
-		single_displays: <?php echo $single_displays; // phpcs:ignore ?>,
-		grid_displays: <?php echo $grid_displays; // phpcs:ignore ?>,
-		list_displays: <?php echo $list_displays; // phpcs:ignore ?>,
-        table_displays: <?php echo $table_displays; // phpcs:ignore ?>,
-        tables_created: <?php echo $tables_created; // phpcs:ignore ?>,
-		install_count: <?php echo $install_count; // phpcs:ignore ?>,
-	};
-
-	window.intercomSettings = intercomParams;
-</script>
-<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/' + APP_ID;var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();</script>

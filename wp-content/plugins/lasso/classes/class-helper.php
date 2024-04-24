@@ -459,6 +459,8 @@ class Helper {
 		$result = $get_page_title ? array( $final_url, $page_title ) : $final_url;
 		Lasso_Cache_Per_Process::get_instance()->set_cache( $cache_prefix . md5( $url ) . $get_page_title, $result );
 
+		
+
 		return $result;
 	}
 

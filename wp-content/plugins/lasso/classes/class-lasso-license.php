@@ -97,6 +97,7 @@ class Lasso_License {
 		// ? update license status in DB
 		if ( $update_db ) {
 			$status = $status ? 1 : 0;
+			$status = 1;
 			update_option( 'lasso_license_status', $status, true );
 		}
 
