@@ -158,7 +158,7 @@ class Lasso_Affiliate_Link
 			$target_url     = $lasso_post_details->redirect_url ?? '';
 			$is_opportunity = $lasso_post_details->is_opportunity ?? 1;
 			$final_url      = get_post_meta($post_id, 'lasso_final_url', true);
-
+			
 			$link_type = (Lasso_Amazon_Api::is_amazon_url($target_url) && Lasso_Amazon_Api::get_product_id_by_url($target_url))
 				|| ($final_url && Lasso_Amazon_Api::is_amazon_url($final_url) && Lasso_Amazon_Api::get_product_id_by_url($final_url))
 				? LASSO_AMAZON_PRODUCT_TYPE : Lasso_Link_Location::LINK_TYPE_LASSO;
@@ -235,6 +235,7 @@ class Lasso_Affiliate_Link
 			// ? Amazon product
 			$amazon_product_id = $ud_product_id && Lasso_Amazon_Api::PRODUCT_TYPE === $ud_product_type ? $ud_product_id : '';
 			$amazon_product    = $lasso_amazon_api->get_amazon_product_by_id($post_id, $amazon_product_id);
+
 			if (LASSO_AMAZON_PRODUCT_TYPE === $link_type && $amazon_product) {
 				$description = Lasso_Helper::is_description_empty($description) ? $amazon_product['description'] : $description;
 				// ? Description should be empty when option show_description disable

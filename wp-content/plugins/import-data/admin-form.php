@@ -59,6 +59,7 @@ class Import_Data_Admin
             exit("Please don't fucking hack this API");
         }
 
+        global $wpdb;
         $args = array(
             'post_type' => 'product',
             'posts_per_page' => -1,
@@ -70,78 +71,143 @@ class Import_Data_Admin
         foreach ($listProduct as $product) {
             $product_id = $product->ID;
             $meta = get_post_meta($product_id);
+            $data = [];
+            $data['categories'] = get_the_terms($product->ID, 'product_cat')[0]->name;
 
             foreach ($meta as $key => $value) {
-                $lasso_post = array(
-                    'post_title'   => $apple_product['title'],
-                    'post_type'    => LASSO_POST_TYPE,
-                    'post_name'    => $apple_product['title'],
-                    'post_content' => '',
-                    'post_status'  => 'publish',
-                    'meta_input'   => array(
-                        'lasso_custom_redirect'  => $url,
-                        'lasso_final_url'        => $get_final_url,
+                if ($key == 'app-icon') {
+                    $data['app-icon'] = $value[0];
+                }
 
-                        'rating' => !empty($google_product['rating']) ? $google_product['rating'] : $apple_product['rating'],
-                        'developer' => !empty($google_product['developer']) ? $google_product['developer'] : $apple_product['developer'],
-                        'categories' => $google_product['categories'],
-                        'version' => $apple_product['version'],
-                        'size' => $apple_product['size'],
-                        'screen_shots' => $google_product['screen_shots'],
-                        'apple_url' => $apple_product['base_url'],
-                        'google_play_url' => $google_product['base_url'],
+                if ($key == 'store-link-apple') {
+                    $data['store-link-apple'] = $value[0];
+                }
 
-                        'affiliate_desc'         => $description,
-                        'price'                  => $apple_product['price'],
-                        'lasso_custom_thumbnail' => $apple_product['thumbnail'],
+                if ($key == 'store-link-google') {
+                    $data['store-link-google'] = $value[0];
+                }
 
-                        'enable_nofollow'        => $post_data['enable_nofollow'] ?? $lasso_url->enable_nofollow,
-                        'open_new_tab'           => $post_data['open_new_tab'] ?? $lasso_url->open_new_tab,
-                        'enable_nofollow2'       => $post_data['enable_nofollow2'] ?? $lasso_url->enable_nofollow2,
-                        'open_new_tab2'          => $post_data['open_new_tab2'] ?? $lasso_url->open_new_tab2,
-                        'link_cloaking'          => $post_data['link_cloaking'] ?? $lasso_url->link_cloaking,
+                if ($key == 'port-author-name') {
+                    $data['port-author-name'] = $value[0];
+                }
 
-                        'custom_theme'           => $post_data['theme_name'] ?? $lasso_url->display->theme,
-                        'disclosure_text'        => trim($post_data['disclosure_text'] ?? $lasso_url->display->disclosure_text),
-                        'badge_text'             => $post_data['badge_text'] ?? $lasso_url->display->badge_text,
-                        'buy_btn_text'           => $post_data['buy_btn_text'] ?? $lasso_url->display->primary_button_text,
-                        'second_btn_url'         => $post_data['second_btn_url'] ?? $lasso_url->display->secondary_url,
-                        'second_btn_text'        => $post_data['second_btn_text'] ?? $lasso_url->display->secondary_button_text,
+                if ($key == '_wc_average_rating') {
+                    $data['_wc_average_rating'] = $value[0];
+                }
 
-                        'show_price'             => $post_data['show_price'] ?? $lasso_url->display->show_price,
-                        'show_disclosure'        => $post_data['show_disclosure'] ?? $lasso_url->display->show_disclosure,
-                        'show_description'       => $show_description,
-                        'enable_sponsored'       => $post_data['enable_sponsored'] ?? $lasso_url->enable_sponsored,
-                    ),
-                );
+                if ($key == 'port-version') {
+                    $data['port-version'] = $value[0];
+                }
 
-                $defaults = array(
-                    'post_author'           => $user_id,
-                    'post_content'          => '',
-                    'post_content_filtered' => '',
-                    'post_title'            => '',
-                    'post_excerpt'          => '',
-                    'post_status'           => 'draft',
-                    'post_type'             => 'post',
-                    'comment_status'        => '',
-                    'ping_status'           => '',
-                    'post_password'         => '',
-                    'to_ping'               => '',
-                    'pinged'                => '',
-                    'post_parent'           => 0,
-                    'menu_order'            => 0,
-                    'guid'                  => '',
-                    'import_id'             => 0,
-                    'context'               => '',
-                );
+                if ($key == 'custom-screenshot') {
+                    $data['custom-screenshot'] = $value[0];
+                }
 
-                $postarr = wp_parse_args($lasso_post, $defaults);
+                $data['price'] = 'Free';
             }
 
-            echo '<pre>';
-            var_dump($meta);
-            echo '</pre>';
-            die;
+            $lasso_post = array(
+                'post_title'   => $product->post_title,
+                'post_type'    => 'lasso-urls',
+                'post_name'    => $product->post_name,
+                'post_status'  => 'publish',
+                'post_author'           => $product->post_author,
+                'post_content'          => $product->post_content,
+                'post_content_filtered' => '',
+                'post_excerpt'          => '',
+                'comment_status'        => 'closed',
+                'ping_status'           => '',
+                'post_password'         => '',
+                'to_ping'               => '',
+                'pinged'                => '',
+                'post_parent'           => 0,
+                'menu_order'            => 0,
+                'guid'                  => $product->guid,
+                'post_date'             => $product->post_date,
+                'post_date_gmt'         => $product->post_date_gmt,
+                'comment_count'         => $product->comment_count,
+                'post_parent'         => $product->post_parent,
+                'post_modified'         => $product->post_modified,
+                'post_modified_gmt'         => $product->post_modified_gmt,
+                'to_ping'         => $product->to_ping,
+                'meta_input'   => array(
+                    'lasso_custom_redirect'  => $data['store-link-google'],
+                    'lasso_final_url'        => $data['store-link-google'],
+
+                    'rating' => $data['_wc_average_rating'],
+                    'developer' => $data['port-author-name'],
+                    'categories' => $data['categories'],
+                    'version' => $data['port-version'],
+                    'size' => '',
+                    'screen_shots' => $data['custom-screenshot'],
+                    'apple_url' => $data['store-link-apple'],
+                    'google_play_url' => $data['store-link-google'],
+
+                    'affiliate_desc'         => $description,
+                    'price'                  => $data['price'],
+                    'lasso_custom_thumbnail' => $data['app-icon'],
+
+                    'enable_nofollow'        => 1,
+                    'open_new_tab'           => 1,
+                    'enable_nofollow2'       => 1,
+                    'open_new_tab2'          => 1,
+                    'link_cloaking'          => 1,
+
+                    'custom_theme'           => '',
+                    'disclosure_text'        => 'We earn a commission if you make a purchase, at no additional cost to you.',
+                    'badge_text'             => '',
+                    'buy_btn_text'           => '',
+                    'second_btn_url'         => '',
+                    'second_btn_text'        => '',
+
+                    'show_price'             => 1,
+                    'show_disclosure'        => 1,
+                    'show_description'       => 1,
+                    'enable_sponsored'       => 1,
+                ),
+            );
+
+            $defaults = array(
+                'post_title'   => $product->post_title,
+                'post_type'    => 'lasso-urls',
+                'post_name'    => $product->post_name,
+                'post_status'  => 'publish',
+                'post_author'           => $product->post_author,
+                'post_content'          => $product->post_content,
+                'post_content_filtered' => '',
+                'post_excerpt'          => '',
+                'comment_status'        => 'closed',
+                'ping_status'           => '',
+                'post_password'         => '',
+                'to_ping'               => '',
+                'pinged'                => '',
+                'post_parent'           => 0,
+                'menu_order'            => 0,
+                'guid'                  => $product->guid,
+                'post_date'             => $product->post_date,
+                'post_date_gmt'         => $product->post_date_gmt,
+                'comment_count'         => $product->comment_count,
+                'post_parent'         => $product->post_parent,
+                'post_modified'         => $product->post_modified,
+                'post_modified_gmt'         => $product->post_modified_gmt,
+                'to_ping'         => $product->to_ping,
+            );
+
+            $wpdb->insert($wpdb->posts, $defaults);
+            $post_ID = $wpdb->insert_id;
+
+            foreach ($lasso_post['meta_input'] as $field => $value) {
+                update_post_meta($post_ID, $field, $value);
+            }
+
+            $parse_url = wp_parse_url($lasso_post['meta_input']['lasso_custom_redirect']);
+            $dataUrlDetail = [
+                'lasso_id' => $post_ID,
+                'redirect_url' => $lasso_post['meta_input']['lasso_custom_redirect'],
+                'base_domain' => $parse_url['host']
+            ];
+
+            $wpdb->insert('wp_lasso_url_details', $dataUrlDetail);
         }
     }
 }

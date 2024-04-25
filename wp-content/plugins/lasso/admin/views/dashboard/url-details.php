@@ -248,12 +248,21 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 									<label data-tooltip="Screen shot of app in store">
 										<strong>Screen shots</strong> <i class="far fa-info-circle light-purple"></i></label>
 									<?php if (isset($lasso_url->screen_shots) && !empty($lasso_url->screen_shots)) { ?>
-										<?php $lasso_url->screen_shots = json_decode($lasso_url->screen_shots, true); ?>
-										<div class="owl-carousel owl-theme">
-											<?php foreach ($lasso_url->screen_shots as $shot) { ?>
-												<img class="item" src="<?php echo $shot ?>" />
-											<?php } ?>
-										</div>
+										<?php if (is_array($lasso_url->screen_shots)) { ?>
+											<?php $lasso_url->screen_shots = json_decode($lasso_url->screen_shots, true); ?>
+											<div class="owl-carousel owl-theme">
+												<?php foreach ($lasso_url->screen_shots as $shot) { ?>
+													<img class="item" src="<?php echo $shot ?>" />
+												<?php } ?>
+											</div>
+										<?php } else { ?>
+											<div class="owl-carousel owl-theme">
+												<?php $lasso_url->screen_shots = explode(PHP_EOL, $lasso_url->screen_shots); ?>
+												<?php foreach ($lasso_url->screen_shots as $shot) { ?>
+													<img class="item" src="<?php echo $shot ?>" />
+												<?php } ?>
+											</div>
+										<?php } ?>
 									<?php } ?>
 								</div>
 							</div>
