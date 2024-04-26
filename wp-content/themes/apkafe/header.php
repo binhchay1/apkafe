@@ -45,7 +45,10 @@
                         <div class="ftr_link_box">
                             <?php if (!empty(ot_get_option('menu_header'))) {  ?>
                                 <?php foreach (ot_get_option('menu_header') as $menu) { ?>
-                                    <li><a href="<?php echo $menu['link'] ?>"><?php echo $menu['title'] ?></a></li>
+                                    <li style="display: flex; justify-content: end;">
+                                        <span style="margin-top: 5px;"><img src="<?php echo $menu['icon'] ?>" width="40" height="40"/></span>
+                                        <span><a href="<?php echo $menu['link'] ?>"><?php echo $menu['title'] ?></a></span>
+                                    </li>
                                 <?php } ?>
                             <?php } ?>
                         </div>

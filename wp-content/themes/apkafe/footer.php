@@ -19,16 +19,21 @@
         <div class="container">
             <div class="ftr_social_box">
                 <?php if (ot_get_option('share_facebook') != '') { ?>
-                    <a class="fsb_facebook" target="_blank" href="https://www.facebook.com/Apkmodget"><i class="fa fa-facebook"></i></a>
+                    <a class="fsb_facebook" target="_blank" href="<?php echo ot_get_option('share_facebook') ?>"><i class="fa fa-facebook"></i></a>
                 <?php } ?>
                 <?php if (ot_get_option('share_twitter') != '') { ?>
-                    <a class="fsb_twitter" target="_blank" href="https://twitter.com/apkmodget"><i class="fa fa-twitter"></i></a>
+                    <a class="fsb_twitter" target="_blank" href="<?php echo ot_get_option('share_twitter') ?>"><i class="fa fa-twitter"></i></a>
                 <?php } ?>
                 <?php if (ot_get_option('share_linkedin') != '') { ?>
-                    <a class="fsb_linkedin" target="_blank" href="https://www.linkedin.com/feed/"><i class="fa fa-linkedin"></i></a>
+                    <a class="fsb_linkedin" target="_blank" href="<?php echo ot_get_option('share_linkedin') ?>"><i class="fa fa-linkedin"></i></a>
                 <?php } ?>
                 <?php if (ot_get_option('share_youtube') != '') { ?>
-                    <a class="fsb_youtube" target="_blank" href="https://www.youtube.com/channel/UCdoH73xItV9fofokdqsx84Q"><i class="fa fa-youtube-play"></i></a>
+                    <a class="fsb_youtube" target="_blank" href="<?php echo ot_get_option('share_youtube') ?>"><i class="fa fa-youtube-play"></i></a>
+                <?php } ?>
+                <?php if (ot_get_option('custom_share') != '') { ?>
+                    <?php foreach (ot_get_option('custom_share') as $link) { ?>
+                        <a class="fsb_youtube" target="_blank" href="<?php echo ot_get_option('custom_share') ?>"><img src="<?php echo $link['icon'] ?>" width="30" height="30"></i></a>
+                    <?php } ?>
                 <?php } ?>
             </div>
         </div>

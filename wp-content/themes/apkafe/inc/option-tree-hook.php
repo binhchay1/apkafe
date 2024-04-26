@@ -197,6 +197,13 @@ function custom_theme_options()
             'desc'        => '',
             'std'         => '',
           ),
+          array(
+            'label'       => 'Icon',
+            'id'          => 'icon',
+            'type'        => 'upload',
+            'desc'        => 'Upload icon',
+            'std'         => '',
+          ),
         ),
       ),
       array(
