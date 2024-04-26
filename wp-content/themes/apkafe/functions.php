@@ -160,7 +160,7 @@ if (!function_exists('ot_type_post_list')) {
 
 		echo '<div class="format-setting-inner">';
 		echo '<input type="text" style="margin-bottom: 20px" aria-label="Search list" placeholder="Enter post title" id="search-post-list">';
-		$my_posts = get_posts(apply_filters('ot_type_post_checkbox_query', array('posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'any'), $field_id));
+		$my_posts = get_posts(apply_filters('ot_type_post_checkbox_query', array('posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'any', 'post_type'      => array('post', 'product')), $field_id));
 		if (is_array($my_posts) && !empty($my_posts)) {
 			foreach ($my_posts as $my_post) {
 				$post_url = get_permalink($my_post->ID);

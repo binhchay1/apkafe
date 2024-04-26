@@ -108,6 +108,13 @@ function custom_theme_options()
             'desc'        => 'Enter link',
             'std'         => '',
           ),
+          array(
+            'label'       => 'Icon',
+            'id'          => 'icon',
+            'type'        => 'upload',
+            'desc'        => 'Upload icon',
+            'std'         => '',
+          ),
         ),
       ),
       array(
@@ -174,6 +181,23 @@ function custom_theme_options()
         'taxonomy'    => '',
         'min_max_step' => '',
         'class'       => '',
+      ),
+      array(
+        'id'          => 'custom_share',
+        'label'       => 'Add custom share',
+        'desc'        => 'Add more social share',
+        'std'         => '',
+        'type'        => 'list-item',
+        'section'     => 'social_share',
+        'settings'    => array(
+          array(
+            'label'       => 'Link share',
+            'id'          => 'link_share',
+            'type'        => 'text',
+            'desc'        => '',
+            'std'         => '',
+          ),
+        ),
       ),
       array(
         'id'          => 'homepage_title_short_description',
