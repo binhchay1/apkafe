@@ -1,0 +1,312 @@
+#ahrefs_seo_screen {
+	margin-left: 22px;
+	margin-right: unset;
+}
+
+@media (min-width: 783px) {
+	.table-form tbody td.column-position,
+	.table-form tbody td.column-total,
+	.table-form tbody td.column-organic,
+	.table-form tbody td.column-backlinks,
+	.table-form tbody td.column-refdomains,
+	table.backlinks th.column-position,
+	table.backlinks th.column-total,
+	table.backlinks th.column-organic,
+	table.backlinks th.column-backlinks,
+	table.backlinks th.column-refdomains {
+		text-align: left;
+	}
+	table.backlinks th.column-position a,
+	table.backlinks th.column-total a,
+	table.backlinks th.column-organic a,
+	table.backlinks th.column-backlinks a,
+	table.backlinks th.column-refdomains a {
+		position: relative;
+		text-align: left;
+		float: left;
+		padding-right: 0;
+		padding-left: 10px;
+	}
+	table.backlinks th.column-position a span.sorting-indicator,
+	table.backlinks th.column-total a span.sorting-indicator,
+	table.backlinks th.column-organic a span.sorting-indicator,
+	table.backlinks th.column-backlinks a  span.sorting-indicator,
+	table.backlinks th.column-refdomains a  span.sorting-indicator {
+		position: absolute;
+		left: -5px;
+		right: unset;
+	}
+}
+
+@media screen and (min-width: 783px) and (max-width: 1160px) {
+	.table-form table td.column-action {
+		direction: ltr;
+	}
+	.table-form table td.column-action .status-action{
+		direction: rtl;
+	}
+}
+
+a.run-audit-button, a.button-dark, a.run-audit-button.button, .wp-core-ui a.run-audit-button.button-primary {
+	padding-right: 30px;
+}
+
+a.run-audit-button:before {
+	left:unset;
+	right: -6px;
+	background-position: right;
+	transform: rotate(180deg);
+
+}
+.ahrefs-header .header-hint {
+	text-align: right;
+}
+.ahrefs-header .content-right {
+	text-align: left;
+}
+.content-right #content_audit_status {
+	margin-right: 8px;
+}
+
+.run-audit-button.button-orange {
+	padding-right: unset;
+	padding-left: 10px;
+	padding-right: 30px;
+}
+
+a.content-hint-how, a.content-hint-support {
+	background-position: right;
+	padding-left: 8px;
+	padding-right: unset;
+}
+a.content-hint-how {
+	padding-right: 20px;
+}
+a.content-hint-support span {
+	padding-left: 7px;
+	padding-right: unset;
+}
+.ahrefs-header .logo {
+	margin-left: 22px;
+	margin-right: unset;
+}
+.ahrefs-header .content-right > div {
+	margin-left: unset;
+	margin-right: 8px;
+}
+.content-charts .content-details p .counter {
+	float: left;
+	text-align: left;
+}
+.content-charts .score-legend {
+	margin-left: auto;
+	margin-right: 35px;
+}
+
+.content-charts .content-chart:first-child {
+	margin-left: 8px;
+	margin-right: 0px;
+}
+.content-charts .content-chart:last-child {
+	margin-left: 0;
+	margin-right: 8px;
+}
+
+span.arrow-right {
+	display: inline-block;
+	transform: rotate(180deg);
+}
+.ahrefs-content-tip .button {
+	margin-right: unset;
+	margin-left: 14px;
+}
+.ahrefs-content-tip {
+	background-position: right center;
+	padding: 16px 86px 16px 32px;
+	text-align: right;
+}
+.ahrefs-content-tip div, .ahrefs-content-notice div {
+	text-align: right;
+}
+.widefat .more-content p,
+.more-content .position-info {
+	text-align: right;
+}
+.more-content .position-info span {
+	margin-left: 12px;
+}
+
+.details-related-item .details-position > .details-position-value {
+	padding: 0 0 0 8px;
+}
+.details-related-item .details-position > .block-row-actions {
+	float: left;
+	text-align: left;
+}
+.ahrefs-content-tip {
+	border-left: unset;
+	border-right: 4px solid #037cba;
+	border-left: solid 1px #ccd0d4;
+}
+.ahrefs-content-tip.tip-warning {
+	border-left: unset;
+	border-right: 4px solid #cf0000;
+}
+.ahrefs-content-tip.tip-notice {
+	border-left: unset;
+	border-right: 4px solid #face0d;
+}
+#charts_block_right, .content-charts .chart .bg {
+	margin-right: auto;
+}
+.content-charts .content-details p .marker {
+	margin-right: unset;
+	margin-left: 6px;
+}
+
+@media screen and (max-width: 767px) {
+	.content-charts .content-chart:last-child, .content-charts .content-chart:first-child {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+@media screen and (max-width: 425px) {
+	.ahrefs-content-tip .button {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.ahrefs-content-tip {
+		background-position: right top;
+		padding: 16px 64px 16px 16px;
+	}
+}
+@media screen and (max-width: 425px) {
+	.ahrefs-header .content-right {
+		text-align: left;
+	}
+}
+/* Wizard */
+.ahrefs-header .account {
+	padding-left: unset;
+	padding-right: 4px;
+}
+.ahrefs-seo-wizard.ahrefs-analytics .new-token-button .button, .ahrefs-seo-wizard.ahrefs-token .new-token-button .button {
+	margin-left: unset;
+	margin-right: 8px;
+}
+.wp-core-ui a.button-primary.wizard-run-button {
+	background-position: right center;
+}
+.wp-core-ui a.button-primary.wizard-run-button {
+	padding-left: 16px;
+	padding-right: 55px;
+}
+.wp-core-ui a.button-primary.wizard-run-button:before {
+	left: unset;
+	right: 35px;
+	transform: scaleX(-1);
+}
+/* Progress bars */
+#progressbar > div.position {
+	border-radius: 0 20px 20px 0;
+}
+.audit-progressbar > div.position {
+	border-radius: 0 3px 3px 0;
+}
+/* Content audit table */
+.table-form tbody td.column-position,
+.table-form tbody td.column-total,
+.table-form tbody td.column-organic,
+.table-form tbody td.column-backlinks,
+.table-form tbody td.column-refdomains,
+table.backlinks th.column-position,
+table.backlinks th.column-total,
+table.backlinks th.column-organic,
+table.backlinks th.column-backlinks,
+table.backlinks th.column-refdomains {
+	text-align: left;
+}
+
+/* Keywords popup */
+.ahrefs-seo-modal-keywords {
+	text-align: right;
+}
+.ahrefs-seo-modal-keywords .keyword-header {
+	text-align: right;
+}
+
+.keyword-results-table tr > th {
+	padding: 10px 16px 10px 0;
+}
+.keyword-results-table tr > td {
+	padding: 9px 16px 9px 0;
+}
+
+.keyword-results-table tr > th:last-child, .keyword-results-table tr > td:last-child {
+	padding-left: 16px;
+}
+
+.keyword-results-table th span {
+	padding-right: unset;
+	padding-left: 14px;
+}
+/*.keyword-table-wrap tr > th {*/
+/*	text-align: left;*/
+/*}*/
+.keyword-table-wrap tr > th:nth-child(1), .keyword-table-wrap tr > th:nth-child(2), .keyword-table-wrap tr > th:nth-child(3) {
+	text-align: right;
+}
+.keyword-table-wrap tr > td:nth-child(n+4), .keyword-table-wrap tr > th:nth-child(n+4) {
+	text-align: left;
+}
+.keyword-results-table th.sorting_desc span:after, .keyword-results-table th.sorting_desc_disabled span:after, .keyword-results-table th.sorting_asc span:after, .keyword-results-table th.sorting_asc_disabled span:after {
+		background-position: center left;
+}
+.keyword-results-table th.sorting_asc span:after, .keyword-results-table th.sorting_asc_disabled span:after {
+	background-position: center right;
+}
+
+.keyword-table-wrap .position {
+	margin-left: 14px;
+	margin-right: 0;
+}
+.keyword-table-wrap .keyword-percents, .keyword-table-wrap .keyword-no-info {
+	padding-left: unset;
+	padding-right: 3px;
+	margin-left: 14px;
+	margin-right: unset;
+}
+.ahrefs-open-keyword {
+	left: unset;
+	right: -9999px;
+}
+
+
+span.link-open {
+	background-position-x: left;
+}
+
+.wp-core-ui .button-group.button-hero .button, .wp-core-ui .button.button-hero {
+	margin-left: unset;
+	margin-right: 16px;
+}
+.more-content a.action-start span,
+.more-content a.action-stop span {
+	margin-right: unset;
+	margin-left: 6px;
+}
+tr .column-action .arrow-down {
+	margin-right: unset;
+	margin-left: 8px;
+}
+.wp-core-ui .button.status-action .arrow-text {
+	text-align: right;
+}
+.ahrefs-content-tip.tip-multi .subitem .caption:before {
+	margin-right: 0;
+	margin-left: 8px;
+	transform: rotate(90deg);
+}
+.more-content .column-title {
+	text-align: right;
+}
