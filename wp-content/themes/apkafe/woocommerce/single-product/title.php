@@ -10,7 +10,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 ?>
-<h2 itemprop="name" class="product_title entry-title"><?php the_title(); ?> information</h2>
+<h2 itemprop="name" class="product_title entry-title"><?php the_title(); ?></h2>
 <?php
 $author = get_post_meta(get_the_ID(),'port-author-name',true);
 $release = get_post_meta(get_the_ID(),'port-release',true);

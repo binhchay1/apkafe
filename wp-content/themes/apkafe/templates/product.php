@@ -1,6 +1,6 @@
 <?php
-$getMeta = get_post_meta(get_the_ID());
-$category = get_the_category(get_the_ID());
+$category = get_the_terms($post->ID, 'product_cat');
+$getMeta = get_post_meta($post->ID);
 $related = get_posts(array('category__in' => wp_get_post_categories($post->ID), 'numberposts' => 6, 'post__not_in' => array($post->ID)));
 
 $size = [];
@@ -39,12 +39,16 @@ if (array_key_exists('h1_sapo', $getMeta)) {
 }
 
 ?>
-
 <style>
-    .lang_box a {
-        display: flex;
-        align-items: center;
+    tr:first-child {
+        color: black;
     }
+
+    #content {
+        background: none;
+    }
+
+    
 </style>
 <div class="main_bar">
     <div id="article" class="widget">

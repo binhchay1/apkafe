@@ -53,20 +53,6 @@ function apkafe_scripts_styles()
 	if (is_single()) {
 		wp_enqueue_style('single', get_stylesheet_directory_uri() . '/css/single.css');
 	}
-
-	if (is_product()) {
-		$getCategory = get_the_terms(get_the_ID(), 'product_cat');
-
-		foreach ($getCategory as $term) {
-			if ($term->slug == 'review') {
-				wp_enqueue_style('review', get_stylesheet_directory_uri() . '/css/review.css');
-			}
-		}
-	}
-
-	if (in_category('top-list')) {
-		wp_enqueue_style('review', get_stylesheet_directory_uri() . '/css/review.css');
-	}
 }
 
 add_action('wp_enqueue_scripts', 'apkafe_scripts_styles');
@@ -158,8 +144,9 @@ if (!function_exists('ot_type_post_list')) {
 			echo '<div class="description">' . wp_specialchars_decode($field_desc) . '</div>';
 		}
 
-		echo '<div class="format-setting-inner">';
+		echo '<div class="format-setting-inner" id="' . $field_id . '">';
 		echo '<input type="text" style="margin-bottom: 20px" aria-label="Search list" placeholder="Enter post title" id="search-post-list">';
+		echo '<p style="margin-bottom: 10px; font-weight: bold;">Total post selected: <span id="total-count-area"></span></p>';
 		$my_posts = get_posts(apply_filters('ot_type_post_checkbox_query', array('posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'any', 'post_type'      => array('post', 'product')), $field_id));
 		if (is_array($my_posts) && !empty($my_posts)) {
 			foreach ($my_posts as $my_post) {
@@ -178,6 +165,11 @@ if (!function_exists('ot_type_post_list')) {
 		echo "<script>
 		var input = document.getElementById('search-post-list');
 		var lis = document.getElementsByClassName('item-post');
+		var count = 0;
+		if(jQuery('#" . $field_id . " input:checkbox:checked').length > 0) {
+			count = jQuery('#" . $field_id . " input:checkbox:checked').length;
+		}
+		jQuery('#" . $field_id . " #total-count-area').html(count);
 
 		input.onkeyup = function () {
             var filter = input.value.toUpperCase();
@@ -192,89 +184,6 @@ if (!function_exists('ot_type_post_list')) {
         }
 		</script>";
 	}
-}
-
-function handle_content()
-{
-	global $wp_query;
-	$default = get_the_content();
-
-	if ($wp_query->is_404 === false) {
-		$getList = generate_navigation($default);
-
-		$content = '<div class="explore_box"><strong class="explode_head">Table of Contents</strong><div class="explore_box_inner">';
-		$content .= $getList . '</div></div>';
-		$content .= '<div class="clear"></div><div class="cnt_box">';
-		$content .= $default;
-		$content .= '</div>';
-
-		$content .= '
-		<script>
-		let listH2 = jQuery("h2");
-		for(let i = 0; i < listH2.length; i++) {
-			let result = listH2[i].textContent.replaceAll(" ", "_");
-			listH2[i].setAttribute("id", result);
-		}
-		</script>';
-
-		return $content;
-	} else {
-		return $default;
-	}
-}
-
-add_action('the_content', 'handle_content');
-
-function generate_navigation($HTML)
-{
-	$DOM = new DOMDocument();
-	$DOM->loadHTML($HTML);
-
-	$navigation = '<ol>';
-
-	$h2IteratorStatus = 0;
-	$h3IteratorStatus = 0;
-	foreach ($DOM->getElementsByTagName('*') as $element) {
-		if ($element->tagName == 'h2') {
-
-			if ($h3IteratorStatus) {
-				$navigation .= '</ul>';
-				$h3IteratorStatus = 0;
-			}
-
-			if ($h2IteratorStatus) {
-				$navigation .= '</li>';
-				$h2IteratorStatus = 0;
-			}
-
-			$h2IteratorStatus = 1;
-			if ($element->textContent != '') {
-				$idElement = str_replace(' ', '_', $element->textContent);
-				$navigation .= '<li><a onclick="scrollToc(`' . $idElement . '`)" href="#' . $idElement . '">' . $element->textContent . '</a>';
-			}
-		} else if ($element->tagName == 'h3') {
-
-			if (!$h3IteratorStatus) {
-				$navigation .= '<ul>';
-				$h3IteratorStatus = 1;
-			}
-
-			if ($element->textContent != '') {
-				$idElement = str_replace(' ', '_', $element->textContent);
-				$navigation .= '<li><a onclick="scrollToc(`' . $idElement . '`)" href="#' . $idElement . '">' . $element->textContent . '</a></li>';
-			}
-		}
-	}
-
-	if ($h3IteratorStatus) {
-		$navigation .= '</ul>';
-	}
-
-	if ($h2IteratorStatus) {
-		$navigation .= '</li>';
-	}
-
-	return $navigation . `</ol>`;
 }
 
 add_action('template_redirect', function () {

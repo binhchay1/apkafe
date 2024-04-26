@@ -42,11 +42,11 @@
                 <div id="nav_wrap">
                     <p class="mob_menu_close"><i onclick="hide_menu_mob();" class="fa fa-times"></i></p>
                     <ul class="main_nav">
-                        <div class="ftr_link_box">
+                        <div class="ftr_link_box" style="display: flex; justify-content: end;">
                             <?php if (!empty(ot_get_option('menu_header'))) {  ?>
                                 <?php foreach (ot_get_option('menu_header') as $menu) { ?>
                                     <li style="display: flex; justify-content: end;">
-                                        <span style="margin-top: 5px;"><img src="<?php echo $menu['icon'] ?>" width="40" height="40"/></span>
+                                        <span style="margin-top: 5px;"><img src="<?php echo $menu['icon'] ?>" width="40" height="40" /></span>
                                         <span><a href="<?php echo $menu['link'] ?>"><?php echo $menu['title'] ?></a></span>
                                     </li>
                                 <?php } ?>

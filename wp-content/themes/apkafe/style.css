@@ -1044,6 +1044,11 @@ footer .footer_main .ftr_social_box a:hover {
   margin-bottom: 0;
 }
 
+.main_list_item {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .main_list_item .side_list_item {
   float: left;
   width: 32.33%;
@@ -1706,14 +1711,6 @@ ul li i:after {
   margin-top: 28px;
   right: 15px;
 }
-#faq ul li i:before,
-ul li i:after {
-  content: "";
-  position: absolute;
-  background-color: #cc071e;
-  width: 3px;
-  height: 9px;
-}
 #faq ul li i:before {
   transform: translate(-2px, 0) rotate(45deg);
 }
@@ -1750,4 +1747,16 @@ ul li i:after {
   border-radius: 20px;
   padding: 5px;
   margin-bottom: 20px;
+}
+
+.btn-fa-angle {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.lang_box a {
+  display: flex;
+  align-items: center;
 }
