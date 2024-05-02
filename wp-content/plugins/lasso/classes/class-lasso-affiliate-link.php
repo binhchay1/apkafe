@@ -1251,6 +1251,19 @@ class Lasso_Affiliate_Link
 		$open_new_tab     = 1 === intval($post_data['open_new_tab'] ?? '') ? true : false;
 		$enable_nofollow2 = 1 === intval($post_data['enable_nofollow2'] ?? '') ? true : false;
 		$open_new_tab2    = 1 === intval($post_data['open_new_tab2'] ?? '') ? true : false;
+
+		$enable_nofollow3 = 1 === intval($post_data['enable_nofollow3'] ?? '') ? true : false;
+		$open_new_tab3    = 1 === intval($post_data['open_new_tab3'] ?? '') ? true : false;
+
+		$enable_nofollow4 = 1 === intval($post_data['enable_nofollow4'] ?? '') ? true : false;
+		$open_new_tab4    = 1 === intval($post_data['open_new_tab4'] ?? '') ? true : false;
+
+		$enable_nofollow_google = 1 === intval($post_data['enable_nofollow_google'] ?? '') ? true : false;
+		$open_new_tab_google    = 1 === intval($post_data['open_new_tab_google'] ?? '') ? true : false;
+
+		$enable_nofollow_apple = 1 === intval($post_data['enable_nofollow_apple'] ?? '') ? true : false;
+		$open_new_tab_apple    = 1 === intval($post_data['open_new_tab_apple'] ?? '') ? true : false;
+
 		$link_cloaking    = 1 === intval($post_data['link_cloaking'] ?? '') ? true : false;
 		$enable_sponsored = 1 === intval($post_data['enable_sponsored'] ?? '') ? true : false;
 		$is_opportunity   = 1 === intval($post_data['is_opportunity'] ?? '') ? 1 : 0;
