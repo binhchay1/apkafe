@@ -145,7 +145,7 @@ if (!function_exists('ot_type_post_list')) {
 		}
 
 		echo '<div class="format-setting-inner" id="' . $field_id . '">';
-		echo '<input type="text" style="margin-bottom: 20px" aria-label="Search list" placeholder="Enter post title" id="search-post-list">';
+		echo '<input type="text" style="margin-bottom: 20px" aria-label="Search list" placeholder="Enter post title" id="search-post-list-' . esc_attr($field_id) . '">';
 		echo '<p style="margin-bottom: 10px; font-weight: bold;">Total post selected: <span id="total-count-area"></span></p>';
 		$my_posts = get_posts(apply_filters('ot_type_post_checkbox_query', array('posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'any', 'post_type'      => array('post', 'product')), $field_id));
 		if (is_array($my_posts) && !empty($my_posts)) {
@@ -163,7 +163,7 @@ if (!function_exists('ot_type_post_list')) {
 		echo '</div>';
 		echo '</div>';
 		echo "<script>
-		var input = document.getElementById('search-post-list');
+		var input = document.getElementById('search-post-list-" . esc_attr($field_id) . "');
 		var lis = document.getElementsByClassName('item-post');
 		var count = 0;
 		if(jQuery('#" . $field_id . " input:checkbox:checked').length > 0) {
