@@ -30,7 +30,7 @@ get_header();
         </div>
         <div class="clear mb10"></div>
 
-        <?php if ($custom_section != '') { ?>
+        <?php if (!empty($custom_section)) { ?>
             <?php foreach ($custom_section as $section) { ?>
                 <div class="widget">
                     <h2 class="widget_head"><?php echo $section['title'] ?></h2>

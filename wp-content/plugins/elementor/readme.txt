@@ -4,7 +4,7 @@ Tags: page builder, editor, landing page, drag-and-drop, elementor,
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 3.21.3
+Stable tag: 3.21.4
 Beta tag: 3.21.0-beta3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -250,6 +250,11 @@ You can also add a new language via [translate.wordpress.org](https://go.element
 6. **Motion Effects** - Add entrance animations and transitions to any element in your website to captivate visitors.
 
 == Changelog ==
+
+= 3.21.4 - 2024-04-30 =
+
+* Fix: Improved code enforcement of post Preview mode ([#25860](https://github.com/elementor/elementor/issues/25622))
+* Fix: Accordion is not displayed as expected when using Safari browser in Accordion widget ([#25905](https://github.com/elementor/elementor/issues/25905), [#25789](https://github.com/elementor/elementor/issues/25789))
 
 = 3.21.3 - 2024-04-25 =
 

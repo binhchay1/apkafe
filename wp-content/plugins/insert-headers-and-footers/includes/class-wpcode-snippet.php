@@ -1164,4 +1164,22 @@ class WPCode_Snippet {
 
 		return $this->load_as_file;
 	}
+
+	/**
+	 * Execute a snippet on demand.
+	 *
+	 * @param bool $ignore_conditional_logic Whether to ignore the conditional logic rules.
+	 *
+	 * @return void
+	 */
+	public function execute( $ignore_conditional_logic = false ) {
+
+		if ( ! $ignore_conditional_logic ) {
+			if ( $this->conditional_rules_enabled() && ! wpcode()->conditional_logic->are_snippet_rules_met( $this ) ) {
+				return;
+			}
+		}
+
+		wpcode()->execute->get_snippet_output( $this );
+	}
 }

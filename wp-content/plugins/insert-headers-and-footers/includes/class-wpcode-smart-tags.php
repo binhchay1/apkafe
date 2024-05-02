@@ -88,6 +88,10 @@ class WPCode_Smart_Tags {
 				'label'    => __( 'Logout URL', 'insert-headers-and-footers' ),
 				'function' => array( $this, 'tag_value_logout_url' ),
 			),
+			'permalink'    => array(
+				'label'    => __( 'Permalink', 'insert-headers-and-footers' ),
+				'function' => array( $this, 'tag_value_permalink' ),
+			),
 		);
 
 		$woocommerce_tags = array(

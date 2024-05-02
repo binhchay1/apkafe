@@ -192,6 +192,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 			2 => __( 'Snippet created & Saved.', 'insert-headers-and-footers' ),
 			3 => __( 'We encountered an error activating your snippet, please check the syntax and try again.', 'insert-headers-and-footers' ),
 			4 => __( 'Sorry, you are not allowed to change the status of the snippet.', 'insert-headers-and-footers' ),
+			5 => __( 'Snippet updated & executed.', 'insert-headers-and-footers' ),
 		);
 		$message  = absint( $_GET['message'] );
 		// phpcs:enable WordPress.Security.NonceVerification
@@ -210,7 +211,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 			$messages[ $message ] .= ' ' . $error_message;
 		}
 
-		if ( $message > 2 ) {
+		if ( $message > 2 && $message < 5 ) {
 			$this->set_error_message( $messages[ $message ] );
 		} else {
 			$this->set_success_message( $messages[ $message ] );
@@ -958,6 +959,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 		$active = isset( $this->snippet ) && $this->snippet->is_active();
 		$this->save_to_library_button();
 		?>
+		<span class="wpcode-status-toggle" data-show-if-id="[name='wpcode_auto_insert_location']" data-hide-if-value="on_demand">
 		<label class="wpcode-status-text" for="wpcode_active">
 			<span class="screen-reader-text">
 				<?php esc_html_e( 'Snippet Status:', 'insert-headers-and-footers' ); ?>
@@ -969,7 +971,19 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 				<?php esc_html_e( 'Inactive', 'insert-headers-and-footers' ); ?>
 			</span>
 		</label>
-		<?php echo $this->get_checkbox_toggle( $active, 'wpcode_active' );
+		<?php echo $this->get_checkbox_toggle( $active, 'wpcode_active' ); ?>
+		</span>
+		<button
+				class="wpcode-button wpcode-button-secondary wpcode-button-execute-now"
+				id="wpcode_execute_now"
+				data-show-if-id="[name='wpcode_auto_insert_location']"
+				data-show-if-value="on_demand"
+				type="submit"
+				name="execute_now"
+				value="execute_now" style="display:none;">
+			<?php esc_html_e( 'Execute Snippet Now', 'wpcode-premium' ); ?>
+		</button>
+		<?php
 		$this->update_button();
 	}
 
@@ -1019,6 +1033,21 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 
 		$code_type    = isset( $_POST['wpcode_snippet_type'] ) ? sanitize_text_field( wp_unslash( $_POST['wpcode_snippet_type'] ) ) : 'html';
 		$snippet_code = isset( $_POST['wpcode_snippet_code'] ) ? $_POST['wpcode_snippet_code'] : '';
+
+		if ( WPCode_Snippet_Execute::is_code_not_allowed( $snippet_code ) ) {
+			$title = esc_html__( 'Restricted Code Detected', 'insert-headers-and-footers' );
+			wp_die(
+				'<h2>' . $title . '</h2>' .
+				sprintf(
+				// Translators: %1$s is the opening link tag, %2$s is the closing link tag.
+					esc_html__( 'For your protection, we blocked the addition of certain types of code that could compromise your website\'s security. If you believe this is in error or need assistance, please %1$scontact our support team%2$s.', 'insert-headers-and-footer' ),
+					'<a href="' . wpcode_utm_url( 'https://wpcode.com/contact', 'error', 'restricted-code' ) . '" target="_blank" rel="noopener noreferrer">',
+					'</a>'
+				),
+				$title
+			);
+		}
+
 		if ( 'text' === $code_type ) {
 			$snippet_code = wpautop( $snippet_code );
 		}
@@ -1050,15 +1079,23 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 		} else {
 			$attributes = array();
 		}
+		$active      = isset( $_REQUEST['wpcode_active'] );
+		$location    = isset( $_POST['wpcode_auto_insert_location'] ) ? sanitize_text_field( wp_unslash( $_POST['wpcode_auto_insert_location'] ) ) : '';
+		$execute_now = isset( $_POST['execute_now'] ) && 'execute_now' === $_POST['execute_now'] && 'on_demand' === $location;
+
+		if ( $execute_now ) {
+			// If we are executing now we should never save the snippet as active.
+			$active = false;
+		}
 
 		$snippet = wpcode_get_snippet(
 			array(
 				'id'                   => empty( $_REQUEST['id'] ) ? 0 : absint( $_REQUEST['id'] ),
 				'title'                => isset( $_POST['wpcode_snippet_title'] ) ? sanitize_text_field( wp_unslash( $_POST['wpcode_snippet_title'] ) ) : '',
 				'code'                 => $snippet_code,
-				'active'               => isset( $_REQUEST['wpcode_active'] ),
+				'active'               => $active,
 				'code_type'            => $code_type,
-				'location'             => isset( $_POST['wpcode_auto_insert_location'] ) ? sanitize_text_field( wp_unslash( $_POST['wpcode_auto_insert_location'] ) ) : '',
+				'location'             => $location,
 				'insert_number'        => isset( $_POST['wpcode_auto_insert_number'] ) ? absint( $_POST['wpcode_auto_insert_number'] ) : 0,
 				'auto_insert'          => isset( $_POST['wpcode_auto_insert'] ) ? absint( $_POST['wpcode_auto_insert'] ) : 0,
 				'tags'                 => $tags,
@@ -1094,6 +1131,13 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 			if ( ! current_user_can( 'wpcode_activate_snippets' ) ) {
 				$message_number = 4;
 			}
+		}
+
+		// Now that we saved the data, let's execute the snippet if needed.
+		if ( $execute_now ) {
+			wpcode()->execute->doing_activation(); // Mark this to unslash the code.
+			$snippet->execute( apply_filters( 'wpcode_on_demand_ignore_conditional_logic', false ) );
+			$message_number = 5;
 		}
 
 		if ( $id ) {
@@ -1408,7 +1452,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 	 */
 	public function add_conditional_rules_to_script( $data ) {
 		if ( ! isset( $data['conditions'] ) ) {
-			$data['conditions'] = wpcode()->conditional_logic->get_all_admin_options();
+			$data['conditions'] = wpcode()->conditional_logic->get_all_admin_options( true );
 		}
 
 		$data['snippet_id']             = isset( $this->snippet_id ) ? $this->snippet_id : 0;
@@ -1659,7 +1703,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 	 */
 	public function get_input_row_as_file_description() {
 		return sprintf(
-			// Translators: Link to the documentation article for files as snippets. %1$s is the opening anchor tag, %2$s is the closing anchor tag.
+		// Translators: Link to the documentation article for files as snippets. %1$s is the opening anchor tag, %2$s is the closing anchor tag.
 			esc_html__( 'If enabled, this snippet will be loaded as a physical file instead of being inserted in the source of the page. %1$sLearn more%2$s.', 'insert-headers-and-footers' ),
 			'<a target="_blank" rel="noreferrer noopener" href="' . esc_url( wpcode_utm_url( 'https://wpcode.com/docs/snippet-files', 'snippet-manager', 'load-as-file', 'learn-more' ) ) . '">',
 			'</a>'

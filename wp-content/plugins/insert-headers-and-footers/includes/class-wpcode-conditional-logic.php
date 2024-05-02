@@ -50,9 +50,11 @@ class WPCode_Conditional_Logic {
 	/**
 	 * Get all the admin options for the conditional logic form.
 	 *
+	 * @param bool $for_js Whether to return the options for JS or not.
+	 *
 	 * @return array
 	 */
-	public function get_all_admin_options() {
+	public function get_all_admin_options( $for_js = false ) {
 		$options = array();
 		foreach ( $this->types as $type ) {
 			$type->load_type_options(); // Reload the options in case a global snippet made them get loaded before some post types were registered, for example.
@@ -75,6 +77,13 @@ class WPCode_Conditional_Logic {
 				$unavailable_options[ $key ] = $option;
 			} else {
 				$available_options[ $key ] = $option;
+			}
+		}
+
+		// For the user logged_in option let's run esc_attr on the option values to save the values correctly.
+		if ( $for_js && isset( $available_options['user']['options']['logged_in']['options'] ) ) {
+			foreach ( $available_options['user']['options']['logged_in']['options'] as $key => $option ) {
+				$available_options['user']['options']['logged_in']['options'][ $key ]['value'] = esc_attr( $option['value'] );
 			}
 		}
 

@@ -906,6 +906,9 @@ class Lasso_Affiliate_Link
 			}
 		}
 
+		var_dump($productAppStore);
+		die;
+
 		// ? check whether product is exist
 		$lasso_post_id = self::is_lasso_url_exist($url, $get_final_url);
 
@@ -1063,6 +1066,8 @@ class Lasso_Affiliate_Link
 			'badge_text'      => '',
 			'second_btn_url'  => '',
 			'thumbnail'       => $image,
+			'show_disclosure' => 0,
+			'link_cloaking' => 0,
 		);
 
 		// ? Add the settings to the affiliate link data

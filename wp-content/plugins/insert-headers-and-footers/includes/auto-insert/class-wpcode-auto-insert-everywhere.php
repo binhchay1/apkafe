@@ -59,6 +59,10 @@ class WPCode_Auto_Insert_Everywhere extends WPCode_Auto_Insert_Type {
 				'label'       => esc_html__( 'Frontend Conditional Logic', 'insert-headers-and-footers' ),
 				'description' => esc_html__( 'Ideal for running the snippet later with conditional logic rules in the frontend.', 'insert-headers-and-footers' ),
 			),
+			'on_demand'     => array(
+				'label'       => esc_html__( 'On Demand', 'insert-headers-and-footers' ),
+				'description' => esc_html__( 'Execute this snippet on demand or programmatically just when you need it.', 'insert-headers-and-footers' ),
+			),
 		);
 	}
 

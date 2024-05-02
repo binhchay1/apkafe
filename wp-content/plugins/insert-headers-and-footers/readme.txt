@@ -4,7 +4,7 @@ Tags: code, css, php, header, code snippets
 Requires at least: 4.6
 Tested up to: 6.5
 Requires PHP: 5.5
-Stable tag: 2.1.11
+Stable tag: 2.1.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -231,6 +231,11 @@ WPCode comes with a ready-made code snippets library that allows you to replace 
 ... and basically any plugin that adds a functionality which can be added via custom code snippets.
 
 == Changelog ==
+
+= 2.1.12 =
+* New: We added a new way to execute PHP snippets "On Demand" - look for the "On Demand" location in the Auto Insert settings.
+* Tweak: We added checks in place to prevent malicious code patterns from being used in WPCode.
+* Fix: We fixed a bug where the conditional logic for logged-in users was not being saved correctly the first time.
 
 = 2.1.11 =
 * Tweak: We improved the admin bar menu to fix an JS error in some scenarios and a html validation issue.
