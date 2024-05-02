@@ -650,7 +650,7 @@ class Lasso_Affiliate_Link
 		$parse_url = wp_parse_url($get_final_url);
 		$is_keyword = false;
 
-		$apiKeySerp = '2e012c4331346280042ad2946814f792ff852975d49043c5e70fbe89ae6b9922';
+		$apiKeySerp = 'f15db785c3495c2f77ab53a7ecfa45e2d23406642a2a7631342f1134425901cc';
 		if (!array_key_exists('host', $parse_url)) {
 			$is_keyword = true;
 			$apiSearchGoogle = 'https://serpapi.com/search.json?engine=google_play&q=';
@@ -905,9 +905,6 @@ class Lasso_Affiliate_Link
 				}
 			}
 		}
-
-		var_dump($productAppStore);
-		die;
 
 		// ? check whether product is exist
 		$lasso_post_id = self::is_lasso_url_exist($url, $get_final_url);
