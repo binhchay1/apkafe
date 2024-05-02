@@ -176,13 +176,13 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 							<div class="col-lg-4">
 								<div class="form-group mb-4">
 									<label data-tooltip="This text will appear in the optional secondary button"><strong>Button Text</strong> <i class="far fa-info-circle light-purple"></i></label>
-									<input type="text" class="form-control" id="second_btn_text" value="<?php echo esc_html($lasso_url->display->secondary_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
+									<input type="text" class="form-control" id="second_btn_text" value="<?php echo esc_html($lasso_url->display->apple_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
 								</div>
 							</div>
 
 							<div class="col-lg-6 mb-4">
 								<label class="toggle m-0 mr-1">
-									<input id="url-open-link2" name="open_new_tab2" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->open_new_tab2); ?>>
+									<input id="url-open-link-apple" name="open_new_tab_apple" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->open_new_tab_apple); ?>>
 									<span class="slider"></span>
 								</label>
 								<label data-tooltip="When enabled, users who click this link will have it loaded in a new tab.">New Window / Tab <i class="far fa-info-circle light-purple"></i></label>
@@ -190,7 +190,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 
 							<div class="col-lg-6 text-right">
 								<label class="toggle m-0 mr-1">
-									<input name="enable_nofollow2" id="url-en-nofollow2" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->enable_nofollow2); ?>>
+									<input name="enable_nofollow_apple" id="url-en-nofollow-apple" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->enable_nofollow_apple); ?>>
 									<span class="slider"></span>
 								</label>
 								<label data-tooltip="When enabled, this link will be set to nofollow. This indicates to Google that it's an affiliate link.">NoFollow / NoIndex <i class="far fa-info-circle light-purple"></i></label>
@@ -209,13 +209,13 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 							<div class="col-lg-4">
 								<div class="form-group mb-4">
 									<label data-tooltip="This text will appear in the optional secondary button"><strong>Button Text</strong> <i class="far fa-info-circle light-purple"></i></label>
-									<input type="text" class="form-control" id="second_btn_text" value="<?php echo esc_html($lasso_url->display->secondary_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
+									<input type="text" class="form-control" id="google_button_text" value="<?php echo esc_html($lasso_url->display->google_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
 								</div>
 							</div>
 
 							<div class="col-lg-6 mb-4">
 								<label class="toggle m-0 mr-1">
-									<input id="url-open-link2" name="open_new_tab2" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->open_new_tab2); ?>>
+									<input id="url-open-link-google" name="open_new_tab_google" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->open_new_tab_google); ?>>
 									<span class="slider"></span>
 								</label>
 								<label data-tooltip="When enabled, users who click this link will have it loaded in a new tab.">New Window / Tab <i class="far fa-info-circle light-purple"></i></label>
@@ -223,7 +223,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 
 							<div class="col-lg-6 text-right">
 								<label class="toggle m-0 mr-1">
-									<input name="enable_nofollow2" id="url-en-nofollow2" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->enable_nofollow2); ?>>
+									<input name="enable_nofollow_google" id="url-en-nofollow-google" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->enable_nofollow_google); ?>>
 									<span class="slider"></span>
 								</label>
 								<label data-tooltip="When enabled, this link will be set to nofollow. This indicates to Google that it's an affiliate link.">NoFollow / NoIndex <i class="far fa-info-circle light-purple"></i></label>
@@ -242,13 +242,13 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 							<div class="col-lg-4">
 								<div class="form-group mb-4">
 									<label data-tooltip="This text will appear in the optional secondary button"><strong>Button Text</strong> <i class="far fa-info-circle light-purple"></i></label>
-									<input type="text" class="form-control" id="second_btn_text" value="<?php echo esc_html($lasso_url->display->secondary_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
+									<input type="text" class="form-control" id="third_button_text" value="<?php echo esc_html($lasso_url->display->third_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
 								</div>
 							</div>
 
 							<div class="col-lg-6 mb-4">
 								<label class="toggle m-0 mr-1">
-									<input id="url-open-link2" name="open_new_tab2" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->open_new_tab2); ?>>
+									<input id="url-open-link3" name="open_new_tab3" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->open_new_tab3); ?>>
 									<span class="slider"></span>
 								</label>
 								<label data-tooltip="When enabled, users who click this link will have it loaded in a new tab.">New Window / Tab <i class="far fa-info-circle light-purple"></i></label>
@@ -256,7 +256,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 
 							<div class="col-lg-6 text-right">
 								<label class="toggle m-0 mr-1">
-									<input name="enable_nofollow2" id="url-en-nofollow2" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->enable_nofollow2); ?>>
+									<input name="enable_nofollow3" id="url-en-nofollow3" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->enable_nofollow3); ?>>
 									<span class="slider"></span>
 								</label>
 								<label data-tooltip="When enabled, this link will be set to nofollow. This indicates to Google that it's an affiliate link.">NoFollow / NoIndex <i class="far fa-info-circle light-purple"></i></label>
@@ -275,13 +275,13 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 							<div class="col-lg-4">
 								<div class="form-group mb-4">
 									<label data-tooltip="This text will appear in the optional secondary button"><strong>Button Text</strong> <i class="far fa-info-circle light-purple"></i></label>
-									<input type="text" class="form-control" id="second_btn_text" value="<?php echo esc_html($lasso_url->display->secondary_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
+									<input type="text" class="form-control" id="second_btn_text" value="<?php echo esc_html($lasso_url->display->fourth_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
 								</div>
 							</div>
 
 							<div class="col-lg-6 mb-4">
 								<label class="toggle m-0 mr-1">
-									<input id="url-open-link2" name="open_new_tab2" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->open_new_tab2); ?>>
+									<input id="url-open-link4" name="open_new_tab4" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->open_new_tab4); ?>>
 									<span class="slider"></span>
 								</label>
 								<label data-tooltip="When enabled, users who click this link will have it loaded in a new tab.">New Window / Tab <i class="far fa-info-circle light-purple"></i></label>
@@ -289,7 +289,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 
 							<div class="col-lg-6 text-right">
 								<label class="toggle m-0 mr-1">
-									<input name="enable_nofollow2" id="url-en-nofollow2" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->enable_nofollow2); ?>>
+									<input name="enable_nofollow4" id="url-en-nofollow4" type="checkbox" <?php echo esc_html($lasso_url->url_detail_checkbox->enable_nofollow4); ?>>
 									<span class="slider"></span>
 								</label>
 								<label data-tooltip="When enabled, this link will be set to nofollow. This indicates to Google that it's an affiliate link.">NoFollow / NoIndex <i class="far fa-info-circle light-purple"></i></label>

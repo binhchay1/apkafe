@@ -151,7 +151,7 @@ if (!function_exists('ot_type_post_list')) {
 		if (is_array($my_posts) && !empty($my_posts)) {
 			foreach ($my_posts as $my_post) {
 				$post_url = get_permalink($my_post->ID);
-				echo '<p class="item-post">';
+				echo '<p class="item-post item-in-lis-' . esc_attr($field_id) . '">';
 				echo '<input type="checkbox" name="' . esc_attr($field_name) . '[' . esc_attr($my_post->ID) . ']" id="' . esc_attr($field_id) . '-' . esc_attr($my_post->ID) . '" value="' . esc_attr($my_post->ID) . '" ' . (isset($field_value[$my_post->ID]) ? checked($field_value[$my_post->ID], $my_post->ID, false) : '') . ' class="option-tree-ui-checkbox ' . esc_attr($field_class) . '" />';
 				echo '<label for="' . esc_attr($field_id) . '-' . esc_attr($my_post->ID) . '">' . $post_url . '</label>';
 				echo '</p>';
@@ -163,23 +163,22 @@ if (!function_exists('ot_type_post_list')) {
 		echo '</div>';
 		echo '</div>';
 		echo "<script>
-		var input = document.getElementById('search-post-list-" . esc_attr($field_id) . "');
-		var lis = document.getElementsByClassName('item-post');
+		var input_" . esc_attr($field_id) . " = document.getElementById('search-post-list-" . esc_attr($field_id) . "');
+		var lis_" . esc_attr($field_id) . " = document.getElementsByClassName('item-in-lis-" . esc_attr($field_id) . "');
 		var count = 0;
 		if(jQuery('#" . $field_id . " input:checkbox:checked').length > 0) {
 			count = jQuery('#" . $field_id . " input:checkbox:checked').length;
 		}
 		jQuery('#" . $field_id . " #total-count-area').html(count);
 
-		input.onkeyup = function () {
-            var filter = input.value.toUpperCase();
-
-            for (var i = 0; i < lis.length; i++) {
-                var text = lis[i].getElementsByTagName('label')[0].innerHTML;
+		input_" . esc_attr($field_id) . ".onkeyup = function () {
+            var filter = input_" . esc_attr($field_id) . ".value.toUpperCase();
+            for (var i = 0; i < lis_" . esc_attr($field_id) . ".length; i++) {
+                var text = lis_" . esc_attr($field_id) . "[i].getElementsByTagName('label')[0].innerHTML;
                 if (text.toUpperCase().indexOf(filter) == 0) 
-                    lis[i].style.display = 'block';
+				lis_" . esc_attr($field_id) . "[i].style.display = 'block';
                 else
-                    lis[i].style.display = 'none';
+				lis_" . esc_attr($field_id) . "[i].style.display = 'none';
             }
         }
 		</script>";
