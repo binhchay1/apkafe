@@ -125,13 +125,13 @@ add_action('wp_head', function () {
 	}
 }, PHP_INT_MAX);
 
-function add_custom_option_types($types)
+function add_custom_option_types_post_list($types)
 {
 	$types['post-list'] = 'Post list';
 
 	return $types;
 }
-add_filter('ot_option_types_array', 'add_custom_option_types');
+add_filter('ot_option_types_array', 'add_custom_option_types_post_list');
 
 if (!function_exists('ot_type_post_list')) {
 
@@ -160,6 +160,55 @@ if (!function_exists('ot_type_post_list')) {
 		} else {
 			echo '<p>' . __('No Posts Found', 'option-tree') . '</p>';
 		}
+
+		echo '</div>';
+		echo '</div>';
+		echo "<script>
+		var input_" . esc_attr($field_id) . " = document.getElementById('search-post-list-" . esc_attr($field_id) . "');
+		var lis_" . esc_attr($field_id) . " = document.getElementsByClassName('item-in-lis-" . esc_attr($field_id) . "');
+		var count = 0;
+		if(jQuery('#" . $field_id . " input:checkbox:checked').length > 0) {
+			count = jQuery('#" . $field_id . " input:checkbox:checked').length;
+		}
+		jQuery('#" . $field_id . " #total-count-area').html(count);
+
+		input_" . esc_attr($field_id) . ".onkeyup = function () {
+            var filter = input_" . esc_attr($field_id) . ".value.toUpperCase();
+            for (var i = 0; i < lis_" . esc_attr($field_id) . ".length; i++) {
+                var text = lis_" . esc_attr($field_id) . "[i].getElementsByTagName('label')[0].innerHTML;
+                if (text.toUpperCase().indexOf(filter) == 0) 
+				lis_" . esc_attr($field_id) . "[i].style.display = 'block';
+                else
+				lis_" . esc_attr($field_id) . "[i].style.display = 'none';
+            }
+        }
+		</script>";
+	}
+}
+
+function add_custom_option_types_post_list_section_customize($types)
+{
+	$types['post-list-section-customize'] = 'Post list section customize';
+
+	return $types;
+}
+add_filter('ot_option_types_array', 'add_custom_option_types_post_list_section_customize');
+
+if (!function_exists('ot_type_post_list_section_customize')) {
+
+	function ot_type_post_list_section_customize($args = array())
+	{
+		wp_enqueue_style('single', get_stylesheet_directory_uri() . '/inc/option-tree/assets/css/custom-type.css');
+		extract($args);
+		$has_desc = $field_desc ? true : false;
+		echo '<div class="format-setting type-post-checkbox type-checkbox ' . ($has_desc ? 'has-desc' : 'no-desc') . '">';
+		if ($has_desc) {
+			echo '<div class="description">' . wp_specialchars_decode($field_desc) . '</div>';
+		}
+
+		echo '<div class="format-setting-inner" id="' . $field_id . '">';
+		echo '<input type="text" style="margin-bottom: 20px" aria-label="Search list" placeholder="Enter post title" id="search-post-list-' . esc_attr($field_id) . '">';
+		echo '<p style="margin-bottom: 10px; font-weight: bold;">Total post selected: <span id="total-count-area"></span></p>';
 
 		echo '</div>';
 		echo '</div>';

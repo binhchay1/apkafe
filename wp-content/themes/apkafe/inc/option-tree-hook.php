@@ -29,6 +29,10 @@ function custom_theme_options()
         'id'          => 'side_bar',
         'title'       => '<i class="fa fa-list"></i>Side bar'
       ),
+      array(
+        'id'          => 'section_customize',
+        'title'       => '<i class="fa fa-list"></i>Section customize'
+      ),
     ),
     'settings'        => array(
       array(
@@ -300,6 +304,57 @@ function custom_theme_options()
         'taxonomy'    => '',
         'min_max_step' => '',
         'class'       => '',
+      ),
+      array(
+        'id'          => 'section_blog',
+        'label'       => 'Section blog',
+        'desc'        => 'Customize for section blog',
+        'std'         => '',
+        'type'        => 'post-list-section-customize',
+        'section'     => 'section_customize',
+        'settings'    => array(
+          array(
+            'label'       => 'Select post',
+            'id'          => 'post_select',
+            'type'        => 'post-list-section-customize',
+            'desc'        => '',
+            'std'         => '',
+          ),
+        ),
+      ),
+      array(
+        'id'          => 'section_tips_and_android',
+        'label'       => 'Section tips and android',
+        'desc'        => 'Customize for section tips and android',
+        'std'         => '',
+        'type'        => 'post-list-section-customize',
+        'section'     => 'section_customize',
+        'settings'    => array(
+          array(
+            'label'       => 'Select post',
+            'id'          => 'post_select',
+            'type'        => 'post-list-section-customize',
+            'desc'        => '',
+            'std'         => '',
+          ),
+        ),
+      ),
+      array(
+        'id'          => 'section_news_tech',
+        'label'       => 'Section news tech',
+        'desc'        => 'Customize for section news tech',
+        'std'         => '',
+        'type'        => 'post-list-section-customize',
+        'section'     => 'section_customize',
+        'settings'    => array(
+          array(
+            'label'       => 'Select post',
+            'id'          => 'post_select',
+            'type'        => 'post-list-section-customize',
+            'desc'        => '',
+            'std'         => '',
+          ),
+        ),
       ),
     )
   );
