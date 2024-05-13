@@ -17,8 +17,33 @@ if ($layout == '') {
 	$layout =  ot_get_option('page_layout');
 }
 
-get_header('shop'); ?>
+global $wp_query;
+$cat = $wp_query->get_queried_object();
+$getH1 = get_term_meta($cat->term_id, 'h1_category', true);
 
+get_header('shop'); ?>
+<style>
+	.sort-controls {
+		display: flex;
+		margin: 20px 0;
+	}
+
+	.sort-controls li {
+		background-color: #e4e4e4;
+		padding: 10px 25px;
+		font-size: 18px;
+		color: black;
+		border-radius: 10px;
+	}
+
+	.sort-controls li:not(:first-child) {
+		margin-left: 15px;
+	}
+
+	.sort-controls .active {
+		background-color: black;
+	}
+</style>
 <div class="container">
 	<?php
 	function get_all_terms($ter, $breadcrumb, $listTermShift)
@@ -56,7 +81,6 @@ get_header('shop'); ?>
 	<?php if ($content_padding != 'off') { ?>
 		<div class="content-pad-4x">
 		<?php } ?>
-
 		<div class="row">
 			<div id="content" class="<?php if ($layout != 'full' && $layout != 'true-full') { ?> col-md-9 <?php } else { ?>col-md-12 <?php }
 																																	if ($layout == 'left') { ?> revert-layout <?php } ?>">
@@ -65,30 +89,56 @@ get_header('shop'); ?>
 					WCV_Vendor_Shop::shop_description();
 				} ?>
 
+				<div>
+					<?php if ($getH1 != '') { ?>
+						<h1><?php echo $getH1 ?></h1>
+					<?php } ?>
+				</div>
+
 				<?php do_action('woocommerce_archive_description'); ?>
 
-				<?php
-				if (have_posts()) {
-					do_action('woocommerce_before_shop_loop');
-					woocommerce_product_loop_start();
+				<ul class="sort-controls">
+					<li class="active">
+						<a onclick="handleTabCategory('new')">New</a>
+					</li>
+					<li>
+						<a onclick="handleTabCategory('hot')">Hot</a>
+					</li>
+					<li>
+						<a onclick="handleTabCategory('popular')">Popular</a>
+					</li>
+				</ul>
 
-					if (wc_get_loop_prop('total')) {
-						while (have_posts()) {
-							the_post();
-							do_action('woocommerce_shop_loop');
-							wc_get_template_part('content', 'product');
+				<div id="news">
+					<?php
+					if (have_posts()) {
+						do_action('woocommerce_before_shop_loop');
+						woocommerce_product_loop_start();
+
+						if (wc_get_loop_prop('total')) {
+							while (have_posts()) {
+								the_post();
+								do_action('woocommerce_shop_loop');
+								wc_get_template_part('content', 'product');
+							}
 						}
+
+						woocommerce_product_loop_end();
+						do_action('woocommerce_after_shop_loop');
+					} else {
+						do_action('woocommerce_no_products_found');
 					}
+					?>
+				</div>
 
-					woocommerce_product_loop_end();
-					do_action('woocommerce_after_shop_loop');
-				} else {
-					do_action('woocommerce_no_products_found');
-				}
-				?>
+				<div id="hot">
 
+				</div>
+
+				<div id="popular">
+
+				</div>
 			</div>
-
 		</div>
 
 		<?php if ($content_padding != 'off') { ?>
@@ -100,4 +150,9 @@ get_header('shop'); ?>
 	}
 	?>
 </div>
+<script>
+	function handleTabCategory(cate) {
+
+	}
+</script>
 <?php get_footer(); ?>

@@ -7,6 +7,7 @@ require_once 'inc/starter/leaf-core.php';
 require_once 'inc/option-tree-hook.php';
 require_once 'inc/starter/functions-admin.php';
 require_once 'inc/starter/category-image.php';
+require_once 'inc/starter/custom-field-category.php';
 
 remove_action('shutdown', 'wp_ob_end_flush_all', 1);
 
