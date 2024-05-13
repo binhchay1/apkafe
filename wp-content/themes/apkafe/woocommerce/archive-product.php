@@ -16,6 +16,7 @@ $content_padding = get_post_meta(get_option('woocommerce_shop_page_id'), 'conten
 if ($layout == '') {
 	$layout =  ot_get_option('page_layout');
 }
+
 get_header('shop'); ?>
 
 <div class="container">
@@ -55,6 +56,7 @@ get_header('shop'); ?>
 	<?php if ($content_padding != 'off') { ?>
 		<div class="content-pad-4x">
 		<?php } ?>
+
 		<div class="row">
 			<div id="content" class="<?php if ($layout != 'full' && $layout != 'true-full') { ?> col-md-9 <?php } else { ?>col-md-12 <?php }
 																																	if ($layout == 'left') { ?> revert-layout <?php } ?>">

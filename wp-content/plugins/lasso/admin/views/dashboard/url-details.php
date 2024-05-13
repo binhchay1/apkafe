@@ -176,7 +176,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 							<div class="col-lg-4">
 								<div class="form-group mb-4">
 									<label data-tooltip="This text will appear in the optional secondary button"><strong>Button Text</strong> <i class="far fa-info-circle light-purple"></i></label>
-									<input type="text" class="form-control" id="second_btn_text" value="<?php echo esc_html($lasso_url->display->apple_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
+									<input type="text" class="form-control" id="apple_btn_text" value="<?php echo esc_html($lasso_url->display->apple_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
 								</div>
 							</div>
 
@@ -202,14 +202,14 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 								<div class="form-group mb-4">
 									<label data-tooltip="A google app URL you want people to go to when they click an optional second button in displays">
 										<strong>Google App URL</strong> <i class="far fa-info-circle light-purple"></i></label>
-									<input type="text" class="form-control" id="google_play_url" value="<?php echo esc_html($lasso_url->google_play_url); ?>" placeholder="https://play.google.com/store/apps/details?id=net.kairosoft.android.piratedx">
+									<input type="text" class="form-control" id="google_btn_url" value="<?php echo esc_html($lasso_url->google_btn_url); ?>" placeholder="https://play.google.com/store/apps/details?id=net.kairosoft.android.piratedx">
 								</div>
 							</div>
 
 							<div class="col-lg-4">
 								<div class="form-group mb-4">
 									<label data-tooltip="This text will appear in the optional secondary button"><strong>Button Text</strong> <i class="far fa-info-circle light-purple"></i></label>
-									<input type="text" class="form-control" id="google_button_text" value="<?php echo esc_html($lasso_url->display->google_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
+									<input type="text" class="form-control" id="google_btn_text" value="<?php echo esc_html($lasso_url->display->google_button_text); ?>" placeholder="<?php echo esc_html($lasso_url->display->secondary_button_text_default); ?>">
 								</div>
 							</div>
 
@@ -1400,7 +1400,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 			var permalink = jQuery('#permalink').val();
 			var disclosure = jQuery("#disclosure").val();
 			var apple_url = jQuery("#apple_url").val();
-			var google_play_url = jQuery("#google_play_url").val();
+			var google_btn_url = jQuery("#google_btn_url").val();
 			var third_btn_url = jQuery("#third_btn_url").val();
 			var fourth_btn_url = jQuery("#fourth_btn_url").val();
 			var price_app = jQuery("#price_app").val();
@@ -1422,7 +1422,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 				permalink: jQuery("#permalink").val(),
 				price: price,
 				apple_url: apple_url,
-				google_play_url: google_play_url,
+				google_btn_url: google_btn_url,
 				third_btn_url: third_btn_url,
 				fourth_btn_url: fourth_btn_url,
 				price_app: price_app,
@@ -1436,6 +1436,13 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 				open_new_tab: jQuery("#url-open-link").prop("checked") ? 1 : 0,
 				enable_nofollow2: jQuery("#url-en-nofollow2").prop("checked") ? 1 : 0,
 				open_new_tab2: jQuery("#url-open-link2").prop("checked") ? 1 : 0,
+
+				enable_nofollow3: jQuery("#url-en-nofollow3").prop("checked") ? 1 : 0,
+				open_new_tab3: jQuery("#url-open-link3").prop("checked") ? 1 : 0,
+
+				enable_nofollow4: jQuery("#url-en-nofollow4").prop("checked") ? 1 : 0,
+				open_new_tab4: jQuery("#url-open-link4").prop("checked") ? 1 : 0,
+
 				link_cloaking: jQuery("#url-en-link-cloaking").prop("checked") ? 1 : 0,
 				is_opportunity: jQuery("#is_opportunity").prop("checked") ? 1 : 0,
 				enable_sponsored: jQuery("#enable_sponsored").prop("checked") ? 1 : 0,
@@ -1452,6 +1459,15 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 				buy_btn_text: jQuery("#buy_btn_text").val(),
 				second_btn_url: jQuery("#second_btn_url").val(),
 				second_btn_text: jQuery("#second_btn_text").val(),
+
+				third_btn_url: jQuery("#third_btn_url").val(),
+				third_btn_text: jQuery("#third_btn_text").val(),
+
+				fourth_btn_url: jQuery("#fourth_btn_url").val(),
+				fourth_btn_text: jQuery("#fourth_btn_text").val(),
+
+				google_btn_text: jQuery("#google_btn_text").val(),
+				apple_btn_text: jQuery("#apple_btn_text").val(),
 			};
 
 			if (amazon_product_id != '') {
@@ -1511,7 +1527,6 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 					}
 				})
 				.done(function(res) {
-					console.log(res);
 					if (res.success) {
 						lasso_segment_tracking('Lasso Link Saved', {
 							lasso_id: lasso_id,

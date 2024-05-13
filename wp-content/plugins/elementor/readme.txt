@@ -4,7 +4,7 @@ Tags: page builder, editor, landing page, drag-and-drop, elementor,
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 3.21.4
+Stable tag: 3.21.5
 Beta tag: 3.21.0-beta3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -250,6 +250,11 @@ You can also add a new language via [translate.wordpress.org](https://go.element
 6. **Motion Effects** - Add entrance animations and transitions to any element in your website to captivate visitors.
 
 == Changelog ==
+
+= 3.21.5 - 2024-05-08 =
+
+* Tweak: Improved AI Image variations to use an updated and simplified model
+* Fix: Editor History actions are not working as expected when using keyboard shortcuts ([#27030](https://github.com/elementor/elementor/issues/27030), [#25861](https://github.com/elementor/elementor/issues/25861))
 
 = 3.21.4 - 2024-04-30 =
 

@@ -486,7 +486,7 @@ class Lasso_Affiliate_Link
 			'size'           => $size,
 			'screen_shots'           => $screen_shots,
 			'apple_url'           => $apple_url,
-			'google_play_url'           => $google_play_url,
+			'google_btn_url'           => $google_play_url,
 
 			'display'             => (object) array(
 				'theme'                         => $custom_theme,
