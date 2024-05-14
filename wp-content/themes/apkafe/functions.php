@@ -7,7 +7,6 @@ require_once 'inc/starter/leaf-core.php';
 require_once 'inc/option-tree-hook.php';
 require_once 'inc/starter/functions-admin.php';
 require_once 'inc/starter/category-image.php';
-require_once 'inc/starter/custom-field-category.php';
 
 remove_action('shutdown', 'wp_ob_end_flush_all', 1);
 
@@ -148,7 +147,7 @@ if (!function_exists('ot_type_post_list')) {
 		echo '<div class="format-setting-inner" id="' . $field_id . '">';
 		echo '<input type="text" style="margin-bottom: 20px" aria-label="Search list" placeholder="Enter post title" id="search-post-list-' . esc_attr($field_id) . '">';
 		echo '<p style="margin-bottom: 10px; font-weight: bold;">Total post selected: <span id="total-count-area"></span></p>';
-		$my_posts = get_posts(apply_filters('ot_type_post_checkbox_query', array('posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'any', 'post_type'      => array('post', 'product')), $field_id));
+		$my_posts = get_posts(apply_filters('ot_type_post_checkbox_query', array('posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'any', 'post_type' => array('post', 'product')), $field_id));
 		if (is_array($my_posts) && !empty($my_posts)) {
 			foreach ($my_posts as $my_post) {
 				$post_url = get_permalink($my_post->ID);
@@ -206,32 +205,69 @@ if (!function_exists('ot_type_post_list_section_customize')) {
 			echo '<div class="description">' . wp_specialchars_decode($field_desc) . '</div>';
 		}
 
-		echo '<div class="format-setting-inner" id="' . $field_id . '">';
-		echo '<input type="text" style="margin-bottom: 20px" aria-label="Search list" placeholder="Enter post title" id="search-post-list-' . esc_attr($field_id) . '">';
-		echo '<p style="margin-bottom: 10px; font-weight: bold;">Total post selected: <span id="total-count-area"></span></p>';
+		$explode = explode(',', $field_value);
 
-		echo '</div>';
-		echo '</div>';
-		echo "<script>
-		var input_" . esc_attr($field_id) . " = document.getElementById('search-post-list-" . esc_attr($field_id) . "');
-		var lis_" . esc_attr($field_id) . " = document.getElementsByClassName('item-in-lis-" . esc_attr($field_id) . "');
-		var count = 0;
-		if(jQuery('#" . $field_id . " input:checkbox:checked').length > 0) {
-			count = jQuery('#" . $field_id . " input:checkbox:checked').length;
+		echo '<div class="format-setting-inner" id="' . $field_id . '" style="margin-top: 20px">';
+		echo '<input type="text" style="margin: 0" aria-label="Search list" placeholder="Enter post link" id="search-post-list-' . esc_attr($field_id) . '">';
+		echo '<input type="hidden" name="' . esc_attr($field_name) . '" id="hidden-for-section-' . $field_id . '">';
+		echo '<a href="javascript:void(0)" id="click-to-add-list-' . esc_attr($field_id) . '" style="margin-left: 20px; text-decoration: none; padding: 10px 20px; border: 1px solid black" onclick="addToList' . $field_id . '()">Add post</a>';
+		echo '<ul id="list-for-section-customize-' . $field_id . '" style="margin-top: 30px">';
+		foreach ($explode as $ex) {
+			echo '<li style="margin-top: 10px;">' . $ex . '<span onclick="deleteToList' . $field_id . '(jQuery(this))" data-link="' . $ex . '" style="margin-left: 15px; font-weight: bold; font-size: 18px">x</span></li>';
 		}
-		jQuery('#" . $field_id . " #total-count-area').html(count);
+		echo '</ul>';
+		echo '</div>';
+		echo '</div>';
+		echo '<script>';
+		if ($field_value == '') {
+			echo 'var listForAdd = [];';
+		} else {
+			echo '
+			let strExplode = "' . $field_value . '";
+			let split = strExplode.split(",");
+			var listForAdd = split;';
+		}
 
-		input_" . esc_attr($field_id) . ".onkeyup = function () {
-            var filter = input_" . esc_attr($field_id) . ".value.toUpperCase();
-            for (var i = 0; i < lis_" . esc_attr($field_id) . ".length; i++) {
-                var text = lis_" . esc_attr($field_id) . "[i].getElementsByTagName('label')[0].innerHTML;
-                if (text.toUpperCase().indexOf(filter) == 0) 
-				lis_" . esc_attr($field_id) . "[i].style.display = 'block';
-                else
-				lis_" . esc_attr($field_id) . "[i].style.display = 'none';
-            }
-        }
-		</script>";
+		echo 'jQuery(document).ready(function() {
+			let length = jQuery("#list-for-section-customize-' . $field_id . ' li").length;
+			if(length >= 6) {
+				jQuery("#click-to-add-list-' . esc_attr($field_id) . '").hide();
+			}
+		});
+
+		function addToList' . $field_id . '() {
+			let link = jQuery("#search-post-list-' . esc_attr($field_id) . '").val();
+			listForAdd.push(link);
+			let strAppend = `<li style="margin-top: 10px;">` + link + `<span onclick="deleteToList' . $field_id . '(jQuery(this))" data-link="` + link + `" style="margin-left: 15px; font-weight: bold; font-size: 18px">x</span></li>`;
+			jQuery("#list-for-section-customize-' . $field_id . '").append(strAppend);
+			let length = jQuery("#list-for-section-customize-' . $field_id . ' li").length;
+			if(length >= 6) {
+				jQuery("#click-to-add-list-' . esc_attr($field_id) . '").hide();
+			}
+
+			let toString = listForAdd.toString();
+			jQuery("#hidden-for-section-' . $field_id . '").val(toString);
+		}
+
+		function deleteToList' . $field_id . '(button) {
+			let parent = button.parent();
+			let link = button.attr("data-link");
+			let index = listForAdd.indexOf(link);
+			
+			if (index !== -1) {
+				listForAdd.splice(index, 1);
+			}
+
+			parent.remove();
+			let length = jQuery("#list-for-section-customize-' . $field_id . ' li").length;
+			if(length < 6) {
+				jQuery("#click-to-add-list-' . esc_attr($field_id) . '").show();
+			}
+
+			let toString = listForAdd.toString();
+			jQuery("#hidden-for-section-' . $field_id . '").val(toString);
+		}
+		</script>';
 	}
 }
 
@@ -280,6 +316,7 @@ function ia_get_attachment_id_from_url($attachment_url = '')
 		$attachment_url = str_replace($upload_dir_paths['baseurl'] . '/', '', $attachment_url);
 		$attachment_id = $wpdb->get_var($wpdb->prepare("SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url));
 	}
+
 	return $attachment_id;
 }
 
