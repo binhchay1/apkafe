@@ -29,7 +29,6 @@ if (!comments_open())
 				if ( $a == $b){
 					jQuery("#comment").val('');
 				}
-			  //alert( $a );
 			});
 		});	
 	</script>
@@ -45,7 +44,7 @@ if (!comments_open())
 			<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'leafcolor' ) ); ?></div>
 			<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'leafcolor' ) ); ?></div>
 		</nav>
-		<?php endif; // check for comment navigation ?>
-	<?php endif; // have_comments() ?>
+		<?php endif; ?>
+	<?php endif; ?>
 
-</div><!-- #comments .comments-area -->
+</div>

@@ -209,10 +209,17 @@ if (!function_exists('ot_type_post_list_section_customize')) {
 
 		echo '<div class="format-setting-inner" id="' . $field_id . '" style="margin-top: 20px">';
 		echo '<input type="text" style="margin: 0" aria-label="Search list" placeholder="Enter post link" id="search-post-list-' . esc_attr($field_id) . '">';
-		echo '<input type="hidden" name="' . esc_attr($field_name) . '" id="hidden-for-section-' . $field_id . '">';
+		if ($field_value == '') {
+			echo '<input type="hidden" name="' . esc_attr($field_name) . '" id="hidden-for-section-' . $field_id . '">';
+		} else {
+			echo '<input type="hidden" name="' . esc_attr($field_name) . '" id="hidden-for-section-' . $field_id . '" value="' . $field_value . '">';
+		}
 		echo '<a href="javascript:void(0)" id="click-to-add-list-' . esc_attr($field_id) . '" style="margin-left: 20px; text-decoration: none; padding: 10px 20px; border: 1px solid black" onclick="addToList' . $field_id . '()">Add post</a>';
 		echo '<ul id="list-for-section-customize-' . $field_id . '" style="margin-top: 30px">';
 		foreach ($explode as $ex) {
+			if ($ex == '') {
+				continue;
+			}
 			echo '<li style="margin-top: 10px;">' . $ex . '<span onclick="deleteToList' . $field_id . '(jQuery(this))" data-link="' . $ex . '" style="margin-left: 15px; font-weight: bold; font-size: 18px">x</span></li>';
 		}
 		echo '</ul>';
@@ -220,12 +227,13 @@ if (!function_exists('ot_type_post_list_section_customize')) {
 		echo '</div>';
 		echo '<script>';
 		if ($field_value == '') {
-			echo 'var listForAdd = [];';
+			echo 'var listForAdd' . $field_id . ' = [];';
 		} else {
 			echo '
-			let strExplode = "' . $field_value . '";
-			let split = strExplode.split(",");
-			var listForAdd = split;';
+			let strExplode' . $field_id . ' = "' . $field_value . '";
+			let split' . $field_id . ' = strExplode' . $field_id . '.split(",");
+			var listForAdd' . $field_id . ' = split' . $field_id . ';
+			';
 		}
 
 		echo 'jQuery(document).ready(function() {
@@ -237,7 +245,7 @@ if (!function_exists('ot_type_post_list_section_customize')) {
 
 		function addToList' . $field_id . '() {
 			let link = jQuery("#search-post-list-' . esc_attr($field_id) . '").val();
-			listForAdd.push(link);
+			listForAdd' . $field_id . '.push(link);
 			let strAppend = `<li style="margin-top: 10px;">` + link + `<span onclick="deleteToList' . $field_id . '(jQuery(this))" data-link="` + link + `" style="margin-left: 15px; font-weight: bold; font-size: 18px">x</span></li>`;
 			jQuery("#list-for-section-customize-' . $field_id . '").append(strAppend);
 			let length = jQuery("#list-for-section-customize-' . $field_id . ' li").length;
@@ -245,7 +253,7 @@ if (!function_exists('ot_type_post_list_section_customize')) {
 				jQuery("#click-to-add-list-' . esc_attr($field_id) . '").hide();
 			}
 
-			let toString = listForAdd.toString();
+			let toString = listForAdd' . $field_id . '.toString();
 			jQuery("#hidden-for-section-' . $field_id . '").val(toString);
 		}
 
@@ -264,7 +272,7 @@ if (!function_exists('ot_type_post_list_section_customize')) {
 				jQuery("#click-to-add-list-' . esc_attr($field_id) . '").show();
 			}
 
-			let toString = listForAdd.toString();
+			let toString = listForAdd' . $field_id . '.toString();
 			jQuery("#hidden-for-section-' . $field_id . '").val(toString);
 		}
 		</script>';

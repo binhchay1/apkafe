@@ -19,13 +19,7 @@ global $product;
 	<?php do_action('woocommerce_before_shop_loop_item'); ?>
 
 	<?php
-	/**
-	 * woocommerce_before_shop_loop_item_title hook
-	 *
-	 * @hooked woocommerce_show_product_loop_sale_flash - 10
-	 * @hooked woocommerce_template_loop_product_thumbnail - 10
-	 */
-	//do_action( 'woocommerce_before_shop_loop_item_title' );
+
 	$icon = get_post_meta(get_the_ID(), 'app-icon', true);
 	?>
 	<div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
@@ -43,12 +37,7 @@ global $product;
 		<?php } ?>
 		<p class="product-title"><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute() ?>" class="main-color-1-hover"><?php the_title(); ?></a></p>
 		<?php
-		/**
-		 * woocommerce_after_shop_loop_item_title hook
-		 *
-		 * @hooked woocommerce_template_loop_rating - 5
-		 * @hooked woocommerce_template_loop_price - 10
-		 */
+
 		do_action('woocommerce_after_shop_loop_item_title');
 		?>
 	</div>
