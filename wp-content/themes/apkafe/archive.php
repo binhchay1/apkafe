@@ -1,13 +1,10 @@
 <?php
 get_header();
-$category = get_category(get_query_var('cat'));
-$cat_id = $category->cat_ID;
-
-$get_post = new WP_Query(array(
-    'posts_per_page' => 24,
-    'orderby'     => 'modified',
-    'order'       => 'DESC',
-));
+$category_id = get_query_var('cat');
+$args = array('cat' => $category_id, 'orderby' => 'modified', 'order' => 'DESC', 'posts_per_page' => 24, 'post_status' => 'publish');
+$argsLastUpdate = array('cat' => $category_id, 'orderby' => 'modified', 'order' => 'DESC', 'posts_per_page' => 1, 'post_status' => 'publish');
+$get_post = new WP_Query($args);
+$get_post_last_update = new WP_Query($argsLastUpdate);
 ?>
 
 <div class="container">
@@ -22,14 +19,15 @@ $get_post = new WP_Query(array(
                 <div class="clear"></div>
             </div>
             <div id="main_list_item" class="main_list_item">
-                <a class="side_list_item" href="https://apkmodget.com/games/fnaf-2-apk-3/">
-                    <img class="item_icon lazyloaded" width="80" height="80" src="https://apkmodget.com/media/2023/10/_1/80x80/fnaf-2-apk_1c29e.jpg" data-src="https://apkmodget.com/media/2023/10/_1/80x80/fnaf-2-apk_1c29e.jpg" alt="FnaF 2 Apk 2.0 Download Full Version For Android">
-                    <p class="title">FnaF 2 Apk 2.0 Download Full Version For Android</p>
-                    <p class="category">v2.0 + MOD: Unlocked</p>
-                </a>
+                <?php foreach ($get_post->posts as $post) { ?>
+                    <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
+                        <img class="item_icon lazyloaded" width="80" height="80" src="<?php echo get_the_post_thumbnail($post->ID) ?>" alt="<?php echo get_the_title($post->ID) ?>">
+                        <p class="title"><?php echo get_the_title($post->ID) ?></p>
+                        <p class="category"><?php echo get_the_category($post->ID)[0]->name ?></p>
+                    </a>
+                <?php } ?>
             </div>
             <div class="clear mb20"></div>
-            <div class="ac" id="main_list_item_next"><a onclick="get_more_cat_items();" class="more_link" href="javascript:void(0);">Load More Action Updates <i class="fa fa-angle-double-down"></i></a></div>
         </div>
         <div class="clear mb15"></div>
     </div>
@@ -37,11 +35,13 @@ $get_post = new WP_Query(array(
         <div class="widget">
             <h2 class="widget_head">Latest Update</h2>
             <div class="list_item_wrap">
-                <a class="side_list_item" href="https://apkmodget.com/apps/mytelkomsel-apk-download-1/">
-                    <img class="item_icon lazyloaded" width="80" height="80" src="https://apkmodget.com/media/2023/10/_1/80x80/mytelkomsel-apk_f9f39.jpg" data-src="https://apkmodget.com/media/2023/10/_1/80x80/mytelkomsel-apk_f9f39.jpg" alt="MyTelkomsel Apk V7.3.0 Download For Android">
-                    <p class="title">MyTelkomsel Apk v7.3.0 Download For Android</p>
-                    <p class="category">v7.3.0 + MOD: For Android</p>
-                </a>
+                <?php foreach ($get_post->posts as $post) { ?>
+                    <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
+                        <img class="item_icon lazyloaded" width="80" height="80" src="<?php echo get_the_post_thumbnail($post->ID) ?>" alt="<?php echo get_the_title($post->ID) ?>">
+                        <p class="title"><?php echo get_the_title($post->ID) ?></p>
+                        <p class="category"><?php echo get_the_category($post->ID)[0]->name ?></p>
+                    </a>
+                <?php } ?>
             </div>
             <div class="clear"></div>
         </div>
