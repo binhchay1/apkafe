@@ -132,7 +132,38 @@ get_header('shop'); ?>
 				</div>
 
 				<div id="hot">
-
+					<?php $listPostHot = []; ?>
+					<?php $getOptionHot = ot_get_option('customize_hot') ?>
+					<?php foreach ($getOptionHot as $option) { ?>
+						<?php if ($option['title'] == $term->name) { ?>
+							<?php foreach ($option['post_select'] as $postSelectHot) { ?>
+								<?php $listPostHot[] = $postSelectHot ?>
+							<?php } ?>
+						<?php } ?>
+					<?php } ?>
+					<?php
+					$paged = max(1, get_query_var('page'));
+					$args = array(
+						'post__in' => $listPostHot,
+						'posts_per_page' => 12,
+						'paged' => $paged,
+						'post_status' => 'published',
+						'post_type' => 'any',
+					);
+					$res =  new WP_Query($args);
+					if ($res->have_posts()) {
+						foreach ($res->posts as $image) {
+							echo wp_get_attachment_image($image->ID);
+						}
+						echo paginate_links(array(
+							'base'    => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))),
+							'total'   => $res->max_num_pages,
+							'current' => $paged,
+							'format'  => '?paged=%#%',
+						));
+					} else {
+						echo "Not found";
+					} ?>
 				</div>
 
 				<div id="popular">

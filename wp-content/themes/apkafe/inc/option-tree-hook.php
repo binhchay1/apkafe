@@ -362,7 +362,7 @@ function custom_theme_options()
       ),
       array(
         'id'          => 'customize_hot',
-        'label'       => 'Add category',
+        'label'       => 'Tab hot',
         'desc'        => 'Create section popular by category',
         'std'         => '',
         'type'        => 'list-item',
@@ -379,7 +379,7 @@ function custom_theme_options()
       ),
       array(
         'id'          => 'customize_popular',
-        'label'       => 'Add category',
+        'label'       => 'Tab popular',
         'desc'        => 'Create section popular by category',
         'std'         => '',
         'type'        => 'list-item',

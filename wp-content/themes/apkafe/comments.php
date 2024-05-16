@@ -36,9 +36,9 @@ if (!comments_open())
 	<?php if ( have_comments() ) : ?>
 		<ul class="commentlist">
 			<?php wp_list_comments( array( 'callback' => 'leafcolor_comment', 'style' => 'ul' ) ); ?>
-		</ul><!-- .commentlist -->
+		</ul>
 
-		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
+		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
 		<nav id="comment-nav-below" class="navigation" role="navigation">
 			<h1 class="assistive-text section-heading"><?php _e( 'Comment navigation', 'leafcolor' ); ?></h1>
 			<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'leafcolor' ) ); ?></div>
