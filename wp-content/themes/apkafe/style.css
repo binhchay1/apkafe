@@ -1760,3 +1760,177 @@ ul li i:after {
   display: flex;
   align-items: center;
 }
+
+.box-header .bg {
+  background-color: #000;
+  position: relative;
+  padding: 10px 16px;
+  color: #fff;
+  line-height: 1.375rem;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 1088px) {
+  .box-header .bg {
+    padding: 0 65px 0 165px;
+    height: 40px;
+    line-height: 40px;
+  }
+}
+
+.box-header .bg::after,
+.box-header .bg::before {
+  display: block;
+  content: "";
+  position: absolute;
+  z-index: 1;
+}
+
+.box-header .bg .sbtitle {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.box-header .bg .sbtitle .icon {
+  margin-right: 16px;
+  min-width: 27px;
+}
+
+.box-header .bg .sbtitle span {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.box-header .bg::before {
+  width: 150px;
+  height: 100px;
+  background-color: #c00;
+  border-radius: 0 100px 0 0;
+  left: 0;
+  top: 0;
+}
+
+@media screen and (min-width: 1088px) {
+  .box-header .bg::after {
+    display: block;
+    bottom: -55px;
+  }
+}
+
+.box-header .bg::after {
+  width: 130px;
+  height: 90px;
+  background-color: #fff;
+  border-radius: 65px 0 0 0;
+  right: -65px;
+  bottom: -50px;
+  display: none;
+}
+
+.box-header .bg::after {
+  display: block;
+  content: "";
+  position: absolute;
+  z-index: 1;
+}
+
+@media screen and (min-width: 768px) {
+  .w4,
+  .w3 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 -8px;
+    justify-content: space-around;
+  }
+}
+
+.blogs {
+  list-style: none;
+  margin: 0;
+}
+
+@media screen and (min-width: 992px) {
+  .w3 li {
+    width: 30.333333333%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .secbox .sbheader,
+  .box-space,
+  .blogs li,
+  .apks li {
+    margin-bottom: 16px;
+  }
+}
+
+.blog {
+  display: block;
+  border: 1px solid #707070;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.blog .thumb {
+  display: block;
+  width: 100%;
+  height: 170px;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+@media screen and (min-width: 1120px) {
+  .blog .info {
+    padding: 16px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .blog .info .title {
+    height: 90px;
+    overflow: hidden;
+  }
+}
+
+.blog .info .title {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 768px) {
+  .blog .info .description {
+    height: 88px;
+    overflow: hidden;
+  }
+}
+
+.blog .info .description {
+  color: #333;
+}
+
+.box-header .bg::after,
+.box-header .bg::before {
+  display: block;
+  content: "";
+  position: absolute;
+  z-index: 1;
+}
+
+.breadcrumb-archive {
+  margin: 4px 10px 0 10px;
+}

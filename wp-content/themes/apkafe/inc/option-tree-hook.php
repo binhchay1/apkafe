@@ -31,7 +31,11 @@ function custom_theme_options()
       ),
       array(
         'id'          => 'section_customize',
-        'title'       => '<i class="fa fa-list"></i>Section customize'
+        'title'       => '<i class="fa fa-layer-group"></i>Section customize'
+      ),
+      array(
+        'id'          => 'customize_hot_and_popular',
+        'title'       => '<i class="fa fa-table"></i>Customize hot and popular'
       ),
     ),
     'settings'        => array(
@@ -351,6 +355,40 @@ function custom_theme_options()
             'label'       => 'Select post',
             'id'          => 'post_select',
             'type'        => 'post-list-section-customize',
+            'desc'        => '',
+            'std'         => '',
+          ),
+        ),
+      ),
+      array(
+        'id'          => 'customize_hot',
+        'label'       => 'Add category',
+        'desc'        => 'Create section popular by category',
+        'std'         => '',
+        'type'        => 'list-item',
+        'section'     => 'customize_hot_and_popular',
+        'settings'    => array(
+          array(
+            'label'       => 'Select post',
+            'id'          => 'post_select',
+            'type'        => 'post-list',
+            'desc'        => '',
+            'std'         => '',
+          ),
+        ),
+      ),
+      array(
+        'id'          => 'customize_popular',
+        'label'       => 'Add category',
+        'desc'        => 'Create section popular by category',
+        'std'         => '',
+        'type'        => 'list-item',
+        'section'     => 'customize_hot_and_popular',
+        'settings'    => array(
+          array(
+            'label'       => 'Select post',
+            'id'          => 'post_select',
+            'type'        => 'post-list',
             'desc'        => '',
             'std'         => '',
           ),

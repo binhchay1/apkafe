@@ -2,6 +2,12 @@
 get_header();
 $category = get_category(get_query_var('cat'));
 $cat_id = $category->cat_ID;
+
+$get_post = new WP_Query(array(
+    'posts_per_page' => 24,
+    'orderby'     => 'modified',
+    'order'       => 'DESC',
+));
 ?>
 
 <div class="container">
@@ -10,7 +16,7 @@ $cat_id = $category->cat_ID;
             <div class="widget_head">
                 <ul id="breadcrumbs" class="bread_crumb">
                     <li><a href="<?php echo home_url() ?>">Home</a></li>
-                    <li><i class="fa fa-angle-double-right"></i></li>
+                    <li class="breadcrumb-archive"> » </li>
                     <li><a class="active" href="<?php echo get_category_link($cat_id) ?>"><?php echo get_cat_name($cat_id) ?></a></li>
                 </ul>
                 <div class="clear"></div>

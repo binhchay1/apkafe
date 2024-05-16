@@ -136,7 +136,6 @@ if (!function_exists('ot_type_post_list')) {
 
 	function ot_type_post_list($args = array())
 	{
-		wp_enqueue_style('single', get_stylesheet_directory_uri() . '/inc/option-tree/assets/css/custom-type.css');
 		extract($args);
 		$has_desc = $field_desc ? true : false;
 		echo '<div class="format-setting type-post-checkbox type-checkbox ' . ($has_desc ? 'has-desc' : 'no-desc') . '">';
@@ -197,7 +196,6 @@ if (!function_exists('ot_type_post_list_section_customize')) {
 
 	function ot_type_post_list_section_customize($args = array())
 	{
-		wp_enqueue_style('single', get_stylesheet_directory_uri() . '/inc/option-tree/assets/css/custom-type.css');
 		extract($args);
 		$has_desc = $field_desc ? true : false;
 		echo '<div class="format-setting type-post-checkbox type-checkbox ' . ($has_desc ? 'has-desc' : 'no-desc') . '">';
