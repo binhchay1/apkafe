@@ -98,14 +98,14 @@ get_header('shop'); ?>
 				<?php do_action('woocommerce_archive_description'); ?>
 
 				<ul class="sort-controls">
-					<li class="active">
-						<a onclick="handleTabCategory('new')">New</a>
+					<li class="active" style="cursor: pointer;">
+						<a onclick="handleTabCategory(this)">New</a>
 					</li>
-					<li>
-						<a onclick="handleTabCategory('hot')">Hot</a>
+					<li style="cursor: pointer;">
+						<a onclick="handleTabCategory(this)">Hot</a>
 					</li>
-					<li>
-						<a onclick="handleTabCategory('popular')">Popular</a>
+					<li style="cursor: pointer;">
+						<a onclick="handleTabCategory(this)">Popular</a>
 					</li>
 				</ul>
 
