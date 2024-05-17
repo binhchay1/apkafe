@@ -54,9 +54,6 @@ jQuery(document).ready(function () {
     if (isMobile.any()) {
         scrollToBottom();
     }
-
-    jQuery('#news').hide();
-    jQuery('#popular').hide();
 });
 
 function scrollToBottom(timedelay = 0) {
