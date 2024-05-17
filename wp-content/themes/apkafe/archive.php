@@ -14,7 +14,7 @@ $get_post_last_update = new WP_Query($argsLastUpdate);
                 <ul id="breadcrumbs" class="bread_crumb">
                     <li><a href="<?php echo home_url() ?>">Home</a></li>
                     <li class="breadcrumb-archive"> » </li>
-                    <li><a class="active" href="<?php echo get_category_link($cat_id) ?>"><?php echo get_cat_name($cat_id) ?></a></li>
+                    <li><a class="active" href="<?php echo get_category_link($category_id) ?>"><?php echo get_cat_name($category_id) ?></a></li>
                 </ul>
                 <div class="clear"></div>
             </div>
@@ -35,7 +35,7 @@ $get_post_last_update = new WP_Query($argsLastUpdate);
         <div class="widget">
             <h2 class="widget_head">Latest Update</h2>
             <div class="list_item_wrap">
-                <?php foreach ($get_post->posts as $post) { ?>
+                <?php foreach ($get_post_last_update->posts as $post) { ?>
                     <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
                         <img class="item_icon lazyloaded" width="80" height="80" src="<?php echo get_the_post_thumbnail($post->ID) ?>" alt="<?php echo get_the_title($post->ID) ?>">
                         <p class="title"><?php echo get_the_title($post->ID) ?></p>

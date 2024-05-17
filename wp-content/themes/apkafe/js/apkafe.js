@@ -1,48 +1,9 @@
-function lang_toggler() {
-    var element = document.getElementById("lang_box_inner");
-    element.classList.toggle("show");
-}
-
-function show_menu_mob() {
-    document.getElementById("nav_wrap").className += 'show_mob_menu';
-}
-
-function hide_menu_mob() {
-    document.getElementById("nav_wrap").className = '';
-}
-
-function on_search() {
-    document.getElementById("search_wrap").style.display = "block";
-    document.getElementById("kwd").focus();
-}
-
-function off_search() {
-    document.getElementById("search_wrap").style.display = "none";
-}
-
-function scrollToi(id) {
-    this.event.preventDefault();
-    const yOffset = 0;
-    const element = document.getElementById(id);
-    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
-}
-
 function scrollToc(to_id) {
     this.event.preventDefault();
     var element = document.getElementById(to_id);
     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setTimeout(function () { window.location.hash = to_id; }, 100);
 }
-
-function mod_box_toggle() {
-    document.getElementById("mod_box_in_wrap").classList.toggle('mod_box_in_hide');
-}
-
-function faq_toggle(wrap) {
-    document.getElementById(wrap).classList.toggle('faq_hide');
-}
-
 
 function share_this(elem) {
     var url = document.getElementById(elem).getAttribute('data-url');
@@ -68,92 +29,48 @@ function share_this(elem) {
 
 var ratings = document.getElementsByClassName('rating');
 
-if (document.getElementById('apk_rate_wrap')) {
-    var apk_rate_wrap = document.getElementById('apk_rate_wrap');
-    apk_rate_wrap.addEventListener('rate', function (e) {
-        var rval = e.detail;
-
-        var http = new XMLHttpRequest();
-        var url = site_base + "ajax.php";
-        var params = "act=star_counter&v=" + rval + "&i=cGd1RlgzQUZ4c28zZVhNcmdqbC9nQT09";
-
-        http.open("POST", url, true);
-        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        http.onreadystatechange = function () {
-            if (http.readyState == 4 && http.status == 200) {
-                var get_data = http.responseText;
-                var obj = JSON.parse(get_data);
-
-                if (obj['status'] == '1') {
-                    document.getElementById("apk_rate_msg_wrap").innerHTML = '<span class="txt_suc">Rating submitted successfully</span>';
-                    document.getElementById("apk_rate_show_wrap").innerHTML = obj['ratings'];
-
-                    var ratings = document.getElementsByClassName('rating');
-                    for (var i = 0; i < ratings.length; i++) {
-                        var r = new SimpleStarRating(ratings[i]);
-
-                        ratings[i].addEventListener('rate', function (e) {
-                            console.log('Rating: ' + e.detail);
-                        });
-                    }
-                }
-                else {
-                    if (obj['msg'] == 0) {
-                        document.getElementById("apk_rate_msg_wrap").innerHTML = "<span class='txt_err'>Something went wrong please try later</span>";
-                    }
-                    else if (obj['msg'] == 2) {
-                        document.getElementById("apk_rate_msg_wrap").innerHTML = "<span class='txt_err'>Rating Already Submitted</span>";
-                    }
-                    else {
-                        document.getElementById("apk_rate_msg_wrap").innerHTML = "<span class='txt_err'>Something went wrong please try later</span>";
-                    }
-                }
-            }
-        }
-        http.send(params);
-    });
-}
-
-jQuery(document).ready(function(){
-	const isMobile = {
-        Android: function() {
+jQuery(document).ready(function () {
+    const isMobile = {
+        Android: function () {
             return navigator.userAgent.match(/Android/i);
         },
-        BlackBerry: function() {
+        BlackBerry: function () {
             return navigator.userAgent.match(/BlackBerry/i);
         },
-        iOS: function() {
+        iOS: function () {
             return navigator.userAgent.match(/iPhone|iPad|iPod/i);
         },
-        Opera: function() {
+        Opera: function () {
             return navigator.userAgent.match(/Opera Mini/i);
         },
-        Windows: function() {
+        Windows: function () {
             return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
         },
-        any: function() {
+        any: function () {
             return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
         }
-      };
-	
-	if(isMobile.any()) {
-       scrollToBottom();
-      }
-  
+    };
+
+    if (isMobile.any()) {
+        scrollToBottom();
+    }
+
+    jQuery('#news').hide();
+    jQuery('#popular').hide();
 });
 
-function scrollToBottom(timedelay=0) {
-        var scrollId;
-        var height = 0;
-        var minScrollHeight = 10;
-        scrollId = setInterval(function () {
-            if (height <= document.body.scrollHeight) {
-                window.scrollBy(0, minScrollHeight);
-            }
-            else {
-                clearInterval(scrollId);
-            }
-            height += minScrollHeight;
-        }, timedelay);           
- }
+function scrollToBottom(timedelay = 0) {
+    var scrollId;
+    var height = 0;
+    var minScrollHeight = 10;
+    scrollId = setInterval(function () {
+        if (height <= document.body.scrollHeight) {
+            window.scrollBy(0, minScrollHeight);
+        }
+        else {
+            clearInterval(scrollId);
+        }
+        height += minScrollHeight;
+    }, timedelay);
+}
+

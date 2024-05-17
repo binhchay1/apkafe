@@ -151,23 +151,98 @@ get_header('shop'); ?>
 						'post_type' => 'any',
 					);
 					$res =  new WP_Query($args);
-					if ($res->have_posts()) {
-						foreach ($res->posts as $image) {
-							echo wp_get_attachment_image($image->ID);
-						}
-						echo paginate_links(array(
-							'base'    => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))),
-							'total'   => $res->max_num_pages,
-							'current' => $paged,
-							'format'  => '?paged=%#%',
-						));
-					} else {
-						echo "Not found";
-					} ?>
+					if ($res->have_posts()) { ?>
+						<ul>
+							<li <?php post_class(); ?>>
+
+								<?php do_action('woocommerce_before_shop_loop_item'); ?>
+
+								<?php
+
+								$icon = get_post_meta(get_the_ID(), 'app-icon', true);
+								?>
+								<div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
+									<?php if ($icon) {
+										if ($icon_id = ia_get_attachment_id_from_url($icon)) {
+											$thumbnail = wp_get_attachment_image_src($icon_id, 'thumbnail', true);
+											$icon = isset($thumbnail[0]) ? $thumbnail[0] : $icon;
+										}
+									?>
+										<div class="app-icon">
+											<a href="<?php the_permalink(get_the_ID()) ?>" title="<?php the_title_attribute() ?>">
+												<img src="<?php echo esc_url($icon); ?>" alt="<?php the_title_attribute(); ?>" width="60" height="60" />
+											</a>
+										</div>
+									<?php } ?>
+									<p class="product-title"><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute() ?>" class="main-color-1-hover"><?php the_title(); ?></a></p>
+									<?php
+
+									do_action('woocommerce_after_shop_loop_item_title');
+									?>
+								</div>
+
+								<?php do_action('woocommerce_after_shop_loop_item'); ?>
+
+							</li>
+						</ul>
+					<?php } ?>
 				</div>
 
 				<div id="popular">
+					<?php $listPostPopular = []; ?>
+					<?php $getOptionPopular = ot_get_option('customize_popular') ?>
+					<?php foreach ($getOptionPopular as $optionPopular) { ?>
+						<?php if ($optionPopular['title'] == $term->name) { ?>
+							<?php foreach ($optionPopular['post_select'] as $postSelectPopular) { ?>
+								<?php $listPostPopular[] = $postSelectPopular ?>
+							<?php } ?>
+						<?php } ?>
+					<?php } ?>
+					<?php
+					$paged = max(1, get_query_var('page'));
+					$args = array(
+						'post__in' => $listPostPopular,
+						'posts_per_page' => 12,
+						'paged' => $paged,
+						'post_status' => 'published',
+						'post_type' => 'any',
+					);
+					$res =  new WP_Query($args);
+					if ($res->have_posts()) { ?>
+						<ul>
+							<li <?php post_class(); ?>>
 
+								<?php do_action('woocommerce_before_shop_loop_item'); ?>
+
+								<?php
+
+								$icon = get_post_meta(get_the_ID(), 'app-icon', true);
+								?>
+								<div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
+									<?php if ($icon) {
+										if ($icon_id = ia_get_attachment_id_from_url($icon)) {
+											$thumbnail = wp_get_attachment_image_src($icon_id, 'thumbnail', true);
+											$icon = isset($thumbnail[0]) ? $thumbnail[0] : $icon;
+										}
+									?>
+										<div class="app-icon">
+											<a href="<?php the_permalink(get_the_ID()) ?>" title="<?php the_title_attribute() ?>">
+												<img src="<?php echo esc_url($icon); ?>" alt="<?php the_title_attribute(); ?>" width="60" height="60" />
+											</a>
+										</div>
+									<?php } ?>
+									<p class="product-title"><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute() ?>" class="main-color-1-hover"><?php the_title(); ?></a></p>
+									<?php
+
+									do_action('woocommerce_after_shop_loop_item_title');
+									?>
+								</div>
+
+								<?php do_action('woocommerce_after_shop_loop_item'); ?>
+
+							</li>
+						</ul>
+					<?php } ?>
 				</div>
 			</div>
 		</div>
@@ -185,5 +260,10 @@ get_header('shop'); ?>
 	function handleTabCategory(cate) {
 
 	}
+
+	jQuery(document).ready(function() {
+		jQuery('#hot').hide();
+		jQuery('#popular').hide();
+	});
 </script>
 <?php get_footer(); ?>
