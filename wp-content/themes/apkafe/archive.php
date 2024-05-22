@@ -4,8 +4,34 @@ $category_id = get_query_var('cat');
 $category = get_the_category_by_ID($category_id);
 $getH1 = get_term_meta($category_id, 'h1_category', true);
 $description = category_description($category_id);
-$current_page_news = max(1, get_query_var('paged'));
-$args = array('cat' => $category_id, 'orderby' => 'modified', 'order' => 'DESC', 'posts_per_page' => 16, 'post_status' => 'publish', 'paged' => $current_page_news);
+$isHotTab = false;
+$isPopularTab = false;
+$isNewsTab = false;
+
+if (!empty($_GET)) {
+    if (array_key_exists('hot_page', $_GET)) {
+        $getPaginationHot = $_GET['hot_page'];
+        $isHotTab = true;
+    }
+
+    if (array_key_exists('popular_page', $_GET)) {
+        $getPaginationPopular = $_GET['popular_page'];
+        $isPopularTab = true;
+    }
+
+    if (array_key_exists('news_page', $_GET)) {
+        $getPaginationNews = $_GET['news_page'];
+        $isNewsTab = true;
+    }
+}
+
+if (isset($getPaginationNews)) {
+    $current_page_news = $getPaginationNews;
+} else {
+    $current_page_news = 1;
+}
+
+$args = array('cat' => $category_id, 'orderby' => 'modified', 'order' => 'DESC', 'posts_per_page' => 16, 'post_status' => 'publish', 'paged' => $current_page_news, 'post_type' => 'post');
 $get_post = new WP_Query($args);
 $total_page_news = $get_post->max_num_pages;
 ?>
@@ -66,13 +92,13 @@ $total_page_news = $get_post->max_num_pages;
                 </div>
 
                 <ul class="sort-controls" id="section-tab-filter">
-                    <li class="active" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'news')">
+                    <li id="tab-filter-news" class="active" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'news')">
                         <a>News</a>
                     </li>
-                    <li style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'hot')">
+                    <li id="tab-filter-hot" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'hot')">
                         <a>Hot</a>
                     </li>
-                    <li style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'popular')">
+                    <li id="tab-filter-popular" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'popular')">
                         <a>Popular</a>
                     </li>
                 </ul>
@@ -88,7 +114,7 @@ $total_page_news = $get_post->max_num_pages;
                                     <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
                                         <div class="app-icon">
                                             <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
-                                                <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="178" height="178"/>
+                                                <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="240" height="135" />
                                             </a>
                                         </div>
                                         <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
@@ -98,12 +124,15 @@ $total_page_news = $get_post->max_num_pages;
                         <?php } ?>
                     </ul>
 
-                    <div>
-                    <?php echo paginate_links(array(
-                        'base' => get_pagenum_link(1) . '%_%',
-                        'format' => 'news-page/%#%',
-                        'current' => $current_page_news,
-                        'total' => $total_page_news,
+                    <div class="d-flex justify-center">
+                        <?php echo paginate_links(array(
+                            'base' => get_pagenum_link(1) . '%_%',
+                            'format' => 'page/%#%?news_page=%#%',
+                            'current' => $current_page_news,
+                            'total' => $total_page_news,
+                            'prev_text' => __('←'),
+                            'next_text' => __('→'),
+                            'type' => 'list'
                         )); ?>
                     </div>
                 </div>
@@ -119,15 +148,21 @@ $total_page_news = $get_post->max_num_pages;
                                 <?php } ?>
                             <?php } ?>
                         <?php } ?>
-                        
+
                         <?php if (!empty($listPostHot)) { ?>
                             <?php
-                            $current_page_hot = max(1, get_query_var('paged'));
+                            if (isset($getPaginationHot)) {
+                                $current_page_hot = $getPaginationHot;
+                            } else {
+                                $current_page_hot = 1;
+                            }
+
                             $args = array(
                                 'post__in' => $listPostHot,
                                 'posts_per_page' => 16,
                                 'paged' => $current_page_hot,
                                 'post_status' => 'published',
+                                'post_type' => 'post',
                             );
                             $res =  new WP_Query($args);
                             $total_page_hot = $res->max_num_pages; ?>
@@ -141,7 +176,7 @@ $total_page_news = $get_post->max_num_pages;
                                             <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
                                                 <div class="app-icon">
                                                     <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
-                                                        <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" />
+                                                        <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="240" height="135" />
                                                     </a>
                                                 </div>
                                                 <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
@@ -152,12 +187,15 @@ $total_page_news = $get_post->max_num_pages;
                             </ul>
 
                             <div>
-                            <?php echo paginate_links(array(
-                                'base' => get_pagenum_link(1) . '%_%',
-                                'format' => '/page/%#%?hot_page',
-                                'current' => $current_page_hot,
-                                'total' => $total_page_hot,
-                            )); ?>
+                                <?php echo paginate_links(array(
+                                    'base' => get_pagenum_link(1) . '%_%',
+                                    'format' => 'page/%#%?hot_page=%#%',
+                                    'current' => $current_page_hot,
+                                    'total' => $total_page_hot,
+                                    'type' => 'list',
+                                    'prev_text'    => __('←'),
+                                    'next_text'    => __('→'),
+                                )); ?>
                             </div>
                         <?php } ?>
                     <?php } ?>
@@ -175,13 +213,18 @@ $total_page_news = $get_post->max_num_pages;
                             <?php } ?>
                         <?php } ?>
                         <?php
-                        $current_page_popular = max(1, get_query_var('paged'));
+                        if (isset($getPaginationPopular)) {
+                            $current_page_popular = $getPaginationPopular;
+                        } else {
+                            $current_page_popular = 1;
+                        }
+
                         $args = array(
                             'post__in' => $listPostPopular,
                             'posts_per_page' => 16,
                             'paged' => $current_page_popular,
                             'post_status' => 'published',
-                            'post_type' => 'any',
+                            'post_type' => 'post',
                         );
                         $res =  new WP_Query($args);
                         $total_page_popular = $res->max_num_pages; ?>
@@ -195,7 +238,7 @@ $total_page_news = $get_post->max_num_pages;
                                         <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
                                             <div class="app-icon">
                                                 <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
-                                                    <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" />
+                                                    <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="240" height="135" />
                                                 </a>
                                             </div>
                                             <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
@@ -205,12 +248,15 @@ $total_page_news = $get_post->max_num_pages;
                             <?php } ?>
                         </ul>
                         <div>
-                        <?php echo paginate_links(array(
-                            'base' => get_pagenum_link(1) . '%_%',
-                            'format' => '/page/%#%',
-                            'current' => $current_page_popular,
-                            'total' => $total_page_popular,
-                        )); ?>
+                            <?php echo paginate_links(array(
+                                'base' => get_pagenum_link(1) . '%_%',
+                                'format' => '/page/%#%?popular_page=%#%',
+                                'current' => $current_page_popular,
+                                'total' => $total_page_popular,
+                                'type' => 'list',
+                                'prev_text' => __('←'),
+                                'next_text' => __('→'),
+                            )); ?>
                         </div>
                     <?php  } ?>
                 </div>
@@ -253,8 +299,34 @@ $total_page_news = $get_post->max_num_pages;
     }
 
     jQuery(document).ready(function() {
-        jQuery('#hot').hide();
-        jQuery('#popular').hide();
+        let listLi = jQuery('#section-tab-filter li');
+        <?php if ($isHotTab) { ?>
+            jQuery('#news').hide();
+            jQuery('#popular').hide();
+            jQuery('#hot').show();
+            for (let i = 0; i < listLi.length; i++) {
+                if (listLi[i].classList.contains('active')) {
+                    listLi[i].classList.remove("active");
+                }
+            }
+
+            jQuery('#tab-filter-hot').addClass('active');
+        <?php } elseif ($isPopularTab) { ?>
+            jQuery('#news').hide();
+            jQuery('#hot').hide();
+            jQuery('#popular').show();
+            for (let i = 0; i < listLi.length; i++) {
+                if (listLi[i].classList.contains('active')) {
+                    listLi[i].classList.remove("active");
+                }
+            }
+
+            jQuery('#tab-filter-popular').addClass('active');
+        <?php } else { ?>
+            jQuery('#hot').hide();
+            jQuery('#popular').hide();
+        <?php } ?>
+
     });
 </script>
 <?php get_footer(); ?>

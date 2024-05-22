@@ -47,7 +47,7 @@ function apkafe_scripts_styles()
 	/*
 	 * Loads css
 	 */
-	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/css/fa/css/font-awesome.min.css');
+	wp_enqueue_style('fa-style', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/fontawesome.min.css');
 	wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
 
 	if (is_single()) {

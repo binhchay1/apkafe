@@ -21,6 +21,31 @@ global $wp_query;
 $cat = $wp_query->get_queried_object();
 $getH1 = get_term_meta($cat->term_id, 'h1_category', true);
 
+$isHotTab = false;
+$isPopularTab = false;
+
+if (!empty($_GET)) {
+	if (array_key_exists('hot_page', $_GET)) {
+		$getPaginationHot = $_GET['hot_page'];
+		$isHotTab = true;
+	}
+
+	if (array_key_exists('popular_page', $_GET)) {
+		$getPaginationPopular = $_GET['popular_page'];
+		$isPopularTab = true;
+	}
+
+	if (array_key_exists('news_page', $_GET)) {
+		$getPaginationNews = $_GET['news_page'];
+	}
+}
+
+if (isset($getPaginationNews)) {
+	$current_page_news = $getPaginationNews;
+} else {
+	$current_page_news = 1;
+}
+
 get_header('shop'); ?>
 <style>
 	.sort-controls {
@@ -50,6 +75,13 @@ get_header('shop'); ?>
 
 	.display-none {
 		display: none;
+	}
+
+	#news,
+	#hot,
+	#popular {
+		display: flex;
+		flex-direction: column;
 	}
 </style>
 <div class="container">
@@ -152,11 +184,16 @@ get_header('shop'); ?>
 						<?php } ?>
 						<?php if (!empty($listPostHot)) { ?>
 							<?php
-							$paged = max(1, get_query_var('page'));
+							if (isset($getPaginationHot)) {
+								$current_page_hot = $getPaginationHot;
+							} else {
+								$current_page_hot = 1;
+							}
+
 							$args = array(
 								'post__in' => $listPostHot,
 								'posts_per_page' => 16,
-								'paged' => $paged,
+								'paged' => $current_page_hot,
 								'post_status' => 'published',
 							);
 							$res =  new WP_Query($args); ?>
@@ -192,6 +229,18 @@ get_header('shop'); ?>
 									<?php } ?>
 								<?php } ?>
 							</ul>
+
+							<div>
+								<?php echo paginate_links(array(
+									'base' => get_pagenum_link(1) . '%_%',
+									'format' => 'page/%#%?hot_page=%#%',
+									'current' => $current_page_hot,
+									'total' => $total_page_hot,
+									'type' => 'list',
+									'prev_text' => __('←'),
+									'next_text' => __('→'),
+								)); ?>
+							</div>
 						<?php } ?>
 					<?php } ?>
 				</div>
@@ -207,50 +256,67 @@ get_header('shop'); ?>
 								<?php } ?>
 							<?php } ?>
 						<?php } ?>
-						<?php
-						$paged = max(1, get_query_var('page'));
-						$args = array(
-							'post__in' => $listPostPopular,
-							'posts_per_page' => 12,
-							'paged' => $paged,
-							'post_status' => 'published',
-							'post_type' => 'any',
-						);
-						$res =  new WP_Query($args); ?>
-						<ul>
-							<?php if ($res->have_posts()) { ?>
-								<?php foreach ($res->get_posts() as $post) { ?>
-									<?php var_dump($post) ?>
-									<?php die(); ?>
-									<li <?php post_class(); ?>>
-										<?php do_action('woocommerce_before_shop_loop_item'); ?>
-										<?php
-										$icon = get_post_meta(get_the_ID(), 'app-icon', true);
-										?>
-										<div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
-											<?php if ($icon) {
-												if ($icon_id = ia_get_attachment_id_from_url($icon)) {
-													$thumbnail = wp_get_attachment_image_src($icon_id, 'thumbnail', true);
-													$icon = isset($thumbnail[0]) ? $thumbnail[0] : $icon;
-												}
-											?>
-												<div class="app-icon">
-													<a href="<?php the_permalink(get_the_ID()) ?>" title="<?php the_title_attribute() ?>">
-														<img src="<?php echo esc_url($icon); ?>" alt="<?php the_title_attribute(); ?>" />
-													</a>
-												</div>
-											<?php } ?>
-											<p class="product-title"><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute() ?>" class="main-color-1-hover"><?php the_title(); ?></a></p>
+						<?php if (!empty($listPostPopular)) { ?>
+							<?php
+							if (isset($getPaginationPopular)) {
+								$current_page_popular = $getPaginationPopular;
+							} else {
+								$current_page_popular = 1;
+							}
+
+							$args = array(
+								'post__in' => $listPostPopular,
+								'posts_per_page' => 16,
+								'paged' => $current_page_popular,
+								'post_status' => 'published',
+								'post_type' => 'any',
+							);
+							$res =  new WP_Query($args); ?>
+							<ul>
+								<?php if ($res->have_posts()) { ?>
+									<?php foreach ($res->get_posts() as $post) { ?>
+										<?php die(); ?>
+										<li <?php post_class(); ?>>
+											<?php do_action('woocommerce_before_shop_loop_item'); ?>
 											<?php
-											do_action('woocommerce_after_shop_loop_item_title');
+											$icon = get_post_meta(get_the_ID(), 'app-icon', true);
 											?>
-										</div>
-										<?php do_action('woocommerce_after_shop_loop_item'); ?>
-									</li>
+											<div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
+												<?php if ($icon) {
+													if ($icon_id = ia_get_attachment_id_from_url($icon)) {
+														$thumbnail = wp_get_attachment_image_src($icon_id, 'thumbnail', true);
+														$icon = isset($thumbnail[0]) ? $thumbnail[0] : $icon;
+													}
+												?>
+													<div class="app-icon">
+														<a href="<?php the_permalink(get_the_ID()) ?>" title="<?php the_title_attribute() ?>">
+															<img src="<?php echo esc_url($icon); ?>" alt="<?php the_title_attribute(); ?>" />
+														</a>
+													</div>
+												<?php } ?>
+												<p class="product-title"><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute() ?>" class="main-color-1-hover"><?php the_title(); ?></a></p>
+												<?php
+												do_action('woocommerce_after_shop_loop_item_title');
+												?>
+											</div>
+											<?php do_action('woocommerce_after_shop_loop_item'); ?>
+										</li>
+									<?php } ?>
 								<?php } ?>
-							<?php } ?>
-						</ul>
-					<?php  } ?>
+							</ul>
+							<div>
+								<?php echo paginate_links(array(
+									'base' => get_pagenum_link(1) . '%_%',
+									'format' => '/page/%#%?popular_page=%#%',
+									'current' => $current_page_popular,
+									'total' => $total_page_popular,
+									'type' => 'list',
+									'prev_text' => __('←'),
+									'next_text' => __('→'),
+								)); ?>
+							</div>
+						<?php } ?>
+					<?php } ?>
 				</div>
 			</div>
 		</div>
@@ -259,9 +325,7 @@ get_header('shop'); ?>
 		</div>
 	<?php } ?>
 	<?php
-	if ($layout != 'full' && $layout != 'true-full') {
-		do_action('woocommerce_sidebar');
-	}
+	do_action('woocommerce_sidebar');
 	?>
 </div>
 <script>
@@ -273,6 +337,7 @@ get_header('shop'); ?>
 				listLi[i].classList.remove("active");
 			}
 		}
+
 		btn.addClass('active');
 		jQuery('#news').hasClass('')
 
@@ -295,8 +360,34 @@ get_header('shop'); ?>
 	}
 
 	jQuery(document).ready(function() {
-		jQuery('#hot').hide();
-		jQuery('#popular').hide();
+		let listLi = jQuery('#section-tab-filter li');
+		<?php if ($isHotTab) { ?>
+			jQuery('#news').hide();
+			jQuery('#popular').hide();
+			jQuery('#hot').show();
+			for (let i = 0; i < listLi.length; i++) {
+				if (listLi[i].classList.contains('active')) {
+					listLi[i].classList.remove("active");
+				}
+			}
+
+			jQuery('#tab-filter-hot').addClass('active');
+		<?php } elseif ($isPopularTab) { ?>
+			jQuery('#news').hide();
+			jQuery('#hot').hide();
+			jQuery('#popular').show();
+			for (let i = 0; i < listLi.length; i++) {
+				if (listLi[i].classList.contains('active')) {
+					listLi[i].classList.remove("active");
+				}
+			}
+
+			jQuery('#tab-filter-popular').addClass('active');
+		<?php } else { ?>
+			jQuery('#hot').hide();
+			jQuery('#popular').hide();
+		<?php } ?>
+
 	});
 </script>
 <?php get_footer(); ?>
