@@ -15,6 +15,79 @@
 
     $(document).ready(function(){
 
+		$("form.htga4")
+		.on("change", function (e) {
+			$(this).find("#submit").removeAttr("disabled");
+		})
+		.on("submit", function (e) {
+			e.preventDefault();
+
+			// Disable the submit button with attribute "disabled" to prevent multiple clicks
+			$(this).find("#submit").attr("disabled", "disabled");
+		
+			const formData = new FormData(this);
+			const $_this = $(this);
+		
+			const formValues = {};
+			for (let [name, value] of formData.entries()) {
+			  const ignoreInputs = [
+				"action",
+				"option_page",
+				"submit",
+				"_wp_http_referer",
+				"_wpnonce",
+			  ];
+		
+			  if (!ignoreInputs.includes(name)) {
+				if (name.endsWith("[]")) {
+				  name = name.replace("[]", ""); // remove [] from the name
+		
+				  formValues[name] = (formValues[name] || []).concat(value);
+				} else {
+				  formValues[name] = value;
+				}
+			  }
+			}
+
+			const $notification = $(
+				'<div class="htga4-ajax-notification">Saved!</div>'
+			  );
+			  $("body").append($notification);
+
+			$.ajax({
+				url: htga4_params.ajax_url,
+				type: "POST",
+				data: {
+				  action: "htga4_save_options",
+				  formValues: formValues,
+				  nonce: htga4_params.nonce,
+				},
+		  
+				beforeSend: function () {
+				  $_this.find("#submit").css("pointer-events", "none").val("Saving...");
+				},
+		  
+				success: function (response) {
+				  $notification.addClass("open");
+				},
+		  
+				complete: function (response) {
+				  $_this
+					.find("#submit")
+					.css("pointer-events", "initial")
+					.val("Save Changes");
+		  
+				  setTimeout(function () {
+					$notification.removeClass("open");
+				  }, 3000);
+				},
+		  
+				error: function (errorThrown) {
+				  console.log(errorThrown);
+				},
+			});
+		});
+
 		Htga4Admin.init();
 
 		// Open the Documentation & Need Help? links in new tab.
@@ -51,14 +124,6 @@
 			$select_property 	= $('.htga4-select-property'),
 			$select_measurement = $('.htga4-select-measurement-id');
 
-		let current_url = window.location.href;
-		if( current_url.indexOf('ngrok') > -1 && $('.htga4_login .button').length ){
-			const button_url = $('.htga4_login .button').attr('href');
-
-			let new_url = updateQueryStringParameter(button_url, 'state', current_url);
-			$('.htga4_login .button').attr('href', new_url);
-		}
-
 		// Listen to select account
 		$select_account.on('change', function(e){
 			removeAccessTokenFromURL();
@@ -71,7 +136,6 @@
 				$.ajax({
 					url: htga4_params.ajax_url,
 					type: 'POST',
-					//dataType: 'json',
 					data: {
 						'action': 'htga4_get_properties',
 						'nonce' : htga4_params.nonce,
@@ -137,22 +201,15 @@
 						}
 
 						if( response.success ){
+							// Loop through the object and prepare the dropdown options
 							$select_measurement.html('<option value="">Select measurement ID</option>');
-
-							// Prepare & append dropdown options
 							for (let [key, value] of Object.entries(response.data)) {
-								let data_stream_id = value.name.split('/');
-									data_stream_id = data_stream_id[data_stream_id.length - 1];
-
-								let measurement_id = value.webStreamData.measurementId;
-
-								$select_measurement.append(`<option value="${measurement_id}" data-stream_id="${data_stream_id}">${value.displayName} &#60;${measurement_id}&#62;</option>`);
+								$select_measurement.append(`<option value="${value.measurement_id}" data-stream_id="${key}">${value.display_name} &#60;${value.measurement_id}&#62;</option>`);
 							}
-
-							$select_measurement.removeAttr('disabled', '');
-
-							
 						}
+
+						$select_measurement.removeAttr('disabled', '');
+
 					},
 			
 					complete:function( response ){

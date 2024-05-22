@@ -5,8 +5,9 @@ namespace Ht_Easy_Ga4;
  * Loading Google Analytics 4 scripts in header.
  */
 class Manage_Assets {
-    public $version;
-    public $active_tab;
+	use \Ht_Easy_Ga4\Helper_Trait;
+
+    public $version = HT_EASY_GA4_VERSION;
 
 	private static $_instance = null;
 
@@ -22,12 +23,7 @@ class Manage_Assets {
         // Set time as the version for development mode.
 		if( defined('WP_DEBUG') && WP_DEBUG ){
 			$this->version = time();
-		} else {
-			$this->version = HT_EASY_GA4_VERSION;
 		}
-
-        // Active tab.
-		$this->active_tab = ! empty( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : '';
 
         // Enqueue script.
 		add_action( 'admin_enqueue_scripts', array( $this, 'action_admin_enqueue_scripts' ), 9999 );
@@ -50,9 +46,15 @@ class Manage_Assets {
 			wp_enqueue_script( 'jquery-interdependencies', HT_EASY_GA4_URL . 'admin/assets/js/jquery-interdependencies.min.js', array( 'jquery' ), $this->version, true );
 			wp_enqueue_script( 'htga4-admin', HT_EASY_GA4_URL . 'admin/assets/js/admin.js', array( 'jquery' ), $this->version, true );
 
-			if ( $this->active_tab == 'standard_reports' || $this->active_tab == 'ecommerce_reports' ) {
+			if ( $this->get_current_tab() == 'standard_reports' || $this->get_current_tab() == 'ecommerce_reports' || $this->get_current_tab() == 'realtime_reports' ) {
 				wp_enqueue_script( 'htga4-chart-active', HT_EASY_GA4_URL . 'admin/assets/js/chart-active.js', array( 'chart', 'daterangepicker' ), $this->version, true );
 			}
+
+			// Localize
+			wp_localize_script( 'htga4-admin', 'htga4_params', array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'nonce' => wp_create_nonce( 'htga4_nonce' ),
+			) );
 		}
 	}
 }

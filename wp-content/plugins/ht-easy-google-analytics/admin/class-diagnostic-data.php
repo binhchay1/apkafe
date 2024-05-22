@@ -13,6 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
     class Ht_Easy_Ga4_Diagnostic_Data {
+        /**
+         * Prefix.
+         */
+        private $prefix;
 
         /**
          * Project name.
@@ -79,6 +83,7 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
          * Constructor.
          */
         private function __construct() {
+            $this->prefix = 'htga4';
             $this->project_name = 'HT Easy GA4';
             $this->project_type = 'wordpress-plugin';
             $this->project_version = HT_EASY_GA4_VERSION;
@@ -98,15 +103,18 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
                 $this->show_notices();
             }, 0 );
            
-            add_action('plugins_loaded', function(){
-                $agreed  = ( isset( $_GET['htga4_diagnostic_data_agreed'] ) ? sanitize_key( $_GET['htga4_diagnostic_data_agreed'] ) : '' );
+            
 
+            $agreed  = ( isset( $_GET['htga4_diagnostic_data_agreed'] ) ? sanitize_key( $_GET['htga4_diagnostic_data_agreed'] ) : '' );
+            $nonce = ( isset( $_GET['_wpnonce'] ) ? sanitize_key( $_GET['_wpnonce'] ) : '' );
+
+            if( wp_verify_nonce( $nonce, $this->prefix . '_diagnostic_data_nonce' ) ){
                 if( $agreed === 'yes' ){
                     $this->process_data( $agreed );
                 } elseif( $agreed === 'no' ) {
                     $this->process_data( $agreed );
-                }
-            });
+                }   
+            }
         }
 
         /**
@@ -474,11 +482,18 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
 
             $message_l2 = sprintf( esc_html__( 'Server information (Web server, PHP version, MySQL version), WordPress information, site name, site URL, number of plugins, number of users, your name, and email address. You can rest assured that no sensitive data will be collected or tracked. %1$sLearn more%2$s.', 'htga4' ), '<a target="_blank" href="' . esc_url( $this->privacy_policy ) . '">', '</a>' );
 
+            $nonce = wp_create_nonce( $this->prefix . '_diagnostic_data_nonce');
             $button_text_1 = esc_html__( 'Count Me In', 'htga4' );
-            $button_link_1 = add_query_arg( array( 'htga4_diagnostic_data_agreed' => 'yes' ) );
+            $button_link_1 = add_query_arg( array( 
+                'htga4_diagnostic_data_agreed' => 'yes',
+                '_wpnonce' => $nonce,
+            ) );
 
             $button_text_2 = esc_html__( 'No, Thanks', 'htga4' );
-            $button_link_2 = add_query_arg( array( 'htga4_diagnostic_data_agreed' => 'no' ) );
+            $button_link_2 = add_query_arg( array( 
+                'htga4_diagnostic_data_agreed' => 'no',
+                '_wpnonce' => $nonce,
+            ) );
             ?>
             <div class="htga4-diagnostic-data-style"><style>.htga4-diagnostic-data-notice,.woocommerce-embed-page .htga4-diagnostic-data-notice{padding-top:.75em;padding-bottom:.75em;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-buttons,.htga4-diagnostic-data-notice .htga4-diagnostic-data-list,.htga4-diagnostic-data-notice .htga4-diagnostic-data-message{padding:.25em 2px;margin:0;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-list{display:none;color:#646970;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-buttons{padding-top:.75em;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-buttons .button{margin-right:5px;box-shadow:none;}.htga4-diagnostic-data-loading{position:relative;}.htga4-diagnostic-data-loading::before{position:absolute;content:"";width:100%;height:100%;top:0;left:0;background-color:rgba(255,255,255,.5);z-index:999;}.htga4-diagnostic-data-disagree{border-width:0px !important;background-color: transparent!important; padding: 0!important;}h4.htga4-diagnostic-data-title {margin: 0 0 10px 0;font-size: 1.04em;font-weight: 600;}</style></div>
             <div class="htga4-diagnostic-data-notice notice notice-success">

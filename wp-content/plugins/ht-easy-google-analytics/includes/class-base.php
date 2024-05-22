@@ -1,9 +1,13 @@
 <?php
-/**
- * Loading Google Analytics 4 scripts in header.
- */
-class Ht_Easy_Ga4 {
-	use \HtEasyGa4\Helper_Trait;
+namespace Ht_Easy_Ga4;
+
+use Ht_Easy_Ga4\Admin\Tabs\Standard_Reports;
+use Ht_Easy_Ga4\Admin\Tabs\Ecommerce_Reports;
+use Ht_Easy_Ga4\Admin\Tabs\Realtime_Reports;
+
+class Base {
+	use \Ht_Easy_Ga4\Helper_Trait;
+	use \Ht_Easy_Ga4\Rest_Request_Handler_Trait;
 
 	/**
 	 * [$_instance]
@@ -15,7 +19,7 @@ class Ht_Easy_Ga4 {
 	/**
 	 * [instance] Initializes a singleton instance
 	 *
-	 * @return [Easy_Google_Analytics]
+	 * @return Base
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -23,6 +27,27 @@ class Ht_Easy_Ga4 {
 		}
 		return self::$_instance;
 	}
+
+	/**
+	 * Standard_Reports instance.
+	 *
+	 * @return Standard_Reports
+	 */
+	public $standard_reports;
+
+	/**
+	 * Ecommerce_Reports instance.
+	 *
+	 * @return Ecommerce_Reports
+	 */
+	public $ecommerce_reports;
+
+	/**
+	 * Realtime_Reports instance.
+	 *
+	 * @return Realtime_Reports
+	 */
+	public $realtime_reports;
 
 	public $response_message;
 
@@ -49,24 +74,21 @@ class Ht_Easy_Ga4 {
 			}
 		);
 
-		if ( $this->get_measurement_id() ) {
-			add_action( 'wp_head', array( $this, 'header_scirpt_render' ) );
-		}
-
 		// Save the code for after login
 		add_action('plugins_loaded', function(){
 			$htga4_email = !empty( $_GET['email']) ? sanitize_email( $_GET['email']) : '';
 			$htga4_sr_api_key = !empty( $_GET['key']) ? sanitize_text_field( $_GET['key']) : '';
+			
+			$nonce = !empty( $_GET['_wpnonce']) ? sanitize_text_field( $_GET['_wpnonce']) : '';
+			$nonce_check_result = wp_verify_nonce($nonce, 'htga4_save_key_nonce');
 
-			if( $htga4_email && current_user_can('manage_options') ){
+			if( $nonce_check_result && $htga4_email && current_user_can('manage_options') ){
 				update_option('htga4_email', $htga4_email);
 				update_option('htga4_sr_api_key', $htga4_sr_api_key);
 
 				$admin_url 		= admin_url('admin.php?page=ht-easy-ga4-setting-page');
-				$forwarded_host = !empty($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : ''; // development mode
-
-				if( $forwarded_host == 'dominant-fleet-swan.ngrok-free.app' ){
-					$admin_url = 'https://dominant-fleet-swan.ngrok-free.app/wp-admin/admin.php?page=ht-easy-ga4-setting-page';
+				if( $this->is_ngrok_url() ){
+					$admin_url = $this->get_ngrok_url() . '/wp-admin/admin.php?page=ht-easy-ga4-setting-page';
 				}
 
 				header("Location:$admin_url");
@@ -88,29 +110,30 @@ class Ht_Easy_Ga4 {
 	}
 
 	public function includes() {
-		require_once HT_EASY_GA4_PATH . 'admin/Recommended_Plugins.php';
-		require_once HT_EASY_GA4_PATH . 'admin/plugin-recommendations.php';
-		require_once HT_EASY_GA4_PATH . 'includes/class.manage-assets.php';
-		require_once HT_EASY_GA4_PATH . 'admin/admin-init.php';
+		require_once HT_EASY_GA4_PATH . 'includes/class-manage-assets.php';
+		require_once HT_EASY_GA4_PATH . 'includes/class-ajax-actions.php';
 
-		require_once HT_EASY_GA4_PATH . 'includes/ajax-actions.php';
-	}
+		require_once HT_EASY_GA4_PATH . 'admin/class-admin.php';
+		require_once HT_EASY_GA4_PATH . 'admin/tabs/class-general-options.php';
+		require_once HT_EASY_GA4_PATH . 'admin/tabs/class-events-tracking.php';
+		require_once HT_EASY_GA4_PATH . 'admin/tabs/class-standard-reports.php';
+		$this->standard_reports = Standard_Reports::instance();
+		
+		require_once HT_EASY_GA4_PATH . 'admin/tabs/class-ecommerce-reports.php';
+		$this->ecommerce_reports = Ecommerce_Reports::instance();
 
-	public function header_scirpt_render() {
-		if( $this->check_header_script_render_status() == false ){
-			return;
+		require_once HT_EASY_GA4_PATH . 'admin/tabs/class-realtime-reports.php';
+		$this->realtime_reports = Realtime_Reports::instance();
+
+		require_once HT_EASY_GA4_PATH . 'admin/class-recommended-plugins.php';
+		require_once HT_EASY_GA4_PATH . 'admin/class-recommended-plugins-init.php';
+
+		if( is_admin() ){
+			require_once ( HT_EASY_GA4_PATH .'admin/class-trial.php' );
+			require_once ( HT_EASY_GA4_PATH .'admin/class-diagnostic-data.php' );
 		}
-		?>
-		   <!-- Global site tag (gtag.js) - added by HT Easy Ga4 -->
-		   <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo esc_js( $this->get_measurement_id() ); ?>"></script>
-		   <script>
-		   window.dataLayer = window.dataLayer || [];
-		   function gtag(){dataLayer.push(arguments);}
-		   gtag('js', new Date());
-   
-		   gtag('config', <?php echo "'" . esc_js( $this->get_measurement_id() ) . "'"; ?>);
-		   </script>
-		<?php
+
+		require_once HT_EASY_GA4_PATH . 'frontend/class-frontend.php';
 	}
 
 	public function login() {
@@ -135,6 +158,8 @@ class Ht_Easy_Ga4 {
 			return;
 		}
 
+		$mail = get_option( 'htga4_email' );
+
 		if ( ! empty( $get_data['htga4_logout'] ) ) {
 			$this->clear_data();
 
@@ -142,11 +167,11 @@ class Ht_Easy_Ga4 {
 			delete_option( 'ht_easy_ga4_options' );
 
 			$response = wp_remote_post(
-				$this::$htga4_rest_base_url . 'v1/delete-data',
+				self::$htga4_rest_base_url . 'v1/delete-data',
 				array(
 					'timeout'   => 20,
 					'body'      => array(
-						'email' => sanitize_email( get_option( 'htga4_email' ) ),
+						'email' => sanitize_email( $mail ),
 					),
 					'sslverify' => false,
 				)
@@ -210,33 +235,7 @@ class Ht_Easy_Ga4 {
 		delete_transient( 'htga4_properties' );
 		delete_transient( 'htga4_data_streams' );
 
+		delete_option( 'htga4_email' );
 		delete_option( 'htga4_sr_api_key' );
 	}
-
-	/**
-	 * Check if the header script should be rendered or not.
-	 *
-	 * @return bool
-	 */
-	public function check_header_script_render_status(){
-		$return_value = true;
-
-		// If the current user is of the excluded user roles return false.
-		if( is_user_logged_in() ){
-			$exclude_user_roles = $this->get_option('exclude_roles');
-
-			$current_user_id    = get_current_user_id();
-			$current_user       = get_userdata( $current_user_id );
-			$current_user_roles = $current_user->roles;
-			
-
-			if( !empty($exclude_user_roles) && array_intersect($exclude_user_roles, $current_user_roles) ){
-				$return_value = false;
-			}
-		}
-
-		return $return_value;
-	}
 }
-
-Ht_Easy_Ga4::instance();

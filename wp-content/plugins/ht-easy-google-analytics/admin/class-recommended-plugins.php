@@ -1,5 +1,5 @@
 <?php
-namespace HtEasyGa4\Admin;
+namespace Ht_Easy_Ga4\Admin;
 /**
  * Recommended Plugins handlers class
  */
@@ -66,7 +66,7 @@ class Recommended_Plugins {
         // Initialize properties
         $this->text_domain       =  !empty( $args['text_domain'] ) ? $args['text_domain'] : 'htrp';
         $this->parent_menu_slug  =  !empty( $args['parent_menu_slug'] ) ? $args['parent_menu_slug'] : 'plugins.php';
-        $this->menu_label        =  !empty( $args['menu_label'] ) ? $args['menu_label'] : esc_html__( 'Recommendations', $this->text_domain );
+        $this->menu_label        =  !empty( $args['menu_label'] ) ? $args['menu_label'] : esc_html__( 'Recommendations', 'ht-easy-ga4' );
         $this->menu_capability   =  !empty( $args['menu_capability'] ) ? $args['menu_capability'] : 'manage_options';
         $this->menu_page_slug    =  !empty( $args['menu_page_slug'] ) ? $args['menu_page_slug'] : $this->text_domain . '_extensions';
         $this->priority          =  !empty( $args['priority'] ) ? $args['priority'] : 100;
@@ -124,11 +124,11 @@ class Recommended_Plugins {
         $localize_vars['text_domain'] = sanitize_title_with_dashes( $this->text_domain );
         $localize_vars['nonce'] = wp_create_nonce('htrp_nonce');
         $localize_vars['buttontxt'] = array(
-            'buynow'     => esc_html__( 'Buy Now', $this->text_domain ),
-            'preview'    => esc_html__( 'Preview', $this->text_domain ),
-            'installing' => esc_html__( 'Installing..', $this->text_domain ),
-            'activating' => esc_html__( 'Activating..', $this->text_domain ),
-            'active'     => esc_html__( 'Activated', $this->text_domain ),
+            'buynow'     => esc_html__( 'Buy Now', 'ht-easy-ga4' ),
+            'preview'    => esc_html__( 'Preview', 'ht-easy-ga4' ),
+            'installing' => esc_html__( 'Installing..', 'ht-easy-ga4' ),
+            'activating' => esc_html__( 'Activating..', 'ht-easy-ga4' ),
+            'active'     => esc_html__( 'Activated', 'ht-easy-ga4' ),
         );
         wp_localize_script( 'htrp-plugin-install-manager', 'htrp_params', $localize_vars );
 
@@ -219,7 +219,7 @@ class Recommended_Plugins {
                                 if( array_key_exists( $plugin['slug'], $prepare_plugin ) ){
                                     $plugins_type = 'free';
                                     $image_url    = $this->plugin_icon( $plugins_type, $prepare_plugin[$data['slug']]['icons'] );
-                                    $description  = strip_tags( $prepare_plugin[$data['slug']]['description'] );
+                                    $description  = wp_strip_all_tags( $prepare_plugin[$data['slug']]['description'] );
                                     $author_name  = wp_kses( $prepare_plugin[$data['slug']]['author'], $this->plugins_allowedtags );
                                     $details_link = self_admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .'&amp;TB_iframe=true&amp;width=772&amp;height=577');
                                     $target       = '_self';
@@ -229,10 +229,10 @@ class Recommended_Plugins {
                                     $plugins_type = 'pro';
                                     $image_url     = $this->plugin_icon( $plugins_type, $plugin['slug'] );
                                     $description    = $plugin['description'];
-                                    $author_name    = esc_html__( 'HasTheme', $this->text_domain );
+                                    $author_name    = esc_html__( 'HasTheme', 'ht-easy-ga4' );
                                     $author_link    = $plugin['author_link'];
                                     $details_link   = $plugin['link'];
-                                    $button_text    = esc_html__('Buy Now', $this->text_domain );
+                                    $button_text    = esc_html__('Buy Now', 'ht-easy-ga4' );
                                     $button_classes = 'button button-primary';
                                     $target         = '_blank';
                                     $modal_class    = '';
@@ -244,18 +244,18 @@ class Recommended_Plugins {
                                     if ( file_exists( WP_PLUGIN_DIR . '/' . $data['location'] ) && is_plugin_inactive( $data['location'] ) ) {
 
                                         $button_classes = 'button htrp-activate-now button-primary';
-                                        $button_text    = esc_html__( 'Activate', $this->text_domain );
+                                        $button_text    = esc_html__( 'Activate', 'ht-easy-ga4' );
 
                                     // Not Installed.
                                     } elseif ( ! file_exists( WP_PLUGIN_DIR . '/' . $data['location'] ) ) {
 
                                         $button_classes = 'button htrp-install-now';
-                                        $button_text    = esc_html__( 'Install Now', $this->text_domain );
+                                        $button_text    = esc_html__( 'Install Now', 'ht-easy-ga4' );
 
                                     // Active.
                                     } else {
                                         $button_classes = 'button disabled';
-                                        $button_text    = esc_html__( 'Activated', $this->text_domain );
+                                        $button_text    = esc_html__( 'Activated', 'ht-easy-ga4' );
                                     }
 
                                     ?>
@@ -272,7 +272,7 @@ class Recommended_Plugins {
                                             <div class="desc column-description" style="margin-right: 0;">
                                                 <p><?php echo wp_trim_words( $description, 23, '....'); ?></p>
                                                 <p class="authors">
-                                                    <cite><?php echo esc_html__( 'By ', $this->text_domain ); ?>
+                                                    <cite><?php echo esc_html__( 'By ', 'ht-easy-ga4' ); ?>
                                                         <?php if( $plugins_type == 'free' ): ?>
                                                             <?php echo $author_name; ?>
                                                         <?php else: ?>
@@ -286,7 +286,7 @@ class Recommended_Plugins {
                                             <div class="column-updated">
                                                 <?php
                                                     if (! file_exists( WP_PLUGIN_DIR . '/' . $data['location'] ) && $plugins_type == 'pro' ) {
-                                                        echo '<a class="button button-primary" href="'.esc_url( $details_link ).'" target="'.esc_attr( $target ).'">'.esc_html__( 'Buy Now', $this->text_domain ).'</a>';
+                                                        echo '<a class="button button-primary" href="'.esc_url( $details_link ).'" target="'.esc_attr( $target ).'">'.esc_html__( 'Buy Now', 'ht-easy-ga4' ).'</a>';
                                                     }else{
                                                 ?>
                                                     <button class="<?php echo esc_attr($button_classes); ?>" data-pluginopt='<?php echo wp_json_encode( $data ); ?>'><?php echo $button_text; ?></button>
@@ -294,7 +294,7 @@ class Recommended_Plugins {
                                                 <?php } ?>
                                             </div>
                                             <div class="column-downloaded">
-                                                <a href="<?php echo esc_url( $details_link ) ?>" target="<?php echo esc_attr( $target ) ?>" <?php echo $modal_class; ?>><?php echo esc_html__('More Details', $this->text_domain) ?></a>
+                                                <a href="<?php echo esc_url( $details_link ) ?>" target="<?php echo esc_attr( $target ) ?>" <?php echo $modal_class; ?>><?php echo esc_html__('More Details', 'ht-easy-ga4') ?></a>
                                                 <span class="downloaded-count">
                                                     <?php
                                                         if( $plugins_type == 'free' ){
@@ -397,7 +397,7 @@ class Recommended_Plugins {
             wp_send_json_error(
                 array(
                     'success' => false,
-                    'message' => esc_html__( 'Plugin Not Found', $this->text_domain ),
+                    'message' => esc_html__( 'Plugin Not Found', 'ht-easy-ga4' ),
                 )
             );
         }
@@ -417,7 +417,7 @@ class Recommended_Plugins {
         wp_send_json_success(
             array(
                 'success' => true,
-                'message' => esc_html__( 'Plugin Successfully Activated', $this->text_domain ),
+                'message' => esc_html__( 'Plugin Successfully Activated', 'ht-easy-ga4' ),
             )
         );
 

@@ -21,6 +21,10 @@
 	box-sizing: border-box;
 }
 
+.htga4 #submit{
+	margin-top: 10px;
+}
+
 /* Login button */
 .htga4_login a.button,
 .htga4_login a.button:hover,
@@ -134,6 +138,7 @@
 	margin-bottom: 20px;
 
 	gap: 20px;
+	align-items: center;
 }
 
 @media (max-width: 575px) {
@@ -441,6 +446,10 @@
 .ht_easy_ga4_reoport_card_wrapper_column-3 {
 	-ms-grid-columns: (1fr)[3];
 	grid-template-columns: repeat(3, 1fr);
+}
+
+.ht_easy_ga4_reoport_card_wrapper_column-2-1{
+	grid-template-columns: 2fr 1fr;
 }
 
 .ht_easy_ga4_reoport_card_wrapper_column-4 {
@@ -1547,3 +1556,19 @@ tr.htga4_no_pro input {
 	opacity: 1;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
+
+/* Ajax Notification */
+.htga4-ajax-notification {
+	position: fixed;
+	bottom: -50px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: var(--ht-ga-color-heading);
+	color: #fff;
+	padding: 15px;
+	border-radius: 5px;
+	transition: bottom 0.5s ease-in-out;
+  }
+  .htga4-ajax-notification.open {
+	bottom: 20px;
+  }
