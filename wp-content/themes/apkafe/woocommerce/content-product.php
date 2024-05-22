@@ -42,6 +42,4 @@ global $product;
 		?>
 	</div>
 
-	<?php do_action('woocommerce_after_shop_loop_item'); ?>
-
 </li>

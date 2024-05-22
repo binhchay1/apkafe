@@ -1984,3 +1984,12 @@ ul li i:after {
   list-style: none outside;
   clear: both;
 }
+
+#news, #hot, #popular {
+  display: flex;
+  flex-direction: column;
+}
+
+.star-rating {
+  display: none !important;
+}

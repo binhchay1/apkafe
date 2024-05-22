@@ -205,7 +205,7 @@ if (!function_exists('ot_type_post_list_section_customize')) {
 
 		$explode = explode(',', $field_value);
 
-		echo '<div class="format-setting-inner" id="' . $field_id . '" style="margin-top: 20px">';
+		echo '<div class="format-setting-inner" id=" ' . $field_id . '" style="margin-top: 20px">';
 		echo '<input type="text" style="margin: 0" aria-label="Search list" placeholder="Enter post link" id="search-post-list-' . esc_attr($field_id) . '">';
 		if ($field_value == '') {
 			echo '<input type="hidden" name="' . esc_attr($field_name) . '" id="hidden-for-section-' . $field_id . '">';
@@ -258,10 +258,10 @@ if (!function_exists('ot_type_post_list_section_customize')) {
 		function deleteToList' . $field_id . '(button) {
 			let parent = button.parent();
 			let link = button.attr("data-link");
-			let index = listForAdd.indexOf(link);
+			let index = listForAdd' . $field_id . '.indexOf(link);
 			
 			if (index !== -1) {
-				listForAdd.splice(index, 1);
+				listForAdd' . $field_id . '.splice(index, 1);
 			}
 
 			parent.remove();

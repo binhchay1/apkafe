@@ -1,10 +1,13 @@
 <?php
 get_header();
 $category_id = get_query_var('cat');
-$args = array('cat' => $category_id, 'orderby' => 'modified', 'order' => 'DESC', 'posts_per_page' => 24, 'post_status' => 'publish');
-$get_post = new WP_Query($args);
+$category = get_the_category_by_ID($category_id);
 $getH1 = get_term_meta($category_id, 'h1_category', true);
 $description = category_description($category_id);
+$current_page_news = max(1, get_query_var('paged'));
+$args = array('cat' => $category_id, 'orderby' => 'modified', 'order' => 'DESC', 'posts_per_page' => 16, 'post_status' => 'publish', 'paged' => $current_page_news);
+$get_post = new WP_Query($args);
+$total_page_news = $get_post->max_num_pages;
 ?>
 
 <div class="container">
@@ -85,7 +88,7 @@ $description = category_description($category_id);
                                     <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
                                         <div class="app-icon">
                                             <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
-                                                <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" />
+                                                <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="178" height="178"/>
                                             </a>
                                         </div>
                                         <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
@@ -94,6 +97,15 @@ $description = category_description($category_id);
                             <?php } ?>
                         <?php } ?>
                     </ul>
+
+                    <div>
+                    <?php echo paginate_links(array(
+                        'base' => get_pagenum_link(1) . '%_%',
+                        'format' => 'news-page/%#%',
+                        'current' => $current_page_news,
+                        'total' => $total_page_news,
+                        )); ?>
+                    </div>
                 </div>
 
                 <div id="hot">
@@ -101,22 +113,24 @@ $description = category_description($category_id);
                     <?php $getOptionHot = ot_get_option('customize_hot') ?>
                     <?php if ($getOptionHot != '') { ?>
                         <?php foreach ($getOptionHot as $option) { ?>
-                            <?php if ($option['title'] == $term->name) { ?>
+                            <?php if ($option['title'] == $category) { ?>
                                 <?php foreach ($option['post_select'] as $postSelectHot) { ?>
                                     <?php $listPostHot[] = $postSelectHot ?>
                                 <?php } ?>
                             <?php } ?>
                         <?php } ?>
+                        
                         <?php if (!empty($listPostHot)) { ?>
                             <?php
-                            $paged = max(1, get_query_var('page'));
+                            $current_page_hot = max(1, get_query_var('paged'));
                             $args = array(
                                 'post__in' => $listPostHot,
                                 'posts_per_page' => 16,
-                                'paged' => $paged,
+                                'paged' => $current_page_hot,
                                 'post_status' => 'published',
                             );
-                            $res =  new WP_Query($args); ?>
+                            $res =  new WP_Query($args);
+                            $total_page_hot = $res->max_num_pages; ?>
                             <ul class="ul-list-in-archive">
                                 <?php if ($res->have_posts()) { ?>
                                     <?php foreach ($res->posts as $post) { ?>
@@ -136,6 +150,15 @@ $description = category_description($category_id);
                                     <?php } ?>
                                 <?php } ?>
                             </ul>
+
+                            <div>
+                            <?php echo paginate_links(array(
+                                'base' => get_pagenum_link(1) . '%_%',
+                                'format' => '/page/%#%?hot_page',
+                                'current' => $current_page_hot,
+                                'total' => $total_page_hot,
+                            )); ?>
+                            </div>
                         <?php } ?>
                     <?php } ?>
                 </div>
@@ -145,22 +168,23 @@ $description = category_description($category_id);
                     <?php $getOptionPopular = ot_get_option('customize_popular') ?>
                     <?php if ($getOptionPopular != '') { ?>
                         <?php foreach ($getOptionPopular as $optionPopular) { ?>
-                            <?php if ($optionPopular['title'] == $term->name) { ?>
+                            <?php if ($optionPopular['title'] == $category) { ?>
                                 <?php foreach ($optionPopular['post_select'] as $postSelectPopular) { ?>
                                     <?php $listPostPopular[] = $postSelectPopular ?>
                                 <?php } ?>
                             <?php } ?>
                         <?php } ?>
                         <?php
-                        $paged = max(1, get_query_var('page'));
+                        $current_page_popular = max(1, get_query_var('paged'));
                         $args = array(
                             'post__in' => $listPostPopular,
-                            'posts_per_page' => 12,
-                            'paged' => $paged,
+                            'posts_per_page' => 16,
+                            'paged' => $current_page_popular,
                             'post_status' => 'published',
                             'post_type' => 'any',
                         );
-                        $res =  new WP_Query($args); ?>
+                        $res =  new WP_Query($args);
+                        $total_page_popular = $res->max_num_pages; ?>
                         <ul class="ul-list-in-archive">
                             <?php if ($res->have_posts()) { ?>
                                 <?php foreach ($res->posts as $post) { ?>
@@ -180,6 +204,14 @@ $description = category_description($category_id);
                                 <?php } ?>
                             <?php } ?>
                         </ul>
+                        <div>
+                        <?php echo paginate_links(array(
+                            'base' => get_pagenum_link(1) . '%_%',
+                            'format' => '/page/%#%',
+                            'current' => $current_page_popular,
+                            'total' => $total_page_popular,
+                        )); ?>
+                        </div>
                     <?php  } ?>
                 </div>
             </div>
