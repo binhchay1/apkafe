@@ -2,10 +2,9 @@
 get_header();
 $category_id = get_query_var('cat');
 $args = array('cat' => $category_id, 'orderby' => 'modified', 'order' => 'DESC', 'posts_per_page' => 24, 'post_status' => 'publish');
-$argsLastUpdate = array('cat' => $category_id, 'orderby' => 'modified', 'order' => 'DESC', 'posts_per_page' => 1, 'post_status' => 'publish');
 $get_post = new WP_Query($args);
-$get_post_last_update = new WP_Query($argsLastUpdate);
 $getH1 = get_term_meta($category_id, 'h1_category', true);
+$description = category_description($category_id);
 ?>
 
 <div class="container">
@@ -57,7 +56,11 @@ $getH1 = get_term_meta($category_id, 'h1_category', true);
                     <?php } ?>
                 </div>
 
-                <?php do_action('woocommerce_archive_description'); ?>
+                <div>
+                    <?php if ($description != '') { ?>
+                        <?php echo $description ?>
+                    <?php } ?>
+                </div>
 
                 <ul class="sort-controls" id="section-tab-filter">
                     <li class="active" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'news')">
@@ -72,25 +75,25 @@ $getH1 = get_term_meta($category_id, 'h1_category', true);
                 </ul>
 
                 <div id="news">
-                    <?php
-                    if (have_posts()) {
-                        do_action('woocommerce_before_shop_loop');
-                        woocommerce_product_loop_start();
-
-                        if (wc_get_loop_prop('total')) {
-                            while (have_posts()) {
-                                the_post();
-                                do_action('woocommerce_shop_loop');
-                                wc_get_template_part('content', 'product');
-                            }
-                        }
-
-                        woocommerce_product_loop_end();
-                        do_action('woocommerce_after_shop_loop');
-                    } else {
-                        do_action('woocommerce_no_products_found');
-                    }
-                    ?>
+                    <ul class="ul-list-in-archive">
+                        <?php if ($get_post->have_posts()) { ?>
+                            <?php foreach ($get_post->posts as $post) { ?>
+                                <li <?php post_class(); ?>>
+                                    <?php
+                                    $icon = get_the_post_thumbnail_url($post->ID);
+                                    ?>
+                                    <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
+                                        <div class="app-icon">
+                                            <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
+                                                <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="60" height="60" />
+                                            </a>
+                                        </div>
+                                        <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
+                                    </div>
+                                </li>
+                            <?php } ?>
+                        <?php } ?>
+                    </ul>
                 </div>
 
                 <div id="hot">
@@ -114,34 +117,21 @@ $getH1 = get_term_meta($category_id, 'h1_category', true);
                                 'post_status' => 'published',
                             );
                             $res =  new WP_Query($args); ?>
-                            <ul>
+                            <ul class="ul-list-in-archive">
                                 <?php if ($res->have_posts()) { ?>
                                     <?php foreach ($res->posts as $post) { ?>
                                         <li <?php post_class(); ?>>
-                                            <?php do_action('woocommerce_before_shop_loop_item'); ?>
                                             <?php
-                                            $icon = get_post_meta($post->ID, 'app-icon', true);
+                                            $icon = get_the_post_thumbnail_url($post->ID);
                                             ?>
                                             <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
-                                                <?php if ($icon) {
-                                                    if ($icon_id = ia_get_attachment_id_from_url($icon)) {
-                                                        $thumbnail = wp_get_attachment_image_src($icon_id, 'thumbnail', true);
-                                                        $icon = isset($thumbnail[0]) ? $thumbnail[0] : $icon;
-                                                    }
-                                                ?>
-                                                    <div class="app-icon">
-                                                        <a href="<?php the_permalink($post->ID) ?>" title="<?php $post->post_title ?>">
-                                                            <img src="<?php echo esc_url($icon); ?>" alt="<?php $post->post_title ?>" width="60" height="60" />
-                                                        </a>
-                                                    </div>
-                                                <?php } ?>
-                                                <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php $post->post_title ?>" class="main-color-1-hover"><?php $post->post_title ?></a></p>
-                                                <?php
-
-                                                do_action('woocommerce_after_shop_loop_item_title');
-                                                ?>
+                                                <div class="app-icon">
+                                                    <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
+                                                        <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="60" height="60" />
+                                                    </a>
+                                                </div>
+                                                <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
                                             </div>
-                                            <?php do_action('woocommerce_after_shop_loop_item'); ?>
                                         </li>
                                     <?php } ?>
                                 <?php } ?>
@@ -171,35 +161,21 @@ $getH1 = get_term_meta($category_id, 'h1_category', true);
                             'post_type' => 'any',
                         );
                         $res =  new WP_Query($args); ?>
-                        <ul>
+                        <ul class="ul-list-in-archive">
                             <?php if ($res->have_posts()) { ?>
-                                <?php foreach ($res->get_posts() as $post) { ?>
-                                    <?php var_dump($post) ?>
-                                    <?php die(); ?>
+                                <?php foreach ($res->posts as $post) { ?>
                                     <li <?php post_class(); ?>>
-                                        <?php do_action('woocommerce_before_shop_loop_item'); ?>
                                         <?php
-                                        $icon = get_post_meta(get_the_ID(), 'app-icon', true);
+                                        $icon = get_the_post_thumbnail_url($post->ID);
                                         ?>
                                         <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
-                                            <?php if ($icon) {
-                                                if ($icon_id = ia_get_attachment_id_from_url($icon)) {
-                                                    $thumbnail = wp_get_attachment_image_src($icon_id, 'thumbnail', true);
-                                                    $icon = isset($thumbnail[0]) ? $thumbnail[0] : $icon;
-                                                }
-                                            ?>
-                                                <div class="app-icon">
-                                                    <a href="<?php the_permalink(get_the_ID()) ?>" title="<?php the_title_attribute() ?>">
-                                                        <img src="<?php echo esc_url($icon); ?>" alt="<?php the_title_attribute(); ?>" width="60" height="60" />
-                                                    </a>
-                                                </div>
-                                            <?php } ?>
-                                            <p class="product-title"><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute() ?>" class="main-color-1-hover"><?php the_title(); ?></a></p>
-                                            <?php
-                                            do_action('woocommerce_after_shop_loop_item_title');
-                                            ?>
+                                            <div class="app-icon">
+                                                <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
+                                                    <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="60" height="60" />
+                                                </a>
+                                            </div>
+                                            <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
                                         </div>
-                                        <?php do_action('woocommerce_after_shop_loop_item'); ?>
                                     </li>
                                 <?php } ?>
                             <?php } ?>
@@ -213,4 +189,40 @@ $getH1 = get_term_meta($category_id, 'h1_category', true);
     do_action('woocommerce_sidebar');
     ?>
 </div>
+<script>
+    function handleTabCategory(btn, cate) {
+        let listLi = jQuery('#section-tab-filter li');
+        let idSection = '#' + cate;
+        for (let i = 0; i < listLi.length; i++) {
+            if (listLi[i].classList.contains('active')) {
+                listLi[i].classList.remove("active");
+            }
+        }
+
+        btn.addClass('active');
+        jQuery('#news').hasClass('')
+
+        if (cate == 'news') {
+            jQuery('#hot').hide();
+            jQuery('#popular').hide();
+        }
+
+        if (cate == 'hot') {
+            jQuery('#hot').hide();
+            jQuery('#news').hide();
+        }
+
+        if (cate == 'popular') {
+            jQuery('#hot').hide();
+            jQuery('#news').hide();
+        }
+
+        jQuery(idSection).show();
+    }
+
+    jQuery(document).ready(function() {
+        jQuery('#hot').hide();
+        jQuery('#popular').hide();
+    });
+</script>
 <?php get_footer(); ?>
