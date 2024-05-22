@@ -1937,7 +1937,7 @@ ul li i:after {
 
 .sort-controls {
   display: flex;
-  margin: 20px 0;
+  margin: 20px;
 }
 
 .sort-controls li {
@@ -1965,12 +1965,10 @@ ul li i:after {
 }
 
 .ul-list-in-archive li {
-  float: left;
-  margin: 0 3.8% 2.992em 0;
+  margin: 0 0 3em 2.5%;
   padding: 0;
   position: relative;
-  width: 29.5%;
-  margin-left: 0;
+  width: 30%;
 }
 
 .ul-list-in-archive::before {
@@ -1983,6 +1981,8 @@ ul li i:after {
   padding: 0;
   list-style: none outside;
   clear: both;
+  display: flex;
+  flex-flow: wrap;
 }
 
 #news,
@@ -2020,7 +2020,19 @@ ul li i:after {
   color: #816e99;
 }
 
-.page-numbers ul li a {
+.page-numbers a {
+  margin: 0;
+  text-decoration: none;
+  padding: 0;
+  line-height: 1;
+  font-size: 1em;
+  font-weight: 400;
+  padding: 0.5em;
+  min-width: 1em;
+  display: block;
+}
+
+.page-numbers.current {
   margin: 0;
   text-decoration: none;
   padding: 0;

@@ -50,7 +50,7 @@ get_header('shop'); ?>
 <style>
 	.sort-controls {
 		display: flex;
-		margin: 20px 0;
+		margin: 20px;
 	}
 
 	.sort-controls li {
@@ -152,7 +152,7 @@ get_header('shop'); ?>
 				<div id="news">
 					<?php
 					if (have_posts()) {
-						do_action('woocommerce_before_shop_loop');
+						
 						woocommerce_product_loop_start();
 
 						if (wc_get_loop_prop('total')) {
