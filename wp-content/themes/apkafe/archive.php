@@ -85,7 +85,7 @@ $description = category_description($category_id);
                                     <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
                                         <div class="app-icon">
                                             <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
-                                                <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="60" height="60" />
+                                                <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" />
                                             </a>
                                         </div>
                                         <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
@@ -127,7 +127,7 @@ $description = category_description($category_id);
                                             <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
                                                 <div class="app-icon">
                                                     <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
-                                                        <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="60" height="60" />
+                                                        <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" />
                                                     </a>
                                                 </div>
                                                 <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
@@ -171,7 +171,7 @@ $description = category_description($category_id);
                                         <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
                                             <div class="app-icon">
                                                 <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
-                                                    <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="60" height="60" />
+                                                    <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" />
                                                 </a>
                                             </div>
                                             <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>

@@ -177,7 +177,7 @@ get_header('shop'); ?>
 												?>
 													<div class="app-icon">
 														<a href="<?php the_permalink($post->ID) ?>" title="<?php $post->post_title ?>">
-															<img src="<?php echo esc_url($icon); ?>" alt="<?php $post->post_title ?>" width="60" height="60" />
+															<img src="<?php echo esc_url($icon); ?>" alt="<?php $post->post_title ?>" />
 														</a>
 													</div>
 												<?php } ?>
@@ -236,7 +236,7 @@ get_header('shop'); ?>
 											?>
 												<div class="app-icon">
 													<a href="<?php the_permalink(get_the_ID()) ?>" title="<?php the_title_attribute() ?>">
-														<img src="<?php echo esc_url($icon); ?>" alt="<?php the_title_attribute(); ?>" width="60" height="60" />
+														<img src="<?php echo esc_url($icon); ?>" alt="<?php the_title_attribute(); ?>" />
 													</a>
 												</div>
 											<?php } ?>
