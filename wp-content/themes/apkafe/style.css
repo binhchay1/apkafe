@@ -2044,6 +2044,18 @@ ul li i:after {
   display: block;
 }
 
+.page-numbers.dots {
+  margin: 0;
+  text-decoration: none;
+  padding: 0;
+  line-height: 1;
+  font-size: 1em;
+  font-weight: 400;
+  padding: 0.5em;
+  min-width: 1em;
+  display: block;
+}
+
 .d-flex {
   display: flex;
 }
