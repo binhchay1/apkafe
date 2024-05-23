@@ -107,7 +107,7 @@ get_header('shop'); ?>
 	}
 
 	$term = get_queried_object();
-	$breadcrumb = '<p id="breadcrumbs"><span><span><a href="/">Home</a> » ';
+	$breadcrumb = '<p id="breadcrumbs" style="padding: 10px"><span><span><a href="/">Home</a> » ';
 
 	if ($term->parent == 0) {
 		$breadcrumb .= '<span class="breadcrumb_last" aria-current="page">' . $term->name . '</span></span></span></p>';

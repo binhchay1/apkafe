@@ -45,15 +45,19 @@ if (array_key_exists('h1_sapo', $getMeta)) {
         display: flex;
         align-items: center;
     }
+
+    .side_cat_item {
+        display: flex;
+    }
 </style>
 <div class="main_bar">
     <div id="article" class="widget">
         <div class="widget_head">
             <ul id="breadcrumbs" class="bread_crumb">
                 <li><a href="<?php echo home_url() ?>">Home</a></li>
-                <li class="btn-fa-angle"> > </li>
+                <li class="btn-fa-angle"> » </li>
                 <li><a href="<?php echo get_category_link($category[0]->term_id) ?>"><?php echo $category[0]->name ?></a></li>
-                <li class="btn-fa-angle"> > </li>
+                <li class="btn-fa-angle"> » </li>
                 <li><a class="active" href="<?php echo get_permalink(get_the_ID()) ?>"><?php echo the_title() ?></a></li>
             </ul>
             <div class="clear"></div>
