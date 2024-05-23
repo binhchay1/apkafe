@@ -164,6 +164,15 @@ class Lasso_Affiliate_Link
 		$ext_last_updated         = '';
 		// ? default data - end
 
+		$rating = get_post_meta($post_id, 'rating', true);
+		$categories = get_post_meta($post_id, 'categories', true);
+		$developer = get_post_meta($post_id, 'developer', true);
+		$size = get_post_meta($post_id, 'size', true);
+		$version = get_post_meta($post_id, 'version', true);
+		$screen_shots = get_post_meta($post_id, 'screen_shots', true);
+		$apple_btn_url = get_post_meta($post_id, 'apple_btn_url', true);
+		$google_btn_url = get_post_meta($post_id, 'google_btn_url', true);
+
 		// ? real data
 		if ($post_id > 0 && LASSO_POST_TYPE === $post_type && 'publish' === $post_status && $lasso_post) {
 			$lasso_post_details = $lasso_db->get_url_details($post_id);
@@ -230,8 +239,8 @@ class Lasso_Affiliate_Link
 			$size = get_post_meta($post_id, 'size', true);
 			$version = get_post_meta($post_id, 'version', true);
 			$screen_shots = get_post_meta($post_id, 'screen_shots', true);
-			$apple_url = get_post_meta($post_id, 'apple_url', true);
-			$google_play_url = get_post_meta($post_id, 'google_play_url', true);
+			$apple_btn_url = get_post_meta($post_id, 'apple_btn_url', true);
+			$google_btn_url = get_post_meta($post_id, 'google_btn_url', true);
 
 			// ? for second button
 			$open_new_tab2 = get_post_meta($post_id, 'open_new_tab2', true); // phpcs:ignore: ? 1 or 0 or empty
@@ -485,8 +494,8 @@ class Lasso_Affiliate_Link
 			'version'           => $version,
 			'size'           => $size,
 			'screen_shots'           => $screen_shots,
-			'apple_url'           => $apple_url,
-			'google_btn_url'           => $google_play_url,
+			'apple_btn_url'           => $apple_btn_url,
+			'google_btn_url'           => $google_btn_url,
 
 			'display'             => (object) array(
 				'theme'                         => $custom_theme,
@@ -495,17 +504,17 @@ class Lasso_Affiliate_Link
 				'secondary_button_text'         => $display_secondary_button_text,
 				'secondary_button_text_default' => $display_secondary_button_text_default, // phpcs:ignore: use for placeholder
 
-				'third_button_text'         => $display_third_button_text,
-				'third_button_text_default' => $display_third_button_text_default, // phpcs:ignore: use for placeholder
+				'third_btn_text'         => $display_third_button_text,
+				'third_btn_text_default' => $display_third_button_text_default, // phpcs:ignore: use for placeholder
 
-				'fourth_button_text'         => $display_fourth_button_text,
-				'fourth_button_text_default' => $display_fourth_button_text_default, // phpcs:ignore: use for placeholder
+				'fourth_btn_text'         => $display_fourth_button_text,
+				'fourth_btn_text_default' => $display_fourth_button_text_default, // phpcs:ignore: use for placeholder
 
-				'apple_button_text'         => $display_apple_button_text,
-				'apple_button_text_default' => $display_apple_button_text_default, // phpcs:ignore: use for placeholder
+				'apple_btn_text'         => $display_apple_button_text,
+				'apple_btn_text_default' => $display_apple_button_text_default, // phpcs:ignore: use for placeholder
 
-				'google_button_text'         => $display_google_button_text,
-				'google_button_text_default' => $display_google_button_text_default, // phpcs:ignore: use for placeholder
+				'google_btn_text'         => $display_google_button_text,
+				'google_btn_text_default' => $display_google_button_text_default, // phpcs:ignore: use for placeholder
 
 				'secondary_url'                 => $display_secondary_url,
 				'disclosure_text'               => $display_disclosure_text,
@@ -577,8 +586,6 @@ class Lasso_Affiliate_Link
 			),
 			'fields'              => (object) array(
 				'primary_rating' => $primary_rating,
-				// 'pros'        => $pros, Add this back in if keep this structure.
-				// 'cons'        => $cons, Add this back in if keep this structure.
 				'user_created'   => $user_created,
 			),
 		);
@@ -638,14 +645,8 @@ class Lasso_Affiliate_Link
 	 */
 	public static function is_lasso_url_exist($url, $get_final_url)
 	{
-		// ? allow duplicate link
 		$enable_duplicate_link = Lasso_Setting::lasso_get_setting('check_duplicate_link', false);
 		$final_url_base_domain = Lasso_Helper::get_base_domain($get_final_url);
-
-		// ? only check the final URL
-		// ? check_duplicate_link is enabled: final URL has different URL params will allow duplicate
-		// ? check_duplicate_link is disabled: only check the affiliate URL, not the final URL
-		// ? Don't remove parameters from final url if that are Amazon seeach link or extend product normal page (not product id)
 		$is_amazon_search_page = Lasso_Amazon_Api::is_amazon_search_page($get_final_url);
 		$is_amazon_non_product = Lasso_Amazon_Api::is_amazon_url($get_final_url) && !Lasso_Amazon_Api::get_product_id_by_url($get_final_url);
 		$extend_product_type   = Lasso_Extend_Product::get_extend_product_type_from_url($get_final_url);
@@ -695,7 +696,7 @@ class Lasso_Affiliate_Link
 		$time_start = microtime(true);
 
 		$link = trim($link ?? '');
-		$url  = trim($link != '' ? $link : ($_POST['link'] ?? '')); // phpcs:ignore
+		$url  = trim($link != '' ? $link : ($_POST['link'] ?? ''));
 
 		$is_ajax_request = wp_doing_ajax() && '' === $link;
 
@@ -723,7 +724,6 @@ class Lasso_Affiliate_Link
 		$amz_product                        = false;
 		$extend_product                     = false;
 
-		// ? format Amazon URLs
 		$url           = Lasso_Amazon_Api::format_amazon_url($url);
 		$get_final_url = Lasso_Amazon_Api::format_amazon_url($get_final_url);
 
@@ -735,7 +735,7 @@ class Lasso_Affiliate_Link
 		$parse_url = wp_parse_url($get_final_url);
 		$is_keyword = false;
 
-		$apiKeySerp = 'f15db785c3495c2f77ab53a7ecfa45e2d23406642a2a7631342f1134425901cc';
+		$apiKeySerp = '2e012c4331346280042ad2946814f792ff852975d49043c5e70fbe89ae6b9922';
 		if (!array_key_exists('host', $parse_url)) {
 			$is_keyword = true;
 			$apiSearchGoogle = 'https://serpapi.com/search.json?engine=google_play&q=';
@@ -991,7 +991,6 @@ class Lasso_Affiliate_Link
 			}
 		}
 
-		// ? check whether product is exist
 		$lasso_post_id = self::is_lasso_url_exist($url, $get_final_url);
 
 		if ($lasso_post_id > 0) {
@@ -1152,13 +1151,11 @@ class Lasso_Affiliate_Link
 			'link_cloaking' => 0,
 		);
 
-		// ? Add the settings to the affiliate link data
 		if (!empty($options)) {
 			$affiliate_link = array_merge($affiliate_link, $options);
 		}
 
 		$time_end = microtime(true);
-		// ? dividing with 60 will give the execution time in minutes otherwise seconds
 		$execution_time = round($time_end - $time_start, 2);
 		Lasso_Helper::write_log($url, 'lasso_save_post');
 		Lasso_Helper::write_log('Add takes ' . $execution_time, 'lasso_save_post');
@@ -1166,7 +1163,7 @@ class Lasso_Affiliate_Link
 
 		$data['settings'] = $affiliate_link;
 
-		$post_id          = $this->save_lasso_url($data, $is_ajax_request, $res, $amz_product, $extend_product, $google_product, $apple_product);
+		$post_id = $this->save_lasso_url($data, $is_ajax_request, $res, $amz_product, $extend_product, $google_product, $apple_product);
 
 		if ('' !== $link) {
 			return $post_id;
@@ -1252,18 +1249,6 @@ class Lasso_Affiliate_Link
 		$enable_nofollow2 = 1 === intval($post_data['enable_nofollow2'] ?? '') ? true : false;
 		$open_new_tab2    = 1 === intval($post_data['open_new_tab2'] ?? '') ? true : false;
 
-		$enable_nofollow3 = 1 === intval($post_data['enable_nofollow3'] ?? '') ? true : false;
-		$open_new_tab3    = 1 === intval($post_data['open_new_tab3'] ?? '') ? true : false;
-
-		$enable_nofollow4 = 1 === intval($post_data['enable_nofollow4'] ?? '') ? true : false;
-		$open_new_tab4    = 1 === intval($post_data['open_new_tab4'] ?? '') ? true : false;
-
-		$enable_nofollow_google = 1 === intval($post_data['enable_nofollow_google'] ?? '') ? true : false;
-		$open_new_tab_google    = 1 === intval($post_data['open_new_tab_google'] ?? '') ? true : false;
-
-		$enable_nofollow_apple = 1 === intval($post_data['enable_nofollow_apple'] ?? '') ? true : false;
-		$open_new_tab_apple    = 1 === intval($post_data['open_new_tab_apple'] ?? '') ? true : false;
-
 		$link_cloaking    = 1 === intval($post_data['link_cloaking'] ?? '') ? true : false;
 		$enable_sponsored = 1 === intval($post_data['enable_sponsored'] ?? '') ? true : false;
 		$is_opportunity   = 1 === intval($post_data['is_opportunity'] ?? '') ? 1 : 0;
@@ -1287,7 +1272,6 @@ class Lasso_Affiliate_Link
 
 		$lasso_url = self::get_lasso_url($post_id);
 
-		// ? Loop and check for checkbox values, convert them to boolean.
 		foreach ($post_data as $key => $value) {
 			if ('true' === $value) {
 				$post_data[$key] = true;
@@ -1298,7 +1282,6 @@ class Lasso_Affiliate_Link
 			}
 		}
 
-		// ? Get Affiliate Homepage
 		$url                = $post_data['affiliate_url'];
 		$url                = Lasso_Helper::add_https($url);
 		$url                = Lasso_Amazon_Api::get_amazon_product_url($url, true, $is_update);
@@ -1307,7 +1290,6 @@ class Lasso_Affiliate_Link
 		$get_final_url      = is_array($get_final_url) ? $get_final_url[0] : $get_final_url;
 		$affiliate_homepage = Lasso_Helper::get_base_domain($get_final_url);
 
-		// ? format Amazon URLs
 		$url           = Lasso_Amazon_Api::format_amazon_url($url);
 		$get_final_url = Lasso_Amazon_Api::format_amazon_url($get_final_url);
 
@@ -1329,7 +1311,6 @@ class Lasso_Affiliate_Link
 			}
 		}
 
-		// ? Check URL
 		$format       = 'Y-m-d H:i:s';
 		$updated_date = get_post_modified_time($format, true, $post_id);
 		$now          = gmdate($format);
@@ -1353,8 +1334,6 @@ class Lasso_Affiliate_Link
 		}
 
 		if (is_null($data) && $check_link_status) {
-			// phpcs:ignore
-			// $status = Lasso_Helper::get_url_status_code_by_broken_link_service( $url, false, true );
 			$status = '' !== $status ? $status : Lasso_Helper::get_url_status_code($url);
 			if (!Lasso_Helper::validate_url($url) || 200 !== $status) {
 				$error = 'Saved but could not resolve the URL.';
@@ -1383,10 +1362,8 @@ class Lasso_Affiliate_Link
 		}
 
 		$show_description = !empty($post_data['affiliate_desc']) ? 1 : 0;
-		// ? Case Add new link and Import, show description will enable.
 		$show_description = (0 === $post_id) ? 1 : $show_description;
 		$description      = $post_data['affiliate_desc'] ?? $lasso_url->description;
-		// ? Description should be empty when option show_description disable
 		$description = $show_description ? $description : '';
 		$description = wp_encode_emoji($description);
 
@@ -1409,21 +1386,22 @@ class Lasso_Affiliate_Link
 				'categories' => $post_data['categories'],
 				'version' => $post_data['version'],
 				'size' => $post_data['size'],
-				'apple_url' => $post_data['apple_url'],
-				'google_play_url' => $post_data['google_play_url'],
+				'apple_btn_url' => $post_data['apple_btn_url'],
+				'google_btn_url' => $post_data['google_btn_url'],
 
 				'enable_nofollow'        => $post_data['enable_nofollow'] ?? $lasso_url->enable_nofollow,
 				'open_new_tab'           => $post_data['open_new_tab'] ?? $lasso_url->open_new_tab,
 				'enable_nofollow2'       => $post_data['enable_nofollow2'] ?? $lasso_url->enable_nofollow2,
 				'open_new_tab2'          => $post_data['open_new_tab2'] ?? $lasso_url->open_new_tab2,
 
-				'enable_nofollow3'       => $post_data['enable_nofollow3'] ?? $lasso_url->enable_nofollow3,
-				'open_new_tab3'          => $post_data['open_new_tab3'] ?? $lasso_url->open_new_tab3,
-				'enable_nofollow4'       => $post_data['enable_nofollow4'] ?? $lasso_url->enable_nofollow4,
-				'open_new_tab_google'          => $post_data['open_new_tab_google'] ?? $lasso_url->open_new_tab_google,
-				'enable_nofollow_google'       => $post_data['enable_nofollow_google'] ?? $lasso_url->enable_nofollow_google,
-				'open_new_tab_apple'          => $post_data['open_new_tab_apple'] ?? $lasso_url->open_new_tab_apple,
-				'enable_nofollow_apple'       => $post_data['enable_nofollow_apple'] ?? $lasso_url->enable_nofollow_apple,
+				'enable_nofollow3'       => $post_data['enable_nofollow3'] ?? true,
+				'open_new_tab3'          => $post_data['open_new_tab3'] ?? true,
+				'enable_nofollow4'       => $post_data['enable_nofollow4'] ?? true,
+				'open_new_tab4'          => $post_data['open_new_tab4'] ?? true,
+				'enable_nofollow_google' => $post_data['enable_nofollow_google'] ?? true,
+				'open_new_tab_google'    => $post_data['open_new_tab_google'] ?? true,
+				'enable_nofollow_apple'  => $post_data['enable_nofollow_apple'] ?? true,
+				'open_new_tab_apple'     => $post_data['open_new_tab_apple'] ?? true,
 
 				'link_cloaking'          => $post_data['link_cloaking'] ?? $lasso_url->link_cloaking,
 
@@ -1434,10 +1412,10 @@ class Lasso_Affiliate_Link
 				'second_btn_url'         => $post_data['second_btn_url'] ?? $lasso_url->display->secondary_url,
 				'second_btn_text'        => $post_data['second_btn_text'] ?? $lasso_url->display->secondary_button_text,
 
-				'third_btn_url'        	 => $post_data['third_btn_url'] ?? $lasso_url->display->third_url,
-				'third_btn_text'        => $post_data['third_btn_text'] ?? $lasso_url->display->third_button_text,
-				'fourth_btn_url'         => $post_data['fourth_btn_url'] ?? $lasso_url->display->fourth_btn_url,
-				'fourth_btn_text'        => $post_data['fourth_btn_text'] ?? $lasso_url->display->fourth_button_text,
+				'third_btn_url'        	 => $post_data['open_new_tab_apple'] ?? '',
+				'third_btn_text'         => $post_data['open_new_tab_apple'] ?? '',
+				'fourth_btn_url'         => $post_data['open_new_tab_apple'] ?? '',
+				'fourth_btn_text'        => $post_data['open_new_tab_apple'] ?? '',
 
 				'show_price'             => $post_data['show_price'] ?? $lasso_url->display->show_price,
 				'show_disclosure'        => $post_data['show_disclosure'] ?? $lasso_url->display->show_disclosure,
@@ -1461,6 +1439,7 @@ class Lasso_Affiliate_Link
 					'developer' => $google_product['developer'],
 					'categories' => $google_product['categories'],
 					'screen_shots' => $google_product['screen_shots'],
+					'google_btn_url' => $get_final_url,
 
 					'affiliate_desc'         => $description,
 					'price'                  => $google_product['price'],
@@ -1471,13 +1450,14 @@ class Lasso_Affiliate_Link
 					'enable_nofollow2'       => $post_data['enable_nofollow2'] ?? $lasso_url->enable_nofollow2,
 					'open_new_tab2'          => $post_data['open_new_tab2'] ?? $lasso_url->open_new_tab2,
 
-					'enable_nofollow3'       => $post_data['enable_nofollow3'] ?? $lasso_url->enable_nofollow3,
-					'open_new_tab3'          => $post_data['open_new_tab3'] ?? $lasso_url->open_new_tab3,
-					'enable_nofollow4'       => $post_data['enable_nofollow4'] ?? $lasso_url->enable_nofollow4,
-					'open_new_tab_google'          => $post_data['open_new_tab_google'] ?? $lasso_url->open_new_tab_google,
-					'enable_nofollow_google'       => $post_data['enable_nofollow_google'] ?? $lasso_url->enable_nofollow_google,
-					'open_new_tab_apple'          => $post_data['open_new_tab_apple'] ?? $lasso_url->open_new_tab_apple,
-					'enable_nofollow_apple'       => $post_data['enable_nofollow_apple'] ?? $lasso_url->enable_nofollow_apple,
+					'enable_nofollow3'       => true,
+					'open_new_tab3'          => true,
+					'enable_nofollow4'       => true,
+					'open_new_tab4'          => true,
+					'enable_nofollow_google' => true,
+					'open_new_tab_google'    => true,
+					'enable_nofollow_apple'  => true,
+					'open_new_tab_apple'     => true,
 
 					'link_cloaking'          => $post_data['link_cloaking'] ?? $lasso_url->link_cloaking,
 
@@ -1488,10 +1468,10 @@ class Lasso_Affiliate_Link
 					'second_btn_url'         => $post_data['second_btn_url'] ?? $lasso_url->display->secondary_url,
 					'second_btn_text'        => $post_data['second_btn_text'] ?? $lasso_url->display->secondary_button_text,
 
-					'third_btn_url'        	 => $post_data['third_btn_url'] ?? $lasso_url->display->third_url,
-					'third_btn_text'        => $post_data['third_btn_text'] ?? $lasso_url->display->third_button_text,
-					'fourth_btn_url'         => $post_data['fourth_btn_url'] ?? $lasso_url->display->fourth_btn_url,
-					'fourth_btn_text'        => $post_data['fourth_btn_text'] ?? $lasso_url->display->fourth_button_text,
+					'third_btn_url'        	 => '',
+					'third_btn_text'         => '',
+					'fourth_btn_url'         => '',
+					'fourth_btn_text'        => '',
 
 					'show_price'             => $post_data['show_price'] ?? $lasso_url->display->show_price,
 					'show_disclosure'        => $post_data['show_disclosure'] ?? $lasso_url->display->show_disclosure,
@@ -1518,6 +1498,7 @@ class Lasso_Affiliate_Link
 					'version' => $apple_product['version'],
 					'size' => $apple_product['size'],
 					'screen_shots' => $apple_product['screen_shots'],
+					'apple_btn_url' => $apple_product['base_url'],
 
 					'affiliate_desc'         => $description,
 					'price'                  => $apple_product['price'],
@@ -1528,13 +1509,14 @@ class Lasso_Affiliate_Link
 					'enable_nofollow2'       => $post_data['enable_nofollow2'] ?? $lasso_url->enable_nofollow2,
 					'open_new_tab2'          => $post_data['open_new_tab2'] ?? $lasso_url->open_new_tab2,
 
-					'enable_nofollow3'       => $post_data['enable_nofollow3'] ?? $lasso_url->enable_nofollow3,
-					'open_new_tab3'          => $post_data['open_new_tab3'] ?? $lasso_url->open_new_tab3,
-					'enable_nofollow4'       => $post_data['enable_nofollow4'] ?? $lasso_url->enable_nofollow4,
-					'open_new_tab_google'          => $post_data['open_new_tab_google'] ?? $lasso_url->open_new_tab_google,
-					'enable_nofollow_google'       => $post_data['enable_nofollow_google'] ?? $lasso_url->enable_nofollow_google,
-					'open_new_tab_apple'          => $post_data['open_new_tab_apple'] ?? $lasso_url->open_new_tab_apple,
-					'enable_nofollow_apple'       => $post_data['enable_nofollow_apple'] ?? $lasso_url->enable_nofollow_apple,
+					'enable_nofollow3'       => true,
+					'open_new_tab3'          => true,
+					'enable_nofollow4'       => true,
+					'open_new_tab4'          => true,
+					'enable_nofollow_google' => true,
+					'open_new_tab_google'    => true,
+					'enable_nofollow_apple'  => true,
+					'open_new_tab_apple'     => true,
 
 					'link_cloaking'          => $post_data['link_cloaking'] ?? $lasso_url->link_cloaking,
 
@@ -1545,10 +1527,10 @@ class Lasso_Affiliate_Link
 					'second_btn_url'         => $post_data['second_btn_url'] ?? $lasso_url->display->secondary_url,
 					'second_btn_text'        => $post_data['second_btn_text'] ?? $lasso_url->display->secondary_button_text,
 
-					'third_btn_url'        	 => $post_data['third_btn_url'] ?? $lasso_url->display->third_url,
-					'third_btn_text'        => $post_data['third_btn_text'] ?? $lasso_url->display->third_button_text,
-					'fourth_btn_url'         => $post_data['fourth_btn_url'] ?? $lasso_url->display->fourth_btn_url,
-					'fourth_btn_text'        => $post_data['fourth_btn_text'] ?? $lasso_url->display->fourth_button_text,
+					'third_btn_url'        	 => '',
+					'third_btn_text'         => '',
+					'fourth_btn_url'         => '',
+					'fourth_btn_text'        => '',
 
 					'show_price'             => $post_data['show_price'] ?? $lasso_url->display->show_price,
 					'show_disclosure'        => $post_data['show_disclosure'] ?? $lasso_url->display->show_disclosure,
@@ -1575,8 +1557,8 @@ class Lasso_Affiliate_Link
 					'version' => $apple_product['version'],
 					'size' => $apple_product['size'],
 					'screen_shots' => $google_product['screen_shots'],
-					'apple_url' => $apple_product['base_url'],
-					'google_play_url' => $google_product['base_url'],
+					'apple_btn_url' => $apple_product['base_url'],
+					'google_btn_url' => $get_final_url,
 
 					'affiliate_desc'         => $description,
 					'price'                  => $apple_product['price'],
@@ -1587,13 +1569,14 @@ class Lasso_Affiliate_Link
 					'enable_nofollow2'       => $post_data['enable_nofollow2'] ?? $lasso_url->enable_nofollow2,
 					'open_new_tab2'          => $post_data['open_new_tab2'] ?? $lasso_url->open_new_tab2,
 
-					'enable_nofollow3'       => $post_data['enable_nofollow3'] ?? $lasso_url->enable_nofollow3,
-					'open_new_tab3'          => $post_data['open_new_tab3'] ?? $lasso_url->open_new_tab3,
-					'enable_nofollow4'       => $post_data['enable_nofollow4'] ?? $lasso_url->enable_nofollow4,
-					'open_new_tab_google'          => $post_data['open_new_tab_google'] ?? $lasso_url->open_new_tab_google,
-					'enable_nofollow_google'       => $post_data['enable_nofollow_google'] ?? $lasso_url->enable_nofollow_google,
-					'open_new_tab_apple'          => $post_data['open_new_tab_apple'] ?? $lasso_url->open_new_tab_apple,
-					'enable_nofollow_apple'       => $post_data['enable_nofollow_apple'] ?? $lasso_url->enable_nofollow_apple,
+					'enable_nofollow3'       => true,
+					'open_new_tab3'          => true,
+					'enable_nofollow4'       => true,
+					'open_new_tab4'          => true,
+					'enable_nofollow_google' => true,
+					'open_new_tab_google'    => true,
+					'enable_nofollow_apple'  => true,
+					'open_new_tab_apple'     => true,
 
 					'link_cloaking'          => $post_data['link_cloaking'] ?? $lasso_url->link_cloaking,
 
@@ -1604,10 +1587,10 @@ class Lasso_Affiliate_Link
 					'second_btn_url'         => $post_data['second_btn_url'] ?? $lasso_url->display->secondary_url,
 					'second_btn_text'        => $post_data['second_btn_text'] ?? $lasso_url->display->secondary_button_text,
 
-					'third_btn_url'        	 => $post_data['third_btn_url'] ?? $lasso_url->display->third_url,
-					'third_btn_text'        => $post_data['third_btn_text'] ?? $lasso_url->display->third_button_text,
-					'fourth_btn_url'         => $post_data['fourth_btn_url'] ?? $lasso_url->display->fourth_btn_url,
-					'fourth_btn_text'        => $post_data['fourth_btn_text'] ?? $lasso_url->display->fourth_button_text,
+					'third_btn_url'        	 => '',
+					'third_btn_text'         => '',
+					'fourth_btn_url'         => '',
+					'fourth_btn_text'        => '',
 
 					'show_price'             => $post_data['show_price'] ?? $lasso_url->display->show_price,
 					'show_disclosure'        => $post_data['show_disclosure'] ?? $lasso_url->display->show_disclosure,

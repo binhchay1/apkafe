@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Declare class Lasso_Setting
  *
@@ -19,7 +20,8 @@ use Exception;
 /**
  * Lasso_Setting
  */
-class Setting {
+class Setting
+{
 	/**
 	 * Install page
 	 *
@@ -375,20 +377,22 @@ class Setting {
 	/**
 	 * Setting constructor.
 	 */
-	public function __construct() {
-		$this->get = wp_unslash( $_GET ); // phpcs:ignore
+	public function __construct()
+	{
+		$this->get = wp_unslash($_GET); // phpcs:ignore
 	}
 
 	/**
 	 * Get report url by tab
 	 */
-	public function get_dashboard_page() {
+	public function get_dashboard_page()
+	{
 		$dashboard_url = add_query_arg(
 			array(
 				'post_type' => LASSO_POST_TYPE,
 				'page'      => $this->dashboard_page,
 			),
-			admin_url( 'edit.php' )
+			admin_url('edit.php')
 		);
 
 		return $dashboard_url;
@@ -399,13 +403,14 @@ class Setting {
 	 *
 	 * @param string $page_slug Page slug.
 	 */
-	public static function get_lasso_page_url( $page_slug ) {
+	public static function get_lasso_page_url($page_slug)
+	{
 		$dashboard_url = add_query_arg(
 			array(
 				'post_type' => LASSO_POST_TYPE,
 				'page'      => $page_slug,
 			),
-			admin_url( 'edit.php' )
+			admin_url('edit.php')
 		);
 
 		return $dashboard_url;
@@ -414,8 +419,9 @@ class Setting {
 	/**
 	 * Check whether current page is Lasso dashboard page
 	 */
-	public function is_lasso_dashboard_page() {
-		$get       = wp_unslash( $_GET ); // phpcs:ignore
+	public function is_lasso_dashboard_page()
+	{
+		$get       = wp_unslash($_GET); // phpcs:ignore
 		$page      = $get['page'] ?? '';
 		$post_type = $get['post_type'] ?? '';
 
@@ -458,25 +464,26 @@ class Setting {
 	/**
 	 * Check whether current page is WP post page
 	 */
-	public function is_wordpress_post() {
+	public function is_wordpress_post()
+	{
 		global $pagenow;
 
-		$get          = wp_unslash( $_GET ); // phpcs:ignore
+		$get          = wp_unslash($_GET); // phpcs:ignore
 		$action       = $get['action'] ?? '';
 		$add_new_page = 'post-new.php' === $pagenow;
 		$edit_page    = 'post.php' === $pagenow && 'edit' === $action;
 		$post_type    = $get['post_type'] ?? '';
 
-		if ( ( 'edit.php' === $pagenow || $add_new_page ) && '' === $post_type ) {
+		if (('edit.php' === $pagenow || $add_new_page) && '' === $post_type) {
 			$post_type = 'post';
-		} elseif ( $add_new_page ) {
+		} elseif ($add_new_page) {
 			$post_type = $get['post_type'] ?? $post_type;
-		} elseif ( $edit_page ) {
-			$post_id   = intval( $get['post'] ?? 0 );
-			$post_type = $post_id > 0 ? get_post_type( $post_id ) : $post_type;
+		} elseif ($edit_page) {
+			$post_id   = intval($get['post'] ?? 0);
+			$post_type = $post_id > 0 ? get_post_type($post_id) : $post_type;
 		}
 
-		if ( 'term.php' === $pagenow ) {
+		if ('term.php' === $pagenow) {
 			$post_type = '';
 		}
 
@@ -486,25 +493,26 @@ class Setting {
 	/**
 	 * Check whether current page is custom post page
 	 */
-	public function is_custom_post() {
+	public function is_custom_post()
+	{
 		global $pagenow;
 
-		$get          = wp_unslash( $_GET ); // phpcs:ignore
+		$get          = wp_unslash($_GET); // phpcs:ignore
 		$action       = $get['action'] ?? '';
 		$add_new_page = 'post-new.php' === $pagenow;
 		$edit_page    = 'post.php' === $pagenow && 'edit' === $action;
 		$post_type    = $get['post_type'] ?? '';
 
-		if ( ( 'edit.php' === $pagenow || $add_new_page ) && '' === $post_type ) {
+		if (('edit.php' === $pagenow || $add_new_page) && '' === $post_type) {
 			$post_type = 'post';
-		} elseif ( $add_new_page ) {
+		} elseif ($add_new_page) {
 			$post_type = $get['post_type'] ?? $post_type;
-		} elseif ( $edit_page ) {
-			$post_id   = intval( $get['post'] ?? 0 );
-			$post_type = $post_id > 0 ? get_post_type( $post_id ) : $post_type;
+		} elseif ($edit_page) {
+			$post_id   = intval($get['post'] ?? 0);
+			$post_type = $post_id > 0 ? get_post_type($post_id) : $post_type;
 		}
 
-		if ( 'term.php' === $pagenow ) {
+		if ('term.php' === $pagenow) {
 			$post_type = '';
 		}
 
@@ -514,8 +522,9 @@ class Setting {
 	/**
 	 * Check whether current page is configuring page
 	 */
-	public function is_lasso_configured_page() {
-		$get  = wp_unslash( $_GET ); // phpcs:ignore
+	public function is_lasso_configured_page()
+	{
+		$get  = wp_unslash($_GET); // phpcs:ignore
 		$page = $get['page'] ?? '';
 
 		return $page === $this->install_page;
@@ -524,8 +533,9 @@ class Setting {
 	/**
 	 * Check whether current page is configuring page
 	 */
-	public function is_lasso_table_page() {
-		$get  = wp_unslash( $_GET ); // phpcs:ignore
+	public function is_lasso_table_page()
+	{
+		$get  = wp_unslash($_GET); // phpcs:ignore
 		$page = $get['page'] ?? '';
 
 		return $page === $this->table_details_page;
@@ -534,8 +544,9 @@ class Setting {
 	/**
 	 * Check whether current page is configuring page
 	 */
-	public function is_lasso_uninstall_page() {
-		$get  = wp_unslash( $_GET ); // phpcs:ignore
+	public function is_lasso_uninstall_page()
+	{
+		$get  = wp_unslash($_GET); // phpcs:ignore
 		$page = $get['page'] ?? '';
 
 		return $page === $this->uninstall_page;
@@ -544,8 +555,9 @@ class Setting {
 	/**
 	 * Check whether current page is Opportunities content page
 	 */
-	public function is_lasso_opportunities_content_page() {
-		$get  = wp_unslash( $_GET ); // phpcs:ignore
+	public function is_lasso_opportunities_content_page()
+	{
+		$get  = wp_unslash($_GET); // phpcs:ignore
 		$page = $get['page'] ?? '';
 
 		return $page === $this->content_links_page;
@@ -554,8 +566,9 @@ class Setting {
 	/**
 	 * Check whether current page is Opportunities keyword page
 	 */
-	public function is_lasso_opportunities_keyword_page() {
-		$get  = wp_unslash( $_GET ); // phpcs:ignore
+	public function is_lasso_opportunities_keyword_page()
+	{
+		$get  = wp_unslash($_GET); // phpcs:ignore
 		$page = $get['page'] ?? '';
 
 		return $page === $this->keyword_opportunities;
@@ -564,8 +577,9 @@ class Setting {
 	/**
 	 * Check whether current page is setting page
 	 */
-	public function is_lasso_setting_page() {
-		$get  = wp_unslash( $_GET ); // phpcs:ignore
+	public function is_lasso_setting_page()
+	{
+		$get  = wp_unslash($_GET); // phpcs:ignore
 		$page = $get['page'] ?? '';
 
 		$is_setting_page = in_array(
@@ -580,13 +594,14 @@ class Setting {
 		);
 
 		return $is_setting_page
-			&& isset( $get['post_type'] ) && LASSO_POST_TYPE === $get['post_type'];
+			&& isset($get['post_type']) && LASSO_POST_TYPE === $get['post_type'];
 	}
 
 	/**
 	 * Check whether current page is setting page
 	 */
-	public function is_general_setting_page() {
+	public function is_general_setting_page()
+	{
 		return $this->get_page_name() === $this->settings_general_page
 			&& LASSO_POST_TYPE === $this->get_post_type();
 	}
@@ -594,72 +609,78 @@ class Setting {
 	/**
 	 * Check whether current page is importing Lasso post page
 	 */
-	public function is_lasso_import_page() {
-		$get  = wp_unslash( $_GET ); // phpcs:ignore
+	public function is_lasso_import_page()
+	{
+		$get  = wp_unslash($_GET); // phpcs:ignore
 		$page = $get['page'] ?? '';
 
 		return $page === $this->import_page
-			&& isset( $get['post_type'] ) && LASSO_POST_TYPE === $get['post_type'];
+			&& isset($get['post_type']) && LASSO_POST_TYPE === $get['post_type'];
 	}
 
 	/**
 	 * Check whether current page is editing Lasso post page
 	 */
-	public function is_edit_lasso_post_page() {
+	public function is_edit_lasso_post_page()
+	{
 		global $pagenow;
 
-		$get = wp_unslash( $_GET ); // phpcs:ignore
+		$get = wp_unslash($_GET); // phpcs:ignore
 
-		return 'edit.php' === $pagenow && isset( $get['post_type'] )
+		return 'edit.php' === $pagenow && isset($get['post_type'])
 			&& LASSO_POST_TYPE === $get['post_type']
-			&& isset( $get['post_id'] ) && $get['post_id'] > 0;
+			&& isset($get['post_id']) && $get['post_id'] > 0;
 	}
 
 	/**
 	 * Check whether current page is adding Lasso post page
 	 */
-	public function is_add_lasso_post_page() {
+	public function is_add_lasso_post_page()
+	{
 		global $pagenow;
 
-		$get = wp_unslash( $_GET ); // phpcs:ignore
+		$get = wp_unslash($_GET); // phpcs:ignore
 
-		return 'edit.php' === $pagenow && isset( $get['post_type'] )
+		return 'edit.php' === $pagenow && isset($get['post_type'])
 			&& LASSO_POST_TYPE === $get['post_type']
-			&& 'url-details' === ( $get['page'] ?? '' )
-			&& ! ( isset( $get['post_id'] ) );
+			&& 'url-details' === ($get['page'] ?? '')
+			&& !(isset($get['post_id']));
 	}
 
 	/**
 	 * Check whether current page is Post Content History pages
 	 */
-	public function is_lasso_post_content_history_pages() {
-		$get  = wp_unslash( $_GET ); // phpcs:ignore
+	public function is_lasso_post_content_history_pages()
+	{
+		$get  = wp_unslash($_GET); // phpcs:ignore
 		$page = $get['page'] ?? '';
 
-		return ( $page === $this->post_content_history_detail_page || $page === $this->post_content_history_page )
-			&& isset( $get['post_type'] ) && LASSO_POST_TYPE === $get['post_type'];
+		return ($page === $this->post_content_history_detail_page || $page === $this->post_content_history_page)
+			&& isset($get['post_type']) && LASSO_POST_TYPE === $get['post_type'];
 	}
 
 	/**
 	 * Check whether current page is Post Content History detail page
 	 */
-	public function is_lasso_post_content_history_detail_page() {
-		$get  = wp_unslash( $_GET ); // phpcs:ignore
+	public function is_lasso_post_content_history_detail_page()
+	{
+		$get  = wp_unslash($_GET); // phpcs:ignore
 		$page = $get['page'] ?? '';
 
 		return $page === $this->post_content_history_detail_page
-			&& isset( $get['post_type'] ) && LASSO_POST_TYPE === $get['post_type'];
+			&& isset($get['post_type']) && LASSO_POST_TYPE === $get['post_type'];
 	}
 
 	/**
 	 * Check whether current page is Lasso page or not.
 	 */
-	public function is_lasso_page() {
+	public function is_lasso_page()
+	{
 		global $pagenow;
 
-		$get = wp_unslash( $_GET ); // phpcs:ignore
+		$get = wp_unslash($_GET); // phpcs:ignore
 
-		return 'edit.php' === $pagenow && isset( $get['post_type'] ) && LASSO_POST_TYPE === $get['post_type'];
+		return 'edit.php' === $pagenow && isset($get['post_type']) && LASSO_POST_TYPE === $get['post_type'];
 	}
 
 	/**
@@ -667,15 +688,16 @@ class Setting {
 	 *
 	 * @param array $options New options.
 	 */
-	public static function lasso_set_settings( $options ) {
-		if ( ! is_array( $options ) ) {
+	public static function lasso_set_settings($options)
+	{
+		if (!is_array($options)) {
 			return false;
 		}
 
 		$defaults = self::lasso_get_settings();
-		$options  = array_merge( $defaults, $options );
+		$options  = array_merge($defaults, $options);
 
-		return update_option( LASSO_SETTINGS, $options );
+		return update_option(LASSO_SETTINGS, $options);
 	}
 
 	/**
@@ -684,15 +706,16 @@ class Setting {
 	 * @param string $option_name Option name.
 	 * @param string $option_value Option value.
 	 */
-	public static function lasso_set_setting( $option_name, $option_value ) {
-		if ( ! is_string( $option_name ) ) {
+	public static function lasso_set_setting($option_name, $option_value)
+	{
+		if (!is_string($option_name)) {
 			return false;
 		}
 
 		$options                 = self::lasso_get_settings();
-		$options[ $option_name ] = $option_value;
+		$options[$option_name] = $option_value;
 
-		return update_option( LASSO_SETTINGS, $options );
+		return update_option(LASSO_SETTINGS, $options);
 	}
 
 	/**
@@ -701,33 +724,35 @@ class Setting {
 	 * @param string $option_name Option name.
 	 * @param string $option_default Option default. Default to null.
 	 */
-	public static function lasso_get_setting( $option_name, $option_default = null ) {
-		if ( ! is_string( $option_name ) ) {
+	public static function lasso_get_setting($option_name, $option_default = null)
+	{
+		if (!is_string($option_name)) {
 			return $option_default;
 		}
 
 		$options = self::lasso_get_settings();
 
-		return $options[ $option_name ] ?? $option_default;
+		return $options[$option_name] ?? $option_default;
 	}
 
 	/**
 	 * Get lasso settings from db
 	 */
-	public static function lasso_get_settings() {
-		$options = get_option( LASSO_SETTINGS, array() );
-		if ( ! is_array( $options ) ) {
+	public static function lasso_get_settings()
+	{
+		$options = get_option(LASSO_SETTINGS, array());
+		if (!is_array($options)) {
 			$options = array();
 		}
 
-		$defaults = unserialize( SETTINGS_DEFAULT ); // phpcs:ignore
+		$defaults = unserialize(SETTINGS_DEFAULT); // phpcs:ignore
 
-		$options = wp_parse_args( $options, $defaults );
+		$options = wp_parse_args($options, $defaults);
 
 		// ? force to int
-		$options['cpu_threshold']                     = abs( (int) $options['cpu_threshold'] );
-		$options['cron_time_interval']                = abs( (int) $options['cron_time_interval'] );
-		$options['manually_background_process_limit'] = abs( (int) $options['manually_background_process_limit'] );
+		$options['cpu_threshold']                     = abs((int) $options['cpu_threshold']);
+		$options['cron_time_interval']                = abs((int) $options['cron_time_interval']);
+		$options['manually_background_process_limit'] = abs((int) $options['manually_background_process_limit']);
 
 		// ? force to boolean
 		$options['general_disable_notification']          = (bool) $options['general_disable_notification'];
@@ -753,29 +778,38 @@ class Setting {
 		$options['show_amazon_discount_pricing']          = (bool) $options['show_amazon_discount_pricing'];
 		$options['amazon_multiple_tracking_id']           = (bool) $options['amazon_multiple_tracking_id'];
 		$options['restrict_prefix']                       = (bool) $options['restrict_prefix'];
-		$options[ Setting_Enum::SEGMENT_ANALYTICS ]       = (bool) $options[ Setting_Enum::SEGMENT_ANALYTICS ];
-		$options[ Setting_Enum::PROCESSES_EXECUTE_LIMIT ] = (bool) $options[ Setting_Enum::PROCESSES_EXECUTE_LIMIT ];
+		$options[Setting_Enum::SEGMENT_ANALYTICS]       = (bool) $options[Setting_Enum::SEGMENT_ANALYTICS];
+		$options[Setting_Enum::PROCESSES_EXECUTE_LIMIT] = (bool) $options[Setting_Enum::PROCESSES_EXECUTE_LIMIT];
 		$options['fontawesome_js_svg']                    = (bool) $options['fontawesome_js_svg'];
 
+		$options['open_new_tab3']                         = (bool) $options['open_new_tab3'];
+		$options['enable_nofollow3']                      = (bool) $options['enable_nofollow3'];
+		$options['open_new_tab4']                         = (bool) $options['open_new_tab4'];
+		$options['enable_nofollow4']                      = (bool) $options['enable_nofollow4'];
+		$options['open_new_tab_google']                   = (bool) $options['open_new_tab_google'];
+		$options['enable_nofollow_google']                = (bool) $options['enable_nofollow_google'];
+		$options['open_new_tab_apple']                    = (bool) $options['open_new_tab_apple'];
+		$options['enable_nofollow_apple']                 = (bool) $options['enable_nofollow_apple'];
+
 		// ? check empty and set default
-		$options['primary_button_text']             = empty( $options['primary_button_text'] ) ? $defaults['primary_button_text'] : $options['primary_button_text'];
-		$options['secondary_button_text']           = empty( $options['secondary_button_text'] ) ? $defaults['secondary_button_text'] : $options['secondary_button_text'];
-		$options['disclosure_text']                 = empty( $options['disclosure_text'] ) ? $defaults['disclosure_text'] : $options['disclosure_text'];
-		$options['amazon_default_tracking_country'] = empty( $options['amazon_default_tracking_country'] ) ? $defaults['amazon_default_tracking_country'] : $options['amazon_default_tracking_country'];
-		$options['lasso_affiliate_URL']             = empty( $options['lasso_affiliate_URL'] ) ? $defaults['lasso_affiliate_URL'] : $options['lasso_affiliate_URL'];
+		$options['primary_button_text']             = empty($options['primary_button_text']) ? $defaults['primary_button_text'] : $options['primary_button_text'];
+		$options['secondary_button_text']           = empty($options['secondary_button_text']) ? $defaults['secondary_button_text'] : $options['secondary_button_text'];
+		$options['disclosure_text']                 = empty($options['disclosure_text']) ? $defaults['disclosure_text'] : $options['disclosure_text'];
+		$options['amazon_default_tracking_country'] = empty($options['amazon_default_tracking_country']) ? $defaults['amazon_default_tracking_country'] : $options['amazon_default_tracking_country'];
+		$options['lasso_affiliate_URL']             = empty($options['lasso_affiliate_URL']) ? $defaults['lasso_affiliate_URL'] : $options['lasso_affiliate_URL'];
 
 		// phpcs:ignore: check empty and array
-		$options['cpt_support']           = is_null( $options['cpt_support'] ) || empty( $options['cpt_support'] ) || ! is_array( $options['cpt_support'] )
+		$options['cpt_support']           = is_null($options['cpt_support']) || empty($options['cpt_support']) || !is_array($options['cpt_support'])
 			? $defaults['cpt_support'] : $options['cpt_support'];
-		$options['custom_fields_support'] = is_null( $options['custom_fields_support'] ) || empty( $options['custom_fields_support'] ) || ! is_array( $options['custom_fields_support'] )
+		$options['custom_fields_support'] = is_null($options['custom_fields_support']) || empty($options['custom_fields_support']) || !is_array($options['custom_fields_support'])
 			? $defaults['custom_fields_support'] : $options['custom_fields_support'];
 
 		// ? remove empty element in array
-		$options['amazon_tracking_id_whitelist'] = is_array( $options['amazon_tracking_id_whitelist'] ) ? $options['amazon_tracking_id_whitelist'] : array();
+		$options['amazon_tracking_id_whitelist'] = is_array($options['amazon_tracking_id_whitelist']) ? $options['amazon_tracking_id_whitelist'] : array();
 		$options['amazon_tracking_id_whitelist'] = array_filter(
 			$options['amazon_tracking_id_whitelist'],
-			function( $value ) {
-				return ! is_null( $value ) && '' !== $value;
+			function ($value) {
+				return !is_null($value) && '' !== $value;
 			}
 		);
 
@@ -789,47 +823,48 @@ class Setting {
 	 * @param bool $include_deactivate Include deactivate plugins or not. Default to false.
 	 * @param bool $all                All plugins. Default to false.
 	 */
-	public static function get_import_sources( $include_deactivate = false, $all = false ) {
+	public static function get_import_sources($include_deactivate = false, $all = false)
+	{
 		$plugin_list = self::$import_sources;
 
 		$result          = array();
-		$plugin_path_abs = dirname( LASSO_PLUGIN_PATH );
+		$plugin_path_abs = dirname(LASSO_PLUGIN_PATH);
 
 		try {
 			$db          = new Lasso_DB();
-			$query       = $db->get_importable_urls_query( false, '', 'import_source', null, true );
-			$import_data = Model::get_results( $query, 'OBJECT', true );
+			$query       = $db->get_importable_urls_query(false, '', 'import_source', null, true);
+			$import_data = Model::get_results($query, 'OBJECT', true);
 
-			foreach ( $plugin_list as $plugin ) {
+			foreach ($plugin_list as $plugin) {
 				$full_plugin_path = $plugin_path_abs . '/' . $plugin;
-				if ( ! file_exists( $full_plugin_path ) ) {
+				if (!file_exists($full_plugin_path)) {
 					continue;
 				}
 
 				// ? Check plugin is activate or deactivate
-				$condition = ( $include_deactivate ) ? $include_deactivate : is_plugin_active( $plugin );
-				if ( $condition ) {
-					$plugin_name = self::get_plugin_name( $plugin );
+				$condition = ($include_deactivate) ? $include_deactivate : is_plugin_active($plugin);
+				if ($condition) {
+					$plugin_name = self::get_plugin_name($plugin);
 					$plugin_name = 'Simple URLs' === $plugin_name ? 'Lasso Lite / Simple URLs' : $plugin_name;
 
-					if ( ! $all ) {
+					if (!$all) {
 						$plugin_data = array_filter(
 							$import_data,
-							function( $p ) use ( $plugin_name ) {
+							function ($p) use ($plugin_name) {
 								return $p->import_source === $plugin_name;
 							}
 						);
 
-						if ( count( $plugin_data ) === 0 ) {
+						if (count($plugin_data) === 0) {
 							continue;
 						}
 					}
 
 					$key            = $plugin;
-					$result[ $key ] = $plugin_name;
+					$result[$key] = $plugin_name;
 				}
 			}
-		} catch ( Exception $e ) {
+		} catch (Exception $e) {
 			return false;
 		}
 
@@ -841,11 +876,12 @@ class Setting {
 	 *
 	 * @param string $plugin Plugin file path.
 	 */
-	public static function get_plugin_name( $plugin ) {
+	public static function get_plugin_name($plugin)
+	{
 		$plugin_name = 'The plugin ' . $plugin . ' has been deleted.';
 		$plugin_path = WP_PLUGIN_DIR . '/' . $plugin;
-		if ( file_exists( $plugin_path ) ) {
-			$plugin_data = get_plugin_data( $plugin_path );
+		if (file_exists($plugin_path)) {
+			$plugin_data = get_plugin_data($plugin_path);
 			$plugin_name = $plugin_data['Name'];
 		}
 
@@ -855,7 +891,8 @@ class Setting {
 	/**
 	 * Get stats in report pages
 	 */
-	public function lasso_get_stats_in_report_page() {
+	public function lasso_get_stats_in_report_page()
+	{
 		$stats = array(
 			'build'        => -1,
 			'import'       => -1,
@@ -866,32 +903,32 @@ class Setting {
 		// ? build data process
 		$build_bg            = new Lasso_Process_Link_Database();
 		$build_bg_is_running = $build_bg->is_process_running();
-		if ( $build_bg_is_running ) {
+		if ($build_bg_is_running) {
 			$count_all_pages_posts = $build_bg->get_total();
 			$completed             = $build_bg->get_total_completed();
 			$completed             = 0 !== $completed ? $completed : 1;
 			$percentage            = 0 === $count_all_pages_posts ? 0 : $completed * 100 / $count_all_pages_posts;
-			$stats['build']        = round( $percentage, 2 );
+			$stats['build']        = round($percentage, 2);
 		}
 
 		// ? import process
 		$import_all = new Lasso_Process_Import_All();
-		if ( $import_all->is_process_running() ) {
+		if ($import_all->is_process_running()) {
 			$stats['import'] = 1;
 		}
 		// ? revert process
 		$revert_all = new Lasso_Process_Revert_All();
-		if ( $revert_all->is_process_running() ) {
+		if ($revert_all->is_process_running()) {
 			$stats['revert'] = 1;
 		}
 
 		// ? amazon configurations
-		$amazon_valid    = (bool) get_option( 'lasso_amazon_valid', false );
+		$amazon_valid    = (bool) get_option('lasso_amazon_valid', false);
 		$stats['amazon'] = $amazon_valid;
 
-		$stats['refresh_page'] = ( $build_bg->get_total_completed() === $build_bg->get_total() )
-			&& ( $revert_all->get_total_completed() === $revert_all->get_total() )
-			&& ( $import_all->get_total_completed() === $import_all->get_total() );
+		$stats['refresh_page'] = ($build_bg->get_total_completed() === $build_bg->get_total())
+			&& ($revert_all->get_total_completed() === $revert_all->get_total())
+			&& ($import_all->get_total_completed() === $import_all->get_total());
 
 		return $stats;
 	}
@@ -901,27 +938,28 @@ class Setting {
 	 *
 	 * @param string $file_postfix Prefix of log name file.
 	 */
-	public static function get_logs_content( $file_postfix ) {
+	public static function get_logs_content($file_postfix)
+	{
 		$log_data    = '';
 		$filename    = '';
 		$files_found = false;
 
-		if ( ! empty( $file_postfix ) ) {
+		if (!empty($file_postfix)) {
 			$filebase = LASSO_PLUGIN_PATH . '/logs/';
 
 			// 2019_04_10_<type>.log
-			$file_array = glob( $filebase . '*_' . $file_postfix . '.log' );
+			$file_array = glob($filebase . '*_' . $file_postfix . '.log');
 
-			if ( is_array( $file_array ) ) {
-				rsort( $file_array );
-				$filename = isset( $file_array[0] ) ? $file_array[0] : '';
-				if ( '' !== $filename ) {
+			if (is_array($file_array)) {
+				rsort($file_array);
+				$filename = isset($file_array[0]) ? $file_array[0] : '';
+				if ('' !== $filename) {
 					$files_found = true;
 				}
 			}
 
-			if ( $files_found ) {
-				$log_data = file_get_contents( $filename, true );
+			if ($files_found) {
+				$log_data = file_get_contents($filename, true);
 			}
 		}
 
@@ -931,22 +969,23 @@ class Setting {
 	/**
 	 * Check plugins for importing and deactivating
 	 */
-	public function check_plugins_for_import_and_deactivate() {
+	public function check_plugins_for_import_and_deactivate()
+	{
 		// ? import plugin check
 		$plugins_for_import     = $this->get_import_sources();
 		$setting_page_link      = '';
 		$plugins_for_import_txt = '';
 
-		if ( ! empty( $plugins_for_import ) ) {
-			$verb                   = count( $plugins_for_import ) > 1 ? 'are' : 'is';
-			$plugins_for_import_txt = implode( ', ', $plugins_for_import ) . ' ' . $verb;
+		if (!empty($plugins_for_import)) {
+			$verb                   = count($plugins_for_import) > 1 ? 'are' : 'is';
+			$plugins_for_import_txt = implode(', ', $plugins_for_import) . ' ' . $verb;
 
 			$setting_page_link = add_query_arg(
 				array(
 					'post_type' => 'lasso-urls',
 					'page'      => $this->import_page,
 				),
-				self_admin_url( 'edit.php' )
+				self_admin_url('edit.php')
 			);
 		}
 
@@ -954,28 +993,28 @@ class Setting {
 		$plugin_list           = self::$import_sources;
 		$all_plugins           = array();
 		$plugin_for_deactivate = array();
-		$plugin_path_abs       = dirname( LASSO_PLUGIN_PATH );
+		$plugin_path_abs       = dirname(LASSO_PLUGIN_PATH);
 
-		foreach ( $plugin_list as $plugin ) {
+		foreach ($plugin_list as $plugin) {
 			$full_plugin_path = $plugin_path_abs . '/' . $plugin;
-			if ( ! file_exists( $full_plugin_path ) ) {
+			if (!file_exists($full_plugin_path)) {
 				continue;
 			}
 
-			if ( is_plugin_active( $plugin ) ) {
-				$all_plugins[ self::get_plugin_name( $plugin ) ] = $plugin;
+			if (is_plugin_active($plugin)) {
+				$all_plugins[self::get_plugin_name($plugin)] = $plugin;
 			}
 		}
 
-		$imported_plugins = array_diff( array_keys( $all_plugins ), $plugins_for_import );
+		$imported_plugins = array_diff(array_keys($all_plugins), $plugins_for_import);
 
-		foreach ( $imported_plugins as $plugin ) {
+		foreach ($imported_plugins as $plugin) {
 			$deactivate_link = wp_nonce_url(
-				self_admin_url( 'plugins.php?action=deactivate&plugin=' ) . $all_plugins[ $plugin ] . '&plugin_status=all&paged=1&s',
-				'deactivate-plugin_' . $all_plugins[ $plugin ]
+				self_admin_url('plugins.php?action=deactivate&plugin=') . $all_plugins[$plugin] . '&plugin_status=all&paged=1&s',
+				'deactivate-plugin_' . $all_plugins[$plugin]
 			);
 
-			$plugin_for_deactivate[ $plugin ] = $deactivate_link;
+			$plugin_for_deactivate[$plugin] = $deactivate_link;
 		}
 
 		return array(
@@ -988,9 +1027,10 @@ class Setting {
 	/**
 	 * Generate update link
 	 */
-	public function generate_update_link() {
+	public function generate_update_link()
+	{
 		return wp_nonce_url(
-			self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . LASSO_PLUGIN_BASE_NAME,
+			self_admin_url('update.php?action=upgrade-plugin&plugin=') . LASSO_PLUGIN_BASE_NAME,
 			'upgrade-plugin_' . LASSO_PLUGIN_BASE_NAME
 		);
 	}
@@ -1000,7 +1040,8 @@ class Setting {
 	 *
 	 * @return array
 	 */
-	public static function get_display_type() {
+	public static function get_display_type()
+	{
 		return array(
 			self::DISPLAY_TYPE_SINGLE => self::DISPLAY_TYPE_SINGLE,
 			self::DISPLAY_TYPE_GRID   => self::DISPLAY_TYPE_GRID,
@@ -1013,7 +1054,8 @@ class Setting {
 	 *
 	 * @return array
 	 */
-	public static function get_width_options() {
+	public static function get_width_options()
+	{
 		return array(
 			self::W_1000   => self::W_1000 . 'px',
 			self::W_800    => self::W_800 . 'px',
@@ -1028,7 +1070,8 @@ class Setting {
 	 *
 	 * @return mixed|string
 	 */
-	private function get_page_name() {
+	private function get_page_name()
+	{
 		return $this->get['page'] ?? '';
 	}
 
@@ -1037,22 +1080,24 @@ class Setting {
 	 *
 	 * @return mixed|string
 	 */
-	private function get_post_type() {
+	private function get_post_type()
+	{
 		return $this->get['post_type'] ?? '';
 	}
 
 	/**
 	 * Get all GA tracking ids
 	 */
-	public static function get_ga_tracking_ids() {
+	public static function get_ga_tracking_ids()
+	{
 		$ids             = array();
-		$ga_tracking_ids = self::lasso_get_setting( 'analytics_google_tracking_id' );
-		if ( $ga_tracking_ids ) {
-			$ga_tracking_ids = trim( $ga_tracking_ids );
-			$explode         = explode( ',', $ga_tracking_ids );
+		$ga_tracking_ids = self::lasso_get_setting('analytics_google_tracking_id');
+		if ($ga_tracking_ids) {
+			$ga_tracking_ids = trim($ga_tracking_ids);
+			$explode         = explode(',', $ga_tracking_ids);
 			$explode         = array_map(
-				function( $v ) {
-					return trim( $v );
+				function ($v) {
+					return trim($v);
 				},
 				$explode
 			);

@@ -134,6 +134,15 @@ define(
 			'enable_sponsored'                      => true,
 			'check_duplicate_link'                  => true,
 
+			'open_new_tab3'                  => true,
+			'enable_nofollow3'               => true,
+			'open_new_tab4'                  => true,
+			'enable_nofollow4'               => true,
+			'open_new_tab_google'            => true,
+			'enable_nofollow_google'         => true,
+			'open_new_tab_apple'             => true,
+			'enable_nofollow_apple'                  => true,
+
 			'show_price'                            => true,
 			'show_disclosure'                       => true,
 			'show_disclosure_grid'                  => false,
