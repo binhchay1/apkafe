@@ -3,12 +3,10 @@
 /**
  * Load core
  */
-require_once 'inc/starter/leaf-core.php';
+require_once 'inc/starter/apkafe-core.php';
 require_once 'inc/option-tree-hook.php';
 require_once 'inc/starter/functions-admin.php';
 require_once 'inc/starter/category-image.php';
-
-remove_action('shutdown', 'wp_ob_end_flush_all', 1);
 
 if (!defined('PARENT_THEME')) {
 	define('PARENT_THEME', 'Apkafe');
@@ -22,7 +20,6 @@ function apkafe_setup()
 	/*
 	 * Makes theme available for translation.
 	 */
-	load_theme_textdomain('apkafe', get_template_directory() . '/languages');
 	add_editor_style();
 	add_theme_support('automatic-feed-links');
 	add_theme_support('post-formats', array('gallery', 'video', 'audio'));
@@ -47,8 +44,8 @@ function apkafe_scripts_styles()
 	/*
 	 * Loads css
 	 */
-	wp_enqueue_style('fa-style', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/fontawesome.min.css');
 	wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
+	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/css/fa/css/font-awesome.min.css');
 
 	if (is_single()) {
 		wp_enqueue_style('single', get_stylesheet_directory_uri() . '/css/single.css');
@@ -56,6 +53,7 @@ function apkafe_scripts_styles()
 }
 
 add_action('wp_enqueue_scripts', 'apkafe_scripts_styles');
+remove_action('shutdown', 'wp_ob_end_flush_all', 1);
 
 /* Enqueues for Admin */
 function apkafe_admin_scripts_styles()
@@ -94,33 +92,58 @@ add_action('init', function ($search) {
 
 add_action('wp_head', function () {
 	$paths = explode('/', $_SERVER['REQUEST_URI']);
+	$host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
 	if (is_front_page()) {
-		$urlFontPage = 'https://apkafe.com/';
-		if (in_array('th', $paths)) {
-			$urlFontPage = 'https://apkafe.com/th/';
-		}
-
-		if (in_array('ja', $paths)) {
-			$urlFontPage = 'https://apkafe.com/ja/';
-		}
+		$urlFontPage = $_SERVER['HTTP_REFERER'];
 
 		echo '<link rel="alternate" href="' . $urlFontPage . '" hreflang="x-default" />';
 	}
 
 	if (in_array('product-category', $paths)) {
-		$host = 'https://apkafe.com';
+		$countProduct = 0;
+		$urlCanonical = '';
+		foreach ($paths as $path) {
+			if ($path == '') {
+				continue;
+			}
+
+			if ($path == 'page') {
+				break;
+			}
+
+			if ($countProduct == 0) {
+				$urlCanonical = $host . '/' . $path;
+				$countProduct++;
+			} else {
+				$urlCanonical = $urlCanonical . '/' . $path;
+			}
+		}
+
 		$urlProductCategory = $host . $_SERVER['REQUEST_URI'];
 		echo '<link rel="alternate" href="' . $urlProductCategory . '" hreflang="x-default" />';
+		echo '<link rel="canonical" href="' . $urlCanonical . '" />';
 	}
 
-	if (is_admin() || is_user_logged_in()) {
-		$style = '<style type="text/css">
-			#main-nav {
-					margin-top: 30px !important;
+	if (in_array('category', $paths)) {
+		$count = 0;
+		$urlCanonical = '';
+		foreach ($paths as $path) {
+			if ($path == '') {
+				continue;
 			}
-			</style>';
 
-		echo $style;
+			if ($path == 'page') {
+				break;
+			}
+
+			if ($count == 0) {
+				$urlCanonical = $host . '/' . $path;
+			} else {
+				$urlCanonical = $urlCanonical . '/' . $path;
+			}
+		}
+
+		echo '<link rel="canonical" href="' . $urlCanonical . '" />';
 	}
 }, PHP_INT_MAX);
 

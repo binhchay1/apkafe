@@ -64,49 +64,11 @@ if (array_key_exists('h1_sapo', $getMeta)) {
         </div>
         <div class="pad10">
             <h1 class="main_head ac"><?php !empty($h1_sapo) ? print_r($h1_sapo[0]) : '' ?></h1>
-            <div class="sapo-review-default">
-                <p><?php !empty($sapo) ? print_r($sapo[0]) : '' ?></p>
-            </div>
-            <div class="main_box_wrap">
-                <div class="main_img_wrap">
-                    <img id="primaryimage" width="180" height="180" src="<?php echo get_the_post_thumbnail_url(get_the_ID()) ?>" alt="<?php echo the_title() ?>">
+            <?php if (!empty($sapo)) { ?>
+                <div class="sapo-review-default">
+                    <p><?php echo $sapo[0] ?></p>
                 </div>
-                <div class="main_spec_wrap">
-                    <table class="spec_table">
-                        <tbody>
-                            <tr>
-                                <th>Genre</th>
-                                <td><a href="<?php echo get_category_link($category) ?>"><?php echo $category[0]->name ?></a></td>
-                            </tr>
-                            <tr>
-                                <th>Size</th>
-                                <td><?php !empty($size) ? print_r($size[0]) : '' ?> MB</td>
-                            </tr>
-                            <tr>
-                                <th>Latest Version</th>
-                                <td><?php !empty($version) ? print_r($version[0]) : '' ?></td>
-                            </tr>
-                            <tr>
-                                <th>MOD Info</th>
-                                <td><?php !empty($mod_infor) ? print_r($mod_infor[0]) : '' ?></td>
-                            </tr>
-                            <tr>
-                                <th>Update</th>
-                                <td><?php echo get_the_modified_date('F j, Y', get_the_ID()) ?></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="clear mb10"></div>
-            <div class="ac">
-                <a class="btn_download" href="<?php  ?>">
-                    Download APK
-                    <?php if (!empty($size)) { ?>
-                        (<?php print_r($size[0]) ?> MB)
-                    <?php } ?>
-                </a>
-            </div>
+            <?php } ?>
 
             <div class="clear mb20"></div>
             <?php echo the_content() ?>
