@@ -1032,7 +1032,7 @@ class Lasso_Affiliate_Link
 						'default_url'     => $product['base_url'],
 						'url'             => $url,
 						'image'           => $product['default_image'],
-						'quantity'        => '0' === $product['out_of_stock'] ? 200 : 0,  // ? Manual checks won't show out of stock for now. TODO: Add BLS to out of stock checks.
+						'quantity'        => '0' === $product['out_of_stock'] ? 200 : 0,
 						'is_manual'       => $product['is_manual'],
 						'is_prime'        => $product['is_prime'],
 						'features'        => $product['features'],
@@ -1614,11 +1614,11 @@ class Lasso_Affiliate_Link
 			clean_post_cache($post_id);
 		}
 
-		if ($amazon_product_id) { // ? Amazon product
+		if ($amazon_product_id) {
 			$product = $lasso_amazon_api->get_amazon_product_from_db($amazon_product_id, $get_final_url);
 			$url     = Lasso_Amazon_Api::get_amazon_product_url($get_final_url, true, $is_update);
 
-			if (!$product || is_null($product)) { // ? no product in DB
+			if (!$product || is_null($product)) {
 				if (!$amz_product) {
 					$amz_product     = $lasso_amazon_api->fetch_product_info($amazon_product_id, true, false, $get_final_url);
 					$amz_product_qty = intval($amz_product['product']['quantity'] ?? 0);
@@ -1703,7 +1703,7 @@ class Lasso_Affiliate_Link
 						'default_url'  => $product['base_url'],
 						'url'          => $url,
 						'image'        => $product['default_image'],
-						'quantity'     => '0' === $product['out_of_stock'] ? 200 : 0,  // ? Manual checks won't show out of stock for now. TODO: Add BLS to out of stock checks.
+						'quantity'     => '0' === $product['out_of_stock'] ? 200 : 0,
 						'is_manual'    => $product['is_manual'],
 					)
 				);
@@ -1738,7 +1738,7 @@ class Lasso_Affiliate_Link
 			$lasso_post['meta_input']['extend_product_last_updated'] = current_time(gmdate('Y-m-d H:i:s'));
 			$lasso_post['meta_input']['affiliate_link_type']         = LASSO_BASIC_LINK_TYPE;
 			delete_post_meta($post_id, 'amazon_product_id');
-		} else { // ? Affiliate URL
+		} else {
 			$lasso_post['meta_input']['affiliate_link_type'] = LASSO_BASIC_LINK_TYPE;
 			delete_post_meta($post_id, 'amazon_product_id');
 		}
@@ -1755,7 +1755,6 @@ class Lasso_Affiliate_Link
 			$lasso_post['post_title'] = $post_data['affiliate_name'] ?? $lasso_post['post_title'];
 		}
 
-		// ? Add company's logo as default image if no image is detected
 		if ('' === $lasso_post['meta_input']['lasso_custom_thumbnail']) {
 			$domain_affiliate_programs_row_result = Affiliate_Programs::get_row_by_domain($get_final_url);
 			$logo_affiliate_programs              = $domain_affiliate_programs_row_result->image_url ?? '';
@@ -1765,15 +1764,22 @@ class Lasso_Affiliate_Link
 				: $lasso_post['meta_input']['lasso_custom_thumbnail'];
 		}
 
-		// phpcs:ignore
 		if (!Lasso_Amazon_Api::is_amazon_url($get_final_url) && $is_update && $duplicate_post = Lasso_Helper::the_slug_exists($lasso_post['post_name'], $post_id)) {
 			$warning = 'Permalink <a href="' . get_edit_post_link($duplicate_post['ID']) . '" class="white underline" target="_blank"><strong>' . $duplicate_post['post_name'] . '</strong></a> is being used by <strong>' . $duplicate_post['post_type'] . '</strong>. We updated the permalink to avoid a conflict.';
 		}
 
+		$name_category = $lasso_post['meta_input']['categories'];
+		$getCategories = get_term_by('name', $name_category, 'product_cat');
 		$post_id = self::lasso_insert_post($lasso_post, true);
 
+		if (!$getCategories) {
+			wp_insert_term(
+				$name_category,
+				'product_cat'
+			);
+		}
+
 		if (!is_wp_error($post_id) && $post_id > 0) {
-			// ? Update Lasso URL Details
 			$product_id_col   = $amazon_product_id
 				? $amazon_product_id
 				: ($extend_product_id ? $extend_product_id : '');
@@ -1787,7 +1793,6 @@ class Lasso_Affiliate_Link
 			}
 			$lasso_db->update_url_details($post_id, $url_detail_redirect_url, $affiliate_homepage, $is_opportunity, $product_id_col, $product_type_col);
 
-			// ? update metadata for checking duplicate Lasso post
 			$url_final_without_arguments = Lasso_Helper::format_url_for_checking_duplication($get_final_url, $url);
 			$enable_duplicate_link       = Lasso_Setting::lasso_get_setting('check_duplicate_link', false);
 			if (
@@ -1800,10 +1805,8 @@ class Lasso_Affiliate_Link
 				update_post_meta($post_id, Url_Details::META_KEY_URL_WITHOUT_ARGUMENTS, $url_final_without_arguments);
 			}
 
-			// ? update categories
 			wp_set_object_terms($post_id, $term, LASSO_CATEGORY);
 
-			// ? Insert Lasso categories with order
 			$all_cat_item = Lasso_Category_Order::get_by_item($post_id);
 			$slugs        = wp_list_pluck($all_cat_item, 'parent_slug');
 			if (1 <= count($term)) {
@@ -1812,7 +1815,6 @@ class Lasso_Affiliate_Link
 					if ($lasso_group) {
 						$slug = $lasso_group->get_slug();
 
-						// ? prevent DB error duplicate key
 						$lasso_term      = Lasso_Category_Order::get_by_item($post_id);
 						$lasso_term_slug = array_filter(
 							$lasso_term,
@@ -1837,12 +1839,10 @@ class Lasso_Affiliate_Link
 				}
 			}
 
-			// ? Delete Lasso categories if remove from lasso link
 			if (0 < count($slugs)) {
 				Lasso_Category_Order::delete_category_order($post_id, $slugs);
 			}
 
-			// ? update thumbnail
 			if ($thumbnail_id > 0) {
 				set_post_thumbnail($post_id, $thumbnail_id);
 				$image_url = wp_get_attachment_url($thumbnail_id);
@@ -1851,7 +1851,6 @@ class Lasso_Affiliate_Link
 				delete_post_thumbnail($post_id);
 			}
 
-			// ? scan Lasso links in posts/pages if permalink/enable_nofollow/open_new_tab changed
 			$is_slug_changed = LASSO_AMAZON_PRODUCT_TYPE !== $lasso_url->link_type && $lasso_url->slug !== $post_data['permalink'];
 			if (
 				$lasso_url->enable_nofollow !== $enable_nofollow
