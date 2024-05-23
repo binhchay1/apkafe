@@ -995,6 +995,17 @@ class Lasso_Affiliate_Link
 				)
 			);
 
+			update_post_meta($lasso_post_id, 'rating', $productAppGoogle['rating']);
+			update_post_meta($lasso_post_id, 'price', $productAppGoogle['price']);
+			update_post_meta($lasso_post_id, 'size', $productAppGoogle['size']);
+			update_post_meta($lasso_post_id, 'developer', $productAppGoogle['developer']);
+			update_post_meta($lasso_post_id, 'categories', $productAppGoogle['categories']);
+			update_post_meta($lasso_post_id, 'thumbnail', $productAppGoogle['thumbnail']);
+			update_post_meta($lasso_post_id, 'screen_shots', $productAppGoogle['screen_shots']);
+			update_post_meta($lasso_post_id, 'apple_btn_url', $productAppStore['base_url']);
+			update_post_meta($lasso_post_id, 'google_btn_url', $productAppGoogle['base_url']);
+			update_post_meta($lasso_post_id, 'updated_on', date('Y-m-d'));
+
 			if ($is_ajax_request) {
 				$this->check_error_and_response_ajax($lasso_post_id, '', '', $optional_data);
 			} else {
