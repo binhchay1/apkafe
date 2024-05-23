@@ -345,23 +345,31 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 								</div>
 							</div>
 
+							<div class="col-lg-6">
+								<div class="form-group mb-4">
+									<label data-tooltip="Update date of app in post">
+										<strong>Updated on</strong> <i class="far fa-info-circle light-purple"></i></label>
+									<input type="text" class="form-control" id="updated_on_app" value="<?php echo $lasso_url->updated_on ?>" placeholder="Updated on">
+								</div>
+							</div>
+
 							<div class="col-lg-12">
 								<div class="form-group mb-4">
 									<label data-tooltip="Screen shot of app in store">
 										<strong>Screen shots</strong> <i class="far fa-info-circle light-purple"></i></label>
-									<?php if (isset($lasso_url->screen_shots) && !empty($lasso_url->screen_shots)) { ?>
-										<?php if (is_array($lasso_url->screen_shots)) { ?>
-											<?php $lasso_url->screen_shots = json_decode($lasso_url->screen_shots, true); ?>
+									<?php if (isset($lasso_url->screen_shots)) { ?>
+										<?php if (!is_array($lasso_url->screen_shots)) { ?>
+											<?php $array_screenshot = json_decode($lasso_url->screen_shots, true); ?>
 											<div class="owl-carousel owl-theme">
-												<?php foreach ($lasso_url->screen_shots as $shot) { ?>
-													<img class="item" src="<?php echo $shot ?>" />
+												<?php foreach ($array_screenshot as $shot) { ?>
+													<img class="item" src="<?php echo $shot ?>" width="106" height="66"/>
 												<?php } ?>
 											</div>
 										<?php } else { ?>
 											<div class="owl-carousel owl-theme">
-												<?php $lasso_url->screen_shots = explode(PHP_EOL, $lasso_url->screen_shots); ?>
-												<?php foreach ($lasso_url->screen_shots as $shot) { ?>
-													<img class="item" src="<?php echo $shot ?>" />
+												<?php $array_screenshot = explode(PHP_EOL, $lasso_url->screen_shots); ?>
+												<?php foreach ($array_screenshot as $shot) { ?>
+													<img class="item" src="<?php echo $shot ?>" width="100" height="100"/>
 												<?php } ?>
 											</div>
 										<?php } ?>
@@ -542,15 +550,12 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 			</div>
 		</form>
 
-		<!-- SAVE & DETELE -->
 		<div class="row align-items-center">
-			<!-- SAVE CHANGES -->
 			<div class="col-lg order-lg-2 text-lg-right text-center mb-4">
 				<a id="learn-more-link-details" href="https://support.getlasso.co/en/articles/5847370-how-to-use-the-link-details-page" target="_blank" class="btn black white-bg black-border mr-3">Learn About This Page</a>
 				<button id="btn-save-url" class="btn">Save Changes</button>
 			</div>
 
-			<!-- DELETE URL -->
 			<div class="col-lg text-lg-left text-center mb-4">
 				<a href="#" id="btn-confirm-delete" class="red hover-red-text"><i class="far fa-trash-alt"></i> Delete This Link</a>
 			</div>
@@ -597,8 +602,6 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 		const flip_url = jQuery("#flip-url").val();
 		const current_url = jQuery("#current-url").val();
 
-		// FOR DESCRIPTION RICH EDITOR
-		// ADD OPTIONS FOR EDITOR TOOLBAR
 		var toolbarOptions = [
 			[
 				'bold',
@@ -620,7 +623,6 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 			['clean'],
 		];
 
-		// SET THEME, PLACEHOLDER, AND TOOLBAR OPTIONS
 		var quill_options = {
 			theme: 'snow',
 			placeholder: 'Enter a description',
@@ -632,19 +634,15 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 			},
 		};
 
-		// INITIALIZE QUILL
 		var quill = new Quill('#description', quill_options);
 
-		quill.root.innerHTML = `<?php echo $description; ?>`; // fix emoji issue
-
-		// Fix error when bold format is link
+		quill.root.innerHTML = `<?php echo $description; ?>`;
 		quill.on('editor-change', function(eventName, ...args) {
 			if ('selection-change' === eventName) {
 				quill.update();
 			}
 		});
 
-		// RECREATE HOVER EFFECT ON DESCRIPTION BOX
 		jQuery('.ql-editor').focus(
 			function() {
 				jQuery(this).parent('div').attr('style', 'border-color: var(--light-purple) !important');
@@ -653,20 +651,16 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 				jQuery(this).parent('div').removeAttr('style');
 			});
 
-		// set loading image
 		jQuery('.image_loading').html(get_loading_image());
-
 		jQuery('.lasso-image').html(jQuery('#image_editor').html());
 
 		var progessPercentage = 0;
 		var progressInterval = 100;
 
-		// Is this link broken
 		<?php if ($lasso_url->issue->broken) { ?>
 			lasso_helper.errorScreen("Your Target URL is broken.");
 		<?php } ?>
 
-		// Is this product out of stock
 		<?php if ($lasso_url->issue->out_of_stock) { ?>
 			lasso_helper.warningScreen("This product may be out of stock.");
 		<?php } ?>
@@ -1368,27 +1362,12 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 			jQuery('#thumbnail_image_url').val(data.image_src);
 		}
 
-		/**
-		 * Check and add description block if this one not exiting
-		 *
-		 * @return void
-		 */
 		function add_description_block() {
 			if (!jQuery(".lasso-description").length) {
 				let lasso_description_html = '<div class="lasso-description"></div>';
 				jQuery(lasso_description_html).insertAfter(jQuery("#demo_display_box div.clear"));
 			}
 		}
-
-		/*
-		function unloadPage() {
-			if(check_changes()) {
-				return "You have unsaved changes on this page. Do you want to leave this page and discard your changes or stay on this page?";
-			}
-		}
-
-		window.onbeforeunload = unloadPage;
-		*/
 
 		function get_payload_to_save_url() {
 			var post_id = '<?php echo $lasso_url->lasso_id; ?>';
@@ -1409,6 +1388,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 			var categories_app = jQuery("#categories_app").val();
 			var size_app = jQuery("#size_app").val();
 			var version_app = jQuery("#version_app").val();
+			var updated_on_app = jQuery("#updated_on_app").val();
 			var affiliate_desc = quill.root.innerHTML;
 			affiliate_desc = affiliate_desc == '<p><br></p>' ? '' : affiliate_desc;
 
@@ -1431,7 +1411,8 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 				categories: categories_app,
 				size: size_app,
 				version: version_app,
-				// switches
+				updated_on: updated_on_app,
+
 				enable_nofollow: jQuery("#url-en-nofollow").prop("checked") ? 1 : 0,
 				open_new_tab: jQuery("#url-open-link").prop("checked") ? 1 : 0,
 				enable_nofollow2: jQuery("#url-en-nofollow2").prop("checked") ? 1 : 0,

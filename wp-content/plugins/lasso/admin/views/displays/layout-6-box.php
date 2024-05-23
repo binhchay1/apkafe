@@ -63,6 +63,12 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 				</div>
 			<?php } ?>
 
+			<?php if (isset($lasso_url->categories)) { ?>
+				<div class="categories">
+					<span class="title-detail">Categories: </span><span><?php echo $lasso_url->categories ?></span>
+				</div>
+			<?php } ?>
+
 			<?php if (isset($lasso_url->developer)) { ?>
 				<div class="developer">
 					<span class="title-detail">Developer: </span><span><?php echo $lasso_url->developer ?></span>
@@ -78,6 +84,12 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 			<?php if (isset($lasso_url->version)) { ?>
 				<div class="version">
 					<span class="title-detail">Version: </span><span><?php echo $lasso_url->version ?></span>
+				</div>
+			<?php } ?>
+
+			<?php if (isset($lasso_url->updated_on)) { ?>
+				<div class="updated-on">
+					<span class="title-detail">Updated on: </span><span><?php echo $lasso_url->updated_on ?></span>
 				</div>
 			<?php } ?>
 
