@@ -8,11 +8,6 @@
  Tags:         light, two-columns, right-sidebar, responsive-layout, accessibility-ready
 */
 
-body,
-* {
-  font-family: "Poppins", sans-serif !important;
-}
-
 a,
 abbr,
 acronym,
@@ -1808,12 +1803,16 @@ ul li i:after {
 }
 
 .box-header .bg::before {
-  width: 150px;
+  width: 100px;
   height: 100px;
-  background-color: #c00;
+  background-color: #fff;
   border-radius: 0 100px 0 0;
   left: 0;
   top: 0;
+}
+
+.padding-20 {
+  padding: 20px;
 }
 
 @media screen and (min-width: 1088px) {

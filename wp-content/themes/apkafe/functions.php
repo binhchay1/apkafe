@@ -349,6 +349,17 @@ function ia_get_attachment_id_from_url($attachment_url = '')
 	return $attachment_id;
 }
 
+add_filter('get_search_form', function ($form) {
+	$form = '<form role="search" method="post" id="searchform" class="searchform" action="' . home_url('/search/') . '" >
+	  <div class="custom-form"><label class="screen-reader-text" for="s">' . __('Search:') . '</label>
+	  <input type="text" value="' . get_search_query() . '" name="s" id="s" />
+	  <input type="submit" id="searchsubmit" value="' . esc_attr__('Search') . '" />
+	</div>
+	</form>';
+
+	return $form;
+}, 40);
+
 function create_meta_boxes_faq()
 {
 	add_meta_box('faq-meta-boxes', 'FAQ', 'faq_meta_boxes_callback', 'post');

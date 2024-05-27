@@ -72,20 +72,19 @@ $total_page_news = $get_post->max_num_pages;
     ?>
     <div class="content-pad-4x">
         <div class="row">
-            <div id="content" class="<?php if ($layout != 'full' && $layout != 'true-full') { ?> col-md-9 <?php } else { ?>col-md-12 <?php }
-                                                                                                                                    if ($layout == 'left') { ?> revert-layout <?php } ?>">
+            <div id="content">
                 <?php
                 if (class_exists('WCV_Vendor_Shop')) {
                     WCV_Vendor_Shop::shop_description();
                 } ?>
 
-                <div>
+                <div class="padding-20">
                     <?php if ($getH1 != '') { ?>
                         <h1><?php echo $getH1 ?></h1>
                     <?php } ?>
                 </div>
 
-                <div>
+                <div class="padding-20">
                     <?php if ($description != '') { ?>
                         <?php echo $description ?>
                     <?php } ?>

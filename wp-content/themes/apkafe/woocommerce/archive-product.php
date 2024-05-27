@@ -86,20 +86,21 @@ get_header('shop'); ?>
 		<div class="content-pad-4x">
 		<?php } ?>
 		<div class="row">
-			<div id="content" class="<?php if ($layout != 'full' && $layout != 'true-full') { ?> col-md-9 <?php } else { ?>col-md-12 <?php }
-																																	if ($layout == 'left') { ?> revert-layout <?php } ?>">
+			<div id="content">
 				<?php
 				if (class_exists('WCV_Vendor_Shop')) {
 					WCV_Vendor_Shop::shop_description();
 				} ?>
 
-				<div>
+				<div class="padding-20">
 					<?php if ($getH1 != '') { ?>
 						<h1><?php echo $getH1 ?></h1>
 					<?php } ?>
 				</div>
 
-				<?php do_action('woocommerce_archive_description'); ?>
+				<div class="padding-20">
+					<?php do_action('woocommerce_archive_description'); ?>
+				</div>
 
 				<ul class="sort-controls" id="section-tab-filter">
 					<li class="active" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'news')">
@@ -116,7 +117,7 @@ get_header('shop'); ?>
 				<div id="news">
 					<?php
 					if (have_posts()) {
-						
+
 						woocommerce_product_loop_start();
 
 						if (wc_get_loop_prop('total')) {
@@ -158,10 +159,12 @@ get_header('shop'); ?>
 								'post__in' => $listPostHot,
 								'posts_per_page' => 16,
 								'paged' => $current_page_hot,
-								'post_status' => 'published',
+                                'post_status' => 'published',
+                                'post_type' => 'product',
 							);
-							$res =  new WP_Query($args); ?>
-							<ul>
+							$res =  new WP_Query($args);
+							$total_page_hot = $res->max_num_pages; ?>
+							<ul class="ul-list-in-archive">
 								<?php if ($res->have_posts()) { ?>
 									<?php foreach ($res->posts as $post) { ?>
 										<li <?php post_class(); ?>>
@@ -233,10 +236,11 @@ get_header('shop'); ?>
 								'posts_per_page' => 16,
 								'paged' => $current_page_popular,
 								'post_status' => 'published',
-								'post_type' => 'any',
+								'post_type' => 'product',
 							);
-							$res =  new WP_Query($args); ?>
-							<ul>
+							$res =  new WP_Query($args);
+							$total_page_popular = $res->max_num_pages; ?>
+							<ul class="ul-list-in-archive">
 								<?php if ($res->have_posts()) { ?>
 									<?php foreach ($res->get_posts() as $post) { ?>
 										<?php die(); ?>

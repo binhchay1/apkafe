@@ -4,6 +4,7 @@ $get_post = new WP_Query(array(
     'posts_per_page' => 24,
     'orderby'     => 'modified',
     'order'       => 'DESC',
+    'post_type' => 'any'
 ));
 
 $checkCategoryBlog = category_exists('Blog');
@@ -26,7 +27,11 @@ get_header();
                     <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
                         <?php echo get_the_post_thumbnail($post->ID) ?>
                         <p class="title"><?php echo get_the_title($post->ID) ?></p>
-                        <p class="category"><?php echo get_the_category($post->ID)[0]->name ?></p>
+                        <?php if (!empty(get_the_category($post->ID))) { ?>
+                            <p class="category"><?php echo get_the_category($post->ID)[0]->name ?></p>
+                        <?php } else { ?>
+                            <p class="category"><?php echo get_the_terms($post->ID, 'product_cat')[0]->name ?></p>
+                        <?php } ?>
                     </a>
                 <?php } ?>
             </div>
@@ -112,7 +117,7 @@ get_header();
 
         <?php if ($checkCategoryTipsAndroid != '') { ?>
             <?php $getSectionTipsAndroid = ot_get_option('section_tips_and_android');
-            
+
             $listSectionTipsAndroid = explode(',', $getSectionTipsAndroid);
             ?>
             <div class="widget">
@@ -159,7 +164,6 @@ get_header();
                     </div>
                 </div>
             </div>
-
         <?php } ?>
 
         <?php if ($checkCategoryNewsTech != '') { ?>

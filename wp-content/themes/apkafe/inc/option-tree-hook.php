@@ -3,7 +3,6 @@ add_action('admin_init', 'custom_theme_options');
 function custom_theme_options()
 {
   $saved_settings = get_option('option_tree_settings', array());
-  $theme_uri = get_template_directory_uri();
   $custom_settings = array(
     'contextual_help' => array(
       'sidebar'       => ''

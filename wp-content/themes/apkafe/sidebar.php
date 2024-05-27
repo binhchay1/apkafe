@@ -49,6 +49,13 @@
 		<div class="clear"></div>
 	</div>
 
+	<?php
+
+	global $wpdb;
+	$table_name = $wpdb->prefix . 'trending_search';
+	$resultsTrending = $wpdb->get_results("SELECT * FROM $table_name");
+	?>
+
 	<div class="widget">
 		<h2 class="widget_head">Trending search</h2>
 		<div class="side_cat_list_wrap">
@@ -66,7 +73,9 @@
 				</form>
 				<div class="trending-title">Trending Searches</div>
 				<div class="trending-content">
-					<a href="https://apkafe.com/product/how-to-download-mcpe-minecraft-mods-apk/" title="mcpe minecraft mods" class="hot">mcpe minecraft mods</a>
+					<?php foreach ($resultsTrending as $trending) { ?>
+						<a href="<?php echo $trending->url ?>" title="<?php echo $trending->title ?>" class="hot"><?php echo $trending->title ?></a>
+					<?php } ?>
 				</div>
 			</div>
 		</div>
