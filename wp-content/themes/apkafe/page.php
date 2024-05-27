@@ -84,7 +84,8 @@ get_header();
                                 <?php $postIDBlog = url_to_postid($sectionBlog);
                                 $getPostBlog = get_post($postIDBlog);
                                 $postThumbnailBlogUrl = get_the_post_thumbnail_url($postIDBlog);
-                                $shortDescriptionBlog = get_post_meta($postIDBlog, 'short_description');
+                                $shortDescriptionBlog = get_post_meta($postIDBlog, '_yoast_wpseo_metadesc');
+                                var_dump($shortDescriptionBlog);
                                 ?>
                                 <li>
                                     <a class="blog" href="<?php echo $sectionBlog ?>" title="<?php echo $getPostBlog->post_title ?>">

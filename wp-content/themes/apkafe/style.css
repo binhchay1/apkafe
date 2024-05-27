@@ -1959,6 +1959,11 @@ ul li i:after {
   color: white;
 }
 
+.sort-controls li a {
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .display-block {
   display: block;
 }
@@ -2152,5 +2157,9 @@ ul li i:after {
   .ul-list-in-archive img {
     width: 100% !important;
     height: auto;
+  }
+  
+  .btn-fa-angle {
+    margin-top: -3px !important;
   }
 }
