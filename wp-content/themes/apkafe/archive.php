@@ -116,13 +116,12 @@ $total_page_news = $get_post->max_num_pages;
 
                     <div class="d-flex justify-center margin-top-15">
                         <?php echo paginate_links(array(
-                            'base' => get_pagenum_link(1) . '%_%',
-                            'format' => 'page/%#%?news_page=%#%',
+                            'format' => '?news_page=%#%',
                             'current' => $current_page_news,
                             'total' => $total_page_news,
                             'prev_text' => __('←'),
                             'next_text' => __('→'),
-                            'type' => 'list'
+                            'type' => 'list',
                         )); ?>
                     </div>
                 </div>
@@ -169,8 +168,7 @@ $total_page_news = $get_post->max_num_pages;
 
                             <div class="d-flex justify-center margin-top-15">
                                 <?php echo paginate_links(array(
-                                    'base' => get_pagenum_link(1) . '%_%',
-                                    'format' => 'page/%#%?hot_page=%#%',
+                                    'format' => '?hot_page=%#%',
                                     'current' => $current_page_hot,
                                     'total' => $total_page_hot,
                                     'type' => 'list',
@@ -221,8 +219,7 @@ $total_page_news = $get_post->max_num_pages;
                         </div>
                         <div class="d-flex justify-center margin-top-15">
                             <?php echo paginate_links(array(
-                                'base' => get_pagenum_link(1) . '%_%',
-                                'format' => '/page/%#%?popular_page=%#%',
+                                'format' => '?popular_page=%#%',
                                 'current' => $current_page_popular,
                                 'total' => $total_page_popular,
                                 'type' => 'list',
