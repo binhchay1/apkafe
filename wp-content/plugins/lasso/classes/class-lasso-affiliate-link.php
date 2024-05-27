@@ -1409,10 +1409,10 @@ class Lasso_Affiliate_Link
 				'second_btn_url'         => $post_data['second_btn_url'] ?? $lasso_url->display->secondary_url,
 				'second_btn_text'        => $post_data['second_btn_text'] ?? $lasso_url->display->secondary_button_text,
 
-				'third_btn_url'        	 => $post_data['open_new_tab_apple'] ?? '',
-				'third_btn_text'         => $post_data['open_new_tab_apple'] ?? '',
-				'fourth_btn_url'         => $post_data['open_new_tab_apple'] ?? '',
-				'fourth_btn_text'        => $post_data['open_new_tab_apple'] ?? '',
+				'third_btn_url'        	 => $post_data['third_btn_url'] ?? '',
+				'third_btn_text'         => $post_data['third_btn_text'] ?? '',
+				'fourth_btn_url'         => $post_data['fourth_btn_url'] ?? '',
+				'fourth_btn_text'        => $post_data['fourth_btn_text'] ?? '',
 
 				'show_price'             => $post_data['show_price'] ?? $lasso_url->display->show_price,
 				'show_disclosure'        => $post_data['show_disclosure'] ?? $lasso_url->display->show_disclosure,

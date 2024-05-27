@@ -1,4 +1,4 @@
-/*! elementor - v3.21.0 - 22-05-2024 */
+/*! elementor - v3.21.0 - 26-05-2024 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -5992,16 +5992,15 @@ var GetStarted = function GetStarted(_ref) {
     direction: "row",
     gap: 1.5,
     alignItems: "flex-start"
-  }, /*#__PURE__*/_react.default.createElement(_ui.InputLabel, {
+  }, /*#__PURE__*/_react.default.createElement(_ui.Checkbox, {
+    id: "e-ai-terms-approval",
+    color: "secondary",
+    checked: isTermsChecked,
     onClick: function onClick() {
       return setIsTermsChecked(function (prevState) {
         return !prevState;
       });
     }
-  }, /*#__PURE__*/_react.default.createElement(_ui.Checkbox, {
-    id: "e-ai-terms-approval",
-    color: "secondary",
-    checked: isTermsChecked
   }), /*#__PURE__*/_react.default.createElement(_ui.Stack, null, /*#__PURE__*/_react.default.createElement(_ui.Typography, {
     variant: "caption",
     sx: {
@@ -6017,7 +6016,7 @@ var GetStarted = function GetStarted(_ref) {
     href: "https://go.elementor.com/ai-privacy-policy/",
     target: "_blank",
     color: "info.main"
-  }, (0, _i18n.__)('Privacy Policy', 'elementor')), (0, _i18n.__)(' of the Elementor AI service.', 'elementor'), /*#__PURE__*/_react.default.createElement("br", null), (0, _i18n.__)('This includes consenting to the collection and use of data to improve user experience.', 'elementor'))))), /*#__PURE__*/_react.default.createElement(_ui.Button, {
+  }, (0, _i18n.__)('Privacy Policy', 'elementor')), (0, _i18n.__)(' of the Elementor AI service.', 'elementor'), /*#__PURE__*/_react.default.createElement("br", null), (0, _i18n.__)('This includes consenting to the collection and use of data to improve user experience.', 'elementor')))), /*#__PURE__*/_react.default.createElement(_ui.Button, {
     disabled: !isTermsChecked,
     variant: "contained",
     onClick: onGetStartedClick,
