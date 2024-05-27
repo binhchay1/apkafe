@@ -679,15 +679,15 @@ ul.bread_crumb li a {
   font-size: 12px;
   line-height: 30px;
   display: block;
-  color: #101010;
+  color: #fff;
 }
 
 ul.bread_crumb li a:hover {
-  color: #00a6ed;
+  color: #00a6ed !important;
 }
 
 ul.bread_crumb li a.active {
-  color: #24cd77;
+  color: #fff;
 }
 
 @media (max-width: 767px) {
@@ -990,15 +990,14 @@ footer .footer_main .ftr_social_box a:hover {
 }
 
 .widget .widget_head {
-  background: #fbfbfb;
+  background: #22baa0 !important;
   border-bottom: 1px solid #e8e8e8;
-  color: #666;
   padding: 10px;
   font-weight: 400;
   position: relative;
   margin-bottom: 0;
   font-size: 16px;
-  color: #888;
+  color: white;
 }
 
 .side_list_item {
@@ -1599,15 +1598,16 @@ ul.pagination > .active > span:hover {
 
 #breadcrumbs {
   width: 830px;
-  background: #fbfbfb;
-  color: #666;
+  color: #fff;
   position: relative;
   margin-bottom: 0;
-  color: #888;
+  background-color: #22baa0;
+  padding: 15px !important;
 }
 
 #breadcrumbs a {
   font-size: 16px;
+  color: #fff;
 }
 
 #faq {
@@ -1762,7 +1762,7 @@ ul li i:after {
 }
 
 .box-header .bg {
-  background-color: #000;
+  background-color: #22baa0 !important;
   position: relative;
   padding: 10px 16px;
   color: #fff;
@@ -1953,7 +1953,11 @@ ul li i:after {
 }
 
 .sort-controls .active {
-  background-color: black;
+  background-color: #22baa0;
+}
+
+.sort-controls .active a {
+  color: white;
 }
 
 .display-block {
@@ -1969,6 +1973,13 @@ ul li i:after {
   padding: 0;
   position: relative;
   width: 30%;
+}
+
+#news,
+#hot,
+#popular {
+  display: flex;
+  flex-direction: column;
 }
 
 .ul-list-in-archive::before {
@@ -2066,6 +2077,56 @@ ul li i:after {
 
 .social_sharer {
   margin-top: 40px;
+}
+
+.search-box .trending-content .hot {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 16px;
+  color: #777;
+  background: #f2f5f9;
+  cursor: pointer;
+}
+
+.search-box .trending-content {
+  width: 100%;
+  margin-top: 14px;
+  height: 96px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  column-gap: 8px;
+  row-gap: 12px;
+  align-content: start;
+}
+
+.search-box form .text-box input {
+  display: inline-block;
+  width: 140%;
+  height: 34px;
+  border-start-start-radius: 3px;
+  border-end-start-radius: 3px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  border: none;
+}
+
+.search-box form .text-box {
+  width: calc(100% - 56px);
+  display: inline-block;
+  vertical-align: super;
+}
+
+.search-box form {
+  width: 100%;
+  padding: 2px;
+  background-color: #24cd77;
+  border-radius: 5px;
+}
+
+.index_r_s {
+  padding: 10px;
 }
 
 @media screen and (max-width: 992px) {

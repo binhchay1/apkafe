@@ -47,43 +47,7 @@ if (isset($getPaginationNews)) {
 }
 
 get_header('shop'); ?>
-<style>
-	.sort-controls {
-		display: flex;
-		margin: 20px;
-	}
 
-	.sort-controls li {
-		background-color: #e4e4e4;
-		padding: 10px 25px;
-		font-size: 18px;
-		color: black;
-		border-radius: 10px;
-	}
-
-	.sort-controls li:not(:first-child) {
-		margin-left: 15px;
-	}
-
-	.sort-controls .active {
-		background-color: black;
-	}
-
-	.display-block {
-		display: block;
-	}
-
-	.display-none {
-		display: none;
-	}
-
-	#news,
-	#hot,
-	#popular {
-		display: flex;
-		flex-direction: column;
-	}
-</style>
 <div class="container">
 	<?php
 	function get_all_terms($ter, $breadcrumb, $listTermShift)
