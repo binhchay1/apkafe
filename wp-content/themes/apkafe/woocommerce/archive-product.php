@@ -115,25 +115,39 @@ get_header('shop'); ?>
 				</ul>
 
 				<div id="news">
-					<?php
-					if (have_posts()) {
+					<?php $args = array(
+						'posts_per_page' => 15,
+						'paged' => $current_page_news,
+						'post_status' => 'published',
+						'post_type' => 'product',
+					);
+					$res =  new WP_Query($args);
+					$total_page_news = $res->max_num_pages; ?>
+					<div class="main_list_item">
+						<?php if ($res->have_posts()) { ?>
+							<?php foreach ($res->posts as $post) { ?>
+								<?php
+								$icon = get_post_meta($post->ID, 'app-icon', true);
+								?>
+								<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
+									<img src="<?php echo esc_url($icon); ?>">
+									<p class="title"><?php echo $post->post_title ?></p>
+								</a>
+							<?php } ?>
+						<?php } ?>
+					</div>
 
-						woocommerce_product_loop_start();
-
-						if (wc_get_loop_prop('total')) {
-							while (have_posts()) {
-								the_post();
-								do_action('woocommerce_shop_loop');
-								wc_get_template_part('content', 'product');
-							}
-						}
-
-						woocommerce_product_loop_end();
-						do_action('woocommerce_after_shop_loop');
-					} else {
-						do_action('woocommerce_no_products_found');
-					}
-					?>
+					<div class="d-flex justify-center margin-top-15">
+						<?php echo paginate_links(array(
+							'base' => get_pagenum_link(1) . '%_%',
+							'format' => 'page/%#%?news_page=%#%',
+							'current' => $current_page_news,
+							'total' => $total_page_news,
+							'type' => 'list',
+							'prev_text' => __('←'),
+							'next_text' => __('→'),
+						)); ?>
+					</div>
 				</div>
 
 				<div id="hot">
@@ -157,47 +171,28 @@ get_header('shop'); ?>
 
 							$args = array(
 								'post__in' => $listPostHot,
-								'posts_per_page' => 16,
+								'posts_per_page' => 15,
 								'paged' => $current_page_hot,
-                                'post_status' => 'published',
-                                'post_type' => 'product',
+								'post_status' => 'published',
+								'post_type' => 'product',
 							);
 							$res =  new WP_Query($args);
 							$total_page_hot = $res->max_num_pages; ?>
-							<ul class="ul-list-in-archive">
+							<div class="main_list_item">
 								<?php if ($res->have_posts()) { ?>
 									<?php foreach ($res->posts as $post) { ?>
-										<li <?php post_class(); ?>>
-											<?php do_action('woocommerce_before_shop_loop_item'); ?>
-											<?php
-											$icon = get_post_meta($post->ID, 'app-icon', true);
-											?>
-											<div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
-												<?php if ($icon) {
-													if ($icon_id = ia_get_attachment_id_from_url($icon)) {
-														$thumbnail = wp_get_attachment_image_src($icon_id, 'thumbnail', true);
-														$icon = isset($thumbnail[0]) ? $thumbnail[0] : $icon;
-													}
-												?>
-													<div class="app-icon">
-														<a href="<?php the_permalink($post->ID) ?>" title="<?php $post->post_title ?>">
-															<img src="<?php echo esc_url($icon); ?>" alt="<?php $post->post_title ?>" />
-														</a>
-													</div>
-												<?php } ?>
-												<p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php $post->post_title ?>" class="main-color-1-hover"><?php $post->post_title ?></a></p>
-												<?php
-
-												do_action('woocommerce_after_shop_loop_item_title');
-												?>
-											</div>
-											<?php do_action('woocommerce_after_shop_loop_item'); ?>
-										</li>
+										<?php
+										$icon = get_post_meta($post->ID, 'app-icon', true);
+										?>
+										<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
+											<img src="<?php echo esc_url($icon); ?>">
+											<p class="title"><?php echo $post->post_title ?></p>
+										</a>
 									<?php } ?>
 								<?php } ?>
-							</ul>
+							</div>
 
-							<div>
+							<div class="d-flex justify-center margin-top-15">
 								<?php echo paginate_links(array(
 									'base' => get_pagenum_link(1) . '%_%',
 									'format' => 'page/%#%?hot_page=%#%',
@@ -240,39 +235,20 @@ get_header('shop'); ?>
 							);
 							$res =  new WP_Query($args);
 							$total_page_popular = $res->max_num_pages; ?>
-							<ul class="ul-list-in-archive">
+							<div class="main_list_item">
 								<?php if ($res->have_posts()) { ?>
 									<?php foreach ($res->get_posts() as $post) { ?>
-										<?php die(); ?>
-										<li <?php post_class(); ?>>
-											<?php do_action('woocommerce_before_shop_loop_item'); ?>
-											<?php
-											$icon = get_post_meta(get_the_ID(), 'app-icon', true);
-											?>
-											<div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
-												<?php if ($icon) {
-													if ($icon_id = ia_get_attachment_id_from_url($icon)) {
-														$thumbnail = wp_get_attachment_image_src($icon_id, 'thumbnail', true);
-														$icon = isset($thumbnail[0]) ? $thumbnail[0] : $icon;
-													}
-												?>
-													<div class="app-icon">
-														<a href="<?php the_permalink(get_the_ID()) ?>" title="<?php the_title_attribute() ?>">
-															<img src="<?php echo esc_url($icon); ?>" alt="<?php the_title_attribute(); ?>" />
-														</a>
-													</div>
-												<?php } ?>
-												<p class="product-title"><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute() ?>" class="main-color-1-hover"><?php the_title(); ?></a></p>
-												<?php
-												do_action('woocommerce_after_shop_loop_item_title');
-												?>
-											</div>
-											<?php do_action('woocommerce_after_shop_loop_item'); ?>
-										</li>
+										<?php
+										$icon = get_post_meta($post->ID, 'app-icon', true);
+										?>
+										<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
+											<img src="<?php echo esc_url($icon); ?>">
+											<p class="title"><?php echo $post->post_title ?></p>
+										</a>
 									<?php } ?>
 								<?php } ?>
-							</ul>
-							<div>
+							</div>
+							<div class="d-flex justify-center margin-top-15">
 								<?php echo paginate_links(array(
 									'base' => get_pagenum_link(1) . '%_%',
 									'format' => '/page/%#%?popular_page=%#%',

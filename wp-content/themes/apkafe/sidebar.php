@@ -1,4 +1,37 @@
 <div class="side_bar">
+	<?php
+
+	global $wpdb;
+	$table_name = $wpdb->prefix . 'trending_search';
+	$resultsTrending = $wpdb->get_results("SELECT * FROM $table_name");
+	?>
+
+	<div class="widget">
+		<h2 class="widget_head">Trending search</h2>
+		<div class="side_cat_list_wrap">
+			<div class="search-box index_r_s">
+				<form action="/search/" method="post" class="formsearch"><span class="text-box"><span class="twitter-typeahead" style="position: relative; display: inline-block;">
+							<input class="autocomplete main-autocomplete tt-hint" autocomplete="off" title="Enter App Name, Package Name, Package ID" type="text" readonly="" spellcheck="false" tabindex="-1" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);">
+							<input class="autocomplete main-autocomplete tt-input" autocomplete="off" title="Enter App Name, Package Name, Package ID" name="s" type="text" placeholder="Apkafe" spellcheck="false" style="position: relative; vertical-align: top; background-color: transparent;">
+						</span>
+					</span>
+					<span class="text-btn d-flex-justify-center" title="Search APK">
+						<button type="submit" style="background: none; border: none; margin-left: 13px;">
+							<i class="fa fa-search"></i>
+						</button>
+					</span>
+				</form>
+				<div class="trending-title">Trending Searches</div>
+				<div class="trending-content">
+					<?php foreach ($resultsTrending as $trending) { ?>
+						<a href="<?php echo $trending->url ?>" title="<?php echo $trending->title ?>" class="hot"><?php echo $trending->title ?></a>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	
 	<div class="clear"></div>
 	<div class="widget">
 		<h2 class="widget_head">Games</h2>
@@ -45,39 +78,6 @@
 					<?php } ?>
 				<?php } ?>
 			<?php } ?>
-		</div>
-		<div class="clear"></div>
-	</div>
-
-	<?php
-
-	global $wpdb;
-	$table_name = $wpdb->prefix . 'trending_search';
-	$resultsTrending = $wpdb->get_results("SELECT * FROM $table_name");
-	?>
-
-	<div class="widget">
-		<h2 class="widget_head">Trending search</h2>
-		<div class="side_cat_list_wrap">
-			<div class="search-box index_r_s">
-				<form action="/search/" method="post" class="formsearch"><span class="text-box"><span class="twitter-typeahead" style="position: relative; display: inline-block;">
-							<input class="autocomplete main-autocomplete tt-hint" autocomplete="off" title="Enter App Name, Package Name, Package ID" type="text" readonly="" spellcheck="false" tabindex="-1" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);">
-							<input class="autocomplete main-autocomplete tt-input" autocomplete="off" title="Enter App Name, Package Name, Package ID" name="s" type="text" placeholder="Apkafe" spellcheck="false" style="position: relative; vertical-align: top; background-color: transparent;">
-						</span>
-					</span>
-					<span class="text-btn d-flex-justify-center" title="Search APK">
-						<button type="submit" style="background: none; border: none; margin-left: 13px;">
-							<i class="fa fa-search"></i>
-						</button>
-					</span>
-				</form>
-				<div class="trending-title">Trending Searches</div>
-				<div class="trending-content">
-					<?php foreach ($resultsTrending as $trending) { ?>
-						<a href="<?php echo $trending->url ?>" title="<?php echo $trending->title ?>" class="hot"><?php echo $trending->title ?></a>
-					<?php } ?>
-				</div>
-			</div>
 		</div>
 		<div class="clear"></div>
 	</div>

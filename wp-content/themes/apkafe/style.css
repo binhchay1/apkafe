@@ -988,10 +988,10 @@ footer .footer_main .ftr_social_box a:hover {
   background: #22baa0 !important;
   border-bottom: 1px solid #e8e8e8;
   padding: 10px;
-  font-weight: 400;
+  font-weight: bold;
   position: relative;
   margin-bottom: 0;
-  font-size: 16px;
+  font-size: 20px;
   color: white;
 }
 
@@ -2126,6 +2126,14 @@ ul li i:after {
 
 .index_r_s {
   padding: 10px;
+}
+
+.main-color-1-hover {
+  color: black;
+}
+
+.margin-top-15 {
+  margin-top: 15px;
 }
 
 @media screen and (max-width: 992px) {

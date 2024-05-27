@@ -31,7 +31,7 @@ if (isset($getPaginationNews)) {
     $current_page_news = 1;
 }
 
-$args = array('cat' => $category_id, 'orderby' => 'modified', 'order' => 'DESC', 'posts_per_page' => 16, 'post_status' => 'publish', 'paged' => $current_page_news, 'post_type' => 'post');
+$args = array('cat' => $category_id, 'orderby' => 'modified', 'order' => 'DESC', 'posts_per_page' => 15, 'post_status' => 'publish', 'paged' => $current_page_news, 'post_type' => 'post');
 $get_post = new WP_Query($args);
 $total_page_news = $get_post->max_num_pages;
 ?>
@@ -103,27 +103,18 @@ $total_page_news = $get_post->max_num_pages;
                 </ul>
 
                 <div id="news">
-                    <ul class="ul-list-in-archive">
+                    <div class="main_list_item">
                         <?php if ($get_post->have_posts()) { ?>
                             <?php foreach ($get_post->posts as $post) { ?>
-                                <li <?php post_class(); ?>>
-                                    <?php
-                                    $icon = get_the_post_thumbnail_url($post->ID);
-                                    ?>
-                                    <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
-                                        <div class="app-icon">
-                                            <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
-                                                <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="240" height="135" />
-                                            </a>
-                                        </div>
-                                        <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
-                                    </div>
-                                </li>
+                                <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
+                                    <?php echo get_the_post_thumbnail($post->ID) ?>
+                                    <p class="title"><?php echo get_the_title($post->ID) ?></p>
+                                </a>
                             <?php } ?>
                         <?php } ?>
-                    </ul>
+                    </div>
 
-                    <div class="d-flex justify-center">
+                    <div class="d-flex justify-center margin-top-15">
                         <?php echo paginate_links(array(
                             'base' => get_pagenum_link(1) . '%_%',
                             'format' => 'page/%#%?news_page=%#%',
@@ -158,34 +149,25 @@ $total_page_news = $get_post->max_num_pages;
 
                             $args = array(
                                 'post__in' => $listPostHot,
-                                'posts_per_page' => 16,
+                                'posts_per_page' => 15,
                                 'paged' => $current_page_hot,
                                 'post_status' => 'published',
                                 'post_type' => 'post',
                             );
                             $res =  new WP_Query($args);
                             $total_page_hot = $res->max_num_pages; ?>
-                            <ul class="ul-list-in-archive">
+                            <div class="main_list_item">
                                 <?php if ($res->have_posts()) { ?>
                                     <?php foreach ($res->posts as $post) { ?>
-                                        <li <?php post_class(); ?>>
-                                            <?php
-                                            $icon = get_the_post_thumbnail_url($post->ID);
-                                            ?>
-                                            <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
-                                                <div class="app-icon">
-                                                    <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
-                                                        <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="240" height="135" />
-                                                    </a>
-                                                </div>
-                                                <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
-                                            </div>
-                                        </li>
+                                        <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
+                                            <?php echo get_the_post_thumbnail($post->ID) ?>
+                                            <p class="title"><?php echo get_the_title($post->ID) ?></p>
+                                        </a>
                                     <?php } ?>
                                 <?php } ?>
-                            </ul>
+                            </div>
 
-                            <div>
+                            <div class="d-flex justify-center margin-top-15">
                                 <?php echo paginate_links(array(
                                     'base' => get_pagenum_link(1) . '%_%',
                                     'format' => 'page/%#%?hot_page=%#%',
@@ -220,33 +202,24 @@ $total_page_news = $get_post->max_num_pages;
 
                         $args = array(
                             'post__in' => $listPostPopular,
-                            'posts_per_page' => 16,
+                            'posts_per_page' => 15,
                             'paged' => $current_page_popular,
                             'post_status' => 'published',
                             'post_type' => 'post',
                         );
                         $res =  new WP_Query($args);
                         $total_page_popular = $res->max_num_pages; ?>
-                        <ul class="ul-list-in-archive">
+                        <div class="main_list_item">
                             <?php if ($res->have_posts()) { ?>
                                 <?php foreach ($res->posts as $post) { ?>
-                                    <li <?php post_class(); ?>>
-                                        <?php
-                                        $icon = get_the_post_thumbnail_url($post->ID);
-                                        ?>
-                                        <div class="item-content <?php if ($icon) { ?> has-icon <?php } ?>">
-                                            <div class="app-icon">
-                                                <a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>">
-                                                    <img src="<?php echo esc_url($icon); ?>" alt="<?php echo $post->post_title ?>" width="240" height="135" />
-                                                </a>
-                                            </div>
-                                            <p class="product-title"><a href="<?php the_permalink($post->ID) ?>" title="<?php echo $post->post_title ?>" class="main-color-1-hover"><?php echo $post->post_title ?></a></p>
-                                        </div>
-                                    </li>
+                                    <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
+                                        <?php echo get_the_post_thumbnail($post->ID) ?>
+                                        <p class="title"><?php echo get_the_title($post->ID) ?></p>
+                                    </a>
                                 <?php } ?>
                             <?php } ?>
-                        </ul>
-                        <div>
+                        </div>
+                        <div class="d-flex justify-center margin-top-15">
                             <?php echo paginate_links(array(
                                 'base' => get_pagenum_link(1) . '%_%',
                                 'format' => '/page/%#%?popular_page=%#%',

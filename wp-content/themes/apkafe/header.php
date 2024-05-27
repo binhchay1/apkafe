@@ -54,6 +54,7 @@
                         </div>
                     </ul>
                 </div>
+                <!--
                 <div class="lang_box">
                     <a onclick="lang_toggler();" href="javascript:void(0);"><img width="20" height="20" id="show_fix_lang_icon" alt="English"><span id="show_fix_lang_short" class="lang_txt">EN</span></a>
                     <div id="lang_box_inner" class="lang_box_inner">
@@ -62,5 +63,6 @@
                         <a lang="th" hreflang="th" href="/th/" class="lang_item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAFWSURBVHjaYvzPgAD/UNlYEUAAisQgBwAQhGGi/pzP8EBvG+BImqbL7pzuUlda9SJ7DMs85NYEBgX5Ir4AYvz/H2QHhIQz/mMDjIyMnz59AgggRkfXjTmZOu/e/fz7D2jH/7///v398+8PkPEHCEHsv3///fn978+/f8JCnGWlWwACiGX/7jOmhiKPHn3+8wck8fvPv9+//wLRr1//wORfOCkvz8fAsAUggIB++AdxJ8iRQNf++f/rF8TZ/4B6fgEZQPIXRAEoLAACCKjhx9+/f/78+f0LaC/YbIjxyGaDSaCFvxgYvgAEEAs3r5qKqhAPLzs4GP4CnQR2G9CMf2A2iPEH7BNJSe5Tp8wAAojx58+fzMzM//79wxU4EACUBYbS27dvAQKI5R87O1NJCQPEjX//MvwGkn8Yf/8GRggCAY0DSgFt2bsXIIAYv6JGJJ44hgCAAAMA8pZimQIezaoAAAAASUVORK5CYII=" title="ไทย" alt="ไทย"><span>ไทย</span></a>
                     </div>
                 </div>
+                -->
             </div>
         </header>
