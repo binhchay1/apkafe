@@ -7,7 +7,7 @@
 	?>
 
 	<div class="widget">
-		<h2 class="widget_head">Trending Searches</h2>
+		<h2 class="widget_head"><i class="fa fa-free-code-camp" style="margin-right: 10px;"></i>Trending Searches</h2>
 		<div class="side_cat_list_wrap">
 			<div class="search-box index_r_s">
 				<form action="/apkafe/search/" method="post" class="formsearch">
@@ -34,7 +34,7 @@
 
 	<div class="clear"></div>
 	<div class="widget">
-		<h2 class="widget_head">Games</h2>
+		<h2 class="widget_head"><i class="fa fa-gamepad" style="margin-right: 10px;"></i>Games</h2>
 		<div class="side_cat_list_wrap">
 			<?php if (ot_get_option('side_bar_game') != '') {  ?>
 				<?php foreach (ot_get_option('side_bar_game') as $cat_id) { ?>
@@ -57,9 +57,9 @@
 		<div class="clear"></div>
 	</div>
 	<div class="clear"></div>
-	<div class="clear"></div>
+
 	<div class="widget">
-		<h2 class="widget_head">Apps</h2>
+		<h2 class="widget_head"><i class="fa fa-mobile-phone" style="margin-right: 10px;"></i>Apps</h2>
 		<div class="side_cat_list_wrap">
 			<?php if (ot_get_option('side_bar_app') != '') {  ?>
 				<?php foreach (ot_get_option('side_bar_app') as $cat_id) { ?>
@@ -83,10 +83,22 @@
 	</div>
 
 	<div class="widget">
-		<h2 class="widget_head">Hot News</h2>
-		<div class="side_cat_list_wrap">
-			
-		</div>
+		<h2 class="widget_head"><i class="fa fa-newspaper-o" style="margin-right: 10px;"></i>Hot News</h2>
+		<?php if (ot_get_option('side_bar_hot_news') != '') { ?>
+			<?php $youtube_embed = ot_get_option('side_bar_hot_news');
+			$explode = explode(',', $youtube_embed);
+			$link_youtube_embed = $explode[0];
+			$auto_play_youtube_embed = $explode[1];
+			$parts = parse_url($link_youtube_embed);
+			parse_str($parts['query'], $query);
+			$v = $query['v'];
+
+			?>
+			<div class="side_cat_list_wrap">
+				<iframe width="100%" src="https://www.youtube.com/embed/<?php echo $v ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+				</iframe>
+			</div>
+		<?php } ?>
 		<div class="clear"></div>
 	</div>
 	<div class="clear"></div>

@@ -199,6 +199,70 @@ if (!function_exists('ot_type_post_list')) {
 	}
 }
 
+function add_custom_option_types_youtube_embed($types)
+{
+	$types['youtube-embed'] = 'Youtube embed';
+
+	return $types;
+}
+add_filter('ot_option_types_array', 'add_custom_option_types_youtube_embed');
+
+if (!function_exists('ot_type_youtube_embed')) {
+
+	function ot_type_youtube_embed($args = array())
+	{
+		extract($args);
+		$has_desc = $field_desc ? true : false;
+		echo '<div class="format-setting type-post-checkbox type-checkbox ' . ($has_desc ? 'has-desc' : 'no-desc') . '">';
+		if ($has_desc) {
+			echo '<div class="description">' . wp_specialchars_decode($field_desc) . '</div>';
+		}
+
+		var_dump($field_value);
+
+		echo '<div class="format-setting-inner" id="' . $field_id . '">';
+		echo '<span><input type="text" id="link-youtube-embed-' . $field_id . '" placeholder="Enter link youtube" onchange="handleChangeLinkYoutubeEmbed()"></span>';
+		echo '<span style="display: flex; justify-content: center; align-items: center;">
+		<input type="checkbox" id="check-box-youtube-embed-' . $field_id . '" onchange="handleChangeCheckboxYoutubeEmbed()">
+		<input type="hidden" id="hidden-input-youtube-embed" name="' . esc_attr($field_name) . '">
+		<p>Auto play</p>
+		</span>';
+		echo '</div></div>';
+
+		echo '<script>
+
+		function handleChangeLinkYoutubeEmbed() {
+			let data_youtube_embed_hidden = "";
+			let checked_youtube_embed = 0;
+			let link_youtube_embed = jQuery("#link-youtube-embed-' . $field_id . '").val();
+			if(jQuery("#check-box-youtube-embed-' . $field_id . '").is(":checked")) {
+				checked_youtube_embed = 1;
+			} else {
+				checked_youtube_embed = 0;
+			}
+
+			data_youtube_embed_hidden = link_youtube_embed + "," + checked_youtube_embed;
+			jQuery("#hidden-input-youtube-embed").val(data_youtube_embed_hidden);
+		}
+
+		function handleChangeCheckboxYoutubeEmbed() {
+			let data_youtube_embed_hidden = "";
+			let checked_youtube_embed = 0;
+			let link_youtube_embed = jQuery("#link-youtube-embed-' . $field_id . '").val();
+			if(jQuery("#check-box-youtube-embed-' . $field_id . '").is(":checked")) {
+				checked_youtube_embed = 1;
+			} else {
+				checked_youtube_embed = 0;
+			}
+
+			data_youtube_embed_hidden = link_youtube_embed + "," + checked_youtube_embed;
+			jQuery("#hidden-input-youtube-embed").val(data_youtube_embed_hidden);
+		}
+		
+		</script>';
+	}
+}
+
 function add_custom_option_types_post_list_section_customize($types)
 {
 	$types['post-list-section-customize'] = 'Post list section customize';
@@ -348,6 +412,6 @@ function title_like_posts_where($where, $wp_query)
 	if ($post_title_like = $wp_query->get('post_title_like')) {
 		$where .= ' AND ' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql($wpdb->esc_like($post_title_like)) . '%\'';
 	}
-	
+
 	return $where;
 }

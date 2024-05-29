@@ -2109,7 +2109,7 @@ ul li i:after {
 
 .search-box form .text-box input {
   display: inline-block;
-  width: 140%;
+  width: 125%;
   height: 34px;
   border-start-start-radius: 3px;
   border-end-start-radius: 3px;
@@ -2282,6 +2282,10 @@ ul li i:after {
   font-size: inherit;
   line-height: 1;
   margin: 10px 0 10px 0;
+}
+
+.side_cat_list_wrap {
+  padding: 15px;
 }
 
 @media screen and (max-width: 992px) {

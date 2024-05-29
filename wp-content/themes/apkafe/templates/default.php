@@ -90,7 +90,6 @@ if (array_key_exists('h1_sapo', $getMeta)) {
         </div>
     </div>
     <div class="clear mb20"></div>
-    <div class="clear mb20"></div>
     <div class="widget">
         <h2 class="widget_head">Recommended for you</h2>
         <div class="main_list_item">
