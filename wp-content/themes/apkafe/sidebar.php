@@ -4,6 +4,15 @@
 	global $wpdb;
 	$table_name = $wpdb->prefix . 'trending_search';
 	$resultsTrending = $wpdb->get_results("SELECT * FROM $table_name");
+
+	$args = array(
+		'post_type' => 'post',
+		'post_status' => 'publish',
+		'posts_per_page' => 5,
+		'orderby' => 'ID',
+		'order' => 'DESC',
+	);
+	$get_post_hot_news = new WP_Query($args);
 	?>
 
 	<div class="widget">
@@ -84,6 +93,29 @@
 
 	<div class="widget">
 		<h2 class="widget_head"><i class="fa fa-newspaper-o" style="margin-right: 10px;"></i>Hot News</h2>
+		<div class="owl-carousel padding-15">
+			<?php foreach ($get_post_hot_news->posts as $post_hot_news) {
+				$short_hot_news = get_post_meta($post_hot_news->ID, '_yoast_wpseo_metadesc'); ?>
+				<a class="blog" href="<?php echo get_permalink($post_hot_news->ID) ?>" title="<?php echo $post_hot_news->post_title ?>">
+					<figure>
+						<img class="thumb" src="<?php echo get_the_post_thumbnail_url($post_hot_news->ID) ?>" alt="<?php echo $post_hot_news->post_title ?>">
+					</figure>
+					<div class="info">
+						<div class="title"><?php echo $post_hot_news->post_title ?></div>
+						<div class="description">
+							<?php if (!empty($short_hot_news)) {
+								echo $short_hot_news[0];
+							} ?>
+						</div>
+					</div>
+				</a>
+			<?php } ?>
+		</div>
+		<div class="clear"></div>
+	</div>
+
+	<div class="widget">
+		<h2 class="widget_head"><i class="fa fa-youtube" style="margin-right: 10px;"></i>Youtube Channels</h2>
 		<?php if (ot_get_option('side_bar_hot_news') != '') { ?>
 			<?php $youtube_embed = ot_get_option('side_bar_hot_news');
 			$explode = explode(',', $youtube_embed);
@@ -95,8 +127,13 @@
 
 			?>
 			<div class="side_cat_list_wrap">
-				<iframe width="100%" src="https://www.youtube.com/embed/<?php echo $v ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-				</iframe>
+				<?php if ($auto_play_youtube_embed == 0) {  ?>
+					<iframe width="100%" src="https://www.youtube.com/embed/<?php echo $v ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+					</iframe>
+				<?php } else { ?>
+					<iframe width="100%" src="https://www.youtube.com/embed/<?php echo $v ?>?autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+					</iframe>
+				<?php } ?>
 			</div>
 		<?php } ?>
 		<div class="clear"></div>

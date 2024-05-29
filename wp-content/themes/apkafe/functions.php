@@ -40,12 +40,15 @@ function apkafe_scripts_styles()
 	 */
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('js', get_template_directory_uri() . '/js/apkafe.js');
+	wp_enqueue_script('owl-carousel-js', get_template_directory_uri() . '/js/owl.carousel.min.js', [], '2.3.4');
 
 	/*
 	 * Loads css
 	 */
 	wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
 	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/css/fa/css/font-awesome.min.css');
+	wp_enqueue_style('owl-carousel', get_template_directory_uri() . '/css/owl.carousel.min.css', [], '2.3.4');
+	wp_enqueue_style('owl-carousel-default', get_template_directory_uri() . '/css/owl.theme.default.min.css', [], '2.3.4');
 
 	if (is_single()) {
 		wp_enqueue_style('single', get_stylesheet_directory_uri() . '/css/single.css');
@@ -218,12 +221,18 @@ if (!function_exists('ot_type_youtube_embed')) {
 			echo '<div class="description">' . wp_specialchars_decode($field_desc) . '</div>';
 		}
 
-		var_dump($field_value);
+		$explode = explode(',', $field_value);
+		$link = '';
+		$checked = 0;
+		if (!empty($explode)) {
+			$link = $explode[0];
+			$checked = $explode[1];
+		}
 
 		echo '<div class="format-setting-inner" id="' . $field_id . '">';
-		echo '<span><input type="text" id="link-youtube-embed-' . $field_id . '" placeholder="Enter link youtube" onchange="handleChangeLinkYoutubeEmbed()"></span>';
+		echo '<span><input value="' . $link . '" type="text" style="width: 50%" id="link-youtube-embed-' . $field_id . '" placeholder="Enter link youtube" onchange="handleChangeLinkYoutubeEmbed()"></span>';
 		echo '<span style="display: flex; justify-content: center; align-items: center;">
-		<input type="checkbox" id="check-box-youtube-embed-' . $field_id . '" onchange="handleChangeCheckboxYoutubeEmbed()">
+		<input type="checkbox" id="check-box-youtube-embed-' . $field_id . '" onchange="handleChangeCheckboxYoutubeEmbed()" ' . ($checked == 1 ? 'checked' : '') . '>
 		<input type="hidden" id="hidden-input-youtube-embed" name="' . esc_attr($field_name) . '">
 		<p>Auto play</p>
 		</span>';
