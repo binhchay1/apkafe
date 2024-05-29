@@ -92,7 +92,6 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  font: inherit;
   vertical-align: baseline;
   outline: 0;
   background: transparent;
@@ -139,6 +138,12 @@ table {
   border-spacing: 0;
 }
 
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 .clear {
   clear: both;
   line-height: 0px;
@@ -167,13 +172,10 @@ table {
 
 body {
   background: #f2f5f9;
-  font: 13px "Open Sans", sans-serif;
   line-height: 22px;
   color: #212529;
   font-weight: 400;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 #main_wrap {
@@ -1075,7 +1077,7 @@ footer .footer_main .ftr_social_box a:hover {
 }
 
 .side_cat_item {
-  width: 50%;
+  width: 100%;
   float: left;
   margin-bottom: 0;
   border: none;
@@ -1084,7 +1086,7 @@ footer .footer_main .ftr_social_box a:hover {
   padding: 5px 0 5px 8px;
   color: #101010;
   white-space: nowrap;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 22px;
 }
 
@@ -1936,7 +1938,7 @@ ul li i:after {
 
 .sort-controls {
   display: flex;
-  margin: 20px;
+  margin: 10px 15px;
 }
 
 .sort-controls li {
@@ -2125,7 +2127,7 @@ ul li i:after {
 .search-box form {
   width: 100%;
   padding: 2px;
-  background-color: #24cd77;
+  background-color: #22baa0;
   border-radius: 5px;
 }
 
@@ -2139,6 +2141,147 @@ ul li i:after {
 
 .margin-top-15 {
   margin-top: 15px;
+}
+
+.trending-title {
+  margin-top: 10px;
+}
+
+.icon-404 {
+  width: 350px;
+  margin: 0 auto;
+}
+
+.btn-back-to-home {
+  z-index: 1;
+  overflow: hidden;
+  background: transparent;
+  position: relative;
+  padding: 8px 50px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1em;
+  letter-spacing: 2px;
+  transition: 0.2s ease;
+  font-weight: bold;
+  margin: 5px 0px;
+  border: 2px solid #22baa0;
+}
+
+.term-description {
+  padding: 20px;
+}
+
+.wp-block-image {
+  padding: 20px;
+}
+
+.nav_new {
+  width: 60%;
+  max-width: 251px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition-duration: 300ms;
+  transition-property: left, right;
+  position: fixed;
+  display: initial;
+  background-color: #fff;
+  top: 0;
+  height: 100%;
+  min-width: 200px;
+  z-index: 10001;
+}
+
+.nav_new .close_item {
+  height: 48px;
+}
+
+.nav_new .item {
+  padding-top: initial;
+  padding-bottom: initial;
+  line-height: 36px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.nav_new .item.nav_home {
+  margin-top: 8px;
+}
+
+.hide-mobile {
+  display: none;
+}
+
+.close_item {
+  border-bottom: 1px solid #22baa0;
+}
+
+.close_item button {
+  background: none;
+  border: none;
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 5px;
+}
+
+#nav_wrap_mobile {
+  border-bottom: 1px solid #22baa0;
+  margin-bottom: 15px;
+}
+
+.main_nav_mobile li {
+  margin-top: 15px;
+  margin-left: 10px;
+}
+
+.main_nav_mobile {
+  margin-bottom: 10px;
+}
+
+.main_nav_mobile li a {
+  color: #000;
+}
+
+.widget_head_mobile {
+  font-size: 19px;
+  margin-left: 10px;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.infor-rating-and-developer {
+  display: flex;
+  flex-direction: column;
+  color: #000;
+}
+
+.infor-rating::before {
+  content: "★★★★★";
+  font-family: Times;
+  letter-spacing: 1px;
+  background: linear-gradient(
+    90deg,
+    #fc0 var(--percent),
+    #e2e2e2 var(--percent)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.infor-rating {
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: inherit;
+  line-height: 1;
+  margin: 10px 0 10px 0;
 }
 
 @media screen and (max-width: 992px) {
@@ -2158,8 +2301,21 @@ ul li i:after {
     width: 100% !important;
     height: auto;
   }
-  
+
   .btn-fa-angle {
     margin-top: -3px !important;
+  }
+
+  .index_r_s {
+    width: 100%;
+  }
+
+  .search-box form .text-box input {
+    width: 100%;
+  }
+
+  .bg {
+    display: flex;
+    justify-content: center;
   }
 }

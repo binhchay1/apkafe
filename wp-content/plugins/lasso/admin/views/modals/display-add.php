@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Modal
  *
@@ -61,15 +62,22 @@ use Lasso\Classes\Launch_Darkly;
 							<h3 class="mb-0">Gallery</h3>
 						</a>
 					</div>
-					
-					<!-- Do not show AI block for Lasso Lean -->
-					<?php if ( ! Launch_Darkly::enable_lasso_lean() ) : ?>
+
 					<div class="col-3">
-						<a id="lasso-ai" class="lasso-display-type hover-gray" data-tab="aitext" data-tab-container="lasso-aitext">
-							<i class="fas fa-microchip fa-7x"></i>
-							<h3 class="mb-0">AI Text</h3>
+						<a id="lasso-remind" class="lasso-display-type hover-gray" data-tab="remind" data-tab-container="lasso-urls">
+							<i class="far fa-sticky-note fa-7x"></i>
+							<h3 class="mb-0">Remind</h3>
 						</a>
 					</div>
+
+					<!-- Do not show AI block for Lasso Lean -->
+					<?php if (!Launch_Darkly::enable_lasso_lean()) : ?>
+						<div class="col-3">
+							<a id="lasso-ai" class="lasso-display-type hover-gray" data-tab="aitext" data-tab-container="lasso-aitext">
+								<i class="fas fa-microchip fa-7x"></i>
+								<h3 class="mb-0">AI Text</h3>
+							</a>
+						</div>
 					<?php endif; ?>
 				</div>
 			</div>
@@ -95,7 +103,9 @@ use Lasso\Classes\Launch_Darkly;
 				<!-- SINGLE URL -->
 				<div class="link_wrapper">
 					<div id="all_links" class="text-break lasso-items">
-						<div class="py-5"><div class="ls-loader"></div></div>
+						<div class="py-5">
+							<div class="ls-loader"></div>
+						</div>
 					</div>
 				</div>
 
@@ -116,7 +126,9 @@ use Lasso\Classes\Launch_Darkly;
 
 				<!-- SINGLE GROUP -->
 				<div id="all_groups" class="text-break py-4 lasso-items">
-					<div class="py-5"><div class="ls-loader"></div></div>
+					<div class="py-5">
+						<div class="ls-loader"></div>
+					</div>
 				</div>
 
 			</div>
@@ -134,7 +146,9 @@ use Lasso\Classes\Launch_Darkly;
 
 				<!-- SINGLE TABLE -->
 				<div id="all_tables" class="text-break py-4 lasso-items">
-					<div class="py-5"><div class="ls-loader"></div></div>
+					<div class="py-5">
+						<div class="ls-loader"></div>
+					</div>
 				</div>
 
 			</div>
@@ -185,12 +199,11 @@ use Lasso\Classes\Launch_Darkly;
 
 <!-- SCRIPTS FOR DEMO ONLY -->
 <script>
-
 	var url_quick_detail_modal = jQuery("#url-quick-detail");
-	var tab                    = 'single';
-	var block_editor           = document.body.classList.contains( 'block-editor-page' );
-	var elementor_editor       = document.body.classList.contains( 'elementor-page' );
-	var quill_lasso_ai_editor  = null;
+	var tab = 'single';
+	var block_editor = document.body.classList.contains('block-editor-page');
+	var elementor_editor = document.body.classList.contains('elementor-page');
+	var quill_lasso_ai_editor = null;
 
 	function add_short_code_single_main(obj) {
 		let link_slug = jQuery(obj).data('link-slug');
@@ -198,9 +211,9 @@ use Lasso\Classes\Launch_Darkly;
 		let shortcode = '[lasso ref="' + link_slug + '" id="' + post_id + '"]';
 
 		try {
-			if ( block_editor ) {
+			if (block_editor) {
 				add_short_code_single_block(shortcode);
-			} else if ( elementor_editor ) {
+			} else if (elementor_editor) {
 				add_short_code_elementor(shortcode);
 			} else {
 				tinymce.activeEditor.execCommand('mceInsertContent', 0, shortcode);
@@ -217,9 +230,9 @@ use Lasso\Classes\Launch_Darkly;
 		let shortcode = '[lasso type="button" ref="' + link_slug + '" id="' + post_id + '"]';
 
 		try {
-			if ( block_editor ) {
+			if (block_editor) {
 				add_short_code_button_block(shortcode);
-			} else if ( elementor_editor ) {
+			} else if (elementor_editor) {
 				add_short_code_elementor(shortcode);
 			} else {
 				tinymce.activeEditor.execCommand('mceInsertContent', 0, shortcode);
@@ -236,9 +249,9 @@ use Lasso\Classes\Launch_Darkly;
 		let shortcode = '[lasso type="image" ref="' + link_slug + '" id="' + post_id + '"]';
 
 		try {
-			if ( block_editor ) {
+			if (block_editor) {
 				add_short_code_image_block(shortcode);
-			} else if ( elementor_editor ) {
+			} else if (elementor_editor) {
 				add_short_code_elementor(shortcode);
 			} else {
 				tinymce.activeEditor.execCommand('mceInsertContent', 0, shortcode);
@@ -254,9 +267,9 @@ use Lasso\Classes\Launch_Darkly;
 		let shortcode = '[lasso type="grid" category="' + category_slug + '"]';
 
 		try {
-			if ( block_editor ) {
+			if (block_editor) {
 				add_short_code_grid_block(shortcode);
-			} else if ( elementor_editor ) {
+			} else if (elementor_editor) {
 				add_short_code_elementor(shortcode);
 			} else {
 				tinymce.activeEditor.execCommand('mceInsertContent', 0, shortcode);
@@ -272,9 +285,9 @@ use Lasso\Classes\Launch_Darkly;
 		let shortcode = '[lasso type="list" category="' + category_slug + '"]';
 
 		try {
-			if ( block_editor ) {
+			if (block_editor) {
 				add_short_code_list_block(shortcode);
-			} else if ( elementor_editor ) {
+			} else if (elementor_editor) {
 				add_short_code_elementor(shortcode);
 			} else {
 				tinymce.activeEditor.execCommand('mceInsertContent', 0, shortcode);
@@ -290,9 +303,28 @@ use Lasso\Classes\Launch_Darkly;
 		let shortcode = '[lasso type="gallery" category="' + category_slug + '"]';
 
 		try {
-			if ( block_editor ) {
+			if (block_editor) {
 				add_short_code_gallery_block(shortcode);
-			} else if ( elementor_editor ) {
+			} else if (elementor_editor) {
+				add_short_code_elementor(shortcode);
+			} else {
+				tinymce.activeEditor.execCommand('mceInsertContent', 0, shortcode);
+				after_insert_shortcode_to_post_content(shortcode);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	function add_short_code_remind_main(obj) {
+		let link_slug = jQuery(obj).data('link-slug');
+		let post_id = jQuery(obj).data('post-id');
+		let shortcode = '[lasso type="remind" ref="' + link_slug + '" id="' + post_id + '"]';
+
+		try {
+			if (block_editor) {
+				add_short_code_single_block(shortcode);
+			} else if (elementor_editor) {
 				add_short_code_elementor(shortcode);
 			} else {
 				tinymce.activeEditor.execCommand('mceInsertContent', 0, shortcode);
@@ -308,9 +340,9 @@ use Lasso\Classes\Launch_Darkly;
 		let shortcode = '[lasso type="table" id="' + table_id + '"]';
 
 		try {
-			if ( block_editor ) {
+			if (block_editor) {
 				add_short_code_table_block(shortcode);
-			} else if ( elementor_editor ) {
+			} else if (elementor_editor) {
 				add_short_code_elementor(shortcode);
 			} else {
 				tinymce.activeEditor.execCommand('mceInsertContent', 0, shortcode);
@@ -340,11 +372,11 @@ use Lasso\Classes\Launch_Darkly;
 			}
 		}).done(function(res) {
 			btn_add.html('<i class="far fa-plus-circle" aria-hidden="true"></i>Add')
-			let shortcode = '[lasso prompt="'+prompt+'"]';
+			let shortcode = '[lasso prompt="' + prompt + '"]';
 			try {
-				if ( block_editor ) {
+				if (block_editor) {
 					add_short_code_aitext_block(shortcode);
-				} else if ( elementor_editor ) {
+				} else if (elementor_editor) {
 					add_short_code_elementor(shortcode);
 				} else {
 					tinymce.activeEditor.execCommand('mceInsertContent', 0, shortcode);
@@ -356,9 +388,9 @@ use Lasso\Classes\Launch_Darkly;
 		})
 	}
 
-	function get_response_from_prompt( is_click_edit_display_btn = false ) {
+	function get_response_from_prompt(is_click_edit_display_btn = false) {
 		let prompt = jQuery('#lasso-aitext #prompt').val()
-		if ( prompt.trim() === '' ) {
+		if (prompt.trim() === '') {
 			return false
 		}
 
@@ -366,25 +398,25 @@ use Lasso\Classes\Launch_Darkly;
 		let lasso_response_el = jQuery('#lasso-aitext .lasso-response');
 		let quill_content = '';
 		let is_from_modal = true;
-		if ( is_click_edit_display_btn === false && quill_lasso_ai_editor ) {
+		if (is_click_edit_display_btn === false && quill_lasso_ai_editor) {
 			quill_content = quill_lasso_ai_editor.root.innerHTML;
 		} else {
 			is_from_modal = false;
 		}
 		jQuery.ajax({
-			url: ajax_url,
-			type: 'post',
-			data: {
-				action: 'lasso_get_response_from_prompt',
-				prompt: prompt,
-				is_from_modal: is_from_modal,
-				result: quill_content
-			},
-			beforeSend: function() {
-				lasso_response_el.removeClass('d-none').find('.lasso-quill-loading').html('<div class="py-5"><div class="ls-loader"></div></div>')
-				lasso_response_el.find('.lasso-quill-wrapper').addClass('d-none')
-			}
-		})
+				url: ajax_url,
+				type: 'post',
+				data: {
+					action: 'lasso_get_response_from_prompt',
+					prompt: prompt,
+					is_from_modal: is_from_modal,
+					result: quill_content
+				},
+				beforeSend: function() {
+					lasso_response_el.removeClass('d-none').find('.lasso-quill-loading').html('<div class="py-5"><div class="ls-loader"></div></div>')
+					lasso_response_el.find('.lasso-quill-wrapper').addClass('d-none')
+				}
+			})
 			.done(function(res) {
 				res = res.data;
 				lasso_response_el.removeClass('d-none');
@@ -399,16 +431,29 @@ use Lasso\Classes\Launch_Darkly;
 					],
 					[
 						'link',
-						{ 'list': 'bullet' }
+						{
+							'list': 'bullet'
+						}
 					],
-					[
-						{ 'color': [] },
-						{ 'background': [] }
+					[{
+							'color': []
+						},
+						{
+							'background': []
+						}
 					],
 					['clean'],
 				];
-				let quill_options = {theme: 'snow', modules: {toolbar: toolbarOptions, clipboard: {matchVisual: false}}};
-				if ( quill_lasso_ai_editor ) {
+				let quill_options = {
+					theme: 'snow',
+					modules: {
+						toolbar: toolbarOptions,
+						clipboard: {
+							matchVisual: false
+						}
+					}
+				};
+				if (quill_lasso_ai_editor) {
 					jQuery('#lasso-aitext .ql-toolbar').remove();
 					quill_lasso_ai_editor = null;
 				}
@@ -423,10 +468,10 @@ use Lasso\Classes\Launch_Darkly;
 
 				// RECREATE HOVER EFFECT ON DESCRIPTION BOX
 				jQuery('.ql-editor').focus(
-					function(){
+					function() {
 						jQuery(this).parent('div').attr('style', 'border-color: var(--lasso-light-purple) !important');
 					}).blur(
-					function(){
+					function() {
 						jQuery(this).parent('div').removeAttr('style');
 					});
 
@@ -441,24 +486,24 @@ use Lasso\Classes\Launch_Darkly;
 
 		jQuery(".lasso-display-type").off('click').on('click', function() {
 			tab = jQuery(this).data('tab');
-			show_tab( jQuery(this).data('tab-container') );
+			show_tab(jQuery(this).data('tab-container'));
 		});
 
-		jQuery(".search-keys input").off('keyup').on('keyup',function( e ) {
+		jQuery(".search-keys input").off('keyup').on('keyup', function(e) {
 			// WHEN ENTER IS PRESSED, SEARCH
-			if(event.which == 13) {
-				if(Array('single', 'image', 'button').indexOf(tab) != -1) {
+			if (event.which == 13) {
+				if (Array('single', 'image', 'button').indexOf(tab) != -1) {
 					single_search_attributes(true);
-				} else if(Array('list', 'grid', 'gallery').indexOf(tab) != -1) {
+				} else if (Array('list', 'grid', 'gallery').indexOf(tab) != -1) {
 					grid_search_attributes(true);
-				} else if(Array('table').indexOf(tab) != -1) {
+				} else if (Array('table').indexOf(tab) != -1) {
 					table_search_attributes(true);
 				}
 			}
 		});
 
 		// reset pop-up on close
-		jQuery('#lasso-display-add').on('hidden.bs.modal', function () {
+		jQuery('#lasso-display-add').on('hidden.bs.modal', function() {
 			jQuery("#lasso-display-type").removeClass("d-none");
 			jQuery("#lasso-display-add .tab-container").addClass("d-none");
 			jQuery("#lasso-display-add .tab-container .lasso-items").html('');
@@ -469,6 +514,7 @@ use Lasso\Classes\Launch_Darkly;
 		});
 
 		function single_search_attributes(entering_search = false) {
+			
 			let search_key = jQuery('.search-keys input#search-key-' + tab).val();
 			let current_page = get_current_page(entering_search);
 
@@ -479,31 +525,31 @@ use Lasso\Classes\Launch_Darkly;
 			});
 
 			jQuery.ajax({
-				url: ajax_url,
-				type: 'post',
-				data: {
-					action: 'lasso_search_attributes',
-					search_key: search_key,
-					limit: limit,
-					page: current_page,
-				},
-				beforeSend: function() {
-					show_loading();
-				}
-			})
-			.done(function(res) {
-				res = res.data;
-				let attributes_count = parseInt(res.count);
-				currentPage[tab] = res.page;
-				link_html(res.data);
-				paginator(attributes_count, search_key);
-			});
+					url: ajax_url,
+					type: 'post',
+					data: {
+						action: 'lasso_search_attributes',
+						search_key: search_key,
+						limit: limit,
+						page: current_page,
+					},
+					beforeSend: function() {
+						show_loading();
+					}
+				})
+				.done(function(res) {
+					res = res.data;
+					let attributes_count = parseInt(res.count);
+					currentPage[tab] = res.page;
+					link_html(res.data);
+					paginator(attributes_count, search_key);
+				});
 		}
 
 		function link_html(data) {
 			let html = '';
 			data.forEach(function(item, index) {
-				if(tab == 'single') {
+				if (tab == 'single') {
 					html += `<div class="row align-items-center py-4 px-5 no-gutters hover-gray">
 								<div class="col-lg-1 text-center">
 									<div class="lasso-url-image">
@@ -522,7 +568,7 @@ use Lasso\Classes\Launch_Darkly;
 								</div>
 							</div>
 							`;
-				} else if(tab == 'image') {
+				} else if (tab == 'image') {
 					html += `<div class="row align-items-center py-4 px-5 no-gutters hover-gray">
 								<div class="col-lg-1 text-center">
 									<div class="lasso-url-image">
@@ -541,7 +587,7 @@ use Lasso\Classes\Launch_Darkly;
 								</div>
 							</div>
 							`;
-				} else if(tab == 'button') {
+				} else if (tab == 'button') {
 					html += `<div class="row align-items-center py-4 px-5 no-gutters hover-gray">
 								<div class="col-lg-1 text-center">
 									<div class="lasso-url-image">
@@ -560,7 +606,7 @@ use Lasso\Classes\Launch_Darkly;
 								</div>
 							</div>
 							`;
-				} else if(tab == 'grid') {
+				} else if (tab == 'grid') {
 					html += `<div class="row align-items-center py-4 px-5 no-gutters hover-gray"> 
 								<div class="col-lg"> 
 									<strong class="lasso-url-title">${ item.post_title }</strong> 
@@ -573,7 +619,7 @@ use Lasso\Classes\Launch_Darkly;
 								</div> 
 							</div> 
 							`;
-				} else if(tab == 'list') {
+				} else if (tab == 'list') {
 					html += `<div class="row align-items-center py-4 px-5 no-gutters hover-gray"> 
 								<div class="col-lg"> 
 									<strong class="lasso-url-title">${ item.post_title }</strong> 
@@ -586,7 +632,7 @@ use Lasso\Classes\Launch_Darkly;
 								</div> 
 							</div> 
 							`;
-				} else if(tab == 'gallery') {
+				} else if (tab == 'gallery') {
 					html += `<div class="row align-items-center py-4 px-5 no-gutters hover-gray"> 
 								<div class="col-lg"> 
 									<strong class="lasso-url-title">${ item.post_title }</strong> 
@@ -599,7 +645,7 @@ use Lasso\Classes\Launch_Darkly;
 								</div> 
 							</div> 
 							`;
-				} else if(tab == 'table') {
+				} else if (tab == 'table') {
 					html += `<div class="row align-items-center py-4 px-5 no-gutters hover-gray">
 								<div class="col-lg">
 									<strong class="lasso-url-title">${ item.title }</strong>
@@ -612,16 +658,35 @@ use Lasso\Classes\Launch_Darkly;
 								</div>
 							</div>
 							`;
+				} else if (tab == 'remind') {
+					html += `<div class="row align-items-center py-4 px-5 no-gutters hover-gray">
+								<div class="col-lg-1 text-center">
+									<div class="lasso-url-image">
+										<img width="50" height="50" loading="lazy" class="lasso-url-image" src="${ item.thumbnail }">
+									</div>
+								</div>
+								<div class="col-lg-8">
+									<strong class="lasso-url-title">${ item.name }</strong>
+									<small class="lasso-url-permalink">${ item.permalink }</small> 
+								</div>
+								<div class="col-lg-3 text-right">
+									<button class="lasso-display-add-btn" onclick="add_short_code_remind_main(this);" 
+									data-link-slug="${ item.slug }" data-post-id="${ item.post_id }">
+										<i class="far fa-plus-circle"></i> Add
+									</button> 
+								</div>
+							</div>
+							`;
 				}
 			});
 
 			html += '<div id="pagination-container" class="pagination"></div>';
 
-			if(Array('single', 'image', 'button').indexOf(tab) != -1) {
+			if (Array('single', 'image', 'button', 'remind').indexOf(tab) != -1) {
 				jQuery("#all_links").html(html);
-			} else if(Array('list', 'grid', 'gallery').indexOf(tab) != -1) {
+			} else if (Array('list', 'grid', 'gallery').indexOf(tab) != -1) {
 				jQuery("#all_groups").html(html);
-			} else if(Array('table').indexOf(tab) != -1) {
+			} else if (Array('table').indexOf(tab) != -1) {
 				jQuery("#all_tables").html(html);
 			}
 
@@ -636,11 +701,11 @@ use Lasso\Classes\Launch_Darkly;
 				onPageClick: function(pageNumber, event) {
 					currentPage[tab] = pageNumber;
 					lasso_helper.remove_page_number_out_of_url();
-					if(Array('single', 'image', 'button').indexOf(tab) != -1) {
+					if (Array('single', 'image', 'button', 'remind').indexOf(tab) != -1) {
 						single_search_attributes();
-					} else if(Array('grid', 'list', 'gallery').indexOf(tab) != -1) {
+					} else if (Array('grid', 'list', 'gallery').indexOf(tab) != -1) {
 						grid_search_attributes();
-					} else if(Array('table').indexOf(tab) != -1) {
+					} else if (Array('table').indexOf(tab) != -1) {
 						table_search_attributes();
 					}
 				}
@@ -649,11 +714,11 @@ use Lasso\Classes\Launch_Darkly;
 
 		function show_loading() {
 			let html = '<div class="py-5"><div class="ls-loader"></div></div>';
-			if(Array('single', 'image', 'button').indexOf(tab) != -1) {
+			if (Array('single', 'image', 'button', 'remind').indexOf(tab) != -1) {
 				jQuery("#all_links").html(html);
-			} else if(Array('grid', 'list', 'gallery').indexOf(tab) != -1) {
+			} else if (Array('grid', 'list', 'gallery').indexOf(tab) != -1) {
 				jQuery("#all_groups").html(html);
-			} else if(Array('table').indexOf(tab) != -1) {
+			} else if (Array('table').indexOf(tab) != -1) {
 				jQuery("#all_tables").html(html);
 			}
 		}
@@ -670,25 +735,25 @@ use Lasso\Classes\Launch_Darkly;
 			});
 
 			jQuery.ajax({
-				url: ajax_url,
-				type: 'post',
-				data: {
-					action: 'lasso_get_groups',
-					search_key: search_key,
-					limit: limit,
-					page: current_page,
-				},
-				beforeSend: function() {
-					show_loading();
-				}
-			})
-			.done(function(res) {
-				res = res.data;
-				let attributes_count = parseInt(res.count);
-				currentPage[tab] = res.page;
-				link_html(res.data);
-				paginator(attributes_count);
-			})
+					url: ajax_url,
+					type: 'post',
+					data: {
+						action: 'lasso_get_groups',
+						search_key: search_key,
+						limit: limit,
+						page: current_page,
+					},
+					beforeSend: function() {
+						show_loading();
+					}
+				})
+				.done(function(res) {
+					res = res.data;
+					let attributes_count = parseInt(res.count);
+					currentPage[tab] = res.page;
+					link_html(res.data);
+					paginator(attributes_count);
+				})
 		}
 
 		// TABLE COMPARISON
@@ -703,18 +768,18 @@ use Lasso\Classes\Launch_Darkly;
 			});
 
 			jQuery.ajax({
-				url: ajax_url,
-				type: 'post',
-				data: {
-					action: 'lasso_get_tables',
-					search_key: search_key,
-					limit: limit,
-					page: current_page,
-				},
-				beforeSend: function() {
-					show_loading();
-				}
-			})
+					url: ajax_url,
+					type: 'post',
+					data: {
+						action: 'lasso_get_tables',
+						search_key: search_key,
+						limit: limit,
+						page: current_page,
+					},
+					beforeSend: function() {
+						show_loading();
+					}
+				})
 				.done(function(res) {
 					res = res.data;
 					let attributes_count = parseInt(res.count);
@@ -736,7 +801,7 @@ use Lasso\Classes\Launch_Darkly;
 
 		// Get tab's current page
 		function get_current_page(entering_search = false) {
-			if ( ! ( tab in currentPage ) || entering_search ) {
+			if (!(tab in currentPage) || entering_search) {
 				currentPage[tab] = 1;
 			}
 
@@ -755,24 +820,24 @@ use Lasso\Classes\Launch_Darkly;
 			tab_container_el.find('.search-keys input').addClass('d-none');
 			tab_container_el.find('.search-keys input#search-key-' + tab).removeClass('d-none');
 
-			if(Array('single', 'image', 'button').indexOf(tab) != -1) {
+			if (Array('single', 'image', 'button', 'remind').indexOf(tab) != -1) {
 				single_search_attributes();
-			} else if(Array('list', 'grid', 'gallery').indexOf(tab) != -1) {
+			} else if (Array('list', 'grid', 'gallery').indexOf(tab) != -1) {
 				grid_search_attributes();
-			} else if(Array('table').indexOf(tab) != -1) {
+			} else if (Array('table').indexOf(tab) != -1) {
 				table_search_attributes();
 			}
 		}
 
-		jQuery(document).on('click', '.btn-close-save-quick-link', function () {
+		jQuery(document).on('click', '.btn-close-save-quick-link', function() {
 			let allow_pages = lasso_helper.allow_monetize_pages;
 			let current_page = lasso_helper.get_page_name();
 
 			url_quick_detail_modal.modal("hide");
 			jQuery(this).fix_backdrop_elementor();
-			if ( allow_pages.includes(current_page) ) {
+			if (allow_pages.includes(current_page)) {
 				let monetize_row = jQuery('input.js-toggle[data-link-id="' + monetize_id + '"]');
-				monetize_row.prop( "checked", true ).trigger('change');
+				monetize_row.prop("checked", true).trigger('change');
 				return;
 			}
 
@@ -780,11 +845,10 @@ use Lasso\Classes\Launch_Darkly;
 			jQuery("#lasso-urls").removeClass("d-none");
 			jQuery("#lasso-display-add").modal("show");
 			single_search_attributes();
-		}).on('click', '.btn-create-link', function () {
+		}).on('click', '.btn-create-link', function() {
 			jQuery("#lasso-display-add").modal("hide");
 			jQuery("#url-add").modal("show");
 			jQuery(this).fix_backdrop_elementor();
 		});
 	});
-
 </script>

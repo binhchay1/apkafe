@@ -92,25 +92,23 @@ get_header('shop'); ?>
 					WCV_Vendor_Shop::shop_description();
 				} ?>
 
-				<div class="padding-20">
-					<?php if ($getH1 != '') { ?>
+				<?php if ($getH1 != '') { ?>
+					<div class="padding-20">
 						<h1><?php echo $getH1 ?></h1>
-					<?php } ?>
-				</div>
+					</div>
+				<?php } ?>
 
-				<div class="padding-20">
-					<?php do_action('woocommerce_archive_description'); ?>
-				</div>
+				<?php do_action('woocommerce_archive_description'); ?>
 
 				<ul class="sort-controls" id="section-tab-filter">
 					<li class="active" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'news')">
-						<a>News</a>
+						<a><i class="fa fa-sync"></i>News</a>
 					</li>
 					<li style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'hot')">
-						<a>Hot</a>
+						<a><i class="fa fa-heartbeat" style="margin-right: 10px;"></i>Hot</a>
 					</li>
 					<li style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'popular')">
-						<a>Popular</a>
+						<a><i class="fa fa-line-chart" style="margin-right: 10px;"></i>Popular</a>
 					</li>
 				</ul>
 
@@ -120,6 +118,14 @@ get_header('shop'); ?>
 						'paged' => $current_page_news,
 						'post_status' => 'published',
 						'post_type' => 'product',
+						'tax_query'             => array(
+							array(
+								'taxonomy'      => 'product_cat',
+								'field' => 'term_id',
+								'terms'         => $term->term_id,
+								'operator'      => 'IN'
+							)
+						)
 					);
 					$res =  new WP_Query($args);
 					$total_page_news = $res->max_num_pages; ?>

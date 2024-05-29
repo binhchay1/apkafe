@@ -123,7 +123,7 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 			</a>
 		</div>
 
-		<div class="lasso-box-3" style="flex: 0 0 55% !important; max-width: 55% !important;">
+		<div class="lasso-box-3" style="flex: 0 0 100% !important; max-width: 100% !important;">
 			<?php if ('' === $lasso_url->apple_btn_url && '' === $lasso_url->google_btn_url) { ?>
 				<a class="lasso-button-1" <?php echo $lasso_url_obj->render_attributes() ?>>
 					<?php echo $lasso_url->display->primary_button_text; ?>

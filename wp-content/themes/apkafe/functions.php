@@ -86,19 +86,11 @@ function apkafe_get_option($options, $default = NULL)
 
 add_action('init', function ($search) {
 	add_rewrite_rule('search/?$', 'index.php?s=' . $search, 'top');
-	add_rewrite_rule('search/ja/?$', 'index.php?s=' . $search, 'top');
-	add_rewrite_rule('search/th/?$', 'index.php?s=' . $search, 'top');
 });
 
 add_action('wp_head', function () {
 	$paths = explode('/', $_SERVER['REQUEST_URI']);
 	$host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
-	if (is_front_page()) {
-		$urlFontPage = $_SERVER['HTTP_REFERER'];
-
-		echo '<link rel="alternate" href="' . $urlFontPage . '" hreflang="x-default" />';
-	}
-
 	if (in_array('product-category', $paths)) {
 		$countProduct = 0;
 		$urlCanonical = '';
@@ -349,91 +341,13 @@ function ia_get_attachment_id_from_url($attachment_url = '')
 	return $attachment_id;
 }
 
-add_filter('get_search_form', function ($form) {
-	$form = '<form role="search" method="post" id="searchform" class="searchform" action="' . home_url('/search/') . '" >
-	  <div class="custom-form"><label class="screen-reader-text" for="s">' . __('Search:') . '</label>
-	  <input type="text" value="' . get_search_query() . '" name="s" id="s" />
-	  <input type="submit" id="searchsubmit" value="' . esc_attr__('Search') . '" />
-	</div>
-	</form>';
-
-	return $form;
-}, 40);
-
-function create_meta_boxes_faq()
+add_filter('posts_where', 'title_like_posts_where', 10, 2);
+function title_like_posts_where($where, $wp_query)
 {
-	add_meta_box('faq-meta-boxes', 'FAQ', 'faq_meta_boxes_callback', 'post');
-}
-add_action('add_meta_boxes', 'create_meta_boxes_faq');
-
-function faq_meta_boxes_callback($post)
-{
-	$get_post_meta = get_post_meta($post->ID, '_faq');
-	wp_nonce_field('faq_meta_boxes_save', 'faq_meta_nonce');
-	echo
-	'<style type="text/css">
-		#table-faq input {
-			width: 600px;
-		}
-	</style>';
-	echo
-	'
-	<button type="button" id="add-faq">Thêm câu hỏi</button>
-	<table id="table-faq">
-		<tr>
-	  		<th>Question</th>
-	  		<th>Answer</th>
-		</tr>';
-	if (empty($get_post_meta)) {
-		echo
-		'<tr>
-			<td><input type="text" name="question[]" placeholder="Nhập câu hỏi" /></td>
-			<td><input type="text" name="answer[]" placeholder="Nhập trả lời" /></td>
-	  	</tr>';
-	} else {
-		$get_post_meta = json_decode($get_post_meta[0], true);
-		foreach ($get_post_meta as $key => $value) {
-			echo
-			'<tr>
-				<td><input type="text" name="question[]" placeholder="Nhập câu hỏi" value="' . $key . '"/></td>
-				<td><input type="text" name="answer[]" placeholder="Nhập trả lời" value="' . $value . '"/></td>
-	  		</tr>';
-		}
+	global $wpdb;
+	if ($post_title_like = $wp_query->get('post_title_like')) {
+		$where .= ' AND ' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql($wpdb->esc_like($post_title_like)) . '%\'';
 	}
-
-	echo '</table>';
-
-	echo '
-	<script type="text/javascript">
-		jQuery("#add-faq").click(function(){
-			jQuery("#table-faq").append(`<tr><td><input type="text" name="question[]" placeholder="Nhập câu hỏi" /></td><td><input type="text" name="answer[]" placeholder="Nhập trả lời" /></td></tr>`);
-		});
-	</script>';
+	
+	return $where;
 }
-
-function faq_meta_boxes_save($post_id)
-{
-	if (isset($_POST['faq_meta_nonce'])) {
-		$_nonce = $_POST['faq_meta_nonce'];
-		if (!isset($_nonce)) {
-			return;
-		}
-
-		if (!wp_verify_nonce($_nonce, 'faq_meta_boxes_save')) {
-			return;
-		}
-
-		$question = $_POST['question'];
-		$answer = $_POST['answer'];
-		$arrInput = [];
-
-
-		foreach ($question as $key => $value) {
-			$arrInput[$value] = $answer[$key];
-		}
-
-		$faq = json_encode($arrInput);
-		update_post_meta($post_id, '_faq', $faq);
-	}
-}
-add_action('save_post', 'faq_meta_boxes_save');

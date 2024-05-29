@@ -71,37 +71,14 @@ if (array_key_exists('h1_sapo', $getMeta)) {
             <?php } ?>
 
             <div class="clear mb20"></div>
+
             <?php echo the_content() ?>
-            <div class="clear"></div>
+            
             <div class="clear mb20"></div>
 
             <div class="ac mb15 mt15">
                 <div id="apk_rate_show_wrap"><span class="rating" id="apk_rate_wrap" data-default-rating="3.92" style="display: inline-block;"><span class="star active"><span class="star active"><span class="star active"><span class="star half active"><span class="star"></span></span></span></span></span></span> <span>3.92 / 5 ( 12 votes )</span></div>
                 <div id="apk_rate_msg_wrap"></div>
-            </div>
-
-            <div class="fs-19">
-                <div id="faq">
-                    <h1>FAQ</h1>
-                    <ul>
-                        <?php if (isset($faq) && !empty($faq)) { ?>
-                            <?php $faq = json_decode($faq[0], true) ?>
-                            <?php if ($faq != null) { ?>
-                                <?php foreach ($faq as $key => $value) { ?>
-                                    <?php if ($key == '' || $value == '') {
-                                        continue;
-                                    } ?>
-                                    <li>
-                                        <input type="checkbox" checked>
-                                        <i></i>
-                                        <h2><?php echo $key ?></h2>
-                                        <p><?php echo $value ?></p>
-                                    </li>
-                                <?php } ?>
-                            <?php } ?>
-                        <?php } ?>
-                    </ul>
-                </div>
             </div>
 
             <div class="social_sharer">
@@ -127,35 +104,5 @@ if (array_key_exists('h1_sapo', $getMeta)) {
         </div>
     </div>
     <div class="clear"></div>
-    <div id="respond">
-        <div id="comments_wrap" class="widget">
-            <h2 class="widget_head">Leave a Comment</h2>
-            <div class="pad10">
-                <form method="post" name="cmnt_form" id="cmnt_form">
-                    <div id="cmnt_form_err"></div>
-                    <div class="clear mb15"></div>
-                    <input type="text" maxlength="50" name="cmnt_name" id="cmnt_name" placeholder="Your Name">
-                    <span class="txt_err" id="cmnt_name_err"></span>
-                    <div class="clear mb15"></div>
-                    <input type="text" maxlength="50" name="cmnt_email" id="cmnt_email" placeholder="Your Email">
-                    <span class="txt_err" id="cmnt_email_err"></span>
-                    <div class="clear mb15"></div>
-                    <div class="ac-textarea">
-                        <textarea name="cmnt_text" id="cmnt_text" cols="70" rows="10"></textarea>
-                        <span class="txt_err" id="cmnt_text_err"></span>
-                    </div>
-                    <div class="clear mb15"></div>
-                    <div class="ac-submit clearfix">
-                        <input type="hidden" name="cmnt_art_id" id="cmnt_art_id" value="cGd1RlgzQUZ4c28zZVhNcmdqbC9nQT09">
-                        <input type="hidden" name="cmnt_type" id="cmnt_type" value="0">
-                        <input type="hidden" name="cmnt_reply_id" id="cmnt_reply_id" value="0">
-                        <input type="hidden" name="cmnt_slang_id" id="cmnt_slang_id" value="">
-                        <button onclick="manage_cmnt();" name="submit" type="button">Submit</button>
-                    </div>
-                </form>
-                <ol class="comments-tree-list" id="comments_list_items">
-                </ol>
-            </div>
-        </div>
-    </div>
+
 </div>

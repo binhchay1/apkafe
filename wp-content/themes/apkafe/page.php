@@ -4,7 +4,7 @@ $get_post = new WP_Query(array(
     'posts_per_page' => 24,
     'orderby'     => 'modified',
     'order'       => 'DESC',
-    'post_type' => 'product'
+    'post_type' => 'product',
 ));
 
 $checkCategoryBlog = category_exists('Blog');
@@ -23,10 +23,34 @@ get_header();
         <div class="widget">
             <h2 class="widget_head">Latest Update</h2>
             <div id="main_list_item" class="main_list_item">
-                <?php foreach ($get_post->posts as $post) { ?>
+                <?php foreach ($get_post->posts as $post) {
+                    $_product = wc_get_product($post->ID);
+                    $_product_title = $_product->get_title();
+
+                    $args = array(
+                        'post_title_like' => $_product_title,
+                        'post_type' => 'lasso-urls',
+                    );
+
+                    $res = new WP_Query($args);
+                    foreach ($res->posts as $postRes) {
+                        $rating = get_post_meta($postRes->ID, 'rating', false);
+                        $developer = get_post_meta($postRes->ID, 'developer', false);
+                        break;
+                    } ?>
+
                     <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
-                        <?php echo get_the_post_thumbnail($post->ID) ?>
+                        <?php echo get_the_post_thumbnail($post->ID); ?>
                         <p class="title"><?php echo get_the_title($post->ID) ?></p>
+                        <div class="infor-rating-and-developer">
+                            <?php if (!empty($rating)) { ?>
+                                <span class="infor-rating" style="--rating:<?php echo $rating[0] ?>;"></span>
+                            <?php } ?>
+
+                            <?php if (!empty($developer)) { ?>
+                                <span><?php echo $developer[0] ?></span>
+                            <?php } ?>
+                        </div>
                     </a>
                 <?php } ?>
             </div>
@@ -39,13 +63,53 @@ get_header();
                 <div class="widget">
                     <h2 class="widget_head"><?php echo $section['title'] ?></h2>
                     <div class="main_list_item">
+                        <?php $isParent = false; ?>
                         <?php foreach ($section['post_select'] as $post_id) { ?>
+                            <?php $terms = get_the_terms($post_id, 'product_cat');
+                            $_product = wc_get_product($post_id);
+                            $_product_title = $_product->get_title();
+
+                            $args = array(
+                                'post_title_like' => $_product_title,
+                                'post_type' => 'lasso-urls',
+                            );
+
+                            $res = new WP_Query($args);
+                            foreach ($res->posts as $postRes) {
+                                $rating = get_post_meta($postRes->ID, 'rating', false);
+                                $developer = get_post_meta($postRes->ID, 'developer', false);
+                                break;
+                            }
+
+                            foreach ($terms as $itemTerm) {
+                                if ($itemTerm->parent != 0) {
+                                    continue;
+                                }
+
+                                $isParent = true;
+                                $finalTermID = $itemTerm->term_id;
+                            }
+                            ?>
+
                             <a class="side_list_item" href="<?php echo get_permalink($post_id) ?>">
                                 <?php echo get_the_post_thumbnail($post_id) ?>
                                 <p class="title"><?php echo get_the_title($post_id) ?></p>
+                                <div class="infor-rating-and-developer">
+                                    <?php if (!empty($rating)) { ?>
+                                        <span class="infor-rating" style="--rating:<?php echo $rating[0] ?>;"></span>
+                                    <?php } ?>
+                                    <?php if (!empty($developer)) { ?>
+                                        <span><?php echo $developer[0] ?></span>
+                                    <?php } ?>
+                                </div>
+
                             </a>
                             <div class="clear mb10"></div>
                         <?php } ?>
+                    </div>
+
+                    <div class="d-flex justify-content-center" style="margin-top: 15px; margin-bottom: 15px">
+                        <a href="<?php echo get_term_link($finalTermID) ?>" class="btn-back-to-home" style="color: #000">Read more</a>
                     </div>
                 </div>
                 <div class="clear mb10"></div>
@@ -85,7 +149,6 @@ get_header();
                                 $getPostBlog = get_post($postIDBlog);
                                 $postThumbnailBlogUrl = get_the_post_thumbnail_url($postIDBlog);
                                 $shortDescriptionBlog = get_post_meta($postIDBlog, '_yoast_wpseo_metadesc');
-                                var_dump($shortDescriptionBlog);
                                 ?>
                                 <li>
                                     <a class="blog" href="<?php echo $sectionBlog ?>" title="<?php echo $getPostBlog->post_title ?>">
@@ -137,7 +200,7 @@ get_header();
                                 <?php $postIDTipsAndroid = url_to_postid($sectionTipsAndroid);
                                 $getPostTipsAndroid = get_post($postIDTipsAndroid);
                                 $postThumbnailTipsAndroidUrl = get_the_post_thumbnail_url($postIDTipsAndroid);
-                                $shortDescriptionTipsAndroid = get_post_meta($postIDTipsAndroid, 'short_description');
+                                $shortDescriptionTipsAndroid = get_post_meta($postIDTipsAndroid, '_yoast_wpseo_metadesc');
                                 ?>
                                 <li>
                                     <a class="blog" href="<?php echo $sectionTipsAndroid ?>" title="<?php echo $getPostTipsAndroid->post_title ?>">
@@ -187,7 +250,7 @@ get_header();
                                 <?php $postIDNewsTech = url_to_postid($sectionNewsTech);
                                 $getPostNewsTech = get_post($postIDNewsTech);
                                 $postThumbnailNewsTechUrl = get_the_post_thumbnail_url($postIDNewsTech);
-                                $shortDescriptionNewsTech = get_post_meta($postIDNewsTech, 'short_description');
+                                $shortDescriptionNewsTech = get_post_meta($postIDNewsTech, '_yoast_wpseo_metadesc');
                                 ?>
                                 <li>
                                     <a class="blog" href="<?php echo $sectionNewsTech ?>" title="<?php echo $getPostNewsTech->post_title ?>">
