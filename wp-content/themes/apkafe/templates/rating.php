@@ -129,7 +129,7 @@ if (count($result) == 0) {
         <form id="filter-review-options">
             <div class="comment-action d-flex align-items-center flex-wrap justify-content-end">
                 <div class="sort-comment me-4 ">
-                    <select onchange="filterReviews(jQuery(this))" name="sort" class="text-primary">
+                    <select class="text-primary" id="sort-review-1">
                         <option value="newest">
                             Newest </option>
                         <option value="rating">
@@ -137,7 +137,7 @@ if (count($result) == 0) {
                     </select>
                 </div>
                 <div class="sort-comment ">
-                    <select onchange="filterReviews(jQuery(this))" name="s" class="text-primary sort-comment-list">
+                    <select class="text-primary sort-comment-list" id="sort-review-2">
                         <option value="">
                             &nbsp;All Star </option>
                         <option value="1">
@@ -193,6 +193,16 @@ if (count($result) == 0) {
 
 <script>
     var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+
+    jQuery(document).ready(function () {
+        jQuery('#sort-review-2').on('change', function() {
+            filterReviews(jQuery(this));
+        });
+
+        jQuery('#sort-review-1').on('change', function() {
+            filterReviews(jQuery(this));
+        });
+    });
 
     function filterReviews(selection) {
         let option = selection.val();
