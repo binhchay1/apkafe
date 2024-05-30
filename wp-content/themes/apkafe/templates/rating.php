@@ -138,7 +138,7 @@ if (count($result) == 0) {
                 </div>
                 <div class="sort-comment ">
                     <select class="text-primary sort-comment-list" id="sort-review-2">
-                        <option value="">
+                        <option value="0">
                             &nbsp;All Star </option>
                         <option value="1">
                             ★ 1-star </option>
@@ -194,7 +194,7 @@ if (count($result) == 0) {
 <script>
     var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 
-    jQuery(document).ready(function () {
+    jQuery(document).ready(function() {
         jQuery('#sort-review-2').on('change', function() {
             filterReviews(jQuery(this));
         });
@@ -206,6 +206,7 @@ if (count($result) == 0) {
 
     function filterReviews(selection) {
         let option = selection.val();
+        let post_id = jQuery('#post-id-for-review').val();
 
         jQuery.ajax({
                 method: 'POST',
@@ -213,6 +214,7 @@ if (count($result) == 0) {
                 url: ajaxurl,
                 data: {
                     option: option,
+                    post_id: post_id,
                     action: "filter_review_handler"
                 }
             })

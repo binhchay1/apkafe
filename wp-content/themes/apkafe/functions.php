@@ -427,7 +427,6 @@ function title_like_posts_where($where, $wp_query)
 
 function submit_review_handler()
 {
-
 	global $wpdb;
 	$score = $_POST['score'];
 	$user_name = $_POST['user_name'];
@@ -466,12 +465,12 @@ function filter_review_handler()
 {
 	global $wpdb;
 	$option = $_POST['option'];
+	$post_id = $_POST['post_id'];
 
 	if($option == 'newest') {
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM wp_user_review ORDER BY created_at DESC",
-				$user_name,
+				"SELECT * FROM wp_user_review WHERE post_id = '%d' ORDER BY created_at DESC",
 				$post_id
 			)
 		);
@@ -480,8 +479,16 @@ function filter_review_handler()
 	if($option == 'rating') {
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM wp_user_review ORDER BY score",
-				$user_name,
+				"SELECT * FROM wp_user_review WHERE post_id = '%d' ORDER BY score",
+				$post_id
+			)
+		);
+	}
+
+	if($option == '0') {
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM wp_user_review WHERE post_id = '%d'",
 				$post_id
 			)
 		);
@@ -490,7 +497,8 @@ function filter_review_handler()
 	if($option == '1') {
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE score = '1'"
+				"SELECT * FROM wp_user_review WHERE post_id = '%d' AND score = '1'",
+				$post_id
 			)
 		);
 	}
@@ -498,7 +506,8 @@ function filter_review_handler()
 	if($option == '2') {
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE score = '2'"
+				"SELECT * FROM wp_user_review WHERE post_id = '%d' AND score = '2'",
+				$post_id
 			)
 		);
 	}
@@ -506,7 +515,8 @@ function filter_review_handler()
 	if($option == '3') {
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE score = '3'"
+				"SELECT * FROM wp_user_review WHERE post_id = '%d' AND score = '3'",
+				$post_id
 			)
 		);
 	}
@@ -514,7 +524,8 @@ function filter_review_handler()
 	if($option == '4') {
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE score = '4'"
+				"SELECT * FROM wp_user_review WHERE post_id = '%d' AND score = '4'",
+				$post_id
 			)
 		);
 	}
@@ -522,7 +533,8 @@ function filter_review_handler()
 	if($option == '5') {
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE score = '5'"
+				"SELECT * FROM wp_user_review WHERE post_id = '%d' AND score = '5'",
+				$post_id
 			)
 		);
 	}
