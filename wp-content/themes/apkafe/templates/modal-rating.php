@@ -25,7 +25,7 @@
         <div class="fancybox-stage">
             <div class="fancybox-slide fancybox-slide--html fancybox-slide--current fancybox-slide--complete">
                 <div class="box-reviews my-4 fancybox-content" style="max-width: 670px;">
-                    <div class="review-box-content"> <img class="avatar-review-modal" width="100" height="100" src="" alt="game avatar">
+                    <div class="review-box-content"> <img class="avatar-review-modal" width="100" height="100" src="<?php echo get_the_post_thumbnail_url(get_the_ID()) ?>" alt="game avatar">
                         <div class="cursor-pointer position-absolute fw-bold fs-20" style="top: 10px; right: 15px" onclick="closeBoxReview()">✕</div>
                         <div class="py-2 no-hover" style="margin-top: 59px;">
                             <div class="app-item-info d-block">
@@ -76,83 +76,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
-
-    jQuery('#submit-review').on('click', function(event) {
-        event.preventDefault();
-        var score = jQuery('#input-hidden-review-score').val();
-        var user_name = jQuery('#user_name').val();
-        var user_comment = jQuery('#user_comment').val();
-        var post_id = jQuery('#post-id-for-review').val();
-
-        if (score != 0 && jQuery.trim(user_name) != '' && jQuery.trim(user_comment)) {
-            jQuery.ajax({
-                    method: 'POST',
-                    dataType: 'json',
-                    url: ajaxurl,
-                    data: {
-                        score: score,
-                        user_name: user_name,
-                        user_comment: user_comment,
-                        post_id: post_id,
-                        action: "submit_review_handler"
-                    }
-                })
-                .done(
-                    function(data) {
-                        if (data.result == 0) {
-                            var x = document.getElementById("snackbar");
-                            x.className = "show";
-                            x.innerHTML = "You have already review.";
-                            setTimeout(function() {
-                                x.className = x.className.replace("show", "");
-                            }, 3000);
-                        } else {
-                            var x = document.getElementById("snackbar");
-                            x.className = "show";
-                            x.className = "review-green";
-                            x.innerHTML = "Your review has store.";
-                            setTimeout(function() {
-                                x.className = x.className.replace("show", "");
-                                x.className = x.className.replace("review-green", "");
-                            }, 3000);
-                        }
-
-                    }
-                );
-        } else {
-            if (score == 0) {
-                var x = document.getElementById("snackbar");
-                x.className = "show";
-                x.innerHTML = "Empty Score";
-                setTimeout(function() {
-                    x.className = x.className.replace("show", "");
-                }, 3000);
-
-                return;
-            }
-
-            if (user_name == 0) {
-                var x = document.getElementById("snackbar");
-                x.className = "show";
-                x.innerHTML = "Empty name";
-                setTimeout(function() {
-                    x.className = x.className.replace("show", "");
-                }, 3000);
-
-                return;
-            }
-
-            if (user_comment == 0) {
-                var x = document.getElementById("snackbar");
-                x.className = "show";
-                x.innerHTML = "Empty comment";
-                setTimeout(function() {
-                    x.className = x.className.replace("show", "");
-                }, 3000);
-            }
-        }
-    });
-</script>

@@ -51,7 +51,6 @@ if (count($result) == 0) {
 }
 
 ?>
-
 <div class="mb-4">
     <div class="d-flex align-items-center mb-3 ">
         <h2 class="atitle">User Reviews</h2>
@@ -169,7 +168,7 @@ if (count($result) == 0) {
     <?php } else { ?>
         <div class="d-flex" style="flex-direction: row;" id="review-user-area">
             <?php foreach ($result as $user_review) { ?>
-                <div class="lasso-container">
+                <div class="lasso-container flex-3">
                     <div class="lasso-display">
                         <div class="lasso-box-1">
                             <div class="updated-on">
@@ -212,7 +211,7 @@ if (count($result) == 0) {
                     jQuery('#review-user-area').empty();
                     jQuery.each(data.result, function(key, value) {
                         jQuery('#review-user-area').append(`
-                        <div class="lasso-container">
+                        <div class="lasso-container flex-3">
                             <div class="lasso-display">
                                 <div class="lasso-box-1">
                                     <div class="updated-on">
@@ -234,4 +233,79 @@ if (count($result) == 0) {
                 }
             );
     }
+
+    jQuery('#submit-review').on('click', function(event) {
+        event.preventDefault();
+        var score = jQuery('#input-hidden-review-score').val();
+        var user_name = jQuery('#user_name').val();
+        var user_comment = jQuery('#user_comment').val();
+        var post_id = jQuery('#post-id-for-review').val();
+
+        if (score != 0 && jQuery.trim(user_name) != '' && jQuery.trim(user_comment)) {
+            jQuery.ajax({
+                    method: 'POST',
+                    dataType: 'json',
+                    url: ajaxurl,
+                    data: {
+                        score: score,
+                        user_name: user_name,
+                        user_comment: user_comment,
+                        post_id: post_id,
+                        action: "submit_review_handler"
+                    }
+                })
+                .done(
+                    function(data) {
+                        jQuery('#fancybox-container-1').hide();
+                        if (data.result == 0) {
+                            var x = document.getElementById("snackbar");
+                            x.className = "show";
+                            x.innerHTML = "You have already review.";
+                            setTimeout(function() {
+                                x.className = x.className.replace("show", "");
+                            }, 3000);
+                        } else {
+                            var x = document.getElementById("snackbar");
+                            x.className = "show-green";
+                            x.innerHTML = "Your review has store.";
+                            setTimeout(function() {
+                                x.className = x.className.replace("show-green", "");
+                            }, 3000);
+                        }
+
+                    }
+                );
+        } else {
+            if (score == 0) {
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                x.innerHTML = "Empty Score";
+                setTimeout(function() {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
+
+                return;
+            }
+
+            if (user_name == 0) {
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                x.innerHTML = "Empty name";
+                setTimeout(function() {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
+
+                return;
+            }
+
+            if (user_comment == 0) {
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                x.innerHTML = "Empty comment";
+                setTimeout(function() {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
+            }
+        }
+    });
 </script>

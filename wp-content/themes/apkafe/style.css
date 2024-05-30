@@ -2865,6 +2865,21 @@ a.single-language span.size22 {
   animation: snackbar-fadein 0.5s, snackbar-fadeout 0.5s 2.5s;
 }
 
+#snackbar.show-green {
+  visibility: visible;
+  -webkit-animation: snackbar-fadein 0.5s, snackbar-fadeout 0.5s 2.5s;
+  animation: snackbar-fadein 0.5s, snackbar-fadeout 0.5s 2.5s;
+  background-color: #0ba50b;
+}
+
+.flex-3 {
+  flex: 1 0 33%;
+}
+
+#review-user-area {
+  flex-wrap: wrap;
+}
+
 @-webkit-keyframes snackbar-fadein {
   from {
     bottom: 0;
