@@ -2292,6 +2292,14 @@ ul li i:after {
   padding: 15px;
 }
 
+#flags {
+  width: inherit !important;
+}
+
+#flags.size22 a, a.single-language span.size22 {
+  width: 0 !important;
+}
+
 @media screen and (max-width: 992px) {
   #content {
     width: 100%;

@@ -1,0 +1,57 @@
+label[for="avg_rating_display"],
+label[for="require_rating"],
+label[for="stars_style_regular"],
+label[for="google_search_stars_show"],
+label[for="negative_rating_alert_enable"] {
+    margin-right: 10px;
+    min-width: 80px;
+    display: inline-block;
+}
+
+/*** Donation Link ***/
+div.custom-links i {
+    margin: 5px;
+}
+.donation-link,
+.review-link {
+    color: white;
+    text-decoration: none;
+    background-color: #009cde;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.donation-link:hover {
+    color: #fff;
+    background-color: #1dbf73;
+}
+
+.review-link:hover {
+    color: #fff;
+    background-color: #ffc733;
+}
+
+/**
+* Stars Rating Styles
+ */
+.rating-stars i:after {
+    content: '\f006';
+    color: #d2d2d2;
+}
+
+.rating-stars i.stars-style-solid:after {
+    content: '\f005';
+}
+
+.rating-stars {
+    font-size: 15px;
+}
+
+.rating-stars i {
+    margin-right: 2px;
+    color: #d2d2d2;
+}
+
+.rating-stars i.rated:after {
+    color: #EDB867;
+}
