@@ -73,13 +73,8 @@ if (array_key_exists('h1_sapo', $getMeta)) {
             <div class="clear mb20"></div>
 
             <?php echo the_content() ?>
-            
-            <div class="clear mb20"></div>
 
-            <div class="ac mb15 mt15">
-                <div id="apk_rate_show_wrap"><span class="rating" id="apk_rate_wrap" data-default-rating="3.92" style="display: inline-block;"><span class="star active"><span class="star active"><span class="star active"><span class="star half active"><span class="star"></span></span></span></span></span></span> <span>3.92 / 5 ( 12 votes )</span></div>
-                <div id="apk_rate_msg_wrap"></div>
-            </div>
+            <div class="clear mb20"></div>
 
             <div class="social_sharer">
                 <a id="share_facebook" onclick="share_this('share_facebook')" class="facebook" data-url="<?php echo get_permalink(get_the_ID()) ?>" data-title="Line Apk 13.21.0 Download For Android Latest Version" href="javascript:void(0)"><i class="fa fa-facebook"></i> <span>Facebook</span></a>
@@ -87,8 +82,13 @@ if (array_key_exists('h1_sapo', $getMeta)) {
                 <a id="share_reddit" onclick="share_this('share_reddit')" class="reddit" data-url="<?php echo get_permalink(get_the_ID()) ?>" data-title="Line Apk 13.21.0 Download For Android Latest Version" href="javascript:void(0)"><i class="fa fa-reddit"></i><span>Reddit</span></a>
                 <a id="share_pinterest" onclick="share_this('share_pinterest')" class="pinterest" data-url="<?php echo get_permalink(get_the_ID()) ?>" data-title="Line Apk 13.21.0 Download For Android Latest Version" href="javascript:void(0)"><i class="fa fa-pinterest"></i><span>Pinterest</span></a>
             </div>
+
+            <div class="clear mb20"></div>
+
+            <?php get_template_part( 'templates/rating', 'rating' ); ?>
         </div>
     </div>
+
     <div class="clear mb20"></div>
     <div class="widget">
         <h2 class="widget_head">Recommended for you</h2>

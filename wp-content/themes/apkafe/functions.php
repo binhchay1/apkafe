@@ -424,3 +424,113 @@ function title_like_posts_where($where, $wp_query)
 
 	return $where;
 }
+
+function submit_review_handler()
+{
+
+	global $wpdb;
+	$score = $_POST['score'];
+	$user_name = $_POST['user_name'];
+	$user_comment = $_POST['user_comment'];
+	$post_id = $_POST['post_id'];
+
+	$result = $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT * FROM wp_user_review WHERE user_name = '%s' AND post_id = '%d'",
+			$user_name,
+			$post_id
+		)
+	);
+
+	if ($result == '') {
+		$wpdb->insert('wp_user_review', array(
+			'score' => $score,
+			'user_name' => $user_name,
+			'user_comment' => $user_comment,
+			'post_id' => $post_id,
+			'created_at' => date('Y-m-d H:i:s'),
+		));
+
+		echo json_encode(array('success' => true, 'result' => 1));
+	} else {
+		echo json_encode(array('success' => true, 'result' => 0));
+	}
+
+	wp_die();
+}
+
+add_action('wp_ajax_submit_review_handler', 'submit_review_handler');
+add_action('wp_ajax_nopriv_submit_review_handler', 'submit_review_handler');
+
+function filter_review_handler()
+{
+	global $wpdb;
+	$option = $_POST['option'];
+
+	if($option == 'newest') {
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM wp_user_review ORDER BY created_at DESC",
+				$user_name,
+				$post_id
+			)
+		);
+	}
+
+	if($option == 'rating') {
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM wp_user_review ORDER BY score",
+				$user_name,
+				$post_id
+			)
+		);
+	}
+
+	if($option == '1') {
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM wp_user_review WHERE score = '1'"
+			)
+		);
+	}
+
+	if($option == '2') {
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM wp_user_review WHERE score = '2'"
+			)
+		);
+	}
+
+	if($option == '3') {
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM wp_user_review WHERE score = '3'"
+			)
+		);
+	}
+
+	if($option == '4') {
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM wp_user_review WHERE score = '4'"
+			)
+		);
+	}
+
+	if($option == '5') {
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM wp_user_review WHERE score = '5'"
+			)
+		);
+	}
+
+	echo json_encode(array('success' => true, 'result' => $result));
+
+	wp_die();
+}
+
+add_action('wp_ajax_filter_review_handler', 'filter_review_handler');
+add_action('wp_ajax_nopriv_filter_review_handler', 'filter_review_handler');

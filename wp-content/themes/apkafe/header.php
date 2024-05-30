@@ -28,6 +28,25 @@
 </head>
 
 <body <?php body_class() ?> id="webpage" ontouchend="handleTouch()">
+    <div id="snackbar"></div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+        <symbol id="icon-star-rating" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+            <path fill="currentColor" d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+        </symbol>
+
+        <symbol id="icon-write-review" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21">
+            <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 3)">
+                <path d="m14 1c.8284271.82842712.8284271 2.17157288 0 3l-9.5 9.5-4 1 1-3.9436508 9.5038371-9.55252193c.7829896-.78700064 2.0312313-.82943964 2.864366-.12506788z"></path>
+                <path d="m6.5 14.5h8"></path>
+                <path d="m12.5 3.5 1 1"></path>
+            </g>
+        </symbol>
+
+        <symbol id="icon-send-review" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M15.379,19.1403 L12.108,12.5993 L19.467,5.2413 L15.379,19.1403 Z M4.86,8.6213 L18.76,4.5343 L11.401,11.8923 L4.86,8.6213 Z M3.359,8.0213 C2.923,8.1493 2.87,8.7443 3.276,8.9483 L11.128,12.8733 L15.053,20.7243 C15.256,21.1303 15.852,21.0773 15.98,20.6413 L20.98,3.6413 C21.091,3.2623 20.739,2.9093 20.359,3.0213 L3.359,8.0213 Z"></path>
+        </symbol>
+    </svg>
     <div id="bmain_wrap">
         <header>
             <div class="container">

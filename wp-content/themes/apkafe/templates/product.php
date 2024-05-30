@@ -1,7 +1,18 @@
 <?php
 $category = get_the_terms($post->ID, 'product_cat');
 $getMeta = get_post_meta($post->ID);
-$related = get_posts(array('category__in' => wp_get_post_categories($post->ID), 'numberposts' => 6, 'post__not_in' => array($post->ID)));
+$related = get_posts(array(
+    'numberposts' => 6,
+    'post__not_in' => array($post->ID),
+    'post_type' => 'product',
+    'tax_query' => array(
+        array(
+            'taxonomy' => 'product_cat',
+            'field' => 'term_id',
+            'terms' => array($category[0]->term_id)
+        )
+    )
+));
 
 $size = [];
 $version = [];
@@ -75,13 +86,6 @@ if (array_key_exists('h1_sapo', $getMeta)) {
             <div class="clear mb20"></div>
 
             <?php echo the_content() ?>
-            
-            <div class="clear mb20"></div>
-
-            <div class="ac mb15 mt15">
-                <div id="apk_rate_show_wrap"><span class="rating" id="apk_rate_wrap" data-default-rating="3.92" style="display: inline-block;"><span class="star active"><span class="star active"><span class="star active"><span class="star half active"><span class="star"></span></span></span></span></span></span> <span>3.92 / 5 ( 12 votes )</span></div>
-                <div id="apk_rate_msg_wrap"></div>
-            </div>
 
             <div class="clear mb20"></div>
 
@@ -91,6 +95,10 @@ if (array_key_exists('h1_sapo', $getMeta)) {
                 <a id="share_reddit" onclick="share_this('share_reddit')" class="reddit" data-url="<?php echo get_permalink(get_the_ID()) ?>" data-title="Line Apk 13.21.0 Download For Android Latest Version" href="javascript:void(0)"><i class="fa fa-reddit"></i><span>Reddit</span></a>
                 <a id="share_pinterest" onclick="share_this('share_pinterest')" class="pinterest" data-url="<?php echo get_permalink(get_the_ID()) ?>" data-title="Line Apk 13.21.0 Download For Android Latest Version" href="javascript:void(0)"><i class="fa fa-pinterest"></i><span>Pinterest</span></a>
             </div>
+
+            <div class="clear mb20"></div>
+
+            <?php get_template_part('templates/rating', 'rating'); ?>
         </div>
     </div>
 
@@ -99,14 +107,15 @@ if (array_key_exists('h1_sapo', $getMeta)) {
         <h2 class="widget_head">Recommended for you</h2>
         <div class="main_list_item">
             <?php foreach ($related as $post) { ?>
+                <?php $terms = wp_get_post_terms($post->ID, 'product_cat'); ?>
                 <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
                     <?php echo get_the_post_thumbnail($post->ID) ?>
                     <p class="title"><?php echo get_the_title($post->ID) ?></p>
-                    <p class="category"><?php echo get_the_category($post->ID)[0]->name ?></p>
+                    <p class="category"><?php echo $terms[0]->name ?></p>
                 </a>
             <?php } ?>
         </div>
     </div>
-    <div class="clear"></div>
+    <div class="clear mb20"></div>
 
 </div>

@@ -1,0 +1,237 @@
+<?php
+global $wpdb;
+
+$result = $wpdb->get_results(
+    $wpdb->prepare(
+        "SELECT * FROM wp_user_review WHERE post_id = '%d'",
+        (int) get_the_ID()
+    )
+);
+
+$total5 = 0;
+$total4 = 0;
+$total3 = 0;
+$total2 = 0;
+$total1 = 0;
+
+foreach ($result as $review) {
+    if ($review->score == 5) {
+        $total5 += 1;
+    }
+
+    if ($review->score == 4) {
+        $total4 += 1;
+    }
+
+    if ($review->score == 3) {
+        $total3 += 1;
+    }
+
+    if ($review->score == 2) {
+        $total2 += 1;
+    }
+
+    if ($review->score == 1) {
+        $total1 += 1;
+    }
+}
+
+if (count($result) == 0) {
+    $width5 = 0;
+    $width4 = 0;
+    $width3 = 0;
+    $width2 = 0;
+    $width1 = 0;
+} else {
+    $width5 = $total5 / count($result) * 100;
+    $width4 = $total4 / count($result) * 100;
+    $width3 = $total3 / count($result) * 100;
+    $width2 = $total2 / count($result) * 100;
+    $width1 = $total1 / count($result) * 100;
+}
+
+?>
+
+<div class="mb-4">
+    <div class="d-flex align-items-center mb-3 ">
+        <h2 class="atitle">User Reviews</h2>
+        <div class="ms-auto btn btn-outline-primary js-open-write-review d-flex align-items-center">
+            <svg style="margin-right: 10px;" class="me-1" width="24" height="24" fill="#0d6efd">
+                <use xlink:href="#icon-write-review"></use>
+            </svg>
+            Write a Review
+        </div>
+    </div>
+    <div class="rating row mb-4 ">
+        <div class="col-5 ">
+            <div class="rating-left d-flex flex-column align-items-center ">
+                <div class="rating-score">
+                    <?php echo count($result) ?> </div>
+                <div class="star-container"><svg style="color:#ffc107" width="30" height="30" class="mb-2 mt-1">
+                        <use xlink:href="#icon-star-rating"></use>
+                    </svg></div>
+
+                <div class="d-flex align-items-center ">
+                    <?php echo count($result) ?> user reviews </div>
+            </div>
+        </div>
+        <div class="col-7 ">
+            <div class="rating-right ">
+                <div class="rating-item d-flex align-items-center ">
+                    <div class="flex-shrink-0 me-2 d-flex align-items-center justify-content-between fs-16">5 <svg style="color:#cacaca" height="14" width="14" class="ms-1">
+                            <use xlink:href="#icon-star-rating"></use>
+                        </svg>
+                    </div>
+                    <div class="rating-bg">
+                        <div class="rating-5" style="width: <?php echo $width5 ?>%; "></div>
+                    </div>
+                </div>
+                <div class="rating-item d-flex align-items-center ">
+                    <div class="flex-shrink-0 me-2 d-flex align-items-center justify-content-between fs-16">4 <svg style="color:#cacaca" height="14" width="14" class="ms-1">
+                            <use xlink:href="#icon-star-rating"></use>
+                        </svg>
+                    </div>
+                    <div class="rating-bg">
+                        <div class="rating-4" style="width: <?php echo $width4 ?>%; "></div>
+                    </div>
+                </div>
+                <div class="rating-item d-flex align-items-center ">
+                    <div class="flex-shrink-0 me-2 d-flex align-items-center justify-content-between fs-16">3 <svg style="color:#cacaca" height="14" width="14" class="ms-1">
+                            <use xlink:href="#icon-star-rating"></use>
+                        </svg>
+                    </div>
+                    <div class="rating-bg">
+                        <div class="rating-3" style="width: <?php echo $width3 ?>%; "></div>
+                    </div>
+                </div>
+                <div class="rating-item d-flex align-items-center ">
+                    <div class="flex-shrink-0 me-2 d-flex align-items-center justify-content-between fs-16">2 <svg style="color:#cacaca" height="14" width="14" class="ms-1">
+                            <use xlink:href="#icon-star-rating"></use>
+                        </svg>
+                    </div>
+                    <div class="rating-bg">
+                        <div class="rating-2" style="width: <?php echo $width2 ?>%; "></div>
+                    </div>
+                </div>
+                <div class="rating-item d-flex align-items-center ">
+                    <div class="flex-shrink-0 me-2 d-flex align-items-center justify-content-between fs-16">1 <svg style="color:#cacaca" height="14" width="14" class="ms-1">
+                            <use xlink:href="#icon-star-rating"></use>
+                        </svg>
+                    </div>
+                    <div class="rating-bg">
+                        <div class="rating-1" style="width: <?php echo $width1 ?>%; "></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class=" mb-4 w-100 py-3">
+        <form id="filter-review-options">
+            <div class="comment-action d-flex align-items-center flex-wrap justify-content-end">
+                <div class="sort-comment me-4 ">
+                    <select onchange="filterReviews(jQuery(this))" name="sort" class="text-primary">
+                        <option value="newest">
+                            Newest </option>
+                        <option value="rating">
+                            Rating </option>
+                    </select>
+                </div>
+                <div class="sort-comment ">
+                    <select onchange="filterReviews(jQuery(this))" name="s" class="text-primary sort-comment-list">
+                        <option value="">
+                            &nbsp;All Star </option>
+                        <option value="1">
+                            ★ 1-star </option>
+                        <option value="2">
+                            ★ 2-star </option>
+                        <option value="3">
+                            ★ 3-star </option>
+                        <option value="4">
+                            ★ 4-star </option>
+                        <option value="5">
+                            ★ 5-star </option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <?php if (count($result) == 0) { ?>
+        <div id="review-container">
+            <div class="comment">
+                <div class="search-empty d-flex align-items-center justify-content-center flex-column">
+                    <img class="lazyloaded" width="180" height="100%" src="https://apkmoday.com/assets/img/page/not-found.png" data-src="https://apkmoday.com/assets/img/page/not-found.png" alt="" referrerpolicy="no-referrer">
+                    <div class="fs-20 fw-300">Sorry, no results found.</div>
+                </div>
+            </div>
+        </div>
+    <?php } else { ?>
+        <div class="d-flex" style="flex-direction: row;" id="review-user-area">
+            <?php foreach ($result as $user_review) { ?>
+                <div class="lasso-container">
+                    <div class="lasso-display">
+                        <div class="lasso-box-1">
+                            <div class="updated-on">
+                                <span class="title-detail"><?php echo $user_review->user_name ?></span>
+                            </div>
+
+                            <div class="lasso-stars" style="--rating: <?php echo $user_review->score ?>">
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="lasso-description">
+                                <?php echo $user_review->user_comment ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    <?php } ?>
+</div>
+<?php get_template_part('templates/modal-rating', 'page'); ?>
+
+<script>
+    var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+
+    function filterReviews(selection) {
+        let option = selection.val();
+
+        jQuery.ajax({
+                method: 'POST',
+                dataType: 'json',
+                url: ajaxurl,
+                data: {
+                    option: option,
+                    action: "filter_review_handler"
+                }
+            })
+            .done(
+                function(data) {
+                    jQuery('#review-user-area').empty();
+                    jQuery.each(data.result, function(key, value) {
+                        jQuery('#review-user-area').append(`
+                        <div class="lasso-container">
+                            <div class="lasso-display">
+                                <div class="lasso-box-1">
+                                    <div class="updated-on">
+                                        <span class="title-detail">` + value.user_name + `</span>
+                                    </div>
+
+                                <div class="lasso-stars" style="--rating: ` + value.score + `">
+                                 </div>
+
+                            <div class="clear"></div>
+                            <div class="lasso-description">
+                            ` + value.user_comment + `
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        `);
+                    });
+                }
+            );
+    }
+</script>

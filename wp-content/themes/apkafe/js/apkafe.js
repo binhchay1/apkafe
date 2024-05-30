@@ -64,6 +64,53 @@ jQuery(document).ready(function () {
         autoplayTimeout: 2000,
         autoplayHoverPause: true
     });
+
+    jQuery('.js-open-write-review').on('click', function () {
+        jQuery('#fancybox-container-1').show();
+    });
+});
+
+jQuery(document).on('mousemove', '.stars-holder.editable-rating', function (e) {
+    jQuery(".js-full-stars").css("animation", "none");
+    jQuery(".js-animation-full-stars").css("animation", "none");
+    jQuery(".js-animation-full-stars").css("display", "none");
+    var percent = scorePercent(e, this);
+    jQuery(this).find('.full-stars').width(percent + "%");
+}).on('click', '.stars-holder.editable-rating', function (e) {
+    e.stopPropagation();
+    var score = Math.round(scorePercent(e, this) * 10 / 100) / 20 * 10;
+    if (jQuery(this).next('input[type="hidden"]').length > 0) {
+        jQuery(this).next('input[type="hidden"]').val(score).change();
+    }
+
+    if (jQuery(this).closest('.overall-score').find('.score-numbers').length > 0) {
+        jQuery(this).closest('.overall-score').find('.score-numbers').text(score);
+    }
+
+    if (jQuery(this).closest('#new-user-review').length > 0) {
+        var count = 0;
+        var total = 0;
+        jQuery(this).closest('#new-user-review').find('.stars-holder').next('input[type="hidden"]').each(function () {
+            if (jQuery(this).val() > 0) {
+                count++;
+                total += +jQuery(this).val();
+            }
+        });
+        if (count > 0) {
+            jQuery(this).closest('#new-user-review').find('.overall-score .avg-rate').text(Math.round(total / count * 10) / 10);
+            var stars_width = 0;
+            stars_width = Math.round(total / count * 10) / 10 * 20 + '%';
+            stars_width_num = Math.round(total / count * 10) / 10 * 20;
+            jQuery(this).closest('#new-user-review').find('.overall-score .full-stars-all').width(stars_width);
+        }
+    }
+}).on('mouseleave', '.stars-holder.editable-rating', function () {
+    var width = 0;
+    if (jQuery(this).next('input[type="hidden"]').length > 0) {
+        width = jQuery(this).next('input[type="hidden"]').val() * 20 + '%';
+        width_num = jQuery(this).next('input[type="hidden"]').val() * 20;
+    }
+    jQuery(this).find('.full-stars').width(width);
 });
 
 function scrollToBottom(timedelay = 0) {
@@ -87,10 +134,21 @@ function handleTouch() {
     }
 }
 
+function closeBoxReview() {
+    jQuery('#fancybox-container-1').hide();
+}
+
 function show_menu_mobile() {
     jQuery('#nav_new').removeClass('hide-mobile');
 }
 
 function closeMenu() {
     jQuery('#nav_new').addClass('hide-mobile');
+}
+
+function scorePercent(e, stars_holder) {
+    var width = jQuery(stars_holder).width();
+    var left = e.pageX - jQuery(stars_holder).offset().left;
+    var offset = Math.min(Math.max(0, left), width);
+    return Math.round((offset / width * 100 / 20) + 0.49) * 20;
 }
