@@ -9,8 +9,8 @@
 		'post_type' => 'post',
 		'post_status' => 'publish',
 		'posts_per_page' => 5,
-		'orderby' => 'ID',
-		'order' => 'DESC',
+		'orderby' => 'publish_date', 
+		'order' => 'DESC'
 	);
 	$get_post_hot_news = new WP_Query($args);
 	?>

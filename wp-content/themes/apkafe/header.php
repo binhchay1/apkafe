@@ -51,6 +51,8 @@
                                 <?php } ?>
                             <?php } ?>
                         </div>
+
+                        <?php echo do_shortcode('[google-translator]'); ?>
                     </ul>
                 </div>
                 <!--
