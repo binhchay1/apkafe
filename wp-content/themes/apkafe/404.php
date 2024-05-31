@@ -9,6 +9,10 @@ $layout = 'full';
     .search-box form .text-box input {
         width: 125%;
     }
+
+    .row {
+        display: block !important;
+    }
 </style>
 <?php get_template_part('templates/header/header', 'heading'); ?>
 <div class="top-sidebar">

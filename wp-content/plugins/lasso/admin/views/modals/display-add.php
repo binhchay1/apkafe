@@ -95,6 +95,7 @@ use Lasso\Classes\Launch_Darkly;
 					</div>
 					<div class="col-lg-4 search-keys">
 						<input id="search-key-single" type="text" class="form-control" placeholder="Search URLs">
+						<input id="search-key-remind" type="text" class="form-control" placeholder="Search URLs">
 						<input id="search-key-button" type="text" class="form-control" placeholder="Search URLs">
 						<input id="search-key-image" type="text" class="form-control" placeholder="Search URLs">
 					</div>
@@ -492,7 +493,7 @@ use Lasso\Classes\Launch_Darkly;
 		jQuery(".search-keys input").off('keyup').on('keyup', function(e) {
 			// WHEN ENTER IS PRESSED, SEARCH
 			if (event.which == 13) {
-				if (Array('single', 'image', 'button').indexOf(tab) != -1) {
+				if (Array('single', 'image', 'button', 'remind').indexOf(tab) != -1) {
 					single_search_attributes(true);
 				} else if (Array('list', 'grid', 'gallery').indexOf(tab) != -1) {
 					grid_search_attributes(true);
@@ -517,9 +518,17 @@ use Lasso\Classes\Launch_Darkly;
 			
 			let search_key = jQuery('.search-keys input#search-key-' + tab).val();
 			let current_page = get_current_page(entering_search);
+			
+			if(tab == 'remind') {
+				tab_for_search = 'single'
+			} else {
+				tab_for_search = tab;
+			}
 
-			lasso_segment_tracking('Get Lasso urls of "' + tab + '" type', {
-				tab: tab,
+			console.log(tab, tab_for_search, current_page, entering_search)
+
+			lasso_segment_tracking('Get Lasso urls of "' + tab_for_search + '" type', {
+				tab: tab_for_search,
 				search_key: search_key,
 				current_page: current_page
 			});

@@ -48,7 +48,6 @@ h6,
 header,
 hgroup,
 html,
-i,
 iframe,
 img,
 ins,
@@ -95,6 +94,7 @@ video {
   vertical-align: baseline;
   outline: 0;
   background: transparent;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
 }
 
 article,
@@ -175,7 +175,6 @@ body {
   line-height: 22px;
   color: #212529;
   font-weight: 400;
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 #main_wrap {
@@ -186,16 +185,6 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   -webkit-user-select: none;
-}
-
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-bottom: 10px;
 }
 
 h1,

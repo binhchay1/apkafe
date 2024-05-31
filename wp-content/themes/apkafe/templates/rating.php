@@ -196,16 +196,17 @@ if (count($result) == 0) {
 
     jQuery(document).ready(function() {
         jQuery('#sort-review-2').on('change', function() {
-            filterReviews(jQuery(this));
+            filterReviews();
         });
 
         jQuery('#sort-review-1').on('change', function() {
-            filterReviews(jQuery(this));
+            filterReviews();
         });
     });
 
-    function filterReviews(selection) {
-        let option = selection.val();
+    function filterReviews() {
+        let option_newsest = jQuery('#sort-review-1').val();
+        let option_star = jQuery('#sort-review-2').val();
         let post_id = jQuery('#post-id-for-review').val();
 
         jQuery.ajax({
@@ -213,7 +214,8 @@ if (count($result) == 0) {
                 dataType: 'json',
                 url: ajaxurl,
                 data: {
-                    option: option,
+                    option_newsest: option_newsest,
+                    option_start: option_start,
                     post_id: post_id,
                     action: "filter_review_handler"
                 }
@@ -276,13 +278,15 @@ if (count($result) == 0) {
                             setTimeout(function() {
                                 x.className = x.className.replace("show", "");
                             }, 3000);
-                        } else {
+                        } else if (data.result == 1) {
                             var x = document.getElementById("snackbar");
                             x.className = "show-green";
                             x.innerHTML = "Your review has store.";
                             setTimeout(function() {
                                 x.className = x.className.replace("show-green", "");
                             }, 3000);
+                        } else {
+                            
                         }
 
                     }

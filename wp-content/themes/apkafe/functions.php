@@ -390,7 +390,8 @@ add_action('template_redirect', function () {
 				if (end($paths) == '') {
 					status_header(200);
 					$wp_query->is_404  = false;
-					return;
+					get_template_part(404);
+					exit();
 				}
 			}
 		}
@@ -432,6 +433,84 @@ function submit_review_handler()
 	$user_name = $_POST['user_name'];
 	$user_comment = $_POST['user_comment'];
 	$post_id = $_POST['post_id'];
+	$listCharacterBlackList = [
+		'fuck',
+		'shit',
+		'bitch',
+		'ass',
+		'bastard',
+		'damn',
+		'hell',
+		'whore',
+		'dick',
+		'pussy',
+		'asshole',
+		'cocksucker',
+		'motherfucker',
+		'fag',
+		'cunt',
+		'slut',
+		'cock',
+		'tits',
+		'wanker',
+		'crap',
+		'bollocks',
+		'prick',
+		'dyke',
+		'twat',
+		'piss',
+		'douche',
+		'jerk',
+		'screw',
+		'slag',
+		'turd',
+		'son of a bitch',
+		'goddamn',
+		'gambling',
+		'bet',
+		'betting',
+		'casino',
+		'wager',
+		'poker',
+		'blackjack',
+		'roulette',
+		'slots',
+		'bookie',
+		'sportsbook',
+		'odds',
+		'jackpot',
+		'bingo',
+		'lottery',
+		'lotto',
+		'scam',
+		'fraud',
+		'con',
+		'phishing',
+		'swindle',
+		'trick',
+		'hoax',
+		'deceive',
+		'deceptive',
+		'cheat',
+		'cheating',
+		'rip-off',
+		'sham',
+		'bogus',
+		'counterfeit',
+		'ponzi scheme',
+		'pyramid scheme',
+		'fake',
+		'scammer',
+		'fraudster',
+	];
+
+	foreach($listCharacterBlackList as $character) {
+		if(strpos($user_comment, $character) !== false) {
+			echo json_encode(array('success' => true, 'result' => 3, 'character' => $character));
+
+			return;
+		}
+	}
 
 	$result = $wpdb->get_var(
 		$wpdb->prepare(
@@ -464,80 +543,49 @@ add_action('wp_ajax_nopriv_submit_review_handler', 'submit_review_handler');
 function filter_review_handler()
 {
 	global $wpdb;
-	$option = $_POST['option'];
+	$option_star = $_POST['option_star'];
+	$option_newsest = $_POST['option_newsest'];
 	$post_id = $_POST['post_id'];
+	$string_query = "SELECT * FROM wp_user_review WHERE post_id = '%d'";
 
-	if($option == 'newest') {
-		$result = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE post_id = '%d' ORDER BY created_at DESC",
-				$post_id
-			)
-		);
+	if ($option_star == '0') {
+		$string_query = $string_query . " AND score = '0'";
 	}
 
-	if($option == 'rating') {
-		$result = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE post_id = '%d' ORDER BY score",
-				$post_id
-			)
-		);
+	if ($option_star == '1') {
+		$string_query = $string_query . " AND score = '1'";
 	}
 
-	if($option == '0') {
-		$result = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE post_id = '%d'",
-				$post_id
-			)
-		);
+	if ($option_star == '2') {
+		$string_query = $string_query . " AND score = '2'";
 	}
 
-	if($option == '1') {
-		$result = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE post_id = '%d' AND score = '1'",
-				$post_id
-			)
-		);
+	if ($option_star == '3') {
+		$string_query = $string_query . " AND score = '3'";
 	}
 
-	if($option == '2') {
-		$result = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE post_id = '%d' AND score = '2'",
-				$post_id
-			)
-		);
+	if ($option_star == '4') {
+		$string_query = $string_query . " AND score = '4'";
 	}
 
-	if($option == '3') {
-		$result = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE post_id = '%d' AND score = '3'",
-				$post_id
-			)
-		);
+	if ($option_star == '5') {
+		$string_query = $string_query . " AND score = '5'";
 	}
 
-	if($option == '4') {
-		$result = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE post_id = '%d' AND score = '4'",
-				$post_id
-			)
-		);
+	if ($option_newsest == 'newest') {
+		$string_query = $string_query . " ORDER BY created_at";
 	}
 
-	if($option == '5') {
-		$result = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM wp_user_review WHERE post_id = '%d' AND score = '5'",
-				$post_id
-			)
-		);
+	if ($option_newsest == 'rating') {
+		$string_query = $string_query . " ORDER BY score";
 	}
+
+	$result = $wpdb->get_results(
+		$wpdb->prepare(
+			$string_query,
+			$post_id
+		)
+	);
 
 	echo json_encode(array('success' => true, 'result' => $result));
 
