@@ -1408,7 +1408,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 				price_app: price_app,
 				developer: developer_app,
 				rating: rating_app,
-				categories: categories_app,
+				categories_app: categories_app,
 				size: size_app,
 				version: version_app,
 				updated_on: updated_on_app,

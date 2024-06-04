@@ -2940,7 +2940,7 @@ a.single-language span.size22 {
   }
 
   .search-box form .text-box input {
-    width: 140%;
+    width: 125% !important;
   }
 
   .bg {

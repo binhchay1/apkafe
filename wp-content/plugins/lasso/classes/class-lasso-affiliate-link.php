@@ -1380,7 +1380,7 @@ class Lasso_Affiliate_Link
 
 				'rating' => $post_data['rating'],
 				'developer' => $post_data['developer'],
-				'categories' => $post_data['categories'],
+				'categories' => $post_data['categories_app'],
 				'version' => $post_data['version'],
 				'size' => $post_data['size'],
 				'apple_btn_url' => $post_data['apple_btn_url'],
