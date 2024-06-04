@@ -391,28 +391,13 @@ header #nav_wrap ul.main_nav li .mico {
   margin-right: 4px;
 }
 
-header #nav_wrap ul.main_nav li:hover > a {
+header #nav_wrap ul.main_nav .menu-primary-nav:hover > a {
   background: #24cd77;
   color: #ffffff;
 }
 
 header #nav_wrap ul.main_nav li:hover .mico {
   color: #ffffff !important;
-}
-
-header #nav_wrap ul.main_nav li > ul {
-  display: none;
-  position: absolute;
-  left: 0;
-  top: 50px;
-  background: #26272b;
-  min-width: 180px;
-}
-
-header #nav_wrap ul.main_nav li > ul li {
-  float: left;
-  width: 100%;
-  border-bottom: solid 1px #ccc;
 }
 
 header #nav_wrap ul.main_nav li > ul li a {
@@ -594,14 +579,6 @@ header .lang_box .lang_box_inner .lang_item:hover > span {
     width: 100%;
     position: static;
     background: #ececec;
-  }
-
-  header #nav_wrap ul.main_nav li > ul li {
-    padding-left: 15px;
-  }
-
-  header #nav_wrap ul.main_nav li > ul li:last-child {
-    border-bottom: none;
   }
 }
 
@@ -2869,6 +2846,29 @@ a.single-language span.size22 {
   flex-wrap: wrap;
 }
 
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  flex-direction: column;
+  bottom: 0;
+  top: 70%;
+}
+
+.dropdown-langue:hover .dropdown-content {
+  display: flex;
+}
+
+.dropdown-content li:hover > a {
+  background-color: none !important;
+  color: inherit !important;
+}
+
+.menu-primary-nav {
+  display: flex;
+  justify-content: end;
+}
+
 @-webkit-keyframes snackbar-fadein {
   from {
     bottom: 0;
@@ -2940,11 +2940,41 @@ a.single-language span.size22 {
   }
 
   .search-box form .text-box input {
-    width: 100%;
+    width: 140%;
   }
 
   .bg {
     display: flex;
     justify-content: center;
+  }
+
+  .formsearch button {
+    margin-left: 5px;
+  }
+
+  .box-reviews {
+    position: absolute;
+    top: 15%;
+    left: 0;
+    width: 100%;
+    padding: 0;
+  }
+
+  #flags.size22 a, a.single-language span.size22 {
+    width: 10% !important;
+  }
+
+  .ui-sortable {
+    float: inherit !important;
+  }
+
+  #flags li {
+    float: inherit !important;
+  }
+
+  .dropdown-content {
+    width: 100%;
+    display: flex;
+    position: static;
   }
 }

@@ -61,7 +61,7 @@
                         <div class="ftr_link_box" style="display: flex; justify-content: end;">
                             <?php if (!empty(ot_get_option('menu_header'))) {  ?>
                                 <?php foreach (ot_get_option('menu_header') as $menu) { ?>
-                                    <li style="display: flex; justify-content: end;">
+                                    <li class="menu-primary-nav">
                                         <a href="<?php echo $menu['link'] ?>" class="d-flex align-items-center">
                                             <span class="d-flex align-items-center"><img src="<?php echo $menu['icon'] ?>" width="30" height="30" /></span>
                                             <span style="margin-left: 10px;"><?php echo $menu['title'] ?></span>
@@ -70,7 +70,7 @@
                                 <?php } ?>
                             <?php } ?>
 
-                            <li style="align-content: center;">
+                            <li class="dropdown-langue" style="align-content: center;">
                                 <?php echo do_shortcode('[google-translator]'); ?>
                             </li>
                         </div>
@@ -96,6 +96,10 @@
                             </li>
                         <?php } ?>
                     <?php } ?>
+
+                    <li class="dropdown-langue" style="align-content: center;">
+                        <?php echo do_shortcode('[google-translator]'); ?>
+                    </li>
                 </ul>
             </div>
 

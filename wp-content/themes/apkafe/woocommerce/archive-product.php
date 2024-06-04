@@ -85,186 +85,184 @@ get_header('shop'); ?>
 	<?php if ($content_padding != 'off') { ?>
 		<div class="content-pad-4x">
 		<?php } ?>
-		<div class="row">
-			<div id="content">
-				<?php
-				if (class_exists('WCV_Vendor_Shop')) {
-					WCV_Vendor_Shop::shop_description();
-				} ?>
+		<div id="content">
+			<?php
+			if (class_exists('WCV_Vendor_Shop')) {
+				WCV_Vendor_Shop::shop_description();
+			} ?>
 
-				<?php if ($getH1 != '') { ?>
-					<div class="padding-20">
-						<h1><?php echo $getH1 ?></h1>
-					</div>
-				<?php } ?>
+			<?php if ($getH1 != '') { ?>
+				<div class="padding-20">
+					<h1><?php echo $getH1 ?></h1>
+				</div>
+			<?php } ?>
 
-				<?php do_action('woocommerce_archive_description'); ?>
+			<?php do_action('woocommerce_archive_description'); ?>
 
-				<ul class="sort-controls" id="section-tab-filter">
-					<li class="active" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'news')">
-						<a><i class="fa fa-sync"></i>News</a>
-					</li>
-					<li style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'hot')">
-						<a><i class="fa fa-heartbeat" style="margin-right: 10px;"></i>Hot</a>
-					</li>
-					<li style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'popular')">
-						<a><i class="fa fa-line-chart" style="margin-right: 10px;"></i>Popular</a>
-					</li>
-				</ul>
+			<ul class="sort-controls" id="section-tab-filter">
+				<li class="active" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'news')">
+					<a><i class="fa fa-sync"></i>News</a>
+				</li>
+				<li style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'hot')">
+					<a><i class="fa fa-heartbeat" style="margin-right: 10px;"></i>Hot</a>
+				</li>
+				<li style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'popular')">
+					<a><i class="fa fa-line-chart" style="margin-right: 10px;"></i>Popular</a>
+				</li>
+			</ul>
 
-				<div id="news">
-					<?php $args = array(
-						'posts_per_page' => 15,
-						'paged' => $current_page_news,
-						'post_status' => 'published',
-						'post_type' => 'product',
-						'tax_query'             => array(
-							array(
-								'taxonomy'      => 'product_cat',
-								'field' => 'term_id',
-								'terms'         => $term->term_id,
-								'operator'      => 'IN'
-							)
+			<div id="news">
+				<?php $args = array(
+					'posts_per_page' => 15,
+					'paged' => $current_page_news,
+					'post_status' => 'published',
+					'post_type' => 'product',
+					'tax_query'             => array(
+						array(
+							'taxonomy'      => 'product_cat',
+							'field' => 'term_id',
+							'terms'         => $term->term_id,
+							'operator'      => 'IN'
 						)
-					);
-					$res =  new WP_Query($args);
-					$total_page_news = $res->max_num_pages; ?>
-					<div class="main_list_item">
-						<?php if ($res->have_posts()) { ?>
-							<?php foreach ($res->posts as $post) { ?>
-								<?php
-								$icon = get_post_meta($post->ID, 'app-icon', true);
-								?>
-								<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
-									<img src="<?php echo esc_url($icon); ?>">
-									<p class="title"><?php echo $post->post_title ?></p>
-								</a>
-							<?php } ?>
-						<?php } ?>
-					</div>
-
-					<div class="d-flex justify-center margin-top-15">
-						<?php echo paginate_links(array(
-							'format' => '?news_page=%#%',
-							'current' => $current_page_news,
-							'total' => $total_page_news,
-							'type' => 'list',
-							'prev_text' => __('←'),
-							'next_text' => __('→'),
-						)); ?>
-					</div>
-				</div>
-
-				<div id="hot">
-					<?php $listPostHot = []; ?>
-					<?php $getOptionHot = ot_get_option('customize_hot') ?>
-					<?php if ($getOptionHot != '') { ?>
-						<?php foreach ($getOptionHot as $option) { ?>
-							<?php if ($option['title'] == $term->name) { ?>
-								<?php foreach ($option['post_select'] as $postSelectHot) { ?>
-									<?php $listPostHot[] = $postSelectHot ?>
-								<?php } ?>
-							<?php } ?>
-						<?php } ?>
-						<?php if (!empty($listPostHot)) { ?>
+					)
+				);
+				$res =  new WP_Query($args);
+				$total_page_news = $res->max_num_pages; ?>
+				<div class="main_list_item">
+					<?php if ($res->have_posts()) { ?>
+						<?php foreach ($res->posts as $post) { ?>
 							<?php
-							if (isset($getPaginationHot)) {
-								$current_page_hot = $getPaginationHot;
-							} else {
-								$current_page_hot = 1;
-							}
-
-							$args = array(
-								'post__in' => $listPostHot,
-								'posts_per_page' => 15,
-								'paged' => $current_page_hot,
-								'post_status' => 'published',
-								'post_type' => 'product',
-							);
-							$res =  new WP_Query($args);
-							$total_page_hot = $res->max_num_pages; ?>
-							<div class="main_list_item">
-								<?php if ($res->have_posts()) { ?>
-									<?php foreach ($res->posts as $post) { ?>
-										<?php
-										$icon = get_post_meta($post->ID, 'app-icon', true);
-										?>
-										<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
-											<img src="<?php echo esc_url($icon); ?>">
-											<p class="title"><?php echo $post->post_title ?></p>
-										</a>
-									<?php } ?>
-								<?php } ?>
-							</div>
-
-							<div class="d-flex justify-center margin-top-15">
-								<?php echo paginate_links(array(
-									'format' => '?hot_page=%#%',
-									'current' => $current_page_hot,
-									'total' => $total_page_hot,
-									'type' => 'list',
-									'prev_text' => __('←'),
-									'next_text' => __('→'),
-								)); ?>
-							</div>
+							$icon = get_post_meta($post->ID, 'app-icon', true);
+							?>
+							<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
+								<img src="<?php echo esc_url($icon); ?>">
+								<p class="title"><?php echo $post->post_title ?></p>
+							</a>
 						<?php } ?>
 					<?php } ?>
 				</div>
 
-				<div id="popular">
-					<?php $listPostPopular = []; ?>
-					<?php $getOptionPopular = ot_get_option('customize_popular') ?>
-					<?php if ($getOptionPopular != '') { ?>
-						<?php foreach ($getOptionPopular as $optionPopular) { ?>
-							<?php if ($optionPopular['title'] == $term->name) { ?>
-								<?php foreach ($optionPopular['post_select'] as $postSelectPopular) { ?>
-									<?php $listPostPopular[] = $postSelectPopular ?>
-								<?php } ?>
+				<div class="d-flex justify-center margin-top-15">
+					<?php echo paginate_links(array(
+						'format' => '?news_page=%#%',
+						'current' => $current_page_news,
+						'total' => $total_page_news,
+						'type' => 'list',
+						'prev_text' => __('←'),
+						'next_text' => __('→'),
+					)); ?>
+				</div>
+			</div>
+
+			<div id="hot">
+				<?php $listPostHot = []; ?>
+				<?php $getOptionHot = ot_get_option('customize_hot') ?>
+				<?php if ($getOptionHot != '') { ?>
+					<?php foreach ($getOptionHot as $option) { ?>
+						<?php if ($option['title'] == $term->name) { ?>
+							<?php foreach ($option['post_select'] as $postSelectHot) { ?>
+								<?php $listPostHot[] = $postSelectHot ?>
 							<?php } ?>
 						<?php } ?>
-						<?php if (!empty($listPostPopular)) { ?>
-							<?php
-							if (isset($getPaginationPopular)) {
-								$current_page_popular = $getPaginationPopular;
-							} else {
-								$current_page_popular = 1;
-							}
+					<?php } ?>
+					<?php if (!empty($listPostHot)) { ?>
+						<?php
+						if (isset($getPaginationHot)) {
+							$current_page_hot = $getPaginationHot;
+						} else {
+							$current_page_hot = 1;
+						}
 
-							$args = array(
-								'post__in' => $listPostPopular,
-								'posts_per_page' => 16,
-								'paged' => $current_page_popular,
-								'post_status' => 'published',
-								'post_type' => 'product',
-							);
-							$res =  new WP_Query($args);
-							$total_page_popular = $res->max_num_pages; ?>
-							<div class="main_list_item">
-								<?php if ($res->have_posts()) { ?>
-									<?php foreach ($res->get_posts() as $post) { ?>
-										<?php
-										$icon = get_post_meta($post->ID, 'app-icon', true);
-										?>
-										<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
-											<img src="<?php echo esc_url($icon); ?>">
-											<p class="title"><?php echo $post->post_title ?></p>
-										</a>
-									<?php } ?>
+						$args = array(
+							'post__in' => $listPostHot,
+							'posts_per_page' => 15,
+							'paged' => $current_page_hot,
+							'post_status' => 'published',
+							'post_type' => 'product',
+						);
+						$res =  new WP_Query($args);
+						$total_page_hot = $res->max_num_pages; ?>
+						<div class="main_list_item">
+							<?php if ($res->have_posts()) { ?>
+								<?php foreach ($res->posts as $post) { ?>
+									<?php
+									$icon = get_post_meta($post->ID, 'app-icon', true);
+									?>
+									<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
+										<img src="<?php echo esc_url($icon); ?>">
+										<p class="title"><?php echo $post->post_title ?></p>
+									</a>
 								<?php } ?>
-							</div>
-							<div class="d-flex justify-center margin-top-15">
-								<?php echo paginate_links(array(
-									'format' => '?popular_page=%#%',
-									'current' => $current_page_popular,
-									'total' => $total_page_popular,
-									'type' => 'list',
-									'prev_text' => __('←'),
-									'next_text' => __('→'),
-								)); ?>
-							</div>
+							<?php } ?>
+						</div>
+
+						<div class="d-flex justify-center margin-top-15">
+							<?php echo paginate_links(array(
+								'format' => '?hot_page=%#%',
+								'current' => $current_page_hot,
+								'total' => $total_page_hot,
+								'type' => 'list',
+								'prev_text' => __('←'),
+								'next_text' => __('→'),
+							)); ?>
+						</div>
+					<?php } ?>
+				<?php } ?>
+			</div>
+
+			<div id="popular">
+				<?php $listPostPopular = []; ?>
+				<?php $getOptionPopular = ot_get_option('customize_popular') ?>
+				<?php if ($getOptionPopular != '') { ?>
+					<?php foreach ($getOptionPopular as $optionPopular) { ?>
+						<?php if ($optionPopular['title'] == $term->name) { ?>
+							<?php foreach ($optionPopular['post_select'] as $postSelectPopular) { ?>
+								<?php $listPostPopular[] = $postSelectPopular ?>
+							<?php } ?>
 						<?php } ?>
 					<?php } ?>
-				</div>
+					<?php if (!empty($listPostPopular)) { ?>
+						<?php
+						if (isset($getPaginationPopular)) {
+							$current_page_popular = $getPaginationPopular;
+						} else {
+							$current_page_popular = 1;
+						}
+
+						$args = array(
+							'post__in' => $listPostPopular,
+							'posts_per_page' => 16,
+							'paged' => $current_page_popular,
+							'post_status' => 'published',
+							'post_type' => 'product',
+						);
+						$res =  new WP_Query($args);
+						$total_page_popular = $res->max_num_pages; ?>
+						<div class="main_list_item">
+							<?php if ($res->have_posts()) { ?>
+								<?php foreach ($res->get_posts() as $post) { ?>
+									<?php
+									$icon = get_post_meta($post->ID, 'app-icon', true);
+									?>
+									<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
+										<img src="<?php echo esc_url($icon); ?>">
+										<p class="title"><?php echo $post->post_title ?></p>
+									</a>
+								<?php } ?>
+							<?php } ?>
+						</div>
+						<div class="d-flex justify-center margin-top-15">
+							<?php echo paginate_links(array(
+								'format' => '?popular_page=%#%',
+								'current' => $current_page_popular,
+								'total' => $total_page_popular,
+								'type' => 'list',
+								'prev_text' => __('←'),
+								'next_text' => __('→'),
+							)); ?>
+						</div>
+					<?php } ?>
+				<?php } ?>
 			</div>
 		</div>
 

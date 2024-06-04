@@ -71,138 +71,85 @@ $total_page_news = $get_post->max_num_pages;
     }
     ?>
     <div class="content-pad-4x">
-        <div class="row">
-            <div id="content">
-                <?php if ($getH1 != '') { ?>
-                    <div class="padding-20">
-                        <h1><?php echo $getH1 ?></h1>
-                    </div>
-                <?php } ?>
-
-                <?php if ($description != '') { ?>
-                    <div class="padding-20">
-                        <?php echo $description ?>
-                    </div>
-                <?php } ?>
-
-
-                <ul class="sort-controls" id="section-tab-filter">
-                    <li id="tab-filter-news" class="active" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'news')">
-                        <a><i class="fa fa-refresh" style="margin-right: 10px;"></i>News</a>
-                    </li>
-                    <li id="tab-filter-hot" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'hot')">
-                        <a><i class="fa fa-heartbeat" style="margin-right: 10px;"></i>Hot</a>
-                    </li>
-                    <li id="tab-filter-popular" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'popular')">
-                        <a><i class="fa fa-line-chart" style="margin-right: 10px;"></i>Popular</a>
-                    </li>
-                </ul>
-
-                <div id="news">
-                    <div class="main_list_item">
-                        <?php if ($get_post->have_posts()) { ?>
-                            <?php foreach ($get_post->posts as $post) { ?>
-                                <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
-                                    <?php echo get_the_post_thumbnail($post->ID) ?>
-                                    <p class="title"><?php echo get_the_title($post->ID) ?></p>
-                                </a>
-                            <?php } ?>
-                        <?php } ?>
-                    </div>
-
-                    <div class="d-flex justify-center margin-top-15">
-                        <?php echo paginate_links(array(
-                            'format' => '?news_page=%#%',
-                            'current' => $current_page_news,
-                            'total' => $total_page_news,
-                            'prev_text' => __('←'),
-                            'next_text' => __('→'),
-                            'type' => 'list',
-                        )); ?>
-                    </div>
+        <div id="content">
+            <?php if ($getH1 != '') { ?>
+                <div class="padding-20">
+                    <h1><?php echo $getH1 ?></h1>
                 </div>
+            <?php } ?>
 
-                <div id="hot">
-                    <?php $listPostHot = []; ?>
-                    <?php $getOptionHot = ot_get_option('customize_hot') ?>
-                    <?php if ($getOptionHot != '') { ?>
-                        <?php foreach ($getOptionHot as $option) { ?>
-                            <?php if ($option['title'] == $category) { ?>
-                                <?php foreach ($option['post_select'] as $postSelectHot) { ?>
-                                    <?php $listPostHot[] = $postSelectHot ?>
-                                <?php } ?>
-                            <?php } ?>
-                        <?php } ?>
+            <?php if ($description != '') { ?>
+                <div class="padding-20">
+                    <?php echo $description ?>
+                </div>
+            <?php } ?>
 
-                        <?php if (!empty($listPostHot)) { ?>
-                            <?php
-                            if (isset($getPaginationHot)) {
-                                $current_page_hot = $getPaginationHot;
-                            } else {
-                                $current_page_hot = 1;
-                            }
 
-                            $args = array(
-                                'post__in' => $listPostHot,
-                                'posts_per_page' => 15,
-                                'paged' => $current_page_hot,
-                                'post_status' => 'published',
-                                'post_type' => 'post',
-                            );
-                            $res =  new WP_Query($args);
-                            $total_page_hot = $res->max_num_pages; ?>
-                            <div class="main_list_item">
-                                <?php if ($res->have_posts()) { ?>
-                                    <?php foreach ($res->posts as $post) { ?>
-                                        <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
-                                            <?php echo get_the_post_thumbnail($post->ID) ?>
-                                            <p class="title"><?php echo get_the_title($post->ID) ?></p>
-                                        </a>
-                                    <?php } ?>
-                                <?php } ?>
-                            </div>
+            <ul class="sort-controls" id="section-tab-filter">
+                <li id="tab-filter-news" class="active" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'news')">
+                    <a><i class="fa fa-refresh" style="margin-right: 10px;"></i>News</a>
+                </li>
+                <li id="tab-filter-hot" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'hot')">
+                    <a><i class="fa fa-heartbeat" style="margin-right: 10px;"></i>Hot</a>
+                </li>
+                <li id="tab-filter-popular" style="cursor: pointer;" onclick="handleTabCategory(jQuery(this), 'popular')">
+                    <a><i class="fa fa-line-chart" style="margin-right: 10px;"></i>Popular</a>
+                </li>
+            </ul>
 
-                            <div class="d-flex justify-center margin-top-15">
-                                <?php echo paginate_links(array(
-                                    'format' => '?hot_page=%#%',
-                                    'current' => $current_page_hot,
-                                    'total' => $total_page_hot,
-                                    'type' => 'list',
-                                    'prev_text'    => __('←'),
-                                    'next_text'    => __('→'),
-                                )); ?>
-                            </div>
+            <div id="news">
+                <div class="main_list_item">
+                    <?php if ($get_post->have_posts()) { ?>
+                        <?php foreach ($get_post->posts as $post) { ?>
+                            <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
+                                <?php echo get_the_post_thumbnail($post->ID) ?>
+                                <p class="title"><?php echo get_the_title($post->ID) ?></p>
+                            </a>
                         <?php } ?>
                     <?php } ?>
                 </div>
 
-                <div id="popular">
-                    <?php $listPostPopular = []; ?>
-                    <?php $getOptionPopular = ot_get_option('customize_popular') ?>
-                    <?php if ($getOptionPopular != '') { ?>
-                        <?php foreach ($getOptionPopular as $optionPopular) { ?>
-                            <?php if ($optionPopular['title'] == $category) { ?>
-                                <?php foreach ($optionPopular['post_select'] as $postSelectPopular) { ?>
-                                    <?php $listPostPopular[] = $postSelectPopular ?>
-                                <?php } ?>
+                <div class="d-flex justify-center margin-top-15">
+                    <?php echo paginate_links(array(
+                        'format' => '?news_page=%#%',
+                        'current' => $current_page_news,
+                        'total' => $total_page_news,
+                        'prev_text' => __('←'),
+                        'next_text' => __('→'),
+                        'type' => 'list',
+                    )); ?>
+                </div>
+            </div>
+
+            <div id="hot">
+                <?php $listPostHot = []; ?>
+                <?php $getOptionHot = ot_get_option('customize_hot') ?>
+                <?php if ($getOptionHot != '') { ?>
+                    <?php foreach ($getOptionHot as $option) { ?>
+                        <?php if ($option['title'] == $category) { ?>
+                            <?php foreach ($option['post_select'] as $postSelectHot) { ?>
+                                <?php $listPostHot[] = $postSelectHot ?>
                             <?php } ?>
                         <?php } ?>
+                    <?php } ?>
+
+                    <?php if (!empty($listPostHot)) { ?>
                         <?php
-                        if (isset($getPaginationPopular)) {
-                            $current_page_popular = $getPaginationPopular;
+                        if (isset($getPaginationHot)) {
+                            $current_page_hot = $getPaginationHot;
                         } else {
-                            $current_page_popular = 1;
+                            $current_page_hot = 1;
                         }
 
                         $args = array(
-                            'post__in' => $listPostPopular,
+                            'post__in' => $listPostHot,
                             'posts_per_page' => 15,
-                            'paged' => $current_page_popular,
+                            'paged' => $current_page_hot,
                             'post_status' => 'published',
                             'post_type' => 'post',
                         );
                         $res =  new WP_Query($args);
-                        $total_page_popular = $res->max_num_pages; ?>
+                        $total_page_hot = $res->max_num_pages; ?>
                         <div class="main_list_item">
                             <?php if ($res->have_posts()) { ?>
                                 <?php foreach ($res->posts as $post) { ?>
@@ -213,18 +160,69 @@ $total_page_news = $get_post->max_num_pages;
                                 <?php } ?>
                             <?php } ?>
                         </div>
+
                         <div class="d-flex justify-center margin-top-15">
                             <?php echo paginate_links(array(
-                                'format' => '?popular_page=%#%',
-                                'current' => $current_page_popular,
-                                'total' => $total_page_popular,
+                                'format' => '?hot_page=%#%',
+                                'current' => $current_page_hot,
+                                'total' => $total_page_hot,
                                 'type' => 'list',
-                                'prev_text' => __('←'),
-                                'next_text' => __('→'),
+                                'prev_text'    => __('←'),
+                                'next_text'    => __('→'),
                             )); ?>
                         </div>
-                    <?php  } ?>
-                </div>
+                    <?php } ?>
+                <?php } ?>
+            </div>
+
+            <div id="popular">
+                <?php $listPostPopular = []; ?>
+                <?php $getOptionPopular = ot_get_option('customize_popular') ?>
+                <?php if ($getOptionPopular != '') { ?>
+                    <?php foreach ($getOptionPopular as $optionPopular) { ?>
+                        <?php if ($optionPopular['title'] == $category) { ?>
+                            <?php foreach ($optionPopular['post_select'] as $postSelectPopular) { ?>
+                                <?php $listPostPopular[] = $postSelectPopular ?>
+                            <?php } ?>
+                        <?php } ?>
+                    <?php } ?>
+                    <?php
+                    if (isset($getPaginationPopular)) {
+                        $current_page_popular = $getPaginationPopular;
+                    } else {
+                        $current_page_popular = 1;
+                    }
+
+                    $args = array(
+                        'post__in' => $listPostPopular,
+                        'posts_per_page' => 15,
+                        'paged' => $current_page_popular,
+                        'post_status' => 'published',
+                        'post_type' => 'post',
+                    );
+                    $res =  new WP_Query($args);
+                    $total_page_popular = $res->max_num_pages; ?>
+                    <div class="main_list_item">
+                        <?php if ($res->have_posts()) { ?>
+                            <?php foreach ($res->posts as $post) { ?>
+                                <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
+                                    <?php echo get_the_post_thumbnail($post->ID) ?>
+                                    <p class="title"><?php echo get_the_title($post->ID) ?></p>
+                                </a>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+                    <div class="d-flex justify-center margin-top-15">
+                        <?php echo paginate_links(array(
+                            'format' => '?popular_page=%#%',
+                            'current' => $current_page_popular,
+                            'total' => $total_page_popular,
+                            'type' => 'list',
+                            'prev_text' => __('←'),
+                            'next_text' => __('→'),
+                        )); ?>
+                    </div>
+                <?php  } ?>
             </div>
         </div>
     </div>
