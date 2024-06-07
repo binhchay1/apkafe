@@ -152,3 +152,7 @@ function scorePercent(e, stars_holder) {
     var offset = Math.min(Math.max(0, left), width);
     return Math.round((offset / width * 100 / 20) + 0.49) * 20;
 }
+
+function backToHome() {
+    window.location.href = '/';
+}

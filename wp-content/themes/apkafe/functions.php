@@ -504,8 +504,8 @@ function submit_review_handler()
 		'fraudster',
 	];
 
-	foreach($listCharacterBlackList as $character) {
-		if(strpos($user_comment, $character) !== false) {
+	foreach ($listCharacterBlackList as $character) {
+		if (strpos($user_comment, $character) !== false) {
 			echo json_encode(array('success' => true, 'result' => 3, 'character' => $character));
 
 			return;
@@ -594,3 +594,54 @@ function filter_review_handler()
 
 add_action('wp_ajax_filter_review_handler', 'filter_review_handler');
 add_action('wp_ajax_nopriv_filter_review_handler', 'filter_review_handler');
+
+function wpb_author_info_box($content)
+{
+	global $post;
+
+	if (is_single() && isset($post->post_author)) {
+		$display_name = get_the_author_meta('display_name', $post->post_author);
+		if (empty($display_name)) {
+			$display_name = get_the_author_meta('nickname', $post->post_author);
+		}
+		$user_description = get_the_author_meta('user_description', $post->post_author);
+		$user_url = get_the_author_meta('url', $post->post_author);
+		$user_meta = get_user_meta($post->post_author);
+
+		$author_details = '<div class="area-infor-author">';
+		if (!empty($user_description)) {
+			$author_details .= '<div class="author_avatar">' . get_avatar(get_the_author_meta('user_email'), 90) . '</div>';
+		}
+
+		if (!empty($display_name)) {
+			$author_details .= '<div class="author_name"><p>' . $display_name . '</p><div class="icon-social-author">';
+		}
+
+		if (!empty($display_name)) {
+			$author_details .= '<a href="' . $user_url . '"><i class="fa fa-address-card"></i></a>';
+		}
+
+		if (isset($user_meta['facebook'])) {
+			$author_details .= '<a href="' . $user_meta['facebook'][0] . '"><i class="fa fa-facebook"></i></a>';
+		}
+
+		if (isset($user_meta['instagram'])) {
+			$author_details .= '<a href="' . $user_meta['instagram'][0] . '"><i class="fa fa-instagram"></i></a>';
+		}
+
+		if (isset($user_meta['linkedin'])) {
+			$author_details .= '<a href="' . $user_meta['linkedin'][0] . '"><i class="fa fa-linkedin"></i></a>';
+		}
+
+		if (isset($user_meta['pinterest'])) {
+			$author_details .= '<a href="' . $user_meta['pinterest'][0] . '"><i class="fa fa-pinterest"></i></a>';
+		}
+
+		$author_details .= '</div></div></div><div class="author_bio">' . nl2br($user_description) . '</div>';
+		$content = $content . '<div class="author_bio_section" >' . $author_details . '</div>';
+	}
+	return $content;
+}
+
+add_action('the_content', 'wpb_author_info_box');
+remove_filter('pre_user_description', 'wp_filter_kses');

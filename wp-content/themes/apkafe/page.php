@@ -22,7 +22,7 @@ get_header();
 </style>
 <div class="container">
     <div class="main_bar">
-        <div class="cnt_box pad10">
+        <div class="cnt_box">
             <h1><?php echo ot_get_option('homepage_title_short_description') ?></h1>
             <p><?php echo ot_get_option('homepage_short_description') ?></p>
         </div>

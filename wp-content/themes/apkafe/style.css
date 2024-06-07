@@ -162,11 +162,11 @@ header {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #24cd77;
+  background-color: #22baa0;
 }
 
 ::selection {
-  background-color: #24cd77;
+  background-color: #22baa0;
   color: #ffffff;
 }
 
@@ -202,7 +202,7 @@ h6 {
 }
 
 a {
-  color: #24cd77;
+  color: #22baa0;
   text-decoration: none;
 }
 
@@ -255,7 +255,7 @@ strong {
   position: absolute;
   width: 100px;
   height: 2px;
-  background: #24cd77;
+  background: #22baa0;
   bottom: -5px;
   left: 0;
   right: 0;
@@ -386,13 +386,13 @@ header #nav_wrap ul.main_nav li a {
 }
 
 header #nav_wrap ul.main_nav li .mico {
-  color: #24cd77;
+  color: #22baa0;
   font-size: 22px;
   margin-right: 4px;
 }
 
 header #nav_wrap ul.main_nav .menu-primary-nav:hover > a {
-  background: #24cd77;
+  background: #22baa0;
   color: #ffffff;
 }
 
@@ -438,7 +438,7 @@ header .btnsearch i {
 }
 
 header .btnsearch:hover {
-  background: #24cd77;
+  background: #22baa0;
 }
 
 header .btnsearch:hover i {
@@ -508,7 +508,7 @@ header .lang_box .lang_box_inner .lang_item:nth-child(even) {
 }
 
 header .lang_box .lang_box_inner .lang_item:hover {
-  background: #24cd77;
+  background: #22baa0;
 }
 
 header .lang_box .lang_box_inner .lang_item:hover > span {
@@ -669,7 +669,7 @@ ul.bread_crumb li a.active {
   font-size: 18px;
   border: none;
   outline: none;
-  background-color: #24cd77;
+  background-color: #22baa0;
   color: #ffffff;
   cursor: pointer;
   border-radius: 50%;
@@ -742,7 +742,7 @@ footer {
   margin: 30px 0 0;
   z-index: 1;
   color: #fff;
-  border-top: solid 1px #24cd77;
+  border-top: solid 1px #22baa0;
   padding-top: 15px;
 }
 
@@ -850,7 +850,7 @@ footer .ftr_link_box a {
   font-weight: 400;
   line-height: 22px;
   color: #ffffff;
-  background: #24cd77;
+  background: #22baa0;
   padding: 3px 8px;
   border-radius: 10px;
 }
@@ -926,7 +926,7 @@ footer .footer_main .ftr_social_box a.fsb_instagram {
 }
 
 footer .footer_main .ftr_social_box a:hover {
-  background: #24cd77;
+  background: #22baa0;
 }
 
 @media (max-width: 800px) {
@@ -1222,7 +1222,7 @@ ul.pagination li > a:hover,
 ul.pagination li > span:focus,
 ul.pagination li > span:hover {
   color: #ffffff !important;
-  background: #24cd77 !important;
+  background: #22baa0 !important;
 }
 
 ul.pagination > .active > a,
@@ -1232,7 +1232,7 @@ ul.pagination > .active > span,
 ul.pagination > .active > span:focus,
 ul.pagination > .active > span:hover {
   color: #ffffff !important;
-  background-color: #24cd77 !important;
+  background-color: #22baa0 !important;
 }
 
 .more_link {
@@ -1244,7 +1244,7 @@ ul.pagination > .active > span:hover {
   text-align: center;
   padding-top: 5px;
   padding-bottom: 5px;
-  background: #24cd77;
+  background: #22baa0;
   margin-top: 10px;
 }
 
@@ -1254,7 +1254,7 @@ ul.pagination > .active > span:hover {
 }
 
 .more_cmnts {
-  background: #24cd77 !important;
+  background: #22baa0 !important;
   color: #ffffff !important;
   margin-top: 20px !important;
 }
@@ -1706,7 +1706,7 @@ ul li i:after {
 
 .sapo-review-default {
   text-align: center;
-  background: #24cd77;
+  background: #22baa0;
   border-radius: 20px;
   padding: 5px;
   margin-bottom: 20px;
@@ -1827,7 +1827,7 @@ ul li i:after {
 
 @media screen and (min-width: 992px) {
   .w3 li {
-    width: 30.333333333%;
+    width: 49%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
   }
@@ -2869,6 +2869,88 @@ a.single-language span.size22 {
   justify-content: end;
 }
 
+.main_bar .widget .widget_head {
+  background-color: #f2f5f9 !important;
+  color: #000 !important;
+  font-size: 25px;
+  text-decoration: underline;
+  text-decoration-color: #22baa0;
+  padding: 0;
+}
+
+.the_title_post {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.post-author-and-date {
+  margin-top: 15px;
+  display: flex;
+}
+
+.post-author-and-date p:not(:first-child) {
+  margin-left: 15px;
+}
+
+.author_bio_section {
+  margin-top: 20px;
+  border: 1px solid #22baa0;
+  padding: 15px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.area-infor-author {
+  display: flex;
+}
+
+.author_bio {
+  color: black;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+
+.author_name {
+  margin-left: 10px;
+}
+
+.author_name p {
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.icon-social-author {
+  margin-top: 15px;
+}
+
+.icon-social-author a:not(:first-child) {
+  margin-left: 10px;
+}
+
+.icon-social-author i {
+  font-size: 20px;
+}
+
+.info-area-author-profile {
+  display: flex;
+  border-bottom: 1px solid #22baa0;
+  padding-bottom: 15px;
+}
+
+.avatar-author-in-profile {
+  width: 100%;
+}
+
+.right-side-author-in-profile {
+  width: 280%;
+  margin-left: 20px;
+}
+
+.post-of-author {
+  margin-top: 20px;
+}
+
 @-webkit-keyframes snackbar-fadein {
   from {
     bottom: 0;
@@ -2960,7 +3042,8 @@ a.single-language span.size22 {
     padding: 0;
   }
 
-  #flags.size22 a, a.single-language span.size22 {
+  #flags.size22 a,
+  a.single-language span.size22 {
     width: 10% !important;
   }
 
@@ -2976,5 +3059,14 @@ a.single-language span.size22 {
     width: 100%;
     display: flex;
     position: static;
+  }
+
+  .right-side-author-in-profile {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .info-area-author-profile {
+    flex-direction: column;
   }
 }

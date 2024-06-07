@@ -263,7 +263,7 @@ $total_page_news = $get_post->max_num_pages;
                         How you got here is a mystery. But you can click the button below
                         to go back to the homepage.
                     </p>
-                    <button class="btn-back-to-home green">HOME</button>
+                    <button class="btn-back-to-home green" onclick="backToHome()">HOME</button>
                 </div>
             <?php } ?>
         </div>

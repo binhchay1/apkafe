@@ -49,6 +49,10 @@ if (array_key_exists('h1_sapo', $getMeta)) {
     .side_cat_item {
         display: flex;
     }
+
+    .search-box form .text-box input {
+        width: 100%;
+    }
 </style>
 <div class="main_bar">
     <div id="article" class="widget">
@@ -70,6 +74,13 @@ if (array_key_exists('h1_sapo', $getMeta)) {
                 </div>
             <?php } ?>
 
+            <p class="the_title_post"><?php echo the_title() ?></p>
+            <div class="post-author-and-date">
+                <p class="the_title_author">by <?php the_author_posts_link(); ?></p>
+                <p class="the_title_modified_date">Updated on <?php echo get_the_modified_date(); ?></p>
+                <p class="the_title_published_date">Published on <?php echo get_the_date(); ?></p>
+            </div>
+
             <div class="clear mb20"></div>
 
             <?php echo the_content() ?>
@@ -85,7 +96,7 @@ if (array_key_exists('h1_sapo', $getMeta)) {
 
             <div class="clear mb20"></div>
 
-            <?php get_template_part( 'templates/rating', 'rating' ); ?>
+            <?php get_template_part('templates/rating', 'rating'); ?>
         </div>
     </div>
 
