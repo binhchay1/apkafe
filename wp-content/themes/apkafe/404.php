@@ -237,7 +237,7 @@ $layout = 'full';
                     How you got here is a mystery. But you can click the button below
                     to go back to the homepage.
                 </p>
-                <button class="btn-back-to-home green">HOME</button>
+                <button class="btn-back-to-home green" onclick="window.location.url = `<?php echo home_url() ?>`">HOME</button>
             </div>
         </div>
         <?php do_action('woocommerce_sidebar'); ?>

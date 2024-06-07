@@ -11,6 +11,11 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 
 ?>
 
+<style>
+	.lasso-box-3 {
+		display: flex;
+	}
+</style>
 <div <?php echo $anchor_id_html ?> class="lasso-container">
 	<div class="lasso-display <?php echo $theme_name . ' lasso-url-' . $lasso_url->slug . ' ' . $css_display_theme_mobile ?? ''; ?>">
 		<?php if (!empty($lasso_url->display->badge_text)) { ?>
@@ -143,21 +148,19 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 			<?php } ?>
 
 			<?php if ('' !== $lasso_url->display->third_url) { ?>
-				<a class="lasso-button-3 lasso-btn-shortcode" title="<?php echo $lasso_url->name ?>" href="<?php echo $lasso_url->third_url ?>" target="_blank" rel="nofollow noopener sponsored">
+				<a class="lasso-button-3 lasso-btn-shortcode" title="<?php echo $lasso_url->name ?>" href="<?php echo $lasso_url->display->third_url ?>" target="_blank" rel="nofollow noopener sponsored">
 					<?php echo $lasso_url->display->third_btn_text; ?>
 				</a>
 			<?php } ?>
 
 			<?php if ('' !== $lasso_url->display->fourth_url) { ?>
-				<a class="lasso-button-6 lasso-btn-shortcode" title="<?php echo $lasso_url->name ?>" href="<?php echo $lasso_url->fourth_url ?>" target="_blank" rel="nofollow noopener sponsored">
+				<a class="lasso-button-6 lasso-btn-shortcode" title="<?php echo $lasso_url->name ?>" href="<?php echo $lasso_url->display->fourth_url ?>" target="_blank" rel="nofollow noopener sponsored">
 					<?php echo $lasso_url->display->fourth_btn_text; ?>
 				</a>
 			<?php } ?>
-		</div>
-
-		<div class="lasso-box-4">
+			
 			<?php if ('' !== $lasso_url->display->secondary_url) { ?>
-				<a class="lasso-button-4" <?php echo $lasso_url_obj->render_attributes() ?>>
+				<a class="lasso-button-6 lasso-btn-shortcode" <?php echo $lasso_url_obj->render_attributes() ?>>
 					<?php echo $lasso_url->display->secondary_button_text; ?>
 				</a>
 			<?php } ?>
