@@ -62,6 +62,7 @@ remove_action('shutdown', 'wp_ob_end_flush_all', 1);
 function apkafe_admin_scripts_styles()
 {
 	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/css/fa/css/font-awesome.min.css');
+	wp_enqueue_style('style-in', get_template_directory_uri() . '/admin/style.css', [], '6.5.5');
 	wp_enqueue_style('wc-blocks-style');
 	wp_enqueue_style('dashicons');
 }

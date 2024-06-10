@@ -1,0 +1,589 @@
+body {
+	margin: 100px auto 100px auto;
+	box-shadow: none;
+	background: #f1f1f1;
+	padding: 0;
+	max-width: 800px;
+	border: unset;
+}
+
+a {
+	text-decoration: none;
+}
+
+#aiosrs-pro-logo {
+	border: 0;
+	margin: 0 0 24px;
+	padding: 0;
+	text-align: center;
+}
+
+#aiosrs-pro-logo a,
+#aiosrs-pro-logo a:active,
+#aiosrs-pro-logo a:focus {
+	box-shadow: none;
+}
+
+#aiosrs-pro-logo img {
+	max-width: 30%;
+}
+
+
+/* Wizard Steps */
+
+.aiosrs-pro-setup-wizard-steps,
+.aiosrs-pro-setup-steps {
+	padding: 5px 0 24px;
+	margin: 0;
+	list-style: none;
+	overflow: hidden;
+	color: #ccc;
+	width: 100%;
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+}
+
+.aiosrs-pro-setup-wizard-steps li,
+.aiosrs-pro-setup-steps li {
+	width: 33%;
+	float: left;
+	padding: 0 0 0.8em;
+	margin: 0;
+	text-align: center;
+	position: relative;
+	border-bottom: 4px solid #ccc;
+	line-height: 22px;
+}
+
+.aiosrs-pro-setup-wizard-steps li::before,
+.aiosrs-pro-setup-steps li::before {
+	content: "";
+	border: 4px solid #ccc;
+	border-radius: 100%;
+	width: 4px;
+	height: 4px;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	margin-left: -6px;
+	margin-bottom: -8px;
+	background: #fff;
+}
+
+.aiosrs-pro-setup-wizard-steps li.active,
+.aiosrs-pro-setup-steps li.active {
+	border-color: #0085ba;
+	color: #0085ba;
+}
+
+.aiosrs-pro-setup-wizard-steps li.active::before,
+.aiosrs-pro-setup-steps li.active::before {
+	border-color: #0085ba;
+}
+
+.aiosrs-pro-setup-wizard-steps li.done,
+.aiosrs-pro-setup-steps li.done {
+	border-color: #0085ba;
+	color: #0085ba;
+}
+
+.aiosrs-pro-setup-wizard-steps li.done::before,
+.aiosrs-pro-setup-steps li.done::before {
+	border-color: #0085ba;
+	background: #0085ba;
+}
+
+.aiosrs-pro-setup-wizard-content a,
+.aiosrs-pro-setup-content a {
+	color: #0085ba;
+}
+
+.aiosrs-pro-setup-wizard-content a:focus,
+.aiosrs-pro-setup-content a:focus,
+.aiosrs-pro-setup-wizard-content a:hover,
+.aiosrs-pro-setup-content a:hover {
+	color: #111;
+}
+
+
+/* Wizard Content */
+
+.aiosrs-pro-setup-wizard-content,
+.aiosrs-pro-setup-content {
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+	padding: 24px 24px 0;
+	background: #fff;
+	overflow: hidden;
+	zoom: 1;
+}
+
+.aiosrs-pro-setup-wizard-content h1,
+.aiosrs-pro-setup-content h1,
+.aiosrs-pro-setup-wizard-content h2,
+.aiosrs-pro-setup-content h2,
+.aiosrs-pro-setup-wizard-content h3,
+.aiosrs-pro-setup-content h3,
+.aiosrs-pro-setup-wizard-content table,
+.aiosrs-pro-setup-content table {
+	margin: 0 0 24px;
+	border: 0;
+	padding: 0;
+	color: #666;
+	clear: none;
+}
+
+.aiosrs-pro-setup-wizard-content p,
+.aiosrs-pro-setup-content p {
+	margin: 0 0 24px;
+}
+
+.aiosrs-pro-setup-wizard-content p,
+.aiosrs-pro-setup-content p,
+.aiosrs-pro-setup-wizard-content table,
+.aiosrs-pro-setup-content table {
+	font-size: 1em;
+	line-height: 1.75;
+	color: #666;
+}
+
+.aiosrs-pro-setup-wizard-content .form-table th,
+.aiosrs-pro-setup-content .form-table th {
+	width: 40%;
+	vertical-align: top;
+	font-weight: 400;
+}
+
+.aiosrs-pro-setup-wizard-content .form-table td,
+.aiosrs-pro-setup-content .form-table td {
+	vertical-align: top;
+}
+
+.aiosrs-pro-setup-wizard-content .form-table td input,
+.aiosrs-pro-setup-content .form-table td input,
+.aiosrs-pro-setup-wizard-content .form-table td select,
+.aiosrs-pro-setup-content .form-table td select {
+	box-sizing: border-box;
+	color: inherit;
+}
+
+.aiosrs-pro-setup-wizard-content .form-table td input:not([type="checkbox"]),
+.aiosrs-pro-setup-wizard-content .form-table td select {
+	width: 50%;
+}
+
+.aiosrs-pro-setup-wizard-content .form-table td .description,
+.aiosrs-pro-setup-content .form-table td .description {
+	line-height: 1.5;
+	display: block;
+	margin-top: 0.25em;
+	color: #999;
+	font-style: italic;
+}
+
+.aiosrs-pro-setup-wizard-content .form-table td .input-checkbox,
+.aiosrs-pro-setup-content .form-table td .input-checkbox,
+.aiosrs-pro-setup-wizard-content .form-table td .input-radio,
+.aiosrs-pro-setup-content .form-table td .input-radio {
+	width: auto;
+	box-sizing: inherit;
+	padding: inherit;
+	margin: 0 0.5em 0 0;
+	box-shadow: none;
+}
+
+
+/* Content Bottom Buttons */
+
+.aiosrs-pro-setup-wizard .aiosrs-pro-setup-wizard-actions,
+.aiosrs-pro-setup .aiosrs-pro-setup-actions {
+	overflow: hidden;
+}
+
+.aiosrs-pro-setup-wizard .aiosrs-pro-setup-wizard-actions .button,
+.aiosrs-pro-setup .aiosrs-pro-setup-actions .button {
+	float: right;
+	font-size: 1em;
+	padding: 0.5em 1em;
+	line-height: 16px;
+	margin-right: 0.5em;
+	margin-bottom: 2px;
+	height: auto;
+	border-radius: 4px;
+}
+
+.aiosrs-pro-setup-wizard .aiosrs-pro-setup-wizard-actions .skip-button,
+.aiosrs-pro-setup .aiosrs-pro-setup-actions .skip-button {
+	margin-left: 10px;
+	margin-right: 0;
+}
+
+.aiosrs-pro-setup-wizard .aiosrs-pro-setup-wizard-actions .button-primary,
+.aiosrs-pro-setup .aiosrs-pro-setup-actions .button-primary {
+	float: right;
+	margin: 0;
+	opacity: 1;
+}
+
+.aiosrs-pro-return-to-dashboard {
+	font-size: 0.85em;
+	color: #b5b5b5;
+	margin: 1.18em 0;
+	display: block;
+	text-align: center;
+}
+
+
+/* Theme Config Page */
+
+.wp-core-ui .aiosrs-pro-basic-config input.ast-color-picker {
+	vertical-align: top;
+	margin-right: 7px;
+}
+
+.wp-core-ui .aiosrs-pro-basic-config input.wp-picker-clear {
+	width: 70px;
+}
+
+
+/* Ready Page */
+
+.aiosrs-pro-setup-wizard-content .twitter-share-button,
+.aiosrs-pro-setup-content .twitter-share-button {
+	float: right;
+}
+
+
+/**
+ * Site Identity
+ */
+
+.aiosrs-pro-setup-wizard-content select,
+.aiosrs-pro-setup-content select,
+.aiosrs-pro-setup-wizard-content input,
+.aiosrs-pro-setup-content input {
+	border: 1px solid #f1f1f1;
+	padding: 0.5em;
+	border-radius: 3px;
+	font-size: 14px;
+}
+
+.aiosrs-pro-setup-wizard-content .select2-container--default .select2-selection--single {
+	border: 1px solid #f1f1f1;
+	padding: 0.5em;
+	border-radius: 3px;
+	font-size: 14px;
+	height: 33px;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+}
+
+.aiosrs-pro-setup-wizard-content .select2.select2-container.select2-container--default {
+	width: 50% !important;
+}
+
+.aiosrs-pro-setup-wizard-content .select2-container--default .select2-selection--single .select2-selection__rendered {
+	color: unset;
+	line-height: unset;
+}
+
+.aiosrs-pro-setup-wizard-content .select2-container--default .select2-selection--single .select2-selection__arrow {
+	top: 4px;
+}
+
+.select2-container--default .select2-selection.select2-selection--single:focus {
+	border-color: #007cba;
+	box-shadow: 0 0 0 1px #007cba;
+	outline: 2px solid transparent;
+}
+
+.wp-picker-active .wp-picker-holder {
+	position: absolute;
+	z-index: 9;
+}
+
+.aiosrs-pro-setup-wizard-next-steps .button-hero:last-child,
+.aiosrs-pro-setup-next-steps .button-hero:last-child {
+	margin-bottom: 0;
+}
+
+.aiosrs-pro-setup-wizard-next-steps .button-hero,
+.aiosrs-pro-setup-next-steps .button-hero {
+	width: 100%;
+	margin-bottom: 1em;
+}
+
+
+/**
+ * Step: Last
+ */
+
+.aiosrs-pro-setup-wizard-next-steps-last ul,
+.aiosrs-pro-setup-next-steps-last ul {
+	padding: 0;
+}
+
+.aiosrs-pro-setup-wizard-next-steps-last li i,
+.aiosrs-pro-setup-next-steps-last li i {
+	padding-right: 10px;
+}
+
+.aiosrs-pro-setup-wizard-next-steps-last li,
+.aiosrs-pro-setup-next-steps-last li {
+	list-style-type: none;
+	padding: 0;
+	margin-bottom: 0.5em;
+}
+
+
+/**
+ * Schema template
+ */
+
+.aiosrs-pro-basic-config .aiosrs-pro-schema-temp-wrap {
+	display: inline-block;
+	background: #f1f1f1;
+	border: 1px solid #d8d8d8;
+	padding: 10px 5px;
+	width: calc(33% - 8px);
+	text-align: center;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	cursor: pointer;
+	box-sizing: border-box;
+	overflow: hidden;
+	vertical-align: middle;
+	font-size: 16px;
+}
+
+.aiosrs-pro-basic-config .aiosrs-pro-schema-temp-wrap:nth-child(3n) {
+	margin-right: 0;
+}
+
+.aiosrs-pro-basic-config .aiosrs-pro-schema-temp-wrap.selected,
+.aiosrs-pro-basic-config .aiosrs-pro-schema-temp-wrap:hover {
+	background: #d6d6d6;
+	border-color: #b9b9b9;
+}
+
+.aiosrs-pro-basic-config .aiosrs-pro-schema-temp-wrap i {
+	font-size: 18px;
+	height: 18px;
+	display: block;
+	margin: auto;
+}
+
+.aiosrs-pro-basic-config td {
+	padding: 0;
+}
+
+.aiosrs-pro-setup-wizard-content table.bsf-aiosrs-schema-table,
+.aiosrs-pro-setup-content table.bsf-aiosrs-schema-table {
+	border: 1px solid #e1e1e1;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.aiosrs-pro-setup-wizard-content table.form-table th,
+.aiosrs-pro-setup-content table.aiosrs-pro-schema-ready th,
+.aiosrs-pro-setup-wizard-content table.form-table td,
+.aiosrs-pro-setup-content table.aiosrs-pro-schema-ready td,
+.aiosrs-pro-setup-wizard-content table.form-table .button-hero,
+.aiosrs-pro-setup-content table.aiosrs-pro-schema-ready .button-hero {
+	font-size: 16px;
+	font-size: 1rem;
+}
+
+.aiosrs-pro-setup-wizard-content table.aiosrs-pro-schema-ready td,
+.aiosrs-pro-setup-content table.aiosrs-pro-schema-ready td {
+	padding-right: 0;
+}
+
+.aiosrs-pro-setup-wizard .wizard-close-link,
+.aiosrs-pro-setup .wizard-close-link {
+	color: #ccc;
+	box-shadow: none;
+}
+
+
+/**
+ * Hide tooltip text
+ */
+
+.aiosrs-pro-setup-wizard .ui-helper-hidden-accessible,
+.aiosrs-pro-setup .ui-helper-hidden-accessible {
+	display: none;
+}
+
+.aiosrs-pro-setup-wizard .ui-widget-content.bsf-aiosrs-schema-ui-tooltip,
+.aiosrs-pro-setup .ui-widget-content.bsf-aiosrs-schema-ui-tooltip {
+	font-size: 14px;
+}
+
+.aiosrs-pro-schema-ready .button-primary.button-hero {
+	text-align: center;
+}
+
+
+/**
+ * Schema Pro On-Boarding
+ */
+
+.aiosrs-pro-setup-wizard .aiosrs-pro-setup-wizard-content .button-next,
+.aiosrs-pro-setup-wizard-content.welcome-content-wrap .button-close {
+	margin-left: 10px;
+}
+
+.aiosrs-pro-setup-wizard-content.social-profiles-content-wrap input[type="text"] {
+	width: 100%;
+}
+
+.aiosrs-pro-setup-wizard-content.success-content-wrap .form-table td {
+	width: 45%;
+	text-align: center;
+	padding-right: 0;
+}
+
+.aiosrs-pro-setup-wizard-content.success-content-wrap .form-table td.space {
+	width: 10%;
+}
+
+.aiosrs-pro-setup-wizard-content.general-setting-content-wrap .form-table select {
+	min-width: 53%;
+}
+
+.aiosrs-pro-setup-wizard-content.general-setting-content-wrap .custom-field-wrapper {
+	display: inline-block;
+	width: 48%;
+	vertical-align: middle;
+}
+
+
+/**
+ * Custom Image Select
+ */
+
+.aiosrs-pro-setup-wizard-content.general-setting-content-wrap .image-field-wrap {
+	position: relative;
+	display: inline-block;
+}
+
+.aiosrs-pro-setup-wizard-content.general-setting-content-wrap .aiosrs-image-select .dashicons {
+	font-size: 1.2em;
+	width: 1em;
+	height: 1em;
+	line-height: 22px;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.aiosrs-pro-setup-wizard-content.general-setting-content-wrap .aiosrs-image-remove {
+	display: none;
+	position: absolute;
+	background: rgba(255, 255, 255, 0.7);
+	right: 0;
+	font-size: 15px;
+	width: 1em;
+	height: 1em;
+}
+
+.aiosrs-pro-setup-wizard-content.general-setting-content-wrap .bsf-custom-image-selected .aiosrs-image-select {
+	display: none;
+}
+
+.aiosrs-pro-setup-wizard-content.general-setting-content-wrap .bsf-custom-image-selected .aiosrs-image-remove {
+	display: inline-block;
+}
+
+.aiosrs-pro-setup-wizard-content.general-setting-content-wrap .bsf-custom-image-selected .aiosrs-image-select.img {
+	max-width: 100%;
+	display: inline-block;
+}
+
+.aiosrs-pro-setup-wizard-content.general-setting-content-wrap .bsf-custom-image-selected .aiosrs-image-select.img img {
+	max-height: 75px;
+	vertical-align: middle;
+	max-width: 300px;
+}
+
+.aiosrs-pro-setup-wizard-content.general-setting-content-wrap .bsf-custom-image-selected .aiosrs-image-select.default-image.img img {
+	max-height: 150px;
+}
+
+.close-button-wrapper {
+	text-align: center;
+	margin: 1em 0;
+}
+
+.close-button-wrapper a.button-close .dashicons {
+	vertical-align: middle;
+	font-size: 1.3em;
+	line-height: 0.9;
+	width: 1em;
+	height: 1em;
+}
+
+.close-button-wrapper .button {
+	font-size: 1em;
+	padding: 5px 15px;
+	height: auto;
+	background: #fff;
+}
+
+.aiosrs-pro-setup-wizard-content.welcome-content-wrap ul {
+	margin-top: 0;
+}
+
+.aiosrs-pro-setup-wizard-content.welcome-content-wrap ul li {
+	font-size: inherit;
+	color: #666;
+}
+
+.aiosrs-pro-setup-wizard-content .no-margin {
+	margin: 0 auto;
+}
+
+.aiosrs-pro-setup-wizard-content.global-schemas-content-wrap {
+	overflow: initial;
+}
+
+.aiosrs-pro-setup-wizard-content.global-schemas-content-wrap .aiosrs-pro-setup-wizard-actions {
+	padding-bottom: 24px;
+	margin-bottom: 0;
+}
+
+.aiosrs-pro-setup-wizard-content.social-profiles-content-wrap .form-table tr {
+	display: inline-block;
+	width: 50%;
+}
+
+.aiosrs-pro-setup-wizard-content.social-profiles-content-wrap .form-table tr th {
+	vertical-align: middle;
+	font-weight: 600;
+}
+
+.aiosrs-pro-setup-wizard-content.social-profiles-content-wrap .form-table tr td input {
+	width: 120%;
+}
+
+.aiosrs-pro-field-description {
+	font-style: italic;
+}
+
+.aiosrs-pro-setup-wizard #aiosrs-pro-logo .wpsp-setup-pro-title,
+.aiosrs-pro-setup #aiosrs-pro-logo .wpsp-setup-pro-title {
+	color: #000;
+	font-size: 26px;
+	padding: 0;
+	font-weight: 600;
+	display: inline-block;
+	vertical-align: top;
+	border: unset;
+}
+
+@-moz-document url-prefix() {
+
+	.aiosrs-pro-setup-wizard-content.social-profiles-content-wrap .form-table tr {
+		width: 50%;
+		float: left;
+	}
+}

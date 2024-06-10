@@ -337,3 +337,8 @@
 .hide-color-picker {
     display: block;
 }
+
+.woocommerce-layout__header {
+	position: inherit !important;
+	width: 100% !important;
+}

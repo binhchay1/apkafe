@@ -1,0 +1,21 @@
+.aiosrs-rating-wrap .aiosrs-star-rating-wrap {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.aiosrs-rating-wrap .aiosrs-star-rating-wrap ~ .aiosrs-star-rating-wrap {
+	float: right;
+}
+
+.aiosrs-rating-wrap .aiosrs-star-rating-wrap .aiosrs-star-rating {
+	color: #ffd700;
+}
+
+.aiosrs-rating-wrap .aiosrs-star-rating-wrap:not(.disabled) .aiosrs-star-rating {
+	cursor: pointer;
+}
+
+.aiosrs-rating-wrap .success-msg {
+	color: #0f0;
+	margin-left: 5px;
+}

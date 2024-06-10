@@ -1,0 +1,443 @@
+v2.7.13
+# Fix: FAQ block not loading in the editor.
+
+v2.7.12
+# Improvement: Added Timezone setting field to Event schema for Online events and added timezone offset to date properties.
+# Improvement: Compatibility with WordPress VIP Go rules.
+# Fix: ACF checkbox field values are not getting fetched.
+# Fix: ACF User field value not fetched in Schema fields.
+# Fix: PHP fatal error while saving ACF field group settings.
+
+v2.7.11
+# Improvement: Added new required properties in Course Schema - offers, courseWorkload / courseSchedule.
+# Fix: Corrected syntax for FAQ schema type.
+
+v2.7.10
+# Improvement: Improved codebase for improved security.
+# Improvement: Added Clip and SeekToAction fields in Video Object schema.
+# Fix: Invalid value errors for some fields in Job Posting schema when set to none.
+# Fix: Resolved PHP error while editing Posts/Pages in some cases.
+
+v2.7.9
+# Fix: Addressed a Broken Access Control security bug. Props to Patchstack for privately reporting it to our team.
+# Fix: Issue with the custom image setting for How To Block.
+
+v2.7.8
+# New: Rollback to previous versions feature.
+# Improvement: Addressed nonces verification more effectively.
+# Improvement: Allowed HTML format for the Description field in Job Posting Schema as per Google's guidelines.
+# Improvement: Updated Interaction Count field markup in the Video Object schema as per Google guidelines.
+# Fix: Invalid value error for Rating and Review Count fields when set to none in Local Business schema.
+
+v2.7.7
+# Improvement: Updated markup for educationRequirements and experienceRequirements fields in Job Posting schema.
+# Fix: Resolved PHP warning for Site Logo.
+# Fix: Custom Fields used in schema not showing correct value.
+
+v2.7.6
+# Fix: Schema fields not showing after saving in the page editor.
+
+v2.7.5
+# Improvement: Added compatibility to PHP v8.1.
+
+v2.7.4
+# Fix: Added Credit Text, Creator and Copy Right Notice fields in the Image schema.
+# Fix: Updated brand type markup in the product schema.
+# Fix: Added content URL as required field in the recipe schema.
+# Fix: Review type field validation in the Review schema.
+
+v2.7.3
+# Fix: ACF field value is not added properly on global settings.
+# Fix: FAQ block schema is showing error issue on search page.
+# Fix: Fixed license redirect URL is not working on the plugin activation form.
+# Fix: Updated publisher and author URL field mapping in the review schema.
+
+v2.7.2
+# New:`wp_schema_pro_exclude_logo_optimize` Filter to to disable default logo size changes.
+# Fix: Skip Rendering Invalid Schema option not generating schema markup on page or post.
+# Fix: The Brand field type warning issue in the Product item review type in the review schema
+# Fix: Fixed author URl fetch issue in the Article schema.
+# Fix: Fixed syntax issue inthe WPML config file.
+
+v2.7.1
+Fix: Fixed syntax error on the schema configuration page.
+
+v2.7.0
+New: Image License schema type.
+Improvements: added How-to block compatibility with WPML 4.5
+Improvements: Added Author.URL field in the article schema.
+Improvements: Added backorder availability option in the Product schema.
+Improvements: Added Day as base salary option in the Job posting schema.
+Fix: Fatal Error issue with ACF on all singulars target rules.
+Fix: Fixed Breadcrumb archive URL issue on the archive page.
+Fix: Fixed index notice issue on the page level configuration.
+
+v2.6.5
+Fix: Fixed image field markup issue in the Review schema.
+
+v2.6.4
+Improvements: Compatibility with the latest Sonarlint PHP code standard.
+Improvements: Added multiple fields option for job applicant Location Requirement.
+Fix: Other custom field image map issue in the Review Schema.
+Fix: Removed deprecated Professional Service business type from Local Business Schema.
+Fix: Duplicate Breadcrumb schema visible with Yoast SEO pluign.
+Fix: Woocommerce plugin conflict on the setup wizard.
+Fix: Fixed array offset error on multisite websites.
+Fix: Updated deprecated block category hook in schema blocks.
+
+v2.6.3
+# Improvements: Compatible with WordPress v5.8
+# Fix: Fixed Custom schema markup showing issue on the frontend.
+
+v2.6.2
+# Fix: Fixed Person schema markup null error issue.
+
+v2.6.1
+# New: Implemented Lazy loading for the SCSS.
+# Improvements: Loading the minified JS and CSS in the back-end and front-end.
+# Fix: PHP notice due to undefined index issue in the Sitelink schema.
+# Fix: Typography is not working on the editor for How-to steps.
+# Fix: Removed unnecessary Inherit from theme option for How-to steps link.
+# Fix: Markup issue into the FAQ Block schema.
+
+v2.6.0
+# New: Added Dynamic fields option for Social profiles setting.
+# New: Implemented Lazy loading functionality for Schema blocks.
+# Improvements: Optimized blocks JS loading on the editor page.
+# Improvements: Refactor FAQ and how-to blocks code-based structure.
+# Improvements: Compatibility with the latest JavaScript standard rule.
+# Improvements: Compatibility with the latest CSS standard rule.
+# Fix: Fixed UI icon issue on the post or page.
+# Fix Trim function console error issue in the FAQ schema.
+# Fix: The URL warning issue in the Product item review type in the review schema.
+
+v2.5.2
+# Improvement: Remote work fields in job posting schema as per google guidelines.
+# Fix:- UI is not working properly on posts/pages in the RTL mode.
+# Fix: The toggle button is not working properly for Enable/Disable schema type filter.
+# Fix:- Fixed half rating issue on the frontend.
+
+v2.5.1
+# Fix: Decimal value is not accepted into the Geolocation fields of Local Business Schema.
+# Fix: FAQ block schema accessibility issue.
+
+v2.5.0
+# New: Custom schema markup on post or page.
+# Improvement: Ajax-based schema type required field validation.
+# Improvement: Added Geolocation fields in the Local business schema.
+# Fix: Fixed tab index issue in the FAQ block schema.
+# Fix: Fixed undefined index notice issue in the review schema.
+# Fix: 'unstableOnSplit' property warning issue in the How-to schema.
+# Fix: 'onnRemove' Unknown event handler property warning issue in the how-to schema.
+# Fix: Fixed the border issue on the setup wizard.
+
+v2.4.0
+# New: How-to block schema.
+# Improvement: Added Review fields in the product schema.
+# Improvement: Added filter to automatically fetch schema markup for WooCommerce product reviews.
+# Fix: Fixed review count field visible issue in the Review Schema.
+# Fix: Added missing recommended field inside the Event type of Review Schema.
+# Fix: Removed deprecated Item name, Review image, and URL field in the Review Schema.
+# Fix: Fixed different language string translation issues in the plugin.
+# Fix: Fixed HTTPS not showing in test schema URL.
+
+v2.3.0
+# New: Dynamic repeater fields on the post or page.
+# Improvement: Added optimised Logo image size in the Organization schema.
+# Improvement: Added Validation on published date and modified date in the Article schema.
+# Fix: FAQ Schema - Fixed child block not inheriting question tag from the parent block when adding a new question.
+# Fix: Bulk schema type select issue in the schema dashboard.
+# Fix: Fixed schema markup error issue in the about page and contact page schema.
+# Fix: Fixed Event attendance mode option select issue on the event schema.
+# Fix: FAQ console error when accessing child by id in the FAQ block schema.
+# Fix: Select other custom field option issue on the post or page.
+# Fix: Fixed online location markup issue inside Course schema.
+# Fix: Fixed test link is not shown on the admin bar.
+
+v2.2.3
+# Improvement:PHP Deprecated: Required parameters follows optional parameters in get meta markup function - Compatibility with PHP v8.0
+# Improvement: Compatible with WordPress v5.6
+# Improvement: Added Preview of FAQ block schema.
+# Improvement: Added how to fields missing in the Recipe schema.
+# Improvement: Added the Brand field type into the product schema.
+# Improvement: Skipped loading of dependent JS file for Grid layout into the FAQ Block Schema.
+# Fix: Fixed the General tab UI issue into the Dashboard.
+
+v2.2.2
+# Improvement: Added the Publisher SameAs field in the Review schema.
+# Improvement: Added none option for search specific page fields in the configuration settings.
+# Fix: Fixed Front page target rule issue in the schema type settings.
+# Fix: Publisher type error issue in the about page and contact page schema.
+# Fix: The Event Attendance Mode field warning issue with event schema types.
+
+v2.2.1
+# Fix: Undefined constant SECURE_AUTH_COOKIE warning issue with multisite fixed.
+# Fix: array_intersect warning issue on plugin activation fixed.
+# Fix: The dashboard logo was not visible in the multisite fixed.
+
+v2.2.0
+# New: FAQ block Schema.
+# New: Added multiple FAQ block schema support.
+# New: Added WPML compatibility for FAQ block.
+# Improvement: Added post or page schema fields setting visible only for the administrator role.
+# Improvement: Added `wp_schema_pro_role`filter to visible schema configuration setting on post or page.
+# Fix: Updated required fields status for Product and Organization item review type as per google guidelines.
+# Fix: Fixed JSON-LD code format issues with different languages.
+# Fix: Fixed exclude category fields configuration issue in the target rule setting.
+# Fix: Fixed the border issue after WP5.5 at the backend.
+# Fix: Fixed notice show position issue on the schema settings.
+# Fix: A knowledge base section is not showing on the settings tab.
+
+v2.1.2
+# New: Added new social share link options for Wikipedia and MySpace.
+# Improvements: Updated settings in Setup Wizard.
+# Improvements: Restructure Configuration settings.
+# Improvements: Google+ field deprecated in the social profile section.
+# Improvements: Added new types in the organization type option.
+# Improvements: Organization schema is now only targeted on the home page.
+# Improvements: Removed extra contact information field in the corporate contact.
+# Improvements: Added search box for search page option for a contact and about page schema.
+# Improvements: Added backward compatibility for deprecated extra fields of corporate contact.
+# Improvements: Added breadcrumb enable/disable the setting option in the breadcrumb tab.
+# Improvements: Added knowledge base link in a sidebar.
+# Improvements: Added Fetch logo from theme customizer automatically for the logo field.
+# Fix: Fixed time select issue on datetimepicker.
+# Fix: Fixed selecting years ahead range in the datetimepicker.
+# Fix:  Fixed Logo validation issue on the post or page.
+# Fix: To accept rating step point value in the fixed rating option.
+
+v2.1.1
+# Fix: Fixed the error of few arguments to function on plugin update.
+
+v2.1.0
+# New: How-to Schema.
+# Improvements: Added tool-tips for schema fields.
+# Improvements: UI strings improvements.
+# Improvements: Updated Test schema link as per new Google guidelines.
+# Fix:  Empty field error issue in the FAQ schema markup.
+# Fix: Fixed year select issue in the person schema.
+# Fix: Accept user rating not showing for item review type fields in the review schema.
+# Fix: Remove autoload wp_schema_pro_optimized_structured_data option on plugin update.
+
+v2.0.1
+# New: Users can now share non-personal usage data to help us test and develop better products.
+# Improvements: Added required field validation label on Corporate Contact.
+# Improvements: Added the Toggle button for the Enable Schema Markup filter.
+# Fix: Fixed the close button not showing into the FAQ schema.
+# Fix: Logo accepts from schema configuration into schema types.
+# Fix: Update the UI and fixed the Enable schema markup filter issue.
+# Fix: Updated Reset star rating functionality.
+# Fix: Schema Markup is not generating for the Contact page and About us page.
+# Fix: Notice not showing for required repeater fields in the schema configuration settings.
+
+v2.0.0
+# New: Frontend required field validation.
+# New: UI improvements of schema fields setting on the post and page.
+# New: Added the select meta-list on the specific post and page setting.
+# New: Added search box for custom field or third party custom field fetch setting.
+# New: Added global data and local data saving compatibility.
+# New: Added option Enable Skip Rendering Invalid Schema in the advanced setting.
+# New: Added Tool-tip for Global field mapped on the post.
+# New: Added ACF field Compatibility for the post and page.
+# Improvements: Optimized Schema types structure on the Global setting.
+# Improvements: Updated Recommended fields in the Course schema.
+# Improvements: Updated Organizer field in the Event schema.
+# Improvements: Allows the HTML element inside answer field in the FAQ Schema.
+# Improvements: Added Validation on start and end date in the Event schema.
+# Improvements: Added the Clear button on the Date-picker.
+# Fix: Fixed the date field's issue not showing into the Date picker in the review schema.
+# Fix: PHP notice issue on the admin page at the time of activation.
+# Fix: Date issue when time zone change for online events in the Event Schema.
+# Fix: The extra schema markup was generating for the category or tag.
+# Fix: Translation issue for the date fields for languages.
+v1.7.0
+# New: FAQ schema.
+# New: Added the Regenerate Schema Markup feature.
+# Improvement: Added Date and Time picker.
+# Fix: Removed a Day/Hour/Minute/Second field with backward & forward compatibility from review schema.
+# Fix: Fixed update schema markup issue on the configuration page.
+# Fix: Added home page URL in Website schema.
+# Fix: Delete Data Uninstall setting is not visible at the backend.
+# Fix: Fixed language translation issue in the schema markup.
+# Fix: Fixed issue of Trying to access array offset on the value of type bool with PHP 7.4 compatibility.
+
+v1.6.1
+# Improvement: Hardened the security of the plugin.
+# Fix: JSON-LD Schema markup formatting according to google guidelines.
+
+v1.6.0
+# New: Added new fields in Event Schema type for the canceled/rescheduled/postponed events as per new Google guidelines.
+# New: Added Movie as an item review type in the review schema.
+# New: Added Organization as an item type in the review schema.
+# Improvement: Added Article types in the Article schema.
+# Improvement: UI appearance changes as per new Google guidelines.
+# Improvement: Added description tooltip for required fields in the schema configuration page.
+# Fix: Aggregate rating was not updating through the front-end.
+# Fix: Autoload issue with optimized cache structured data.
+
+v1.5.2
+# Improvement: Hardened the security of the plugin.
+# Improvement: Compatibility with the latest WordPress PHP_CodeSniffer rules.
+# Improvement: Added categories for software application schema.
+# Improvement: Added reviewer type in for author field in Recipe schema.
+# Improvement: Optimized number of function calls in the frontend and backend.
+# Improvement: Optimized number of queries executed on the admin page.
+# Improvement: Re-structured and optimized the codebase to improve security.
+# Fix: gmdate() insted of date() function and phpcs changes.
+# Fix: The software application price field issue in the review schema.
+
+v1.5.1
+# Security Fix: Cross-site scripting (XSS) vulnerability.
+
+v1.5.0
+# New: Added schema markup for amp pages or posts compatibility.
+# New: Delete schema data and settings on the uninstalled plugin with a delete option.
+# New: Added Event schema types added in Event schema.
+# New:`wp_schema_pro_remove_amp_schema_markup` Filter to disable schema markup for AMP pages or posts on Reader mode.
+# Fix: Permalink added for the sameAs field in Review schema.
+
+v1.4.1
+# Improvement: Added new fields for product ItemReviewed type of review schema.
+# Improvement: Added MPN field in product schema.
+# Improvement: Added dependency to the SameAS field for Book ItemReviewed type in review schema.
+# Improvement: Organization logo field in job posting schema.
+# Fix: reviewBody and description fields are not working correctly in review schema.
+# Fix: Post_type notice issue in the schema pro menu option.
+
+v1.4.0
+# New: Added ItemReviewed types in Review schema.
+# Fix: Review schema given an error `Thing is not a known valid target type for the item reviewed the property`.
+
+v1.3.2
+# Improvement: Removed Aggregate rating markup from article and service schema according to the google requirement.
+
+v1.3.1
+# New: `wp_schema_pro_comment_before_markup_enabled` Filter to remove comment before schema Markup.
+# Improvement: Added site link on Schema Pro logo, updated labels and tooltip description.
+# Improvement: Replace Google documents links with schema pro documents links in the plugin.
+# Fix: Added Ingredients separately and video type for video fields in Recipe schema.
+
+v1.3.0
+# New: Introducing White Label feature.
+# New: Default image option in advanced settings.
+# New: Contact point information control in configuration settings.
+# Fix: Image URL issue with Service schema.
+# Fix: Instructions steps issue with Recipe schema.
+
+v1.2.0
+# New: Improved BreadcrumbList schema by providing control settings.
+# New: `wp_schema_pro_link_to_specificpage` Filter to remove shop(archive page) item from product schema.
+# New: Added Organisation types option in Configuration settings.
+# Improvement: Added Version number with plugin title.
+# Improvement: Added Logo guidelines in Configuration settings.
+
+v1.1.13
+# Improvement: `bsf_target_rules_include_parent_taxanomy` Filter to allow subcategories to be select in Enable On option.
+# Improvement: Replaced default Select string option to None.
+# Improvement: Text updated of rule set buttons in target option.
+# Improvement: Updated Select2 library.
+# Fix: Updated default selection of schema type for Local business and Review schema.
+
+v1.1.12
+# Improvement: Added Google recommended fields for product schema.
+# Improvement: Added Reviewer type option in review schema.
+# Improvement: Added new value for Gender option in Person Schema.
+# Fix: Updated `wp_schema_pro_schema_recipe ` filter to `wp_schema_pro_schema_service` for service schema.
+# Fix: Yoast SEO compatibility issue.
+
+v1.1.11
+# Improvement: updated image-object case for the logo for organization schema.
+# Improvement: updated enqueue method to load script and style file for rating in frontend.
+# Improvement: Added Locksmith type option in the Local Business schema.
+# Fix: Rating stars color fill issue on hover.
+
+v1.1.10
+# Improvement: Added MedicalBusiness type option in the Local Business schema.
+# Improvement: `wp_schema_pro_remove_product_offers` Filter to remove offers from product schema.
+# Fix: A compatible issue of rating markup not changing instantly.
+# Fix: Admin notice to start wizard not display for configuration.
+# Fix: Notice issues on setup wizard.
+
+v1.1.9
+# Improvement: Optimize plugin code and improved performance.
+
+v1.1.8
+# Improvement: ACF Compatibility Updated.
+# Improvement: Improved SiteNavigationElement schema.
+# Fix: Use logo from customizer option issue.
+
+v1.1.7
+# Improvement: Added Address, Member Of, Nationality, Same As, Birth Date and Gender in Person schema.
+# Improvement: Added Rating option in Course and Service schema.
+# Improvement: Added Business types option in Local Business schema.
+# Improvement: Added Front Page in the target options.
+# Fix: CourseInstance option validation issue in course schema.
+
+v1.1.6
+# Fix: Updated event schema StartDate and EndDate field type.
+
+v1.1.5
+# Fix: License activation link is not working.
+
+v1.1.4
+# Improvement: Added Keywords, Category, Cuisine, Instructions and video fields for recipe schema.
+# Improvement: Updated license registration process with Privacy Policy.
+# Improvement: Min and Max salary option added in job posting schema.
+# Improvement: Taxonomies options are added to the specific target for the schema.
+# Improvement: Added rating option in article schema.
+# Improvement: Decimal value can be added in product price.
+# Improvement: Added `wp_schema_pro_schema_enabled` and `wp_schema_pro_global_schema_enabled` filters to disable schemas globally.
+# Fix: The publisher should appear in schemas according to the site represent.
+# Fix: Shortcode appears in the description field in schemas.
+# Fix: Class conflict issue in person schema.
+
+v1.1.3
+# Improvement: Added `wp_schema_pro_link_to_frontpage` filter to remove home list item from BreadcrumbList schema.
+# Improvement: Added image-object case for the logo without width and height for article schema.
+# Improvement: Added `add_ratings_schema_pro_markup` filter and `wp_schema_pro_rating_shortcode` shortcode to add rating more than one time in page/post.
+# Improvement: Updated logo field as a common field in global setting for both organization and person schema.
+# Improvement: Support added for Mobile App & Web App categories in Software Application schema.
+# Improvement: Support added for 0 price schema field.
+# Fix: Time formate updated in schema markup.
+# Fix: Updated URL format Http to Https in schema's context type.
+
+v1.1.2
+# Improvement: ACF Pro compatibility implemented.
+# Fixed: Star rating conflict with WooCommerce.
+# Fixed: Undefined index meta-created schema wizard.
+# Fixed: Undefined function call 'get_pages'.
+
+v1.1.1
+# Added: `wp_schema_pro_default_markup` Filter to display Enable Schema Markup option on edit page/post.
+# Fixed: PHP notice: undefined `description` index.
+# Fixed: PHP notice: invalid argument passed in foreach.
+
+v1.1.0
+# Added: Setup Wizard to configure global schema step by step
+# Added: New Support for sitewide schema types: Organization/Person, AboutPage, ContactPage, Sitelink Search Box, Breadcrumb, Site Navigation Element.
+# Fixed: Schema not rendering on the frontpage.
+# Fixed: Frontpage meta fields not getting saved while Yoast SEO enabled.
+
+v1.0.3
+# Enhancement: Updated plugin name `All-in-one Schema Pro` to `Schema Pro`.
+# Enhancement: All Fiters prefix updated with `wp_schema_pro`.
+# Fixed: Image selection not working in edit post.
+
+v1.0.2
+# Enhancement: Listed all Country & Currency in related option.
+# Enhancement: Updated required & recommended schema fields for Course.
+# Fixed: Repeater fields value not getting saved on edit post/page.
+# Fixed: Fixed logo size issue on "Google Structured Data Testing Tool"
+# Fixed: Strip HTML markup from schema.
+
+v1.0.1
+# Enhancement: Updated field types for Fixed value in Schema Post.
+# Enhancement: Updated required & recommended schema fields for Book & VideoObject Schema. You should test your schema configurations if you are using one of these schemas.
+# Fixed: Telephone number field not accepting all telephone format
+# Fixed: Test Schema link having `http://` instead of `https://` when SSL is enabled.
+
+v1.0.0
+# New: "Accept User Rating" option added for aggregate ratings in Mapping options.
+
+v1.0.0-beta.3
+# Initial Release
