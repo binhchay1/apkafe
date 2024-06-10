@@ -37,10 +37,15 @@ class Boomdevs_Toc_Post_Type
                                 break;
 
                             case 'beforelasso':
-                                preg_match_all('/(\<h[1-6](.*?))\>(.*)(<\/h[1-6]>)/i', $content, $matches);
+                                preg_match_all('/(lasso(.*?)"])/i', $content, $matches);
                                 if (isset($matches[0]) && count($matches[0]) > 0) {
-                                    $toc_with_heading = $shortcode_content . $matches[0][0];
-                                    return str_replace($matches[0][0], $toc_with_heading, $content);
+                                    $indexPreMatch = count($matches[0]) - 2;
+                                    
+                                    $shortcode_content = $toc_shortcode->shortcode_generator($content);
+                                    $toc_with_heading = $matches[0][$indexPreMatch] . $shortcode_content;
+                                    return str_replace($matches[0][$indexPreMatch], $toc_with_heading, $content);
+                                } else {
+                                    echo $shortcode_content;
                                 }
                                 break;
 

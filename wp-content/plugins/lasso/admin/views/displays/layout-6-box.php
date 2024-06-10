@@ -160,7 +160,7 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 			<?php } ?>
 			
 			<?php if ('' !== $lasso_url->display->secondary_url) { ?>
-				<a class="lasso-button-6 lasso-btn-shortcode" <?php echo $lasso_url_obj->render_attributes() ?>>
+				<a class="lasso-button-6 lasso-btn-shortcode" title="<?php echo $lasso_url->name ?>" href="<?php echo $lasso_url->display->secondary_url ?>" target="_blank" rel="nofollow noopener sponsored">
 					<?php echo $lasso_url->display->secondary_button_text; ?>
 				</a>
 			<?php } ?>

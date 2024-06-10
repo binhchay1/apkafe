@@ -168,6 +168,33 @@ class Lasso_Affiliate_Link
 		$google_btn_url = get_post_meta($post_id, 'google_btn_url', true);
 		$updated_on = get_post_meta($post_id, 'updated_on', true);
 
+		$open_new_tab3 = get_post_meta($post_id, 'open_new_tab3', true);
+		$open_new_tab3 = 1 === intval($open_new_tab3) ? true : false;
+
+		$enable_nofollow3 = get_post_meta($post_id, 'enable_nofollow3', true);
+		$enable_nofollow3 = 1 === intval($enable_nofollow2) ? true : false;
+
+		$open_new_tab4 = get_post_meta($post_id, 'open_new_tab4', true);
+		$open_new_tab4 = 1 === intval($open_new_tab4) ? true : false;
+
+		$enable_nofollow4 = get_post_meta($post_id, 'enable_nofollow4', true);
+		$enable_nofollow4 = 1 === intval($enable_nofollow2) ? true : false;
+
+		$open_new_tab_google = get_post_meta($post_id, 'open_new_tab_google', true);
+		$open_new_tab_google = 1 === intval($open_new_tab_google) ? true : false;
+
+		$enable_nofollow_google = get_post_meta($post_id, 'enable_nofollow_google', true);
+		$enable_nofollow_google = 1 === intval($enable_nofollow_google) ? true : false;
+
+		$open_new_tab_apple = get_post_meta($post_id, 'open_new_tab_apple', true);
+		$open_new_tab_apple = 1 === intval($open_new_tab_apple) ? true : false;
+
+		$enable_nofollow_apple = get_post_meta($post_id, 'enable_nofollow_apple', true);
+		$enable_nofollow_apple = 1 === intval($enable_nofollow_apple) ? true : false;
+
+		$display_third_url = trim(get_post_meta($post_id, 'third_btn_url', true));
+		$display_fourth_url = trim(get_post_meta($post_id, 'fourth_btn_url', true));
+
 		if ($post_id > 0 && LASSO_POST_TYPE === $post_type && 'publish' === $post_status && $lasso_post) {
 			$lasso_post_details = $lasso_db->get_url_details($post_id);
 
