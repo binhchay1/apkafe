@@ -1,0 +1,55 @@
+.premade_layouts {
+  .csf-fieldset {
+    .csf-fieldset-content {
+      .csf--image-group {
+        .csf--image.csf--active figure {
+          border-radius: 12px;
+          border-color: #4FD485;
+          box-shadow: none;
+          &:before {
+            background-color: #4FD585;
+            top: auto;
+            left: auto;
+            bottom: 35px;
+            right: 35px;
+            line-height: 16px;
+            border-radius: 50%;
+            padding: 6px;
+          }
+        }
+        figure {
+          border-radius: 12px;
+          border-color: #dddddd;
+          box-shadow: none;
+          &:hover {
+            border-color: #4FD485;
+          }
+          img {
+            border-radius: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#customize-control-boomdevs-toc-premade_layouts {
+  .premade_layouts {
+    .csf-fieldset {
+      .csf-fieldset-content {
+        .csf--image-group {
+          .csf--image {
+            &.csf--active {
+              figure {
+                &:before {
+                  bottom: 25px;
+                  right: 25px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

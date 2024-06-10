@@ -1,0 +1,89 @@
+.toc-custom-landing-wrapper{
+  position: relative;
+  padding: 100px 0 100px 0;
+  .toc-custom-bg-overlay{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+  }
+  .toc-custom-landing-inside{
+    width: 680px;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    z-index: 50;
+    .toc-custom-landing-top{
+      img{
+        width: 200px;
+      }
+      h2{
+        font-size: 40px;
+        color: #1e293b;
+        margin: 30px 0 10px 0;
+        line-height: 46px;
+      }
+      p{
+        font-size: 16px;
+        color: #3C434A;
+        font-weight: 500;
+      }
+    .toc-landing-video-player{
+      margin-top: 50px;
+      iframe{
+        width: 100%;
+        height: 400px;
+        border-radius: 5px;
+      }
+    }
+    }
+    .toc-custom-landing-info-grid{
+      text-align: left;
+      padding: 40px;
+      .toc-custom-landing-single-wrap{
+        display: flex;
+        gap: 50px;
+        padding-bottom: 30px;
+        &:last-child{
+          padding-bottom: 0;
+        }
+        .toc-custom-landing-single-info{
+          width: 50%;
+          h3{
+            padding: 10px 0 5px 0;
+          }
+          p{
+            font-weight: 400;
+          }
+        }
+      }
+
+    }
+  }
+  .toc-custom-landing-install-btn{
+    background: #046bd2;
+    color: #fff;
+    font-size: 14px;
+    padding: 12px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: auto;
+    text-decoration: none;
+  }
+  .toc-custom-landing-bottom{
+    h2{
+      font-size: 32px;
+      color: #1e293b;
+      line-height: 40px;
+    }
+    .toc-custom-landing-install-btn{
+      margin-top: 30px;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Top Table of Contents",
+  "name": "top-table-of-contents",
+  "version": "1.0.0",
+  "description": "Easily creates SEO-friendly table of contents for your blog posts and pages. Offers both Auto and Manual Insert with highly customization options.",
+  "main": "index.js",
+  "scripts": {
+    "start": "wp-scripts start ./includes/block-editor/index.js"
+  },
+  "author": "Boomdevs",
+  "license": "ISC",
+  "devDependencies": {
+    "@wordpress/scripts": "^23.0.0"
+  }
+}

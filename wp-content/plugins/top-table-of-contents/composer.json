@@ -1,0 +1,22 @@
+{
+    "name": "boomdevs/toc",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "autoload": {
+        "psr-4": {
+            "Boomdevs\\Toc\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "boomdevs",
+            "email": "admin@boomdevs.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "caseyamcl/toc": "^3.0",
+        "appsero/client": "^2.0"
+
+    }
+}

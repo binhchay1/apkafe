@@ -1,0 +1,420 @@
+@import url("https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
+.csf-fieldset-content .csf-field.csf-field-typography:last-child .csf--block.csf--block-font-color .csf--title {
+  display: none; }
+.csf-fieldset-content .csf-field.csf-field-typography:last-child .csf--block.csf--block-font-color:before {
+  content: 'Hover Color';
+  color: #777;
+  margin: 0 0 2px;
+  font-size: 12px; }
+
+.csf-field.csf-field-checkbox.select_post {
+  background-color: #fff;
+  padding: 15px; }
+  .csf-field.csf-field-checkbox.select_post ul li:last-child {
+    margin-bottom: 0; }
+
+.csf-field-image_select .csf--image {
+  margin: 0;
+  padding: 25px; }
+
+.premade_layouts .csf-fieldset .csf-fieldset-content .csf--image-group .csf--image.csf--active figure {
+  border-radius: 12px;
+  border-color: #4FD485;
+  box-shadow: none; }
+  .premade_layouts .csf-fieldset .csf-fieldset-content .csf--image-group .csf--image.csf--active figure:before {
+    background-color: #4FD585;
+    top: auto;
+    left: auto;
+    bottom: 35px;
+    right: 35px;
+    line-height: 16px;
+    border-radius: 50%;
+    padding: 6px; }
+.premade_layouts .csf-fieldset .csf-fieldset-content .csf--image-group figure {
+  border-radius: 12px;
+  border-color: #dddddd;
+  box-shadow: none; }
+  .premade_layouts .csf-fieldset .csf-fieldset-content .csf--image-group figure:hover {
+    border-color: #4FD485; }
+  .premade_layouts .csf-fieldset .csf-fieldset-content .csf--image-group figure img {
+    border-radius: 12px; }
+
+#customize-control-boomdevs-toc-premade_layouts .premade_layouts .csf-fieldset .csf-fieldset-content .csf--image-group .csf--image.csf--active figure:before {
+  bottom: 25px;
+  right: 25px; }
+
+h1, h2, h3, h4, h5, h6 p {
+  margin: 0;
+  padding: 0; }
+
+.toc_main_wrapper .toc_header_wrapper {
+  margin-top: 50px; }
+  .toc_main_wrapper .toc_header_wrapper .container {
+    text-align: center; }
+    .toc_main_wrapper .toc_header_wrapper .container .title h1 {
+      font-family: 'Red Hat Display';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 59px;
+      line-height: 79px;
+      text-align: center;
+      letter-spacing: -0.02em;
+      color: #09213D; }
+    .toc_main_wrapper .toc_header_wrapper .container .text p {
+      font-family: 'Raleway';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 36px;
+      text-align: center;
+      letter-spacing: -0.01em;
+      color: #727F9F;
+      margin: 22px 0 24px; }
+    .toc_main_wrapper .toc_header_wrapper .container .header_btn {
+      display: flex;
+      align-items: center;
+      justify-content: center; }
+      .toc_main_wrapper .toc_header_wrapper .container .header_btn .left_btn {
+        margin-right: 5px; }
+.toc_main_wrapper .toc_money_back_guarantee_wrapper .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background: #FFFFFF;
+  border: 1px solid #EFF0F6;
+  box-shadow: 0px 35px 70px rgba(20, 20, 43, 0.03);
+  border-radius: 5px;
+  padding: 25px 0;
+  margin-top: 100px; }
+  .toc_main_wrapper .toc_money_back_guarantee_wrapper .container .money_back_guarantee_text h3 {
+    font-family: 'Red Hat Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 44px;
+    color: #09213D; }
+  .toc_main_wrapper .toc_money_back_guarantee_wrapper .container .money_back_guarantee_text p {
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 30px;
+    letter-spacing: -0.01em;
+    color: #727F9F;
+    margin-top: 10px; }
+.toc_main_wrapper .toc_pricing_wrapper {
+  margin-top: 100px; }
+  .toc_main_wrapper .toc_pricing_wrapper .container {
+    width: 70%;
+    margin: 0 auto; }
+    .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_header {
+      text-align: center; }
+      .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_header span {
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+        color: #2271b1; }
+      .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_header h2 {
+        font-family: 'Red Hat Display';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 50px;
+        line-height: 70px;
+        text-align: center;
+        letter-spacing: -0.02em;
+        color: #09213D;
+        margin: 12px 0; }
+      .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_header p {
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 30px;
+        text-align: center;
+        letter-spacing: -0.01em;
+        color: #727F9F;
+        margin: 0; }
+    .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table {
+      margin-top: 50px; }
+      .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table th, .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table td {
+          text-align: center;
+          padding: 1rem;
+          border: 1px solid #ccc;
+          font-family: 'Raleway';
+          font-style: normal;
+          font-weight: 600;
+          line-height: 36px;
+          text-align: center;
+          letter-spacing: -0.01em;
+          color: #727F9F; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table th {
+          background-color: #eee;
+          font-weight: bold;
+          font-size: 18px;
+          color: #09213D; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table td:first-child {
+          text-align: left;
+          font-weight: bold;
+          font-size: 14px; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table tr:nth-child(even) {
+          background-color: #f2f2f2; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table .tick, .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table .cross {
+          font-weight: bold; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table .cross {
+          color: red; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table .tick {
+          color: green;
+          font-size: 18px; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table .row-cross .cross {
+          display: block; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table .row-cross .tick {
+          display: none; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table .row-cross .tick::before {
+          content: "\2714";
+          color: green;
+          font-weight: bold; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table .row-tick .cross {
+          display: none; }
+        .toc_main_wrapper .toc_pricing_wrapper .container .toc_pricing_content .toc_pricing_content_table .pricing-table .row-tick .tick::before {
+          content: "\2714";
+          color: green;
+          font-weight: bold; }
+.toc_main_wrapper .toc_testimonial_wrapper {
+  margin: 100px 0 100px; }
+  .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .toc_testimonial_content_header {
+    text-align: center; }
+    .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .toc_testimonial_content_header span {
+      font-family: 'Raleway';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 19px;
+      text-align: center;
+      color: #2271b1; }
+    .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .toc_testimonial_content_header h2 {
+      font-family: 'Red Hat Display';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 50px;
+      line-height: 70px;
+      text-align: center;
+      letter-spacing: -0.02em;
+      color: #09213D;
+      margin: 12px 0; }
+    .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .toc_testimonial_content_header p {
+      font-family: 'Raleway';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 30px;
+      text-align: center;
+      letter-spacing: -0.01em;
+      color: #727F9F;
+      margin: 0; }
+  .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .testimonial-cards {
+    display: flex;
+    justify-content: space-between; }
+    .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .testimonial-cards .card {
+      width: 30%;
+      padding: 30px;
+      background: #FFFFFF;
+      border: 1px solid #EFF0F6;
+      box-shadow: 0px 35px 70px rgba(20, 20, 43, 0.03);
+      border-radius: 5px;
+      text-align: center;
+      margin-top: 50px; }
+      .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .testimonial-cards .card .logo img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 50%; }
+      .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .testimonial-cards .card .content p {
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 30px;
+        letter-spacing: -0.01em;
+        color: #727F9F;
+        border-bottom: 1px solid rgba(227, 229, 236, 0.5);
+        padding: 20px 0 30px; }
+      .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .testimonial-cards .card .details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px; }
+        .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .testimonial-cards .card .details .name {
+          text-align: left; }
+          .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .testimonial-cards .card .details .name p {
+            font-family: 'Red Hat Display';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 21px;
+            color: #09213D;
+            margin-bottom: 10px; }
+          .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .testimonial-cards .card .details .name span {
+            font-family: 'Raleway';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: -0.01em;
+            color: #727F9F; }
+        .toc_main_wrapper .toc_testimonial_wrapper .container .toc_testimonial_content .testimonial-cards .card .details .rating .fas.fa-star {
+          color: gold; }
+.toc_main_wrapper .toc_coupon_wrapper {
+  display: none;
+  margin: 100px 0 200px; }
+  .toc_main_wrapper .toc_coupon_wrapper .container .toc_coupon_content .toc_coupon_content_header {
+    text-align: center; }
+    .toc_main_wrapper .toc_coupon_wrapper .container .toc_coupon_content .toc_coupon_content_header h2 {
+      font-family: 'Red Hat Display';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 50px;
+      line-height: 70px;
+      text-align: center;
+      letter-spacing: -0.02em;
+      color: #09213D;
+      margin: 12px 0; }
+    .toc_main_wrapper .toc_coupon_wrapper .container .toc_coupon_content .toc_coupon_content_header p {
+      font-family: 'Raleway';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 30px;
+      text-align: center;
+      letter-spacing: -0.01em;
+      color: #727F9F;
+      margin: 0; }
+    .toc_main_wrapper .toc_coupon_wrapper .container .toc_coupon_content .toc_coupon_content_header a {
+      margin-top: 50px; }
+
+.toc-custom-landing-wrapper {
+  position: relative;
+  padding: 100px 0 100px 0; }
+  .toc-custom-landing-wrapper .toc-custom-bg-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1; }
+  .toc-custom-landing-wrapper .toc-custom-landing-inside {
+    width: 680px;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    z-index: 50; }
+    .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-top img {
+      width: 200px; }
+    .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-top h2 {
+      font-size: 40px;
+      color: #1e293b;
+      margin: 30px 0 10px 0;
+      line-height: 46px; }
+    .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-top p {
+      font-size: 16px;
+      color: #3C434A;
+      font-weight: 500; }
+    .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-top .toc-landing-video-player {
+      margin-top: 50px; }
+      .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-top .toc-landing-video-player iframe {
+        width: 100%;
+        height: 400px;
+        border-radius: 5px; }
+    .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-info-grid {
+      text-align: left;
+      padding: 40px; }
+      .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-info-grid .toc-custom-landing-single-wrap {
+        display: flex;
+        gap: 50px;
+        padding-bottom: 30px; }
+        .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-info-grid .toc-custom-landing-single-wrap:last-child {
+          padding-bottom: 0; }
+        .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-info-grid .toc-custom-landing-single-wrap .toc-custom-landing-single-info {
+          width: 50%; }
+          .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-info-grid .toc-custom-landing-single-wrap .toc-custom-landing-single-info h3 {
+            padding: 10px 0 5px 0; }
+          .toc-custom-landing-wrapper .toc-custom-landing-inside .toc-custom-landing-info-grid .toc-custom-landing-single-wrap .toc-custom-landing-single-info p {
+            font-weight: 400; }
+  .toc-custom-landing-wrapper .toc-custom-landing-install-btn {
+    background: #046bd2;
+    color: #fff;
+    font-size: 14px;
+    padding: 12px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: auto;
+    text-decoration: none; }
+  .toc-custom-landing-wrapper .toc-custom-landing-bottom h2 {
+    font-size: 32px;
+    color: #1e293b;
+    line-height: 40px; }
+  .toc-custom-landing-wrapper .toc-custom-landing-bottom .toc-custom-landing-install-btn {
+    margin-top: 30px; }
+
+.top_table_of_contants_framework .csf-copyright {
+  font-size: 14px;
+  color: #fff; }
+  .top_table_of_contants_framework .csf-copyright a {
+    color: gold !important; }
+
+/*
+0-600px:        Phone
+600-991px:      Tablet Portrait
+992-1200px:     Tablet Landscape
+[1200-1800px:]  is where our normal styles apply
+1800px + :      Big Desktop
+
+$breakpoint argument choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+1em = 16px
+*/
+.bd_toc_setting_button {
+  color: #2271b1;
+  text-shadow: 1px 1px 1px #eee;
+  font-weight: normal; }
+
+.bd_toc_pro_button {
+  color: #93003c;
+  text-shadow: 1px 1px 1px #eee;
+  font-weight: 700; }
+
+.Premium_feature_message {
+  font-size: 17px;
+  margin-top: 15px; }
+
+.Premium_feature_video {
+  margin: 30px 0;
+  padding: 30px;
+  max-width: 830px;
+  background: #fff;
+  box-shadow: 0px 35px 70px -10px rgba(20, 20, 43, 0.2);
+  border-radius: 15px;
+  text-align: center;
+  overflow: hidden;
+  pointer-events: none; }
+
+.Premium_feature_video iframe {
+  border-radius: 15px; }
+
+.contents_message {
+  margin-top: 30px; }
+
+/*# sourceMappingURL=boomdevs-toc-admin.css.map */
