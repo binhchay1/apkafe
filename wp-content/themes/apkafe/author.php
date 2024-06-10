@@ -6,7 +6,7 @@ $args = array(
     'author__in' => array(get_the_author_meta('ID')),
     'orderby' => 'modified',
     'order' => 'DESC',
-    'posts_per_page' => 15,
+    'posts_per_page' => 16,
     'post_status' => 'publish',
     'paged' => $paged,
     'post_type' => 'post'
@@ -18,6 +18,21 @@ $user_description = get_the_author_meta('user_description', $post->post_author);
 $user_url = get_the_author_meta('url', $post->post_author);
 $user_meta = get_user_meta($post->post_author);
 ?>
+<style>
+    .main_list_item .side_list_item {
+        width: 49%;
+    }
+
+    .main_list_item .side_list_item img {
+        width: 160px;
+        height: 90px;
+    }
+
+    .side_list_item p.title {
+        text-overflow: inherit;
+        white-space: inherit;
+    }
+</style>
 
 <div class="container">
     <div class="content-pad-4x">
@@ -59,6 +74,7 @@ $user_meta = get_user_meta($post->post_author);
                             <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
                                 <?php echo get_the_post_thumbnail($post->ID) ?>
                                 <p class="title"><?php echo get_the_title($post->ID) ?></p>
+                                <p class="date"><?php echo get_the_date('F j, Y', $post->ID) ?></p>
                             </a>
                         <?php } ?>
                     <?php } ?>
