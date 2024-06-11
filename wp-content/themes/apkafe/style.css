@@ -8,93 +8,8 @@
  Tags:         light, two-columns, right-sidebar, responsive-layout, accessibility-ready
 */
 
-a,
-abbr,
-acronym,
-address,
-applet,
-article,
-aside,
-audio,
-b,
-big,
-blockquote,
-body,
-canvas,
-caption,
-center,
-cite,
-code,
-dd,
-del,
-details,
-dfn,
-div,
-dl,
-dt,
-em,
-embed,
-fieldset,
-figcaption,
-figure,
-footer,
-form,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-header,
-hgroup,
-html,
-iframe,
-img,
-ins,
-kbd,
-label,
-legend,
-li,
-mark,
-menu,
-nav,
-object,
-ol,
-output,
-p,
-pre,
-q,
-ruby,
-s,
-samp,
-section,
-small,
-span,
-strike,
-strong,
-sub,
-summary,
-sup,
-table,
-tbody,
-td,
-tfoot,
-th,
-thead,
-time,
-tr,
-tt,
-u,
-ul,
-var,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  vertical-align: baseline;
-  outline: 0;
-  background: transparent;
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
+* {
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 article,
@@ -113,11 +28,12 @@ section {
 
 body {
   line-height: 1;
-}
-
-ol,
-ul {
-  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  outline: 0;
+  background: transparent;
 }
 
 blockquote,
@@ -208,11 +124,6 @@ a {
 
 a:hover {
   color: #888;
-}
-
-p {
-  font-size: 16px;
-  line-height: 24px;
 }
 
 h1 {
@@ -351,6 +262,7 @@ header .logo_wrap {
 header #nav_wrap {
   float: left;
   width: 65%;
+  margin: 0;
 }
 
 header .search_wrap {
@@ -367,6 +279,7 @@ header #nav_wrap ul.main_nav {
   float: left;
   width: 100%;
   text-align: right;
+  margin: 0;
 }
 
 header #nav_wrap ul.main_nav li {
@@ -624,6 +537,7 @@ ul.bread_crumb {
   width: 100%;
   box-sizing: border-box;
   float: left;
+  margin-top: 0;
 }
 
 ul.bread_crumb li {
@@ -961,6 +875,7 @@ footer .footer_main .ftr_social_box a:hover {
   margin-bottom: 0;
   font-size: 20px;
   color: white;
+  margin-top: 0;
 }
 
 .side_list_item {
