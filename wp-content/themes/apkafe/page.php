@@ -9,6 +9,10 @@ $get_post = new WP_Query(array(
 
 global $wpdb;
 
+$checkCategoryBlog = category_exists('Blog');
+$checkCategoryTipsAndroid = category_exists('Tips Android');
+$checkCategoryNewsTech = category_exists('News Tech');
+
 get_header();
 ?>
 <style>
