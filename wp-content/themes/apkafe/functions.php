@@ -526,8 +526,16 @@ function submit_review_handler()
 			)
 		);
 
+		$countRatingForSchema = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(*) FROM wp_user_review WHERE post_id = '%d'",
+				$post_id
+			)
+		);
+
 		$ratingForSchema = number_format($avg, 1);
 		update_post_meta($post_id, 'software-application-4423-rating', $ratingForSchema);
+		update_post_meta($post_id, 'software-application-4423-review-count', $countRatingForSchema);
 
 		echo json_encode(array('success' => true, 'result' => 1));
 	} else {
