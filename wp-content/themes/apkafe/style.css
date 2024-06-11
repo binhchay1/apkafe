@@ -538,10 +538,12 @@ ul.bread_crumb {
   box-sizing: border-box;
   float: left;
   margin-top: 0;
+  
 }
 
 ul.bread_crumb li {
   float: left;
+  list-style: none;
 }
 
 ul.bread_crumb li i {
@@ -2864,6 +2866,29 @@ a.single-language span.size22 {
 
 .post-of-author {
   margin-top: 20px;
+}
+
+p img {
+  display: flex;
+  justify-content: center;
+}
+
+.aligncenter {
+  margin: 0 auto;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 10px;
 }
 
 @-webkit-keyframes snackbar-fadein {
