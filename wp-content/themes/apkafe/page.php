@@ -7,9 +7,7 @@ $get_post = new WP_Query(array(
     'post_type' => 'product',
 ));
 
-$checkCategoryBlog = category_exists('Blog');
-$checkCategoryTipsAndroid = category_exists('Tips Android');
-$checkCategoryNewsTech = category_exists('News Tech');
+global $wpdb;
 
 get_header();
 ?>
@@ -32,16 +30,14 @@ get_header();
                 <?php foreach ($get_post->posts as $post) {
                     $_product = wc_get_product($post->ID);
                     $_product_title = $_product->get_title();
+                    $rating = '';
+                    $developer = '';
 
-                    $args = array(
-                        'post_title_like' => $_product_title,
-                        'post_type' => 'lasso-urls',
-                    );
+                    $res = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_title = '%s' AND post_type = 'lasso-urls'", $_product_title));
+                    foreach ($res as $postRes) {
+                        $rating = get_post_meta($postRes->ID, 'rating');
+                        $developer = get_post_meta($postRes->ID, 'developer');
 
-                    $res = new WP_Query($args);
-                    foreach ($res->posts as $postRes) {
-                        $rating = get_post_meta($postRes->ID, 'rating', false);
-                        $developer = get_post_meta($postRes->ID, 'developer', false);
                         break;
                     } ?>
 
