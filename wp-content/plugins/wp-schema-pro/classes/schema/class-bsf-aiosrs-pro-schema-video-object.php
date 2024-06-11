@@ -66,13 +66,18 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Video_Object' ) ) {
 				$schema['interactionStatistic']['userInteractionCount']     = wp_strip_all_tags( (string) $data['interaction-count'] );
 			}
 
+
+			if ( isset( $data['thumbnail-url'] ) && ! empty( $data['thumbnail-url'] ) ) {
+				$schema['thumbnailUrl'] = $data['thumbnail-url'];
+			}
+
 			if ( isset( $data['clip'] ) && ! empty( $data['clip'] ) ) {
 				foreach ( $data['clip'] as $key => $value ) {
-					$schema['hasPart'][ $key ]['@type']       = 'Clip';
-					$schema['hasPart'][ $key ]['name']        = wp_strip_all_tags( (string) $value['clip-name'] );
-					$schema['hasPart'][ $key ]['startOffset'] = wp_strip_all_tags( (string) $value['clip-start-offset'] );
-					$schema['hasPart'][ $key ]['endOffset']   = wp_strip_all_tags( (string) $value['clip-end-offset'] );
-					$schema['hasPart'][ $key ]['url']         = esc_url( $value['clip-url'] );
+					$schema['hasPart'][$key]['@type']       = 'Clip';
+					$schema['hasPart'][$key]['name']        = wp_strip_all_tags( (string) $value['clip-name'] );
+					$schema['hasPart'][$key]['startOffset'] = wp_strip_all_tags( (string) $value['clip-start-offset'] );
+					$schema['hasPart'][$key]['endOffset']   = wp_strip_all_tags( (string) $value['clip-end-offset'] );
+					$schema['hasPart'][$key]['url']         = esc_url( $value['clip-url'] );
 				}
 			}
 
@@ -82,8 +87,20 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Video_Object' ) ) {
 				$schema['potentialAction']['startOffset-input'] = 'required name=seek_to_second_number';
 			}
 
+			if ( isset( $data['regions-allowed'] ) && ! empty( $data['regions-allowed'] ) ) {
+				$schema['regionsAllowed'] = wp_strip_all_tags( (string) $data['regions-allowed'] );
+			}
+
+			if ( isset( $data['is-live-broadcast'] ) && $data['is-live-broadcast'] ) {
+				$schema['publication']['@type']        = 'BroadcastEvent';
+				$schema['publication']['isLiveBroadcast'] = true;
+				$schema['publication']['startDate']    = ! empty( $data['start-date'] ) ? wp_strip_all_tags( (string) $data['start-date'] ) : null;
+				$schema['publication']['endDate']      = ! empty( $data['end-date'] ) ? wp_strip_all_tags( (string) $data['end-date'] ) : null;
+			}
+
 			return apply_filters( 'wp_schema_pro_schema_video_object', $schema, $data, $post );
 		}
 
 	}
 }
+

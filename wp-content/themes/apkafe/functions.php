@@ -397,6 +397,7 @@ add_action('template_redirect', function () {
 			}
 		}
 	}
+	
 }, PHP_INT_MAX);
 
 function ia_get_attachment_id_from_url($attachment_url = '')
@@ -421,7 +422,7 @@ function title_like_posts_where($where, $wp_query)
 {
 	global $wpdb;
 	if ($post_title_like = $wp_query->get('post_title_like')) {
-		$where .= ' AND ' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql($wpdb->esc_like($post_title_like)) . '%\'';
+		$where .= ' AND ' . $wpdb->posts . '.post_title = "' . $post_title_like . '"';
 	}
 
 	return $where;

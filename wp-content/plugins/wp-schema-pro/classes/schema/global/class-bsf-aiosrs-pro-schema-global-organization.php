@@ -90,14 +90,14 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Organization' ) ) {
 			}
 
 			foreach ( $social_profiles as $type => $social_link ) {
-				if ( 'other' === $type ) {
+				if ( 'other' === $type && is_array( $social_link ) ) {
 					foreach ( $social_link as $dynamic_social_link ) {
 						if ( ! empty( $dynamic_social_link ) ) {
 							$schema['sameAs'][] = $dynamic_social_link;
 						}
 					}
 				}
-				if ( ! empty( $social_link ) && ( ! is_array( $social_link ) ) ) {
+				if ( ! empty( $social_link ) && ! is_array( $social_link ) ) {
 
 					$schema['sameAs'][] = $social_link;
 				}
@@ -108,3 +108,4 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Organization' ) ) {
 
 	}
 }
+

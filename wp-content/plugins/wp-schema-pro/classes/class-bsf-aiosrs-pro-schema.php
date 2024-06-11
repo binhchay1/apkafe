@@ -631,15 +631,38 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default'     => 'create-field',
 								'description' => esc_html__( 'The organization that publishes the source content of the course. For example, UC Berkeley.', 'wp-schema-pro' ),
 							),
-							'offer-category'   => array(
-								'label'       => esc_html__( 'Offer Category', 'wp-schema-pro' ),
-								'type'        => 'text',
-								'default'     => 'none',
-								'description' => esc_html__( 'The pricing category of the course.(e.g. Free, Partially Free, Subscription, Paid).', 'wp-schema-pro' ),
+							'offers'           => array(
+								'label'       => esc_html__( 'Offers', 'wp-schema-pro' ),
+								'type'        => 'repeater',
+								'description' => esc_html__( 'The pricing and availability of the course.', 'wp-schema-pro' ),
+								'required'    => true,
+								'fields'      => array(
+									'offer-category' => array(
+										'label'         => esc_html__( 'Offer Category', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'custom-text',
+										'dropdown-type' => 'offer-category',
+									),
+									'priceCurrency'  => array(
+										'label'         => esc_html__( 'Price Currency', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'custom-text',
+										'dropdown-type' => 'currency',
+									),
+									'price'          => array(
+										'label' => esc_html__( 'Price', 'wp-schema-pro' ),
+										'type'  => 'number',
+										'attrs' => array(
+											'min'  => '0',
+											'step' => 'any',
+										),
+									),
+								),
 							),
 							'course-instance'  => array(
 								'label'       => esc_html__( 'Course Instance', 'wp-schema-pro' ),
 								'type'        => 'repeater',
+								'required'    => true,
 								'description' => esc_html__( 'An offering of the course at a specific time and place or through specific media or mode of study or to a specific section of students.', 'wp-schema-pro' ),
 								'fields'      => array(
 									'name'                 => array(
@@ -654,11 +677,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 										'default'  => 'none',
 										'required' => true,
 									),
-									'course-mode'          => array(
-										'label'       => esc_html__( 'Course Mode', 'wp-schema-pro' ),
-										'type'        => 'text',
-										'default'     => 'none',
-										'description' => esc_html__( 'The medium or means of delivery of the course instance or the mode of study, either as a text label (e.g. "online", "onsite" or "blended"; "synchronous" or "asynchronous"; "full-time" or "part-time") or as a URL reference to a term from a controlled vocabulary (e.g. https://ceds.ed.gov/element/001311#Asynchronous )', 'wp-schema-pro' ),
+									'course-mode' => array(
+										'label'         => esc_html__( 'Course Mode', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'custom-text',
+										'dropdown-type' => 'course-attendance-mode',
+										'required'      => false,
 									),
 									'image'                => array(
 										'label'   => esc_html__( 'Image', 'wp-schema-pro' ),
@@ -670,17 +694,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 										'type'          => 'dropdown',
 										'default'       => 'custom-text',
 										'dropdown-type' => 'event-status',
-										'required'      => false,
+										'required'      => true,
 										'description'   => esc_html__( 'The status of the Course Instance.', 'wp-schema-pro' ),
-
-									),
-									'event-attendance-mode' => array(
-										'label'         => esc_html__( 'Course Attendance Mode', 'wp-schema-pro' ),
-										'type'          => 'dropdown',
-										'default'       => 'custom-text',
-										'dropdown-type' => 'event-attendance-mode',
-										'required'      => false,
-										'description'   => esc_html__( 'The location of the Course Instance. There are different requirements depending on if the Course is happening online or at a physical location.', 'wp-schema-pro' ),
 
 									),
 									'start-date'           => array(
@@ -695,23 +710,26 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 										'default' => 'none',
 									),
 									'repeat-count'         => array(
-										'label'   => esc_html__( 'Repeat Count', 'wp-schema-pro' ),
-										'type'    => 'number',
-										'default' => 'none',
-										'attrs'   => array(
+										'label'    => esc_html__( 'Repeat Count', 'wp-schema-pro' ),
+										'type'     => 'number',
+										'default'  => 'none',
+										'required' => true,
+										'attrs'    => array(
 											'min'  => '0',
 											'step' => 'any',
 										),
 									),
 									'repeat-frequency'     => array(
-										'label'   => esc_html__( 'Repeat Frequency', 'wp-schema-pro' ),
-										'type'    => 'text',
-										'default' => 'none',
+										'label'    => esc_html__( 'Repeat Frequency', 'wp-schema-pro' ),
+										'type'     => 'text',
+										'required' => true,
+										'default'  => 'none',
 									),
 									'course-workload'      => array(
-										'label'   => esc_html__( 'Course Workload', 'wp-schema-pro' ),
-										'type'    => 'text',
-										'default' => 'none',
+										'label'    => esc_html__( 'Course Workload', 'wp-schema-pro' ),
+										'type'     => 'time-duration',
+										'required' => true,
+										'default'  => 'none',
 									),
 									'previous-date'        => array(
 										'label'   => esc_html__( 'Course Previous Start Date', 'wp-schema-pro' ),
@@ -810,6 +828,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							),
 						),
 					),
+							
 					'bsf-aiosrs-event'                => array(
 						'key'            => 'event',
 						'icon'           => 'dashicons dashicons-tickets-alt',
@@ -1368,6 +1387,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									'bsf-aiosrs-software-application' => esc_html__( 'Software Application', 'wp-schema-pro' ),
 									'bsf-aiosrs-movie'   => esc_html__( 'Movie', 'wp-schema-pro' ),
 									'bsf-aiosrs-organization' => esc_html__( 'Organization', 'wp-schema-pro' ),
+									'bsf-aiosrs-offers'  => esc_html__( 'Offers', 'wp-schema-pro' ),
 								),
 							),
 							'review-body'    => array(
@@ -1523,58 +1543,162 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						'guideline-link' => empty( $doc_link ) ? 'https://wpschema.com/docs/add-a-schema-markup-for-a-product-page/' : 'https://developers.google.com/search/docs/data-types/products',
 						'path'           => BSF_AIOSRS_PRO_DIR . 'classes/schema/',
 						'subkeys'        => array(
-							'name'              => array(
+							'name'                    => array(
 								'label'    => esc_html__( 'Product Name', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_title',
 								'required' => true,
 							),
-							'brand-name'        => array(
+							'brand-name'              => array(
 								'label'   => esc_html__( 'Product Brand', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'none',
 							),
-							'image'             => array(
+							'image'                   => array(
 								'label'    => esc_html__( 'Product Image', 'wp-schema-pro' ),
 								'type'     => 'image',
 								'default'  => 'featured_img',
 								'required' => true,
 							),
-							'url'               => array(
+							'url'                     => array(
 								'label'   => esc_html__( 'Product URL', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'post_permalink',
 							),
-							'description'       => array(
+							'description'             => array(
 								'label'   => esc_html__( 'Product Description', 'wp-schema-pro' ),
 								'type'    => 'textarea',
 								'default' => 'post_content',
 							),
-							'sku'               => array(
+							'sku'                     => array(
 								'label'       => esc_html__( 'Product SKU', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'create-field',
-								'description' => esc_html__( 'The Stock Keeping Unit (SKU) is a unique numerical identifying number that refers to a specific stock item in a retailers inventory or product catalog.', 'wp-schema-pro' ),
+								'description' => esc_html__( 'The Stock Keeping Unit (SKU) is a unique numerical identifying number that refers to a specific stock item in a retailer\'s inventory or product catalog.', 'wp-schema-pro' ),
 							),
-							'mpn'               => array(
+							'mpn'                     => array(
 								'label'       => esc_html__( 'Product MPN', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'create-field',
 								'description' => esc_html__( 'The Manufacturer Part Number (MPN) of the product, or the product to which the offer refers. e.g. "925872"', 'wp-schema-pro' ),
 							),
-							'avail'             => array(
+							'avail'                   => array(
 								'label'         => esc_html__( 'Product Availability', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'none',
 								'dropdown-type' => 'availability',
 							),
-							'price-valid-until' => array(
+							'merchant-return-policy'  => array(
+								'label'  => esc_html__( 'Merchant Return Policy', 'wp-schema-pro' ),
+								'type'   => 'repeater',
+								'fields' => array(
+									'applicableCountry'    => array(
+										'label'   => esc_html__( 'Applicable Country', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'US',
+									),
+									'returnPolicyCategory' => array(
+										'label'         => esc_html__( 'Return Policy Category', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'none',
+										'dropdown-type' => 'returnPolicyCategory',
+									),
+									'merchantReturnDays'   => array(
+										'label'   => esc_html__( 'Merchant Return Days', 'wp-schema-pro' ),
+										'type'    => 'number',
+										'default' => 30,
+									),
+									'returnFees'           => array(
+										'label'         => esc_html__( 'Return Fees', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'none',
+										'dropdown-type' => 'returnFees',
+									),
+									'returnMethod'         => array(
+										'label'         => esc_html__( 'Return Method', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'dropdown-type' => 'returnMethod',
+									),
+									'returnShippingFeesAmount' => array(
+										'label'   => esc_html__( 'Return Shipping Fees Amount', 'wp-schema-pro' ),
+										'type'    => 'number',
+										'default' => 'none',
+									),
+									'merchantCurrency'             => array(
+										'label'         => esc_html__( 'Currency', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'none',
+										'dropdown-type' => 'currency',
+									),
+								),
+							),
+							'shippingDetails'         => array(
+								'label'  => esc_html__( 'Shipping Details', 'wp-schema-pro' ),
+								'type'   => 'repeater',
+								'fields' => array(                          
+									'shippingDestination'  => array(
+										'label'         => esc_html__( 'Shipping Destination', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'none',
+										'dropdown-type' => 'country',
+									),
+									'handlingTimeMinValue' => array(
+										'label'   => esc_html__( 'Min Handling Time', 'wp-schema-pro' ),
+										'type'    => 'number',
+										'default' => 'none',
+									),
+									'unitCode'             => array(
+										'label'   => esc_html__( 'Unit Code', 'wp-schema-pro' ),
+										'type'    => 'text',
+										'default' => 'DAY',
+									),
+									'handlingTimeMaxValue' => array(
+										'label'   => esc_html__( 'Max Handling Time', 'wp-schema-pro' ),
+										'type'    => 'number',
+										'default' => 'none',
+									),
+									'transitTimeMinValue'  => array(
+										'label'   => esc_html__( 'Min Transit Time', 'wp-schema-pro' ),
+										'type'    => 'number',
+										'default' => 'none',
+									),
+									'transitTimeMaxValue'  => array(
+										'label'   => esc_html__( 'Max Transit Time', 'wp-schema-pro' ),
+										'type'    => 'number',
+										'default' => 'none',
+									),
+									'shippingRate'         => array(
+										'label'   => esc_html__( 'Shipping Rate', 'wp-schema-pro' ),
+										'type'    => 'number',
+										'default' => 'none',
+									),
+									'shippingCurrency'     => array(
+										'label'         => esc_html__( 'Currency', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'none',
+										'dropdown-type' => 'currency',
+									),
+									'shippingCost'         => array(
+										'label'   => esc_html__( 'Shipping Cost', 'wp-schema-pro' ),
+										'type'    => 'number',
+										'default' => 'none',
+										
+									),
+									'shippingCurrency'     => array(
+										'label'         => esc_html__( 'Currency', 'wp-schema-pro' ),
+										'type'          => 'dropdown',
+										'default'       => 'none',
+										'dropdown-type' => 'currency',
+									),
+								),
+							),
+							'price-valid-until'       => array(
 								'label'       => esc_html__( 'Price Valid Until', 'wp-schema-pro' ),
 								'type'        => 'datetime-local',
 								'default'     => 'create-field',
 								'description' => esc_html__( 'The date after which the price will no longer be available. e.g. "31/12/2021 09:00 AM"', 'wp-schema-pro' ),
 							),
-							'price'             => array(
+							'price'                   => array(
 								'label'   => esc_html__( 'Product Price', 'wp-schema-pro' ),
 								'type'    => 'number',
 								'default' => 'none',
@@ -1583,13 +1707,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									'step' => '0.01',
 								),
 							),
-							'currency'          => array(
+							'currency'                => array(
 								'label'         => esc_html__( 'Currency', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'none',
 								'dropdown-type' => 'currency',
 							),
-							'product-review'    => array(
+							'product-review'          => array(
 								'label'  => esc_html__( 'Review', 'wp-schema-pro' ),
 								'type'   => 'repeater',
 								'fields' => array(
@@ -1620,47 +1744,17 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									),
 								),
 							),
-							'rating'            => array(
-								'label'   => esc_html__( 'Rating', 'wp-schema-pro' ),
-								'type'    => 'rating',
-								'default' => 'accept-user-rating',
+							'rating'                  => array(
+								'label'       => esc_html__( 'Rating', 'wp-schema-pro' ),
+								'type'        => 'rating',
+								'default'     => 'accept-user-rating',
+								'description' => esc_html__( 'To maintain accurate product information, kindly provide at least one rating.', 'wp-schema-pro' ),
 							),
-							'review-count'      => array(
+							'review-count'            => array(
 								'label'       => esc_html__( 'Review Count', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'none',
 								'description' => esc_html__( 'The count of total number of reviews. e.g. "11"', 'wp-schema-pro' ),
-							),
-							'product-review'    => array(
-								'label'  => esc_html__( 'Review', 'wp-schema-pro' ),
-								'type'   => 'repeater',
-								'fields' => array(
-									'reviewer-type'  => array(
-										'label'   => esc_html__( 'Reviewer Type', 'wp-schema-pro' ),
-										'type'    => 'text',
-										'default' => 'Person',
-										'choices' => array(
-											'Person'       => esc_html__( 'Person', 'wp-schema-pro' ),
-											'Organization' => esc_html__( 'Organization', 'wp-schema-pro' ),
-										),
-									),
-									'reviewer-name'  => array(
-										'label'    => esc_html__( 'Reviewer Name', 'wp-schema-pro' ),
-										'type'     => 'text',
-										'default'  => 'author_name',
-										'required' => true,
-									),
-									'product-rating' => array(
-										'label'   => esc_html__( 'Product Rating', 'wp-schema-pro' ),
-										'type'    => 'rating',
-										'default' => 'none',
-									),
-									'review-body'    => array(
-										'label'   => esc_html__( 'Review Body', 'wp-schema-pro' ),
-										'type'    => 'textarea',
-										'default' => 'post_content',
-									),
-								),
 							),
 						),
 					),
@@ -1819,13 +1913,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									),
 									'recipe-video-upload-date' => array(
 										'label'    => esc_html__( 'Upload Date', 'wp-schema-pro' ),
-										'type'     => 'date',
+										'type'     => 'datetime',
 										'default'  => 'post_date',
 										'required' => true,
 									),
 									'recipe-video-expires-date' => array(
 										'label'   => esc_html__( 'Expires On', 'wp-schema-pro' ),
-										'type'    => 'date',
+										'type'    => 'datetime',
 										'default' => 'create-field',
 									),
 									'recipe-video-interaction-count' => array(
@@ -1991,7 +2085,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						'key'            => 'video-object',
 						'icon'           => 'dashicons dashicons-video-alt3',
 						'label'          => __( 'Video Object', 'wp-schema-pro' ),
-
 						'guideline-link' => empty( $doc_link ) ? 'https://wpschema.com/docs/how-to-add-a-schema-markup-for-a-video-object/' : 'https://developers.google.com/search/docs/data-types/videos',
 						'path'           => BSF_AIOSRS_PRO_DIR . 'classes/schema/',
 						'subkeys'        => array(
@@ -2097,8 +2190,35 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default'     => 'none',
 								'description' => esc_html__( 'A URL that points to the start time of the clip.', 'wp-schema-pro' ),
 							),
+							'thumbnail-url'              => array(
+								'label'    => esc_html__( 'Thumbnail URL', 'wp-schema-pro' ),
+								'type'     => 'text',
+								'default'  => 'none',
+								'required' => true,
+							),
+							'regions-allowed'            => array(
+								'label'   => esc_html__( 'Regions Allowed', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'none',
+							),
+							'is-live-broadcast'          => array(
+								'label'   => esc_html__( 'Is Live Broadcast', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => false,
+							),
+							'start-date'                 => array(
+								'label'   => esc_html__( 'Live Broadcast Start Date', 'wp-schema-pro' ),
+								'type'    => 'datetime-local',
+								'default' => 'none',
+							),
+							'end-date'                   => array(
+								'label'   => esc_html__( 'Live Broadcast End Date', 'wp-schema-pro' ),
+								'type'    => 'datetime-local',
+								'default' => 'none',
+							),
 						),
 					),
+										
 					'bsf-aiosrs-faq'                  => array(
 						'key'            => 'faq',
 						'icon'           => 'dashicons dashicons-editor-help',
@@ -2351,6 +2471,58 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'   => esc_html__( 'Course Organization Name', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'blogname',
+							),
+							'course-instance'  => array(
+								'label'         => esc_html__( 'Course Instance', 'wp-schema-pro' ),
+								'type'          => 'dropdown',
+								'default'       => 'none',
+								'dropdown-type' => 'course-instance',
+							),
+							'name'             => array(
+								'label'    => esc_html__( 'Instance Name', 'wp-schema-pro' ),
+								'type'     => 'text',
+								'default'  => 'none',
+								'required' => true,
+							),
+							'description'      => array(
+								'label'    => esc_html__( 'Instance Description', 'wp-schema-pro' ),
+								'type'     => 'textarea',
+								'default'  => 'none',
+								'required' => true,
+							),
+							'category'         => array(
+								'label'         => esc_html__( 'Offer Category', 'wp-schema-pro' ),
+								'type'          => 'dropdown',
+								'default'       => 'none',
+								'dropdown-type' => 'offer-category',
+							),
+							'price'            => array(
+								'label' => esc_html__( 'Price', 'wp-schema-pro' ),
+								'type'  => 'number',
+								'attrs' => array(
+									'min'  => '0',
+									'step' => 'any',
+								),
+							),
+							'courseMode'       => array(
+								'label'         => esc_html__( 'Course Attendance Mode', 'wp-schema-pro' ),
+								'type'          => 'dropdown',
+								'default'       => 'custom-text',
+								'dropdown-type' => 'course-attendance-mode',
+								'required'      => false,
+								'description'   => esc_html__( 'The location of the Course Instance. There are different requirements depending on if the Course is happening online or at a physical location.', 'wp-schema-pro' ),
+							),
+							'course-workload'  => array(
+								'label'    => esc_html__( 'Course Workload', 'wp-schema-pro' ),
+								'type'     => 'time-duration',
+								'required' => true,
+								'default'  => 'none',
+							),
+							'currency'         => array(
+								'label'         => esc_html__( 'Currency', 'wp-schema-pro' ),
+								'type'          => 'dropdown',
+								'default'       => 'custom-text',
+								'dropdown-type' => 'currency',
 							),
 						),
 					),
@@ -3944,6 +4116,65 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						)
 					);
 					break;
+				case 'course-instance':
+					$return = apply_filters(
+						'wp_schema_pro_course_instance_options',
+						array(
+							'Yes' => __( 'Yes', 'wp-schema-pro' ),
+							'No'  => __( 'No', 'wp-schema-pro' ),
+						)
+					);
+					break;    
+				case 'offer-category':
+					$return = apply_filters(
+						'wp_schema_pro_offer_category_options',
+						array(
+							'Free'          => __( 'Free', 'wp-schema-pro' ),
+							'PartiallyFree' => __( 'Partially Free', 'wp-schema-pro' ),
+							'Subscription'  => __( 'Subscription', 'wp-schema-pro' ),
+							'Paid'          => __( 'Paid', 'wp-schema-pro' ),
+						)
+					);
+					break;
+				case 'hasmerchantreturnpolicy':
+					$return = apply_filters(
+						'wp_schema_pro_has_merchant_return_policy_options',
+						array(
+							'Yes' => __( 'Yes', 'wp-schema-pro' ),
+							'No'  => __( 'No', 'wp-schema-pro' ),
+						)
+					);
+					break; 
+				case 'returnPolicyCategory':
+					$return = apply_filters(
+						'wp_schema_pro_return_policy_category_options',
+						array(
+							'https://schema.org/MerchantReturnFiniteReturnWindow'  => __( 'Finite Return Window', 'wp-schema-pro' ),
+							'https://schema.org/MerchantReturnNotPermitted'       => __( 'Not Permitted', 'wp-schema-pro' ),
+							'https://schema.org/MerchantReturnUnlimitedWindow'     => __( 'Unlimited Window', 'wp-schema-pro' ),
+						)
+					);
+					break;
+				case 'returnFees':
+					$return = apply_filters(
+						'wp_schema_pro_return_fees_options',
+						array(
+							'https://schema.org/FreeReturn'           => __( 'Free Return', 'wp-schema-pro' ),
+							'https://schema.org/ReturnFeesCustomerResponsibility' => __( 'Customer Responsibility', 'wp-schema-pro' ),
+							'https://schema.org/ReturnShippingFees'   => __( 'Return Shipping Fees', 'wp-schema-pro' ),
+						)
+					);
+					break;
+				case 'returnMethod':
+					$return = apply_filters(
+						'wp_schema_pro_return_method_options',
+						array(
+							'https://schema.org/ReturnAtKiosk'   => __( 'Return at Kiosk', 'wp-schema-pro' ),
+							'https://schema.org/ReturnByMail'    => __( 'Return by Mail', 'wp-schema-pro' ),
+							'https://schema.org/ReturnInStore'   => __( 'Return in Store', 'wp-schema-pro' ),
+						)
+					);
+					break;
 				case 'event-status':
 					$return = apply_filters(
 						'wp_schema_pro_event_status_options',
@@ -3956,6 +4187,17 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						)
 					);
 					break;
+				case 'course-attendance-mode':
+					$return = apply_filters(
+						'wp_schema_pro_course_attendance_mode_options',
+						array(
+							'Online'  => __( 'Online', 'wp-schema-pro' ),
+							'Onsite'  => __( 'Physical Location', 'wp-schema-pro' ),
+							'Blended' => __( 'Mix Of Online & Physical Locations', 'wp-schema-pro' ),
+
+						)
+					);
+					break;
 				case 'event-attendance-mode':
 					$return = apply_filters(
 						'wp_schema_pro_event_attendance_mode_options',
@@ -3963,10 +4205,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 							'OfflineEventAttendanceMode' => __( 'Physical Location', 'wp-schema-pro' ),
 							'OnlineEventAttendanceMode'  => __( 'Online Event', 'wp-schema-pro' ),
 							'MixedEventAttendanceMode'   => __( 'Mix Of Online & Physical Locations', 'wp-schema-pro' ),
-
+	
 						)
 					);
-					break;
+					break;    
 				case 'timezone':
 					$return = apply_filters(
 						'wp_schema_pro_event_timezone_options',

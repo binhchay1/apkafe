@@ -15,6 +15,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Wizard' ) ) :
 	 * BSF_AIOSRS_Pro_Schema_Wizard class.
 	 */
 	class BSF_AIOSRS_Pro_Schema_Wizard {
+		protected $steps = array();
+		protected $step;
 
 		/**
 		 * Hook in tabs.
@@ -24,25 +26,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Wizard' ) ) :
 				add_action( 'admin_menu', array( $this, 'admin_menus' ) );
 				add_action( 'admin_init', array( $this, 'setup_wizard' ) );
 			}
-		}
 
-		/**
-		 * Add admin menus/screens.
-		 */
-		public function admin_menus() {
-			add_dashboard_page( '', '', 'manage_options', 'aiosrs-pro-setup', '' );
-		}
-
-		/**
-		 * Show the setup wizard.
-		 */
-		public function setup_wizard() {
-			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
-				return;
-			}
-			if ( empty( $_GET['page'] ) || 'aiosrs-pro-setup' !== $_GET['page'] ) {
-				return;
-			}
 			$this->steps = array(
 				'basic-config' => array(
 					'name'    => __( 'Choose Schema Type', 'wp-schema-pro' ),
@@ -60,7 +44,27 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Wizard' ) ) :
 					'handler' => '',
 				),
 			);
+		}
 
+		/**
+		 * Add admin menus/screens.
+		 */
+		public function admin_menus() {
+			add_dashboard_page( '', '', 'manage_options', 'aiosrs-pro-setup', '' );
+		}
+
+		/**
+		 * Show the setup wizard.
+		 */
+		public function setup_wizard() {
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( $_REQUEST['wp_schema_pro_admin_page_nonce'] ), 'wp_schema_pro_admin_page' ) ) {
+				return;
+			}
+	
+			if ( empty( $_GET['page'] ) || 'aiosrs-pro-setup' !== $_GET['page'] ) {
+				return;
+			}
+	
 			$this->step = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) );
 
 			wp_enqueue_style( 'aiosrs-pro-setup', BSF_AIOSRS_PRO_URI . 'admin/assets/' . BSF_AIOSRS_Pro_Admin::$minfy_css . 'setup-wizard.' . BSF_AIOSRS_Pro_Admin::$minfy_css_ext, array( 'dashicons', 'install' ), BSF_AIOSRS_PRO_VER );

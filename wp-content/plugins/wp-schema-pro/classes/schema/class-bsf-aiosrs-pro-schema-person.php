@@ -94,12 +94,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Person' ) ) {
 				$schema ['ContactPoint']['email'] = ! empty( $contact_type['email'] ) ? wp_strip_all_tags( (string) $contact_type['email'] ) : null;
 				if ( isset( $contact_type['areaServed'] ) && ! empty( $contact_type['areaServed'] ) ) {
 					$language = explode( ',', $contact_type['areaServed'] );
-					foreach ( $language as $key => $value ) {
-						$schema ['ContactPoint']['areaServed'][ $key ] = wp_strip_all_tags( (string) $value );
+					if ( is_array( $language )) {
+						foreach ( $language as $key => $value ) {
+							$schema ['ContactPoint']['areaServed'][ $key ] = wp_strip_all_tags( (string) $value );
+						}
 					}
 				}
-				foreach ( $contact_point_type  as $key => $value ) {
-					$schema ['ContactPoint']['contactOption'][ $key ] = wp_strip_all_tags( (string) $value );
+				if (is_array($contact_point_type)) {
+					foreach ( $contact_point_type  as $key => $value ) {
+						$schema ['ContactPoint']['contactOption'][ $key ] = wp_strip_all_tags( (string) $value );
+					}
 				}
 				$schema ['ContactPoint']['availableLanguage'] = ! empty( $contact_type['availableLanguage'] ) ? wp_strip_all_tags( (string) $contact_type['availableLanguage'] ) : null;
 			}

@@ -5,7 +5,7 @@
  * Author: Brainstorm Force
  * Author URI: https://www.brainstormforce.com
  * Description: Schema Pro is the go-to plugin to adding Schema Markup on your website with ease. Enables you to display rich snippets on search engines and improve your overall page SEO.
- * Version: 2.7.13
+ * Version: 2.7.18
  * Text Domain: wp-schema-pro
  * License: GPL2
  *
@@ -70,7 +70,7 @@ define( 'BSF_AIOSRS_PRO_FILE', __FILE__ );
 define( 'BSF_AIOSRS_PRO_BASE', plugin_basename( BSF_AIOSRS_PRO_FILE ) );
 define( 'BSF_AIOSRS_PRO_DIR', plugin_dir_path( BSF_AIOSRS_PRO_FILE ) );
 define( 'BSF_AIOSRS_PRO_URI', plugins_url( '/', BSF_AIOSRS_PRO_FILE ) );
-define( 'BSF_AIOSRS_PRO_VER', '2.7.13' );
+define( 'BSF_AIOSRS_PRO_VER', '2.7.18' );
 define( 'BSF_AIOSRS_PRO_CACHE_KEY', 'wp_schema_pro_optimized_structured_data' );
 define( 'BSF_AIOSRS_PRO_WEBSITE_URL', 'https://wpschema.com/' );
 
@@ -125,7 +125,7 @@ require_once BSF_AIOSRS_PRO_DIR . 'wpsp-blocks/classes/class-bsf-sp-admin.php';
  *
  * @return void
  */
-function wpsp_fail_php_version() {
+function wpsp_fail_php_version_notice() {
 	/* translators: %s: PHP version */
 	$message      = sprintf( esc_html__( 'Schema Pro blocks requires PHP version %s+, plugin is currently NOT RUNNING.', 'wp-schema-pro' ), '5.6' );
 	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
@@ -142,7 +142,7 @@ function wpsp_fail_php_version() {
  *
  * @return void
  */
-function wpsp_fail_wp_version() {
+function wpsp_fail_wp_version_notice() {
 	/* translators: %s: WordPress version */
 	$message      = sprintf( esc_html__( 'Schema Pro blocks requires WordPress version %s+. Because you are using an earlier version, the plugin is currently NOT RUNNING.', 'wp-schema-pro' ), '4.7' );
 	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );

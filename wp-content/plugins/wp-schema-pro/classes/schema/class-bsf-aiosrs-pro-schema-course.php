@@ -34,8 +34,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Course' ) ) {
 
 			$schema['description'] = ! empty( $data['description'] ) ? wp_strip_all_tags( (string) $data['description'] ) : null;
 
-			$schema['offers']['@type']    = 'Offer';
-			$schema['offers']['category'] = ! empty( $data['offer-category'] ) ? wp_strip_all_tags( (string) $data['offer-category'] ) : null;
+			if (isset($data['offers']) && !empty($data['offers'])) {
+				foreach ($data['offers'] as $offer_key => $offer_value) {
+					if (!empty($offer_value['category']) || !empty($offer_value['priceCurrency']) || !empty($offer_value['price'])) {
+						$schema['offers'][$offer_key]['@type'] = 'Offer';
+						$schema['offers'][$offer_key]['category'] = !empty($offer_value['offer-category']) ? wp_strip_all_tags((string)$offer_value['offer-category']) : null;
+						$schema['offers'][$offer_key]['priceCurrency'] = !empty($offer_value['priceCurrency']) ? wp_strip_all_tags((string)$offer_value['priceCurrency']) : null;
+						$schema['offers'][$offer_key]['price'] = !empty($offer_value['price']) ? wp_strip_all_tags((string)$offer_value['price']) : null;
+					}
+				}
+			}
 
 			if ( isset( $data['course-instance'] ) && ! empty( $data['course-instance'] ) ) {
 

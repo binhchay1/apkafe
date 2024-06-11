@@ -55,10 +55,6 @@ function create_review_slide_table()
 
 register_activation_hook(__FILE__, 'create_review_slide_table');
 
-remove_action('shutdown', 'wp_ob_end_flush_all', 1);
-add_action('shutdown', function () {
-    while (@ob_end_flush());
-});
 
 global $wpdb;
 $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "review_slide");

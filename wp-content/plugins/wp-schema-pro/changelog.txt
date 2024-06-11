@@ -1,3 +1,37 @@
+v2.7.18
+# Improvement: Course schema - Updated course workload to ISO format.
+# Improvement: Product Schema - Added new fields hasMerchantReturnPolicy and shippingDetails under offers in merchant listings.
+# Improvement: Review Schema - Updated fields hasCourseInstance and offers when item type is course.
+# Fix: Review Schema - Throwing error related to shortcode returns the word 'array'.
+
+v2.7.17
+# Improvement: Compatibility with WordPress version 6.5.
+# Improvement: Updated Course schema as per Google's new guidelines.
+# Improvement: Updated Video object schema according to Google's latest guidelines.
+# Fix: Conflict with Avada plugin while saving the page.
+# Fix: PHP Warnings and deprecated errors.
+# Fix: Resolved implode function error.
+# Fix: Resolved Recipe schema timezone warning.
+# Fix: Resolved unparsable structured data issue.
+
+v2.7.16
+# Improvement: Improved codebase for improved security.
+# Improvement: PHP 8.2 compatibility testing and fixes.
+# Improvement: Updated placeholder URL from HTTP to HTTPS.
+# Fix: Resolved conflicts with Avada builder plugin.
+# Fix: Resolved fatal error caused by identical function name conflicts with other plugins.
+# Fix: Undefined wpcom_vip_url_to_postid causing fatal error.
+
+v2.7.15
+# Fix: Fields data not saving when page is updated.
+# Fix: Implemented refined guidelines for Product review and rating.
+
+v2.7.14
+# Fix: Can not access undefined array offset issue.
+# Fix: Warning related to arguments in a foreach() loop in the Social Profile settings.
+# Fix: Setup wizard shows a warning during Social Profile configuration due to incorrect loop argument type.
+# Fix: Updating an Avada builder page triggers a fatal PHP error.
+
 v2.7.13
 # Fix: FAQ block not loading in the editor.
 

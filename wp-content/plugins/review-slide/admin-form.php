@@ -39,7 +39,7 @@ class Review_Slide_Admin
 
     function add_menu_pages()
     {
-        add_menu_page('Review Slide', 'Review Slide', 'manage_options', $this->get_id() . '_list', array(&$this, 'load_view_list'), plugins_url('review-slide/asset/images/icon.png'));
+        add_menu_page('Review Slide', 'Review Slide', 10, $this->get_id() . '_list', array(&$this, 'load_view_list'), plugins_url('review-slide/asset/images/icon.png'));
     }
 
     public function load_view_list()

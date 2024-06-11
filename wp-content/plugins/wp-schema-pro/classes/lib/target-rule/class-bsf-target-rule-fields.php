@@ -264,25 +264,25 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 			$search_string = isset( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';
 			$data          = array();
 			$result        = array();
-
+		
 			$args = array(
 				'public'   => true,
 				'_builtin' => false,
 			);
-
+		
 			$output     = 'objects'; // names or objects, note names is the default.
 			$operator   = 'and';
 			$post_types = get_post_types( $args, $output, $operator );
-
+		
 			$post_types['post'] = 'Posts';
 			$post_types['page'] = 'Pages';
-
+		
 			foreach ( $post_types as $post_type => $singular ) {
-
+		
 				$data = array();
-
+		
 				add_filter( 'posts_search', array( $this, 'search_only_titles' ), 10, 2 );
-
+		
 				$query = new WP_Query(
 					array(
 						's'              => $search_string,
@@ -290,9 +290,9 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 						'posts_per_page' => - 1,
 					)
 				);
-
+		
 				remove_filter( 'posts_search', array( $this, 'search_only_titles' ), 10, 2 );
-
+		
 				if ( $query->have_posts() ) {
 					while ( $query->have_posts() ) {
 						$query->the_post();
@@ -305,57 +305,57 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 						);
 					}
 				}
-
+		
 				if ( is_array( $data ) && ! empty( $data ) ) {
 					$singular = ( 'post' === $post_type || 'page' === $post_type ) ? $singular : $singular->labels->singular_name;
-
+		
 					$result[] = array(
 						'text'     => $singular,
 						'children' => $data,
 					);
 				}
 			}
-
+		
 			$data = array();
-
+		
 			wp_reset_postdata();
-
+		
 			$args = array(
 				'public' => true,
 			);
-
+		
 			$output     = 'objects'; // names or objects, note names is the default.
 			$operator   = 'and';
 			$taxonomies = get_taxonomies( $args, $output, $operator );
-
+		
 			foreach ( $taxonomies as $taxonomy ) {
 				$terms = get_terms(
-					$taxonomy->name,
 					array(
+						'taxonomy'   => $taxonomy->name,
 						'orderby'    => 'count',
 						'hide_empty' => 0,
 						'name__like' => $search_string,
 					)
 				);
-
+		
 				$data = array();
-
+		
 				$label = ucwords( $taxonomy->label );
-
+		
 				if ( ! empty( $terms ) ) {
-
+		
 					foreach ( $terms as $term ) {
-
+		
 						$term_taxonomy_name = ucfirst( str_replace( '_', ' ', $taxonomy->name ) );
-
+		
 						$data[] = array(
 							'id'   => 'tax-' . $term->term_id . '-single-' . $taxonomy->name,
 							'text' => 'All singulars from ' . $term->name,
 						);
-
+		
 					}
 				}
-
+		
 				if ( is_array( $data ) && ! empty( $data ) ) {
 					$result[] = array(
 						'text'     => $label,
@@ -363,11 +363,11 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 					);
 				}
 			}
-
+		
 			// return the result in json.
 			wp_send_json( $result );
 		}
-
+		
 		/**
 		 * Return search results only by post title.
 		 * This is only run from bsf_get_posts_by_query()

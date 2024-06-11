@@ -164,10 +164,19 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Template' ) ) {
 						}
 					}
 					if ( is_array( $value ) ) {
+						$selected = array();
 						foreach ( $value as $val ) {
-							$selected[] = $val['value'];
+							if ( is_array( $val ) && array_key_exists( 'value', $val ) ) {
+								$selected[] = $val['value'];
+							} else {
+								$selected[] = $val;
+							}
 						}
-						$value = implode( ',', $selected );
+						if ( ! empty( $selected ) ) {
+							$value = implode( ',', $selected );
+						} else {
+							$value = ''; // or any default value if needed
+						}
 					}
 					break;
 			}

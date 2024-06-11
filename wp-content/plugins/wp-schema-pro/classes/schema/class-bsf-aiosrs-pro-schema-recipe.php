@@ -13,8 +13,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Recipe' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	class BSF_AIOSRS_Pro_Schema_Recipe {
 
+	class BSF_AIOSRS_Pro_Schema_Recipe {
+		
 		/**
 		 * Render Schema.
 		 *
@@ -22,7 +23,21 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Recipe' ) ) {
 		 * @param  array $post Current Post Array.
 		 * @return array
 		 */
+
 		public static function render( $data, $post ) {
+			// Get timezone string from WordPress settings.
+			$timezone_string = get_option( 'timezone_string' );
+
+			// Check if the timezone string is not empty and is valid before setting it.
+			if ( ! empty( $timezone_string ) && in_array( $timezone_string, timezone_identifiers_list() ) ) {
+				// WordPress calculates offsets from UTC.
+                // phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+				date_default_timezone_set( $timezone_string );
+			} else {
+				// If the timezone string is empty or invalid, set a fallback timezone.
+				date_default_timezone_set( 'UTC' );
+			}
+
 			$schema = array();
 
 			$schema['@context'] = 'https://schema.org';
@@ -33,6 +48,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Recipe' ) ) {
 			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['image'] );
 			}
+
 			if ( isset( $data['reviewer-type'] ) && ! empty( $data['reviewer-type'] ) ) {
 				$schema['author']['@type'] = wp_strip_all_tags( (string) $data['reviewer-type'] );
 			} else {
@@ -107,18 +123,26 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Recipe' ) ) {
 						if ( isset( $value['recipe-video-embed-url'] ) && ! empty( $value['recipe-video-embed-url'] ) ) {
 							$schema['video'][ $key ]['embedUrl'] = esc_url( $value['recipe-video-embed-url'] );
 						}
-						$schema['video'][ $key ]['duration']         = ! empty( $value['recipe-video-duration'] ) ? wp_strip_all_tags( (string) $value['recipe-video-duration'] ) : null;
-						$schema['video'][ $key ]['uploadDate']       = ! empty( $value['recipe-video-upload-date'] ) ? wp_strip_all_tags( (string) $value['recipe-video-upload-date'] ) : null;
-						$schema['video'][ $key ]['interactionCount'] = ! empty( $value['recipe-video-interaction-count'] ) ? wp_strip_all_tags( (string) $value['recipe-video-interaction-count'] ) : null;
+						$schema['video'][ $key ]['duration'] = ! empty( $value['recipe-video-duration'] ) ? wp_strip_all_tags( (string) $value['recipe-video-duration'] ) : null;
+
+						// Convert uploadDate to DateTime object and set the timezone.
+						$upload_date = new DateTime( $value['recipe-video-upload-date'] );
+						$upload_date->setTimezone( new DateTimeZone( $timezone_string ?: 'UTC' ) );
+						$schema['video'][ $key ]['uploadDate'] = $upload_date->format( 'c' );
+
+						// Use DateTime to handle timezone for 'expires'
 						if ( isset( $value['recipe-video-expires-date'] ) && ! empty( $value['recipe-video-expires-date'] ) && is_string( $value['recipe-video-expires-date'] ) ) {
-							$schema['video'][ $key ]['expires'] = wp_strip_all_tags( $value['recipe-video-expires-date'] );
+							$expires_date = new DateTime( $value['recipe-video-expires-date'] );
+							$expires_date->setTimezone( new DateTimeZone( $timezone_string ?: 'UTC' ) );
+							$schema['video'][ $key ]['expires'] = $expires_date->format( 'c' );
 						}
+
+						$schema['video'][ $key ]['interactionCount'] = ! empty( $value['recipe-video-interaction-count'] ) ? wp_strip_all_tags( (string) $value['recipe-video-interaction-count'] ) : null;
 					}
 				}
 			}
 
 			return apply_filters( 'wp_schema_pro_schema_recipe', $schema, $data, $post );
 		}
-
 	}
 }

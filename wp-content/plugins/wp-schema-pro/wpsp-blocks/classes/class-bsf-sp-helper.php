@@ -202,7 +202,7 @@ if ( ! class_exists( 'BSF_SP_Helper' ) ) {
 
 			ob_start();
 			?>
-			<script type="text/javascript" id="wpsp-script-frontend"><?php echo self::$script; //phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?></script>
+			<script type="text/javascript" id="wpsp-script-frontend"><?php echo esc_js( self::$script ); //phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?></script>
 			<?php
 			ob_end_flush();
 		}

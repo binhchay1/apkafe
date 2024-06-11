@@ -159,7 +159,6 @@ if ( ! class_exists( 'OT_Loader' ) ) {
       
       /* hook into WordPress */
       $this->hooks();
-      
     }
 
     /**

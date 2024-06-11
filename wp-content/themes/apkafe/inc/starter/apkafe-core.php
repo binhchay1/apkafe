@@ -3,6 +3,7 @@
 /**
  * Option Tree integration ===========
  */
+
 add_filter('ot_show_pages', '__return_true');
 add_filter('ot_show_new_layout', '__return_false');
 add_filter('ot_theme_mode', '__return_true');

@@ -61,7 +61,7 @@ $setting_url = self::get_page_url( 'branding-settings' );
 								</tr>
 								<tr>
 									<th><?php esc_html_e( 'Author / Agency URL', 'wp-schema-pro' ); ?></th>
-									<td><input type="text" name="wp-schema-pro-branding-settings[sp_plugin_author_url]" placeholder="http://www.brainstormforce.com" value="<?php echo esc_attr( $sp_author_url ); ?>" class="regular-text sp_plugin_author_url" /></td>
+									<td><input type="text" name="wp-schema-pro-branding-settings[sp_plugin_author_url]" placeholder="https://www.brainstormforce.com" value="<?php echo esc_attr( $sp_author_url ); ?>" class="regular-text sp_plugin_author_url" /></td>
 								</tr>
 								<tr>
 									<th scope="row" class="tooltip-with-image-wrapper">

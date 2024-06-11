@@ -19,7 +19,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class BSF_SP_Init_Blocks {
 
-
 	/**
 	 * Member Variable
 	 *
@@ -74,15 +73,14 @@ class BSF_SP_Init_Blocks {
 	 * @since 2.2.0
 	 */
 	public function block_assets() {
+		$post = get_post();
 
-				$post = get_post();
-
-				/**
-				 * Filters the post to build stylesheet for.
-				 *
-				 * @param \WP_Post $post The global post.
-				 */
-				$post = apply_filters( 'wpsp_post_for_stylesheet', $post );
+		/**
+		 * Filters the post to build stylesheet for.
+		 *
+		 * @param \WP_Post $post The global post.
+		 */
+		$post = apply_filters( 'wpsp_post_for_stylesheet', $post );
 
 		if ( false === has_blocks( $post ) ) {
 			return;
@@ -102,10 +100,8 @@ class BSF_SP_Init_Blocks {
 		$block_assets = BSF_SP_Config::get_block_assets();
 
 		foreach ( $blocks as $slug => $value ) {
-
-				$js_assets = ( isset( $blocks[ $slug ]['js_assets'] ) ) ? $blocks[ $slug ]['js_assets'] : array();
-
-				$css_assets = ( isset( $blocks[ $slug ]['css_assets'] ) ) ? $blocks[ $slug ]['css_assets'] : array();
+			$js_assets = ( isset( $blocks[ $slug ]['js_assets'] ) ) ? $blocks[ $slug ]['js_assets'] : array();
+			$css_assets = ( isset( $blocks[ $slug ]['css_assets'] ) ) ? $blocks[ $slug ]['css_assets'] : array();
 
 			foreach ( $js_assets as $asset_handle => $val ) {
 				// Scripts.
@@ -138,7 +134,6 @@ class BSF_SP_Init_Blocks {
 				}
 			}
 		}
-
 	} // End function editor_assets().
 
 	/**
@@ -147,7 +142,6 @@ class BSF_SP_Init_Blocks {
 	 * @since 2.2.0
 	 */
 	public function editor_assets() {
-
 		$wpsp_ajax_nonce = wp_create_nonce( 'wpsp_ajax_nonce' );
 		$script_dep_path = BSF_AIOSRS_PRO_DIR . 'dist/blocks.asset.php';
 		$script_info     = file_exists( $script_dep_path )
@@ -157,6 +151,7 @@ class BSF_SP_Init_Blocks {
 				'version'      => BSF_AIOSRS_PRO_VER,
 			);
 		$script_dep      = array_merge( $script_info['dependencies'], array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor', 'wp-api-fetch' ) );
+
 		// Scripts.
 		wp_enqueue_script(
 			'wpsp-block-editor-js', // Handle.
@@ -191,7 +186,7 @@ class BSF_SP_Init_Blocks {
 				}
 
 				if ( isset( $saved_blocks[ $slug ] ) && ( 'disabled' === $saved_blocks[ $slug ] ) ) {
-						array_push( $blocks, $_slug );
+					array_push( $blocks, $_slug );
 				}
 			}
 		}
@@ -216,21 +211,21 @@ class BSF_SP_Init_Blocks {
 	 * Get the SVG icons.
 	 */
 	private function get_svg_icons() {
+		$file_url = BSF_AIOSRS_PRO_URI . 'wpsp-config/controls/WPSPIcon.json';
 
-		$file_path = BSF_AIOSRS_PRO_DIR . 'wpsp-config/controls/WPSPIcon.json';
+		$response = wp_remote_get( $file_url );
 
-		// Check if the file exists before attempting to read it.
-		if ( file_exists( $file_path ) ) {
-			$file_content = file_get_contents( $file_path );
-
-			// Check if file_get_contents was successful.
-			if ( $file_content !== false ) {
-				// Parse JSON content.
-				return json_decode( $file_content, true );
-			}
+		if ( is_wp_error( $response ) ) {
+			return array(); // Return an empty array if there's an error.
 		}
+
+		$body  = wp_remote_retrieve_body( $response );
+		$icons = json_decode( $body, true );
+
+		return is_array( $icons ) ? $icons : array();
 	}
 }
+
 /**
  *  Prepare if class 'BSF_SP_Init_Blocks' exist.
  *  Kicking this off by calling 'get_instance()' method

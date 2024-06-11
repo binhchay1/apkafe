@@ -16,7 +16,7 @@
 /* Tooltips */
 .bsf-aiosrs-schema-heading-help {
 	color: #0073aa;
-	float: unset;
+	float: right;
 	font-size: 18px;
 	cursor: help;
 }

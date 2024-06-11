@@ -230,15 +230,18 @@ $current_section        = isset( $_GET['section'] ) ? sanitize_text_field( $_GET
 											<td><input type="url" name="wp-schema-pro-social-profiles[google-plus]"  value="<?php echo esc_attr( $settings['google-plus'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 										</tr>
 										<?php
-										if ( isset( $settings ) && ! empty( $settings ) && isset( $settings['other'] ) ) {
+										if ( isset( $settings ) && is_array( $settings ) && isset( $settings['other'] ) && ( is_array( $settings['other'] ) || is_object( $settings['other'] ) ) ) {
 											foreach ( $settings['other'] as $sub_social_profiles => $value ) {
 												if ( isset( $value ) && ! empty( $value ) ) {
 													?>
-										<tr>
-											<th class="wpsp-other-th"><?php esc_html_e( 'Other', 'wp-schema-pro' ); ?></th>
-											<td><input type="url" class="wpsp-other" name="wp-schema-pro-social-profiles[other][<?php echo esc_attr( $sub_social_profiles ); ?>]"  value="<?php echo esc_attr( $value ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /><span class ="wpsp-field-close remove-row dashicons dashicons-dismiss "><a href="#" class=""></a></span></td>
-										</tr>
-														<?php
+													<tr>
+														<th class="wpsp-other-th"><?php esc_html_e( 'Other', 'wp-schema-pro' ); ?></th>
+														<td>
+															<input type="url" class="wpsp-other" name="wp-schema-pro-social-profiles[other][<?php echo esc_attr( $sub_social_profiles ); ?>]"  value="<?php echo esc_attr( $value ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" />
+															<span class="wpsp-field-close remove-row dashicons dashicons-dismiss"><a href="#" class=""></a></span>
+														</td>
+													</tr>
+													<?php
 												}
 											}
 										}
@@ -315,7 +318,12 @@ $current_section        = isset( $_GET['section'] ) ? sanitize_text_field( $_GET
 											<td>
 											<?php
 											if ( empty( $contact_settings['contact-page-id'] ) && ! empty( $contact_settings['url'] ) ) {
-												$contact_settings['contact-page-id'] = wpcom_vip_url_to_postid( $contact_settings['url'] );
+												
+												if ( function_exists( 'wpcom_vip_url_to_postid' ) ) {
+													$contact_settings['contact-page-id'] = wpcom_vip_url_to_postid( $contact_settings['url'] );
+												} else {
+													$contact_settings['contact-page-id'] = url_to_postid( $contact_settings['url'] );
+												}
 											}
 											?>
 											<select class = ' wp-select2 wpsp-setup-configuration-settings' name="wp-schema-pro-corporate-contact[contact-page-id]">

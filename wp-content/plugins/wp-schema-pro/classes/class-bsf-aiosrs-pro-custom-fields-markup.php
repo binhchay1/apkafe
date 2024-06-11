@@ -140,7 +140,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 				$atts
 			);
 
-			$post_id            = empty( $args['post_id'] ) ? get_the_ID() : (int) $args['post_id'];
+			$post_id = empty( $args['post_id'] ) ? get_the_ID() : (int) $args['post_id'];
+			$post    = get_post( $post_id );
+			
+			if ( ! current_user_can( 'edit_post', $post_id ) || ( ! current_user_can( 'read_private_posts' ) && ( 'private' === $post->post_status ) ) ) {
+				return ''; // Insufficient permissions or invalid post.
+			}
+
 			$allowed_post_types = array( 'post', 'page', 'comment', 'term' );
 			if ( ! in_array( $args['post_type'], $allowed_post_types ) ) {
 				return 'Invalid post type';
@@ -466,7 +472,14 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 						self::$meta_options[] = $custom_fields;
 					}
 				}
-				self::$meta_options = call_user_func_array( 'array_merge', self::$meta_options + array( array() ) );
+
+				self::$meta_options = array_reduce(self::$meta_options, function ($carry, $item) {
+					if (is_array($item)) {
+						return array_merge($carry, $item);
+					}
+					return $carry;
+				}, []);
+
 			}
 		}
 
@@ -1182,7 +1195,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 			 * Get meta options
 			 */
 			$this->init_static_fields( $post_id );
-			$post_meta = self::$meta_options;
+			$post_meta  = self::$meta_options;
+			$meta_value = null;
 			foreach ( $post_meta as $key => $data ) {
 				if ( is_numeric( $key ) ) {
 					// Sanitize values.
@@ -1191,30 +1205,42 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 					switch ( $sanitize_filter ) {
 
 						case 'FILTER_SANITIZE_STRING':
-							$meta_value = filter_input( INPUT_POST, $data['name'], FILTER_DEFAULT ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
+							if ( isset( $data['name'] ) ) {
+								$meta_value = filter_input( INPUT_POST, $data['name'], FILTER_DEFAULT ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
+							}
 							break;
 
 						case 'FILTER_SANITIZE_URL':
-							$meta_value = filter_input( INPUT_POST, $data['name'], FILTER_SANITIZE_URL );
+							if ( isset( $data['name'] ) ) {
+								$meta_value = filter_input( INPUT_POST, $data['name'], FILTER_SANITIZE_URL );
+							}
 							break;
 
 						case 'FILTER_SANITIZE_NUMBER_INT':
-							$meta_value = filter_input( INPUT_POST, $data['name'], FILTER_SANITIZE_NUMBER_INT );
+							if ( isset( $data['name'] ) ) {
+								$meta_value = filter_input( INPUT_POST, $data['name'], FILTER_SANITIZE_NUMBER_INT );
+							}
 							break;
 
 						case 'repeater-target':
 						case 'repeater':
-							$meta_value = isset( $_POST[ $data['name'] ] ) ? $_POST[ $data['name'] ] : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+							if ( isset( $data['name'] ) ) {
+								$meta_value = isset( $_POST[ $data['name'] ] ) ? $_POST[ $data['name'] ] : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+							}
 
 							break;
 
 						default:
-							$meta_value = filter_input( INPUT_POST, $data['name'], FILTER_DEFAULT ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
+							if ( isset( $data['name'] ) ) {
+								$meta_value = filter_input( INPUT_POST, $data['name'], FILTER_DEFAULT ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
+							}
 							break;
 					}
 
-					update_post_meta( $post_id, $data['name'] . '-fieldtype', filter_input( INPUT_POST, $data['name'] . '-fieldtype', FILTER_DEFAULT ) ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
-					update_post_meta( $post_id, $data['name'], $meta_value );
+					if ( isset( $data['name'] ) ) {
+						update_post_meta( $post_id, $data['name'] . '-fieldtype', filter_input( INPUT_POST, $data['name'] . '-fieldtype', FILTER_DEFAULT ) ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
+						update_post_meta( $post_id, $data['name'], $meta_value );
+					}
 				}
 			}
 

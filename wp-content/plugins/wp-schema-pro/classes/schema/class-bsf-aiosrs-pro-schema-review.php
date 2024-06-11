@@ -52,11 +52,25 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Review' ) ) {
 					$schema['itemReviewed']['@type']       = 'Course';
 					$schema['itemReviewed']['name']        = ! empty( $data['bsf-aiosrs-course-name'] ) ? wp_strip_all_tags( (string) $data['bsf-aiosrs-course-name'] ) : null;
 					$schema['itemReviewed']['description'] = ! empty( $data['bsf-aiosrs-course-description'] ) ? wp_strip_all_tags( (string) $data['bsf-aiosrs-course-description'] ) : null;
+
 					if ( isset( $data['bsf-aiosrs-course-orgnization-name'] ) && ! empty( $data['bsf-aiosrs-course-orgnization-name'] ) ) {
 						$schema['itemReviewed']['provider']['@type'] = 'Organization';
 						$schema['itemReviewed']['provider']['name']  = wp_strip_all_tags( (string) $data['bsf-aiosrs-course-orgnization-name'] );
 					}
+					//phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase.
+					// Initialize 'hasCourseInstance' array.
+					$hasCourseInstance = array(); 
+					$schema['itemReviewed']['hasCourseInstance']['course-instance'] = ! empty( $data['bsf-aiosrs-course-course-instance'] ) ? wp_strip_all_tags( (string) $data['bsf-aiosrs-course-course-instance'] ) : null;
+					$schema['itemReviewed']['hasCourseInstance']['courseMode']      = ! empty( $data['bsf-aiosrs-course-courseMode'] ) ? wp_strip_all_tags( (string) $data['bsf-aiosrs-course-courseMode'] ) : null;
+					$schema['itemReviewed']['hasCourseInstance']['courseWorkload']  = ! empty( $data['bsf-aiosrs-course-course-workload'] ) ? wp_strip_all_tags( (string) $data['bsf-aiosrs-course-course-workload'] ) : null;
+
+					// Initialize 'offers' array.
+					$offers                                       = array();
+					$schema['itemReviewed']['offers']['price']    = ! empty( $data['bsf-aiosrs-course-price'] ) ? wp_strip_all_tags( (string) $data['bsf-aiosrs-course-price'] ) : null;
+					$schema['itemReviewed']['offers']['currency'] = ! empty( $data['bsf-aiosrs-course-currency'] ) ? wp_strip_all_tags( (string) $data['bsf-aiosrs-course-currency'] ) : null;
+					$schema['itemReviewed']['offers']['category'] = ! empty( $data['bsf-aiosrs-course-category'] ) ? wp_strip_all_tags( (string) $data['bsf-aiosrs-course-category'] ) : null;
 					break;
+										
 				case 'bsf-aiosrs-event':
 					$schema['itemReviewed']['@type']       = 'event';
 					$schema['itemReviewed']['name']        = ! empty( $data['bsf-aiosrs-event-name'] ) ? wp_strip_all_tags( (string) $data['bsf-aiosrs-event-name'] ) : null;
