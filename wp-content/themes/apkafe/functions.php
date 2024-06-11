@@ -397,7 +397,6 @@ add_action('template_redirect', function () {
 			}
 		}
 	}
-	
 }, PHP_INT_MAX);
 
 function ia_get_attachment_id_from_url($attachment_url = '')
@@ -415,17 +414,6 @@ function ia_get_attachment_id_from_url($attachment_url = '')
 	}
 
 	return $attachment_id;
-}
-
-add_filter('posts_where', 'title_like_posts_where', 10, 2);
-function title_like_posts_where($where, $wp_query)
-{
-	global $wpdb;
-	if ($post_title_like = $wp_query->get('post_title_like')) {
-		$where .= ' AND ' . $wpdb->posts . '.post_title = "' . $post_title_like . '"';
-	}
-
-	return $where;
 }
 
 function submit_review_handler()
@@ -530,6 +518,16 @@ function submit_review_handler()
 			'post_id' => $post_id,
 			'created_at' => date('Y-m-d H:i:s'),
 		));
+
+		$avg = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT AVG(score) FROM wp_user_review WHERE post_id = '%d'",
+				$post_id
+			)
+		);
+
+		$ratingForSchema = number_format($avg, 1);
+		update_post_meta($post_id, 'software-application-4423-rating', $ratingForSchema);
 
 		echo json_encode(array('success' => true, 'result' => 1));
 	} else {
@@ -647,3 +645,16 @@ function wpb_author_info_box($content)
 
 add_action('the_content', 'wpb_author_info_box');
 remove_filter('pre_user_description', 'wp_filter_kses');
+
+
+add_action('added_post_meta', 'sync_on_product_with_schema', 10, 4);
+add_action('updated_post_meta', 'sync_on_product_with_schema', 10, 4);
+function sync_on_product_with_schema($meta_id, $post_id, $meta_key, $meta_value)
+{
+	if ($meta_key == '_edit_lock') {
+		if (get_post_type($post_id) == 'product') {
+			$product_featured_image_id = get_post_meta($post_id, '_thumbnail_id', true);
+			update_post_meta($post_id, 'software-application-4423-image', $product_featured_image_id);
+		}
+	}
+}

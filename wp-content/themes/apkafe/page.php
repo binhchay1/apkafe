@@ -71,11 +71,6 @@ get_header();
                             $_product = wc_get_product($post_id);
                             $_product_title = $_product->get_title();
 
-                            $args = array(
-                                'post_title_like' => $_product_title,
-                                'post_type' => 'lasso-urls',
-                            );
-
                             $res = new WP_Query($args);
                             foreach ($res->posts as $postRes) {
                                 $rating = get_post_meta($postRes->ID, 'rating', false);
