@@ -495,10 +495,11 @@ function submit_review_handler()
 	];
 
 	foreach ($listCharacterBlackList as $character) {
-		if (strpos($user_comment, $character) !== false) {
+		$checkCharacter = '/\b' . $character . '\b/i';
+		if (preg_match($checkCharacter, $user_comment) == 1) {
 			echo json_encode(array('success' => true, 'result' => 3, 'character' => $character));
 
-			return;
+			wp_die();
 		}
 	}
 

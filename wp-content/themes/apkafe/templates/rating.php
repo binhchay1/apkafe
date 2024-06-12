@@ -286,7 +286,12 @@ if (count($result) == 0) {
                                 x.className = x.className.replace("show-green", "");
                             }, 3000);
                         } else {
-                            
+                            var x = document.getElementById("snackbar");
+                            x.className = "show";
+                            x.innerHTML = "Your comment was not accepted with forbidden words ( " + data.character + " ).";
+                            setTimeout(function() {
+                                x.className = x.className.replace("show", "");
+                            }, 3000);
                         }
 
                     }

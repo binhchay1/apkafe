@@ -17,7 +17,7 @@ if ($layout == '') {
 	$layout =  ot_get_option('page_layout');
 }
 
-global $wp_query;
+global $wp_query, $wpdb;
 $cat = $wp_query->get_queried_object();
 $getH1 = get_term_meta($cat->term_id, 'h1_category', true);
 
@@ -47,7 +47,15 @@ if (isset($getPaginationNews)) {
 }
 
 get_header('shop'); ?>
+<style>
+	.side_list_item .title {
+		margin-top: 0;
+	}
 
+	.developer {
+		color: black;
+	}
+</style>
 <div class="container">
 	<?php
 	function get_all_terms($ter, $breadcrumb, $listTermShift)
@@ -132,11 +140,28 @@ get_header('shop'); ?>
 					<?php if ($res->have_posts()) { ?>
 						<?php foreach ($res->posts as $post) { ?>
 							<?php
-							$icon = get_post_meta($post->ID, 'app-icon', true);
+							$icon = get_post_meta($post->ID, '_thumbnail_id', true);
+							$rating = '';
+							$developer = '';
+							$lasso = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_title = '%s' AND post_type = 'lasso-urls'", $post->post_title));
+							foreach ($lasso as $postRes) {
+								$rating = get_post_meta($postRes->ID, 'rating');
+								$developer = get_post_meta($postRes->ID, 'developer');
+
+								break;
+							}
+
 							?>
 							<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
-								<img src="<?php echo esc_url($icon); ?>">
+								<img src="<?php echo wp_get_attachment_image_url($icon) ?>">
 								<p class="title"><?php echo $post->post_title ?></p>
+								<?php if (!empty($rating)) { ?>
+									<span class="infor-rating" style="--rating:<?php echo $rating[0] ?>;"></span><br>
+								<?php } ?>
+
+								<?php if (!empty($developer)) { ?>
+									<span class="developer"><?php echo $developer[0] ?></span>
+								<?php } ?>
 							</a>
 						<?php } ?>
 					<?php } ?>
@@ -186,11 +211,27 @@ get_header('shop'); ?>
 							<?php if ($res->have_posts()) { ?>
 								<?php foreach ($res->posts as $post) { ?>
 									<?php
-									$icon = get_post_meta($post->ID, 'app-icon', true);
+									$icon = get_post_meta($post->ID, '_thumbnail_id', true);
+									$rating = '';
+									$developer = '';
+									$lasso = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_title = '%s' AND post_type = 'lasso-urls'", $post->post_title));
+									foreach ($lasso as $postRes) {
+										$rating = get_post_meta($postRes->ID, 'rating');
+										$developer = get_post_meta($postRes->ID, 'developer');
+
+										break;
+									}
 									?>
 									<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
-										<img src="<?php echo esc_url($icon); ?>">
+										<img src="<?php echo wp_get_attachment_image_url($icon) ?>">
 										<p class="title"><?php echo $post->post_title ?></p>
+										<?php if (!empty($rating)) { ?>
+											<span class="infor-rating" style="--rating:<?php echo $rating[0] ?>;"></span><br>
+										<?php } ?>
+
+										<?php if (!empty($developer)) { ?>
+											<span class="developer"><?php echo $developer[0] ?></span>
+										<?php } ?>
 									</a>
 								<?php } ?>
 							<?php } ?>
@@ -242,11 +283,27 @@ get_header('shop'); ?>
 							<?php if ($res->have_posts()) { ?>
 								<?php foreach ($res->get_posts() as $post) { ?>
 									<?php
-									$icon = get_post_meta($post->ID, 'app-icon', true);
+									$icon = get_post_meta($post->ID, '_thumbnail_id', true);
+									$rating = '';
+									$developer = '';
+									$lasso = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_title = '%s' AND post_type = 'lasso-urls'", $post->post_title));
+									foreach ($lasso as $postRes) {
+										$rating = get_post_meta($postRes->ID, 'rating');
+										$developer = get_post_meta($postRes->ID, 'developer');
+
+										break;
+									}
 									?>
 									<a class="side_list_item" href="<?php echo the_permalink($post->ID) ?>">
-										<img src="<?php echo esc_url($icon); ?>">
+										<img src="<?php echo wp_get_attachment_image_url($icon) ?>">
 										<p class="title"><?php echo $post->post_title ?></p>
+										<?php if (!empty($rating)) { ?>
+											<span class="infor-rating" style="--rating:<?php echo $rating[0] ?>;"></span><br>
+										<?php } ?>
+
+										<?php if (!empty($developer)) { ?>
+											<span class="developer"><?php echo $developer[0] ?></span>
+										<?php } ?>
 									</a>
 								<?php } ?>
 							<?php } ?>

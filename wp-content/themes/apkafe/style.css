@@ -10,6 +10,8 @@
 
 * {
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  box-sizing: border-box;
+  transition-duration: 0.2s;
 }
 
 article,
@@ -65,11 +67,6 @@ header {
   line-height: 0px;
   margin: 0;
   padding: 0;
-}
-
-* {
-  box-sizing: border-box;
-  transition-duration: 0.2s;
 }
 
 ::-webkit-scrollbar {
@@ -132,27 +129,27 @@ h1 {
 }
 
 h2 {
-  font-size: 32px;
+  font-size: 30px;
   line-height: 40px;
 }
 
 h3 {
-  font-size: 28px;
+  font-size: 25px;
   line-height: 36px;
 }
 
 h4 {
-  font-size: 24px;
+  font-size: 20px;
   line-height: 32px;
 }
 
 h5 {
-  font-size: 20px;
+  font-size: 15px;
   line-height: 28px;
 }
 
 h6 {
-  font-size: 16px;
+  font-size: 10px;
   line-height: 24px;
 }
 
@@ -2893,6 +2890,11 @@ p img {
 .blogs {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.sort-controls {
+  list-style: none;
+  padding: 0;
 }
 
 @-webkit-keyframes snackbar-fadein {
