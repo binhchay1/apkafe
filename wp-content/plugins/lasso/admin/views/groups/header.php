@@ -9,6 +9,7 @@ use Lasso\Classes\Group as Lasso_Group;
 use Lasso\Classes\Setting_Enum as Lasso_Setting_Enum;
 
 $page    = $_GET['page'] ?? '';
+$type    = $_GET['type'] ?? '';
 $post_id = isset( $_GET['post_id'] ) && $_GET['post_id'] > 0 ? $_GET['post_id'] : 0;
 
 $allow_add_a_link = false;

@@ -15,6 +15,7 @@ add_action( 'wp_ajax_wpcode_generate_snippet', 'wpcode_generate_snippet' );
 add_action( 'wp_ajax_wpcode_save_generated_snippet', 'wpcode_save_generated_snippet' );
 add_action( 'wp_ajax_wpcode_verify_ssl', 'wpcode_verify_ssl' );
 add_filter( 'heartbeat_received', 'wpcode_heartbeat_data', 10, 3 );
+add_action( 'wp_ajax_wpcode_save_editor_height', 'wpcode_save_editor_height' );
 
 
 /**
@@ -233,14 +234,15 @@ function wpcode_verify_ssl() {
 	);
 }
 
+
 /**
  * Use heartbeat to update lock status when editing a snippet.
  *
- * @param $response
- * @param $data
- * @param $screen_id
+ * @param array  $response The Heartbeat response.
+ * @param array  $data The $_POST data sent with the Heartbeat.
+ * @param string $screen_id The screen ID.
  *
- * @return mixed
+ * @return array
  */
 function wpcode_heartbeat_data( $response, $data, $screen_id ) {
 	if ( 'code-snippets_page_wpcode-snippet-manager' === $screen_id && isset( $data['wpcode_lock'] ) ) {
@@ -249,4 +251,28 @@ function wpcode_heartbeat_data( $response, $data, $screen_id ) {
 	}
 
 	return $response;
+}
+
+/**
+ * AJAX handler to save the editor height.
+ *
+ * @return void
+ */
+function wpcode_save_editor_height() {
+	check_ajax_referer( 'wpcode_admin' );
+
+	// If the current user can't edit snippets they should not be trying this.
+	if ( ! current_user_can( 'wpcode_edit_snippets' ) ) {
+		wp_send_json_error();
+	}
+
+	$height = isset( $_POST['height'] ) ? absint( $_POST['height'] ) : false;
+
+	if ( false !== $height ) {
+		wpcode()->settings->update_option( 'editor_height', $height );
+
+		wp_send_json_success();
+	}
+
+	wp_send_json_error();
 }

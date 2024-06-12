@@ -13,6 +13,7 @@ namespace Lasso\Classes;
 abstract class Setting_Enum {
 	// ? Lasso pages.
 	const PAGE_GROUP_DETAILS = 'group-details';
+	const PAGE_GROUP_DETAILS_POST = 'group-details-post';
 	const PAGE_GROUP_URLS    = 'group-urls';
 	const PAGE_URL_DETAILS   = 'url-details';
 	const PAGE_TABLES        = 'tables';

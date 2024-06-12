@@ -75,6 +75,7 @@ class WPCode_Auto_Insert {
 		require_once WPCODE_PLUGIN_PATH . 'includes/auto-insert/class-wpcode-auto-insert-site-wide.php';
 		require_once WPCODE_PLUGIN_PATH . 'includes/auto-insert/class-wpcode-auto-insert-single.php';
 		require_once WPCODE_PLUGIN_PATH . 'includes/auto-insert/class-wpcode-auto-insert-archive.php';
+		require_once WPCODE_PLUGIN_PATH . 'includes/auto-insert/class-wpcode-auto-insert-admin.php';
 	}
 
 	/**

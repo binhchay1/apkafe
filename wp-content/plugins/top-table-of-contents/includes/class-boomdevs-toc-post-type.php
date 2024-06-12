@@ -40,7 +40,7 @@ class Boomdevs_Toc_Post_Type
                                 preg_match_all('/(lasso(.*?)"])/i', $content, $matches);
                                 if (isset($matches[0]) && count($matches[0]) > 0) {
                                     $indexPreMatch = count($matches[0]) - 2;
-                                    
+
                                     $shortcode_content = $toc_shortcode->shortcode_generator($content);
                                     $toc_with_heading = $matches[0][$indexPreMatch] . $shortcode_content;
                                     return str_replace($matches[0][$indexPreMatch], $toc_with_heading, $content);
@@ -85,8 +85,11 @@ class Boomdevs_Toc_Post_Type
 
                                 if (isset($matches[0]) && count($matches[0]) > 0) {
                                     $indexPreMatch = count($matches[0]) - 2;
-                                    
+
                                     $shortcode_content = $toc_shortcode->shortcode_generator($content);
+                                    if ($indexPreMatch == -1) {
+                                        $indexPreMatch = 0;
+                                    }
                                     $toc_with_heading = $matches[0][$indexPreMatch] . $shortcode_content;
                                     $content = str_replace($matches[0][$indexPreMatch], $toc_with_heading, $content);
                                 } else {

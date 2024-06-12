@@ -407,6 +407,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 			);
 			?>
 		</div>
+		<div class="wpcode-resize-handle"></div>
 		<?php
 	}
 

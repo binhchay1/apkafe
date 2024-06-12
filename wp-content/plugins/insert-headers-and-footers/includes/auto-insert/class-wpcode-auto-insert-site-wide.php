@@ -33,7 +33,7 @@ class WPCode_Auto_Insert_Site_Wide extends WPCode_Auto_Insert_Type {
 	 * @return void
 	 */
 	public function init() {
-		$this->label     = __( 'Site wide', 'insert-headers-and-footers' );
+		$this->label     = esc_html__( 'Site wide (frontend)', 'insert-headers-and-footers' );
 		$this->locations = array(
 			'site_wide_header' => array(
 				'label'       => esc_html__( 'Site Wide Header', 'insert-headers-and-footers' ),

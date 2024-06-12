@@ -54,6 +54,8 @@ function wpcode_plugins_loaded_load_lite_files() {
 	require_once WPCODE_PLUGIN_PATH . 'includes/lite/auto-insert/class-wpcode-auto-insert-content.php';
 	// Load Device type conditional logic.
 	require_once WPCODE_PLUGIN_PATH . 'includes/lite/conditional-logic/class-wpcode-conditional-device.php';
+	// Load Location conditional logic.
+	require_once WPCODE_PLUGIN_PATH . 'includes/lite/conditional-logic/class-wpcode-conditional-location.php';
 	// Load WooCommerce conditional logic.
 	require_once WPCODE_PLUGIN_PATH . 'includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php';
 	// Load EDD conditional logic.

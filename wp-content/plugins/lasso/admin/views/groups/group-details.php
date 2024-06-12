@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Group details
  *
@@ -13,11 +14,11 @@ $urls            = 0;
 $post_id         = 0;
 $hide_delete_btn = false;
 
-if ( isset( $_GET['urls'] ) ) {
+if (isset($_GET['urls'])) {
 	$urls = $_GET['urls'];
 }
 
-if ( isset( $_GET['post_id'] ) ) {
+if (isset($_GET['post_id'])) {
 	$post_id         = $_GET['post_id'];
 	$hide_delete_btn = true;
 }
@@ -26,7 +27,7 @@ if ( isset( $_GET['post_id'] ) ) {
 <section class="py-5">
 	<div class="container">
 
-	<!-- TITLE & NAVIATION -->
+		<!-- TITLE & NAVIATION -->
 		<?php require 'header.php'; ?>
 
 		<form id="group-edit" autocomplete="off">
@@ -40,6 +41,9 @@ if ( isset( $_GET['post_id'] ) ) {
 						<div class="row">
 							<div class="col-lg">
 								<input type="hidden" id="grp_id" name="grp_id" value="<?php echo $post_id; ?>">
+								<?php if ($type != '') { ?>
+									<input type="hidden" id="type_group" name="type_group" value="<?php echo $type; ?>">
+								<?php } ?>
 
 								<!-- NAME -->
 								<div class="form-group mb-4">
@@ -49,7 +53,7 @@ if ( isset( $_GET['post_id'] ) ) {
 							</div>
 
 							<!-- SLUG -->
-							<?php if ( 0 !== $post_id ) { ?>
+							<?php if (0 !== $post_id) { ?>
 								<div class="col-lg-5">
 									<div class="form-group mb-4">
 										<label><strong>Slug</strong></label>
@@ -79,7 +83,7 @@ if ( isset( $_GET['post_id'] ) ) {
 				</div>
 
 				<!-- DELETE URL -->
-				<?php if ( $hide_delete_btn ) { ?>
+				<?php if ($hide_delete_btn) { ?>
 					<div class="col-lg text-lg-left text-center mb-4">
 						<a id="group_delete_pop" href="#" class="red hover-red-text" data-toggle="modal"><i class="far fa-trash-alt"></i> Delete This Group</a>
 					</div>
@@ -90,7 +94,7 @@ if ( isset( $_GET['post_id'] ) ) {
 </section>
 
 <!-- MODALS -->
-<?php require LASSO_PLUGIN_PATH . '/admin/views/modals/group-delete.php'; ?>  
+<?php require LASSO_PLUGIN_PATH . '/admin/views/modals/group-delete.php'; ?>
 
 <div class="modal fade" id="url-save" data-backdrop="static" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">

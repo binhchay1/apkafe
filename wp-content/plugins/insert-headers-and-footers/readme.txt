@@ -4,7 +4,7 @@ Tags: code, css, php, header, code snippets
 Requires at least: 4.6
 Tested up to: 6.5
 Requires PHP: 5.5
-Stable tag: 2.1.12
+Stable tag: 2.1.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -231,6 +231,11 @@ WPCode comes with a ready-made code snippets library that allows you to replace 
 ... and basically any plugin that adds a functionality which can be added via custom code snippets.
 
 == Changelog ==
+
+= 2.1.13 =
+* New: We added admin-specific locations for header and footer to streamline customizations in the wp-admin area.
+* New: The code editor height can now be adjusted directly from the snippet editor screen. Auto-height is still available as an option on the settings page.
+* Fix: When making changes to a snippet, the function to prevent you from navigating away was no longer working.
 
 = 2.1.12 =
 * New: We added a new way to execute PHP snippets "On Demand" - look for the "On Demand" location in the Auto Insert settings.
