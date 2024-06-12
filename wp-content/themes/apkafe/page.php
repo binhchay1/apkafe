@@ -73,39 +73,42 @@ get_header();
                         <?php foreach ($section['post_select'] as $post_id) { ?>
                             <?php $terms = get_the_terms($post_id, 'product_cat');
                             $_product = wc_get_product($post_id);
-                            $_product_title = $_product->get_title();
+                            if ($_product) {
+                                $_product_title = $_product->get_title();
 
-                            $res = new WP_Query($args);
-                            foreach ($res->posts as $postRes) {
-                                $rating = get_post_meta($postRes->ID, 'rating', false);
-                                $developer = get_post_meta($postRes->ID, 'developer', false);
-                                break;
-                            }
+                                $res = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_title = '%s' AND post_type = 'lasso-urls'", $_product_title));
 
-                            foreach ($terms as $itemTerm) {
-                                if ($itemTerm->parent != 0) {
-                                    continue;
+                                foreach ($res as $postRes) {
+                                    $rating = get_post_meta($postRes->ID, 'rating', false);
+                                    $developer = get_post_meta($postRes->ID, 'developer', false);
+                                    break;
                                 }
 
-                                $isParent = true;
-                                $finalTermID = $itemTerm->term_id;
-                            }
+                                foreach ($terms as $itemTerm) {
+                                    if ($itemTerm->parent != 0) {
+                                        continue;
+                                    }
+
+                                    $isParent = true;
+                                    $finalTermID = $itemTerm->term_id;
+                                }
                             ?>
 
-                            <a class="side_list_item" href="<?php echo get_permalink($post_id) ?>">
-                                <?php echo get_the_post_thumbnail($post_id) ?>
-                                <p class="title"><?php echo get_the_title($post_id) ?></p>
-                                <div class="infor-rating-and-developer">
-                                    <?php if (!empty($rating)) { ?>
-                                        <span class="infor-rating" style="--rating:<?php echo $rating[0] ?>;"></span>
-                                    <?php } ?>
-                                    <?php if (!empty($developer)) { ?>
-                                        <span><?php echo $developer[0] ?></span>
-                                    <?php } ?>
-                                </div>
+                                <a class="side_list_item" href="<?php echo get_permalink($post_id) ?>">
+                                    <?php echo get_the_post_thumbnail($post_id) ?>
+                                    <p class="title"><?php echo get_the_title($post_id) ?></p>
+                                    <div class="infor-rating-and-developer">
+                                        <?php if (!empty($rating)) { ?>
+                                            <span class="infor-rating" style="--rating:<?php echo $rating[0] ?>;"></span>
+                                        <?php } ?>
+                                        <?php if (!empty($developer)) { ?>
+                                            <span><?php echo $developer[0] ?></span>
+                                        <?php } ?>
+                                    </div>
 
-                            </a>
-                            <div class="clear mb10"></div>
+                                </a>
+                                <div class="clear mb10"></div>
+                            <?php } ?>
                         <?php } ?>
                     </div>
 

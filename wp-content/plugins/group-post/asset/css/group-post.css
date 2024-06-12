@@ -1,0 +1,81 @@
+.binhchay-gallery img {
+  width: 150px;
+  height: 150px;
+}
+
+.binhchay-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.binhchay-li-item {
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+.binhchay-gallery-remove {
+  background-color: red;
+  color: white;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  padding: 5px 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.group-group-post {
+  margin-top: 20px;
+  border: 1px solid slategrey;
+  padding: 20px;
+}
+
+.binhchay-delete-slide {
+  background-color: red !important;
+  color: white !important;
+  border: none !important;
+  margin-left: 20px !important;
+}
+
+.btn-create-group-post {
+  background-color: aqua;
+  color: black;
+  margin-left: 10px;
+}
+
+#TB_ajaxContent {
+  width: 900px !important;
+}
+
+#TB_window {
+  width: 900px !important;
+}
+
+#title-slide {
+  margin-left: 20px;
+}
+
+#short-code-slide {
+  margin-left: 20px;
+}
+
+.description-group-post-textarea {
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 85%;
+}
+
+.area-description-group-post {
+  display: flex;
+  align-items: center;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.ul-list-post-group-post {
+  padding: 0;
+  margin-top: 10px;
+}

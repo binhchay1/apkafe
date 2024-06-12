@@ -19,7 +19,7 @@
 		<h2 class="widget_head"><i class="fa fa-free-code-camp" style="margin-right: 10px;"></i>Trending Searches</h2>
 		<div class="side_cat_list_wrap">
 			<div class="search-box index_r_s">
-				<form action="/apkafe/search/" method="post" class="formsearch">
+				<form action="/search/" method="post" class="formsearch">
 					<span class="text-box"><span class="twitter-typeahead" style="position: relative; display: inline-block;">
 							<input class="autocomplete main-autocomplete tt-hint" autocomplete="off" title="Enter App Name, Package Name, Package ID" type="text" readonly="" spellcheck="false" tabindex="-1" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);">
 							<input class="autocomplete main-autocomplete tt-input" autocomplete="off" title="Enter App Name, Package Name, Package ID" name="s" type="text" placeholder="Apkafe" spellcheck="false" style="position: relative; vertical-align: top; background-color: transparent;">
