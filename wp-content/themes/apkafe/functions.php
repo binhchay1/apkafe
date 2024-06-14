@@ -536,15 +536,15 @@ function submit_review_handler()
 
 		$ratingForSchema = number_format($avg, 1);
 		if (metadata_exists('post', $post_id, 'software-application-4423-rating')) {
-			add_post_meta($post_id, 'software-application-4423-rating', $ratingForSchema);
-		} else {
 			update_post_meta($post_id, 'software-application-4423-rating', $ratingForSchema);
+		} else {
+			add_post_meta($post_id, 'software-application-4423-rating', $ratingForSchema);
 		}
 
 		if (metadata_exists('post', $post_id, 'software-application-4423-review-count')) {
-			add_post_meta($post_id, 'software-application-4423-review-count', $ratingForSchema);
-		} else {
 			update_post_meta($post_id, 'software-application-4423-review-count', $countRatingForSchema);
+		} else {
+			add_post_meta($post_id, 'software-application-4423-review-count', $ratingForSchema);
 		}
 
 		echo json_encode(array('success' => true, 'result' => 1));

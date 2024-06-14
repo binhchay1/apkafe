@@ -12,6 +12,7 @@ class Group_Post_Admin
         add_action('wp_ajax_edit_short_code', array($this, 'edit_short_code'));
         add_action('wp_ajax_delete_short_code', array($this, 'delete_short_code'));
         add_action('wp_ajax_get_list_post_category', array($this, 'get_list_post_category'));
+        add_action('wp_ajax_get_post_by_url', array($this, 'get_post_by_url'));
     }
 
     public function get_id()
@@ -64,6 +65,7 @@ class Group_Post_Admin
                     <div class="col col-4">Short code</div>
                     <div class="col col-3">Action</div>
                 </li>';
+
         foreach ($listShortCode as $code) {
             $listID = explode(',', $code->post_id);
 
@@ -144,7 +146,7 @@ class Group_Post_Admin
             echo '<input id="short-code-group-post-' . $code->id . '" type="text" value="' . $code->short_code . '" style="margin-left: 15px;" disabled /> <small>Prefix: group-post-shortcode-</small>';
             echo '<label>Description</label>';
             echo '<input style="margin-top: 20px; margin-left: 20px; width: 85%" id="description-group-post-' . $code->id . '" type="text" value="' . $code->description . '"/>';
-            echo '<div style="margin-top: 20px"><label>Category</label>';
+            echo '<div style="margin-top: 20px; display: flex;"><label>Category</label>';
             echo '<select class="ml-20" id="category-group-post-edit-' . $code->id . '" type="text">';
             foreach ($listCategory as $category) {
                 if ($category->term_id == $code->category) {
@@ -153,13 +155,17 @@ class Group_Post_Admin
                     echo '<option value="' . $category->term_id . '">' . $category->cat_name . '</option>';
                 }
             }
-            echo '</select></div>';
+            echo '</select>
+            <div><input style="margin-left: 15px" id="input-add-link-edit-group-post-' . $code->id . '" onkeydown="addLinkInEditGroupPost(this)" type="text" placeholder="Enter link"/></div>
+            <div><p id="error-in-edit-group-post-' . $code->id . '" class="error-group-post"></p></div></div>';
             echo '<ul class="ul-list-post-group-post" id="list-post-edit-group-post-' . $code->id . '">';
             foreach ($listID as $id) {
                 echo '<li id="item-edit-with-' . $id . '" class="list-item-category-post">' . get_the_title($id) . '<span class="btn-x-delete" data-id="' . $id . '"> X </span></li>';
             }
             echo '</ul>';
             echo '<input id="group-post-' . $code->id . '" type="hidden" />';
+            echo '</div>';
+            echo '</div>';
             echo '</div>';
 
             echo '<script>
@@ -237,6 +243,35 @@ class Group_Post_Admin
                 jQuery("#group-post-' . $code->id . '").val(arrayGroupPostEdit_' . $code->id . ');
                 jQuery(idLi).remove();
             });
+
+            function addLinkInEditGroupPost(input) {
+                if(event.key === "Enter") {
+                    let data = {
+                        url: input.value,
+                    };
+
+                    jQuery.post("' . $link . '", 
+                    {
+                        "action": "get_post_by_url",
+                        "data": data,
+                        "nonce": "' . $nonce . '"
+                    }, 
+                    function(response) {
+                        if(response.success == false) {
+                            jQuery("#error-in-edit-group-post-' . $code->id . '").text("Không tìm thấy bài post");
+                        } else {
+                            if(arrayGroupPostEdit_' . $code->id . '.includes(response["data"]["post_id"].toString())) {
+                                jQuery("#error-in-edit-group-post-' . $code->id . '").text("Bài post đã add");
+                                return;
+                            }
+                            arrayGroupPostEdit_' . $code->id . '.push(response["data"]["post_id"]);
+                            let strAppend = `<li id="item-add-with-` + response["data"]["post_id"] + `" class="list-item-category-post">` + response["data"]["post_title"] + `<span class="btn-x-delete" data-id="` + response["data"]["post_id"] + `"> X </span></li>`;
+                            jQuery("#list-post-edit-group-post-' . $code->id . '").append(strAppend);
+                            jQuery("#group-post").val(arrayGroupPostEdit_' . $code->id . ');
+                        }
+                    });      
+                }
+            }
             </script>';
         }
 
@@ -257,12 +292,14 @@ class Group_Post_Admin
         echo '<input id="short-code-group-post" type="text" value="' . $auto_short_code . '" class="ml-20" disabled/> <small>Prefix: group-post-shortcode-</small>';
         echo '<div class="area-description-group-post"><label>Description</label>';
         echo '<textarea class="description-group-post-textarea" id="description-group-post" required></textarea></div>';
-        echo '<div style="margin-top: 20px"><label>Category</label>';
+        echo '<div style="margin-top: 20px; display: flex"><label>Category</label>';
         echo '<select class="ml-20" id="category-group-post" type="text">';
         foreach ($listCategory as $category) {
             echo '<option value="' . $category->term_id . '">' . $category->cat_name . '</option>';
         }
-        echo '</select></div>';
+        echo '</select>
+        <div><input style="margin-left: 15px" id="input-add-link-add-group-post" onkeydown="addLinkInAddGroupPost(this)" type="text" placeholder="Enter link"/></div>
+        <div><p id="error-in-add-group-post" class="error-group-post"></p></div></div>';
         echo '<ul class="ul-list-post-group-post" id="list-post-add-group-post">';
         echo '</ul>';
         echo '<input id="group-post" type="hidden" />';
@@ -335,6 +372,35 @@ class Group_Post_Admin
 
                 jQuery(idLi).remove();
             });
+
+            function addLinkInAddGroupPost(input) {
+                if(event.key === "Enter") {
+                    let data = {
+                        url: input.value,
+                    };
+
+                    jQuery.post("' . $link . '", 
+                    {
+                        "action": "get_post_by_url",
+                        "data": data,
+                        "nonce": "' . $nonce . '"
+                    }, 
+                    function(response) {
+                        if(response.success == false) {
+                            jQuery("#error-in-add-group-post").text("Không tìm thấy bài post");
+                        } else {
+                            if(arrayGroupPost.includes(response["data"]["post_id"].toString())) {
+                                jQuery("#error-in-add-group-post").text("Bài post đã add");
+                                return;
+                            }
+                            arrayGroupPost.push(response["data"]["post_id"]);
+                            let strAppend = `<li id="item-add-with-` + response["data"]["post_id"] + `" class="list-item-category-post">` + response["data"]["post_title"] + `<span class="btn-x-delete" data-id="` + response["data"]["post_id"] + `"> X </span></li>`;
+                            jQuery("#list-post-add-group-post").append(strAppend);
+                            jQuery("#group-post").val(arrayGroupPost);
+                        }
+                    });      
+                }
+            }
             </script>';
         echo '</div>';
     }
@@ -345,6 +411,13 @@ class Group_Post_Admin
         $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "group_post");
 
         return $result;
+    }
+
+    public function getListCategory()
+    {
+        $categories = get_categories();
+
+        return $categories;
     }
 
     public function save_short_code()
@@ -460,10 +533,35 @@ class Group_Post_Admin
         wp_send_json($result);
     }
 
-    public function getListCategory()
+    public function get_post_by_url()
     {
-        $categories = get_categories();
+        if (!wp_verify_nonce($_REQUEST['nonce'], "save_group_post")) {
+            exit("Please don't fucking hack this API");
+        }
 
-        return $categories;
+        $data = $_REQUEST['data'];
+
+        if (empty($data['url'])) {
+            echo 'failed';
+            die;
+        }
+
+        $post_id = url_to_postid($data['url']);
+        if ($post_id == 0) {
+            $result = [
+                'success' => false,
+            ];
+        } else {
+            $post_title = get_the_title($post_id);
+            $result = [
+                'success' => true,
+                'data' => [
+                    'post_id' => $post_id,
+                    'post_title' => $post_title
+                ]
+            ];
+        }
+
+        wp_send_json($result);
     }
 }
