@@ -535,8 +535,17 @@ function submit_review_handler()
 		);
 
 		$ratingForSchema = number_format($avg, 1);
-		update_post_meta($post_id, 'software-application-4423-rating', $ratingForSchema);
-		update_post_meta($post_id, 'software-application-4423-review-count', $countRatingForSchema);
+		if (metadata_exists('post', $post_id, 'software-application-4423-rating')) {
+			add_post_meta($post_id, 'software-application-4423-rating', $ratingForSchema);
+		} else {
+			update_post_meta($post_id, 'software-application-4423-rating', $ratingForSchema);
+		}
+
+		if (metadata_exists('post', $post_id, 'software-application-4423-review-count')) {
+			add_post_meta($post_id, 'software-application-4423-review-count', $ratingForSchema);
+		} else {
+			update_post_meta($post_id, 'software-application-4423-review-count', $countRatingForSchema);
+		}
 
 		echo json_encode(array('success' => true, 'result' => 1));
 	} else {
@@ -654,7 +663,6 @@ function wpb_author_info_box($content)
 
 add_action('the_content', 'wpb_author_info_box');
 remove_filter('pre_user_description', 'wp_filter_kses');
-
 
 add_action('added_post_meta', 'sync_on_product_with_schema', 10, 4);
 add_action('updated_post_meta', 'sync_on_product_with_schema', 10, 4);

@@ -1,0 +1,19 @@
+#button-load-more-group-post {
+  display: flex;
+  justify-content: center;
+}
+
+#button-load-more-group-post button {
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  background: #22baa0 !important;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#short-code-group-post .lasso-container {
+    display: none;
+}

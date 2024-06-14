@@ -40,7 +40,7 @@ function create_group_post_table()
         dbDelta($sql);
     }
 
-    $listColumnsUpdate = ['description'];
+    $listColumnsUpdate = ['description', 'category'];
 
     foreach ($listColumnsUpdate as $column) {
         $row = $wpdb->get_results("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = " . $db_table_name . " AND column_name = '" . $column . "'");
@@ -48,6 +48,10 @@ function create_group_post_table()
         if (empty($row)) {
             if ($column == 'description') {
                 $wpdb->query("ALTER TABLE " . $db_table_name . " ADD " . $column . " TEXT NULL");
+            }
+
+            if ($column == 'category') {
+                $wpdb->query("ALTER TABLE " . $db_table_name . " ADD " . $column . " INT NOT NULL");
             }
         }
     }
@@ -59,66 +63,65 @@ global $wpdb;
 $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "group_post");
 $content = '';
 foreach ($result as $shortcode) {
-    add_shortcode('review-slide-shortcode-' . $shortcode->short_code, function () use ($shortcode, $content) {
+    add_shortcode('group-post-shortcode-' . $shortcode->short_code, function () use ($shortcode, $content) {
 
-        $listImg = explode(',', $shortcode->images);
-        $countImg = count($listImg);
-        $width = $countImg * 7;
-        $setIdKeyFrames = str_replace(' ', '-', strtolower($shortcode->title));
+        $listID = explode(',', $shortcode->post_id);
+        foreach ($listID as $id) {
+            $title = get_the_title($id);
+            $thumb = get_post_thumbnail_id($id);
+            $description = get_post_meta($id, '_yoast_wpseo_metadesc', true);
 
-        $classes = 'img-ticker-reverse';
-
-        $content .= '<style>@keyframes ticker-kf-' . $setIdKeyFrames . ' {
-                    0% {
-                        transform: translate3d(0, 0, 0);
-                    }
-        
-                    100% {
-                        transform: translate3d(-' . $width .  'rem, 0, 0);
-                    }
-                }
-        
-                .img-ticker {
-                    animation: ticker-kf-' . $setIdKeyFrames . ' 75s linear infinite;
-                }
-        
-                .img-ticker-reverse {
-                    animation: ticker-kf-' . $setIdKeyFrames . ' 75s linear infinite;
-                    animation-direction: reverse;
-                }</style>';
-        $content .= '<h2 class="text-2xl font-bold text-center mb-4">' . $shortcode->title . '</h2>';
-        $content .= '<p class="text-center mb-4">' . $shortcode->description . '</p>';
-        $content .= '<div class="overflow-hidden w-full relative">';
-        $content .= '<div class="w-10 md:w-40 h-full left-0 top-0 absolute z-20 bg-gradient-to-r from-white to-transparent"></div>';
-        $content .= '<div class="flex ' . $classes . ' -mx-4">';
-
-        foreach ($listImg as $id) {
-            $url = wp_get_attachment_image_url($id, array(150, 150));
-            $content .= '<div class="bg-white p-5 rounded-md border border-gray-300 mx-4 self-start flex-none">';
-            $content .= '<img src="' . $url . '" class="item-img-short-review-slide">';
+            $content .= '<div id="short-code-group-post"><div class="lasso-container">';
+            $content .= '<div class="lasso-display lasso-money">';
+            $content .= '<div class="lasso-box-1">
+            <a class="lasso-title" target="_blank" 
+            href="' . get_permalink($id) . '"
+            title="' . $title . '">' . $title . '</a>
+            <span>' . $description . '</span>
+            </div>';
+            $content .= '<div class="lasso-box-2">
+            <a class="lasso-image" target="_blank" href="' . get_permalink($id) . '" 
+            title="' . $title . '"><img loading="lazy" decoding="async" src="' . $thumb . '" height="120" width="120" 
+            alt="' . $title . '" style="width: 200px !important; height: inherit !important">
+            </a>
+            </div>';
+            $content .= '</div>';
+            $content .= '</div>';
             $content .= '</div>';
         }
 
-        foreach ($listImg as $id) {
-            $url = wp_get_attachment_image_url($id, array(150, 150));
-            $content .= '<div class="bg-white p-5 rounded-md border border-gray-300 mx-4 self-start flex-none">';
-            $content .= '<img src="' . $url . '" class="item-img-short-review-slide">';
-            $content .= '</div>';
-        }
-
-        $content .= '</div>';
-        $content .= '<div class="w-10 md:w-40 h-full right-0 top-0 absolute z-20 bg-gradient-to-r from-transparent to-white"></div>';
-        $content .= '</div>';
-        $content .= '</section>';
+        $content .= '<div id="button-load-more-group-post"><button>Load more</button></div>';
+        $content .= '<script>
+            jQuery(function(){
+                jQuery("#short-code-group-post .lasso-container").slice(0, 3).show();
+                jQuery("#button-load-more-group-post").click(function(e){
+                    e.preventDefault();
+                    let listPost = jQuery("#short-code-group-post .lasso-container");
+                    let count = 0;
+                    for(let i = 0; i < listPost.length; i++) {
+                        if(listPost[i].style.display == "") {
+                            if(count <= 3) {
+                                count++;
+                                listPost[i].style.display = "block";
+                            }
+                        }
+                    }
+                    console.log();
+                    if(listPost[listPost.length - 1].style.display == "block") {
+                        jQuery("#button-load-more-group-post").hide();
+                    }
+                });
+            });
+            </script>';
 
         return $content;
     });
 }
 
-function review_slide_shortcode_style()
+function group_post_shortcode_style()
 {
     if (is_single() || is_product()) {
         wp_enqueue_style('group-post-css', plugins_url('group-post/asset/css/short-code.css'));
     }
 }
-add_action('wp_enqueue_scripts', 'review_slide_shortcode_style');
+add_action('wp_enqueue_scripts', 'group_post_shortcode_style');

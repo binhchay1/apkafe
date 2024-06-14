@@ -47,11 +47,7 @@ class Group_Post_Admin
         $listShortCode = $this->getListShortCode();
         $listCategory = $this->getListCategory();
 
-        // echo '<pre>';
-        // var_dump($listCategory);
-        // echo '</pre>';
-        // die;
-        $nonce = wp_create_nonce("save_review_slide");
+        $nonce = wp_create_nonce("save_group_post");
         $link = admin_url('admin-ajax.php');
         add_thickbox();
 
@@ -59,7 +55,7 @@ class Group_Post_Admin
         <div class="container-fluid" style="width: 88% !important; margin-top: 20px">
             <div class="d-flex justify-content-center">
             <span><h2>Group post<small style="margin-left: 10px">with short code</small></h2></span>
-            <span class="d-flex" style="align-items: center; margin-left: 10px"><a href="#TB_inline?width=1200&height=550&inlineId=add-slide" class="btn btn-success thickbox">Add slide</a></span>
+            <span class="d-flex" style="align-items: center; margin-left: 10px"><a href="#TB_inline?width=1200&height=550&inlineId=add-slide" class="btn btn-success thickbox">Add group</a></span>
             </div>
             <ul class="responsive-table" style="margin-top: 20px">
                 <li class="table-header">
@@ -69,7 +65,8 @@ class Group_Post_Admin
                     <div class="col col-3">Action</div>
                 </li>';
         foreach ($listShortCode as $code) {
-            $images = explode(',', $code->images);
+            $listID = explode(',', $code->post_id);
+
             echo '<li class="table-row">';
             echo '<div class="col col-1">' . $code->title . '</div>';
             echo '<div class="col col-3" style="overflow: hidden;">' . $code->description . '</div>';
@@ -136,51 +133,86 @@ class Group_Post_Admin
             </script>';
 
             echo '<div id="edit-slide-' . $code->id . '" style="display:none;">';
-            echo '<h4>Edit slide</h4>';
-            echo '<button type="button" class="btn btn-create-group-post" id="btn-edit-group-post-' . $code->id . '">Save change</button>';
+            echo '<div style="display: flex; margin-top: 10px"><h4>Edit group</h4>';
+            echo '<button type="button" class="btn btn-create-group-post" id="btn-edit-group-post-' . $code->id . '">Save change</button></div>';
             echo '<div id="area-group-post">';
             echo '<div class="group-group-post">';
             echo '<label>Title</label>';
-            echo '<input id="title-slide-' . $code->id . '" type="text" value="' . $code->title . '" style="margin-left: 15px;" />';
-            echo '<input id="id-slide-' . $code->id . '" type="hidden" value="' . $code->id . '"/>';
+            echo '<input id="title-group-post-' . $code->id . '" type="text" value="' . $code->title . '" style="margin-left: 15px;" />';
+            echo '<input id="id-group-post-' . $code->id . '" type="hidden" value="' . $code->id . '"/>';
             echo '<label style="margin-left: 20px">Short code</label>';
-            echo '<input id="short-code-slide-' . $code->id . '" type="text" value="' . $code->short_code . '" style="margin-left: 15px;" disabled /> <small>Prefix: group-post-shortcode-</small>';
+            echo '<input id="short-code-group-post-' . $code->id . '" type="text" value="' . $code->short_code . '" style="margin-left: 15px;" disabled /> <small>Prefix: group-post-shortcode-</small>';
             echo '<label>Description</label>';
             echo '<input style="margin-top: 20px; margin-left: 20px; width: 85%" id="description-group-post-' . $code->id . '" type="text" value="' . $code->description . '"/>';
-            echo '<ul class="binhchay-gallery">';
-            foreach ($images as $id) {
-                $url = wp_get_attachment_image_url($id, array(50, 50));
-                echo '<li class="binhchay-li-item" data-id="' . $id . '">
-                        <img src="' . $url . '" /><br>
-                        <button type="button" class="btn binhchay-gallery-remove" onclick="removeMediaHandler(jQuery(this))">Delete</button>
-                    </li>';
+            echo '<div style="margin-top: 20px"><label>Category</label>';
+            echo '<select class="ml-20" id="category-group-post-edit-' . $code->id . '" type="text">';
+            foreach ($listCategory as $category) {
+                if ($category->term_id == $code->category) {
+                    echo '<option value="' . $category->term_id . '" selected>' . $category->cat_name . '</option>';
+                } else {
+                    echo '<option value="' . $category->term_id . '">' . $category->cat_name . '</option>';
+                }
             }
-            echo '</ul>
-                <input id="group-post-' . $code->id . '" type="hidden" value="' . $code->images . '" />
-                <button type="button" class="button binhchay-upload-button" onclick="addMediaHandle(jQuery(this))">Add Images</button>';
-            echo '</div>';
-            echo '</div>';
+            echo '</select></div>';
+            echo '<ul class="ul-list-post-group-post" id="list-post-edit-group-post-' . $code->id . '">';
+            foreach ($listID as $id) {
+                echo '<li id="item-edit-with-' . $id . '" class="list-item-category-post">' . get_the_title($id) . '<span class="btn-x-delete" data-id="' . $id . '"> X </span></li>';
+            }
+            echo '</ul>';
+            echo '<input id="group-post-' . $code->id . '" type="hidden" />';
             echo '</div>';
 
             echo '<script>
+            var stringGroupPostEdit_' . $code->id . ' = "' . $code->post_id . '";
+            var arrayGroupPostEdit_' . $code->id . ' = stringGroupPostEdit_' . $code->id . '.split(",");
+            jQuery("#group-post-' . $code->id . '").val(arrayGroupPostEdit_' . $code->id . ');
+
+            jQuery("#category-group-post-edit-' . $code->id . '").on("change", function() {
+                let category_id = jQuery(this).val();
+                let data = {
+                    "category_id": category_id
+                };
+
+                jQuery.post("' . $link . '", 
+                {
+                    "action": "get_list_post_category",
+                    "data": data,
+                    "nonce": "' . $nonce . '"
+                }, 
+                function(response) {
+                    arrayGroupPostEdit_' . $code->id . ' = [];
+                    jQuery("#list-post-edit-group-post-' . $code->id . '").empty();
+                    for(let i in response) {
+                        let strAppend = `<li id="item-add-with-` + response[i].ID + `" class="list-item-category-post">` + response[i].post_title + `<span class="btn-x-delete" data-id="` + response[i].ID + `"> X </span></li>`;
+                        jQuery("#list-post-edit-group-post-' . $code->id . '").append(strAppend);
+                        arrayGroupPostEdit_' . $code->id . '.push(response[i].ID);
+                    }
+
+                    jQuery("#group-post-' . $code->id . '").val(arrayGroupPostEdit_' . $code->id . ');
+                });
+            });
+
             jQuery("#btn-edit-group-post-' . $code->id . '").on("click", function(e) {
                 e.preventDefault();
-                let title_slide = jQuery("#title-slide-' . $code->id . '").val();
-                let review_slide = jQuery("#group-post-' . $code->id . '").val();
-                let short_code_slide = jQuery("#short-code-slide-' . $code->id . '").val();
-                let description_slide = jQuery("#description-group-post-' . $code->id . '").val();
-                let id = jQuery("#id-slide-' . $code->id . '").val();
+            
+                let title_group_post_' . $code->id . ' = jQuery("#title-group-post-' . $code->id . '").val();
+                let group_post_' . $code->id . ' = jQuery("#group-post-' . $code->id . '").val();
+                let short_code_group_post_' . $code->id . ' = jQuery("#short-code-group-post-' . $code->id . '").val();
+                let description_group_post_' . $code->id . ' = jQuery("#description-group-post-' . $code->id . '").val();
+                let category_group_post_' . $code->id . ' = jQuery("#category-group-post-edit-' . $code->id . '").val();
+                let id_group_post_' . $code->id . ' = jQuery("#id-group-post-' . $code->id . '").val();
 
-                if(title_slide == "" || review_slide == "" || short_code_slide == "" || description_slide == "") {
+                if(title_group_post_' . $code->id . ' == "" || group_post_' . $code->id . ' == "" || short_code_group_post_' . $code->id . ' == "" || category_group_post_' . $code->id . ' == "") {
                     return;
                 }
 
                 let data = {
-                    "title_slide": title_slide,
-                    "review_slide": review_slide,
-                    "short_code_slide": short_code_slide,
-                    "description_slide": description_slide,
-                    "id": id
+                    "id_group_post": id_group_post_' . $code->id . ',
+                    "title_group_post": title_group_post_' . $code->id . ',
+                    "group_post": group_post_' . $code->id . ',
+                    "short_code_group_post": short_code_group_post_' . $code->id . ',
+                    "description_group_post": description_group_post_' . $code->id . ',
+                    "category_group_post": category_group_post_' . $code->id . '
                 };
 
                 jQuery.post("' . $link . '", 
@@ -192,6 +224,18 @@ class Group_Post_Admin
                 function(response) {
                     location.reload();
                 });
+            });
+
+            jQuery("#list-post-edit-group-post-' . $code->id . '").on("click", "li .btn-x-delete", function() {
+                let idDelete = jQuery(this).attr("data-id");
+                let index = arrayGroupPostEdit_' . $code->id . '.indexOf(idDelete);
+                let idLi = "#list-post-edit-group-post-' . $code->id . '  #item-edit-with-" + idDelete;
+                if (index !== -1) {
+                    arrayGroupPostEdit_' . $code->id . '.splice(index, 1);
+                }
+                    
+                jQuery("#group-post-' . $code->id . '").val(arrayGroupPostEdit_' . $code->id . ');
+                jQuery(idLi).remove();
             });
             </script>';
         }
@@ -223,8 +267,8 @@ class Group_Post_Admin
         echo '</ul>';
         echo '<input id="group-post" type="hidden" />';
         echo "</div>";
-        echo '</div>';
         echo '<script>
+            var arrayGroupPost = [];
             jQuery("#btn-create-group-post").on("click", function(e) {
                 e.preventDefault();
                 let title_group_post = jQuery("#title-group-post").val();
@@ -252,11 +296,7 @@ class Group_Post_Admin
                     "nonce": "' . $nonce . '"
                 }, 
                 function(response) {
-                    if(response == "failed") {
-                        
-                    } else {
-                        location.reload();
-                    }
+                    location.reload();
                 });
             });
 
@@ -273,12 +313,27 @@ class Group_Post_Admin
                     "nonce": "' . $nonce . '"
                 }, 
                 function(response) {
+                    arrayGroupPost = [];
                     jQuery("#list-post-add-group-post").empty();
                     for(let i in response) {
-                        let strAppend = `<li class="list-item-category-post">` + response[i].post_title + `</li>`;
+                        let strAppend = `<li id="item-add-with-` + response[i].ID + `" class="list-item-category-post">` + response[i].post_title + `<span class="btn-x-delete" data-id="` + response[i].ID + `"> X </span></li>`;
                         jQuery("#list-post-add-group-post").append(strAppend);
+                        arrayGroupPost.push(response[i].ID);
                     }
+
+                    jQuery("#group-post").val(arrayGroupPost);
                 });
+            });
+
+            jQuery("#list-post-add-group-post").on("click", "li .btn-x-delete", function() {
+                let idDelete = jQuery(this).attr("data-id");
+                let index = arrayGroupPost.indexOf(idDelete);
+                let idLi = "#list-post-add-group-post  #item-add-with-" + idDelete;
+                if (index !== -1) {
+                    arrayGroupPost.splice(index, 1);
+                }
+
+                jQuery(idLi).remove();
             });
             </script>';
         echo '</div>';
@@ -294,20 +349,21 @@ class Group_Post_Admin
 
     public function save_short_code()
     {
-        if (!wp_verify_nonce($_REQUEST['nonce'], "save_review_slide")) {
+        if (!wp_verify_nonce($_REQUEST['nonce'], "save_group_post")) {
             exit("Please don't fucking hack this API");
         }
 
         global $wpdb;
 
         $data = $_REQUEST['data'];
-        if (empty($data['title_slide']) || empty($data['review_slide']) || empty($data['short_code_slide']) || empty($data['description_slide'])) {
+
+        if (empty($data['title_group_post']) || empty($data['group_post']) || empty($data['short_code_group_post']) || empty($data['category_group_post'])) {
             echo 'failed';
             die;
         }
 
-        $query = 'INSERT INTO ' . $wpdb->prefix . 'review_slide (`title`, `images`, `short_code`, `description`) VALUES ';
-        $query .= ' ("' . $data['title_slide'] . '", "' . $data['review_slide'] . '", "' . $data['short_code_slide'] . '", "' . $data['description_slide'] . '")';
+        $query = 'INSERT INTO ' . $wpdb->prefix . 'group_post (`title`, `post_id`, `short_code`, `description`, `category`) VALUES ';
+        $query .= ' ("' . $data['title_group_post'] . '", "' . $data['group_post'] . '", "' . $data['short_code_group_post'] . '", "' . $data['description_group_post'] . '", "' . $data['category_group_post'] . '")';
         $wpdb->query($query);
 
         echo 'success';
@@ -315,7 +371,7 @@ class Group_Post_Admin
 
     public function edit_short_code()
     {
-        if (!wp_verify_nonce($_REQUEST['nonce'], "save_review_slide")) {
+        if (!wp_verify_nonce($_REQUEST['nonce'], "save_group_post")) {
             exit("Please don't fucking hack this API");
         }
 
@@ -323,14 +379,15 @@ class Group_Post_Admin
 
         $data = $_REQUEST['data'];
 
-        if (empty($data['title_slide']) || empty($data['review_slide']) || empty($data['short_code_slide']) || empty($data['description_slide'])) {
+        if (empty($data['title_group_post']) || empty($data['group_post']) || empty($data['short_code_group_post']) || empty($data['category_group_post']) || empty($data['id_group_post'])) {
             echo 'failed';
             die;
         }
 
-        $query = 'UPDATE ' . $wpdb->prefix . 'review_slide';
-        $query .= ' SET `title` = "' . $data['title_slide'] . '", `images` = "' . $data['review_slide'] . '", `short_code` = "' . $data['short_code_slide'] . '", `description` = "' . $data['description_slide'] . '"';
-        $query .= ' WHERE id = "' . $data['id'] . '"';
+        $query = 'UPDATE ' . $wpdb->prefix . 'group_post';
+        $query .= ' SET `title` = "' . $data['title_group_post'] . '", `post_id` = "' . $data['group_post'] . '", `short_code` = "' . $data['short_code_group_post'] . '", `description` = "' . $data['description_group_post'] . '", `category` = "' . $data['category_group_post'] . '"';
+        $query .= ' WHERE id = "' . $data['id_group_post'] . '"';
+
         $wpdb->query($query);
 
         echo 'success';
@@ -338,7 +395,7 @@ class Group_Post_Admin
 
     public function duplicate_short_code()
     {
-        if (!wp_verify_nonce($_REQUEST['nonce'], "save_review_slide")) {
+        if (!wp_verify_nonce($_REQUEST['nonce'], "save_group_post")) {
             exit("Please don't fucking hack this API");
         }
 
@@ -351,12 +408,12 @@ class Group_Post_Admin
             die;
         }
 
-        $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "review_slide WHERE id = '" . $data['id'] . "'");
-        $getLast = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "review_slide ORDER BY id DESC");
+        $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "group_post WHERE id = '" . $data['id'] . "'");
+        $getLast = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "group_post ORDER BY id DESC");
         $short_code = (int) $getLast[0]->id + 1;
 
-        $query = 'INSERT INTO ' . $wpdb->prefix . 'review_slide (`title`, `images`, `short_code`, `description`) VALUES ';
-        $query .= ' ("' . $result[0]->title . '", "' . $result[0]->images . '", "' . $short_code . '", "' . $result[0]->description . '")';
+        $query = 'INSERT INTO ' . $wpdb->prefix . 'group_post (`title`, `post_id`, `short_code`, `description`, `category`) VALUES ';
+        $query .= ' ("' . $result[0]->title . '", "' . $result[0]->post_id . '", "' . $short_code . '", "' . $result[0]->description . '", "' . $result[0]->category . '")';
         $wpdb->query($query);
 
         echo 'success';
@@ -364,7 +421,7 @@ class Group_Post_Admin
 
     public function delete_short_code()
     {
-        if (!wp_verify_nonce($_REQUEST['nonce'], "save_review_slide")) {
+        if (!wp_verify_nonce($_REQUEST['nonce'], "save_group_post")) {
             exit("Please don't fucking hack this API");
         }
 
@@ -377,7 +434,7 @@ class Group_Post_Admin
             die;
         }
 
-        $query = 'DELETE FROM ' . $wpdb->prefix . 'review_slide';
+        $query = 'DELETE FROM ' . $wpdb->prefix . 'group_post';
         $query .= ' WHERE id = "' . $data['id'] . '"';
         $wpdb->query($query);
 
@@ -386,12 +443,12 @@ class Group_Post_Admin
 
     public function get_list_post_category()
     {
-        if (!wp_verify_nonce($_REQUEST['nonce'], "save_review_slide")) {
+        if (!wp_verify_nonce($_REQUEST['nonce'], "save_group_post")) {
             exit("Please don't fucking hack this API");
         }
 
         $data = $_REQUEST['data'];
-        
+
         if (empty($data['category_id'])) {
             echo 'failed';
             die;
