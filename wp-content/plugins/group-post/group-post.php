@@ -94,7 +94,7 @@ foreach ($result as $shortcode) {
         $content .= '<div id="button-show-less-group-post" class="btn-show-and-load"><button>Show less <i class="fa fa-angle-up"></i></button></div></div>';
         $content .= '<script>
             jQuery(function(){
-                jQuery("#button-show-less-group-post").hide();
+                jQuery("#button-load-more-group-post").show();
                 jQuery("#short-code-group-post .lasso-container").slice(0, 3).show();
 
                 jQuery("#button-load-more-group-post").click(function(e){

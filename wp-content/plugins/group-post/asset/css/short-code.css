@@ -26,3 +26,11 @@
   background: #556809 !important;
 }
 
+#button-load-more-group-post {
+  display: none;
+}
+
+#button-show-less-group-post {
+  display: none;
+}
+

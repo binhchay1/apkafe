@@ -654,7 +654,6 @@ footer {
   margin: 30px 0 0;
   z-index: 1;
   color: #fff;
-  border-top: solid 1px #22baa0;
   padding-top: 15px;
 }
 
@@ -734,6 +733,11 @@ footer .footer_bottom {
   color: #fff;
   font-size: 11px;
   line-height: 20px;
+}
+
+.footer_bottom .container {
+  display: flex;
+  justify-content: center;
 }
 
 footer .footer_main {
@@ -1378,6 +1382,9 @@ ul.pagination > .active > span:hover {
 }
 
 .ac {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
   text-align: center !important;
 }
 
