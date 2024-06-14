@@ -90,10 +90,13 @@ foreach ($result as $shortcode) {
             $content .= '</div>';
         }
 
-        $content .= '<div id="button-load-more-group-post"><button>Load more</button></div>';
+        $content .= '<div style="display: flex; justify-content: center;"><div id="button-load-more-group-post" class="btn-show-and-load"><button>Load more <i class="fa fa-angle-down"></i></button></div>';
+        $content .= '<div id="button-show-less-group-post" class="btn-show-and-load"><button>Show less <i class="fa fa-angle-up"></i></button></div></div>';
         $content .= '<script>
             jQuery(function(){
+                jQuery("#button-show-less-group-post").hide();
                 jQuery("#short-code-group-post .lasso-container").slice(0, 3).show();
+
                 jQuery("#button-load-more-group-post").click(function(e){
                     e.preventDefault();
                     let listPost = jQuery("#short-code-group-post .lasso-container");
@@ -106,10 +109,27 @@ foreach ($result as $shortcode) {
                             }
                         }
                     }
-                    console.log();
+
                     if(listPost[listPost.length - 1].style.display == "block") {
                         jQuery("#button-load-more-group-post").hide();
                     }
+
+                    jQuery("#button-show-less-group-post").show();
+                });
+
+                jQuery("#button-show-less-group-post").click(function(e){
+                    e.preventDefault();
+                    let listPost = jQuery("#short-code-group-post .lasso-container");
+
+                    for(let i = 0; i < listPost.length; i++) {
+                        if(listPost[i].style.display == "block") {
+                            listPost[i].style.display = "none";
+                        }
+                    }
+
+                    jQuery("#short-code-group-post .lasso-container").slice(0, 3).show();
+                    jQuery("#button-load-more-group-post").show();
+                    jQuery("#button-show-less-group-post").hide();
                 });
             });
             </script>';

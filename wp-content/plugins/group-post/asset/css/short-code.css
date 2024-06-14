@@ -1,9 +1,9 @@
-#button-load-more-group-post {
+.btn-show-and-load {
   display: flex;
   justify-content: center;
 }
 
-#button-load-more-group-post button {
+.btn-show-and-load button {
   border: none;
   padding: 15px;
   border-radius: 10px;
@@ -17,3 +17,12 @@
 #short-code-group-post .lasso-container {
     display: none;
 }
+
+#button-show-less-group-post {
+  margin-left: 10px;
+}
+
+#button-show-less-group-post button {
+  background: #556809 !important;
+}
+
