@@ -92,57 +92,6 @@ add_action('init', function ($search) {
 	add_rewrite_rule('search/?$', 'index.php?s=' . $search, 'top');
 });
 
-add_action('wp_head', function () {
-	$paths = explode('/', $_SERVER['REQUEST_URI']);
-	$host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
-	if (in_array('product-category', $paths)) {
-		$countProduct = 0;
-		$urlCanonical = '';
-		foreach ($paths as $path) {
-			if ($path == '') {
-				continue;
-			}
-
-			if ($path == 'page') {
-				break;
-			}
-
-			if ($countProduct == 0) {
-				$urlCanonical = $host . '/' . $path;
-				$countProduct++;
-			} else {
-				$urlCanonical = $urlCanonical . '/' . $path;
-			}
-		}
-
-		$urlProductCategory = $host . $_SERVER['REQUEST_URI'];
-		echo '<link rel="alternate" href="' . $urlProductCategory . '" hreflang="x-default" />';
-		echo '<link rel="canonical" href="' . $urlCanonical . '" />';
-	}
-
-	if (in_array('category', $paths)) {
-		$count = 0;
-		$urlCanonical = '';
-		foreach ($paths as $path) {
-			if ($path == '') {
-				continue;
-			}
-
-			if ($path == 'page') {
-				break;
-			}
-
-			if ($count == 0) {
-				$urlCanonical = $host . '/' . $path;
-			} else {
-				$urlCanonical = $urlCanonical . '/' . $path;
-			}
-		}
-
-		echo '<link rel="canonical" href="' . $urlCanonical . '" />';
-	}
-}, PHP_INT_MAX);
-
 function add_custom_option_types_post_list($types)
 {
 	$types['post-list'] = 'Post list';

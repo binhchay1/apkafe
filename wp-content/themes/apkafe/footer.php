@@ -55,5 +55,74 @@
 
 <?php wp_footer() ?>
 </body>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebPage",
+        "mainEntityOfPage": {
+            "@type": "Webpage",
+            "@id": "https://apkafe.com/"
+        },
+        "headline": "Apkafe",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Apkafe",
+            "url": "https://apkafe.com/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.allrecipes.com/thmb/Z9lwz1y0B5aX-cemPiTgpn5YB0k=/112x112/filters:no_upscale():max_bytes(150000):strip_icc()/allrecipes_logo_schema-867c69d2999b439a9eba923a445ccfe3.png",
+                "width": 112,
+                "height": 112
+            },
+            "brand": "Apkafe",
+            "publishingPrinciples": "https://www.allrecipes.com/about-us-6648102#toc-editorial-guidelines",
+            "sameAs": [
+                "https://www.facebook.com/allrecipes",
+                "https://www.instagram.com/allrecipes/",
+                "https://www.pinterest.com/allrecipes/",
+                "https://www.tiktok.com/@allrecipes",
+                "https://www.youtube.com/user/allrecipes/videos",
+                "https://twitter.com/Allrecipes",
+                "https://flipboard.com/@Allrecipes",
+                "https://en.wikipedia.org/wiki/Allrecipes.com",
+                "http://linkedin.com/company/allrecipes.com"
+            ],
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "225 Liberty Street, 4th Floor",
+                "addressLocality": "New York",
+                "addressRegion": "NY",
+                "postalCode": "10281",
+                "addressCountry": "USA"
+            },
+            "parentOrganization": {
+                "url": "https://www.dotdashmeredith.com",
+                "brand": "Dotdash Meredith",
+                "name": "Dotdash Meredith",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "225 Liberty Street, 4th Floor",
+                    "addressLocality": "New York",
+                    "addressRegion": "NY",
+                    "postalCode": "10281",
+                    "addressCountry": "USA"
+                },
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://www.allrecipes.com/thmb/UrZUYJQsAwN-jGDeycKgTz1FKPg=/234x60/filters:no_upscale():max_bytes(150000):strip_icc()/dotdash-logo-e9cde67f713a45c68ce5def51d3ca409.jpg",
+                    "width": 234,
+                    "height": 60
+                },
+                "sameAs": [
+                    "https://en.wikipedia.org/wiki/Dotdash_Meredith",
+                    "https://www.instagram.com/dotdashmeredith/",
+                    "https://www.linkedin.com/company/dotdashmeredith/",
+                    "https://www.facebook.com/dotdashmeredith/"
+                ]
+            }
+        },
+        "description": "Everyday recipes with ratings and reviews by home cooks like you. Find easy dinner ideas, healthy recipes, plus helpful cooking tips and techniques."
+    }
+</script>
 
 </html>
