@@ -70,58 +70,62 @@
             "url": "https://apkafe.com/",
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://www.allrecipes.com/thmb/Z9lwz1y0B5aX-cemPiTgpn5YB0k=/112x112/filters:no_upscale():max_bytes(150000):strip_icc()/allrecipes_logo_schema-867c69d2999b439a9eba923a445ccfe3.png",
-                "width": 112,
-                "height": 112
+                "url": "https://apkafe.com/wp-content/uploads/242x38.png",
+                "width": 242,
+                "height": 38
             },
             "brand": "Apkafe",
-            "publishingPrinciples": "https://www.allrecipes.com/about-us-6648102#toc-editorial-guidelines",
+            "publishingPrinciples": "https://apkafe.com/about-us/",
             "sameAs": [
-                "https://www.facebook.com/allrecipes",
-                "https://www.instagram.com/allrecipes/",
-                "https://www.pinterest.com/allrecipes/",
-                "https://www.tiktok.com/@allrecipes",
-                "https://www.youtube.com/user/allrecipes/videos",
-                "https://twitter.com/Allrecipes",
-                "https://flipboard.com/@Allrecipes",
-                "https://en.wikipedia.org/wiki/Allrecipes.com",
-                "http://linkedin.com/company/allrecipes.com"
+                "https://www.facebook.com/apkafedotcom/",
+                "https://twitter.com/Apkafeappstore/",
+                "https://www.youtube.com/@apkafe2947",
+                "https://www.instagram.com/apkafedotcom/",
+                "https://linktr.ee/apkafebeststore",
+                "https://www.tumblr.com/apkafe",
+                "https://www.behance.net/apkafebeststore",
+                "https://apkafe.weebly.com/",
+                "https://www.linkedin.com/company/apkafe/"
             ],
             "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "225 Liberty Street, 4th Floor",
-                "addressLocality": "New York",
-                "addressRegion": "NY",
-                "postalCode": "10281",
-                "addressCountry": "USA"
+                "streetAddress": "City ５, Room 409, 3-5-10, Mukaihara",
+                "addressLocality": "Tokyo",
+                "addressRegion": "JP-13",
+                "postalCode": "〒173-0036",
+                "addressCountry": "JP"
             },
             "parentOrganization": {
-                "url": "https://www.dotdashmeredith.com",
-                "brand": "Dotdash Meredith",
-                "name": "Dotdash Meredith",
+                "url": "https://modobom.com/",
+                "brand": "Modobom International Company",
+                "name": "Modobom International Company",
                 "address": {
                     "@type": "PostalAddress",
-                    "streetAddress": "225 Liberty Street, 4th Floor",
-                    "addressLocality": "New York",
-                    "addressRegion": "NY",
-                    "postalCode": "10281",
-                    "addressCountry": "USA"
+                    "streetAddress": "D' Capital, Vincom, Building C3 D, 119 D. Tran Duy Hung, Trung Hoa, Cau Giay,",
+                    "addressLocality": "Ha Noi",
+                    "addressRegion": "HN",
+                    "postalCode": "100000",
+                    "addressCountry": "VN"
                 },
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://www.allrecipes.com/thmb/UrZUYJQsAwN-jGDeycKgTz1FKPg=/234x60/filters:no_upscale():max_bytes(150000):strip_icc()/dotdash-logo-e9cde67f713a45c68ce5def51d3ca409.jpg",
-                    "width": 234,
-                    "height": 60
+                    "url": "https://modobom.com/wp-content/uploads/2021/10/logo-modobom-resize.png",
+                    "width": 198,
+                    "height": 41
                 },
                 "sameAs": [
-                    "https://en.wikipedia.org/wiki/Dotdash_Meredith",
-                    "https://www.instagram.com/dotdashmeredith/",
-                    "https://www.linkedin.com/company/dotdashmeredith/",
-                    "https://www.facebook.com/dotdashmeredith/"
+                    "https://www.facebook.com/profile.php?id=61559827227892",
+                    "https://x.com/Modobomcompany",
+                    "https://www.linkedin.com/company/modobom-co-ltd/mycompany/",
+                    "https://www.youtube.com/@ModobomInternationalCompany",
+                    "https://www.instagram.com/modobomcompany/",
+                    "https://linktr.ee/modobomcompanyinternational",
+                    "https://www.tumblr.com/modobomcompany",
+                    "https://www.behance.net/modobomcompany"
                 ]
             }
         },
-        "description": "Everyday recipes with ratings and reviews by home cooks like you. Find easy dinner ideas, healthy recipes, plus helpful cooking tips and techniques."
+        "description": "Hunt for hot games and best apps. Apkafe.com is home to a variety of apps and games to download with descriptions and detailed instructions for each application."
     }
 </script>
 
