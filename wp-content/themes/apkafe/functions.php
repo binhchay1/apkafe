@@ -75,8 +75,6 @@ function apkafe_get_option($options, $default = NULL)
 
 	if (is_singular()) {
 		if (is_singular('tribe_events')) {
-			global $wp_query;
-			global $post;
 			$post = $wp_query->post;
 		}
 		if (isset($post->ID)) {
@@ -88,9 +86,94 @@ function apkafe_get_option($options, $default = NULL)
 	return ot_get_option($options, $default);
 }
 
+add_filter('xmlrpc_enabled', '__return_false');
 add_action('init', function ($search) {
 	add_rewrite_rule('search/?$', 'index.php?s=' . $search, 'top');
 });
+
+function design__wpseo_canonical($url)
+{
+	$paths = explode('/', $_SERVER['REQUEST_URI']);
+	$host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
+
+	if (in_array('category', $paths)) {
+		$count = 0;
+		$urlCanonical = '';
+		foreach ($paths as $path) {
+			if ($path == '') {
+				continue;
+			}
+
+			if ($path == 'page') {
+				break;
+			}
+
+			if ($count == 0) {
+				$urlCanonical = $host . '/' . $path . '/';
+				$count++;
+			} else {
+				$urlCanonical .= $path . '/';
+			}
+		}
+
+		return $urlCanonical;
+	} else {
+		return $url;
+	}
+}
+add_filter('wpseo_canonical', 'design__wpseo_canonical');
+
+function design__wpseo_next($url)
+{
+	$paths = explode('/', $_SERVER['REQUEST_URI']);
+	$host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
+
+	if (in_array('product-category', $paths)) {
+		$count = 0;
+		$urlNext = '';
+		$urlPrev = '';
+		$isPagination = false;
+
+		foreach ($paths as $path) {
+			if ($path == '') {
+				continue;
+			}
+
+			if ($count == 0) {
+				$urlNext = $host . '/' . $path . '/';
+				$urlPrev = $host . '/' . $path . '/';
+				$count++;
+			} else {
+				if (strpos($path, 'news_page') || strpos($path, 'popular_page') || strpos($path, 'hot_page')) {
+					$isPagination = true;
+					$explode = explode('=', $path);
+					$currentPage = $explode[1];
+					$nextPage = (int) $currentPage + 1;
+					if ((int) $currentPage > 2) {
+						$prevPage = (int) $currentPage - 1;
+						$urlPrev .= $explode[0] . '=' . $prevPage . '/';
+					}
+
+					$urlNext .= $explode[0] . '=' . $nextPage . '/';
+				} else {
+					$urlNext .= $path . '/';
+					$urlPrev .= $path . '/';
+				}
+			}
+		}
+
+		$link = '<link rel="next" href="' . $urlNext . '" />' . PHP_EOL;
+
+		if ($isPagination) {
+			$link .= '<link rel="prev" href="' . $urlPrev . '" />' . PHP_EOL;
+		}
+
+		return $link;
+	} else {
+		return $url;
+	}
+}
+add_filter('wpseo_next_rel_link', 'design__wpseo_next');
 
 function add_custom_option_types_post_list($types)
 {
@@ -346,6 +429,7 @@ add_action('template_redirect', function () {
 			}
 		}
 	}
+
 }, PHP_INT_MAX);
 
 function ia_get_attachment_id_from_url($attachment_url = '')

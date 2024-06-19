@@ -43,7 +43,9 @@ get_header();
                         $developer = get_post_meta($postRes->ID, 'developer');
 
                         break;
-                    } ?>
+                    } 
+                    
+                    ?>
 
                     <a class="side_list_item" href="<?php echo get_permalink($post->ID) ?>">
                         <?php echo get_the_post_thumbnail($post->ID); ?>

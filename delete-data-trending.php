@@ -13,3 +13,5 @@ $table = $wpdb->prefix . 'trending_search';
 $status = $wpdb->delete($table, array(
     'id' => $get['id'],
 ));
+
+
