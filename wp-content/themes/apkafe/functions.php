@@ -429,7 +429,6 @@ add_action('template_redirect', function () {
 			}
 		}
 	}
-
 }, PHP_INT_MAX);
 
 function ia_get_attachment_id_from_url($attachment_url = '')
@@ -454,7 +453,7 @@ function submit_review_handler()
 	global $wpdb;
 	$score = $_POST['score'];
 	$user_name = $_POST['user_name'];
-	$user_comment = $_POST['user_comment'];
+	$user_comment = trim($_POST['user_comment']);
 	$post_id = $_POST['post_id'];
 	$listCharacterBlackList = [
 		'fuck',
@@ -545,6 +544,19 @@ function submit_review_handler()
 	);
 
 	if ($result == '') {
+		$resultComment = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT * FROM wp_user_review WHERE user_comment = '%s' AND post_id = '%d'",
+				$user_comment,
+				$post_id
+			)
+		);
+
+		if ($resultComment != null) {
+			echo json_encode(array('success' => true, 'result' => 4));
+			wp_die();
+		}
+
 		$wpdb->insert('wp_user_review', array(
 			'score' => $score,
 			'user_name' => $user_name,
@@ -708,3 +720,11 @@ function sync_on_product_with_schema($meta_id, $post_id, $meta_key, $meta_value)
 		}
 	}
 }
+
+add_filter('the_content', function ($content) {
+	preg_match('/^(.*)\s/', $content, $matches);
+	$sapo = $matches[0];
+	set_query_var("sapo", $sapo);
+
+	return '<div class="pre-toc"></div>' . $content;
+}, 0);

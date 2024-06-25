@@ -67,14 +67,25 @@ if (array_key_exists('h1_sapo', $getMeta)) {
             <div class="clear"></div>
         </div>
         <div class="pad10">
-            <h1 class="main_head ac"><?php !empty($h1_sapo) ? print_r($h1_sapo[0]) : '' ?></h1>
-            <?php if (!empty($sapo)) { ?>
+            <?php if (!empty($h1_sapo)) { ?>
+                <h1 class="main_head ac"><?php echo $h1_sapo[0] ?></h1>
+            <?php } else { ?>
+                <h1 class="the_title_post"><?php echo the_title() ?></h1>
+            <?php } ?>
+
+            <?php if (!empty($sapo[0])) { ?>
                 <div class="sapo-review-default">
                     <p><?php echo $sapo[0] ?></p>
                 </div>
+            <?php } else {
+
+                $sapo = get_query_var("sapo");
+            ?>
+                <div class="sapo-review-default">
+                    <p><?php echo $sapo ?></p>
+                </div>
             <?php } ?>
 
-            <p class="the_title_post"><?php echo the_title() ?></p>
             <div class="post-author-and-date">
                 <p class="the_title_author">by <?php the_author_posts_link(); ?></p>
                 <p class="the_title_modified_date">Updated on <?php echo get_the_modified_date(); ?></p>

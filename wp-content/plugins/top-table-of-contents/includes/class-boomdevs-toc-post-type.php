@@ -15,7 +15,6 @@ class Boomdevs_Toc_Post_Type
 
     public function boomdevs_toc_post_types($content)
     {
-
         $settings = Boomdevs_Toc_Settings::get_settings();
         $shortcode_content = '';
 
@@ -27,6 +26,7 @@ class Boomdevs_Toc_Post_Type
                     if ($value === 'post' || $value === 'page') {
                         $shortcode_content = is_singular('post') || is_singular('page') ? $toc_shortcode->shortcode_generator($content) : '';
 
+
                         switch ($settings['select_toc_position']) {
                             case 'before':
                                 preg_match_all('/(\<h[1-6](.*?))\>(.*)(<\/h[1-6]>)/i', $content, $matches);
@@ -37,16 +37,8 @@ class Boomdevs_Toc_Post_Type
                                 break;
 
                             case 'beforelasso':
-                                preg_match_all('/(lasso(.*?)"])/i', $content, $matches);
-                                if (isset($matches[0]) && count($matches[0]) > 0) {
-                                    $indexPreMatch = count($matches[0]) - 2;
-
-                                    $shortcode_content = $toc_shortcode->shortcode_generator($content);
-                                    $toc_with_heading = $matches[0][$indexPreMatch] . $shortcode_content;
-                                    return str_replace($matches[0][$indexPreMatch], $toc_with_heading, $content);
-                                } else {
-                                    echo $shortcode_content;
-                                }
+                                preg_match_all('/<div[^>]+class="pre-toc"[^>]*>(.*)<\/div>/i', $content, $matches);
+                                return str_replace($matches[0][0], $shortcode_content, $content);
                                 break;
 
                             case 'after':
@@ -84,12 +76,9 @@ class Boomdevs_Toc_Post_Type
                                 preg_match_all('/(lasso(.*?)"])/i', $content, $matches);
 
                                 if (isset($matches[0]) && count($matches[0]) > 0) {
-                                    $indexPreMatch = count($matches[0]) - 2;
-
+                                    $indexPreMatch = 0;
                                     $shortcode_content = $toc_shortcode->shortcode_generator($content);
-                                    if ($indexPreMatch == -1) {
-                                        $indexPreMatch = 0;
-                                    }
+
                                     $toc_with_heading = $matches[0][$indexPreMatch] . $shortcode_content;
                                     $content = str_replace($matches[0][$indexPreMatch], $toc_with_heading, $content);
                                 } else {
