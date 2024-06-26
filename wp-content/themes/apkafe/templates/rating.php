@@ -256,6 +256,7 @@ if (count($result) == 0) {
         var post_id = jQuery('#post-id-for-review').val();
 
         if (score != 0 && jQuery.trim(user_name) != '' && jQuery.trim(user_comment)) {
+            jQuery('#fancybox-container-1').hide();
             jQuery.ajax({
                     method: 'POST',
                     dataType: 'json',
@@ -270,7 +271,6 @@ if (count($result) == 0) {
                 })
                 .done(
                     function(data) {
-                        jQuery('#fancybox-container-1').hide();
                         if (data.result == 0) {
                             var x = document.getElementById("snackbar");
                             x.className = "show";
