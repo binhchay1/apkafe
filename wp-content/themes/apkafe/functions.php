@@ -722,9 +722,5 @@ function sync_on_product_with_schema($meta_id, $post_id, $meta_key, $meta_value)
 }
 
 add_filter('the_content', function ($content) {
-	preg_match('/^(.*)\s/', $content, $matches);
-	$sapo = $matches[0];
-	set_query_var("sapo", $sapo);
-
 	return '<div class="pre-toc"></div>' . $content;
 }, 0);

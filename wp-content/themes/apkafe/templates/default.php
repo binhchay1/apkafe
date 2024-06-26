@@ -3,32 +3,8 @@ $getMeta = get_post_meta(get_the_ID());
 $category = get_the_category(get_the_ID());
 $related = get_posts(array('category__in' => wp_get_post_categories($post->ID), 'numberposts' => 6, 'post__not_in' => array($post->ID)));
 
-$size = [];
-$version = [];
-$mod_infor = [];
-$faq = [];
 $sapo = [];
 $h1_sapo = [];
-
-if (array_key_exists('size', $getMeta)) {
-    $size = $getMeta['size'];
-}
-
-if (array_key_exists('latest_version', $getMeta)) {
-    $version = $getMeta['latest_version'];
-}
-
-if (array_key_exists('mod_infor', $getMeta)) {
-    $mod_infor = $getMeta['mod_infor'];
-}
-
-if (array_key_exists('size', $getMeta)) {
-    $size = $getMeta['size'];
-}
-
-if (array_key_exists('_faq', $getMeta)) {
-    $faq = $getMeta['_faq'];
-}
 
 if (array_key_exists('sapo_default', $getMeta)) {
     $sapo = $getMeta['sapo_default'];
@@ -67,7 +43,7 @@ if (array_key_exists('h1_sapo', $getMeta)) {
             <div class="clear"></div>
         </div>
         <div class="pad10">
-            <?php if (!empty($h1_sapo)) { ?>
+            <?php if (!empty($h1_sapo[0])) { ?>
                 <h1 class="main_head ac"><?php echo $h1_sapo[0] ?></h1>
             <?php } else { ?>
                 <h1 class="the_title_post"><?php echo the_title() ?></h1>
@@ -77,12 +53,13 @@ if (array_key_exists('h1_sapo', $getMeta)) {
                 <div class="sapo-review-default">
                     <p><?php echo $sapo[0] ?></p>
                 </div>
-            <?php } else {
+            <?php } else { 
+                preg_match('/^(.*)\s/', get_the_content(), $matches);
 
-                $sapo = get_query_var("sapo");
-            ?>
+                $sapo_def = $matches[0];
+                ?>
                 <div class="sapo-review-default">
-                    <p><?php echo $sapo ?></p>
+                    <p><?php echo $sapo_def ?></p>
                 </div>
             <?php } ?>
 
