@@ -113,8 +113,10 @@ class Modules_Manager {
 			'announcements',
 			'site-navigation',
 			'styleguide',
+			'element-cache',
 			'apps',
 			'home',
+			'conversion-center',
 			'content-sanitizer',
 		];
 	}

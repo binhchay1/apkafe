@@ -1,4 +1,4 @@
-/*! elementor - v3.21.0 - 26-05-2024 */
+/*! elementor - v3.22.0 - 26-06-2024 */
 .elementor-control-unit-1 {
   width: 27px;
 }
@@ -833,6 +833,8 @@ select {
 .elementor-panel .elementor-tab-control-style span:before {
   content: "\e921";
 }
+.elementor-panel .elementor-tab-control-advanced-tab-contact-buttons span:before,
+.elementor-panel .elementor-tab-control-advanced-tab-links-in-bio span:before,
 .elementor-panel .elementor-tab-control-advanced span:before,
 .elementor-panel .elementor-tab-control-settings span:before,
 .elementor-panel .elementor-tab-control-general_style span:before {
@@ -3130,6 +3132,10 @@ body:not(.elementor-device-mobile) .elementor-control.elementor-control-responsi
   padding-block-end: 10px;
 }
 .elementor-control-type-repeater.elementor-repeater-has-minimum-rows .elementor-repeater-tool-remove {
+  display: none;
+}
+.elementor-control-type-repeater.elementor-repeater-has-maximum-rows .elementor-repeater-tool-duplicate,
+.elementor-control-type-repeater.elementor-repeater-has-maximum-rows .elementor-repeater-add {
   display: none;
 }
 .elementor-control-type-repeater .elementor-repeater-fields {
@@ -6138,6 +6144,9 @@ body:not(.elementor-device-desktop) #e-notice-bar {
 }
 .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-palette {
   height: 150px;
+}
+.pcr-app .pcr-selection .pcr-picker {
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 }
 .pcr-app .pcr-interaction {
   padding-block-end: 20px;
