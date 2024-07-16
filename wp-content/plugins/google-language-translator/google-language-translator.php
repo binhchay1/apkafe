@@ -538,6 +538,24 @@ class google_language_translator
     endif; //is_multilanguage
   }
 
+  function getusercountrycode()
+  {
+    $ch = curl_init();
+    $curlConfig = array(
+      CURLOPT_URL            => "http://www.geoplugin.net/json.gp",
+      CURLOPT_POST           => true,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POSTFIELDS     => false
+    );
+    curl_setopt_array($ch, $curlConfig);
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+    $json_a = json_decode($result, true);
+    $countrycode = $json_a['geoplugin_countryCode'];
+    return $countrycode;
+  }
+
   public function googlelanguagetranslator_vertical()
   {
     global $started;
@@ -560,6 +578,17 @@ class google_language_translator
     $floating_widget = get_option('googlelanguagetranslator_floating_widget');
     $glt_url_structure = get_option('googlelanguagetranslator_url_structure');
     $glt_seo_active = get_option('googlelanguagetranslator_seo_active');
+    $detectVisitorCode = $this->getusercountrycode();
+
+    if ($detectVisitorCode == NULL) {
+      $default_language = $default_language_code;
+    } else {
+      foreach ($get_language_choices as $choice) {
+        if ($detectVisitorCode == $choice) {
+          $default_language = $choice;
+        }
+      }
+    }
 
     $default_language = $default_language_code;
     $str = '';
@@ -616,8 +645,8 @@ class google_language_translator
               $count++;
             } //endif
           }
-          
-          $str .= $strAfter . '</ul>';//foreach
+
+          $str .= $strAfter . '</ul>'; //foreach
         else :
           if ($new_languages_array_count != count($get_language_choices)) :
             foreach ($get_language_choices as $key => $value) {
