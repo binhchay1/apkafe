@@ -17,7 +17,7 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 	}
 </style>
 <div <?php echo $anchor_id_html ?> class="lasso-container">
-	<div class="lasso-display <?php echo $theme_name . ' lasso-url-' . $lasso_url->slug . ' ' . $css_display_theme_mobile ?? ''; ?>">
+	<div class="lasso-display <?php echo $theme_name . ' lasso-url-' . $lasso_url->slug; ?>">
 		<?php if (!empty($lasso_url->display->badge_text)) { ?>
 			<div class="lasso-badge">
 				<?php echo $lasso_url->display->badge_text; ?>
@@ -108,6 +108,9 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 			<?php if ($is_show_fields && $lasso_url->fields->user_created) { ?>
 				<div class="lasso-fields">
 					<?php foreach ($lasso_url->fields->user_created as $field) { ?>
+						<?php if($field->field_name == 'Pros') {
+							$field->field_name = $lasso_url->display->pros_input;
+						} ?>
 						<?php
 						Lasso_Helper::include_with_variables(
 							LASSO_PLUGIN_PATH . '/admin/views/displays/field-row.php',

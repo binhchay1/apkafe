@@ -195,6 +195,8 @@ class Lasso_Affiliate_Link
 		$display_third_url = trim(get_post_meta($post_id, 'third_btn_url', true));
 		$display_fourth_url = trim(get_post_meta($post_id, 'fourth_btn_url', true));
 
+		$pros_input = get_post_meta($post_id, 'pros_input', true);
+
 		if ($post_id > 0 && LASSO_POST_TYPE === $post_type && 'publish' === $post_status && $lasso_post) {
 			$lasso_post_details = $lasso_db->get_url_details($post_id);
 
@@ -535,6 +537,8 @@ class Lasso_Affiliate_Link
 				'last_updated'                  => $display_last_updated,
 				'third_url'                  	=> $display_third_url,
 				'fourth_url'                  => $display_fourth_url,
+
+				'pros_input'                  => $pros_input,
 			),
 			'amazon'              => (object) array(
 				'amazon_id'             => $amazon_product_id,
@@ -1441,6 +1445,8 @@ class Lasso_Affiliate_Link
 				'fourth_btn_url'         => $post_data['fourth_btn_url'] ?? '',
 				'fourth_btn_text'        => $post_data['fourth_btn_text'] ?? '',
 
+				'pros_input'        => $post_data['pros_input'] ?? '',
+
 				'show_price'             => $post_data['show_price'] ?? $lasso_url->display->show_price,
 				'show_disclosure'        => $post_data['show_disclosure'] ?? $lasso_url->display->show_disclosure,
 				'show_description'       => $show_description,
@@ -1497,6 +1503,8 @@ class Lasso_Affiliate_Link
 					'third_btn_text'         => $post_data['third_btn_text'] ?? '',
 					'fourth_btn_url'         => $post_data['fourth_btn_url'] ?? '',
 					'fourth_btn_text'        => $post_data['fourth_btn_text'] ?? '',
+
+					'pros_input'        => $post_data['pros_input'] ?? '',
 
 					'show_price'             => $post_data['show_price'] ?? $lasso_url->display->show_price,
 					'show_disclosure'        => $post_data['show_disclosure'] ?? $lasso_url->display->show_disclosure,
@@ -1559,6 +1567,8 @@ class Lasso_Affiliate_Link
 					'fourth_btn_url'         => $post_data['fourth_btn_url'] ?? '',
 					'fourth_btn_text'        => $post_data['fourth_btn_text'] ?? '',
 
+					'pros_input'        => $post_data['pros_input'] ?? '',
+
 					'show_price'             => $post_data['show_price'] ?? $lasso_url->display->show_price,
 					'show_disclosure'        => $post_data['show_disclosure'] ?? $lasso_url->display->show_disclosure,
 					'show_description'       => $show_description,
@@ -1620,6 +1630,8 @@ class Lasso_Affiliate_Link
 					'third_btn_text'         => $post_data['third_btn_text'] ?? '',
 					'fourth_btn_url'         => $post_data['fourth_btn_url'] ?? '',
 					'fourth_btn_text'        => $post_data['fourth_btn_text'] ?? '',
+
+					'pros_input'        => $post_data['pros_input'] ?? '',
 
 					'show_price'             => $post_data['show_price'] ?? $lasso_url->display->show_price,
 					'show_disclosure'        => $post_data['show_disclosure'] ?? $lasso_url->display->show_disclosure,

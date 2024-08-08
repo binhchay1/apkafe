@@ -362,14 +362,14 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 											<?php $array_screenshot = json_decode($lasso_url->screen_shots, true); ?>
 											<div class="owl-carousel owl-theme">
 												<?php foreach ($array_screenshot as $shot) { ?>
-													<img class="item" src="<?php echo $shot ?>" width="106" height="66"/>
+													<img class="item" src="<?php echo $shot ?>" width="106" height="66" />
 												<?php } ?>
 											</div>
 										<?php } else { ?>
 											<div class="owl-carousel owl-theme">
 												<?php $array_screenshot = explode(PHP_EOL, $lasso_url->screen_shots); ?>
 												<?php foreach ($array_screenshot as $shot) { ?>
-													<img class="item" src="<?php echo $shot ?>" width="100" height="100"/>
+													<img class="item" src="<?php echo $shot ?>" width="100" height="100" />
 												<?php } ?>
 											</div>
 										<?php } ?>
@@ -811,6 +811,10 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 				prepUpdate();
 			});
 
+			jQuery(document).on("focusout", "input.select2-search__field.field_value", function() {
+				prepUpdate(true);
+			});
+
 			jQuery(document).on("focusout", "input.form-control.field_value.star_value.float-left", function() {
 				prepUpdate();
 			});
@@ -857,9 +861,16 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 						}
 					})
 					.done(function(res) {
+						let type = res.data.post.field_id;
 						res = res.data;
+
 						jQuery('#field-create').modal('hide');
-						get_custom_fields_details();
+						if (type == 2) {
+							get_custom_fields_details(1, 10, 'pros');
+						} else {
+							get_custom_fields_details();
+						}
+
 						if (res.status) {
 							// Show in URL Details
 							console.log("Added.");
@@ -879,7 +890,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 					});
 			});
 
-			function get_custom_fields_details(page = 1, limit = 10) {
+			function get_custom_fields_details(page = 1, limit = 10, type = '') {
 				let link_type = 'url-details';
 				let tab_filter = 'url-details';
 				let container = jQuery('#custom-fields');
@@ -927,6 +938,14 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 							html = 'Failed to load data.';
 						}
 
+						if (type == 'pros') {
+							let pros_input_value = 'Pros';
+							if (response.data.pros_input) {
+								pros_input_value = response.data.pros_input;
+							}
+							html = html.replace('<strong>Pros</strong>', '<input type="text" value="' + pros_input_value + '" id="pros_input" style="color: black !important; font-weight: bold" class="select2-search__field field_value">');
+						}
+
 						container.html(html);
 					}).fail(function(xhr) {
 						container.html('Failed to load data.');
@@ -961,24 +980,33 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 				}
 			});
 
-			function prepUpdate() {
-				var selectedData = new Array();
-				jQuery('#custom-fields>div').each(function() {
-					let field_id = jQuery(this).attr("data-field-id");
-					if (!lasso_helper.is_empty(field_id)) {
-						var field_value = jQuery("#field_" + field_id).val();
-						field_value = lasso_helper.remove_empty_line_from_string(field_value);
-						selectedData.push([
-							jQuery(this).attr("data-field-id"),
-							jQuery(this).attr("data-lasso-id"),
-							field_value,
-							jQuery("#fieldvisible_" + jQuery(this).attr("data-field-id")).prop("checked"),
-							jQuery("#show_field_name_" + jQuery(this).attr("data-field-id")).prop("checked")
-						]);
-					}
-				});
-				console.log(selectedData);
-				updateFields(selectedData);
+			function prepUpdate(pros_input = false) {
+				if (!pros_input) {
+					var selectedData = new Array();
+					jQuery('#custom-fields>div').each(function() {
+						let field_id = jQuery(this).attr("data-field-id");
+						if (!lasso_helper.is_empty(field_id)) {
+							var field_value = jQuery("#field_" + field_id).val();
+							field_value = lasso_helper.remove_empty_line_from_string(field_value);
+							selectedData.push([
+								jQuery(this).attr("data-field-id"),
+								jQuery(this).attr("data-lasso-id"),
+								field_value,
+								jQuery("#fieldvisible_" + jQuery(this).attr("data-field-id")).prop("checked"),
+								jQuery("#show_field_name_" + jQuery(this).attr("data-field-id")).prop("checked")
+							]);
+						}
+					});
+
+					updateFields(selectedData);
+				} else {
+					var dataProsInput = {
+						'post_id': lasso_id,
+						'pros_input': jQuery('input.select2-search__field.field_value').val()
+					};
+
+					updateProsInput(dataProsInput);
+				}
 			}
 
 			function updateFields(data, set) {
@@ -996,7 +1024,25 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 					})
 					.done(function(res) {
 						res = res.data;
-						console.log(res);
+						refresh_display();
+					});
+			}
+
+			function updateProsInput(data, set) {
+				jQuery.ajax({
+						url: lassoOptionsData.ajax_url,
+						type: 'post',
+						data: {
+							action: 'lasso_save_pros_input',
+							data: data
+						},
+						beforeSend: function() {
+							jQuery('#demo_display_box').addClass('d-none');
+							jQuery('.image_loading').removeClass('d-none');
+						}
+					})
+					.done(function(res) {
+						res = res.data;
 						refresh_display();
 					});
 			}
@@ -1102,7 +1148,6 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 					})
 					.done(function(res) {
 						res = res.data;
-						console.log(res);
 						jQuery("#render_thumbnail").attr('src', res.thumbnail);
 						jQuery("#thumbnail_id").val(res.thumbnail_id);
 						jQuery("#thumbnail_image_url").val(res.thumbnail);
@@ -1389,6 +1434,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 			var size_app = jQuery("#size_app").val();
 			var version_app = jQuery("#version_app").val();
 			var updated_on_app = jQuery("#updated_on_app").val();
+			var pros_input = jQuery("#pros_input").val();
 			var affiliate_desc = quill.root.innerHTML;
 			affiliate_desc = affiliate_desc == '<p><br></p>' ? '' : affiliate_desc;
 
@@ -1412,6 +1458,7 @@ require LASSO_PLUGIN_PATH . '/admin/views/header-new.php';
 				size: size_app,
 				version: version_app,
 				updated_on: updated_on_app,
+				pros_input: pros_input,
 
 				enable_nofollow: jQuery("#url-en-nofollow").prop("checked") ? 1 : 0,
 				open_new_tab: jQuery("#url-open-link").prop("checked") ? 1 : 0,

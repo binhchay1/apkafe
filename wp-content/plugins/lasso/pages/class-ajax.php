@@ -459,6 +459,8 @@ class Ajax
 			}
 		}
 
+		$pros_input = get_post_meta($post['post_id'], 'pros_input', true);
+
 		wp_send_json_success(
 			array(
 				'status' => 1,
@@ -468,6 +470,7 @@ class Ajax
 				'total'  => $total,
 				'page'   => $page,
 				'post'   => $post,
+				'pros_input'   => $pros_input,
 			)
 		);
 	} // @codeCoverageIgnore
