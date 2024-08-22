@@ -80,14 +80,14 @@ if (array_key_exists('h1_sapo', $getMeta)) {
             <div class="clear"></div>
         </div>
         <div class="pad10">
-            <h1 class="main_head ac"><?php !empty($h1_sapo) ? print_r($h1_sapo[0]) : '' ?></h1>
+			<?php if(!empty($h1_sapo)) { ?>
+            <h1 class="main_head ac"><?php print_r($h1_sapo[0]) ?></h1>
+			<?php } ?>
             <?php if (!empty($sapo)) { ?>
                 <div class="sapo-review-default">
                     <p><?php echo $sapo[0] ?></p>
                 </div>
             <?php } ?>
-
-            <div class="clear mb20"></div>
 
             <?php echo the_content() ?>
 
