@@ -6,7 +6,7 @@ use Ht_Easy_Ga4\Admin\Tabs\Ecommerce_Reports;
 use Ht_Easy_Ga4\Admin\Tabs\Realtime_Reports;
 
 class Base {
-	use \Ht_Easy_Ga4\Helper_Trait;
+	use \Ht_Easy_Ga4\Helper_Trait; 
 	use \Ht_Easy_Ga4\Rest_Request_Handler_Trait;
 
 	/**
@@ -76,10 +76,10 @@ class Base {
 
 		// Save the code for after login
 		add_action('plugins_loaded', function(){
-			$htga4_email = !empty( $_GET['email']) ? sanitize_email( $_GET['email']) : '';
-			$htga4_sr_api_key = !empty( $_GET['key']) ? sanitize_text_field( $_GET['key']) : '';
+			$htga4_email = !empty( $_GET['email']) ? sanitize_email( $_GET['email']) : ''; // phpcs:ignore
+			$htga4_sr_api_key = !empty( $_GET['key']) ? sanitize_text_field( $_GET['key']) : ''; // phpcs:ignore
 			
-			$nonce = !empty( $_GET['_wpnonce']) ? sanitize_text_field( $_GET['_wpnonce']) : '';
+			$nonce = !empty( $_GET['_wpnonce']) ? sanitize_text_field( $_GET['_wpnonce']) : '';  // phpcs:ignore
 			$nonce_check_result = wp_verify_nonce($nonce, 'htga4_save_key_nonce');
 
 			if( $nonce_check_result && $htga4_email && current_user_can('manage_options') ){
@@ -137,7 +137,7 @@ class Base {
 	}
 
 	public function login() {
-		$get_data = wp_unslash( $_GET );
+		$get_data = wp_unslash( $_GET ); // phpcs:ignore
 
 		if (  current_user_can('manage_options') && ! empty( $get_data['access_token'] ) && ! empty( $get_data['email'] ) ) {
 			set_transient( 'htga4_access_token', sanitize_text_field( $get_data['access_token'] ), ( MINUTE_IN_SECONDS * 58 ) );
@@ -151,7 +151,7 @@ class Base {
 			return;
 		}
 		
-		$get_data = wp_unslash( $_GET );
+		$get_data = wp_unslash( $_GET ); // phpcs:ignore
 
 		// Return if there is no email, so no post request is sent.
 		if ( ! get_option( 'htga4_email' ) ) {

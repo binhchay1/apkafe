@@ -22,6 +22,13 @@ class WPCode_Conditional_Schedule_Lite extends WPCode_Conditional_Type {
 	public $name = 'schedule';
 
 	/**
+	 * The type category.
+	 *
+	 * @var string
+	 */
+	public $category = 'advanced';
+
+	/**
 	 * Set the translatable label.
 	 *
 	 * @return void
@@ -38,21 +45,25 @@ class WPCode_Conditional_Schedule_Lite extends WPCode_Conditional_Type {
 	public function load_type_options() {
 		$this->options = array(
 			'date_is' => array(
-				'label' => __( 'Date', 'insert-headers-and-footers' ),
-				'type'  => 'date',
+				'label'       => __( 'Date', 'insert-headers-and-footers' ),
+				'description' => __( 'Check whether today is before or after a date.', 'insert-headers-and-footers' ),
+				'type'        => 'date',
 			),
 			'time_is' => array(
-				'label' => __( 'Date & Time', 'insert-headers-and-footers' ),
-				'type'  => 'datetime',
+				'label'       => __( 'Date & Time', 'insert-headers-and-footers' ),
+				'description' => __( 'Get more specific by also including a specific time.', 'insert-headers-and-footers' ),
+				'type'        => 'datetime',
 			),
 			'weekday' => array(
-				'label'    => __( 'Day of the Week', 'insert-headers-and-footers' ),
-				'type'     => 'select',
-				'multiple' => true,
+				'label'       => __( 'Day of the Week', 'insert-headers-and-footers' ),
+				'description' => __( 'Load the snippet on specific days of the week.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'multiple'    => true,
 			),
 			'time'    => array(
-				'label' => __( 'Current time', 'insert-headers-and-footers' ),
-				'type'  => 'time',
+				'label'       => __( 'Current time', 'insert-headers-and-footers' ),
+				'description' => __( 'Check whether it\'s before or after a specific time', 'insert-headers-and-footers' ),
+				'type'        => 'time',
 			),
 		);
 

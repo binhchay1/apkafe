@@ -47,6 +47,7 @@ function wpcode_admin_scripts() {
 				'code_type_options' => wpcode()->execute->get_code_type_options(),
 				'please_wait'       => __( 'Please wait.', 'insert-headers-and-footers' ),
 				'ok'                => __( 'OK', 'insert-headers-and-footers' ),
+				'upgrade_button'    => __( 'Upgrade to PRO', 'insert-headers-and-footers' ),
 				'testing_mode'      => array(
 					'title'           => __( 'Testing Mode is a Premium Feature', 'insert-headers-and-footers' ),
 					'text'            => __( 'Upgrade to PRO today and make changes to your snippets, Header & Footer scripts or Page Scripts without affecting your live site. You choose when and what to publish to your visitors.', 'insert-headers-and-footers' ),

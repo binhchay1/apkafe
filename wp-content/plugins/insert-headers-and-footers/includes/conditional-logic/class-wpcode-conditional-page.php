@@ -22,6 +22,13 @@ class WPCode_Conditional_Page extends WPCode_Conditional_Type {
 	public $name = 'page';
 
 	/**
+	 * The category of this type.
+	 *
+	 * @var string
+	 */
+	public $category = 'where';
+
+	/**
 	 * Set the translatable label.
 	 *
 	 * @return void
@@ -38,9 +45,10 @@ class WPCode_Conditional_Page extends WPCode_Conditional_Type {
 	public function load_type_options() {
 		$this->options = array(
 			'type_of_page'  => array(
-				'label'    => __( 'Type of page', 'insert-headers-and-footers' ),
-				'type'     => 'select',
-				'options'  => array(
+				'label'       => __( 'Type of page', 'insert-headers-and-footers' ),
+				'description' => __( 'Choose a WordPress-specific type of page for your rule.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'options'     => array(
 					array(
 						'label' => __( 'Homepage', 'insert-headers-and-footers' ),
 						'value' => 'is_front_page',
@@ -70,27 +78,31 @@ class WPCode_Conditional_Page extends WPCode_Conditional_Type {
 						'value' => 'is_home',
 					),
 				),
-				'callback' => array( $this, 'get_type_of_page' ),
+				'callback'    => array( $this, 'get_type_of_page' ),
 			),
 			'post_type'     => array(
-				'label'    => __( 'Post type', 'insert-headers-and-footers' ),
-				'type'     => 'select',
-				'options'  => $this->get_post_types(),
-				'callback' => array( $this, 'get_current_post_type' ),
+				'label'       => __( 'Post type', 'insert-headers-and-footers' ),
+				'description' => __( 'Target by post type: posts, pages or custom post types.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'options'     => $this->get_post_types(),
+				'callback'    => array( $this, 'get_current_post_type' ),
 			),
 			'referrer'      => array(
-				'label'    => __( 'Referrer', 'insert-headers-and-footers' ),
-				'type'     => 'text',
-				'callback' => array( $this, 'get_referer' ),
+				'label'       => __( 'Referrer', 'insert-headers-and-footers' ),
+				'description' => __( 'Use the page referrer/last visited page url as a condition.', 'insert-headers-and-footers' ),
+				'type'        => 'text',
+				'callback'    => array( $this, 'get_referer' ),
 			),
 			'taxonomy_page' => array(
-				'label'    => __( 'Taxonomy page', 'insert-headers-and-footers' ),
-				'type'     => 'select',
-				'options'  => $this->get_taxonomies_options(),
-				'callback' => array( $this, 'get_taxonomy' ),
+				'label'       => __( 'Taxonomy page', 'insert-headers-and-footers' ),
+				'description' => __( 'Load only on pages for a specific category/taxonomy.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'options'     => $this->get_taxonomies_options(),
+				'callback'    => array( $this, 'get_taxonomy' ),
 			),
 			'taxonomy_term' => array(
 				'label'           => __( 'Taxonomy term', 'insert-headers-and-footers' ),
+				'description'     => __( 'Choose category/taxonomy terms to target for single or archive pages.', 'insert-headers-and-footers' ),
 				'type'            => 'ajax',
 				'options'         => 'wpcode_search_terms',
 				'callback'        => array( $this, 'get_term' ),
@@ -98,18 +110,42 @@ class WPCode_Conditional_Page extends WPCode_Conditional_Type {
 				'multiple'        => true,
 			),
 			'page_url'      => array(
-				'label'    => __( 'Page URL', 'insert-headers-and-footers' ),
-				'type'     => 'text',
-				'callback' => array( $this, 'get_page_url' ),
+				'label'       => __( 'Page URL', 'insert-headers-and-footers' ),
+				'description' => __( 'Use the page URL to limit where this snippet is loaded.', 'insert-headers-and-footers' ),
+				'type'        => 'text',
+				'callback'    => array( $this, 'get_page_url' ),
 			),
 			'post_id'       => array(
-				'label'   => __( 'Post/Page', 'insert-headers-and-footers' ) . ' (PRO)',
-				'type'    => 'select',
-				'options' => array(),
-				'upgrade' => array(
+				'label'       => __( 'Post/Page', 'insert-headers-and-footers' ) . ' (PRO)',
+				'description' => __( 'Pick specific posts or pages to load the snippet on.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'options'     => array(),
+				'upgrade'     => array(
 					'title' => __( 'Post specific rules are a Pro feature', 'insert-headers-and-footers' ),
-					'text'  => __( 'Upgrade today create conditional logic rules for specific pages or posts.', 'insert-headers-and-footers' ),
+					'text'  => __( 'Upgrade today to create conditional logic rules for specific pages or posts.', 'insert-headers-and-footers' ),
 					'link'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'conditional-logic', 'post_id' ),
+				),
+			),
+			'page_template' => array(
+				'label'       => __( 'Page Template', 'insert-headers-and-footers' ) . ' (PRO)',
+				'description' => __( 'Load the snippet only on pages with a specific template.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'options'     => array(),
+				'upgrade'     => array(
+					'title' => __( 'Page Template rules are a Pro feature', 'insert-headers-and-footers' ),
+					'text'  => __( 'Upgrade today to create conditional logic rules for specific page templates.', 'insert-headers-and-footers' ),
+					'link'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'conditional-logic', 'page_template' ),
+				),
+			),
+			'post_author'   => array(
+				'label'       => __( 'Author', 'insert-headers-and-footers' ) . ' (PRO)',
+				'description' => __( 'Load the snippet only on pages with a specific author.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'options'     => array(),
+				'upgrade'     => array(
+					'title' => __( 'Post Author rules are a Pro feature', 'insert-headers-and-footers' ),
+					'text'  => __( 'Upgrade today to create conditional logic rules based on the page/post author.', 'insert-headers-and-footers' ),
+					'link'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'conditional-logic', 'post_author' ),
 				),
 			),
 		);
@@ -222,7 +258,26 @@ class WPCode_Conditional_Page extends WPCode_Conditional_Type {
 	public function get_page_url() {
 		global $wp;
 
-		return isset( $wp->request ) ? trailingslashit( home_url( $wp->request ) ) : '';
+		if ( is_admin() ) {
+			$url = isset( $_SERVER['REQUEST_URI'] ) ? basename( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : '';
+			$url = admin_url( $url );
+		} else {
+			$url = isset( $wp->request ) ? trailingslashit( home_url( $wp->request ) ) : '';
+		}
+
+		if ( ! empty( $_GET ) ) { // phpcs:ignore
+			foreach ( $_GET as $key => $value ) { // phpcs:ignore
+				$key = sanitize_key( $key );
+				$url = add_query_arg(
+					array(
+						$key => sanitize_text_field( wp_unslash( $value ) ),
+					),
+					$url
+				);
+			}
+		}
+
+		return $url;
 	}
 
 	/**

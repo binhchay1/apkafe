@@ -306,7 +306,7 @@ class WPCode_Metabox_Snippets_Lite extends WPCode_Metabox_Snippets {
 	public function output_tab_revisions( $post ) {
 		printf(
 			'<p>%s</p>',
-			esc_html__( 'As you make changes to your page scripts and save, you will get a list of previous versions with all the changes made in each revision. You can compare revisions to the current version or see changes as they have been saved by going through each revision. Any of the revisions can then be restored as needed without interfering with your post/page.', 'wpcode-premium' )
+			esc_html__( 'As you make changes to your page scripts and save, you will get a list of previous versions with all the changes made in each revision. You can compare revisions to the current version or see changes as they have been saved by going through each revision. Any of the revisions can then be restored as needed without interfering with your post/page.', 'insert-headers-and-footers' )
 		);
 
 		echo $this->code_revisions_list_with_notice(

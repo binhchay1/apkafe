@@ -204,7 +204,7 @@ class WPCode_Library {
 	 *
 	 * @return array
 	 */
-	private function get_from_server() {
+	protected function get_from_server() {
 		$data = $this->process_response( $this->make_request( $this->all_snippets_endpoint ) );
 
 		if ( empty( $data['snippets'] ) ) {
@@ -263,16 +263,17 @@ class WPCode_Library {
 	public function get_authenticated_headers() {
 		// Build the headers of the request.
 		return array(
-			'Content-Type'    => 'application/x-www-form-urlencoded',
-			'Cache-Control'   => 'no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0',
-			'Pragma'          => 'no-cache',
-			'Expires'         => 0,
-			'Origin'          => site_url(),
-			'WPCode-Referer'  => site_url(),
-			'WPCode-Sender'   => 'WordPress',
-			'WPCode-Site'     => esc_attr( get_option( 'blogname' ) ),
-			'WPCode-Version'  => esc_attr( WPCODE_VERSION ),
-			'X-WPCode-ApiKey' => wpcode()->library_auth->get_auth_key(),
+			'Content-Type'     => 'application/x-www-form-urlencoded',
+			'Cache-Control'    => 'no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0',
+			'Pragma'           => 'no-cache',
+			'Expires'          => 0,
+			'Origin'           => site_url(),
+			'WPCode-Referer'   => site_url(),
+			'WPCode-Sender'    => 'WordPress',
+			'WPCode-Site'      => esc_attr( get_option( 'blogname' ) ),
+			'WPCode-Version'   => esc_attr( WPCODE_VERSION ),
+			'WPCode-Client-Id' => wpcode()->library_auth->get_client_id(),
+			'X-WPCode-ApiKey'  => wpcode()->library_auth->get_auth_key(),
 		);
 	}
 

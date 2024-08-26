@@ -22,6 +22,13 @@ class WPCode_Conditional_User extends WPCode_Conditional_Type {
 	public $name = 'user';
 
 	/**
+	 * The category of this type.
+	 *
+	 * @var string
+	 */
+	public $category = 'who';
+
+	/**
 	 * Set the translatable label.
 	 *
 	 * @return void
@@ -38,9 +45,10 @@ class WPCode_Conditional_User extends WPCode_Conditional_Type {
 	public function load_type_options() {
 		$this->options = array(
 			'logged_in' => array(
-				'label'    => __( 'Logged-in', 'insert-headers-and-footers' ),
-				'type'     => 'select',
-				'options'  => array(
+				'label'       => __( 'Logged-in', 'insert-headers-and-footers' ),
+				'description' => __( 'Check if your site visitor is logged in.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'options'     => array(
 					array(
 						'label' => __( 'True', 'insert-headers-and-footers' ),
 						'value' => true,
@@ -50,13 +58,14 @@ class WPCode_Conditional_User extends WPCode_Conditional_Type {
 						'value' => false,
 					),
 				),
-				'callback' => 'is_user_logged_in',
+				'callback'    => 'is_user_logged_in',
 			),
 			'user_role' => array(
-				'label'    => __( 'User Role', 'insert-headers-and-footers' ),
-				'type'     => 'select',
-				'options'  => $this->get_options_user_roles(),
-				'callback' => array( $this, 'get_user_role' ),
+				'label'       => __( 'User Role', 'insert-headers-and-footers' ),
+				'description' => __( 'Target a specific user role.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'options'     => $this->get_options_user_roles(),
+				'callback'    => array( $this, 'get_user_role' ),
 			),
 		);
 	}

@@ -43,7 +43,7 @@ function get_ez_toc_list( $post = null, $apply_content_filter = true ) {
  * @param bool         $apply_content_filter Whether or not to apply `the_content` filter when processing post for headings.
  */
 function ez_toc_list( $post = null, $apply_content_filter = true ) {
-
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 	echo get_ez_toc_list( $post, $apply_content_filter );
 }
 
@@ -87,7 +87,7 @@ function get_ez_toc_block( $post = null, $apply_content_filter = true ) {
  * @param bool         $apply_content_filter Whether or not to apply `the_content` filter when processing post for headings.
  */
 function ez_toc_block( $post = null, $apply_content_filter = true ) {
-
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 	echo get_ez_toc_block( $post, $apply_content_filter );
 }
 // Non amp checker
@@ -114,16 +114,16 @@ if ( ! function_exists('ez_toc_non_amp') ) {
 
         $non_amp = true;
 
-        if( function_exists('ampforwp_is_amp_endpoint') && @ampforwp_is_amp_endpoint() ) {                
+        if( function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint() ) {                
             $non_amp = false;                       
         }     
-        if( function_exists('is_amp_endpoint') && @is_amp_endpoint() ){
+        if( function_exists('is_amp_endpoint') && is_amp_endpoint() ){
             $non_amp = false;           
         }
-        if( function_exists('is_better_amp') && @is_better_amp() ){       
+        if( function_exists('is_better_amp') && is_better_amp() ){       
             $non_amp = false;           
         }
-        if( function_exists('is_amp_wp') && @is_amp_wp() ){       
+        if( function_exists('is_amp_wp') && is_amp_wp() ){       
             $non_amp = false;           
         }
 
@@ -193,7 +193,7 @@ function ez_toc_export_all_settings()
     if(!empty($export_settings_data)){
         header('Content-type: application/json');
         header('Content-disposition: attachment; filename=ez_toc_settings_backup.json');
-        echo json_encode($export_settings_data);   
+        echo wp_json_encode($export_settings_data);   
     }                             
     wp_die();
 }
@@ -216,6 +216,7 @@ add_action('shutdown', function() {
         for ($i = 0; $i < $levels; $i++) {
             $final .= ob_get_clean();
         }
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : This if final output buffer
         echo apply_filters('eztoc_wordpress_final_output', $final);
     }
  
@@ -260,7 +261,7 @@ add_filter('eztoc_wordpress_final_output', function($content){
         if ( $heading ) {
             $heading = apply_filters( 'ez_toc_url_anchor_target_before', $heading );
             $return = html_entity_decode( $heading, ENT_QUOTES, get_option( 'blog_charset' ) );
-            $return = trim( strip_tags( $return ) );
+            $return = trim( wp_strip_all_tags( $return ) );
             $return = remove_accents( $return );
             $return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
             $return = htmlentities2( $return );
@@ -557,4 +558,38 @@ function eztoc_shortcode_html_no_heading_text($html){
 		}
     }
     return $html;
+}
+
+/**
+ * Added [no-ez-toc] to disbale TOC on specific page/post
+ * @since 2.0.56
+ */
+add_shortcode( 'no-ez-toc', 'ez_toc_noeztoc_callback' );
+function ez_toc_noeztoc_callback( $atts, $content = "" ) {
+	add_filter(
+		'ez_toc_maybe_apply_the_content_filter',	function( $apply ) {
+			return false;
+		}
+		,999
+	);
+	//  condition when  `the_content` filter is not used by the theme
+	add_filter(
+		'ez_toc_modify_process_page_content',	function( $apply ) {
+			return '';
+		}
+		,999
+	);
+	return $content;
+}
+
+add_action( 'admin_init' , 'ez_toc_redirect' );
+function ez_toc_redirect( ) {
+    if ( get_option( 'ez_toc_do_activation_redirect' , false ) ) {
+        delete_option( 'ez_toc_do_activation_redirect' );
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Nonce not required here
+        if( !isset( $_GET['activate-multi'] ) )
+        {
+            wp_safe_redirect( "options-general.php?page=table-of-contents#welcome" );
+        }
+    }
 }

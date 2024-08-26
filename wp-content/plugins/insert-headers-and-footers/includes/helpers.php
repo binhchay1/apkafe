@@ -177,10 +177,10 @@ function wpcode_get_copy_target_button( $target, $prefix = '', $suffix = '' ) {
  */
 function wpcode_get_conditions_relation_labels() {
 	return array(
-		'='           => __( 'Is', 'insert-headers-and-footers' ),
-		'!='          => __( 'Is not', 'insert-headers-and-footers' ),
 		'contains'    => __( 'Contains', 'insert-headers-and-footers' ),
 		'notcontains' => __( 'Doesn\'t Contain', 'insert-headers-and-footers' ),
+		'='           => __( 'Is', 'insert-headers-and-footers' ),
+		'!='          => __( 'Is not', 'insert-headers-and-footers' ),
 		'before'      => __( 'Is Before', 'insert-headers-and-footers' ),
 		'after'       => __( 'Is After', 'insert-headers-and-footers' ),
 		'before-or'   => __( 'Is on or Before', 'insert-headers-and-footers' ),
@@ -416,4 +416,66 @@ function wpcode_is_local( $ip = null ) {
 	}
 
 	return empty( $ip ) || in_array( $ip, array( '127.0.0.1', '::1' ), true );
+}
+
+/**
+ * Attempts to detect popular caching plugins and clear their cache.
+ *
+ * @param string $context The context in which the cache is being cleared.
+ *
+ * @return void
+ */
+function wpcode_clear_all_plugins_page_cache( $context = '' ) {
+
+	if ( apply_filters( 'wpcode_skip_clear_all_plugins_cache', false, $context ) ) {
+		return;
+	}
+
+	// LiteSpeed Cache.
+	if ( function_exists( 'run_litespeed_cache' ) && class_exists( 'LiteSpeed\Purge' ) && method_exists( 'LiteSpeed\Purge', 'purge_all' ) ) {
+		LiteSpeed\Purge::purge_all();
+	}
+
+	// WP Super Cache.
+	if ( function_exists( 'wp_cache_clear_cache' ) ) {
+		wp_cache_clear_cache();
+	}
+
+	// W3 Total Cache.
+	if ( function_exists( 'w3tc_flush_all' ) ) {
+		w3tc_flush_all();
+	}
+
+	// WP-Optimize.
+	if ( function_exists( 'WP_Optimize' ) ) {
+		WP_Optimize()->get_page_cache()->purge();
+	}
+
+	// WP Rocket.
+	if ( function_exists( 'rocket_clean_domain' ) ) {
+		rocket_clean_domain();
+	}
+
+	// WP Fastest Cache.
+	if ( function_exists( 'wpfc_clear_all_cache' ) ) {
+		wpfc_clear_all_cache();
+	}
+
+	// SiteGround Optimizer.
+	if ( function_exists( 'sg_cachepress_purge_cache' ) ) {
+		sg_cachepress_purge_cache();
+	}
+
+	if ( class_exists( 'Swift_Performance_Cache' ) ) {
+		if ( method_exists( 'Swift_Performance_Cache', 'clear_all_cache' ) ) {
+			Swift_Performance_Cache::clear_all_cache();
+		}
+	}
+
+	// WP Engine.
+	if ( class_exists( 'WpeCommon' ) ) {
+		if ( method_exists( 'WpeCommon', 'purge_varnish_cache' ) ) {
+			WpeCommon::purge_varnish_cache();
+		}
+	}
 }

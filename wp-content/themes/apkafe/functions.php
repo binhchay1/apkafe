@@ -720,7 +720,3 @@ function sync_on_product_with_schema($meta_id, $post_id, $meta_key, $meta_value)
 		}
 	}
 }
-
-add_filter('the_content', function ($content) {
-	return '<div class="pre-toc"></div>' . $content;
-}, 0);

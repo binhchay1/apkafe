@@ -32,6 +32,13 @@ abstract class WPCode_Conditional_Type {
 	public $name;
 
 	/**
+	 * The category of this type.
+	 *
+	 * @var string
+	 */
+	public $category;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -94,6 +101,15 @@ abstract class WPCode_Conditional_Type {
 		}
 
 		return $this->label;
+	}
+
+	/**
+	 * Get the category.
+	 *
+	 * @return string
+	 */
+	public function get_category() {
+		return $this->category;
 	}
 
 	/**
@@ -238,6 +254,9 @@ abstract class WPCode_Conditional_Type {
 	 * @return bool
 	 */
 	private function contains( $value1, $value2 ) {
+		if ( empty( $value2 ) ) {
+			return false;
+		}
 		return false !== strpos( $value1, $value2 );
 	}
 }

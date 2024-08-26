@@ -286,6 +286,11 @@ class WPCode_Admin_Page_Headers_Footers extends WPCode_Admin_Page {
 			update_option( 'ihaf_insert_header', $_REQUEST['ihaf_insert_header'] );
 			update_option( 'ihaf_insert_footer', $_REQUEST['ihaf_insert_footer'] );
 			update_option( 'ihaf_insert_body', isset( $_REQUEST['ihaf_insert_body'] ) ? $_REQUEST['ihaf_insert_body'] : '' );
+
+			// Clear the cache.
+			if ( apply_filters( 'wpcode_clear_cache_on_global_save', true ) ) {
+				wpcode_clear_all_plugins_page_cache( 'global' );
+			}
 		}
 
 		if ( wpcode()->settings->get_option( 'headers_footers_mode' ) && ! isset( $_REQUEST['headers_footers_mode'] ) ) {
@@ -343,9 +348,9 @@ class WPCode_Admin_Page_Headers_Footers extends WPCode_Admin_Page {
 		);
 
 		$this->metabox(
-			__( 'Code Revisions', 'wpcode-premium' ),
+			__( 'Code Revisions', 'insert-headers-and-footers' ),
 			$html,
-			__( 'Easily switch back to a previous version of your global scripts.', 'wpcode-premium' )
+			__( 'Easily switch back to a previous version of your global scripts.', 'insert-headers-and-footers' )
 		);
 
 	}

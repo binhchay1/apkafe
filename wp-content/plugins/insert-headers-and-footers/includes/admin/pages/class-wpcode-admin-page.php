@@ -721,15 +721,14 @@ abstract class WPCode_Admin_Page {
 		$button_text           = __( 'Use snippet', 'insert-headers-and-footers' );
 		$pill_text             = '';
 		$pill_class            = 'blue';
+		if ( isset( $snippet['button_text'] ) ) {
+			$button_text = $snippet['button_text'];
+		}
+		if ( isset( $snippet['button_icon'] ) ) {
+			$button_text = get_wpcode_icon( $snippet['button_icon'], 16, 16, '0 96 960 960' ) . ' ' . $button_text;
+		}
 		if ( ! empty( $snippet ) ) {
-			$url = add_query_arg(
-				array(
-					'page'   => 'wpcode-snippet-manager',
-					'custom' => true,
-				),
-				$this->admin_url( 'admin.php' )
-			);
-			if ( 0 !== $snippet['library_id'] ) {
+			if ( empty( $snippet['url'] ) ) {
 				if ( ! empty( $used_library_snippets[ $snippet['library_id'] ] ) ) {
 					$url         = wpcode()->library->get_edit_snippet_url( $used_library_snippets[ $snippet['library_id'] ] );
 					$button_text = __( 'Edit snippet', 'insert-headers-and-footers' );
@@ -737,6 +736,8 @@ abstract class WPCode_Admin_Page {
 				} else {
 					$url = wpcode()->library->get_install_snippet_url( $snippet['library_id'] );
 				}
+			} else {
+				$url = $snippet['url'];
 			}
 			$title       = $snippet['title'];
 			$description = $snippet['note'];
@@ -748,16 +749,19 @@ abstract class WPCode_Admin_Page {
 		}
 		$categories = isset( $snippet['categories'] ) ? $snippet['categories'] : array();
 
-
 		$button_2 = array(
 			'text'  => $button_2_text,
 			'class' => 'wpcode-button wpcode-button-secondary wpcode-library-preview-button',
 		);
 
 		if ( ! empty( $snippet['needs_auth'] ) ) {
+			$unlock_text = __( 'Connect to library to unlock (Free)', 'insert-headers-and-footers' );
+			if ( isset( $snippet['needs_auth_text'] ) ) {
+				$unlock_text = $snippet['needs_auth_text'];
+			}
 			$button_1 = array(
 				'tag'   => 'button',
-				'text'  => get_wpcode_icon( 'lock', 17, 22, '0 0 17 22' ) . __( 'Connect to library to unlock (Free)', 'insert-headers-and-footers' ),
+				'text'  => get_wpcode_icon( 'lock', 17, 22, '0 0 17 22' ) . $unlock_text,
 				'class' => 'wpcode-button wpcode-item-use-button wpcode-start-auth wpcode-button-icon',
 			);
 		} else {
@@ -767,8 +771,18 @@ abstract class WPCode_Admin_Page {
 				'text' => $button_text,
 			);
 		}
+		if ( ! empty( $snippet['pill_text'] ) ) {
+			$pill_text = $snippet['pill_text'];
+		}
+		if ( ! empty( $snippet['pill_class'] ) ) {
+			$pill_class = $snippet['pill_class'];
+		}
+		$extra_classes = array();
+		if ( ! empty( $snippet['extra_classes'] ) && is_array( $snippet['extra_classes'] ) ) {
+			$extra_classes = $snippet['extra_classes'];
+		}
 
-		$this->get_list_item( $id, $title, $description, $button_1, $button_2, $categories, $pill_text, $pill_class, $category );
+		$this->get_list_item( $id, $title, $description, $button_1, $button_2, $categories, $pill_text, $pill_class, $category, $extra_classes );
 	}
 
 	/**
@@ -783,15 +797,19 @@ abstract class WPCode_Admin_Page {
 	 * @param string $pill_text (optional) Display a "pill" with some text in the top right corner.
 	 * @param string $pill_class (optional) Custom CSS class for the pill.
 	 * @param string $selected_category (optional) Slug of the category selected by default.
+	 * @param array  $extra_classes (optional) Extra classes to add to the list item.
 	 *
 	 * @return void
 	 */
-	public function get_list_item( $id, $title, $description, $button_1, $button_2 = array(), $categories = array(), $pill_text = '', $pill_class = 'blue', $selected_category = '*' ) {
+	public function get_list_item( $id, $title, $description, $button_1, $button_2 = array(), $categories = array(), $pill_text = '', $pill_class = 'blue', $selected_category = '*', $extra_classes = array() ) {
 		$item_class = array(
 			'wpcode-list-item',
 		);
 		if ( ! empty( $pill_text ) ) {
 			$item_class[] = 'wpcode-list-item-has-pill';
+		}
+		if ( ! empty( $extra_classes ) ) {
+			$item_class = array_merge( $item_class, $extra_classes );
 		}
 		$style = '';
 		if ( '*' !== $selected_category && ! in_array( $selected_category, $categories, true ) ) {
@@ -906,7 +924,7 @@ abstract class WPCode_Admin_Page {
 		$selected_category = isset( $categories[0]['slug'] ) ? $categories[0]['slug'] : '*';
 		$count             = 0;
 		foreach ( $snippets as $snippet ) {
-			if ( isset( $snippet['needs_auth'] ) ) {
+			if ( isset( $snippet['needs_auth'] ) && empty( $snippet['skip_count'] ) ) {
 				$count ++;
 			}
 		}
@@ -1044,7 +1062,7 @@ abstract class WPCode_Admin_Page {
 						<span class="screen-reader-text"><?php echo esc_html( $search_label ); ?></span>
 						<?php wpcode_icon( 'search', 16, 16 ); ?>
 					</label>
-					<input type="search" id="wpcode-items-search" placeholder="<?php echo esc_html( $search_label ); ?>"/>
+					<input type="search" class="wpcode-items-search-input" placeholder="<?php echo esc_html( $search_label ); ?>"/>
 				</div>
 			<?php } ?>
 			<ul class="wpcode-items-categories-list wpcode-items-filters">

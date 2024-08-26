@@ -59,9 +59,10 @@ class WPCode_Conditional_Logic {
 		foreach ( $this->types as $type ) {
 			$type->load_type_options(); // Reload the options in case a global snippet made them get loaded before some post types were registered, for example.
 			$options[ $type->get_name() ] = array(
-				'label'   => $type->get_label(),
-				'name'    => $type->get_name(),
-				'options' => $type->get_type_options(),
+				'label'    => $type->get_label(),
+				'name'     => $type->get_name(),
+				'category' => $type->get_category(),
+				'options'  => $type->get_type_options(),
 			);
 		}
 

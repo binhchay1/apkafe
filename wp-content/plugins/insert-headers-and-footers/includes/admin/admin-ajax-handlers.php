@@ -17,7 +17,6 @@ add_action( 'wp_ajax_wpcode_verify_ssl', 'wpcode_verify_ssl' );
 add_filter( 'heartbeat_received', 'wpcode_heartbeat_data', 10, 3 );
 add_action( 'wp_ajax_wpcode_save_editor_height', 'wpcode_save_editor_height' );
 
-
 /**
  * Handles toggling a snippet status from the admin.
  *
@@ -233,7 +232,6 @@ function wpcode_verify_ssl() {
 		)
 	);
 }
-
 
 /**
  * Use heartbeat to update lock status when editing a snippet.

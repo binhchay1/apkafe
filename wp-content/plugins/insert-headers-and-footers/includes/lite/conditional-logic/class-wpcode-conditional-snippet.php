@@ -22,6 +22,13 @@ class WPCode_Conditional_Snippet_Lite extends WPCode_Conditional_Type {
 	public $name = 'snippet';
 
 	/**
+	 * The type category.
+	 *
+	 * @var string
+	 */
+	public $category = 'advanced';
+
+	/**
 	 * Set the translatable label.
 	 *
 	 * @return void
@@ -38,10 +45,11 @@ class WPCode_Conditional_Snippet_Lite extends WPCode_Conditional_Type {
 	public function load_type_options() {
 		$this->options = array(
 			'snippet_loaded' => array(
-				'label'   => __( 'WPCode Snippet', 'wpcode-premium' ),
-				'type'    => 'select',
-				'options' => array(),
-				'upgrade' => array(
+				'label'       => __( 'WPCode Snippet', 'insert-headers-and-footers' ),
+				'description' => __( 'Load this snippet based on another snippet being loaded.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'options'     => array(),
+				'upgrade'     => array(
 					'title' => __( 'WPCode Snippet Loaded Rules are a Pro Feature', 'insert-headers-and-footers' ),
 					'text'  => __( 'Upgrade today and use conditional logic rules based on other WPCode snippets being loaded.', 'insert-headers-and-footers' ),
 					'link'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'conditional-logic', 'snippet' ),

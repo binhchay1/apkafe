@@ -50,13 +50,37 @@ class WPCode_Auto_Insert_Content_Lite extends WPCode_Auto_Insert_Type {
 	public function init() {
 		$this->label         = __( 'Content', 'insert-headers-and-footers' );
 		$this->locations     = array(
-			'after_words' => array(
+			'after_words'           => array(
 				'label'       => esc_html__( 'Insert After # Words', 'insert-headers-and-footers' ),
 				'description' => esc_html__( 'Insert snippet after a minimum number of words.', 'insert-headers-and-footers' ),
 			),
-			'every_words' => array(
+			'every_words'           => array(
 				'label'       => esc_html__( 'Insert Every # Words', 'insert-headers-and-footers' ),
 				'description' => esc_html__( 'Insert snippet every # number of words.', 'insert-headers-and-footers' ),
+			),
+			'content_half'          => array(
+				'label'       => esc_html__( 'Insert in the Middle of the Content', 'insert-headers-and-footers' ),
+				'description' => esc_html__( 'Insert snippet in the middle of the post content.', 'insert-headers-and-footers' ),
+			),
+			'content_quarter'       => array(
+				'label'       => esc_html__( 'Insert after first Quarter (25%)', 'insert-headers-and-footers' ),
+				'description' => esc_html__( 'Insert snippet after the first quarter of the post content.', 'insert-headers-and-footers' ),
+			),
+			'content_quarter_third' => array(
+				'label'       => esc_html__( 'Insert after 3rd Quarter (75%)', 'insert-headers-and-footers' ),
+				'description' => esc_html__( 'Insert snippet after the third quarter of the post content.', 'insert-headers-and-footers' ),
+			),
+			'content_one_third'     => array(
+				'label'       => esc_html__( 'Insert after first Third (33%)', 'insert-headers-and-footers' ),
+				'description' => esc_html__( 'Insert snippet after the first third of the post content.', 'insert-headers-and-footers' ),
+			),
+			'content_two_thirds'    => array(
+				'label'       => esc_html__( 'Insert after second Third (66%)', 'insert-headers-and-footers' ),
+				'description' => esc_html__( 'Insert snippet after the second third of the post content.', 'insert-headers-and-footers' ),
+			),
+			'content_80'            => array(
+				'label'       => esc_html__( 'Insert after 80%', 'insert-headers-and-footers' ),
+				'description' => esc_html__( 'Insert snippet after 80% of the post content.', 'insert-headers-and-footers' ),
 			),
 		);
 		$this->upgrade_title = __( 'Word-based content locations are a PRO feature', 'insert-headers-and-footers' );

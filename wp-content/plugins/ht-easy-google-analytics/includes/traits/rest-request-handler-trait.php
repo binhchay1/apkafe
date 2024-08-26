@@ -52,7 +52,7 @@ trait Rest_Request_Handler_Trait {
         $access_token  = $this->get_access_token();
 
         if( !$access_token ){
-            $response_json = json_encode(array('error' => array(
+            $response_json = wp_json_encode(array('error' => array(
                 'message' => __('Access token is missing!', 'ht-easy-ga4'),
                 'code'    => 400,
             )));
@@ -81,7 +81,7 @@ trait Rest_Request_Handler_Trait {
 
         if ( is_wp_error( $response_raw ) ) { // Can't resolve host
             // Make the error response like Google Analytics API.
-            $response_json = json_encode(array('error' => array(
+            $response_json = wp_json_encode(array('error' => array(
                 'message' => $response_raw->get_error_message(),
                 'code'    => $response_raw->get_error_code(),
             )));
@@ -132,7 +132,7 @@ trait Rest_Request_Handler_Trait {
         $access_token = $this->get_access_token();
 
         if( !$access_token ){
-            $response_json = json_encode(array('error' => array(
+            $response_json = wp_json_encode(array('error' => array(
                 'message' => __('Access token is missing!', 'ht-easy-ga4'),
                 'code'    => 400,
             )));
@@ -162,7 +162,7 @@ trait Rest_Request_Handler_Trait {
 
         if ( is_wp_error( $response_raw ) ) { // Can't resolve host
             // Make the error response like Google Analytics API.
-            $response_json = json_encode(array('error' => array(
+            $response_json = wp_json_encode(array('error' => array(
                 'message' => $response_raw->get_error_message(),
                 'code'    => $response_raw->get_error_code(),
             )));
@@ -173,7 +173,7 @@ trait Rest_Request_Handler_Trait {
             if( $response_code == 200 ){
                 $response_json = wp_remote_retrieve_body( $response_raw );
             } else {
-                $response_json = json_encode(array('error' => array(
+                $response_json = wp_json_encode(array('error' => array(
                     'message' => $response_message,
                     'code'    => $response_code,
                 )));
@@ -217,7 +217,7 @@ trait Rest_Request_Handler_Trait {
         $access_token = $this->get_access_token();
 
         if( !$access_token || !$account ){
-            $response_json = json_encode(array('error' => array(
+            $response_json = wp_json_encode(array('error' => array(
                 'message' => __('The request does not have proper data!', 'ht-easy-ga4'),
                 'code'    => 400,
             )));
@@ -247,7 +247,7 @@ trait Rest_Request_Handler_Trait {
 
         if ( is_wp_error( $response_raw ) ) { // Can't resolve host
             // Make the error response like Google Analytics API.
-            $response_json = json_encode(array('error' => array(
+            $response_json = wp_json_encode(array('error' => array(
                 'message' => $response_raw->get_error_message(),
                 'code'    => $response_raw->get_error_code(),
             )));
@@ -258,7 +258,7 @@ trait Rest_Request_Handler_Trait {
             if( $response_code == 200 ){
                 $response_json = wp_remote_retrieve_body( $response_raw );
             } else {
-                $response_json = json_encode(array('error' => array(
+                $response_json = wp_json_encode(array('error' => array(
                     'message' => $response_message,
                     'code'    => $response_code,
                 )));
@@ -301,7 +301,7 @@ trait Rest_Request_Handler_Trait {
         $access_token  = $this->get_access_token();
 
         if( !$access_token || !$property ){
-            $response_json = json_encode(array('error' => array(
+            $response_json = wp_json_encode(array('error' => array(
                 'message' => __('The request does not have proper data!', 'ht-easy-ga4'),
                 'code'    => 400,
             )));
@@ -331,7 +331,7 @@ trait Rest_Request_Handler_Trait {
 
         if ( is_wp_error( $response_raw ) ) { // Can't resolve host
             // Make the error response like Google Analytics API.
-            $response_json = json_encode(array('error' => array(
+            $response_json = wp_json_encode(array('error' => array(
                 'message' => $response_raw->get_error_message(),
                 'code'    => $response_raw->get_error_code(),
             )));
@@ -342,7 +342,7 @@ trait Rest_Request_Handler_Trait {
             if( $response_code == 200 ){
                 $response_json = wp_remote_retrieve_body( $response_raw );
             } else {
-                $response_json = json_encode(array('error' => array(
+                $response_json = wp_json_encode(array('error' => array(
                     'message' => $response_message,
                     'code'    => $response_code,
                 )));
@@ -549,7 +549,7 @@ trait Rest_Request_Handler_Trait {
 
         if ( is_wp_error( $response_raw ) ) { // Can't resolve host
             // Make the error response like Google Analytics API.
-            $response_json['batch1'] = json_encode(array('error' => array(
+            $response_json['batch1'] = wp_json_encode(array('error' => array(
                 'message' => $response_raw->get_error_message(),
                 'code'    => $response_raw->get_error_code(),
             )));
@@ -560,7 +560,7 @@ trait Rest_Request_Handler_Trait {
             if( $response_code == 200 ){
                 $response_json['batch1'] = wp_remote_retrieve_body( $response_raw );
             } else {
-                $response_json['batch1'] = json_encode(array('error' => array(
+                $response_json['batch1'] = wp_json_encode(array('error' => array(
                     'message' => $response_message,
                     'code'    => $response_code,
                 )));
@@ -588,7 +588,7 @@ trait Rest_Request_Handler_Trait {
 
         if ( is_wp_error( $response2_raw ) ) { // Can't resolve host
             // Make the error response like Google Analytics API.
-            $response_json['batch2'] = json_encode(array('error' => array(
+            $response_json['batch2'] = wp_json_encode(array('error' => array(
                 'message' => $response2_raw->get_error_message(),
                 'code'    => $response2_raw->get_error_code(),
             )));
@@ -599,7 +599,7 @@ trait Rest_Request_Handler_Trait {
             if( $response_code == 200 ){
                 $response_json['batch2'] = wp_remote_retrieve_body( $response2_raw );
             } else {
-                $response_json['batch2'] = json_encode(array('error' => array(
+                $response_json['batch2'] = wp_json_encode(array('error' => array(
                     'message' => $response_message,
                     'code'    => $response_code,
                 )));

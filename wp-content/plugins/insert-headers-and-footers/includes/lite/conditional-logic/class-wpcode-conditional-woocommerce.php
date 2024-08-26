@@ -22,6 +22,13 @@ class WPCode_Conditional_WooCommerce_Lite extends WPCode_Conditional_Type {
 	public $name = 'woocommerce';
 
 	/**
+	 * The type category.
+	 *
+	 * @var string
+	 */
+	public $category = 'ecommerce';
+
+	/**
 	 * Set the translatable label.
 	 *
 	 * @return void
@@ -38,14 +45,15 @@ class WPCode_Conditional_WooCommerce_Lite extends WPCode_Conditional_Type {
 	public function load_type_options() {
 		$this->options = array(
 			'wc_page' => array(
-				'label'   => __( 'WooCommerce Page', 'insert-headers-and-footers' ),
-				'type'    => 'select',
-				'upgrade' => array(
+				'label'       => __( 'WooCommerce Page', 'insert-headers-and-footers' ),
+				'description' => __( 'Load the snippet on specific WooCommerce pages.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'upgrade'     => array(
 					'title' => __( 'WooCommerce Page Rules is a Pro Feature', 'insert-headers-and-footers' ),
 					'text'  => __( 'Get access to advanced conditional logic rules for WooCommerce by upgrading to PRO today.', 'insert-headers-and-footers' ),
 					'link'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'conditional-logic', 'woocommerce-page' ),
 				),
-				'options' => array(
+				'options'     => array(
 					array(
 						'label'    => __( 'Checkout Page', 'insert-headers-and-footers' ),
 						'value'    => '',
@@ -89,10 +97,11 @@ class WPCode_Conditional_WooCommerce_Lite extends WPCode_Conditional_Type {
 				),
 			),
 			'wc_cart' => array(
-				'label'   => __( 'WooCommerce Cart', 'insert-headers-and-footers' ),
-				'type'    => 'select',
-				'options' => array(),
-				'upgrade' => array(
+				'label'       => __( 'WooCommerce Cart', 'insert-headers-and-footers' ),
+				'description' => __( 'Load the snippet based on the WooCommerce Cart Contents.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'options'     => array(),
+				'upgrade'     => array(
 					'title' => __( 'WooCommerce Cart Contents Rule is a Pro Feature', 'insert-headers-and-footers' ),
 					'text'  => __( 'Get access to advanced conditional logic rules for WooCommerce by upgrading to PRO today.', 'insert-headers-and-footers' ),
 					'link'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'conditional-logic', 'woocommerce-cart' ),

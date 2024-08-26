@@ -4,11 +4,13 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.67.1
+ * Version: 2.0.68.1
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
  * Domain Path: /languages
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * Copyright 2022  Magazine3  ( email : team@magazine3.in )
  *
@@ -27,7 +29,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.67.1
+ * @version  2.0.68.1
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -36,9 +38,9 @@ use function Easy_Plugins\Table_Of_Contents\Cord\insertElementByImgTag;
 use function Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace;
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) exit;
+if (! defined('ABSPATH')) exit;
 
-if (!class_exists('ezTOC')) {
+if (! class_exists('ezTOC')) {
 
 	/**
 	 * Class ezTOC
@@ -52,7 +54,7 @@ if (!class_exists('ezTOC')) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.67.1';
+		const VERSION = '2.0.68.1';
 
 		/**
 		 * Stores the instance of this class.
@@ -91,7 +93,7 @@ if (!class_exists('ezTOC')) {
 		public static function instance()
 		{
 
-			if (!isset(self::$instance) && !(self::$instance instanceof self)) {
+			if (! isset(self::$instance) && ! (self::$instance instanceof self)) {
 
 				self::$instance = new self;
 
@@ -131,20 +133,21 @@ if (!class_exists('ezTOC')) {
 		private static function includes()
 		{
 
-			require_once(EZ_TOC_PATH . '/includes/class.options.php');
+			require_once(EZ_TOC_PATH . '/includes/class-eztoc-option.php');
+			require_once(EZ_TOC_PATH . "/includes/public-helper-function.php");
 
 			if (is_admin()) {
 
 				// This must be included after `class.options.php` because it depends on it methods.
-				require_once(EZ_TOC_PATH . '/includes/class.admin.php');
+				require_once(EZ_TOC_PATH . '/includes/class-eztoc-admin.php');
 				require_once(EZ_TOC_PATH . "/includes/helper-function.php");
-				require_once(EZ_TOC_PATH . '/includes/newsletter.php');
+				require_once(EZ_TOC_PATH . '/includes/class-eztoc-pointers.php');
 			}
 
-			require_once(EZ_TOC_PATH . '/includes/class.post.php');
-			require_once(EZ_TOC_PATH . '/includes/class.widget-toc.php');
-			require_once(EZ_TOC_PATH . '/includes/class.widget-toc-sticky.php');
-			require_once(EZ_TOC_PATH . '/includes/Debug.php');
+			require_once(EZ_TOC_PATH . '/includes/class-eztoc-post.php');
+			require_once(EZ_TOC_PATH . '/includes/class-eztoc-widget.php');
+			require_once(EZ_TOC_PATH . '/includes/class-eztoc-widgetsticky.php');
+			require_once(EZ_TOC_PATH . '/includes/class-debug.php');
 			require_once(EZ_TOC_PATH . '/includes/inc.functions.php');
 			require_once(EZ_TOC_PATH . '/includes/inc.cord-functions.php');
 
@@ -170,9 +173,7 @@ if (!class_exists('ezTOC')) {
 				add_option('ez-toc-post-content-core-level', false);
 			}
 
-			if (ezTOC_Option::get('exclude_css') && 'css' == ezTOC_Option::get('toc_loading')) {
-				add_action('wp_enqueue_scripts', array(__CLASS__, 'enqueueScriptsforExcludeCSS'));
-			}
+			add_action('wp_enqueue_scripts', array(__CLASS__, 'enqueueScriptsforExcludeCSS'));
 
 			if (!self::checkBeaverBuilderPluginActive()) {
 				add_filter('the_content', array(__CLASS__, 'the_content'), 100);
@@ -212,7 +213,7 @@ if (!class_exists('ezTOC')) {
 
 			$widget_blocks = get_option('widget_block');
 			foreach ((array) $widget_blocks as $widget_block) {
-				if (!empty($widget_block['content']) && (has_shortcode($widget_block['content'], 'toc') || has_shortcode($widget_block['content'], 'ez-toc') || has_shortcode($widget_block['content'], 'ez-toc-widget-sticky'))) {
+				if (! empty($widget_block['content']) && (has_shortcode($widget_block['content'], 'toc') || has_shortcode($widget_block['content'], 'ez-toc') || has_shortcode($widget_block['content'], 'ez-toc-widget-sticky'))) {
 					$status = true;
 					break;
 				}
@@ -220,7 +221,7 @@ if (!class_exists('ezTOC')) {
 			if (!$status) {
 				$widget_texts = get_option('widget_text');
 				foreach ((array) $widget_texts as $widget_text) {
-					if (!empty($widget_text['text']) && (has_shortcode($widget_text['text'], 'toc') || has_shortcode($widget_text['text'], 'ez-toc') || has_shortcode($widget_text['text'], 'ez-toc-widget-sticky'))) {
+					if (! empty($widget_text['text']) && (has_shortcode($widget_text['text'], 'toc') || has_shortcode($widget_text['text'], 'ez-toc') || has_shortcode($widget_text['text'], 'ez-toc-widget-sticky'))) {
 						$status = true;
 						break;
 					}
@@ -229,7 +230,7 @@ if (!class_exists('ezTOC')) {
 			if (!$status) {
 				$widget_cust_htmls = get_option('widget_custom_html');
 				foreach ((array) $widget_cust_htmls as $widget_cust_html) {
-					if (!empty($widget_cust_html['content']) && (has_shortcode($widget_cust_html['content'], 'toc') || has_shortcode($widget_cust_html['content'], 'ez-toc') || has_shortcode($widget_cust_html['content'], 'ez-toc-widget-sticky'))) {
+					if (! empty($widget_cust_html['content']) && (has_shortcode($widget_cust_html['content'], 'toc') || has_shortcode($widget_cust_html['content'], 'ez-toc') || has_shortcode($widget_cust_html['content'], 'ez-toc-widget-sticky'))) {
 						$status = true;
 						break;
 					}
@@ -248,11 +249,13 @@ if (!class_exists('ezTOC')) {
 		 */
 		public static function enqueueScriptsforExcludeCSS()
 		{
+			if (ezTOC_Option::get('exclude_css') && 'css' == ezTOC_Option::get('toc_loading')) {
 
-			$cssChecked = '#ez-toc-container input[type="checkbox"]:checked + nav, #ez-toc-widget-container input[type="checkbox"]:checked + nav {opacity: 0;max-height: 0;border: none;display: none;}';
-			wp_register_style('ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION);
-			wp_enqueue_style('ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION);
-			wp_add_inline_style('ez-toc-exclude-toggle-css', $cssChecked);
+				$cssChecked = '#ez-toc-container input[type="checkbox"]:checked + nav, #ez-toc-widget-container input[type="checkbox"]:checked + nav {opacity: 0;max-height: 0;border: none;display: none;}';
+				wp_register_style('ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION);
+				wp_enqueue_style('ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION);
+				wp_add_inline_style('ez-toc-exclude-toggle-css', $cssChecked);
+			}
 		}
 
 		/**
@@ -262,6 +265,7 @@ if (!class_exists('ezTOC')) {
 		 */
 		private static function checkBeaverBuilderPluginActive()
 		{
+			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason : Nonce verification is not required here.
 			if (has_action('the_content') && isset($_REQUEST['fl_builder'])) {
 				return true;
 			}
@@ -319,11 +323,15 @@ if (!class_exists('ezTOC')) {
 		{
 
 			if (ezTOC_Option::get('inline_css')) {
-				$screen_css = file_get_contents(EZ_TOC_PATH . '/assets/css/screen.min.css');
-				$screen_css .= self::InlineCountingCSS(ezTOC_Option::get('heading-text-direction', 'ltr'));
-				$screen_css .= self::InlineCountingCSS(ezTOC_Option::get('heading-text-direction', 'ltr'), 'ez-toc-widget-direction', 'ez-toc-widget-container', 'counter', 'ez-toc-widget-container');
-				$screen_css .= self::inlineCSS();
-				echo '<style id="ez-toc-inline-css">' . $screen_css . '</style>';
+
+				if (self::is_enqueue_scripts_eligible() && function_exists('eztoc_read_file_contents')) {
+
+					$screen_css = eztoc_read_file_contents(EZ_TOC_PATH . '/assets/css/screen.min.css');
+					$screen_css .= self::InlineCountingCSS(ezTOC_Option::get('heading-text-direction', 'ltr'));
+					$screen_css .= self::InlineCountingCSS(ezTOC_Option::get('heading-text-direction', 'ltr'), 'ez-toc-widget-direction', 'ez-toc-widget-container', 'counter', 'ez-toc-widget-container');
+					$screen_css .= self::inlineCSS();
+					echo '<style id="ez-toc-inline-css">' . esc_html($screen_css) . '</style>';
+				}
 			}
 		}
 
@@ -350,7 +358,7 @@ if (!class_exists('ezTOC')) {
 							$schema_opt = array();
 							$schema_opt['@context'] = "https://schema.org";
 							$schema_opt['@graph']   = $output_array;
-							echo '<script type="application/ld+json" class="ez-toc-schema-markup-output">' . wp_json_encode($schema_opt, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
+							echo '<script type="application/ld+json" class="ez-toc-schema-markup-output">' . wp_json_encode($schema_opt) . '</script>';
 						}
 					}
 				}
@@ -381,7 +389,7 @@ if (!class_exists('ezTOC')) {
 			}
 
 			// Register stylesheet which can be called later using wp_enqueue_style() 
-			wp_register_style('ez-toc', EZ_TOC_URL . "assets/css/screen$min.css", array(), ezTOC::VERSION);
+			wp_register_style('ez-toc', EZ_TOC_URL . "assets/css/screen{$min}.css", array(), ezTOC::VERSION);
 			wp_register_style('ez-toc-sticky', EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css", array(), self::VERSION);
 
 			// Register scripts which can be called later using wp_enqueue_script() 																																
@@ -390,8 +398,8 @@ if (!class_exists('ezTOC')) {
 				$in_footer = false;
 			}
 			wp_register_script('ez-toc-sticky', EZ_TOC_URL . "assets/js/ez-toc-sticky{$min}.js", array('jquery'), ezTOC::VERSION . '-' . filemtime(EZ_TOC_PATH . "/assets/js/ez-toc-sticky{$min}.js"), $in_footer);
-			wp_register_script('ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', $in_footer);
-			wp_register_script('ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array('jquery'), '1.9.2', $in_footer);
+			wp_register_script('ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie{$min}.js", array(), '2.2.1', $in_footer);
+			wp_register_script('ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit{$min}.js", array('jquery'), '1.9.2', $in_footer);
 			wp_register_script('ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array('jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit'), ezTOC::VERSION . '-' . filemtime(EZ_TOC_PATH . "/assets/js/front{$min}.js"), $in_footer);
 			wp_register_script('ez-toc-scroll-scriptjs', apply_filters('ez_toc_smscroll_jsfile_filter', EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js"), array('jquery'), ezTOC::VERSION, $in_footer);
 			self::localize_scripts();
@@ -411,6 +419,30 @@ if (!class_exists('ezTOC')) {
 			if (ezTOC_Option::get('sticky-toggle')) {
 				wp_enqueue_style('ez-toc-sticky');
 				self::inlineStickyToggleCSS();
+			}
+
+			/**
+			 * Foodie Pro Theme Compatibility
+			 * for working sticky toggle
+			 * in right way
+			 * @since 2.0.39
+			 */
+			if ('Foodie Pro' == apply_filters('current_theme', get_option('current_theme'))) {
+
+				wp_register_style('ez-toc-foodie-pro', EZ_TOC_URL . "assets/css/foodie-pro{$min}.css", array(), ezTOC::VERSION);
+				wp_enqueue_style('ez-toc-foodie-pro');
+			}
+
+			/**
+			 * Thrive Theme Builder Compatibility
+			 * add inline custom CSS to remove double line
+			 * on links of our Easy TOC container
+			 * @since 2.0.38
+			 */
+			if ('Thrive Theme Builder' == apply_filters('current_theme', get_option('current_theme'))) {
+
+				wp_register_style('ez-toc-thrive-theme-builder', EZ_TOC_URL . "assets/css/thrive-theme-builder{$min}.css", array(), ezTOC::VERSION);
+				wp_enqueue_style('ez-toc-thrive-theme-builder');
 			}
 		}
 
@@ -482,6 +514,16 @@ if (!class_exists('ezTOC')) {
 				$js_vars['visibility_hide_by_default'] = false;
 			}
 
+			/** 
+			 * If Chamomile theme is active then remove hamburger div from content
+			 * @since 2.0.53
+			 * */
+			if ('Chamomile' == apply_filters('current_theme', get_option('current_theme'))) {
+				$js_vars['chamomile_theme_is_on'] = true;
+			} else {
+				$js_vars['chamomile_theme_is_on'] = false;
+			}
+
 			if (0 < count($js_vars)) {
 				wp_localize_script('ez-toc-js', 'ezTOC', $js_vars);
 				// smooth scroll js localization
@@ -520,7 +562,7 @@ if (!class_exists('ezTOC')) {
 		{
 
 			if (!ezTOC_Option::get('exclude_css')) {
-				if (!ezTOC_Option::get('inline_css')) {
+				if (! ezTOC_Option::get('inline_css')) {
 					wp_enqueue_style('ez-toc');
 					$css = self::inlineCSS();
 					wp_add_inline_style('ez-toc', $css);
@@ -562,37 +604,39 @@ if (!class_exists('ezTOC')) {
 		 */
 		private static function inlineWPBakeryJS()
 		{
-			$stickyJS = '';
+			$sticky_js = '';
 
 			if (wp_is_mobile()) {
-				$stickyJS = <<<INLINESTICKJSFORMOBILE
-let ezTocStickyContainer = document.querySelector('#ez-toc-sticky-container');
-if(document.querySelectorAll('#ez-toc-sticky-container').length > 0) {
-    let ezTocStickyContainerUL = ezTocStickyContainer.querySelectorAll('.ez-toc-link');
-    for(let i = 0; i < ezTocStickyContainerUL.length; i++) {
-        let anchorHREF = ezTocStickyContainerUL[i].getAttribute('href');
-        ezTocStickyContainerUL[i].setAttribute('href', anchorHREF + '-' + uniqID);
-    }
-}       
-INLINESTICKJSFORMOBILE;
+				$sticky_js = "
+					let ezTocStickyContainer = document.querySelector('#ez-toc-sticky-container');
+					if (document.querySelectorAll('#ez-toc-sticky-container').length > 0) {
+						let ezTocStickyContainerUL = ezTocStickyContainer.querySelectorAll('.ez-toc-link');
+						for (let i = 0; i < ezTocStickyContainerUL.length; i++) {
+							let anchorHREF = ezTocStickyContainerUL[i].getAttribute('href');
+							ezTocStickyContainerUL[i].setAttribute('href', anchorHREF + '-' + uniqID);
+						}
+					}
+				";
 			}
-			$inlineWPBakeryJS = <<<INLINEWPBAKERYJS
-let mobileContainer = document.querySelector("#mobile.vc_row-fluid");
-if(document.querySelectorAll("#mobile.vc_row-fluid").length > 0) {
-    let ezTocContainerUL = mobileContainer.querySelectorAll('.ez-toc-link');
-    let uniqID = 'xs-sm-' + Math.random().toString(16).slice(2);
-    for(let i = 0; i < ezTocContainerUL.length; i++) {
-        let anchorHREF = ezTocContainerUL[i].getAttribute('href');
-        mobileContainer.querySelector("span.ez-toc-section"+ anchorHREF).setAttribute('id', anchorHREF.replace
-            ('#','') + '-' +
-            uniqID);
-        ezTocContainerUL[i].setAttribute('href', anchorHREF + '-' + uniqID);
-    }
-    $stickyJS
-    
-}    
-INLINEWPBAKERYJS;
-			wp_add_inline_script('ez-toc-js', $inlineWPBakeryJS);
+
+			$inline_wp_bakery_js = "
+				let mobileContainer = document.querySelector('#mobile.vc_row-fluid');
+				if (document.querySelectorAll('#mobile.vc_row-fluid').length > 0) {
+					let ezTocContainerUL = mobileContainer.querySelectorAll('.ez-toc-link');
+					let uniqID = 'xs-sm-' + Math.random().toString(16).slice(2);
+					for (let i = 0; i < ezTocContainerUL.length; i++) {
+						let anchorHREF = ezTocContainerUL[i].getAttribute('href');
+						let section = mobileContainer.querySelector('span.ez-toc-section' + anchorHREF);
+						if (section) {
+							section.setAttribute('id', anchorHREF.replace('#', '') + '-' + uniqID);
+						}
+						ezTocContainerUL[i].setAttribute('href', anchorHREF + '-' + uniqID);
+					}
+					{$sticky_js}
+				}
+			";
+
+			wp_add_inline_script('ez-toc-js', $inline_wp_bakery_js);
 		}
 
 		/**
@@ -615,7 +659,7 @@ INLINEWPBAKERYJS;
 				        }';
 			}
 
-			if (!ezTOC_Option::get('exclude_css')) {
+			if (! ezTOC_Option::get('exclude_css')) {
 
 				$css .= 'div#ez-toc-container .ez-toc-title {font-size: ' . esc_attr(ezTOC_Option::get('title_font_size', 120)) . esc_attr(ezTOC_Option::get('title_font_size_units', '%')) . ';}';
 				$css .= 'div#ez-toc-container .ez-toc-title {font-weight: ' . esc_attr(ezTOC_Option::get('title_font_weight', 500)) . ';}';
@@ -689,7 +733,7 @@ INLINEWPBAKERYJS;
 			}
 			/* End rtl direction */
 
-			if (!ezTOC_Option::get('exclude_css')) {
+			if (! ezTOC_Option::get('exclude_css')) {
 				wp_add_inline_style('ez-toc', $css);
 			}
 		}
@@ -713,15 +757,13 @@ INLINEWPBAKERYJS;
 				$inlineCSS = '';
 				$counterListAll = array_merge(ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n());
 				$listTypesForCounting = array_keys($counterListAll);
-				$inlineCSS .= <<<INLINECSS
-.$directionClass {direction: $direction;}
-INLINECSS;
+				$inlineCSS .= ".$directionClass {direction: $direction;}";
+
 				$listAnchorPosition = 'before';
 				$marginCSS = 'margin-right: .2em;';
 				$floatPosition = 'float: left;';
 				if ($direction == 'rtl') {
 					$class .= '-rtl';
-
 					$marginCSS = 'margin-left: .2em;';
 					$floatPosition = 'float: right;';
 				}
@@ -730,27 +772,24 @@ INLINECSS;
 				if ('Edition Child' == apply_filters('current_theme', get_option('current_theme'))) {
 					$importantItem = ' !important';
 				}
+
 				if (in_array($list_type, $listTypesForCounting)) {
 					if ($direction == 'rtl') {
 						$length = 6;
 						$counterRTLCSS = self::rtlCounterResetCSS($length, $class);
 						$counterRTLCSS .= self::rtlCounterIncrementCSS($length, $class);
 						$counterRTLCSS .= self::rtlCounterContentCSS($length, $list_type, $class);
-						$inlineCSS .= <<<INLINECSS
-	$counterRTLCSS
-INLINECSS;
+						$inlineCSS .= $counterRTLCSS;
 					}
 					if ($direction == 'ltr') {
 						$counterPositionCSS = "";
 						if ('outside' == ezTOC_Option::get('counter-position'))
 							$counterPositionCSS = "min-width: 22px;width: auto;";
 
-						$inlineCSS .= <<<INLINECSS
-.$class ul{counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: counters(item, ".", $list_type) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;$marginCSS $floatPosition $counterPositionCSS}
-INLINECSS;
+						$inlineCSS .= ".$class ul{counter-reset: item $importantItem;}";
+						$inlineCSS .= ".$class nav ul li a::$listAnchorPosition {content: counters(item, '.', $list_type) '. ';display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;$marginCSS $floatPosition $counterPositionCSS}";
 					}
 				} else {
-
 					$content = "  ";
 					if ($list_type == 'numeric' || $list_type == 'cjk-earthly-branch')
 						$content = ". ";
@@ -767,9 +806,8 @@ INLINECSS;
 					if ($list_type == '- ')
 						$counterContent = 'counter(item, none) "- "';
 
-					$inlineCSS .= <<<INLINECSS
-.$class ul {direction: $direction;counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: $counterContent;$marginCSS counter-increment: item;flex-grow: 0;flex-shrink: 0;$floatPosition	$counterPositionCSS }
-INLINECSS;
+					$inlineCSS .= ".$class ul {direction: $direction;counter-reset: item $importantItem;}";
+					$inlineCSS .= ".$class nav ul li a::$listAnchorPosition {content: $counterContent;$marginCSS counter-increment: item;flex-grow: 0;flex-shrink: 0;$floatPosition $counterPositionCSS}";
 				}
 				return $inlineCSS;
 			}
@@ -801,9 +839,7 @@ INLINECSS;
 					$items[$j] = "item-level$j";
 				}
 				$items = implode(", ", $items);
-				$counterResetCSS .= <<<COUNTERRESETCSS
-.$class $ul {direction: rtl;counter-reset: $items;}
-COUNTERRESETCSS;
+				$counterResetCSS .= ".$class $ul {direction: rtl;counter-reset: $items;}";
 			}
 			return $counterResetCSS;
 		}
@@ -830,9 +866,7 @@ COUNTERRESETCSS;
 				}
 				$ul = implode(" ", $ul);
 				$item = "item-level$i";
-				$counterIncrementCSS .= <<<COUNTERINCREMENTCSS
-.$class $ul li {counter-increment: $item;}
-COUNTERINCREMENTCSS;
+				$counterIncrementCSS .= ".$class $ul li {counter-increment: $item;}";
 			}
 			return $counterIncrementCSS;
 		}
@@ -870,9 +904,7 @@ COUNTERINCREMENTCSS;
 					$cnt--;
 				}
 				$items = implode(' "." ', $items);
-				$counterContentCSS .= <<<COUNTERINCREMENTCSS
-.$class nav $ul li a::before {content: $items ". ";float: right;margin-left: 0.2rem;flex-grow: 0;flex-shrink: 0; $counterPositionCSS }
-COUNTERINCREMENTCSS;
+				$counterContentCSS .= ".$class nav $ul li a::before {content: $items '. ';float: right;margin-left: 0.2rem;flex-grow: 0;flex-shrink: 0; $counterPositionCSS }";
 			}
 			return $counterContentCSS;
 		}
@@ -885,30 +917,25 @@ COUNTERINCREMENTCSS;
 		 */
 		private static function inlineHeadingsPaddingCSS()
 		{
-			$headingsPaddingTop = 0;
-			if (null !== ezTOC_Option::get('headings-padding-top') && !empty(ezTOC_Option::get('headings-padding-top')) && 0 != ezTOC_Option::get('headings-padding-top') && '0' != ezTOC_Option::get('headings-padding-top')) {
-				$headingsPaddingTop =  ezTOC_Option::get('headings-padding-top') . '' . ezTOC_Option::get('headings-padding-top_units');
-			}
-			$headingsPaddingBottom = 0;
-			if (null !== ezTOC_Option::get('headings-padding-bottom') && !empty(ezTOC_Option::get('headings-padding-bottom')) && 0 != ezTOC_Option::get('headings-padding-bottom') && '0' != ezTOC_Option::get('headings-padding-bottom')) {
-				$headingsPaddingBottom =  ezTOC_Option::get('headings-padding-bottom') . '' . ezTOC_Option::get('headings-padding-bottom_units');
-			}
-			$headingsPaddingLeft = 0;
-			if (null !== ezTOC_Option::get('headings-padding-left') && !empty(ezTOC_Option::get('headings-padding-left')) && 0 != ezTOC_Option::get('headings-padding-left') && '0' != ezTOC_Option::get('headings-padding-left')) {
-				$headingsPaddingLeft =  ezTOC_Option::get('headings-padding-left') . '' . ezTOC_Option::get('headings-padding-left_units');
-			}
-			$headingsPaddingRight = 0;
-			if (null !== ezTOC_Option::get('headings-padding-right') && !empty(ezTOC_Option::get('headings-padding-right')) && 0 != ezTOC_Option::get('headings-padding-right') && '0' != ezTOC_Option::get('headings-padding-right')) {
-				$headingsPaddingRight =  ezTOC_Option::get('headings-padding-right') . '' . ezTOC_Option::get('headings-padding-right_units');
-			}
+			$padding_top = ezTOC_Option::get('headings-padding-top');
+			$padding_bottom = ezTOC_Option::get('headings-padding-bottom');
+			$padding_left = ezTOC_Option::get('headings-padding-left');
+			$padding_right = ezTOC_Option::get('headings-padding-right');
 
+			$padding_top = ! empty($padding_top) && $padding_top !== '0' ? $padding_top . ezTOC_Option::get('headings-padding-top_units') : '0';
+			$padding_bottom = ! empty($padding_bottom) && $padding_bottom !== '0' ? $padding_bottom . ezTOC_Option::get('headings-padding-bottom_units') : '0';
+			$padding_left = ! empty($padding_left) && $padding_left !== '0' ? $padding_left . ezTOC_Option::get('headings-padding-left_units') : '0';
+			$padding_right = ! empty($padding_right) && $padding_right !== '0' ? $padding_right . ezTOC_Option::get('headings-padding-right_units') : '0';
 
-			$inlineHeadingsPaddingCSS = <<<inlineHeadingsPaddingCSS
-ul.ez-toc-list a.ez-toc-link { padding: $headingsPaddingTop $headingsPaddingRight $headingsPaddingBottom $headingsPaddingLeft; }
-inlineHeadingsPaddingCSS;
-
-			return $inlineHeadingsPaddingCSS;
+			return sprintf(
+				'ul.ez-toc-list a.ez-toc-link { padding: %s %s %s %s; }',
+				esc_attr($padding_top),
+				esc_attr($padding_right),
+				esc_attr($padding_bottom),
+				esc_attr($padding_left)
+			);
 		}
+
 
 		/**
 		 * inlineStickyToggleCSS Method
@@ -966,14 +993,10 @@ inlineHeadingsPaddingCSS;
 
 			$stickyAddlCss = apply_filters('ez_toc_sticky_pro_css', $stickyAddlCss);
 
-			$inlineStickyToggleCSS = <<<INLINESTICKYTOGGLECSS
-.ez-toc-sticky-fixed{position: fixed;top: 0;left: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar {position: relative;top: auto;{$custom_width};box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important; {$custom_height} overflow-y: auto;overflow-x: hidden;} .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {font-weight: {$stickyHeadTxtWeight};font-size: {$stickyHeadTxtSize}px;color: {$stickyHeadTxtColor};} .ez-toc-sticky-fixed .ez-toc-close-icon {-webkit-appearance: none;padding: 0;cursor: pointer;background: 0 0;border: 0;float: right;font-size: 30px;font-weight: 600;line-height: 1;position: relative;color: {$stickyHeadTxtColor};top: -2px;text-decoration: none;} .ez-toc-open-icon {position: fixed;left: 0px;top:{$stickyToggleAlignTop};text-decoration: none;font-weight: bold;padding: 5px 10px 15px 10px;box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);background-color: {$stickyHeadBgColor};color:{$stickyHeadTxtColor};display: inline-grid;line-height: 1.4;border-radius: 0px 10px 10px 0px;z-index: 999999;} .ez-toc-sticky-fixed.hide {-webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);left: -100%;} .ez-toc-sticky-fixed.show {-webkit-transition: left 0.3s linear, left 0.3s easy-out;-moz-transition: left 0.3s linear;-o-transition: left 0.3s linear;transition: left 0.3s linear;left: 0;} .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text {font-size: 13px;writing-mode: vertical-rl;text-orientation: mixed;} @media screen  and (max-device-width: 640px) {.ez-toc-sticky-fixed .ez-toc-sidebar {min-width: auto;} .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }{$stickyAddlCss}
-INLINESTICKYTOGGLECSS;
+			$inlineStickyToggleCSS = ".ez-toc-sticky-fixed{position: fixed;top: 0;left: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar {position: relative;top: auto;{$custom_width};box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important; {$custom_height} overflow-y: auto;overflow-x: hidden;} .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {font-weight: {$stickyHeadTxtWeight};font-size: {$stickyHeadTxtSize}px;color: {$stickyHeadTxtColor};} .ez-toc-sticky-fixed .ez-toc-close-icon {-webkit-appearance: none;padding: 0;cursor: pointer;background: 0 0;border: 0;float: right;font-size: 30px;font-weight: 600;line-height: 1;position: relative;color: {$stickyHeadTxtColor};top: -2px;text-decoration: none;} .ez-toc-open-icon {position: fixed;left: 0px;top:{$stickyToggleAlignTop};text-decoration: none;font-weight: bold;padding: 5px 10px 15px 10px;box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);background-color: {$stickyHeadBgColor};color:{$stickyHeadTxtColor};display: inline-grid;line-height: 1.4;border-radius: 0px 10px 10px 0px;z-index: 999999;} .ez-toc-sticky-fixed.hide {-webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);left: -100%;} .ez-toc-sticky-fixed.show {-webkit-transition: left 0.3s linear, left 0.3s easy-out;-moz-transition: left 0.3s linear;-o-transition: left 0.3s linear;transition: left 0.3s linear;left: 0;} .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text {font-size: 13px;writing-mode: vertical-rl;text-orientation: mixed;} @media screen  and (max-device-width: 640px) {.ez-toc-sticky-fixed .ez-toc-sidebar {min-width: auto;} .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }{$stickyAddlCss}";
 
 			if ('right' == ezTOC_Option::get('sticky-toggle-position', 'left')) {
-				$inlineStickyToggleCSS = <<<INLINESTICKYTOGGLECSS
-.ez-toc-sticky-fixed { position: fixed;top: 0;right: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar { position: relative;top: auto;width: auto !important;height: 100%;box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important;height: auto;overflow-y: auto;overflow-x: hidden; {$custom_height} } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { {$custom_width};padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000; } .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title { font-weight: {$stickyHeadTxtWeight}; font-size: {$stickyHeadTxtSize}px; color: {$stickyHeadTxtColor}; } .ez-toc-sticky-fixed .ez-toc-close-icon{-webkit-appearance:none;padding:0;cursor:pointer;background:0 0;border:0;float:right;font-size:30px;font-weight:600;line-height:1;position:relative;color:{$stickyHeadTxtColor};top:-2px;text-decoration:none}.ez-toc-open-icon{position:fixed;right:0;top:{$stickyToggleAlignTop};text-decoration:none;font-weight:700;padding:5px 10px 15px;box-shadow:1px -5px 10px 5px rgb(0 0 0 / 10%);background-color:{$stickyHeadBgColor};color:{$stickyHeadTxtColor};display:inline-grid;line-height:1.4;border-radius:10px 0 0 10px;z-index:999999}.ez-toc-sticky-fixed.hide{-webkit-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);-ms-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);-o-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);right:-100%}.ez-toc-sticky-fixed.show{-moz-transition:right .3s linear;-o-transition:right .3s linear;transition:right .3s linear;right:0}.ez-toc-open-icon span.arrow{font-size:18px}.ez-toc-open-icon span.text{font-size:13px;writing-mode:vertical-lr;text-orientation:mixed;-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);-ms-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}@media screen and (max-device-width:640px){.ez-toc-sticky-fixed .ez-toc-sidebar{min-width:auto}.ez-toc-sticky-fixed .ez-toc-sidebar.show{padding-top:35px}.ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container{min-width:100%}}{$stickyAddlCss}
-INLINESTICKYTOGGLECSS;
+				$inlineStickyToggleCSS = ".ez-toc-sticky-fixed { position: fixed;top: 0;right: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar { position: relative;top: auto;width: auto !important;height: 100%;box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important;height: auto;overflow-y: auto;overflow-x: hidden; {$custom_height} } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { {$custom_width};padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000; } .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title { font-weight: {$stickyHeadTxtWeight}; font-size: {$stickyHeadTxtSize}px; color: {$stickyHeadTxtColor}; } .ez-toc-sticky-fixed .ez-toc-close-icon{-webkit-appearance:none;padding:0;cursor:pointer;background:0 0;border:0;float:right;font-size:30px;font-weight:600;line-height:1;position:relative;color:{$stickyHeadTxtColor};top:-2px;text-decoration:none}.ez-toc-open-icon{position:fixed;right:0;top:{$stickyToggleAlignTop};text-decoration:none;font-weight:700;padding:5px 10px 15px;box-shadow:1px -5px 10px 5px rgb(0 0 0 / 10%);background-color:{$stickyHeadBgColor};color:{$stickyHeadTxtColor};display:inline-grid;line-height:1.4;border-radius:10px 0 0 10px;z-index:999999}.ez-toc-sticky-fixed.hide{-webkit-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);-ms-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);-o-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);right:-100%}.ez-toc-sticky-fixed.show{-moz-transition:right .3s linear;-o-transition:right .3s linear;transition:right .3s linear;right:0}.ez-toc-open-icon span.arrow{font-size:18px}.ez-toc-open-icon span.text{font-size:13px;writing-mode:vertical-lr;text-orientation:mixed;-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);-ms-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}@media screen and (max-device-width:640px){.ez-toc-sticky-fixed .ez-toc-sidebar{min-width:auto}.ez-toc-sticky-fixed .ez-toc-sidebar.show{padding-top:35px}.ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container{min-width:100%}}{$stickyAddlCss}";
 			}
 			wp_add_inline_style('ez-toc-sticky', $inlineStickyToggleCSS);
 		}
@@ -1013,7 +1036,7 @@ INLINESTICKYTOGGLECSS;
 		public static function is_eligible($post)
 		{
 
-			if (empty($post) || !$post instanceof WP_Post) {
+			if (empty($post) || ! $post instanceof WP_Post) {
 
 				Debug::log('not_instance_of_post', 'Not an instance if `WP_Post`.', $post);
 				return false;
@@ -1051,7 +1074,7 @@ INLINESTICKYTOGGLECSS;
 				return true;
 			}
 
-			if (is_front_page() && !ezTOC_Option::get('include_homepage')) {
+			if (is_front_page() && ! ezTOC_Option::get('include_homepage')) {
 				Debug::log('is_front_page', 'Is frontpage, TOC is not enabled.', false);
 				return false;
 			}
@@ -1131,7 +1154,7 @@ INLINESTICKYTOGGLECSS;
 				$post = self::$store[$id];
 			} else {
 
-				$post_id = !empty($id) ? $id : get_the_ID();
+				$post_id = ! empty($id) ? $id : get_the_ID();
 				$post = ezTOC_Post::get($post_id);
 
 				if ($post instanceof ezTOC_Post) {
@@ -1186,26 +1209,27 @@ INLINESTICKYTOGGLECSS;
 				$widget_name = esc_html('ezTOC_WidgetSticky');
 
 				$instance = array(
-					'title' => (!empty($title)) ? $title : '',
-					'sidebar_sticky_title' => (!empty($title)) ? $title : '',
-					'highlight_color' => (!empty($highlight_color)) ? $highlight_color : '#ededed',
-					'advanced_options' => (!empty($advanced_options)) ? $advanced_options : '',
-					'scroll_fixed_position' => (!empty($scroll_fixed_position)) ? (int) $scroll_fixed_position : 30,
-					'sidebar_width' => (!empty($sidebar_width)) ? ('auto' == $sidebar_width) ? $sidebar_width : (int) strip_tags($sidebar_width) : 'auto',
-					'sidebar_width_size_unit' => (!empty($sidebar_width_size_unit)) ? $sidebar_width_size_unit : 'none',
-					'fixed_top_position' => (!empty($fixed_top_position)) ? ('auto' == $fixed_top_position) ? $fixed_top_position : (int) strip_tags($fixed_top_position) : 30,
-					'fixed_top_position_size_unit' => (!empty($fixed_top_position_size_unit)) ? $fixed_top_position_size_unit : 'px',
-					'navigation_scroll_bar' => (!empty($navigation_scroll_bar)) ? $navigation_scroll_bar : 'on',
-					'scroll_max_height' => (!empty($scroll_max_height)) ? ('auto' == $scroll_max_height) ? $scroll_max_height : (int) strip_tags($scroll_max_height) : 'auto',
-					'scroll_max_height_size_unit' => (!empty($scroll_max_height_size_unit)) ? $scroll_max_height_size_unit : 'none',
+					'title' => (! empty($title)) ? $title : '',
+					'sidebar_sticky_title' => (! empty($title)) ? $title : '',
+					'highlight_color' => (! empty($highlight_color)) ? $highlight_color : '#ededed',
+					'advanced_options' => (! empty($advanced_options)) ? $advanced_options : '',
+					'scroll_fixed_position' => (! empty($scroll_fixed_position)) ? (int) $scroll_fixed_position : 30,
+					'sidebar_width' => (! empty($sidebar_width)) ? ('auto' == $sidebar_width) ? $sidebar_width : (int) wp_strip_all_tags($sidebar_width) : 'auto',
+					'sidebar_width_size_unit' => (! empty($sidebar_width_size_unit)) ? $sidebar_width_size_unit : 'none',
+					'fixed_top_position' => (! empty($fixed_top_position)) ? ('auto' == $fixed_top_position) ? $fixed_top_position : (int) wp_strip_all_tags($fixed_top_position) : 30,
+					'fixed_top_position_size_unit' => (! empty($fixed_top_position_size_unit)) ? $fixed_top_position_size_unit : 'px',
+					'navigation_scroll_bar' => (! empty($navigation_scroll_bar)) ? $navigation_scroll_bar : 'on',
+					'scroll_max_height' => (! empty($scroll_max_height)) ? ('auto' == $scroll_max_height) ? $scroll_max_height : (int) wp_strip_all_tags($scroll_max_height) : 'auto',
+					'scroll_max_height_size_unit' => (! empty($scroll_max_height_size_unit)) ? $scroll_max_height_size_unit : 'none',
 				);
 
-				if (!is_a($wp_widget_factory->widgets[$widget_name], 'WP_Widget')) :
+				if (!is_a($wp_widget_factory->widgets[$widget_name], 'WP_Widget')):
 					$wp_class = 'WP_Widget_' . ucwords(strtolower($class));
 
-					if (!is_a($wp_widget_factory->widgets[$wp_class], 'WP_Widget')) :
-						return '<p>' . sprintf(__("%s: Widget class not found. Make sure this widget exists and the class name is correct"), '<strong>' . $class . '</strong>') . '</p>';
-					else :
+					if (!is_a($wp_widget_factory->widgets[$wp_class], 'WP_Widget')):
+						/* translators: %s: Widget class name */
+						return '<p>' . sprintf(esc_html__("%s: Widget class not found. Make sure this widget exists and the class name is correct", "easy-table-of-contents"), '<strong>' . $class . '</strong>') . '</p>';
+					else:
 						$class = $wp_class;
 					endif;
 				endif;
@@ -1267,7 +1291,7 @@ INLINESTICKYTOGGLECSS;
 
 			$post = self::get($post_id);
 
-			if (!$post instanceof ezTOC_Post) {
+			if (! $post instanceof ezTOC_Post) {
 
 				Debug::log('not_instance_of_post', 'Not an instance if `WP_Post`.', $pid);
 
@@ -1316,7 +1340,7 @@ INLINESTICKYTOGGLECSS;
 			global $wp_current_filter;
 
 			// Do not execute if root current filter is one of those in the array.
-			if (in_array($wp_current_filter[0], array('get_the_excerpt', 'init', 'wp_head'), true)) {
+			if (isset($wp_current_filter[0]) && in_array($wp_current_filter[0], array('get_the_excerpt', 'init', 'wp_head'), true)) {
 
 				$apply = false;
 			}
@@ -1346,7 +1370,7 @@ INLINESTICKYTOGGLECSS;
 				}
 			}
 
-			if (!empty(array_intersect($wp_current_filter, array('get_the_excerpt', 'init', 'wp_head')))) {
+			if (! empty(array_intersect($wp_current_filter, array('get_the_excerpt', 'init', 'wp_head')))) {
 				$apply = false;
 			}
 
@@ -1393,7 +1417,7 @@ INLINESTICKYTOGGLECSS;
 			}
 			Debug::log('the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter);
 
-			if (!$maybeApplyFilter) {
+			if (! $maybeApplyFilter) {
 
 				return Debug::log()->appendTo($content);
 			}
@@ -1435,7 +1459,7 @@ INLINESTICKYTOGGLECSS;
 				$return_only_an = true;
 			}
 
-			if (!$isEligible) {
+			if (! $isEligible) {
 				return Debug::log()->appendTo($content);
 			}
 
@@ -1446,14 +1470,14 @@ INLINESTICKYTOGGLECSS;
 			}
 
 
-			if (!$post instanceof ezTOC_Post) {
+			if (! $post instanceof ezTOC_Post) {
 
 				Debug::log('not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID());
 
 				return Debug::log()->appendTo($content);
 			}
 			//Bail if no headings found.
-			if (!$post->hasTOCItems() && ezTOC_Option::get('no_heading_text') != 1) {
+			if (! $post->hasTOCItems() && ezTOC_Option::get('no_heading_text') != 1) {
 
 				return Debug::log()->appendTo($content);
 			}
@@ -1487,7 +1511,7 @@ INLINESTICKYTOGGLECSS;
 				return mb_find_replace($find, $replace, $content);
 			}
 			// If shortcode used or post not eligible, return content with anchored headings.
-			if (strpos($content, 'ez-toc-container') || !$isEligible) {
+			if (strpos($content, 'ez-toc-container') || ! $isEligible) {
 
 				Debug::log('shortcode_found', 'Shortcode found, add links to content.', true);
 
@@ -1617,7 +1641,7 @@ INLINESTICKYTOGGLECSS;
 					/**
 					 * @link https://wordpress.org/support/topic/php-notice-undefined-offset-8/
 					 */
-					if (!array_key_exists(0, $replace)) {
+					if (! array_key_exists(0, $replace)) {
 						break;
 					}
 
@@ -1673,7 +1697,7 @@ INLINESTICKYTOGGLECSS;
 						$stickyToggleTOC = $post->getStickyToggleTOC();
 
 						if (!empty($stickyToggleTOC)) {
-							$openButtonText = __('Index', 'easy-table-of-contents');
+							$openButtonText = esc_html__('Index', 'easy-table-of-contents');
 							if (!empty(ezTOC_Option::get('sticky-toggle-open-button-text'))) {
 								$openButtonText = ezTOC_Option::get('sticky-toggle-open-button-text');
 							}
@@ -1690,17 +1714,18 @@ INLINESTICKYTOGGLECSS;
 
 							$themeClass = 'ez-toc-sticky-' . ezTOC_Option::get('sticky_theme', 'grey');
 
-							echo <<<STICKYTOGGLEHTML
-						<div class="ez-toc-sticky">
-							<div class="ez-toc-sticky-fixed {$toggleClass} {$themeClass}">
-								<div class='ez-toc-sidebar'>{$stickyToggleTOC}</div>
+?>
+							<div class="ez-toc-sticky">
+								<div class="ez-toc-sticky-fixed <?php echo esc_attr($toggleClass); ?> <?php echo esc_attr($themeClass); ?>">
+									<div class='ez-toc-sidebar'><?php echo $stickyToggleTOC; //phpcs:ignore  
+																?></div>
+								</div>
+								<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' <?php echo esc_attr($linkZindex); ?>>
+									<span class="arrow"><?php echo esc_html($arrowSide); ?></span>
+									<span class="text"><?php echo esc_html($openButtonText); ?></span>
+								</a>
 							</div>
-							<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' {$linkZindex}>
-								<span class="arrow">{$arrowSide}</span>
-								<span class="text">{$openButtonText}</span>
-							</a>
-						</div>
-STICKYTOGGLEHTML;
+<?php
 						}
 					}
 				}
@@ -1780,7 +1805,8 @@ STICKYTOGGLEHTML;
 			if (ezTOC_Option::get('toc_loading') == 'css' && $type != 'widget-with-visibility_on_header_text') {
 				$spanClass = 'ez-toc-cssicon';
 			}
-			return '<span class="' . $spanClass . '"><span class="eztoc-hide" style="display:none;">Toggle</span><span class="ez-toc-icon-toggle-span"><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" xmlns="http://www.w3.org/2000/svg" class="list-377408" width="20px" height="20px" viewBox="0 0 24 24" fill="none"><path d="M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z" fill="currentColor"></path></svg><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" class="arrow-unsorted-368013" xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" viewBox="0 0 24 24" version="1.2" baseProfile="tiny"><path d="M18.2 9.3l-6.2-6.3-6.2 6.3c-.2.2-.3.4-.3.7s.1.5.3.7c.2.2.4.3.7.3h11c.3 0 .5-.1.7-.3.2-.2.3-.5.3-.7s-.1-.5-.3-.7zM5.8 14.7l6.2 6.3 6.2-6.3c.2-.2.3-.5.3-.7s-.1-.5-.3-.7c-.2-.2-.4-.3-.7-.3h-11c-.3 0-.5.1-.7.3-.2.2-.3.5-.3.7s.1.5.3.7z"/></svg></span></span>';
+
+			return '<span class="' . esc_attr($spanClass) . '"><span class="eztoc-hide" style="display:none;">Toggle</span><span class="ez-toc-icon-toggle-span"><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" xmlns="http://www.w3.org/2000/svg" class="list-377408" width="20px" height="20px" viewBox="0 0 24 24" fill="none"><path d="M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z" fill="currentColor"></path></svg><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" class="arrow-unsorted-368013" xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" viewBox="0 0 24 24" version="1.2" baseProfile="tiny"><path d="M18.2 9.3l-6.2-6.3-6.2 6.3c-.2.2-.3.4-.3.7s.1.5.3.7c.2.2.4.3.7.3h11c.3 0 .5-.1.7-.3.2-.2.3-.5.3-.7s-.1-.5-.3-.7zM5.8 14.7l6.2 6.3 6.2-6.3c.2-.2.3-.5.3-.7s-.1-.5-.3-.7c-.2-.2-.4-.3-.7-.3h-11c-.3 0-.5.1-.7.3-.2.2-.3.5-.3.7s.1.5.3.7z"/></svg></span></span>';
 		}
 
 		/**
@@ -1835,26 +1861,12 @@ STICKYTOGGLEHTML;
 
 			Debug::log('the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter);
 
-			if (!$maybeApplyFilter) {
+			if (! $maybeApplyFilter) {
 
 				return Debug::log()->appendTo($content);
 			}
-			// Fix for getting current page id when sub-queries are used on the page
-			$ez_toc_current_post_id = function_exists('get_queried_object_id') ? get_queried_object_id() : get_the_ID();
 
-			// Bail if post not eligible and widget is not active.
-			if (apply_filters('current_theme', get_option('current_theme')) == 'MicrojobEngine Child') {
-				$isEligible = self::is_eligible(get_post($ez_toc_current_post_id));
-			} else {
-				$isEligible = self::is_eligible(get_post());
-			}
-
-
-			//More button
-			$options =  array();
-			if (ezTOC_Option::get('ctrl_headings') == true) {
-				$options['view_more'] = ezTOC_Option::get('limit_headings_num');
-			}
+			$isEligible = self::is_eligible(get_post());
 
 			$isEligible = apply_filters('eztoc_do_shortcode', $isEligible);
 
@@ -1865,40 +1877,30 @@ STICKYTOGGLEHTML;
 			}
 
 			Debug::log('post_eligible', 'Post eligible.', $isEligible);
-			$return_only_an = false;
 			if (!$isEligible && (self::is_sidebar_hastoc() || is_active_widget(false, false, 'ezw_tco') || is_active_widget(false, false, 'ez_toc_widget_sticky') || ezTOC_Option::get('sticky-toggle'))) {
 				$isEligible = true;
-				$return_only_an = true;
 			}
 
-			if (!$isEligible) {
+			if (! $isEligible) {
 				return Debug::log()->appendTo($content);
 			}
 
-			if (apply_filters('current_theme', get_option('current_theme')) == 'MicrojobEngine Child') {
-				$post = self::get($ez_toc_current_post_id);
-			} else {
-				$post = self::get(get_the_ID());
-			}
+			$post = self::get(get_the_ID());
 
-
-			if (!$post instanceof ezTOC_Post) {
+			if (! $post instanceof ezTOC_Post) {
 
 				Debug::log('not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID());
 
 				return Debug::log()->appendTo($content);
 			}
 			//Bail if no headings found.
-			if (!$post->hasTOCItems() && ezTOC_Option::get('no_heading_text') != 1) {
+			if (! $post->hasTOCItems() && ezTOC_Option::get('no_heading_text') != 1) {
 
 				return Debug::log()->appendTo($content);
 			}
 
 			$find    = $post->getHeadings();
 			$replace = $post->getHeadingsWithAnchors();
-			$toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
-			$headings = implode(PHP_EOL, $find);
-			$anchors  = implode(PHP_EOL, $replace);
 
 			return mb_find_replace($find, $replace, $content);
 		}
@@ -1925,45 +1927,9 @@ STICKYTOGGLEHTML;
 	// Start Easy Table of Contents.
 	add_action('plugins_loaded', 'ezTOC');
 }
-register_activation_hook(__FILE__, 'ez_toc_activate');
-add_action('admin_init', 'ez_toc_redirect');
 
+register_activation_hook(__FILE__, 'ez_toc_activate');
 function ez_toc_activate()
 {
 	add_option('ez_toc_do_activation_redirect', true);
-}
-
-function ez_toc_redirect()
-{
-	if (get_option('ez_toc_do_activation_redirect', false)) {
-		delete_option('ez_toc_do_activation_redirect');
-		if (!isset($_GET['activate-multi'])) {
-			wp_redirect("options-general.php?page=table-of-contents#welcome");
-		}
-	}
-}
-
-/**
- * Added [no-ez-toc] to disbale TOC on specific page/post
- * @since 2.0.56
- */
-add_shortcode('no-ez-toc', 'ez_toc_noeztoc_callback');
-function ez_toc_noeztoc_callback($atts, $content = "")
-{
-	add_filter(
-		'ez_toc_maybe_apply_the_content_filter',
-		function ($apply) {
-			return false;
-		},
-		999
-	);
-	//  condition when  `the_content` filter is not used by the theme
-	add_filter(
-		'ez_toc_modify_process_page_content',
-		function ($apply) {
-			return '';
-		},
-		999
-	);
-	return $content;
 }

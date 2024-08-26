@@ -166,6 +166,10 @@ abstract class Document extends Controls_Stack {
 			'show_navigator' => true,
 			'allow_adding_widgets' => true,
 			'support_page_layout' => true,
+			'show_copy_and_share' => false,
+			'library_close_title' => esc_html__( 'Close', 'elementor' ),
+			'publish_button_title' => esc_html__( 'Publish', 'elementor' ),
+			'allow_closing_remote_library' => true,
 		];
 	}
 
@@ -197,6 +201,10 @@ abstract class Document extends Controls_Stack {
 			],
 			'show_navigator' => static::get_property( 'show_navigator' ),
 			'allow_adding_widgets' => static::get_property( 'allow_adding_widgets' ),
+			'show_copy_and_share' => static::get_property( 'show_copy_and_share' ),
+			'library_close_title' => static::get_property( 'library_close_title' ),
+			'publish_button_title' => static::get_property( 'publish_button_title' ),
+			'allow_closing_remote_library' => static::get_property( 'allow_closing_remote_library' ),
 		];
 	}
 

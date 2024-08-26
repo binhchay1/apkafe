@@ -150,6 +150,8 @@ if ( ! class_exists( 'WPHeaderAndFooter_Setting' ) ) :
 						/* Translators: The header textarea description */
 						'desc'        => sprintf( __( 'The priority for %1$s section. %2$sDefault is 10%3$s', 'wp-headers-and-footers' ), '&#60head&#62', '<i>', '</i>' ),
 						'type'        => 'number',
+						'min'         => 1,
+						'max'         => 999999,
 						'placeholder' => '1',
 					),
 					array(
@@ -158,6 +160,8 @@ if ( ! class_exists( 'WPHeaderAndFooter_Setting' ) ) :
 						/* Translators: The body textarea description */
 						'desc'        => sprintf( __( 'The priority for %1$s tag. %2$sDefault is 10%3$s', 'wp-headers-and-footers' ), '&#60body&#62', '<i>', '</i>' ),
 						'type'        => 'number',
+						'min'         => 1,
+						'max'         => 999999,
 						'placeholder' => '10',
 					),
 					array(
@@ -166,6 +170,8 @@ if ( ! class_exists( 'WPHeaderAndFooter_Setting' ) ) :
 						/* Translators: The footer textarea description */
 						'desc'        => sprintf( __( 'The priority for %1$s tag. %2$sDefault is 10%3$s', 'wp-headers-and-footers' ), '&#60footer&#62', '<i>', '</i>' ),
 						'type'        => 'number',
+						'min'         => 1,
+						'max'         => 999999,
 						'placeholder' => '99',
 					),
 					array(

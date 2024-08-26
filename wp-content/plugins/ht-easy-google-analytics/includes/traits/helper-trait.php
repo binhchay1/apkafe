@@ -122,7 +122,7 @@ trait Helper_Trait {
     }
 
     public function get_data($query_str){
-        $get_data = wp_unslash($_GET);
+        $get_data = wp_unslash($_GET); // phpcs:ignore
 
         if( !empty($get_data[$query_str]) ){
             return $get_data[$query_str];
@@ -134,8 +134,8 @@ trait Helper_Trait {
     public function get_current_tab(){
         $current_tab = 'general_options';
 
-        if( !empty( $_GET['tab'] ) ){
-			$current_tab =  sanitize_text_field( $_GET['tab'] );
+        if( !empty( $_GET['tab'] ) ){  // phpcs:ignore
+			$current_tab =  sanitize_text_field( $_GET['tab'] ); // phpcs:ignore
 		}
 
         return $current_tab;
@@ -228,7 +228,8 @@ trait Helper_Trait {
      * key-value pairs: 'start_date' and 'end_date'.
      */
     public function get_date_range( $param ) {
-        $current_end_date   = date('Y-m-d'); // Today's date
+        // Today's date
+        $current_end_date   = date('Y-m-d'); // phpcs:ignore
         $get_data       = wp_unslash($_GET);
 
         if( !empty($get_data['date_range']) && strpos($get_data['date_range'], ',') ){
@@ -237,19 +238,19 @@ trait Helper_Trait {
         
         switch ( $param ) {
             case 'last_7_days':
-                $current_start_date = date('Y-m-d', strtotime('-7 days', strtotime($current_end_date)));
+                $current_start_date = date('Y-m-d', strtotime('-7 days', strtotime($current_end_date))); // phpcs:ignore
                 $current_end_date = 'yesterday';
 
-                $previous_start_date = date('Y-m-d', strtotime('-14 days', strtotime($current_end_date)));
-                $previous_end_date = date('Y-m-d', strtotime('-8 days', strtotime($current_end_date)));
+                $previous_start_date = date('Y-m-d', strtotime('-14 days', strtotime($current_end_date))); // phpcs:ignore
+                $previous_end_date = date('Y-m-d', strtotime('-8 days', strtotime($current_end_date))); // phpcs:ignore
                 break;
 
             case 'last_15_days':
-                $current_start_date = date('Y-m-d', strtotime('-15 days', strtotime($current_end_date)));
+                $current_start_date = date('Y-m-d', strtotime('-15 days', strtotime($current_end_date))); // phpcs:ignore
                 $current_end_date = 'yesterday';
 
-                $previous_start_date = date('Y-m-d', strtotime('-30 days', strtotime($current_end_date)));
-                $previous_end_date = date('Y-m-d', strtotime('-16 days', strtotime($current_end_date)));
+                $previous_start_date = date('Y-m-d', strtotime('-30 days', strtotime($current_end_date))); // phpcs:ignore
+                $previous_end_date = date('Y-m-d', strtotime('-16 days', strtotime($current_end_date))); // phpcs:ignore
                 break;
 
             case 'custom':
@@ -262,16 +263,16 @@ trait Helper_Trait {
                 $interval = $d1->diff($d2);
                 $count = $interval->days + 1;
 
-                $previous_start_date = date('Y-m-d', strtotime("-$count days", strtotime($current_start_date)));
-                $previous_end_date = date('Y-m-d', strtotime("-$count days", strtotime($current_end_date)));
+                $previous_start_date = date('Y-m-d', strtotime("-$count days", strtotime($current_start_date))); // phpcs:ignore
+                $previous_end_date = date('Y-m-d', strtotime("-$count days", strtotime($current_end_date))); // phpcs:ignore
                 break;
             default:
                 // last_30_days
-                $current_start_date = date('Y-m-d', strtotime('-30 days', strtotime($current_end_date)));
+                $current_start_date = date('Y-m-d', strtotime('-30 days', strtotime($current_end_date))); // phpcs:ignore
                 $current_end_date = 'yesterday';
 
-                $previous_start_date = date('Y-m-d', strtotime('-60 days', strtotime($current_end_date)));
-                $previous_end_date = date('Y-m-d', strtotime('-31 days', strtotime($current_end_date)));
+                $previous_start_date = date('Y-m-d', strtotime('-60 days', strtotime($current_end_date))); // phpcs:ignore
+                $previous_end_date = date('Y-m-d', strtotime('-31 days', strtotime($current_end_date))); // phpcs:ignore
                 break;
         }
         
@@ -334,7 +335,7 @@ trait Helper_Trait {
         return round($bounce_rate_percentage, 1);;
     }
 
-	public function render_growth( $previous_total = 0, $current_total = 0 ){
+	public function render_growth( $previous_total = 0, $current_total = 0, $context = '' ){
 		$growth = 0;
 		$previous_total = $previous_total;
 		$current_total 	= $current_total;
@@ -356,7 +357,20 @@ trait Helper_Trait {
 			$icon_class = 'dashicons-arrow-down-alt';
 		}
 		?>
-		<h3 class="ht_easy_ga4_report_card_head_count"><?php echo esc_html( round($current_total, 1) ) ?><?php echo fmod($current_total, 1) > 0 ? '%' : ''; ?></h3>
+		<h3 class="ht_easy_ga4_report_card_head_count">
+            <?php if($this->get_current_tab() === 'ecommerce_reports'){
+
+                if( $context === 'average_purchase_revenue' ||  $context === 'purchase_revenue'){
+                    echo wp_kses_post(get_woocommerce_currency_symbol()) . esc_html( round($current_total) );
+                } else {
+                    echo esc_html( round($current_total, 1) );
+                }
+                
+            } else {
+                echo esc_html( round($current_total, 1) ) ?><?php echo fmod($current_total, 1) > 0 ? '%' : '';
+            }
+            ?>
+        </h3>
 		<div class="ht_easy_ga4_report_card_head_difference <?php echo esc_attr($head_class) ?>">
 			<i class="dashicons <?php echo esc_attr($icon_class) ?>"></i>
 			<p><span class="ht_growth_count"><?php echo esc_html($growth) ?>%</span> <span><?php echo esc_html__('vs. previous period', 'ht-easy-ga4') ?></span></p>
@@ -432,7 +446,7 @@ trait Helper_Trait {
         $config_arr   = array();
 
         if( is_readable($file) ){
-            $file_content = file_get_contents( $file );
+            $file_content = file_get_contents( $file ); // phpcs:ignore
             $config_arr   = json_decode( $file_content, true );
         }
 

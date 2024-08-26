@@ -3,7 +3,7 @@
  * Plugin Name: WP Headers And Footers
  * Plugin URI: https://www.WPBrigade.com/wordpress/plugins/wp-headers-and-footers/?utm_source=?utm_source=wp-headers-and-footers&utm_medium=author-uri-link
  * Description: Allows you to insert code or text in the header or footer of your WordPress site.
- * Version: 2.2.0
+ * Version: 2.2.2
  * Author: WPBrigade
  * Author URI: https://wpbrigade.com/?utm_source=wp-headers-and-footers&utm_medium=author-uri-link
  * License: GPLv3
@@ -14,6 +14,44 @@
  * @category Core
  * @author WPBrigade
  */
+
+if ( ! function_exists( 'whaf_wpb56690683' ) ) {
+	// Create a helper function for easy SDK access.
+	function whaf_wpb56690683() {
+		global $whaf_wpb56690683;
+
+		if ( ! isset( $whaf_wpb56690683 ) ) {
+			// Include Telemetry SDK.
+			require_once __DIR__ . '/lib/wpb-sdk/start.php';
+
+			$whaf_wpb56690683 = wpb_dynamic_init(
+				array(
+					'id'             => '2',
+					'slug'           => 'wp-headers-and-footers',
+					'type'           => 'plugin',
+					'public_key'     => '1|4aOA8EuyIN4pi2miMvC23LLpnHbBZFNki9R9pVmwd673d3c8',
+					'secret_key'     => 'sk_b36c525848fee035',
+					'is_premium'     => false,
+					'has_addons'     => false,
+					'has_paid_plans' => false,
+					'menu'           => array(
+						'slug'    => 'wp-headers-and-footers',
+						'account' => false,
+						'support' => false,
+					),
+					'settings'       => array( 'wpheaderandfooter_settings' => '' ),
+				)
+			);
+		}
+
+		return $whaf_wpb56690683;
+	}
+
+	// Init Telemetry.
+	whaf_wpb56690683();
+	// Signal that SDK was initiated.
+	do_action( 'whaf_wpb56690683_loaded' );
+}
 
 if ( ! class_exists( 'WPHeaderAndFooter' ) ) :
 
@@ -27,7 +65,7 @@ if ( ! class_exists( 'WPHeaderAndFooter' ) ) :
 		 *
 		 * @var string $version
 		 */
-		public $version = '2.2.0';
+		public $version = '2.2.2';
 
 		/**
 		 * The single instance of the class.
@@ -70,23 +108,6 @@ if ( ! class_exists( 'WPHeaderAndFooter' ) ) :
 
 				update_option( 'wpheaderandfooter_basics_logger', $logger_value );
 			}
-
-			// init logger.
-			include_once WPHEADERANDFOOTER_DIR_PATH . 'lib/wpb-sdk/init.php';
-
-			new WPHeaderAndFooter_SDK\Logger(
-				array(
-					'name'     => 'WP Headers And Footers',
-					'slug'     => 'wp-headers-and-footers',
-					'path'     => __FILE__,
-					'version'  => $this->version,
-					'license'  => '',
-					'settings' => array(
-						'wpheaderandfooter_basics_logger' => false,
-					),
-				)
-			);
-
 		}
 
 		/**
@@ -125,8 +146,18 @@ if ( ! class_exists( 'WPHeaderAndFooter' ) ) :
 				add_action( 'wp_footer', array( $this, 'frontend_footer' ) );
 			}
 
-			add_action( 'wp_ajax_wpheadersandfooters_log_download' , array( $this, 'wp_headers_and_footers_log_download' ) );
-			add_action( 'wp_ajax_nopriv_wpheadersandfooters_log_download' , array( $this, 'wp_headers_and_footers_log_download' ) );
+			add_action( 'wp_ajax_wpheadersandfooters_log_download', array( $this, 'wp_headers_and_footers_log_download' ) );
+			add_action( 'wp_ajax_nopriv_wpheadersandfooters_log_download', array( $this, 'wp_headers_and_footers_log_download' ) );
+			add_action( 'wp_wpb_sdk_after_uninstall', array( $this, 'plugin_uninstallation' ) );
+		}
+
+		/**
+		 * Plugin Un-installation
+		 *
+		 * @since 2.2.2
+		 */
+		public function plugin_uninstallation() {
+			include_once WPHEADERANDFOOTER_DIR_PATH . 'inc/uninstall.php';
 		}
 
 		/**
@@ -137,7 +168,7 @@ if ( ! class_exists( 'WPHeaderAndFooter' ) ) :
 			$this->define( 'WPHEADERANDFOOTER_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 			$this->define( 'WPHEADERANDFOOTER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 			$this->define( 'WPHEADERANDFOOTER_DIR_URL', plugin_dir_url( __FILE__ ) );
-			$this->define( 'WPHEADERANDFOOTER_ROOT_PATH', dirname( __FILE__ ) . '/' );
+			$this->define( 'WPHEADERANDFOOTER_ROOT_PATH', __DIR__ . '/' );
 			$this->define( 'WPHEADERANDFOOTER_VERSION', $this->version );
 			$this->define( 'WPHEADERANDFOOTER_FEEDBACK_SERVER', 'https://wpbrigade.com/' );
 		}

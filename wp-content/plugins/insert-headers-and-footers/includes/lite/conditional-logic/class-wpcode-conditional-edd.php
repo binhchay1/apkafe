@@ -22,6 +22,13 @@ class WPCode_Conditional_EDD_Lite extends WPCode_Conditional_Type {
 	public $name = 'edd';
 
 	/**
+	 * The type category.
+	 *
+	 * @var string
+	 */
+	public $category = 'ecommerce';
+
+	/**
 	 * Set the translatable label.
 	 *
 	 * @return void
@@ -38,14 +45,15 @@ class WPCode_Conditional_EDD_Lite extends WPCode_Conditional_Type {
 	public function load_type_options() {
 		$this->options = array(
 			'edd_page' => array(
-				'label'   => __( 'EDD Page', 'insert-headers-and-footers' ),
-				'type'    => 'select',
-				'upgrade' => array(
+				'label'       => __( 'EDD Page', 'insert-headers-and-footers' ),
+				'description' => __( 'Load the snippet on specific Easy Digital Downloads pages.', 'insert-headers-and-footers' ),
+				'type'        => 'select',
+				'upgrade'     => array(
 					'title' => __( 'Easy Digital Downloads Page Rules is a Pro Feature', 'insert-headers-and-footers' ),
 					'text'  => __( 'Get access to advanced conditional logic rules for Easy Digital Downloads by upgrading to PRO today.', 'insert-headers-and-footers' ),
 					'link'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'conditional-logic', 'edd-page' ),
 				),
-				'options' => array(
+				'options'     => array(
 					array(
 						'label'    => __( 'Checkout Page', 'insert-headers-and-footers' ),
 						'value'    => '',
