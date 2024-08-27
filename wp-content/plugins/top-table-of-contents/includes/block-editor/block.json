@@ -1,0 +1,17 @@
+{
+    "apiVersion": 2,
+    "title": "Top Table of Contents",
+    "name": "boomdevs/toc",
+    "description": "Easily creates SEO-friendly table of contents for your blog posts and pages. Offers both Auto and Manual Insert with highly customization options.",
+    "version": "1.0.0",
+    "category": "text",
+    "icon": "editor-alignleft",
+    "attributes": {
+        "title": {
+            "type": "string"
+        }
+    },
+    "editorScript": "file:../../build/index.js",
+    "style": "file:../../build/index.css"
+
+}

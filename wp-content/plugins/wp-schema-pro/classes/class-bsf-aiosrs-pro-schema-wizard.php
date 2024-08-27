@@ -200,12 +200,15 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Wizard' ) ) :
 				<table class="form-table aiosrs-pro-basic-config">
 					<tr>
 						<td><!-- Comment
-							<?php foreach ( BSF_AIOSRS_Pro_Schema::$schema_meta_fields as $key => $schema_field ) { ?>
-								--><span class="aiosrs-pro-schema-temp-wrap" data-schema-type="<?php echo esc_attr( $schema_field['key'] ); ?>" data-schema-title="<?php echo isset( $schema_field['label'] ) ? esc_attr( $schema_field['label'] ) : ''; ?>" >
-									<i class="<?php echo isset( $schema_field['icon'] ) ? esc_attr( $schema_field['icon'] ) : 'dashicons dashicons-media-default'; ?>"></i>
-									<?php echo isset( $schema_field['label'] ) ? esc_attr( $schema_field['label'] ) : ''; ?>
-								</span><!-- Comment
-							<?php } ?>
+						<?php foreach ( BSF_AIOSRS_Pro_Schema::$schema_meta_fields as $key => $schema_field ) { ?>
+	--><span class="aiosrs-pro-schema-temp-wrap" 
+		data-schema-type="<?php echo esc_attr( $schema_field['key'] ); ?>" 
+		data-schema-title="<?php echo isset( $schema_field['label'] ) ? esc_attr( $schema_field['label'] ) : ''; ?>"
+							<?php echo ( 'how-to' === $schema_field['key'] ) ? 'style="display:none;"' : ''; ?> >
+		<i class="<?php echo isset( $schema_field['icon'] ) ? esc_attr( $schema_field['icon'] ) : 'dashicons dashicons-media-default'; ?>"></i>
+							<?php echo isset( $schema_field['label'] ) ? esc_attr( $schema_field['label'] ) : ''; ?>
+	</span><!-- Comment
+<?php } ?>
 						--></td>
 					</tr>
 				</table>

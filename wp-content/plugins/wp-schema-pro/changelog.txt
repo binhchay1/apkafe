@@ -1,3 +1,16 @@
+v2.7.20
+# Improvement: PHP 8.3 compatibility testing.
+# Improvement: HowTo Schema - Display notice for the deprecation of the HowTo schema as per the latest Google guidelines.
+# Improvement: Review Schema - Implemented the ratingValue field in the Review schema.
+# Improvement: Service Schema - Implemented the addressCountry and postalCode fields in the Service schema.
+# Fix: Corrected the URL redirection issue during license activation.
+
+
+v2.7.19
+# Improvement: Compatibility with WordPress version 6.6.
+# Improvement: Fixed security audit issues.
+# Improvement: Article Schema - Updated Article schema according to new google guidelines.
+
 v2.7.18
 # Improvement: Course schema - Updated course workload to ISO format.
 # Improvement: Product Schema - Added new fields hasMerchantReturnPolicy and shippingDetails under offers in merchant listings.

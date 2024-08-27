@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Lasso Fields - Ajax.
  *
@@ -17,30 +16,26 @@ use Lasso\Models\Model;
 /**
  * Lasso Fields - Ajax.
  */
-class Ajax
-{
+class Ajax {
 	/**
 	 * Declare "Lasso ajax requests" to WordPress.
 	 */
-	public function register_hooks()
-	{
-		add_action('wp_ajax_lasso_add_field_to_page', array($this, 'lasso_add_field_to_page'));
-		add_action('wp_ajax_lasso_remove_field_from_page', array($this, 'lasso_remove_field_from_page'));
-		add_action('wp_ajax_lasso_create_new_field', array($this, 'lasso_create_new_field'));
-		add_action('wp_ajax_lasso_save_field_positions', array($this, 'lasso_save_field_positions'));
-		add_action('wp_ajax_lasso_store_field', array($this, 'lasso_store_field'));
-		add_action('wp_ajax_lasso_delete_field', array($this, 'lasso_delete_field'));
-		add_action('wp_ajax_lasso_save_pros_input', array($this, 'lasso_save_pros_input'));
+	public function register_hooks() {
+		add_action( 'wp_ajax_lasso_add_field_to_page', array( $this, 'lasso_add_field_to_page' ) );
+		add_action( 'wp_ajax_lasso_remove_field_from_page', array( $this, 'lasso_remove_field_from_page' ) );
+		add_action( 'wp_ajax_lasso_create_new_field', array( $this, 'lasso_create_new_field' ) );
+		add_action( 'wp_ajax_lasso_save_field_positions', array( $this, 'lasso_save_field_positions' ) );
+		add_action( 'wp_ajax_lasso_store_field', array( $this, 'lasso_store_field' ) );
+		add_action( 'wp_ajax_lasso_delete_field', array( $this, 'lasso_delete_field' ) );
 	}
 
 	/**
 	 * Add a Field to a Product
 	 */
-	public function lasso_add_field_to_page()
-	{
+	public function lasso_add_field_to_page() {
 		// phpcs:ignore
-		$post   = wp_unslash($_POST);
-		$result = Field_Mapping::add_field_to_page($post['field_id'], $post['post_id']);
+		$post   = wp_unslash( $_POST );
+		$result = Field_Mapping::add_field_to_page( $post['field_id'], $post['post_id'] );
 
 		wp_send_json_success(
 			array(
@@ -53,13 +48,12 @@ class Ajax
 	/**
 	 * Remove a Field from a Product
 	 */
-	public function lasso_remove_field_from_page()
-	{
+	public function lasso_remove_field_from_page() {
 		// phpcs:ignore
-		$post = wp_unslash($_POST);
+		$post = wp_unslash( $_POST );
 
 		$lasso_db = new Lasso_DB();
-		$result   = $lasso_db->remove_field_from_page($post['field_id'], $post['post_id']);
+		$result   = $lasso_db->remove_field_from_page( $post['field_id'], $post['post_id'] );
 
 		wp_send_json_success(
 			array(
@@ -72,14 +66,13 @@ class Ajax
 	/**
 	 * Create a new Field
 	 */
-	public function lasso_create_new_field()
-	{
+	public function lasso_create_new_field() {
 		// phpcs:ignore
-		$post = wp_unslash($_POST);
+		$post = wp_unslash( $_POST );
 
 		$lasso_db = new Lasso_DB();
-		if (!empty($post['title'])) {
-			$result = $lasso_db->create_new_field($post['title'], $post['type'], $post['description']);
+		if ( ! empty( $post['title'] ) ) {
+			$result = $lasso_db->create_new_field( $post['title'], $post['type'], $post['description'] );
 		} else {
 			$result = false;
 		}
@@ -95,18 +88,17 @@ class Ajax
 	/**
 	 * Save field position/order
 	 */
-	public function lasso_save_field_positions()
-	{
+	public function lasso_save_field_positions() {
 		global $wpdb;
 
-		$post     = wp_unslash($_POST); // phpcs:ignore
+		$post     = wp_unslash( $_POST ); // phpcs:ignore
 		$data     = $post['data'] ?? array();
 		$position = 0;
-		if (is_array($data) && !empty($data)) {
-			foreach ($data as $item) {
+		if ( is_array( $data ) && ! empty( $data ) ) {
+			foreach ( $data as $item ) {
 				$item[3] = 'true' === $item[3] ? 1 : 0;
 				$query   = '
-					INSERT INTO ' . Model::get_wp_table_name(LASSO_FIELD_MAPPING) . ' 
+					INSERT INTO ' . Model::get_wp_table_name( LASSO_FIELD_MAPPING ) . ' 
 					VALUES(%d, %d, %s, %d, %d)
 					ON DUPLICATE KEY UPDATE
 						lasso_id = %d,
@@ -115,11 +107,11 @@ class Ajax
 						field_order = %d,
 						field_visible = %d
 				';
-				$prepare = Model::prepare($query, $item[1], $item[0], $item[2], $position, $item[3], $item[1], $item[0], $item[2], $position, $item[3]); // phpcs:ignore
-				Model::query($prepare);
+				$prepare = Model::prepare( $query, $item[1], $item[0], $item[2], $position, $item[3], $item[1], $item[0], $item[2], $position, $item[3] ); // phpcs:ignore
+				Model::query( $prepare );
 
-				if (intval($item[0]) === Fields::RATING_FIELD_ID) {
-					Field_Mapping::set_show_field_name($item[1], $item[0], $item[4]);
+				if ( intval( $item[0] ) === Fields::RATING_FIELD_ID ) {
+					Field_Mapping::set_show_field_name( $item[1], $item[0], $item[4] );
 				}
 
 				$position++;
@@ -137,13 +129,12 @@ class Ajax
 	/**
 	 * Store field
 	 */
-	public function lasso_store_field()
-	{
-		$post     = wp_unslash($_POST); // phpcs:ignore
+	public function lasso_store_field() {
+		$post     = wp_unslash( $_POST ); // phpcs:ignore
 		$lasso_db = new Lasso_DB();
 
-		if (0 === (int) $post['field_id']) {
-			$result = $lasso_db->create_new_field($post['field_title'], $post['field_type'], $post['field_description']);
+		if ( 0 === (int) $post['field_id'] ) {
+			$result = $lasso_db->create_new_field( $post['field_title'], $post['field_type'], $post['field_description'] );
 
 			wp_send_json_success(
 				array(
@@ -154,7 +145,7 @@ class Ajax
 				)
 			);
 		} else {
-			$result = $lasso_db->update_field($post['field_id'], $post['field_title'], $post['field_type'], $post['field_description']);
+			$result = $lasso_db->update_field( $post['field_id'], $post['field_title'], $post['field_type'], $post['field_description'] );
 
 			wp_send_json_success(
 				array(
@@ -169,14 +160,13 @@ class Ajax
 	/**
 	 * Get url of group detail page
 	 */
-	public function get_fields_page()
-	{
+	public function get_fields_page() {
 		$fields = add_query_arg(
 			array(
 				'post_type' => LASSO_POST_TYPE,
 				'page'      => 'fields',
 			),
-			admin_url('edit.php')
+			admin_url( 'edit.php' )
 		);
 
 		return $fields;
@@ -185,20 +175,19 @@ class Ajax
 	/**
 	 * Delete a field of Lasso
 	 */
-	public function lasso_delete_field()
-	{
-		$post     = wp_unslash($_POST); // phpcs:ignore
+	public function lasso_delete_field() {
+		$post     = wp_unslash( $_POST ); // phpcs:ignore
 		$post_id  = $post['post_id'];
 		$lasso_db = new Lasso_DB();
 
-		$result = $lasso_db->delete_field($post_id);
+		$result = $lasso_db->delete_field( $post_id );
 
 		$redirect_link = add_query_arg(
 			array(
 				'post_type' => LASSO_POST_TYPE,
 				'page'      => $this->get_fields_page(),
 			),
-			admin_url('edit.php')
+			admin_url( 'edit.php' )
 		);
 
 		wp_send_json_success(
@@ -209,19 +198,4 @@ class Ajax
 			)
 		);
 	} // @codeCoverageIgnore
-
-	public function lasso_save_pros_input()
-	{
-		$post     = wp_unslash($_POST); // phpcs:ignore
-		$data     = $post['data'] ?? array();
-
-		update_post_meta($data['post_id'], 'pros_input', $data['pros_input']);
-
-		wp_send_json_success(
-			array(
-				'result'        => 'success',
-				'post'          => $post
-			)
-		);
-	}
 }

@@ -64,7 +64,6 @@
 
 		update_stars(wrap, rating) {
 			let filled = rating > 5 ? 5 : parseInt(rating);
-
 			if (rating > 5) {
 				filled = 5;
 			} else if (rating < 0) {
@@ -72,7 +71,7 @@
 			} else {
 				filled = parseInt(rating);
 			}
-			const half = rating === filled || rating > 5 || rating < 0 ? 0 : 1;
+			const half = (rating === filled || rating > 5 || rating < 0) ? 0 : 1;
 			wrap.find('span').each(function (index) {
 				$(this).removeClass(
 					'dashicons-star-filled dashicons-star-half dashicons-star-empty'
@@ -86,7 +85,6 @@
 				}
 			});
 		},
-
 		star_rating(field) {
 			const self = this,
 				schemaId = $(field)

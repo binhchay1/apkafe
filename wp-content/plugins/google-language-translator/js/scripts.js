@@ -359,21 +359,6 @@ jQuery(function ($) {
         $(this).attr('data-lang', $(this).attr('title'));
     });
 
-    $.get("https://ipinfo.io", function (response) {
-        let choiceLanguage = 'en';
-        for(var i in arrayLanguageByCountry) {
-            let split = arrayLanguageByCountry[i].split('-');
-            if(response.country == split[1]) {
-                choiceLanguage = split[0];
-            }
-        }
-
-        let default_lang = window.glt_default_lang || $('#google_language_translator').attr('class').split("-").pop();
-
-        doGoogleLanguageTranslator(default_lang + "|" + choiceLanguage);
-
-    }, "jsonp");
-
     $(document.body).on("click", "a.flag", function () {
         lang_text = $(this).attr('data-lang');
         default_lang = window.glt_default_lang || $('#google_language_translator').attr('class').split("-").pop();

@@ -427,13 +427,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									'ScholarlyArticle' => esc_html__( 'Scholarly Article', 'wp-schema-pro' ),
 									'TechArticle'      => esc_html__( 'Tech Article', 'wp-schema-pro' ),
 								),
-								'required' => true,
 							),
 							'author'           => array(
 								'label'    => esc_html__( 'Author Name', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'author_name',
-								'required' => true,
 							),
 							'author-url'       => array(
 								'label'   => esc_html__( 'Author URL', 'wp-schema-pro' ),
@@ -444,7 +442,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'    => esc_html__( 'Image', 'wp-schema-pro' ),
 								'type'     => 'image',
 								'default'  => 'featured_img',
-								'required' => true,
 							),
 							'description'      => array(
 								'label'   => esc_html__( 'Short Description', 'wp-schema-pro' ),
@@ -460,31 +457,26 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'    => esc_html__( 'Headline', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_title',
-								'required' => true,
 							),
 							'published-date'   => array(
 								'label'    => esc_html__( 'Published Date', 'wp-schema-pro' ),
 								'type'     => 'date',
 								'default'  => 'post_date',
-								'required' => true,
 							),
 							'modified-date'    => array(
 								'label'    => esc_html__( 'Modified Date', 'wp-schema-pro' ),
 								'type'     => 'date',
 								'default'  => 'post_modified',
-								'required' => true,
 							),
 							'orgnization-name' => array(
 								'label'    => esc_html__( 'Publisher Name', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'blogname',
-								'required' => true,
 							),
 							'site-logo'        => array(
 								'label'    => esc_html__( 'Publisher Logo', 'wp-schema-pro' ),
 								'type'     => 'image',
 								'default'  => 'site_logo',
-								'required' => true,
 							),
 						),
 					),
@@ -1406,6 +1398,14 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'   => esc_html__( 'Review Rating', 'wp-schema-pro' ),
 								'type'    => 'rating',
 								'default' => 'none',
+								'required' => true,
+							),
+							'ratingValue' => array(
+								'label'   => esc_html__( 'Rating Value', 'wp-schema-pro' ),
+								'type'    => 'text', // or 'number' if you want to restrict the input to numbers only
+								'default' => 'none',
+								'required' => true,
+								'description' => esc_html__( 'A numerical quality rating for the item, either a number, fraction, or percentage (for example, 4, 60%, or 6 / 10).', 'wp-schema-pro' ),
 							),
 							'reviewer-type'  => array(
 								'label'   => esc_html__( 'Reviewer Type', 'wp-schema-pro' ),
@@ -2002,6 +2002,17 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'label'   => esc_html__( 'Region', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'none',
+							),
+							'addressCountry'  => array(
+								'label'         => esc_html__( 'Country', 'wp-schema-pro' ),
+								'type'          => 'dropdown',
+								'default'       => 'create-field',
+								'dropdown-type' => 'country',
+							),
+							'postalCode' => array(
+								'label'   => esc_html__( 'Postal Code', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'create-field',
 							),
 							'location-street'   => array(
 								'label'   => esc_html__( 'Street Address', 'wp-schema-pro' ),

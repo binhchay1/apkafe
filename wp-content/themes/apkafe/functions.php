@@ -91,6 +91,13 @@ add_action('init', function ($search) {
 	add_rewrite_rule('search/?$', 'index.php?s=' . $search, 'top');
 });
 
+add_filter( 'wp_schema_pro_role', 'add_role_schema_pro');
+function add_role_schema_pro($roles){
+	$new_roles = array('wpseo_editor', 'editor');
+	$roles = array_merge($roles, $new_roles);
+	return $roles;
+}
+
 function design__wpseo_canonical($url)
 {
 	$paths = explode('/', $_SERVER['REQUEST_URI']);

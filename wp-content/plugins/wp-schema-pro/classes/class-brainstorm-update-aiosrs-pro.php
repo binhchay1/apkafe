@@ -164,7 +164,8 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		 * @return string                output message.
 		 */
 		public function license_message_aiosrs_pro( $content, $purchase_url ) {
-			$purchase_url = apply_filters( 'wp_schema_pro_licence_url', $purchase_url );
+			$schema_url = esc_url( "https://wpschema.com/pricing/" );
+			$purchase_url = apply_filters( 'wp_schema_pro_licence_url', $schema_url );
 
 			$message = "<p><a target='_blank' href='" . esc_url( $purchase_url ) . "'>" . esc_html__( 'Get the license >>', 'wp-schema-pro' ) . '</a></p>';
 

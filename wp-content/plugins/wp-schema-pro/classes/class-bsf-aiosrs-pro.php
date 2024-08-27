@@ -42,7 +42,22 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 			// Includes Required Files.
 			$this->includes();
 			add_action( 'admin_notices', array( $this, 'setup_wizard_notice' ) );
+			add_action( 'admin_notices', array( $this, 'how_to_schema_deprecated_notice' ) );
 			add_action( 'wp_ajax_wp_schema_pro_setup_wizard_notice', array( $this, 'wp_schema_pro_setup_wizard_notice_callback' ) );
+		}
+
+		/**
+		 * Display a notice about the deprecation of the HowTo schema.
+		 */
+		public function how_to_schema_deprecated_notice() {
+			$screen = get_current_screen();
+
+			// Only display the notice on the settings page of the Schema Pro
+			if ( 'settings_page_aiosrs_pro_admin_menu_page' === $screen->id ) {
+				echo '<div class="wp-schema-pro-how-to-deprecated-notice notice notice-warning is-dismissible">';
+				echo '<p>' . esc_html__( 'Please be advised that the HowTo schema is now deprecated according to the latest Google guidelines ', 'wp-schema-pro' ) . '<a href="https://wpschema.com/docs/how-to-schema/" target="_blank">' . esc_html__( 'Take a look here.', 'wp-schema-pro' ) . '</a></p>';
+				echo '</div>';
+			}
 		}
 
 		/**

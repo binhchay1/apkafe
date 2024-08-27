@@ -52,8 +52,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Service' ) ) {
 			}
 
 			if ( ( isset( $data['location-locality'] ) && ! empty( $data['location-locality'] ) ) ||
-				( isset( $data['location-region'] ) && ! empty( $data['location-region'] ) ) ||
-				( isset( $data['location-street'] ) && ! empty( $data['location-street'] ) ) ) {
+			( isset( $data['location-region'] ) && ! empty( $data['location-region'] ) ) ||
+			( isset( $data['location-street'] ) && ! empty( $data['location-street'] ) ) ||
+			( isset( $data['addressCountry'] ) && ! empty( $data['addressCountry'] ) ) ||
+			( isset( $data['postalCode'] ) && ! empty( $data['postalCode'] ) ) ) {
 
 				$schema['provider']['@type']            = 'LocalBusiness';
 				$schema['provider']['address']['@type'] = 'PostalAddress';
@@ -61,6 +63,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Service' ) ) {
 				$schema['provider']['address']['addressLocality'] = ! empty( $data['location-locality'] ) ? wp_strip_all_tags( (string) $data['location-locality'] ) : null;
 				$schema['provider']['address']['addressRegion']   = ! empty( $data['location-region'] ) ? wp_strip_all_tags( (string) $data['location-region'] ) : null;
 				$schema['provider']['address']['streetAddress']   = ! empty( $data['location-street'] ) ? wp_strip_all_tags( (string) $data['location-street'] ) : null;
+				$schema['provider']['address']['addressCountry']  = ! empty( $data['addressCountry'] ) ? wp_strip_all_tags( (string) $data['addressCountry'] ) : null;
+				$schema['provider']['address']['postalCode']      = ! empty( $data['postalCode'] ) ? wp_strip_all_tags( (string) $data['postalCode'] ) : null;
 			}
 
 			if ( isset( $data['area'] ) && ! empty( $data['area'] ) ) {

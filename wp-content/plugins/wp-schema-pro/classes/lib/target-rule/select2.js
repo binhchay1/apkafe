@@ -1288,14 +1288,15 @@ S2.define('select2/results',[
     var content = template(result, container);
 
     if (content == null) {
-      container.style.display = 'none';
+        container.style.display = 'none';
     } else if (typeof content === 'string') {
-      container.innerHTML = escapeMarkup(content);
+        container.innerHTML = escapeMarkup(content);
     } else {
-      $(container).append(content);
+        $(container).append(content);
     }
-  };
-
+    // Return the container
+    return container;
+};
   return Results;
 });
 

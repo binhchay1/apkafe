@@ -1,0 +1,41 @@
+.csf-fieldset-content {
+    .csf-field.csf-field-typography {
+        &:last-child {
+            .csf--block.csf--block-font-color {
+                .csf--title {
+                    display: none;
+                }
+
+                &:before {
+                    content: 'Hover Color';
+                    color: #777;
+                    margin: 0 0 2px;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+
+.csf-field {
+    &.csf-field-checkbox {
+        &.select_post {
+            background-color: #fff;
+            padding: 15px;
+            ul {
+                li {
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.csf-field-image_select {
+    .csf--image {
+        margin: 0;
+        padding:25px;
+    }
+}

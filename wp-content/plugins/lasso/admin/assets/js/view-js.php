@@ -326,7 +326,7 @@ $page = esc_js( $page ); // phpcs:ignore
 				})
 				.done(function(response) {
 					var t1 = performance.now();
-
+					// console.log("Query response took " + (t1 - t0) + " milliseconds.");
 					if(response.success) {
 						var post = response.data.post;
 						var responseData = response.data;
@@ -336,15 +336,6 @@ $page = esc_js( $page ); // phpcs:ignore
 							.attr('data-order-type', post.order_type).append(order_icon);
 
 						var html = get_html(responseData.data, post);
-
-						if(container_name == 'custom-fields') {
-							let pros_input_value = 'Pros';
-							if(response.data.pros_input) {
-								pros_input_value = response.data.pros_input;
-							}
-							html = html.replace('<strong>Pros</strong>', '<input type="text" value="'+ 	pros_input_value +'" id="pros_input" style="color: black !important; font-weight: bold" class="select2-search__field field_value">');
-						}
-						
 						container.html(html);
 
 						jQuery('.subsubsub').find('li.active').find('span').text(responseData.total.total);
