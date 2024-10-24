@@ -121,6 +121,18 @@ trait Helper_Trait {
         return $ht_easy_ga4_id;
     }
 
+    public function get_measurement_id2(){
+        $ht_easy_ga4_id = '';
+
+        if( !empty($this->get_option('measurement_id')) ){
+            $ht_easy_ga4_id = $this->get_option('measurement_id');
+        } elseif( !empty($this->get_option('ht_easy_ga4_id')) ){
+            return $this->get_option('ht_easy_ga4_id');
+        }
+        
+        return $ht_easy_ga4_id;
+    }
+
     public function get_data($query_str){
         $get_data = wp_unslash($_GET); // phpcs:ignore
 
@@ -394,10 +406,10 @@ trait Helper_Trait {
 
             return $options[$option_name];
 
-        } elseif( get_option($option_name) ) {
+        } elseif( get_option('ht_easy_ga4_id') ) {
 
             // If not found in the updated options, look into the old options
-            return get_option($option_name);
+            return get_option('ht_easy_ga4_id');
             
         } else {
             return $default;

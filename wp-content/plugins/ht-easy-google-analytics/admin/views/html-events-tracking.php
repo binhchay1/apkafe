@@ -32,10 +32,10 @@
 	<?php do_action( 'htga4_events_tracking_tab_content_before', $this ); ?>
 
 	<div class="htga4 htga4-events-tracking-tab-content-area">
-		<div class="htga4-tab-content-left">
+		<div class="htga4-tab-content-left <?php echo esc_attr( $pro_status_class ); ?>">
 
 			<h2 class="htga4-section-heading"><?php echo esc_html__( 'E-Commerce Events', 'ht-easy-ga4' ); ?></h2>
-			<div class="htga4-enable-ecommerce-events <?php echo esc_attr( $pro_status_class ); ?>">
+			<div class="htga4-enable-ecommerce-events">
 				<span><?php echo esc_html__( 'Enable E-commerce Events', 'ht-easy-ga4' ); ?></span>
 				<div class="htga4-checkbox-switch">
 					<input name="enable_ecommerce_events" type="hidden" id="" value="0" />
@@ -48,7 +48,7 @@
 				</div>
 			</div>
 
-			<div class="htga4-grid-box-wrapper <?php echo esc_attr( $pro_status_class ); ?>">
+			<div class="htga4-grid-box-wrapper">
 
 				<div class="htga4-grid-box">
 					<div class="htga4-grid-box-left">
@@ -235,7 +235,7 @@
 			</div>
 
 			<h2 class="htga4-section-heading"><?php echo esc_html__( 'Video Events', 'ht-easy-ga4' ); ?></h2>
-			<div class="htga4-grid-box-wrapper <?php echo esc_attr( $pro_status_class ); ?>">
+			<div class="htga4-grid-box-wrapper">
 
 				<div class="htga4-grid-box">
 					<div class="htga4-grid-box-left">
@@ -310,7 +310,7 @@
 			</div>
 
 			<h2 class="htga4-section-heading"><?php echo esc_html__( 'Audio Event', 'ht-easy-ga4' ); ?></h2>
-			<div class="htga4-grid-box-wrapper <?php echo esc_attr( $pro_status_class ); ?>">
+			<div class="htga4-grid-box-wrapper">
 
 				<div class="htga4-grid-box">
 					<div class="htga4-grid-box-left">

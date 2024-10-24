@@ -11,6 +11,7 @@
  */
 class WPCode_Code_Editor {
 
+
 	/**
 	 * Array of settings used to instantiate the editor.
 	 *
@@ -58,6 +59,13 @@ class WPCode_Code_Editor {
 		);
 		if ( ! current_user_can( 'wpcode_edit_snippets' ) ) {
 			$editor_args['codemirror']['readOnly'] = true;
+		}
+
+		// Check if the DISALLOW_UNFILTERED_HTML is defined and print the warning message
+		if ( defined( 'DISALLOW_UNFILTERED_HTML' ) && DISALLOW_UNFILTERED_HTML ) {
+			WPCode_Notice::warning(
+				esc_html__( 'The PHP constant DISALLOW_UNFILTERED_HTML is currently defined, which is preventing WPCode from saving code accurately. Please contact your webmaster for assistance in disabling this restriction.', 'insert-headers-and-footers' )
+			);
 		}
 
 		// Allow filtering of the editor args.

@@ -920,7 +920,7 @@ abstract class WPCode_Admin_Page {
 	 *
 	 * @return void
 	 */
-	public function get_library_markup( $categories, $snippets, $item_method = 'get_library_snippet_item' ) {
+	public function get_library_markup( $categories, $snippets, $item_method = 'get_library_snippet_item', $type = 'library' ) {
 		$selected_category = isset( $categories[0]['slug'] ) ? $categories[0]['slug'] : '*';
 		$count             = 0;
 		foreach ( $snippets as $snippet ) {
@@ -934,7 +934,7 @@ abstract class WPCode_Admin_Page {
 		?>
 		<div class="wpcode-items-metabox wpcode-metabox">
 			<?php $this->get_items_list_sidebar( $categories, __( 'All Snippets', 'insert-headers-and-footers' ), __( 'Search Snippets', 'insert-headers-and-footers' ), $selected_category, $count ); ?>
-			<div class="wpcode-items-list">
+			<div class="wpcode-items-list" data-type="<?php echo esc_attr( $type ); ?>">
 				<?php
 				if ( empty( $snippets ) ) {
 					?>
@@ -1115,6 +1115,8 @@ abstract class WPCode_Admin_Page {
 			</div>
 			<div class="wpcode-library-preview-buttons">
 				<a class="wpcode-button wpcode-button-wide" id="wpcode-preview-use-code"><?php esc_html_e( 'Use Snippet', 'insert-headers-and-footers' ); ?></a>
+				<a class="wpcode-button wpcode-button-secondary wpcode-my-library-buttons" id="wpcode-preview-edit-snippet" target="_blank"><?php esc_html_e( 'Edit in Library', 'wpcode-premium' ); ?></a>
+				<div class="wpcode-preview-updated wpcode-my-library-buttons" id="wpcode-preview-updated"></div>
 			</div>
 		</div>
 		<?php

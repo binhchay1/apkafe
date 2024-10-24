@@ -28,7 +28,7 @@ class Frontend {
 	}
 
 	public function __construct() {
-		if ( $this->get_measurement_id() ) {
+		if ( $this->get_measurement_id2() ) {
 			add_action( 'wp_head', array( $this, 'header_scirpt_render' ) );
 
 			// Compatibility with WooCommerce redirect to cart after added to cart feature.
@@ -48,13 +48,13 @@ class Frontend {
 		}
 		?>
 			<!-- Global site tag (gtag.js) - added by HT Easy Ga4 -->
-			<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo esc_js( $this->get_measurement_id() ); ?>"></script>
+			<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo esc_js( $this->get_measurement_id2() ); ?>"></script>
 			<script>
 				window.dataLayer = window.dataLayer || [];
 				function gtag(){dataLayer.push(arguments);}
 				gtag('js', new Date());
 
-				gtag('config', <?php echo "'" . esc_js( $this->get_measurement_id() ) . "'"; ?>);
+				gtag('config', <?php echo "'" . esc_js( $this->get_measurement_id2() ) . "'"; ?>);
 			</script>
 		<?php
 	}
@@ -70,6 +70,10 @@ class Frontend {
 		// If the current user is of the excluded user roles return false.
 		if ( is_user_logged_in() ) {
 			$exclude_user_roles = $this->get_option( 'exclude_roles' );
+
+			if( !is_array($exclude_user_roles) ){
+				$exclude_user_roles = [];
+			}
 
 			$current_user_id    = get_current_user_id();
 			$current_user       = get_userdata( $current_user_id );

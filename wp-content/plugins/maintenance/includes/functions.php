@@ -1,5 +1,28 @@
 <?php
 global $standart_fonts;
+$mtnc_filesystem_initialized = false;
+
+/**
+ * Initializes the WordPress filesystem.
+ *
+ * @return bool
+ */
+function mtnc_wp_init_filesystem()
+{
+    global $mtnc_filesystem_initialized;
+    
+    if (! $mtnc_filesystem_initialized) {
+        if (! class_exists('WP_Filesystem')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        WP_Filesystem();
+        $mtnc_filesystem_initialized = true;
+    }
+
+    return true;
+}
+
 $standart_fonts = array(
   'Arial, Helvetica, sans-serif'                     => 'Arial, Helvetica, sans-serif',
   'Arial Black, Gadget, sans-serif'                  => 'Arial Black, Gadget, sans-serif',
@@ -498,7 +521,7 @@ function mtnc_add_data_fields($object, $box)
       mtnc_generate_check_field(__('Show Contact Form', 'maintenance'), 'Enable &amp; customize a contact form on the page so that visitors can easily get in touch with you.', 'content_contact_form', '', false, true);
       mtnc_generate_check_field(__('Show Map', 'maintenance'), 'Make it super-easy for visitors to find your business by displaying a map with your location.', 'content_map', '', false, true);
       mtnc_generate_check_field(__('Show Progress Bar', 'maintenance'), 'Let visitors know how your new site is progressing and when is it going to be complete.', 'content_progress_bar', '', false, true);
-      mtnc_generate_check_field(__('Enable Frontend Login', 'maintenance'), '', 'is_login', 'is_login', isset($mt_option['is_login']));
+      mtnc_generate_check_field(__('Enable Frontend Login', 'maintenance'), '', 'is_login', 'is_login', (isset($mt_option['is_login']) && $mt_option['is_login'] == true ));
 
       mtnc_wp_kses('<tr><td colspan="2"><p><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p></td></tr>');
       ?>
@@ -940,9 +963,9 @@ add_action('mtnc_background_field', 'mtnc_get_background_fileds_action', 10);
 function mtnc_get_color_fileds_action()
 {
   $mt_option = mtnc_get_plugin_options(true);
-  mtnc_get_color_field(__('Background Color', 'maintenance'), 'body_bg_color', 'body_bg_color', esc_attr(strip_tags($mt_option['body_bg_color'])), '#111111');
-  mtnc_get_color_field(__('Font Color', 'maintenance'), 'font_color', 'font_color', esc_attr(strip_tags($mt_option['font_color'])), '#ffffff');
-  mtnc_get_color_field(__('Login Block Background Color', 'maintenance'), 'controls_bg_color', 'controls_bg_color', isset($mt_option['controls_bg_color']) ? esc_attr(strip_tags($mt_option['controls_bg_color'])) : '', '#000000');
+  mtnc_get_color_field(__('Background Color', 'maintenance'), 'body_bg_color', 'body_bg_color', esc_attr($mt_option['body_bg_color']), '#111111');
+  mtnc_get_color_field(__('Font Color', 'maintenance'), 'font_color', 'font_color', esc_attr($mt_option['font_color']), '#ffffff');
+  mtnc_get_color_field(__('Login Block Background Color', 'maintenance'), 'controls_bg_color', 'controls_bg_color', isset($mt_option['controls_bg_color']) ? esc_attr($mt_option['controls_bg_color']) : '', '#000000');
 }
 add_action('mtnc_color_fields', 'mtnc_get_color_fileds_action', 10);
 
@@ -1013,21 +1036,6 @@ function mtnc_promo_mtnc()
   mtnc_wp_kses($promo_text);
 } // mtnc_promo_mtnc
 
-function mtnc_cur_page_url()
-{
-  $page_url = 'http';
-  if (isset($_SERVER['HTTPS'])) {
-    $page_url .= 's';
-  }
-  $page_url .= '://';
-  if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] !== '80') {
-    $page_url .= wp_unslash($_SERVER['SERVER_NAME']) . ':' . wp_unslash($_SERVER['SERVER_PORT']) . wp_unslash($_SERVER['REQUEST_URI']);
-  } else {
-    $page_url .= wp_unslash($_SERVER['SERVER_NAME']) . wp_unslash($_SERVER['REQUEST_URI']);
-  }
-  return $page_url;
-}
-
 function mtnc_check_exclude()
 {
   global $mt_options, $post;
@@ -1077,7 +1085,8 @@ function mtnc_load_maintenance_page($original_template)
   $vtime_start       = date_i18n('h:i:s A', strtotime('01:00:00 am'));
   $vtime_end         = date_i18n('h:i:s A', strtotime('12:59:59 pm'));
 
-  if (file_exists(MTNC_LOAD . 'index.php') && isset($_GET['maintenance-preview'])) {
+  //no nonce because preview links can be manually opened directly
+  if (file_exists(MTNC_LOAD . 'index.php') && isset($_GET['maintenance-preview'])) { //phpcs:ignore
     add_filter('script_loader_tag', 'mtnc_defer_scripts', 10, 2);
     return MTNC_LOAD . 'index.php';
   }
@@ -1205,10 +1214,14 @@ function mtnc_hex2rgb($hex)
 
 function mtnc_insert_attach_sample_files()
 {
-  global $wpdb;
+  global $wpdb, $wp_filesystem;
+  mtnc_wp_init_filesystem();
+  
+
   $title            = '';
   $attach_id        = 0;
-  $is_attach_exists = $wpdb->get_results("SELECT p.ID FROM $wpdb->posts p WHERE  p.post_title LIKE '%mt-sample-background%'", OBJECT); //db call ok; no-cache ok
+  //db call ok; no-cache ok
+  $is_attach_exists = $wpdb->get_results("SELECT p.ID FROM $wpdb->posts p WHERE  p.post_title LIKE '%mt-sample-background%'", OBJECT); //phpcs:ignore
 
   if (!empty($is_attach_exists)) {
     $attach_id = current($is_attach_exists)->ID;
@@ -1216,7 +1229,7 @@ function mtnc_insert_attach_sample_files()
     require_once ABSPATH . 'wp-admin/includes/image.php';
     $image_url    = MTNC_DIR . 'images/mt-sample-background.jpg';
     $file_name    = basename($image_url);
-    $file_content = file_get_contents($image_url);
+    $file_content = $wp_filesystem->get_contents( $image_url );
     $upload       = wp_upload_bits($file_name, null, $file_content, current_time('mysql', 0));
 
     if (!$upload['error']) {
@@ -1251,7 +1264,7 @@ function mtnc_get_default_array()
     'page_title'        => __('Site is undergoing maintenance', 'maintenance'),
     'heading'           => __('Maintenance mode is on', 'maintenance'),
     'description'       => __('Site will be available soon. Thank you for your patience!', 'maintenance'),
-    'footer_text'       => '&copy; ' . get_bloginfo('name') . ' ' . date('Y'),
+    'footer_text'       => '&copy; ' . get_bloginfo('name') . ' ' . gmdate('Y'),
     'show_some_love'    => '',
     'logo_width'        => 220,
     'logo_height'       => '',
@@ -1281,7 +1294,9 @@ function mtnc_get_default_array()
 if (!function_exists('mtnc_get_bunny_fonts')) {
   function mtnc_get_bunny_fonts()
   {
-    $gg_fonts = file_get_contents(MTNC_DIR . 'includes/fonts/fonts.json');
+    global $wp_filesystem;
+    mtnc_wp_init_filesystem();
+    $gg_fonts = $wp_filesystem->get_contents(MTNC_DIR . 'includes/fonts/fonts.json');
     return $gg_fonts;
   }
 }

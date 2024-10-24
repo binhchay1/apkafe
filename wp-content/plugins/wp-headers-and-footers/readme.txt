@@ -5,7 +5,7 @@ Author URI: https://wpbrigade.com/?utm_source=wphf-org&utm_medium=author-url-lin
 Tags: header, footer, Google Analytics, custom css, Facebook Pixel
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 2.2.2
+Stable tag: 3.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -77,6 +77,10 @@ You can insert code in Header, Body and Footer areas of any WordPress site.
 
 == Changelog ==
 
+= 3.0.0 – 2024-09-11 =
+* Security Fix: Fixed Opt-out and Opt-in consent.
+* Enhancement: Code re-factorization and optimization.
+
 = 2.2.2 – 2024-08-22 =
 * Enhancement: Code re-factorization and optimization.
 * Compatibility: Compatible with WordPress 6.6
@@ -86,7 +90,7 @@ You can insert code in Header, Body and Footer areas of any WordPress site.
 * Compatibility: Compatible with WordPress 6.6
 
 = 2.2.0 - 2024-03-18 =
-* Enhancement: Provided admin role access in multisite to update scripts.
+* Enhancement: Provided admin role access in multi-site to update scripts.
 * Enhancement: Addressed dashboard style issue to prevent text overflow.
 * Enhancement: Optimized code for improved performance.
 * Compatibility: Compatible with WordPress 6.5
@@ -97,7 +101,7 @@ You can insert code in Header, Body and Footer areas of any WordPress site.
 * Compatibility: Compatible with PHP 8.3 and WordPress 6.4
 
 = 2.1.0 - 2023-11-07 =
-* New Feature: Introduced an option for removing the scripts/settings during uninstallation of the plugin.
+* New Feature: Introduced an option for removing the scripts/settings during un-installation of the plugin.
 * Compatibility: Compatible with WordPress 6.4
 
 = 2.0.3 - 2023-10-26 =
@@ -158,5 +162,5 @@ You can insert code in Header, Body and Footer areas of any WordPress site.
 
 == Upgrade Notice ==
 
-= 2.2.2 =
+= 3.0.0 =
 * Upgrade Immediately.

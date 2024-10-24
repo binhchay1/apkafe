@@ -1031,7 +1031,6 @@
 .htga4_no_pro {
 	opacity: 0.5;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	pointer-events: none;
 }
 
 .htga4_no_pro img {
@@ -1087,6 +1086,17 @@ tr.htga4_no_pro .htga4-checkbox-switch {
 
 tr.htga4_no_pro input {
 	pointer-events: none;
+}
+
+.htga4-tab-content-left.htga4_no_pro::after {
+    content: "";
+    position: absolute;
+    z-index: 99999;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    opacity: .5;
+	cursor: pointer;
 }
 
 /* Pro adv popup */
@@ -1383,6 +1393,7 @@ tr.htga4_no_pro input {
 .htga4-events-tracking-tab-content-area .htga4-tab-content-left {
 	-ms-flex-preferred-size: 70%;
 	    flex-basis: 70%;
+	position: relative;
 }
 
 @media only screen and (max-width: 1400px) {

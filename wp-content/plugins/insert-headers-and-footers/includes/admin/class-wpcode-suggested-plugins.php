@@ -37,53 +37,95 @@ class WPCode_Suggested_Plugins {
 	 */
 	public static function all_plugins() {
 		$plugins = array(
-			'duplicator'            => array(
+			'duplicator'             => array(
 				'name'        => 'Duplicator',
 				'description' => esc_html__( 'Easy, Fast and Secure WordPress and Website Migration.', 'insert-headers-and-footers' ),
 				'url'         => 'https://downloads.wordpress.org/plugin/duplicator.zip',
 				'slug'        => 'duplicator/duplicator.php',
 				'pro_slug'    => 'duplicator-pro/duplicator-pro.php',
 				'icon'        => 'icon-duplicator.png',
+				'suggested'   => true,
+				'library'     => false,
 			),
-			'search-replace-wpcode' => array(
+			'search-replace-wpcode'  => array(
 				'name'        => 'Search & Replace Everything',
 				'description' => esc_html__( 'Replace text across your database or media uploads in a single plugin.', 'insert-headers-and-footers' ),
 				'url'         => 'https://downloads.wordpress.org/plugin/search-replace-wpcode.zip',
 				'slug'        => 'search-replace-wpcode/wsrw.php',
 				'pro_slug'    => 'search-replace-wpcode-pro/wsrw-premium.php',
 				'icon'        => 'icon-search-replace-wpcode.png',
+				'suggested'   => true,
+				'library'     => false,
 			),
-			'wp-mail-smtp'          => array(
+			'wp-mail-smtp'           => array(
 				'name'        => 'WP Mail SMTP',
 				'description' => esc_html__( 'Making Email Deliverability Easy for WordPress', 'insert-headers-and-footers' ),
 				'url'         => 'https://downloads.wordpress.org/plugin/wp-mail-smtp.zip',
 				'slug'        => 'wp-mail-smtp/wp_mail_smtp.php',
 				'pro_slug'    => 'wp-mail-smtp-pro/wp_mail_smtp_pro.php',
 				'icon'        => 'icon-wp-mail-smtp.png',
+				'suggested'   => true,
+				'library'     => false,
 			),
-			'all-in-one-seo-pack'   => array(
+			'all-in-one-seo-pack'    => array(
 				'name'        => 'All in One SEO Pack',
 				'description' => esc_html__( 'Powerful SEO Plugin to Boost SEO Rankings & Increase Traffic.', 'insert-headers-and-footers' ),
 				'url'         => 'https://downloads.wordpress.org/plugin/all-in-one-seo-pack.zip',
 				'slug'        => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
 				'pro_slug'    => 'all-in-one-seo-pack-pro/all_in_one_seo_pack.php',
 				'icon'        => 'icon-all-in-one-seo-pack.png',
+				'suggested'   => true,
+				'library'     => true,
 			),
-			'wpforms'               => array(
+			'wpforms'                => array(
 				'name'        => 'WPForms',
 				'description' => esc_html__( 'The Best Drag & Drop WordPress Form Builder.', 'insert-headers-and-footers' ),
 				'url'         => 'https://downloads.wordpress.org/plugin/wpforms-lite.zip',
 				'slug'        => 'wpforms-lite/wpforms.php',
 				'pro_slug'    => 'wpforms/wpforms.php',
 				'icon'        => 'icon-wpforms.png',
+				'suggested'   => true,
+				'library'     => true,
 			),
-			'uncanny-automator'     => array(
+			'uncanny-automator'      => array(
 				'name'        => 'Uncanny Automator',
 				'description' => esc_html__( 'Connect your WordPress plugins together and create automated workflows.', 'insert-headers-and-footers' ),
 				'url'         => 'https://downloads.wordpress.org/plugin/uncanny-automator.zip',
 				'slug'        => 'uncanny-automator/uncanny-automator.php',
 				'pro_slug'    => 'uncanny-automator-pro/uncanny-automator-pro.php',
 				'icon'        => 'icon-uncanny-automator.png',
+				'suggested'   => true,
+				'library'     => false,
+			),
+			'easy-digital-downloads' => array(
+				'name'        => 'Easy Digital Downloads',
+				'description' => esc_html__( 'The easiest way to sell digital products with WordPress.', 'insert-headers-and-footers' ),
+				'url'         => 'https://downloads.wordpress.org/plugin/easy-digital-downloads.zip',
+				'slug'        => 'easy-digital-downloads/easy-digital-downloads.php',
+				'pro_slug'    => 'easy-digital-downloads-pro/easy-digital-downloads.php',
+				'icon'        => 'icon-edd.png',
+				'suggested'   => false,
+				'library'     => true,
+			),
+			'charitable'             => array(
+				'name'        => 'Charitable',
+				'description' => esc_html__( 'Raise more money for your cause with the most powerful WordPress donation and fundraising plugin.', 'insert-headers-and-footers' ),
+				'url'         => 'https://downloads.wordpress.org/plugin/charitable.zip',
+				'slug'        => 'charitable/charitable.php',
+				'pro_slug'    => 'charitable/charitable.php',
+				'icon'        => 'icon-charitable.jpg',
+				'suggested'   => false,
+				'library'     => true,
+			),
+			'wp-simple-pay'          => array(
+				'name'        => 'WP Simple Pay',
+				'description' => esc_html__( 'Start accepting one-time and recurring payments on your WordPress site without setting up a shopping cart.', 'insert-headers-and-footers' ),
+				'url'         => 'https://downloads.wordpress.org/plugin/stripe.zip',
+				'slug'        => 'stripe/stripe-checkout.php',
+				'pro_slug'    => 'wp-simple-pay-pro-3/simple-pay.php',
+				'icon'        => 'icon-wp-simple-pay.png',
+				'suggested'   => false,
+				'library'     => true,
 			),
 		);
 
@@ -106,6 +148,9 @@ class WPCode_Suggested_Plugins {
 			if ( $count <= count( $suggested_plugins ) ) {
 				break;
 			}
+			if ( ! $plugin['suggested'] ) {
+				continue;
+			}
 
 			if ( ! $this->is_plugin_installed( $plugin['slug'] ) && ! $this->is_plugin_installed( $plugin['pro_slug'] ) ) {
 				$suggested_plugins[ $slug ] = $plugin;
@@ -113,6 +158,23 @@ class WPCode_Suggested_Plugins {
 		}
 
 		return $suggested_plugins;
+	}
+
+	/**
+	 * Get a list of plugins that have a library integration so we can show them in the plugin snippets page.
+	 *
+	 * @return array
+	 */
+	public static function get_library_plugins() {
+		$plugins = self::all_plugins();
+
+		// Filter out just the plugins that have "library" true.
+		return array_filter(
+			$plugins,
+			function ( $plugin ) {
+				return $plugin['library'];
+			}
+		);
 	}
 
 	/**
@@ -169,8 +231,9 @@ class WPCode_Suggested_Plugins {
 			);
 		}
 
-		if ( $this->is_plugin_installed( $plugin_info['slug'] ) ) {
-			activate_plugin( $plugin_info['slug'] );
+		// Check if the Pro plugin is available first.
+		if ( $this->is_plugin_installed( $plugin_info['pro_slug'] ) ) {
+			activate_plugin( $plugin_info['pro_slug'] );
 			wp_send_json_success(
 				array(
 					'msg' => esc_html__( 'Plugin activated.', 'insert-headers-and-footers' ),
@@ -178,9 +241,8 @@ class WPCode_Suggested_Plugins {
 			);
 		}
 
-		// Also check for the pro version.
-		if ( $this->is_plugin_installed( $plugin_info['pro_slug'] ) ) {
-			activate_plugin( $plugin_info['pro_slug'] );
+		if ( $this->is_plugin_installed( $plugin_info['slug'] ) ) {
+			activate_plugin( $plugin_info['slug'] );
 			wp_send_json_success(
 				array(
 					'msg' => esc_html__( 'Plugin activated.', 'insert-headers-and-footers' ),
@@ -268,7 +330,7 @@ class WPCode_Suggested_Plugins {
 		// Let's make sure we are on a wpcode screen using get_current_screen.
 		$screen = get_current_screen();
 
-		if ( ! $screen || false === strpos( $screen->id, 'wpcode' ) ) {
+		if ( ! $screen || 'toplevel_page_wpcode' !== $screen->id ) {
 			return;
 		}
 		// Fetch when plugin was initially installed.
@@ -300,7 +362,7 @@ class WPCode_Suggested_Plugins {
 			<?php foreach ( $suggested_plugins as $slug => $plugin ) { ?>
 				<div class="wpcode-plugin-suggestion-plugin">
 					<div class="wpcode-plugin-suggestion-plugin-icon">
-						<img width="72" src="<?php echo esc_url( WPCODE_PLUGIN_URL . 'admin/images/' . $plugin['icon'] ); ?>" alt="<?php echo esc_attr( $plugin['name'] ); ?>"/>
+						<img width="72" src="<?php echo esc_url( add_query_arg( 'v', WPCODE_VERSION, WPCODE_PLUGIN_URL . 'admin/images/' . $plugin['icon'] ) ); ?>" alt="<?php echo esc_attr( $plugin['name'] ); ?>"/>
 					</div>
 					<div class="wpcode-plugin-suggesion-plugin-text">
 						<h3><?php echo esc_html( $plugin['name'] ); ?></h3>

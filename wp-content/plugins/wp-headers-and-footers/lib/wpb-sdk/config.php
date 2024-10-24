@@ -19,7 +19,7 @@ if (!defined('WPBRIGADE_SDK_DIR_INCLUDES')) {
     define('WPBRIGADE_SDK_DIR_INCLUDES', WPBRIGADE_SDK_DIR . '/includes');
 }
 if ( ! defined( 'WPBRIGADE_SDK_API_ENDPOINT' ) ) {
-	define( 'WPBRIGADE_SDK_API_ENDPOINT', 'https://app.telemetry.wpbrigade.com/api/v1' );
+	define( 'WPBRIGADE_SDK_API_ENDPOINT', 'https://app.telemetry.wpbrigade.com/api/v2' );
 }
 
 

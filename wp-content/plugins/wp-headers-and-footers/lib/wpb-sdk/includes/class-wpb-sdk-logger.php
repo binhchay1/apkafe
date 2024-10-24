@@ -52,13 +52,8 @@ class WPBRIGADE_Logger
             $this->set_logs_schedule($slug);
         });
 
-        // Weekly log plugin execution
-        add_action('wpb_logger_cron_' . $slug, function () use ($slug) {
-            $this->weekly_log_plugin($slug);
-        });
-
         // Daily log plugin execution
-        add_action('wpb_daily_sync_cron_' . $slug, function () use ($slug) {
+        add_action('wpb_data_sync_' . $slug, function () use ($slug) {
             $this->daily_log_plugin($slug);
         });
 
@@ -89,64 +84,80 @@ class WPBRIGADE_Logger
     // Method to set scheduled events for logging
     public function set_logs_schedule($slug)
     {
+         //Clean Old Cron jobs
+         wp_clear_scheduled_hook('wpb_logger_cron_' . $slug);
+         wp_clear_scheduled_hook('wpb_daily_sync_cron_' . $slug);
+
         // Calculate future timestamps for scheduling
         $daily_start_time = strtotime('+1 day');
-        $weekly_start_time = strtotime('+1 week');
+        // Schedule daily cron event if not already scheduled
+        if (!wp_next_scheduled('wpb_data_sync_' . $slug)) {
+            wp_schedule_event($daily_start_time, 'daily', 'wpb_data_sync_' . $slug);
+        }
+
+    }
+
+    public static function reset_logs_schedule($slug)
+    {
+        // Calculate future timestamps for scheduling
+        $daily_start_time = strtotime('+1 day');
 
         // Schedule daily cron event if not already scheduled
-        if (!wp_next_scheduled('wpb_daily_sync_cron_' . $slug)) {
-            wp_schedule_event($daily_start_time, 'daily', 'wpb_daily_sync_cron_' . $slug);
+        if (!wp_next_scheduled('wpb_data_sync_' . $slug)) {
+            wp_schedule_event($daily_start_time, 'daily', 'wpb_data_sync_' . $slug);
         }
+    }
 
-        // Schedule weekly cron event if not already scheduled
-        if (!wp_next_scheduled('wpb_logger_cron_' . $slug)) {
-            wp_schedule_event($weekly_start_time, 'weekly', 'wpb_logger_cron_' . $slug);
-        }
+    public static function remove_logs_schedule($slug)
+    {
+        wp_clear_scheduled_hook('wpb_data_sync_' . $slug);
     }
 
     // Method to log plugin activity on daily scheduled events
     public function daily_log_plugin($slug)
     {
-        $logs_data = array_merge(
-            self::get_logs_data($slug),
-            array(
-                'explicit_logs' => array(
-                    'action' => 'daily',
-                ),
-            )
-        );
+        $sdk_data = json_decode(get_option('wpb_sdk_' . $slug), true);
+        $user_skip = isset($sdk_data['user_skip']) ? $sdk_data['user_skip'] : false;
+        $user_skip = $user_skip === "1" ? true : false;
+        if ($user_skip) {
+            $logs_data = self::get_logs_data($slug, 'user_skip');
+            $sdk_data['user_skip'] = "0";
+            $sdk_data_json = json_encode($sdk_data);
+            update_option('wpb_sdk_' . $slug, $sdk_data_json);
+        } else {
+            $logs_data = self::get_logs_data($slug, 'daily');
+        }
 
-        self::send($slug, $logs_data);
-    }
+        if (!empty($logs_data)) {
+            $logs_to_send = array_merge(
+                $logs_data,
+                array(
+                    'explicit_logs' => array(
+                        'action' => 'daily',
+                    ),
+                )
+            );
+            self::send($slug, $logs_to_send);
+        }
 
-    // Method to log plugin activity on weekly scheduled events
-    public function weekly_log_plugin($slug)
-    {
-        $logs_data = array_merge(
-            self::get_logs_data($slug),
-            array(
-                'explicit_logs' => array(
-                    'action' => 'weekly',
-                ),
-            )
-        );
 
-        self::send($slug, $logs_data);
     }
 
     // Method to log plugin activation
     public function log_activation($slug)
     {
-        $logs_data = array_merge(
-            self::get_logs_data($slug),
-            array(
-                'explicit_logs' => array(
-                    'action' => 'activate',
-                ),
-            )
-        );
-
-        self::send($slug, $logs_data);
+        $logs_data = self::get_logs_data($slug, 'activate');
+        if (!empty($logs_data)) {
+            $logs_to_send = array_merge(
+                $logs_data,
+                array(
+                    'explicit_logs' => array(
+                        'action' => 'activate',
+                    ),
+                )
+            );
+            self::send($slug, $logs_to_send);
+        }
     }
 
     // Method to add deactivation model HTML to admin footer
@@ -154,7 +165,6 @@ class WPBRIGADE_Logger
     {
         if (function_exists('get_current_screen')) {
             $screen = get_current_screen();
-
             if ('plugins.php' === $screen->parent_file) {
                 $plugin_data = wpb_get_plugin_details($slug);
                 $product_name = $plugin_data['Name'];
@@ -189,8 +199,7 @@ class WPBRIGADE_Logger
     // Method to handle plugin deactivation
     public function product_deactivation($slug)
     {
-        wp_clear_scheduled_hook('wpb_logger_cron_' . $slug);
-        wp_clear_scheduled_hook('wpb_daily_sync_cron_' . $slug);
+        wp_clear_scheduled_hook('wpb_data_sync_' . $slug);
     }
 
     // Method to log plugin deactivation
@@ -198,52 +207,53 @@ class WPBRIGADE_Logger
     {
         $reason = isset($_POST['reason']) ? $_POST['reason'] : '';
         $reason_detail = isset($_POST['reason_detail']) ? $_POST['reason_detail'] : '';
-
-        $logs_data = array_merge(
-            self::get_logs_data($slug),
-            array(
-                'explicit_logs' => array(
-                    'action' => 'deactivate',
-                    'reason' => sanitize_text_field(wp_unslash($reason)),
-                    'reason_detail' => sanitize_text_field(wp_unslash($reason_detail)),
-                ),
-            )
-        );
-
-        self::send($slug, $logs_data);
+        $logs_data = self::get_logs_data($slug, 'deactivate');
+        if (!empty($logs_data)) {
+            $logs_to_send = array_merge(
+                $logs_data,
+                array(
+                    'explicit_logs' => array(
+                        'action' => 'deactivate',
+                        'reason' => sanitize_text_field(wp_unslash($reason)),
+                        'reason_detail' => sanitize_text_field(wp_unslash($reason_detail)),
+                    ),
+                )
+            );
+            self::send($slug, $logs_to_send);
+        }
     }
 
     // Method to log plugin uninstallation
     public static function log_uninstallation()
     {
         $slug = self::$current_uninstall_slug;
-        $logs_data = array_merge(
-            self::get_logs_data($slug),
-            array(
-                'explicit_logs' => array(
-                    'action' => 'uninstall',
-                ),
-            )
-        );
-        self::send($slug, $logs_data);
+        $logs_data = self::get_logs_data($slug, 'uninstall');
+        if (!empty($logs_data)) {
+            $logs_to_send = array_merge(
+                $logs_data,
+                array(
+                    'explicit_logs' => array(
+                        'action' => 'uninstall',
+                    ),
+                )
+            );
+            self::send($slug, $logs_to_send);
+        }
         // Call Plugin uninstall hook
         do_action('wp_wpb_sdk_after_uninstall');
     }
-
-
 
     /**
      * Collect all data for logging.
      *
      * @return array
      */
-    public static function get_logs_data($slug)
+    public static function get_logs_data($slug, $action = '')
     {
         global $wpdb;
 
         // Get product data
         $module = self::$product_data[$slug]['module'];
-        error_log("I am in LoginPress but my slug is: " . $slug);
         // Initialize variables
         $data = array();
         $theme_data = wp_get_theme();
@@ -251,80 +261,121 @@ class WPBRIGADE_Logger
         $external_http_blocked = '';
         $users_count = '';
 
+        $sdk_data = json_decode(get_option('wpb_sdk_' . $slug), true);
+
+        $sdk_communication = isset($sdk_data['communication']) ? $sdk_data['communication'] : '0';
+        $sdk_diagnostic_info = isset($sdk_data['diagnostic_info']) ? $sdk_data['diagnostic_info'] : '0';
+        $sdk_extensions = isset($sdk_data['extensions']) ? $sdk_data['extensions'] : '0';
+
+
+        $send_wpb_sdk_communication = $sdk_communication === "1" ? true : false;
+        $send_wpb_sdk_diagnostic_info = $sdk_diagnostic_info === "1" ? true : false;
+        $send_wpb_sdk_extensions = $sdk_extensions === "1" ? true : false;
+
+
+        if ($action != "user_skip") {
+            if (!$send_wpb_sdk_communication && !$send_wpb_sdk_diagnostic_info && !$send_wpb_sdk_extensions) {
+                WPBRIGADE_Logger::remove_logs_schedule($slug);
+                return [];
+            } else {
+                WPBRIGADE_Logger::reset_logs_schedule($slug);
+            }
+        }
         // Get admin user data
         $admin_users = get_users(array('role' => 'Administrator'));
         $admin = isset($admin_users[0]) ? $admin_users[0]->data : '';
         $admin_meta = !empty($admin) ? get_user_meta($admin->ID) : '';
-        $ip = self::get_ip();
-        $location = self::get_location_details($ip);
 
-        // Check if get_plugins function exists
-        if (!function_exists('get_plugins')) {
-            include ABSPATH . '/wp-admin/includes/plugin.php';
-        }
-
-        // Get users count if function exists
-        if (function_exists('count_users')) {
-            $users_count = count_users();
-            $users_count = isset($users_count['total_users']) ? intval($users_count['total_users']) : '';
-        }
-
-        // Check external http request blocking
-        if (!defined('WP_HTTP_BLOCK_EXTERNAL') || !WP_HTTP_BLOCK_EXTERNAL) {
-            $external_http_blocked = 'none';
-        } else {
-            $external_http_blocked = defined('WP_ACCESSIBLE_HOSTS') ? 'partially (accessible hosts: ' . esc_html(WP_ACCESSIBLE_HOSTS) . ')' : 'all';
-        }
-
-        // Get curl version if function exists
-        if (function_exists('curl_init')) {
-            $curl = curl_version();
-            $curl_version = '(' . $curl['version'] . ' ' . $curl['ssl_version'] . ')';
-        }
 
         // Collect data
         $data['authentication']['public_key'] = $module['public_key'];
+
+        if ($action == "user_skip"||$send_wpb_sdk_communication) {
+            // USER INFO
+            $data['user_info'] = array(
+                'user_email' => !empty($admin) ? sanitize_email($admin->user_email) : '',
+                'user_nickname' => !empty($admin) ? sanitize_text_field($admin->user_nicename) : '',
+                'user_firstname' => isset($admin_meta['first_name'][0]) ? sanitize_text_field($admin_meta['first_name'][0]) : '',
+                'user_lastname' => isset($admin_meta['last_name'][0]) ? sanitize_text_field($admin_meta['last_name'][0]) : '',
+            );
+        }
+
+        // PRODUCT INFO MUST HAVE
+        $data['product_info'] = self::get_product_data($slug);
+        $data['product_info']['sdk_version'] = WP_WPBRIGADE_SDK_VERSION;
+
+        if ($action == "user_skip"||$send_wpb_sdk_diagnostic_info) {
+            $data['product_info']['product_settings'] = self::get_product_settings($slug);
+        }
+
+        // SITE INFO MUST HAVE
         $data['site_info'] = array(
             'site_url' => site_url(),
             'home_url' => home_url(),
         );
-        $data['site_meta_info'] = array(
-            'is_multisite' => is_multisite(),
-            'multisites' => self::get_multisites(),
-            'php_version' => phpversion(),
-            'wp_version' => get_bloginfo('version'),
-            'server' => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '',
-            'timezoneoffset' => date('P'),
-            'ext/mysqli' => isset($wpdb->use_mysqli) && !empty($wpdb->use_mysqli) ? true : false,
-            'mysql_version' => function_exists('mysqli_get_server_info') ? mysqli_get_server_info($wpdb->dbh) : mysql_get_server_info(),
-            'memory_limit' => (defined(WP_MEMORY_LIMIT) ? WP_MEMORY_LIMIT : ini_get('memory_limit')) ? ini_get('memory_limit') : '',
-            'external_http_blocked' => $external_http_blocked,
-            'wp_locale' => get_locale(),
-            'db_charset' => defined('DB_CHARSET') ? DB_CHARSET : '',
-            'debug_mode' => defined('WP_DEBUG') && WP_DEBUG ? true : false,
-            'wp_max_upload' => size_format(wp_max_upload_size()),
-            'php_time_limit' => function_exists('ini_get') ? ini_get('max_execution_time') : '',
-            'php_error_log' => function_exists('ini_get') ? ini_get('error_log') : '',
-            'fsockopen' => function_exists('fsockopen') ? true : false,
-            'open_ssl' => defined('OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : '',
-            'curl' => $curl_version,
-            'ip' => $ip,
-            'user_count' => $users_count,
-            'admin_email' => sanitize_email(get_bloginfo('admin_email')),
-            'theme_name' => sanitize_text_field($theme_data->Name),
-            'theme_version' => sanitize_text_field($theme_data->Version),
-        );
-        $data['user_info'] = array(
-            'user_email' => !empty($admin) ? sanitize_email($admin->user_email) : '',
-            'user_nickname' => !empty($admin) ? sanitize_text_field($admin->user_nicename) : '',
-            'user_firstname' => isset($admin_meta['first_name'][0]) ? sanitize_text_field($admin_meta['first_name'][0]) : '',
-            'user_lastname' => isset($admin_meta['last_name'][0]) ? sanitize_text_field($admin_meta['last_name'][0]) : '',
-        );
-        $data['sdk_version'] = WP_WPBRIGADE_SDK_VERSION;
-        $data['location_details'] = $location !== null ? $location : '';
-        $data['product_info'] = self::get_product_data($slug);
-        $data['product_settings'] = self::get_product_settings($slug);
-        $data['site_plugins_info'] = self::get_plugins();
+
+        if ($action == "user_skip"||$send_wpb_sdk_diagnostic_info) {
+            $ip = self::get_ip();
+            $location = self::get_location_details($ip);
+
+            // Check if get_plugins function exists
+            if (!function_exists('get_plugins')) {
+                include ABSPATH . '/wp-admin/includes/plugin.php';
+            }
+
+            // Get users count if function exists
+            if (function_exists('count_users')) {
+                $users_count = count_users();
+                $users_count = isset($users_count['total_users']) ? intval($users_count['total_users']) : '';
+            }
+
+            // Check external http request blocking
+            if (!defined('WP_HTTP_BLOCK_EXTERNAL') || !WP_HTTP_BLOCK_EXTERNAL) {
+                $external_http_blocked = 'none';
+            } else {
+                $external_http_blocked = defined('WP_ACCESSIBLE_HOSTS') ? 'partially (accessible hosts: ' . esc_html(WP_ACCESSIBLE_HOSTS) . ')' : 'all';
+            }
+
+            // Get curl version if function exists
+            if (function_exists('curl_init')) {
+                $curl = curl_version();
+                $curl_version = '(' . $curl['version'] . ' ' . $curl['ssl_version'] . ')';
+            }
+
+
+            $data['site_info']['site_meta_info'] = array(
+                'is_multisite' => is_multisite(),
+                'multisites' => self::get_multisites(),
+                'php_version' => phpversion(),
+                'wp_version' => get_bloginfo('version'),
+                'server' => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '',
+                'timezoneoffset' => date('P'),
+                'ext/mysqli' => isset($wpdb->use_mysqli) && !empty($wpdb->use_mysqli) ? true : false,
+                'mysql_version' => function_exists('mysqli_get_server_info') ? mysqli_get_server_info($wpdb->dbh) : '',
+                'memory_limit' => (defined(WP_MEMORY_LIMIT) ? WP_MEMORY_LIMIT : ini_get('memory_limit')) ? ini_get('memory_limit') : '',
+                'external_http_blocked' => $external_http_blocked,
+                'wp_locale' => get_locale(),
+                'db_charset' => defined('DB_CHARSET') ? DB_CHARSET : '',
+                'debug_mode' => defined('WP_DEBUG') && WP_DEBUG ? true : false,
+                'wp_max_upload' => size_format(wp_max_upload_size()),
+                'php_time_limit' => function_exists('ini_get') ? ini_get('max_execution_time') : '',
+                'php_error_log' => function_exists('ini_get') ? ini_get('error_log') : '',
+                'fsockopen' => function_exists('fsockopen') ? true : false,
+                'open_ssl' => defined('OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : '',
+                'curl' => $curl_version,
+                'ip' => $ip,
+                'user_count' => $users_count,
+                'admin_email' => sanitize_email(get_bloginfo('admin_email')),
+                'theme_name' => sanitize_text_field($theme_data->Name),
+                'theme_version' => sanitize_text_field($theme_data->Version),
+            );
+            $data['site_info']['location_details'] = $location !== null ? $location : '';
+        }
+
+        // SITE PLUGINS
+        if ($action == "user_skip"||$send_wpb_sdk_extensions) {
+            $data['site_plugins'] = self::get_all_plugins();
+        }
 
         return $data;
     }
@@ -406,25 +457,24 @@ class WPBRIGADE_Logger
     /**
      * Collect plugins information: Active/Inactive plugins.
      *
-     * @return string
+     * @return array
      */
-    private static function get_plugins()
+    private static function get_all_plugins()
     {
-        $plugins = array_keys(get_plugins());
+        $all_plugins = array_keys(get_plugins());
         $active_plugins = get_option('active_plugins', array());
+        $in_active_plugins = [];
 
-        foreach ($plugins as $key => $plugin) {
-            if (in_array($plugin, $active_plugins)) {
-                // Remove active plugins from list.
-                unset($plugins[$key]);
+        foreach ($all_plugins as $plugin) {
+            if (!in_array($plugin, $active_plugins)) {
+                // add in-active plugins in list.
+                $in_active_plugins[] = $plugin;
             }
         }
 
-        return wp_json_encode(
-            array(
-                'active' => $active_plugins,
-                'inactive' => $plugins,
-            )
+        return array(
+            'active' => $active_plugins,
+            'inactive' => $in_active_plugins,
         );
     }
 
@@ -538,10 +588,5 @@ class WPBRIGADE_Logger
                 ),
             )
         );
-        if (is_wp_error($response)) {
-            error_log('Error sending data: ' . $response->get_error_message());
-        } else {
-            error_log('Log sent successfully' . wp_json_encode($data));
-        }
     }
 }

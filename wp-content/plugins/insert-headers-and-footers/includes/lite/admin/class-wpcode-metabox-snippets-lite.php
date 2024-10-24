@@ -317,11 +317,11 @@ class WPCode_Metabox_Snippets_Lite extends WPCode_Metabox_Snippets {
 			),
 			array(
 				'text' => esc_html__( 'Upgrade to Pro and Unlock Revisions', 'insert-headers-and-footers' ),
-				'url'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'page-scripts', 'revisions', 'upgrade-to-pro' ),
+				'url'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'post-editor-metabox', 'revisions', 'upgrade-to-pro' ),
 			),
 			array(
 				'text' => esc_html__( 'Learn more about all the features', 'insert-headers-and-footers' ),
-				'url'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'page-scripts', 'revisions', 'features' ),
+				'url'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'post-editor-metabox', 'revisions', 'features' ),
 			)
 		);
 	}

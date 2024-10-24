@@ -98,7 +98,7 @@ trait Rest_Ecommerce_Request_Handler_Trait {
                 'dateRanges' => $date_range_compare,
                 'metrics' => array(
                     array(
-                        'name' => 'itemsAddedToCart'
+                        'name' => 'addToCarts'
                     ),
                 )
             ),

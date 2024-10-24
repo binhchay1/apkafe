@@ -17,13 +17,13 @@ function mtnc_get_custom_login_code()
 
     if (isset($_POST['is_custom_login'])) {
         $user_login = '';
-        if (isset($_POST['log']) && wp_verify_nonce($_POST['mtnc_login_check'], 'mtnc_login')) {
+        if (isset($_POST['log']) && isset($_POST['mtnc_login_check']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mtnc_login_check'])), 'mtnc_login')) {
             $user_login = sanitize_user(wp_unslash($_POST['log']));
         }
         $user_login = sanitize_user($user_login);
         $user_pass  = '';
-        if (isset($_POST['pwd']) && wp_verify_nonce($_POST['mtnc_login_check'], 'mtnc_login')) {
-            $user_pass = trim($_POST['pwd']);
+        if (isset($_POST['pwd']) && isset($_POST['mtnc_login_check']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mtnc_login_check'])), 'mtnc_login')) {
+            $user_pass = sanitize_text_field(wp_unslash($_POST['pwd']));
         }
         $access                  = array();
         $access['user_login']    = esc_attr($user_login);
@@ -135,7 +135,7 @@ function mtnc_add_custom_scripts()
     wp_register_script('_frontend', MTNC_URI . 'load/js/jquery.frontend.js', 'jquery', filemtime(MTNC_DIR . 'load/js/jquery.frontend.js'), true);
 
     // IE scripts
-    wp_register_script('jquery_ie', $wp_scripts->registered['jquery-core']->src, '', '', true);
+    wp_register_script('jquery_ie', $wp_scripts->registered['jquery-core']->src, array(), true, array());
 
     wp_script_add_data('jquery_ie', 'conditional', 'lte IE 10');
 
@@ -182,7 +182,7 @@ function mtnc_get_options_style()
     $mt_options    = mtnc_get_plugin_options(true);
     $options_style = '';
     if (!empty($mt_options['body_bg_color'])) {
-        $mt_options['body_bg_color'] = strip_tags($mt_options['body_bg_color']);
+        $mt_options['body_bg_color'] = esc_attr($mt_options['body_bg_color']);
         $options_style .= 'body {background-color: ' . esc_attr($mt_options['body_bg_color']) . '}';
         $options_style .= '.preloader {background-color: ' . esc_attr($mt_options['body_bg_color']) . '}';
     }
@@ -207,7 +207,7 @@ function mtnc_get_options_style()
     }
 
     if (!empty($mt_options['font_color'])) {
-        $font_color     = strip_tags($mt_options['font_color']);
+        $font_color     = esc_attr($mt_options['font_color']);
         $options_style .= '.site-title, .preloader i, .login-form, .login-form a.lost-pass, .btn-open-login-form, .site-content, .user-content-wrapper, .user-content, footer, .maintenance a{color: ' . $font_color . ';} ';
         $options_style .= 'a.close-user-content, #mailchimp-box form input[type="submit"], .login-form input#submit.button  {border-color:' . $font_color . '} ';
         $options_style .= 'input[type="submit"]:hover{background-color:' . $font_color . '} ';
@@ -215,7 +215,7 @@ function mtnc_get_options_style()
     }
 
     if (!empty($mt_options['controls_bg_color'])) {
-        $mt_options['controls_bg_color'] = strip_tags($mt_options['controls_bg_color']);
+        $mt_options['controls_bg_color'] = esc_attr($mt_options['controls_bg_color']);
         $options_style .= "body > .login-form-container{background-color:{$mt_options['controls_bg_color']}}";
         $options_style .= ".btn-open-login-form{background-color:{$mt_options['controls_bg_color']}}";
         $options_style .= "input:-webkit-autofill, input:-webkit-autofill:focus{-webkit-box-shadow:0 0 0 50px {$mt_options['controls_bg_color']} inset}";
@@ -224,7 +224,7 @@ function mtnc_get_options_style()
     }
 
     if (!empty($mt_options['custom_css'])) {
-        $options_style .= strip_tags(wp_kses_stripslashes($mt_options['custom_css']));
+        $options_style .= wp_kses_stripslashes($mt_options['custom_css']);
     }
 
     echo '<style type="text/css">';
@@ -377,7 +377,7 @@ function mtnc_do_login_form($user_login, $class_login, $class_password, $error =
     $out_login_form .= wp_nonce_field('mtnc_login', 'mtnc_login_check');
     $out_login_form .= '</form>';
 
-    if (isset($mt_options['is_login'])) {
+    if (isset($mt_options['is_login']) && $mt_options['is_login'] == true) {
         mtnc_wp_kses($out_login_form);
     }
 }

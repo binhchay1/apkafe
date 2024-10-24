@@ -56,6 +56,17 @@ class WPCode_File_Cache {
 	public function get( $name, $ttl = 0 ) {
 		$file = $this->get_directory_path( $this->get_cache_filename_by_key( $name ) );
 
+		/**
+		 * Filter the $ttl for a file if you want to change it.
+		 *
+		 * @param int    $ttl The time to live for the cache.
+		 * @param string $name The name of the file.
+		 *
+		 * @return int
+		 * @since 2.2.2
+		 */
+		$ttl = apply_filters( 'wpcode_file_cache_ttl', $ttl, $name );
+
 		// If the file doesn't exist there's not much to do.
 		if ( ! file_exists( $file ) ) {
 			// Let's see if we have it in the database.

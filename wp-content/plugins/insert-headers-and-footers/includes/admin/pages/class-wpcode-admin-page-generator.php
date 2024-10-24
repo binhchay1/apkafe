@@ -60,6 +60,13 @@ class WPCode_Admin_Page_Generator extends WPCode_Admin_Page {
 	protected $capability = 'wpcode_edit_php_snippets';
 
 	/**
+	 * Hide the generator menu item.
+	 *
+	 * @var bool
+	 */
+	public $hide_menu = true;
+
+	/**
 	 * Call this just to set the page title translatable.
 	 */
 	public function __construct() {

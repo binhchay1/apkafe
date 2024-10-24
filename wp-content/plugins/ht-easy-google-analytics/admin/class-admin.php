@@ -214,7 +214,7 @@ class Admin {
 					</svg>
 				</button>
 				<div class="htga4_pro_adv_popup_icon"><img src="<?php echo esc_url( HT_EASY_GA4_URL . '/admin/assets/images/pro-badge.png' ); ?>" alt="pro"></div>
-				<h2 class="htga4_pro_adv_popup_title"><?php echo esc_html__( 'BUY PRO', 'ht-easy-ga4' ); ?></h2>
+				<h2 class="htga4_pro_adv_popup_title"><?php echo esc_html__( 'Upgrade to PRO', 'ht-easy-ga4' ); ?></h2>
 				<p class="htga4_pro_adv_popup_text"><?php echo esc_html__( 'Our free version is great, but it doesn\'t have all our advanced features. The best way to unlock all of the features in our plugin is by purchasing the pro version.', 'ht-easy-ga4' ); ?></p>
 				<a href="https://hasthemes.com/plugins/google-analytics-plugin-for-wordpress?utm_source=wp-org&utm_medium=ht-ga4&utm_campaign=htga4_buy_pro_popup" class="htga4_pro_adv_popup_button" target="_blank"><?php echo esc_html__( 'Buy Now', 'ht-easy-ga4' ); ?></a>
 			</div>

@@ -83,6 +83,8 @@ $rocket_cache_ignored_parameters = array(
   'gad' => 66,
   'vgo_ee' => 67,
   'gad_source' => 68,
+  'onlywprocket' => 69,
+  'srsltid' => 70,
 );
 $rocket_cache_mandatory_cookies = '';
 $rocket_cache_dynamic_cookies = array();

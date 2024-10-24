@@ -360,20 +360,23 @@ class ezTOC_Post {
 		}		
 
 		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-			$eztoc_post_id=get_the_ID();
-			$eztoc_post_meta = get_option( 'ez-toc-post-meta-content',false);
-			if(!empty($eztoc_post_meta) && !empty($eztoc_post_id) && isset($eztoc_post_meta[$eztoc_post_id])){
+
+			$eztoc_post_id   = get_the_ID();
+			$eztoc_post_meta = get_option( 'ez-toc-post-meta-content', false );
+
+			if ( ! empty( $eztoc_post_meta ) && ! empty( $eztoc_post_id ) && isset( $eztoc_post_meta[$eztoc_post_id] ) ) {
+
 				if ( empty( $content ) ) {
+
 					$content = $eztoc_post_meta[$eztoc_post_id];
+
 				} else {
+
 					$content .= $eztoc_post_meta[$eztoc_post_id];
+
 				}
-		}
-		} else if ( ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) && false != get_option( 'ez-toc-post-content-core-level' ) ) {
-                    $content = get_option( 'ez-toc-post-content-core-level' );
-		} else {
-                       
-                }
+			}
+		} 
 
 		$pages = array();
 
@@ -381,8 +384,8 @@ class ezTOC_Post {
 
 		$page = $first_page = 1;
 		$totalHeadings = [];
-		if ( is_array( $split ) ) {
 
+		if ( is_array( $split ) ) {
 
 			foreach ( $split as $content ) {
 
@@ -1313,7 +1316,7 @@ class ezTOC_Post {
 	 * @since  2.0.32
 	 *
 	 */
-	public function getStickyToggleTOC() {
+	public function get_sticky_toggle_toc() {
 		$classSticky = array( 'ez-toc-sticky-v' . str_replace( '.', '_', ezTOC::VERSION ) );
 		$htmlSticky  = '';
 		if ( $this->hasTOCItems() ) {
@@ -1335,31 +1338,8 @@ class ezTOC_Post {
             $ezTocStickyToggleDirection = 'ez-toc-sticky-toggle-direction';
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
-				$toc_title = apply_filters('ez_toc_sticky_title', ezTOC_Option::get( 'heading_text' ));
-				$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
-				$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
-				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
-					$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
-				}
-				if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
-					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
-				}
 					$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
-					
-				switch($toc_title_tag){
-					case 'div':
-						$htmlSticky .= '<div class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</div>' . PHP_EOL;
-					break;
-					case 'label':
-						$htmlSticky .= '<label class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</label>' . PHP_EOL;
-					break;
-					case 'span':
-						$htmlSticky .= '<span class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</span>' . PHP_EOL;
-					break;
-					default:
-						$htmlSticky .= '<p class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</p>' . PHP_EOL;
-					break;
-				}	
+					$htmlSticky .= $this->get_toc_title_tag(  'sticky' );
 					$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 					$htmlSticky .= '</div>' . PHP_EOL;
 			} else {
@@ -1542,49 +1522,7 @@ class ezTOC_Post {
 		}
 	if ( $show_header_text ) {
 
-		$toc_title = get_post_meta( get_the_ID(), '_ez-toc-header-label', true );
-
-		if ( !$toc_title || empty( $toc_title ) ) {
-			$toc_title = ezTOC_Option::get( 'heading_text' );
-		}
-
-		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
-		$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
-
-		if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
-
-			$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
-		}
-
-		if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
-
-			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
-		}
-		if(isset($options['header_label'])){
-			$toc_title = $options['header_label'];
-		}
-		$headerTextToggleClass = '';
-		$headerTextToggleStyle = '';
-		
-		if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
-			$headerTextToggleClass = 'ez-toc-toggle';
-			$headerTextToggleStyle = 'style="cursor: pointer"';
-		}
-		switch($toc_title_tag){
-		
-			case 'div':
-				$header_label = '<div class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</div>' . PHP_EOL;
-			break;
-			case 'label':
-				$header_label = '<label class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</label>' . PHP_EOL;
-			break;
-			case 'span':
-				$header_label = '<span class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</span>' . PHP_EOL;
-			break;
-			default:
-				$header_label = '<p class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</p>' . PHP_EOL;
-			break;}
-	
+		$html .= $this->get_toc_title_tag(  'js' ,  $options );
 		$html .= $header_label;
 													
 	} 
@@ -1599,7 +1537,7 @@ class ezTOC_Post {
 	}
 	if ( $show_toggle_view ) {
 								
-		$icon = ezTOC::getTOCToggleIcon();
+		$icon = ezTOC::get_toc_toggle_icon();
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 				$icon = apply_filters('ez_toc_modify_icon',$icon);
 				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time);
@@ -1626,36 +1564,7 @@ class ezTOC_Post {
 		}
 	if ( $show_header_text && ezTOC_Option::get( 'show_heading_text' ) ) {
 
-		$toc_title = ezTOC_Option::get( 'heading_text' );
-		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
-		$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
-		if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
-
-			$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
-		}
-
-		if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
-
-			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
-		}
-					
-		if(isset($options['header_label'])){
-			$toc_title = $options['header_label'];
-		}
-		switch($toc_title_tag){
-			case 'div':
-				$header_label = '<div class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</div>' . PHP_EOL;
-			break;
-			case 'label':
-				$header_label = '<label class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</label>' . PHP_EOL;
-			break;
-			case 'span':
-				$header_label = '<span class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</span>' . PHP_EOL;
-			break;
-			default:
-				$header_label = '<p class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</p>' . PHP_EOL;
-			break;
-		}
+		$header_label = $this->get_toc_title_tag(  'css' ,  $options );
 		if (!ezTOC_Option::get( 'visibility' ) ) {
 			$html .='<div class="ez-toc-title-container">'.$header_label.'</div>';
 		}															
@@ -1687,7 +1596,7 @@ class ezTOC_Post {
 			if( $options !== null && !empty( $options ) && is_array( $options ) && key_exists( 'visibility_hide_by_default', $options ) && false == $options['visibility_hide_by_default'] ) {
 				$toggle_view= '';
 		    }
-			$toc_icon = ezTOC::getTOCToggleIcon();
+			$toc_icon = ezTOC::get_toc_toggle_icon();
 		    $label_below_html = '';
 		    $read_time = array();
 		    if(isset($options['read_time']) && $options['read_time'] != ''){
@@ -1807,7 +1716,7 @@ class ezTOC_Post {
 				if(!ezTOC_Option::get( 'prsrv_line_brk' )){
 					$title = br2( $title, ' ' );
 				}
-				$title = wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+				$title = ez_toc_wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ) );
 
 				$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 
@@ -1850,7 +1759,7 @@ class ezTOC_Post {
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
 						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-						$title = wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+						$title = ez_toc_wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ) );
 						if($count <= $no_of_headings){
 							$html .= "<li class='{$prefix}-page-" . $page . "'>";
 							$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
@@ -1879,7 +1788,7 @@ class ezTOC_Post {
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
 						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-						$title = wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+						$title = ez_toc_wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ) );
 						$html .= "<li class='{$prefix}-page-" . $page . "'>";
 						$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 						$html .= '</li>';
@@ -1991,4 +1900,74 @@ class ezTOC_Post {
 		}
 		return $content;
 	}
+
+	/**
+	 * Get the TOC Title Tag content.
+	 *
+	 * @since  2.0.70
+	 *
+	 * @param string Title tag.
+	 * @param string Title content.
+	 * @param string TOC type.
+	 * @param array Options.
+	 *
+	 * @return string The TOC Title Tag content.
+	 */
+	private function get_toc_title_tag( $toc_type = 'js', $options = [] ) {
+		if($toc_type == 'sticky'){
+			$toc_title = apply_filters('ez_toc_sticky_title', ezTOC_Option::get( 'heading_text' ));
+		}else{
+			$toc_title = ezTOC_Option::get( 'heading_text' );
+		}
+
+		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
+		$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
+		if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
+
+			$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
+		}
+
+		if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
+
+			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
+		}
+					
+		if(isset($options['header_label'])){
+			$toc_title = $options['header_label'];
+		}
+
+		$tag_classes = 'ez-toc-title';
+		$header_text_toggle_style = 'cursor:inherit';
+		$tag_html = '';
+
+		
+		if( $toc_type == 'sticky' ){
+			$tag_classes = 'ez-toc-sticky-title';
+		}
+		if( $toc_type == 'js' ){
+			
+			if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
+				$tag_classes .= ' ez-toc-toggle';
+				$header_text_toggle_style = 'cursor:pointer';
+			}
+		}
+				
+		switch($toc_title_tag){
+			case 'div':
+				$tag_html = '<div class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title ) . '</div>' . PHP_EOL;
+			break;
+			case 'label':
+				$tag_html = '<label class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title ) . '</label>' . PHP_EOL;
+			break;
+			case 'span':
+				$tag_html = '<span class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title ) . '</span>' . PHP_EOL;
+			break;
+			default:
+				$tag_html = '<p class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title )  . '</p>' . PHP_EOL;
+			break;
+		}
+
+		return $tag_html;
+	}
+
 }

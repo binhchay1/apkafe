@@ -3,7 +3,7 @@ Contributors: htplugins, hasthemes, zenaulislam, aslamhasib, tarekht
 Tags: google, analytics, google analytics, google analytics plugin, ga4, ga, google analytics dashboard, google analytics widget, WordPress analytics, web analytics, ecommerce
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 1.2.2
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,19 @@ Needs assistance to use this plugin?
 Feel free to [Contact us](https://hasthemes.com/contact-us/)
 
 == Changelog ==
+= Version: 1.2.6 - Date: 2024-09-11 =
+* Fixed: Type error in array_intersect() function
+
+= Version: 1.2.5 - Date: 2024-09-10 =
+* Fixed: addToCarts event was not working for top products
+
+= Version: 1.2.4 - Date: 2024-09-04 =
+* Fixed: Tracking script loading issue
+
+= Version: 1.2.3 - Date: 2024-08-29 =
+* Fixed: Save button remain disabled after changing tracking ID issue
+* Fixed: Some css issues of admin panel
+
 = Version: 1.2.2 - Date: 2024-07-16 =
 * Fixed: Currency sybmol were not showing properly
 * Fixed: Several issues from the PCP plugin check

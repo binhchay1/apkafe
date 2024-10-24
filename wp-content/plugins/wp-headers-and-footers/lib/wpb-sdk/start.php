@@ -4,9 +4,9 @@
  * WPBrigade Telemetry SDK
  *
  * @package wpbrigade_sdk
- * @since 3.0.3
+ * @since 3.1.0
  */
-$this_sdk_version = '3.0.3';
+$this_sdk_version = '3.1.0';
 
 if (!defined('ABSPATH')) {
     exit;

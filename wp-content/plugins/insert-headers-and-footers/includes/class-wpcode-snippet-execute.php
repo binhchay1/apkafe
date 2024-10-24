@@ -81,34 +81,41 @@ class WPCode_Snippet_Execute {
 
 		$this->types = array(
 			'html'      => array(
-				'class' => 'WPCode_Snippet_Execute_HTML',
-				'label' => __( 'HTML Snippet', 'insert-headers-and-footers' ),
+				'class'       => 'WPCode_Snippet_Execute_HTML',
+				'label'       => __( 'HTML Snippet', 'insert-headers-and-footers' ),
+				'description' => __( 'Easily insert scripts from other sites or build custom elements using HTML.', 'insert-headers-and-footers' ),
 				// Don't want to instantiate the class until it's needed and we need this to be translatable.
 			),
 			'text'      => array(
-				'class' => 'WPCode_Snippet_Execute_Text',
-				'label' => __( 'Text Snippet', 'insert-headers-and-footers' ),
+				'class'       => 'WPCode_Snippet_Execute_Text',
+				'label'       => __( 'Text Snippet', 'insert-headers-and-footers' ),
+				'description' => __( 'Create reusable text snippets that you can visually format in a familiar editor.', 'insert-headers-and-footers' ),
 			),
 			'blocks'    => array(
-				'class'  => 'WPCode_Snippet_Execute_Blocks',
-				'label'  => __( 'Blocks Snippet (PRO)', 'insert-headers-and-footers' ),
-				'is_pro' => true,
-			),
-			'js'        => array(
-				'class' => 'WPCode_Snippet_Execute_JS',
-				'label' => __( 'JavaScript Snippet', 'insert-headers-and-footers' ),
-			),
-			'php'       => array(
-				'class' => 'WPCode_Snippet_Execute_PHP',
-				'label' => __( 'PHP Snippet', 'insert-headers-and-footers' ),
-			),
-			'universal' => array(
-				'class' => 'WPCode_Snippet_Execute_Universal',
-				'label' => __( 'Universal Snippet', 'insert-headers-and-footers' ),
+				'class'       => 'WPCode_Snippet_Execute_Blocks',
+				'label'       => __( 'Blocks Snippet (PRO)', 'insert-headers-and-footers' ),
+				'is_pro'      => true,
+				'description' => __( 'Use the Block Editor to create components that you can insert anywhere in your site.', 'insert-headers-and-footers' ),
 			),
 			'css'       => array(
-				'class' => 'WPCode_Snippet_Execute_CSS',
-				'label' => __( 'CSS Snippet', 'insert-headers-and-footers' ),
+				'class'       => 'WPCode_Snippet_Execute_CSS',
+				'label'       => __( 'CSS Snippet', 'insert-headers-and-footers' ),
+				'description' => __( 'Write CSS styles directly in WPCode and easily customize how your website looks.', 'insert-headers-and-footers' ),
+			),
+			'js'        => array(
+				'class'       => 'WPCode_Snippet_Execute_JS',
+				'label'       => __( 'JavaScript Snippet', 'insert-headers-and-footers' ),
+				'description' => __( 'Add custom JavaScript code to your site to add interactivity or integrate with other services.', 'insert-headers-and-footers' ),
+			),
+			'php'       => array(
+				'class'       => 'WPCode_Snippet_Execute_PHP',
+				'label'       => __( 'PHP Snippet', 'insert-headers-and-footers' ),
+				'description' => __( 'Extend or add functionality using PHP code with full control on where it\'s executed', 'insert-headers-and-footers' ),
+			),
+			'universal' => array(
+				'class'       => 'WPCode_Snippet_Execute_Universal',
+				'label'       => __( 'Universal Snippet', 'insert-headers-and-footers' ),
+				'description' => __( 'Start writing HTML and add PHP code like you would in a .php file with Universal snippets.', 'insert-headers-and-footers' ),
 			),
 		);
 	}
@@ -186,6 +193,23 @@ class WPCode_Snippet_Execute {
 		}
 
 		return apply_filters( 'wpcode_code_type_options', $options );
+	}
+
+	/**
+	 * Get the code types info with labels and descriptions.
+	 *
+	 * @return array
+	 */
+	public function get_code_types() {
+		$code_types = array();
+		foreach ( $this->types as $type_key => $type_values ) {
+			$code_types[ $type_key ] = array(
+				'label'       => $type_values['label'],
+				'description' => $type_values['description'],
+			);
+		}
+
+		return $code_types;
 	}
 
 	/**
@@ -575,6 +599,7 @@ class WPCode_Snippet_Execute {
 			is_admin()
 		);
 	}
+
 	/**
 	 * Add a method to detect suspicious code.
 	 *

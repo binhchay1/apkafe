@@ -4,7 +4,7 @@ Tags: code, css, php, header, code snippets
 Requires at least: 4.6
 Tested up to: 6.6
 Requires PHP: 5.5
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -231,6 +231,11 @@ WPCode comes with a ready-made code snippets library that allows you to replace 
 ... and basically any plugin that adds a functionality which can be added via custom code snippets.
 
 == Changelog ==
+
+= 2.2.2 =
+* New: The Add Snippet screen now makes it easier to get started with more than just our library of snippets, choose from expert-picked snippets, snippet generators or plugin-specific snippets.
+* New: We updated the code type picker for more clarity on what each code type is useful for and the last code type you used is now saved for a streamlined experience when adding multiple snippets.
+* Tweak: We extended the unfiltered HTML permissions notice when the DISALLOW_UNFILTERED_HTML constant is defined to add more clarity.
 
 = 2.2.1 =
 * Fix: We fixed a bug that was causing the selected conditional logic operator to not be displayed correctly for some rules.

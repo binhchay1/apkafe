@@ -1,17 +1,13 @@
 <?php
 /**
- * Advanced Custom Fields
+ * Secure Custom Fields
  *
- * @package       ACF
- * @author        WP Engine
- *
- * @wordpress-plugin
- * Plugin Name:       Advanced Custom Fields
- * Plugin URI:        https://www.advancedcustomfields.com
- * Description:       Customize WordPress with powerful, professional and intuitive fields.
- * Version:           6.3.5
- * Author:            WP Engine
- * Author URI:        https://wpengine.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=plugin_directory&utm_content=advanced_custom_fields
+ * Plugin Name:       Secure Custom Fields
+ * Plugin URI:        http://wordpress.org/plugins/advanced-custom-fields/
+ * Description:       Secure Custom Fields is a fork of the Advanced Custom Fields plugin, which will be maintained by WordPress.org, for security and functionality updates.
+ * Version:           6.3.9
+ * Author:            WordPress.org
+ * Author URI:        https://wordpress.org/
  * Text Domain:       acf
  * Domain Path:       /lang
  * Requires PHP:      7.4
@@ -35,7 +31,7 @@ if ( ! class_exists( 'ACF' ) ) {
 		 *
 		 * @var string
 		 */
-		public $version = '6.3.5';
+		public $version = '6.3.9';
 
 		/**
 		 * The plugin settings array.
@@ -228,10 +224,6 @@ if ( ! class_exists( 'ACF' ) ) {
 
 			// Include PRO.
 			acf_include( 'pro/acf-pro.php' );
-
-			if ( is_admin() && function_exists( 'acf_is_pro' ) && ! acf_is_pro() ) {
-				acf_include( 'includes/admin/admin-options-pages-preview.php' );
-			}
 
 			// Add actions.
 			add_action( 'init', array( $this, 'register_post_status' ), 4 );
@@ -774,10 +766,6 @@ if ( ! class_exists( 'ACF' ) ) {
 
 					do_action( 'acf/first_activated' );
 				}
-			}
-
-			if ( acf_is_pro() ) {
-				do_action( 'acf/activated_pro' );
 			}
 		}
 	}

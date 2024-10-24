@@ -16,7 +16,7 @@
     $(document).ready(function(){
 
 		$("form.htga4")
-		.on("change", function (e) {
+		.on("input change", function (e) {
 			$(this).find("#submit").removeAttr("disabled");
 		})
 		.on("submit", function (e) {
@@ -112,7 +112,7 @@
 		});
 
 		// Open popup
-		$('tr.htga4_no_pro th, .htga4-checkbox-switch').on('click', function(e){
+		$('tr.htga4_no_pro th, .htga4-checkbox-switch, .htga4_no_pro').on('click', function(e){
 			openAdvPopup();
 		});
 

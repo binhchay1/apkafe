@@ -708,4 +708,34 @@ class WPCode_Library {
 			'wpcode_add_from_library'
 		);
 	}
+
+	/**
+	 * Get just the snippets from usernames.
+	 *
+	 * @return array
+	 */
+	public function get_username_snippets() {
+		$usernames = $this->get_library_usernames();
+
+		$snippets   = array();
+		$categories = array();
+
+		foreach ( $usernames as $username => $data ) {
+			$username_snippets = $this->get_snippets_by_username( $username, $data['version'] );
+			if ( ! empty( $username_snippets['snippets'] ) ) {
+				$categories[] = array(
+					'slug'  => $username,
+					'name'  => $data['label'],
+					'count' => count( $username_snippets['snippets'] ),
+				);
+				// Append snippets to the $this->data['snippets'] array.
+				$snippets = array_merge( $snippets, $username_snippets['snippets'] );
+			}
+		}
+
+		return array(
+			'categories' => $categories,
+			'snippets'   => $snippets,
+		);
+	}
 }
