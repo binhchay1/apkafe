@@ -98,6 +98,15 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 				</div>
 			<?php } ?>
 
+			<?php if (is_admin()) { ?>
+				<ins class="adsbygoogle"
+					style="display:block; text-align:center;"
+					data-ad-layout="in-article"
+					data-ad-format="fluid"
+					data-ad-client="ca-pub-2064972950158195"
+					data-ad-slot="1037220895"></ins>
+			<?php } ?>
+
 			<div class="clear"></div>
 			<?php if ($lasso_post->is_show_description() && $is_show_description) : ?>
 				<div class="lasso-description">
@@ -158,7 +167,7 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 					<?php echo $lasso_url->display->fourth_btn_text; ?>
 				</a>
 			<?php } ?>
-			
+
 			<?php if ('' !== $lasso_url->display->secondary_url) { ?>
 				<a class="lasso-button-6 lasso-btn-shortcode" title="<?php echo $lasso_url->name ?>" href="<?php echo $lasso_url->display->secondary_url ?>" target="_blank" rel="nofollow noopener sponsored">
 					<?php echo $lasso_url->display->secondary_button_text; ?>
