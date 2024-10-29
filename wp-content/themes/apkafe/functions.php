@@ -597,7 +597,13 @@ function submit_review_handler()
 		if (metadata_exists('post', $post_id, 'software-application-4423-review-count')) {
 			update_post_meta($post_id, 'software-application-4423-review-count', $countRatingForSchema);
 		} else {
-			add_post_meta($post_id, 'software-application-4423-review-count', $ratingForSchema);
+			add_post_meta($post_id, 'software-application-4423-review-count', $countRatingForSchema);
+		}
+
+		if (metadata_exists('post', $post_id, 'count-review')) {
+			update_post_meta($post_id, 'count-review', $countRatingForSchema);
+		} else {
+			add_post_meta($post_id, 'count-review', $countRatingForSchema);
 		}
 
 		echo json_encode(array('success' => true, 'result' => 1));
@@ -738,15 +744,21 @@ function display_review()
 	if ($current_post_type == 'product' or $current_post_type == 'post') {
 		add_filter('manage_' . $current_post_type . '_posts_columns', 'column_heading', 10, 1);
 		add_action('manage_' . $current_post_type . '_posts_custom_column', 'column_content', 10, 2);
-		add_action('manage_edit-' . $current_post_type . '_sortable_columns', 'column_sort', 10, 2);
+		add_filter('manage_edit-' . $current_post_type . '_sortable_columns', 'column_sort', 10, 2);
+		add_action('pre_get_posts', 'my_sort_custom_column_query');
 	}
 }
 
 function get_current_post_type()
 {
 	if (isset($_GET['post_type']) && is_string($_GET['post_type'])) {
-		return sanitize_text_field(wp_unslash($_GET['post_type']));
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$post_type = sanitize_text_field(wp_unslash($_GET['post_type']));
+		if (! empty($post_type)) {
+			return $post_type;
+		}
 	}
+	return 'post';
 
 	return null;
 }
@@ -755,7 +767,7 @@ function column_heading($columns)
 {
 	$added_columns = [];
 
-	$added_columns['count-review'] = __('Count Review', 'count-review');
+	$added_columns['count-review'] = __('Review', 'count-review');
 
 	return array_merge($columns, $added_columns);
 }
@@ -780,7 +792,7 @@ function column_sort($columns)
 function parse_column_score($post_id)
 {
 	global $wpdb;
-	
+
 	$table = $wpdb->prefix . 'user_review';
 	$result = $wpdb->get_results(
 		$wpdb->prepare("SELECT * FROM $table WHERE post_id = %d", $post_id)
@@ -789,4 +801,14 @@ function parse_column_score($post_id)
 	$count = count($result);
 
 	return $count;
+}
+
+function my_sort_custom_column_query($query)
+{
+	$orderby = $query->get('orderby');
+
+	if ('count-review' == $orderby) {
+		$query->set('meta_key', 'count-review');
+		$query->set('orderby', 'meta_value_num');
+	}
 }
