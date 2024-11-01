@@ -196,6 +196,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 			3 => __( 'We encountered an error activating your snippet, please check the syntax and try again.', 'insert-headers-and-footers' ),
 			4 => __( 'Sorry, you are not allowed to change the status of the snippet.', 'insert-headers-and-footers' ),
 			5 => __( 'Snippet updated & executed.', 'insert-headers-and-footers' ),
+			6 => __( 'Your changes are saved but your snippet was deactivated due to an error, please check the syntax and try again.', 'insert-headers-and-footers' ),
 		);
 		$message  = absint( $_GET['message'] );
 		// phpcs:enable WordPress.Security.NonceVerification
@@ -204,7 +205,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 			return;
 		}
 
-		if ( 3 === $message && ! empty( $error_details ) ) {
+		if ( in_array( $message, array( 3, 6 ), true ) && ! empty( $error_details ) ) {
 			$error_message = sprintf(
 			/* translators: %s: Error message. */
 				esc_html__( 'Error message: %s', 'insert-headers-and-footers' ),
@@ -214,7 +215,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 			$messages[ $message ] .= ' ' . $error_message;
 		}
 
-		if ( $message > 2 && $message < 5 ) {
+		if ( $message > 2 && $message < 5 || 6 === $message ) {
 			$this->set_error_message( $messages[ $message ] );
 		} else {
 			$this->set_success_message( $messages[ $message ] );
@@ -224,7 +225,6 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 			// The first time the user saves a snippet, if they did not activate it, highlight that and save a user meta to avoid the message from being displayed again.
 			add_action( 'wpcode_admin_notices', array( $this, 'maybe_show_saved_without_activation_notice' ), 5 );
 		}
-
 	}
 
 	/**
@@ -835,7 +835,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 								<?php endif; ?>
 							</li>
 							<?php
-							$index ++;
+							++$index;
 
 							foreach ( $locations as $location_slug => $location ) {
 								$description    = '';
@@ -850,7 +850,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 								}
 								if ( 'all' !== $type->code_type && $type->code_type !== $code_type ) {
 									$style_class .= ' wpcode-list-item-disabled';
-									$tabindex    = '';
+									$tabindex     = '';
 
 									$input_disabled = true;
 								}
@@ -890,7 +890,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 									</label>
 								</li>
 								<?php
-								$index ++;
+								++$index;
 							}
 						}
 					}
@@ -945,7 +945,6 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 		$markup .= '</div>';// End wpcode-extra-location-fields.
 
 		return $markup;
-
 	}
 
 	/**
@@ -1258,7 +1257,6 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 		if ( ! $this->can_edit ) {
 			return;
 		}
-
 		$code_type    = isset( $_POST['wpcode_snippet_type'] ) ? sanitize_text_field( wp_unslash( $_POST['wpcode_snippet_type'] ) ) : 'html';
 		$snippet_code = isset( $_POST['wpcode_snippet_code'] ) ? $_POST['wpcode_snippet_code'] : '';
 
@@ -1315,10 +1313,13 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 			// If we are executing now we should never save the snippet as active.
 			$active = false;
 		}
+		$snippet_id        = empty( $_REQUEST['id'] ) ? 0 : absint( $_REQUEST['id'] );
+		$previous_snippet  = wpcode_get_snippet( $snippet_id );
+		$previously_active = $previous_snippet->is_active();
 
 		$snippet = wpcode_get_snippet(
 			array(
-				'id'                   => empty( $_REQUEST['id'] ) ? 0 : absint( $_REQUEST['id'] ),
+				'id'                   => $snippet_id,
 				'title'                => isset( $_POST['wpcode_snippet_title'] ) ? sanitize_text_field( wp_unslash( $_POST['wpcode_snippet_title'] ) ) : '',
 				'code'                 => $snippet_code,
 				'active'               => $active,
@@ -1361,6 +1362,10 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 			// If the current user is not allowed to change snippet status, display a different message.
 			if ( ! current_user_can( 'wpcode_activate_snippets' ) ) {
 				$message_number = 4;
+			}
+
+			if ( $previously_active ) {
+				$message_number = 6;
 			}
 		}
 
@@ -1518,7 +1523,6 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 		}
 
 		return implode( $form_groups );
-
 	}
 
 	/**
@@ -1710,6 +1714,10 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 		$data['blocks_text']            = __( 'Upgrade to PRO today and unlock building snippets using the Gutenberg Block Editor. Create templates using blocks and use the full power of WPCode to insert them in your site.', 'insert-headers-and-footers' );
 		$data['blocks_url']             = wpcode_utm_url( 'https://wpcode.com/lite/', 'snippet-editor', 'blocks', 'modal' );
 		$data['blocks_button']          = $data['save_to_library_button'];
+		$data['scss_title']             = __( 'SCSS snippets is a Pro Feature', 'insert-headers-and-footers' );
+		$data['scss_text']              = __( 'Upgrade to PRO today and unlock editing snippets using SCSS code with optimized compiling directly in the WordPress admin.', 'insert-headers-and-footers' );
+		$data['scss_url']               = wpcode_utm_url( 'https://wpcode.com/lite/', 'snippet-editor', 'scss', 'modal' );
+		$data['scss_button']            = $data['save_to_library_button'];
 		$data['shortcode_attributes']   = __( 'Shortcode Attributes', 'insert-headers-and-footers' );
 		$data['laf_title']              = __( 'Load as file is a Pro Feature', 'insert-headers-and-footers' );
 		$data['laf_text']               = __( 'Upgrade to PRO today and unlock loading your CSS and JS snippets as files for better performance and improved compatibility with caching plugins.', 'insert-headers-and-footers' );
@@ -2123,7 +2131,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 	 * @return string
 	 */
 	public function device_type_picker() {
-		$html = '<div class="wpcode-device-type-picker wpcode-device-type-picker-lite">';
+		$html  = '<div class="wpcode-device-type-picker wpcode-device-type-picker-lite">';
 		$html .= $this->get_radio_field_icon( 'devices', __( 'Any device type', 'insert-headers-and-footers' ), 'any', '', true );
 		$html .= $this->get_radio_field_icon( 'desktop', __( 'Desktop only', 'insert-headers-and-footers' ), 'desktop', '', false, '', true );
 		$html .= $this->get_radio_field_icon( 'mobile', __( 'Mobile only', 'insert-headers-and-footers' ), 'mobile', '', false, '', true );
@@ -2147,8 +2155,8 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 	 */
 	public function get_radio_field_icon( $icon = '', $label = '', $value = '', $name = '', $checked = false, $id = '', $disabled = false ) {
 
-		$id   = empty( $id ) ? $name . '-' . $value : $id;
-		$html = '<div class="wpcode-input-radio">';
+		$id    = empty( $id ) ? $name . '-' . $value : $id;
+		$html  = '<div class="wpcode-input-radio">';
 		$html .= sprintf(
 			'<input type="radio" name="%1$s" id="%2$s" value="%3$s" %4$s %5$s />',
 			esc_attr( $name ),

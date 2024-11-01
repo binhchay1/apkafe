@@ -36,7 +36,7 @@ Header set Access-Control-Allow-Origin "*"
 <IfModule mod_alias.c>
 <FilesMatch "\.(html|htm|rtf|rtx|txt|xsd|xsl|xml)$">
 <IfModule mod_headers.c>
-Header set X-Powered-By "WP Rocket/3.17.1"
+Header set X-Powered-By "WP Rocket/3.17.2"
 Header unset Pragma
 Header append Cache-Control "public"
 Header unset Last-Modified

@@ -60,7 +60,7 @@ class WPCode_Conditional_EDD_Lite extends WPCode_Conditional_Type {
 						'disabled' => true,
 					),
 					array(
-						'label'    => __( 'Success Page', 'insert-headers-and-footers' ),
+						'label'    => __( 'Confirmation Page', 'insert-headers-and-footers' ),
 						'value'    => '',
 						'disabled' => true,
 					),

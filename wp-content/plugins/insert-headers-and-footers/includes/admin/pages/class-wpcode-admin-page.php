@@ -119,6 +119,7 @@ abstract class WPCode_Admin_Page {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'insert-headers-and-footers' ) );
 		}
 		remove_all_actions( 'admin_notices' );
+		remove_all_actions( 'all_admin_notices' );
 		add_action( 'wpcode_admin_page', array( $this, 'output' ) );
 		add_action( 'wpcode_admin_page', array( $this, 'output_footer' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
@@ -147,7 +148,6 @@ abstract class WPCode_Admin_Page {
 	 * @return void
 	 */
 	public function page_hooks() {
-
 	}
 
 	/**
@@ -175,7 +175,6 @@ abstract class WPCode_Admin_Page {
 	 * @return void
 	 */
 	protected function setup_views() {
-
 	}
 
 	/**
@@ -461,7 +460,6 @@ abstract class WPCode_Admin_Page {
 	 * @return void
 	 */
 	public function output_header_bottom() {
-
 	}
 
 	/**
@@ -925,7 +923,7 @@ abstract class WPCode_Admin_Page {
 		$count             = 0;
 		foreach ( $snippets as $snippet ) {
 			if ( isset( $snippet['needs_auth'] ) && empty( $snippet['skip_count'] ) ) {
-				$count ++;
+				++$count;
 			}
 		}
 		$categories = $this->add_item_counts( $categories, $snippets );
@@ -977,7 +975,7 @@ abstract class WPCode_Admin_Page {
 				if ( ! isset( $category_counts[ $category ] ) ) {
 					$category_counts[ $category ] = 0;
 				}
-				$category_counts[ $category ] ++;
+				++$category_counts[ $category ];
 			}
 		}
 
@@ -1009,17 +1007,20 @@ abstract class WPCode_Admin_Page {
 		$need_auth_count = 0;
 		foreach ( $snippets as $snippet ) {
 			if ( ! empty( $snippet['needs_auth'] ) ) {
-				$need_auth_count ++;
+				++$need_auth_count;
 			}
 		}
 		if ( $need_auth_count > 0 ) {
-			$categories = array_merge( array(
+			$categories = array_merge(
 				array(
-					'name'  => __( 'Available Snippets', 'insert-headers-and-footers' ),
-					'slug'  => 'available',
-					'count' => $total - $need_auth_count,
-				)
-			), $categories );
+					array(
+						'name'  => __( 'Available Snippets', 'insert-headers-and-footers' ),
+						'slug'  => 'available',
+						'count' => $total - $need_auth_count,
+					),
+				),
+				$categories
+			);
 		}
 
 		return $categories;
@@ -1251,7 +1252,6 @@ abstract class WPCode_Admin_Page {
 		$html .= '</div>';
 
 		return $html;
-
 	}
 
 	/**

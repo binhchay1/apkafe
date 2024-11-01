@@ -4,7 +4,7 @@ Tags: code, css, php, header, code snippets
 Requires at least: 4.6
 Tested up to: 6.6
 Requires PHP: 5.5
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -231,6 +231,10 @@ WPCode comes with a ready-made code snippets library that allows you to replace 
 ... and basically any plugin that adds a functionality which can be added via custom code snippets.
 
 == Changelog ==
+
+= 2.2.3 =
+* Tweak: We updated the way we validate PHP snippets when making an edit to an active snippet for better feedback when debugging.
+* Tweak: We replaced a dependency (SweetAlert2) for a more lightweight alternative to improve performance.
 
 = 2.2.2 =
 * New: The Add Snippet screen now makes it easier to get started with more than just our library of snippets, choose from expert-picked snippets, snippet generators or plugin-specific snippets.

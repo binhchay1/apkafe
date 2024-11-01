@@ -227,7 +227,8 @@ class WPCode_Library {
 	 */
 	public function make_request( $endpoint = '', $method = 'GET', $data = array() ) {
 		$args = array(
-			'method' => $method,
+			'method'  => $method,
+			'timeout' => 10,
 		);
 		if ( wpcode()->library_auth->has_auth() ) {
 			$args['headers'] = $this->get_authenticated_headers();

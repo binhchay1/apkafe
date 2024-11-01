@@ -60,6 +60,10 @@ class AbstractQueries extends Query {
 
 		$deleted = true;
 		foreach ( $items as $item ) {
+			if ( ! is_object( $item ) || ! isset( $item->id ) ) {
+				continue;
+			}
+
 			$deleted = $deleted && $this->delete_item( $item->id );
 		}
 
@@ -121,8 +125,8 @@ class AbstractQueries extends Query {
 		}
 
 		// Query statement.
-		$query    = 'SELECT table_name FROM information_schema.tables WHERE table_name = %s LIMIT 1';
-		$prepared = $db->prepare( $query, $db->{$this->table_name} );
+		$query    = 'SELECT table_name FROM information_schema.tables WHERE table_schema = %s AND table_name = %s LIMIT 1';
+		$prepared = $db->prepare( $query, $db->__get( 'dbname' ), $db->{$this->table_name} );
 		$result   = $db->get_var( $prepared );
 
 		// Does the table exist?

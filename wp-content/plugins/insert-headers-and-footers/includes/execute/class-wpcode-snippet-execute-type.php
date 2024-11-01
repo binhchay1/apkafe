@@ -86,4 +86,12 @@ abstract class WPCode_Snippet_Execute_Type {
 		return $this->snippet->get_code();
 	}
 
+	/**
+	 * Get the scss snippet code.
+	 *
+	 * @return string
+	 */
+	public function get_snippet_compiled_code() {
+		return $this->snippet->get_compiled_code();
+	}
 }

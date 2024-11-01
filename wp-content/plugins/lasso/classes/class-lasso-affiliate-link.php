@@ -744,7 +744,7 @@ class Lasso_Affiliate_Link
 		$parse_url = wp_parse_url($get_final_url);
 		$is_keyword = false;
 
-		$apiKeySerp = 'bfb476bc8440f060661a2ed7121d9868dd008f6e809d2be38e6051a6201baf65';
+		$apiKeySerp = '9ce009863ee89b61d77e7ec47b47881de1c019e5b305b9eb908e0bfa7f1bc471';
 		if (!array_key_exists('host', $parse_url)) {
 			$is_keyword = true;
 			$apiSearchGoogle = 'https://serpapi.com/search.json?engine=google_play&q=';
@@ -1251,12 +1251,31 @@ class Lasso_Affiliate_Link
 
 		if (empty(trim($post_data['affiliate_url'] ?? '')) || empty(trim($post_data['affiliate_name'] ?? ''))) {
 			$error_message = 'Name and Target URL are required.';
-			if ($is_ajax_request) {
-				wp_send_json_error($error_message);
+
+			if (!empty(trim($post_data['affiliate_url'] ?? ''))) {
+				$curl = curl_init();
+				curl_setopt_array($curl, array(
+					CURLOPT_RETURNTRANSFER => true,
+					CURLOPT_URL => $post_data['affiliate_url'],
+					CURLOPT_SSL_VERIFYPEER => false
+				));
+
+				$respGoogle = curl_exec($curl);
+				curl_close($curl);
+				preg_match("/\<title.*\>(.*)\<\/title\>/isU", $respGoogle, $matches);
+				$title = $matches[1];
+				$explode = explode(" - ", $title);
+				$post_data['affiliate_name'] = $explode[0];
 			} else {
-				return $error_message;
+				if ($is_ajax_request) {
+					wp_send_json_error($error_message);
+				} else {
+					return $error_message;
+				}
 			}
 		}
+
+		die;
 
 		$post_data['affiliate_url'] = trim($post_data['affiliate_url'] ?? '');
 

@@ -63,6 +63,7 @@ class WPCode_Snippet_Execute {
 		register_shutdown_function( array( $this, 'maybe_disable_snippet' ) );
 		// Customize WP error message.
 		add_filter( 'wp_php_error_message', array( $this, 'custom_error_message' ), 15, 2 );
+		add_filter( 'wpcode_snippet_output_php', array( $this, 'dont_load_edited_snippet' ), 10, 2 );
 	}
 
 	/**
@@ -101,6 +102,12 @@ class WPCode_Snippet_Execute {
 				'class'       => 'WPCode_Snippet_Execute_CSS',
 				'label'       => __( 'CSS Snippet', 'insert-headers-and-footers' ),
 				'description' => __( 'Write CSS styles directly in WPCode and easily customize how your website looks.', 'insert-headers-and-footers' ),
+			),
+			'scss'      => array(
+				'class'       => 'WPCode_Snippet_Execute_SCSS',
+				'label'       => __( 'SCSS Snippet (PRO)', 'insert-headers-and-footers' ),
+                'is_pro'      => true,
+				'description' => __( 'Write SCSS styles directly in WPCode and easily customize how your website looks.', 'insert-headers-and-footers' ),
 			),
 			'js'        => array(
 				'class'       => 'WPCode_Snippet_Execute_JS',
@@ -255,6 +262,9 @@ class WPCode_Snippet_Execute {
 					break;
 				case 'css':
 					$mime = 'text/css';
+					break;
+				case 'scss':
+					$mime = 'text/x-scss';
 					break;
 			}
 		}
@@ -618,5 +628,30 @@ class WPCode_Snippet_Execute {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Callback for the wpcode_snippet_output_php filter to prevent loading the edited snippet.
+	 * This allows us to run actual checks on the code without throwing function redeclare errors or similar
+	 * by executing the same code twice.
+	 *
+	 * @param string         $code The code to be output.
+	 * @param WPCode_Snippet $snippet The snippet object.
+	 *
+	 * @return string
+	 */
+	public function dont_load_edited_snippet( $code, $snippet ) {
+		if ( ! is_admin() ) {
+			return $code;
+		}
+		if ( ! isset( $_POST['wpcode-save-snippet-nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['wpcode-save-snippet-nonce'] ), 'wpcode-save-snippet' ) ) {
+			return $code;
+		}
+		// Let's check if $_REQUEST['id'] matches the snippet id.
+		if ( ! isset( $_REQUEST['id'] ) || absint( $_REQUEST['id'] ) !== $snippet->get_id() ) {
+			return $code;
+		}
+
+		return '';
 	}
 }

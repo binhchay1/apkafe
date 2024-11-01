@@ -47,6 +47,12 @@ function wpcode_admin_scripts() {
 				'code_type_options' => wpcode()->execute->get_code_type_options(),
 				'please_wait'       => __( 'Please wait.', 'insert-headers-and-footers' ),
 				'ok'                => __( 'OK', 'insert-headers-and-footers' ),
+				'purchased'         => __( 'Already Purchased?', 'insert-headers-and-footers' ),
+				'upgrade_link'      => wpcode_utm_url( 'https://wpcode.com/docs/how-to-upgrade-your-wpcode-license/', 'upsell-alert', $current_screen->id ),
+				'bonus'             => __( 'Bonus', 'insert-headers-and-footers' ),
+				'price'             => __( '$50 off', 'insert-headers-and-footers' ),
+				'regular_price'     => __( 'regular price, automatically applied at checkout.', 'insert-headers-and-footers' ),
+				'wpcode_lite_users' => __( 'WPCode Lite users get', 'insert-headers-and-footers' ),
 				'upgrade_button'    => __( 'Upgrade to PRO', 'insert-headers-and-footers' ),
 				'testing_mode'      => array(
 					'title'           => __( 'Testing Mode is a Premium Feature', 'insert-headers-and-footers' ),
@@ -120,4 +126,3 @@ function wpcode_admin_body_class( $classes ) {
 
 	return $classes;
 }
-

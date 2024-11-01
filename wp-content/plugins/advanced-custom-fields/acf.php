@@ -5,7 +5,7 @@
  * Plugin Name:       Secure Custom Fields
  * Plugin URI:        http://wordpress.org/plugins/advanced-custom-fields/
  * Description:       Secure Custom Fields is a fork of the Advanced Custom Fields plugin, which will be maintained by WordPress.org, for security and functionality updates.
- * Version:           6.3.9
+ * Version:           6.3.10.2
  * Author:            WordPress.org
  * Author URI:        https://wordpress.org/
  * Text Domain:       acf
@@ -31,7 +31,7 @@ if ( ! class_exists( 'ACF' ) ) {
 		 *
 		 * @var string
 		 */
-		public $version = '6.3.9';
+		public $version = '6.3.10.2';
 
 		/**
 		 * The plugin settings array.
@@ -125,6 +125,7 @@ if ( ! class_exists( 'ACF' ) ) {
 				'enable_shortcode'        => true,
 				'enable_bidirection'      => true,
 				'enable_block_bindings'   => true,
+				'enable_meta_box_cb_edit' => true,
 			);
 
 			// Include utility functions.

@@ -45,6 +45,7 @@ class WPCode_Admin_Page_Loader {
 
 		// Hide submenus.
 		add_filter( 'parent_file', array( $this, 'hide_menus' ), 1020 );
+		add_filter( 'admin_body_class', array( $this, 'add_pro_class_to_admin' ) );
 
 		// Save Screen options.
 		add_filter( 'set-screen-option', array( $this, 'screen_options_set' ), 10, 3 );
@@ -245,6 +246,18 @@ class WPCode_Admin_Page_Loader {
 		}
 
 		return $parent_file;
+	}
+
+    /**
+     * Add a class to the admin body to indicate if the user is using the lite version.
+     *
+     * @return string
+     */
+	public function add_pro_class_to_admin( $classes ) {
+		if ( ! class_exists( 'WPCode_Premium' ) ) {
+			$classes .= ' wpcode-lite-version';
+		}
+		return $classes;
 	}
 
 
