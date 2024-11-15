@@ -47,8 +47,24 @@ class WPCode_Auto_Insert_MemberPress_Lite extends WPCode_Auto_Insert_Type {
 	 * @return void
 	 */
 	public function init() {
-		$this->label         = 'MemberPress';
-		$this->locations     = array(
+	}
+
+	/**
+	 * Load the label.
+	 *
+	 * @return void
+	 */
+	public function load_label() {
+		$this->label = 'MemberPress';
+	}
+
+	/**
+	 * Load the available locations.
+	 *
+	 * @return void
+	 */
+	public function load_locations() {
+		$this->locations = array(
 			'mepr-above-checkout-form'          => array(
 				'label'       => __( 'Before the Registration Form', 'insert-headers-and-footers' ),
 				'description' => __( 'Insert snippet before the MemberPress registration form used for checkout.', 'insert-headers-and-footers' ),
@@ -82,6 +98,14 @@ class WPCode_Auto_Insert_MemberPress_Lite extends WPCode_Auto_Insert_Type {
 				'description' => __( 'Insert a snippet after the notice that access to the content is unauthorized. ', 'insert-headers-and-footers' ),
 			),
 		);
+	}
+
+	/**
+	 * Load the upgrade strings.
+	 *
+	 * @return void
+	 */
+	public function load_upgrade_strings() {
 		$this->upgrade_title = __( 'MemberPress Locations are a PRO feature', 'insert-headers-and-footers' );
 		$this->upgrade_text  = __( 'Upgrade to PRO today and get access to advanced eCommerce auto-insert locations and conditional logic rules for your needs.', 'insert-headers-and-footers' );
 		$this->upgrade_link  = wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'auto-insert', 'memberpress' );

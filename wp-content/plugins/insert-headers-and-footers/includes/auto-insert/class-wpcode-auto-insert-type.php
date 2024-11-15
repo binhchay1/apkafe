@@ -126,6 +126,8 @@ abstract class WPCode_Auto_Insert_Type {
 			return;
 		}
 
+		add_action( 'admin_init', array( $this, 'load_upgrade_strings' ), 140 );
+
 		$this->add_start_hook();
 	}
 
@@ -194,8 +196,24 @@ abstract class WPCode_Auto_Insert_Type {
 	 * @return array
 	 */
 	public function get_locations() {
+		$this->load_locations();
+
 		return isset( $this->locations ) ? $this->locations : array();
 	}
+
+	/**
+	 * Load the locations for this type.
+	 *
+	 * @return void
+	 */
+	abstract public function load_locations();
+
+	/**
+	 * Load the label for this type.
+	 *
+	 * @return void
+	 */
+	abstract public function load_label();
 
 	/**
 	 * Query snippets by location.
@@ -250,7 +268,8 @@ abstract class WPCode_Auto_Insert_Type {
 			'post_type'      => wpcode_get_post_type(),
 			'posts_per_page' => - 1,
 			'post_status'    => 'publish',
-			'cache_results'  => false, // We don't want to cache this query ever as it should only run when snippets are preloaded in case of an error it will provide false values if cached.
+			'cache_results'  => false,
+			// We don't want to cache this query ever as it should only run when snippets are preloaded in case of an error it will provide false values if cached.
 		);
 		$snippets_query = new WP_Query( $args );
 		$snippets       = $snippets_query->posts;
@@ -360,6 +379,10 @@ abstract class WPCode_Auto_Insert_Type {
 	 * @return string
 	 */
 	public function get_label() {
+		if ( ! isset( $this->label ) ) {
+			$this->load_label();
+		}
+
 		return $this->label;
 	}
 
@@ -401,5 +424,14 @@ abstract class WPCode_Auto_Insert_Type {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Load the strings for the upgrade prompt, if any.
+	 *
+	 * @return void
+	 */
+	public function load_upgrade_strings() {
+
 	}
 }

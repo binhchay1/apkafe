@@ -47,8 +47,24 @@ class WPCode_Auto_Insert_EDD_Lite extends WPCode_Auto_Insert_Type {
 	 * @return void
 	 */
 	public function init() {
-		$this->label         = 'Easy Digital Downloads';
-		$this->locations     = array(
+	}
+
+	/**
+	 * Load the label.
+	 *
+	 * @return void
+	 */
+	public function load_label() {
+		$this->label = 'Easy Digital Downloads';
+	}
+
+	/**
+	 * Load the available locations.
+	 *
+	 * @return void
+	 */
+	public function load_locations() {
+		$this->locations = array(
 			'edd_purchase_link_top'       => array(
 				'label'       => __( 'Before the Purchase Button', 'insert-headers-and-footers' ),
 				'description' => __( 'Insert snippet before the EDD purchase button.', 'insert-headers-and-footers' ),
@@ -90,6 +106,14 @@ class WPCode_Auto_Insert_EDD_Lite extends WPCode_Auto_Insert_Type {
 				'description' => __( 'Insert snippet after the EDD checkout form on the checkout page', 'insert-headers-and-footers' ),
 			),
 		);
+	}
+
+	/**
+	 * Load the upgrade strings.
+	 *
+	 * @return void
+	 */
+	public function load_upgrade_strings() {
 		$this->upgrade_title = __( 'Easy Digital Downloads Locations are a PRO feature', 'insert-headers-and-footers' );
 		$this->upgrade_text  = __( 'Upgrade to PRO today and get access to advanced eCommerce auto-insert locations and conditional logic rules for your needs.', 'insert-headers-and-footers' );
 		$this->upgrade_link  = wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'auto-insert', 'edd' );

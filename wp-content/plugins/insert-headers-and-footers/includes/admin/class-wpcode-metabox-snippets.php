@@ -42,7 +42,6 @@ abstract class WPCode_Metabox_Snippets {
 	 * Register the metabox.
 	 */
 	public function __construct() {
-		$this->load_strings();
 		$this->hooks();
 	}
 
@@ -75,6 +74,7 @@ abstract class WPCode_Metabox_Snippets {
 	 * @return void
 	 */
 	public function hooks() {
+		add_action( 'admin_init', array( $this, 'load_strings' ) );
 		add_action( 'add_meta_boxes', array( $this, 'register_metabox' ) );
 		add_action( 'admin_head', array( $this, 'close_metabox_for_current_screen' ) );
 	}

@@ -90,7 +90,7 @@ function wpcode_taxonomies_count_drafts( $statuses, $taxonomy ) {
  * @return void
  */
 function wpcode_maybe_remove_core_content_filters( $snippet ) {
-	if ( ! function_exists( 'wp_remove_targeted_link_rel_filters' ) ) {
+	if ( ! function_exists( 'wp_remove_targeted_link_rel_filters' ) || version_compare( get_bloginfo( 'version' ), '6.7', '>=' ) ) {
 		// This function is only available in WP 5.1+.
 		return;
 	}
@@ -117,7 +117,7 @@ function wpcode_maybe_remove_core_content_filters( $snippet ) {
  * @return void
  */
 function wpcode_restore_core_content_filters() {
-	if ( ! function_exists( 'wp_init_targeted_link_rel_filters' ) ) {
+	if ( ! function_exists( 'wp_init_targeted_link_rel_filters' ) || version_compare( get_bloginfo( 'version' ), '6.7', '>=' ) ) {
 		// This function is only available in WP 5.1+.
 		return;
 	}

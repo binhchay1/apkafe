@@ -267,7 +267,7 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
         private function get_server_info() {
             global $wpdb;
 
-            $software = ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && ! empty( $_SERVER['SERVER_SOFTWARE'] ) ) ? $_SERVER['SERVER_SOFTWARE'] : '' );
+            $software = ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && ! empty( $_SERVER['SERVER_SOFTWARE'] ) ) ? wp_unslash($_SERVER['SERVER_SOFTWARE']) : '' );
             $php_version = ( function_exists( 'phpversion' ) ? phpversion() : '' );
             $mysql_version = ( method_exists( $wpdb, 'db_version' ) ? $wpdb->db_version() : '' );
             $php_max_upload_size = size_format( wp_max_upload_size() );
@@ -477,7 +477,7 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
          * Show core notice.
          */
         private function show_core_notice() {
-
+            return;
             $message_l1 = sprintf( esc_html__( 'At %2$s%1$s%3$s, we prioritize continuous improvement and compatibility. To achieve this, we gather non-sensitive diagnostic information and details about plugin usage. This includes your site\'s URL, the versions of WordPress and PHP you\'re using, and a list of your installed plugins and themes. We also require your email address to provide you with exclusive discount coupons and updates. This data collection is crucial for ensuring that %2$s%1$s%3$s remains up-to-date and compatible with the most widely-used plugins and themes. Rest assured, your privacy is our priority – no spam, guaranteed. %4$sPrivacy Policy%5$s', 'htga4' ), esc_html( $this->project_name ), '<strong>', '</strong>', '<a target="_blank" href="' . esc_url( $this->privacy_policy ) . '">', '</a>', '<h4 class="htga4-diagnostic-data-title">', '</h4>' );
 
             $message_l2 = sprintf( esc_html__( 'Server information (Web server, PHP version, MySQL version), WordPress information, site name, site URL, number of plugins, number of users, your name, and email address. You can rest assured that no sensitive data will be collected or tracked. %1$sLearn more%2$s.', 'htga4' ), '<a target="_blank" href="' . esc_url( $this->privacy_policy ) . '">', '</a>' );
@@ -496,7 +496,11 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
             ) );
             ?>
             <div class="htga4-diagnostic-data-style"><style>.htga4-diagnostic-data-notice,.woocommerce-embed-page .htga4-diagnostic-data-notice{padding-top:.75em;padding-bottom:.75em;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-buttons,.htga4-diagnostic-data-notice .htga4-diagnostic-data-list,.htga4-diagnostic-data-notice .htga4-diagnostic-data-message{padding:.25em 2px;margin:0;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-list{display:none;color:#646970;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-buttons{padding-top:.75em;}.htga4-diagnostic-data-notice .htga4-diagnostic-data-buttons .button{margin-right:5px;box-shadow:none;}.htga4-diagnostic-data-loading{position:relative;}.htga4-diagnostic-data-loading::before{position:absolute;content:"";width:100%;height:100%;top:0;left:0;background-color:rgba(255,255,255,.5);z-index:999;}.htga4-diagnostic-data-disagree{border-width:0px !important;background-color: transparent!important; padding: 0!important;}h4.htga4-diagnostic-data-title {margin: 0 0 10px 0;font-size: 1.04em;font-weight: 600;}</style></div>
-            <div class="htga4-diagnostic-data-notice notice notice-success">
+
+            <?php
+            ob_start();
+            ?>
+            <div class="htga4-diagnostic-data-notice">
                 <h4 class="htga4-diagnostic-data-title"><?php echo sprintf( esc_html__('🌟 Enhance Your %1$s Experience as a Valued Contributor!','htga4'), esc_html( $this->project_name )); ?></h4>
                 <p class="htga4-diagnostic-data-message"><?php echo wp_kses_post( $message_l1 ); ?></p>
                 <p class="htga4-diagnostic-data-list"><?php echo wp_kses_post( $message_l2 ); ?></p>
@@ -506,6 +510,22 @@ if ( ! class_exists( 'Ht_Easy_Ga4_Diagnostic_Data' ) ) {
                 </p>
             </div>
             <?php
+            $message = ob_get_clean();
+
+            \Ht_Easy_Ga4\Admin\Notice_Handler::set_notice(
+                [
+                    'id'          => 'htga4-diag1',
+                    'type'        => 'success',
+                    'display_after' => 3600,
+                    // 'expire_time' => 30 * DAY_IN_SECONDS,
+                    'message_type' => 'html',
+                    'dismissible' => true,
+                    'message'     => $message,
+                    'is_show'     => true,
+                    'close_by' 	=> 'transient',
+                    'priority' => -4,
+                ]
+            );
         }
     }
 

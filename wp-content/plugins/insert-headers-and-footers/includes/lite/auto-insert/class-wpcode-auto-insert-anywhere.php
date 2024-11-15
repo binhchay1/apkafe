@@ -47,8 +47,24 @@ class WPCode_Auto_Insert_Anywhere_Lite extends WPCode_Auto_Insert_Type {
 	 * @return void
 	 */
 	public function init() {
-		$this->label         = __( 'Anywhere (CSS Selector)', 'insert-headers-and-footers' );
-		$this->locations     = array(
+	}
+
+	/**
+	 * Load the label.
+	 *
+	 * @return void
+	 */
+	public function load_label() {
+		$this->label = __( 'Anywhere (CSS Selector)', 'insert-headers-and-footers' );
+	}
+
+	/**
+	 * Load the available locations.
+	 *
+	 * @return void
+	 */
+	public function load_locations() {
+		$this->locations = array(
 			'before_css_selector'  => array(
 				'label'       => __( 'Before HTML Element', 'insert-headers-and-footers' ),
 				'description' => __( 'Insert snippet before the HTML element specified by the CSS selector.', 'insert-headers-and-footers' ),
@@ -70,6 +86,14 @@ class WPCode_Auto_Insert_Anywhere_Lite extends WPCode_Auto_Insert_Type {
 				'description' => __( 'Completely replace the HTML element specified by the CSS selector with the output of this snippet.', 'insert-headers-and-footers' ),
 			),
 		);
+	}
+
+	/**
+	 * Load the upgrade strings.
+	 *
+	 * @return void
+	 */
+	public function load_upgrade_strings() {
 		$this->upgrade_title = __( 'Insert Anywhere by CSS Selector is a Premium feature', 'insert-headers-and-footers' );
 		$this->upgrade_text  = __( 'Upgrade to PRO today and insert snippets anywhere on your site using CSS selectors to target any HTML element.', 'insert-headers-and-footers' );
 		$this->upgrade_link  = wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'auto-insert', 'anywhere' );

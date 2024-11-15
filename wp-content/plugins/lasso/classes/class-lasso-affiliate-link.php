@@ -810,12 +810,21 @@ class Lasso_Affiliate_Link
 			if ($parse_url['host'] == 'play.google.com') {
 				$query_url = $parse_url['query'];
 				$idAppPlay = '';
+				$hlAppPlay = '';
+				$glAppPlay = '';
 				$explodeQuery = explode('&', $query_url);
 				foreach ($explodeQuery as $explode) {
-
 					$explodeInExplode = explode('=', $explode);
 					if ($explodeInExplode[0] == 'id') {
 						$idAppPlay = $explodeInExplode[1];
+					}
+
+					if ($explodeInExplode[0] == 'hl') {
+						$hlAppPlay = $explodeInExplode[1];
+					}
+
+					if ($explodeInExplode[0] == 'gl') {
+						$glAppPlay = $explodeInExplode[1];
 					}
 				}
 
@@ -830,8 +839,17 @@ class Lasso_Affiliate_Link
 						'screen_shots' => '',
 					];
 				} else {
-					$apiGooglePlay = 'https://serpapi.com/search.json?engine=google_play_product&product_id=';
-					$curlUrl = $apiGooglePlay . $idAppPlay . '&store=apps&platform=phone&api_key=' . $apiKeySerp;
+					$apiGooglePlay = 'https://serpapi.com/search?engine=google_play_product&store=apps&gl=GB&hl=en&product_id=';
+					$curlUrl = $apiGooglePlay . $idAppPlay . '&api_key=' . $apiKeySerp;
+
+					if ($hlAppPlay != '') {
+						$curlUrl .= '&hl=' . $hlAppPlay;
+					}
+
+					if ($glAppPlay != '') {
+						$curlUrl .= '&gl=' . $glAppPlay;
+					}
+
 					$curl = curl_init();
 					curl_setopt_array($curl, array(
 						CURLOPT_RETURNTRANSFER => true,
@@ -1274,8 +1292,6 @@ class Lasso_Affiliate_Link
 				}
 			}
 		}
-
-		die;
 
 		$post_data['affiliate_url'] = trim($post_data['affiliate_url'] ?? '');
 

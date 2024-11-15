@@ -32,7 +32,30 @@ class WPCode_Auto_Insert_Archive extends WPCode_Auto_Insert_Type {
 	 * @return void
 	 */
 	public function init() {
-		$this->label     = __( 'Categories, Archives, Tags, Taxonomies', 'insert-headers-and-footers' );
+		$this->locations = array(
+			'before_excerpt'      => array(),
+			'after_excerpt'       => array(),
+			'between_posts'       => array(),
+			'archive_before_post' => array(),
+			'archive_after_post'  => array(),
+		);
+	}
+
+	/**
+	 * Load the label.
+	 *
+	 * @return void
+	 */
+	public function load_label() {
+		$this->label = __( 'Categories, Archives, Tags, Taxonomies', 'insert-headers-and-footers' );
+	}
+
+	/**
+	 * Load the available locations.
+	 *
+	 * @return void
+	 */
+	public function load_locations() {
 		$this->locations = array(
 			'before_excerpt'      => array(
 				'label'       => __( 'Insert Before Excerpt', 'insert-headers-and-footers' ),

@@ -48,8 +48,24 @@ class WPCode_Auto_Insert_WooCommerce_Lite extends WPCode_Auto_Insert_Type {
 	 * @return void
 	 */
 	public function init() {
-		$this->label         = 'WooCommerce';
-		$this->locations     = array(
+	}
+
+	/**
+	 * Load the label.
+	 *
+	 * @return void
+	 */
+	public function load_label() {
+		$this->label = 'WooCommerce';
+	}
+
+	/**
+	 * Load the available locations.
+	 *
+	 * @return void
+	 */
+	public function load_locations() {
+		$this->locations = array(
 			'wc_before_products_list'              => array(
 				'label'       => __( 'Before the List of Products', 'insert-headers-and-footers' ),
 				'description' => __( 'Insert snippet before the list of products on a WooCommerce page.', 'insert-headers-and-footers' ),
@@ -103,6 +119,14 @@ class WPCode_Auto_Insert_WooCommerce_Lite extends WPCode_Auto_Insert_Type {
 				'description' => __( 'Insert snippet before the thank you page content for WooCommerce.', 'insert-headers-and-footers' ),
 			),
 		);
+	}
+
+	/**
+	 * Load the upgrade strings.
+	 *
+	 * @return void
+	 */
+	public function load_upgrade_strings() {
 		$this->upgrade_title = __( 'WooCommerce Locations are a PRO feature', 'insert-headers-and-footers' );
 		$this->upgrade_text  = __( 'Upgrade to PRO today and get access to advanced eCommerce auto-insert locations and conditional logic rules for your needs.', 'insert-headers-and-footers' );
 		$this->upgrade_link  = wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'auto-insert', 'woocommerce' );

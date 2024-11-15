@@ -103,6 +103,19 @@ class Base {
 		// Action when login & logout.
 		add_action( 'admin_init', array( $this, 'login' ) );
 		add_action( 'admin_init', array( $this, 'logout' ) );
+
+		// Set Notice.
+		add_action('admin_head', function(){
+			$remote_banner_data = $this->get_plugin_remote_data();
+
+			if (!empty($remote_banner_data) && is_array($remote_banner_data)) {
+				foreach ($remote_banner_data as $banner) {
+					if (empty($banner['disable'])) {
+						Admin\Notice_Handler::set_notice($banner);
+					}
+				}
+			}
+		});
 	}
 
 	public function i18n() {
@@ -131,6 +144,8 @@ class Base {
 		if( is_admin() ){
 			require_once ( HT_EASY_GA4_PATH .'admin/class-trial.php' );
 			require_once ( HT_EASY_GA4_PATH .'admin/class-diagnostic-data.php' );
+
+			require_once HT_EASY_GA4_PATH . 'admin/class-notice-handler.php';
 		}
 
 		require_once HT_EASY_GA4_PATH . 'frontend/class-frontend.php';

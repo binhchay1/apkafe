@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPCode Lite 2.2.3\n"
+"Project-Id-Version: WPCode Lite 2.2.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/insert-headers-and-footers\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-29T13:16:50+00:00\n"
+"POT-Creation-Date: 2024-11-13T15:14:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: insert-headers-and-footers\n"
@@ -151,35 +151,35 @@ msgstr ""
 msgid "View All %s Docs"
 msgstr ""
 
-#: includes/admin/class-wpcode-metabox-snippets.php:55
+#: includes/admin/class-wpcode-metabox-snippets.php:54
 msgid "WPCode Page Scripts"
 msgstr ""
 
-#: includes/admin/class-wpcode-metabox-snippets.php:57
+#: includes/admin/class-wpcode-metabox-snippets.php:56
 #: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:167
 #: includes/generator/class-wpcode-generator-script.php:193
 #: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:23
 msgid "Header"
 msgstr ""
 
-#: includes/admin/class-wpcode-metabox-snippets.php:58
+#: includes/admin/class-wpcode-metabox-snippets.php:57
 #: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:171
 #: includes/generator/class-wpcode-generator-script.php:192
 #: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:36
 msgid "Footer"
 msgstr ""
 
-#: includes/admin/class-wpcode-metabox-snippets.php:64
+#: includes/admin/class-wpcode-metabox-snippets.php:63
 #: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:169
 #: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:49
 msgid "Body"
 msgstr ""
 
-#: includes/admin/class-wpcode-metabox-snippets.php:67
+#: includes/admin/class-wpcode-metabox-snippets.php:66
 msgid "Custom Code Snippet"
 msgstr ""
 
-#: includes/admin/class-wpcode-metabox-snippets.php:68
+#: includes/admin/class-wpcode-metabox-snippets.php:67
 #: includes/generator/class-wpcode-generator-post-type.php:384
 msgid "Revisions"
 msgstr ""
@@ -1912,7 +1912,7 @@ msgid "Where (page)"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:724
-#: includes/class-wpcode-auto-insert.php:61
+#: includes/class-wpcode-auto-insert.php:55
 msgid "eCommerce"
 msgstr ""
 
@@ -2238,7 +2238,7 @@ msgid "This snippet first threw an error at %1$s on %2$s (%3$s ago)."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:2279
-#: includes/class-wpcode-snippet-execute.php:534
+#: includes/class-wpcode-snippet-execute.php:597
 msgid "Error message:"
 msgstr ""
 
@@ -2761,185 +2761,185 @@ msgstr ""
 msgid "%d Other Revisions"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-admin.php:30
-msgid "Admin area"
+#: includes/auto-insert/class-wpcode-auto-insert-admin.php:42
+msgid "Admin Area"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-admin.php:33
+#: includes/auto-insert/class-wpcode-auto-insert-admin.php:53
 msgid "Admin header"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-admin.php:34
+#: includes/auto-insert/class-wpcode-auto-insert-admin.php:54
 msgid "Insert snippet in the wp-admin header area."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-admin.php:37
+#: includes/auto-insert/class-wpcode-auto-insert-admin.php:57
 msgid "Admin footer"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-admin.php:38
+#: includes/auto-insert/class-wpcode-auto-insert-admin.php:58
 msgid "Insert snippet in the wp-admin footer."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:35
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:50
 msgid "Categories, Archives, Tags, Taxonomies"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:38
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:61
 msgid "Insert Before Excerpt"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:39
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:62
 msgid "Insert snippet above post summary."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:42
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:65
 msgid "Insert After Excerpt"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:43
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:66
 msgid "Insert snippet below post summary."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:46
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:69
 msgid "Between Posts"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:47
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:70
 msgid "Insert snippet between multiple posts."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:50
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:73
 msgid "Before Post"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:51
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:48
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:74
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:72
 msgid "Insert snippet at the beginning of a post."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:54
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:77
 msgid "After Post"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-archive.php:55
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:52
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:78
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:76
 msgid "Insert snippet at the end of a post."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:44
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:59
 msgid "PHP Snippets Only"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:47
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:70
 msgid "Run Everywhere"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:48
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:71
 msgid "Snippet gets executed everywhere on your website."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:51
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:74
 msgid "Frontend Only"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:52
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:75
 msgid "Snippet gets executed only in the frontend of the website."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:55
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:78
 msgid "Admin Only"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:56
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:79
 msgid "The snippet only gets executed in the wp-admin area."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:59
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:82
 msgid "Frontend Conditional Logic"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:60
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:83
 msgid "Ideal for running the snippet later with conditional logic rules in the frontend."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:63
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:86
 msgid "On Demand"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:64
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:87
 msgid "Execute this snippet on demand or programmatically just when you need it."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:44
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:60
 msgid "Page, Post, Custom Post Type"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:47
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:71
 msgid "Insert Before Post"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:51
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:75
 msgid "Insert After Post"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:55
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:79
 msgid "Insert Before Content"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:56
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:80
 msgid "Insert snippet at the beginning of the post content."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:59
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:83
 msgid "Insert After Content"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:60
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:84
 msgid "Insert snippet at the end of the post content."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:63
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:87
 msgid "Insert Before Paragraph"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:64
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:88
 msgid "Insert snippet before paragraph # of the post content."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:67
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:91
 msgid "Insert After Paragraph"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-single.php:68
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:92
 msgid "Insert snippet after paragraph # of the post content."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:36
-msgid "Site wide (frontend)"
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:49
+msgid "Site Wide (Frontend)"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:39
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:60
 msgid "Site Wide Header"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:40
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:61
 msgid "Insert snippet between the head tags of your website on all pages."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:43
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:64
 msgid "Site Wide Body"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:44
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:65
 msgid "Insert the snippet just after the opening body tag."
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:47
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:68
 msgid "Site Wide Footer"
 msgstr ""
 
-#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:48
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:69
 msgid "Insert the snippet in the footer just before the closing body tag."
 msgstr ""
 
@@ -3028,7 +3028,7 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-#: includes/class-wpcode-auto-insert.php:57
+#: includes/class-wpcode-auto-insert.php:54
 msgid "Page-Specific"
 msgstr ""
 
@@ -3037,7 +3037,7 @@ msgid "Admin"
 msgstr ""
 
 #: includes/class-wpcode-generator.php:95
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:51
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:59
 msgid "Content"
 msgstr ""
 
@@ -3160,91 +3160,91 @@ msgstr ""
 msgid "Learn more about Smart Tags"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:86
+#: includes/class-wpcode-snippet-execute.php:130
 msgid "HTML Snippet"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:87
+#: includes/class-wpcode-snippet-execute.php:131
 msgid "Easily insert scripts from other sites or build custom elements using HTML."
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:92
+#: includes/class-wpcode-snippet-execute.php:136
 msgid "Text Snippet"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:93
+#: includes/class-wpcode-snippet-execute.php:137
 msgid "Create reusable text snippets that you can visually format in a familiar editor."
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:97
+#: includes/class-wpcode-snippet-execute.php:141
 msgid "Blocks Snippet (PRO)"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:99
+#: includes/class-wpcode-snippet-execute.php:143
 msgid "Use the Block Editor to create components that you can insert anywhere in your site."
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:103
+#: includes/class-wpcode-snippet-execute.php:147
 msgid "CSS Snippet"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:104
+#: includes/class-wpcode-snippet-execute.php:148
 msgid "Write CSS styles directly in WPCode and easily customize how your website looks."
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:108
+#: includes/class-wpcode-snippet-execute.php:152
 msgid "SCSS Snippet (PRO)"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:110
+#: includes/class-wpcode-snippet-execute.php:154
 msgid "Write SCSS styles directly in WPCode and easily customize how your website looks."
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:114
+#: includes/class-wpcode-snippet-execute.php:158
 msgid "JavaScript Snippet"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:115
+#: includes/class-wpcode-snippet-execute.php:159
 msgid "Add custom JavaScript code to your site to add interactivity or integrate with other services."
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:119
+#: includes/class-wpcode-snippet-execute.php:163
 msgid "PHP Snippet"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:120
+#: includes/class-wpcode-snippet-execute.php:164
 msgid "Extend or add functionality using PHP code with full control on where it's executed"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:124
+#: includes/class-wpcode-snippet-execute.php:168
 msgid "Universal Snippet"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:125
+#: includes/class-wpcode-snippet-execute.php:169
 msgid "Start writing HTML and add PHP code like you would in a .php file with Universal snippets."
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:484
+#: includes/class-wpcode-snippet-execute.php:547
 msgid "Snippet has not been activated due to an error."
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:488
+#: includes/class-wpcode-snippet-execute.php:551
 msgid "Please click the back button in the browser to update the snippet."
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:491
+#: includes/class-wpcode-snippet-execute.php:554
 msgid "WPCode has detected an error in one of the snippets which has now been automatically deactivated."
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:505
+#: includes/class-wpcode-snippet-execute.php:568
 msgid "View Snippets With Errors"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:519
+#: includes/class-wpcode-snippet-execute.php:582
 msgid "View error logs"
 msgstr ""
 
-#: includes/class-wpcode-snippet-execute.php:528
+#: includes/class-wpcode-snippet-execute.php:591
 msgid "Enable error logging"
 msgstr ""
 
@@ -5879,381 +5879,381 @@ msgstr ""
 msgid "%1$sBonus:%2$s WPCode Lite users get %3$s$50 off regular price%4$s, automatically applied at checkout"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:50
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:58
 msgid "Anywhere (CSS Selector)"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:53
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:69
 msgid "Before HTML Element"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:54
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:70
 msgid "Insert snippet before the HTML element specified by the CSS selector."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:57
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:73
 msgid "After HTML Element"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:58
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:74
 msgid "Insert snippet after the HTML element specified by the CSS selector."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:61
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:77
 msgid "At the start of HTML Element"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:62
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:78
 msgid "Insert snippet before the content of the HTML element specified by CSS selector."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:65
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:81
 msgid "At the end of HTML Element"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:66
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:82
 msgid "Insert snippet after the content of the HTML element specified by CSS selector."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:69
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:85
 msgid "Replace HTML Element"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:70
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:86
 msgid "Completely replace the HTML element specified by the CSS selector with the output of this snippet."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:73
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:97
 msgid "Insert Anywhere by CSS Selector is a Premium feature"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:74
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:98
 msgid "Upgrade to PRO today and insert snippets anywhere on your site using CSS selectors to target any HTML element."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:54
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:70
 msgid "Insert After # Words"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:55
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:71
 msgid "Insert snippet after a minimum number of words."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:58
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:74
 msgid "Insert Every # Words"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:59
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:75
 msgid "Insert snippet every # number of words."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:62
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:78
 msgid "Insert in the Middle of the Content"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:63
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:79
 msgid "Insert snippet in the middle of the post content."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:66
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:82
 msgid "Insert after first Quarter (25%)"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:67
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:83
 msgid "Insert snippet after the first quarter of the post content."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:70
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:86
 msgid "Insert after 3rd Quarter (75%)"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:71
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:87
 msgid "Insert snippet after the third quarter of the post content."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:74
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:90
 msgid "Insert after first Third (33%)"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:75
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:91
 msgid "Insert snippet after the first third of the post content."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:78
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:94
 msgid "Insert after second Third (66%)"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:79
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:95
 msgid "Insert snippet after the second third of the post content."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:82
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:98
 msgid "Insert after 80%"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:83
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:99
 msgid "Insert snippet after 80% of the post content."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:86
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:110
 msgid "Word-based content locations are a PRO feature"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:87
+#: includes/lite/auto-insert/class-wpcode-auto-insert-content.php:111
 msgid "Upgrade to PRO today and get access to automatic word-count based insert locations."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:53
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:69
 msgid "Before the Purchase Button"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:54
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:70
 msgid "Insert snippet before the EDD purchase button."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:57
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:73
 msgid "After the Purchase Button"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:58
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:74
 msgid "Insert snippet after the EDD purchase button."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:61
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:77
 msgid "Before the Single Download"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:62
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:78
 msgid "Insert snippet before the single EDD download content."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:65
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:81
 msgid "After the Single Download"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:66
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:82
 msgid "Insert snippet after the single EDD download content."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:69
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:78
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:85
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:94
 msgid "Before the Cart"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:70
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:86
 msgid "Insert snippet before the EDD cart."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:73
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:82
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:89
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:98
 msgid "After the Cart"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:74
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:90
 msgid "Insert snippet after the EDD cart."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:77
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:93
 msgid "Before the Checkout Cart"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:78
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:94
 msgid "Insert snippet before the EDD cart on the checkout page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:81
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:97
 msgid "After the Checkout Cart"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:82
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:98
 msgid "Insert snippet after the EDD cart on the checkout page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:85
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:86
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:101
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:102
 msgid "Before the Checkout Form"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:86
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:102
 msgid "Insert snippet before the EDD checkout form on the checkout page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:89
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:90
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:105
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:106
 msgid "After the Checkout Form"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:90
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:106
 msgid "Insert snippet after the EDD checkout form on the checkout page"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:93
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:117
 msgid "Easy Digital Downloads Locations are a PRO feature"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:94
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:86
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:107
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:118
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:110
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:131
 msgid "Upgrade to PRO today and get access to advanced eCommerce auto-insert locations and conditional logic rules for your needs."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:53
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:69
 msgid "Before the Registration Form"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:54
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:70
 msgid "Insert snippet before the MemberPress registration form used for checkout."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:57
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:73
 msgid "Before Checkout Submit Button"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:58
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:74
 msgid "Insert snippet right before the MemberPress checkout submit button."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:61
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:77
 msgid "Before Checkout Coupon Field"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:62
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:78
 msgid "Insert snippet before the MemberPress checkout coupon field."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:65
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:81
 msgid "Before Account First Name"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:66
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:82
 msgid "Insert snippet to the Home tab of the MemberPress Account page before First Name field."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:69
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:85
 msgid "Before Subscriptions Content"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:70
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:86
 msgid "Insert snippet at the beginning of the Subscriptions tab on the MemberPress Account page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:73
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:89
 msgid "Before Login Form Submit"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:74
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:90
 msgid "Insert snippet before the Remember Me checkbox on the MemberPress Login page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:77
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:93
 msgid "Before the Unauthorized Message"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:78
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:94
 msgid "Insert a snippet before the notice that access to the content is unauthorized. "
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:81
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:97
 msgid "After the Unauthorized Message"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:82
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:98
 msgid "Insert a snippet after the notice that access to the content is unauthorized. "
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:85
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:109
 msgid "MemberPress Locations are a PRO feature"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:54
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:70
 msgid "Before the List of Products"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:55
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:71
 msgid "Insert snippet before the list of products on a WooCommerce page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:58
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:74
 msgid "After the List of Products"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:59
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:75
 msgid "Insert snippet after the list of products on a WooCommerce page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:62
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:78
 msgid "Before the Single Product"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:63
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:79
 msgid "Insert snippet before the content on the single WooCommerce product page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:66
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:82
 msgid "After the Single Product"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:67
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:83
 msgid "Insert snippet after the content on the single WooCommerce product page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:70
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:86
 msgid "Before the Single Product Summary"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:71
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:87
 msgid "Insert snippet before the product summary on the single WooCommerce product page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:74
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:90
 msgid "After the Single Product Summary"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:75
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:91
 msgid "Insert snippet after the product summary on the single WooCommerce product page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:79
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:95
 msgid "Insert snippet before the cart on WooCommerce pages."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:83
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:99
 msgid "Insert snippet after the cart on WooCommerce pages."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:87
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:103
 msgid "Insert snippet before the checkout form on the WooCommerce checkout page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:91
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:107
 msgid "Insert snippet after the checkout form on the WooCommerce checkout page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:94
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:110
 msgid "Before Checkout Payment Button"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:95
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:111
 msgid "Insert snippet before the checkout payment button on the WooCommerce checkout page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:98
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:114
 msgid "After Checkout Payment Button"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:99
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:115
 msgid "Insert snippet after the checkout payment button on the WooCommerce checkout page."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:102
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:118
 msgid "Before the Thank You Page"
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:103
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:119
 msgid "Insert snippet before the thank you page content for WooCommerce."
 msgstr ""
 
-#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:106
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:130
 msgid "WooCommerce Locations are a PRO feature"
 msgstr ""
 

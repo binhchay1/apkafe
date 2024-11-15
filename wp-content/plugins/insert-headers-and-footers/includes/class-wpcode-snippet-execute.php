@@ -24,6 +24,14 @@ class WPCode_Snippet_Execute {
 	 * @var array
 	 */
 	public $types;
+
+	/**
+	 * The snippet types info with labels and descriptions.
+	 *
+	 * @var array
+	 */
+	public $types_labels;
+
 	/**
 	 * The snippet executed right now, for error handling.
 	 *
@@ -82,6 +90,42 @@ class WPCode_Snippet_Execute {
 
 		$this->types = array(
 			'html'      => array(
+				'class' => 'WPCode_Snippet_Execute_HTML',
+			),
+			'text'      => array(
+				'class' => 'WPCode_Snippet_Execute_Text',
+			),
+			'blocks'    => array(
+				'class'  => 'WPCode_Snippet_Execute_Blocks',
+				'is_pro' => true,
+			),
+			'css'       => array(
+				'class' => 'WPCode_Snippet_Execute_CSS',
+			),
+			'scss'      => array(
+				'class'  => 'WPCode_Snippet_Execute_SCSS',
+				'is_pro' => true,
+			),
+			'js'        => array(
+				'class' => 'WPCode_Snippet_Execute_JS',
+			),
+			'php'       => array(
+				'class' => 'WPCode_Snippet_Execute_PHP',
+			),
+			'universal' => array(
+				'class' => 'WPCode_Snippet_Execute_Universal',
+			),
+		);
+	}
+
+	/**
+	 * Load the snippet types on demand.
+	 *
+	 * @return void
+	 */
+	public function load_snippet_types_on_demand() {
+		$this->types = array(
+			'html'      => array(
 				'class'       => 'WPCode_Snippet_Execute_HTML',
 				'label'       => __( 'HTML Snippet', 'insert-headers-and-footers' ),
 				'description' => __( 'Easily insert scripts from other sites or build custom elements using HTML.', 'insert-headers-and-footers' ),
@@ -106,7 +150,7 @@ class WPCode_Snippet_Execute {
 			'scss'      => array(
 				'class'       => 'WPCode_Snippet_Execute_SCSS',
 				'label'       => __( 'SCSS Snippet (PRO)', 'insert-headers-and-footers' ),
-                'is_pro'      => true,
+				'is_pro'      => true,
 				'description' => __( 'Write SCSS styles directly in WPCode and easily customize how your website looks.', 'insert-headers-and-footers' ),
 			),
 			'js'        => array(
@@ -125,6 +169,8 @@ class WPCode_Snippet_Execute {
 				'description' => __( 'Start writing HTML and add PHP code like you would in a .php file with Universal snippets.', 'insert-headers-and-footers' ),
 			),
 		);
+
+		$this->types_labels = true;
 	}
 
 	/**
@@ -168,11 +214,26 @@ class WPCode_Snippet_Execute {
 	 * @return string|false
 	 */
 	public function get_type_execute_class( $type ) {
-		if ( isset( $this->types[ $type ] ) ) {
-			return $this->types[ $type ]['class'];
+		$types = $this->get_types();
+
+		if ( isset( $types[ $type ] ) ) {
+			return $types[ $type ]['class'];
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get the types of executors.
+	 *
+	 * @return array
+	 */
+	public function get_types() {
+		if ( ! isset( $this->types_labels ) && did_action( 'init' ) ) {
+			$this->load_snippet_types_on_demand();
+		}
+
+		return $this->types;
 	}
 
 	/**
@@ -195,7 +256,8 @@ class WPCode_Snippet_Execute {
 	 */
 	public function get_options() {
 		$options = array();
-		foreach ( $this->types as $type_key => $type_values ) {
+		$types   = $this->get_types();
+		foreach ( $types as $type_key => $type_values ) {
 			$options[ $type_key ] = $type_values['label'];
 		}
 
@@ -209,7 +271,8 @@ class WPCode_Snippet_Execute {
 	 */
 	public function get_code_types() {
 		$code_types = array();
-		foreach ( $this->types as $type_key => $type_values ) {
+		$types      = $this->get_types();
+		foreach ( $types as $type_key => $type_values ) {
 			$code_types[ $type_key ] = array(
 				'label'       => $type_values['label'],
 				'description' => $type_values['description'],
@@ -573,8 +636,9 @@ class WPCode_Snippet_Execute {
 	 * @return bool
 	 */
 	public function is_type_pro( $key ) {
+		$types = $this->get_types();
 		// Find type by key in the list of types.
-		$pro_types = wp_list_filter( $this->types, array( 'is_pro' => true ) );
+		$pro_types = wp_list_filter( $types, array( 'is_pro' => true ) );
 		if ( isset( $pro_types[ $key ] ) ) {
 			return true;
 		}

@@ -242,7 +242,7 @@ trait Helper_Trait {
     public function get_date_range( $param ) {
         // Today's date
         $current_end_date   = date('Y-m-d'); // phpcs:ignore
-        $get_data       = wp_unslash($_GET);
+        $get_data       = wp_unslash($_GET); // phpcs:ignore
 
         if( !empty($get_data['date_range']) && strpos($get_data['date_range'], ',') ){
             $param = 'custom';
@@ -310,7 +310,7 @@ trait Helper_Trait {
      * string.
      */
     public function get_current_class( $date_range ){
-        $get_date_range = isset($_GET['date_range']) ? sanitize_text_field($_GET['date_range']) : 'last_30_days';
+        $get_date_range = isset($_GET['date_range']) ? sanitize_text_field($_GET['date_range']) : 'last_30_days'; // phpcs:ignore
         if( strpos($get_date_range, ',') && $date_range == 'custom' ){
             return 'htga4-current';
         }
@@ -504,7 +504,8 @@ trait Helper_Trait {
     }
 
     public function is_ngrok_url(){
-        $forwarded_host = !empty($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : ''; // development mode
+        // development mode with ngrok
+        $forwarded_host = !empty($_SERVER['HTTP_X_FORWARDED_HOST']) ? wp_unslash($_SERVER['HTTP_X_FORWARDED_HOST']) : ''; // phpcs:ignore
 
         if( $forwarded_host == 'dominant-fleet-swan.ngrok-free.app' ){
             return true;
@@ -524,5 +525,45 @@ trait Helper_Trait {
      */
     public function get_unique_transient_suffix(){
         return $this->get_option('account') . '_' . $this->get_option('property') . '_' . $this->get_option('data_stream_id');
+    }
+
+    /**
+     * Retrieves remote data and caches it using WordPress transients.
+     *
+     * This function fetches remote data from a specified URL and caches it using a transient.
+     * If the transient is already set and not expired, it returns the cached data.
+     * Otherwise, it makes a remote request to fetch the data, caches it, and then returns it.
+     *
+     * @param string|null $version The version of the data to retrieve. It is used to flush the transient cache when the version changes.
+     * @return array The remote data retrieved and cached.
+     */
+    public function get_plugin_remote_data($version = null) {
+        $transient_key = 'htga4_remote_data_v' . $version;
+        $feequency_to_update = 3 * DAY_IN_SECONDS; // N Days later fetch data again
+        $remote_url = 'https://feed.hasthemes.com/notices/ht-easy-google-analytics.json';
+        // $remote_url = HT_EASY_GA4_URL . '/remote.json';
+        
+        $remote_banner_data = [];
+        $transient_data = get_transient($transient_key);
+        
+        // Check if we should force update or if transient is not set
+        if ( $transient_data ) {
+            $remote_banner_data = $transient_data;
+        } elseif( false === $transient_data ) {
+            $remote_banner_req = wp_remote_get($remote_url, array(
+                'timeout' => 10,
+                'sslverify' => false,
+            ));
+    
+            // If request success, set data to transient
+            if ( !is_wp_error($remote_banner_req) && $remote_banner_req['response']['code'] == 200 ) {
+                $remote_banner_data = json_decode($remote_banner_req['body'], true);
+                
+                // Store in version-specific transient if force update, otherwise use regular transient
+                set_transient($transient_key, $remote_banner_data, $feequency_to_update);
+            }
+        }
+    
+        return $remote_banner_data;
     }
 }

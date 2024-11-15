@@ -41,7 +41,31 @@ class WPCode_Auto_Insert_Single extends WPCode_Auto_Insert_Type {
 	 * @return void
 	 */
 	public function init() {
-		$this->label     = __( 'Page, Post, Custom Post Type', 'insert-headers-and-footers' );
+		$this->locations = array(
+			'before_post'      => array(),
+			'after_post'       => array(),
+			'before_content'   => array(),
+			'after_content'    => array(),
+			'before_paragraph' => array(),
+			'after_paragraph'  => array(),
+		);
+	}
+
+	/**
+	 * Load the label.
+	 *
+	 * @return void
+	 */
+	public function load_label() {
+		$this->label = __( 'Page, Post, Custom Post Type', 'insert-headers-and-footers' );
+	}
+
+	/**
+	 * Load the available locations.
+	 *
+	 * @return void
+	 */
+	public function load_locations() {
 		$this->locations = array(
 			'before_post'      => array(
 				'label'       => esc_html__( 'Insert Before Post', 'insert-headers-and-footers' ),

@@ -48,8 +48,24 @@ class WPCode_Auto_Insert_Content_Lite extends WPCode_Auto_Insert_Type {
 	 * @return void
 	 */
 	public function init() {
-		$this->label         = __( 'Content', 'insert-headers-and-footers' );
-		$this->locations     = array(
+	}
+
+	/**
+	 * Load the label.
+	 *
+	 * @return void
+	 */
+	public function load_label() {
+		$this->label = __( 'Content', 'insert-headers-and-footers' );
+	}
+
+	/**
+	 * Load the available locations.
+	 *
+	 * @return void
+	 */
+	public function load_locations() {
+		$this->locations = array(
 			'after_words'           => array(
 				'label'       => esc_html__( 'Insert After # Words', 'insert-headers-and-footers' ),
 				'description' => esc_html__( 'Insert snippet after a minimum number of words.', 'insert-headers-and-footers' ),
@@ -83,6 +99,14 @@ class WPCode_Auto_Insert_Content_Lite extends WPCode_Auto_Insert_Type {
 				'description' => esc_html__( 'Insert snippet after 80% of the post content.', 'insert-headers-and-footers' ),
 			),
 		);
+	}
+
+	/**
+	 * Load the upgrade strings.
+	 *
+	 * @return void
+	 */
+	public function load_upgrade_strings() {
 		$this->upgrade_title = __( 'Word-based content locations are a PRO feature', 'insert-headers-and-footers' );
 		$this->upgrade_text  = __( 'Upgrade to PRO today and get access to automatic word-count based insert locations.', 'insert-headers-and-footers' );
 		$this->upgrade_link  = wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'auto-insert', 'content' );

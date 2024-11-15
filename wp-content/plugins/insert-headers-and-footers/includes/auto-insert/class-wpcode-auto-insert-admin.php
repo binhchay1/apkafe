@@ -27,7 +27,27 @@ class WPCode_Auto_Insert_Admin extends WPCode_Auto_Insert_Type {
 	 * @return void
 	 */
 	public function init() {
-		$this->label     = esc_html__( 'Admin area', 'insert-headers-and-footers' );
+		$this->locations = array(
+			'admin_head'   => array(),
+			'admin_footer' => array(),
+		);
+	}
+
+	/**
+	 * Load the label.
+	 *
+	 * @return void
+	 */
+	public function load_label() {
+		$this->label = __( 'Admin Area', 'insert-headers-and-footers' );
+	}
+
+	/**
+	 * Load the available locations.
+	 *
+	 * @return void
+	 */
+	public function load_locations() {
 		$this->locations = array(
 			'admin_head'   => array(
 				'label'       => esc_html__( 'Admin header', 'insert-headers-and-footers' ),

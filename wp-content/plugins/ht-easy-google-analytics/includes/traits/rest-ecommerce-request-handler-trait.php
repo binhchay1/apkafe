@@ -8,7 +8,7 @@ trait Rest_Ecommerce_Request_Handler_Trait {
     use Rest_Request_Handler_Trait;
     
     public function get_ga4_requests_ecommerce(){
-        $get_date_range = !empty($_GET['date_range']) ? sanitize_text_field($_GET['date_range']) : '';
+        $get_date_range = !empty($_GET['date_range']) ? sanitize_text_field($_GET['date_range']) : ''; // phpcs:ignore
         $date_range     = $this->get_date_range($get_date_range);
 
         $current_date_range = array(
@@ -216,7 +216,7 @@ trait Rest_Ecommerce_Request_Handler_Trait {
             return $response_json;
         }
 
-        $date_range = isset($_GET['date_range']) ? sanitize_text_field($_GET['date_range']) : 'last_30_days';
+        $date_range = isset($_GET['date_range']) ? sanitize_text_field($_GET['date_range']) : 'last_30_days'; // phpcs:ignore
 
         if( $date_range == 'last_30_days' ){
             // Check transient data

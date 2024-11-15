@@ -41,7 +41,30 @@ class WPCode_Auto_Insert_Everywhere extends WPCode_Auto_Insert_Type {
 	 * @return void
 	 */
 	public function init() {
-		$this->label     = __( 'PHP Snippets Only', 'insert-headers-and-footers' );
+		$this->locations = array(
+			'everywhere'    => array(),
+			'frontend_only' => array(),
+			'admin_only'    => array(),
+			'frontend_cl'   => array(),
+			'on_demand'     => array(),
+		);
+	}
+
+	/**
+	 * Load the label.
+	 *
+	 * @return void
+	 */
+	public function load_label() {
+		$this->label = __( 'PHP Snippets Only', 'insert-headers-and-footers' );
+	}
+
+	/**
+	 * Load the available locations.
+	 *
+	 * @return void
+	 */
+	public function load_locations() {
 		$this->locations = array(
 			'everywhere'    => array(
 				'label'       => esc_html__( 'Run Everywhere', 'insert-headers-and-footers' ),
