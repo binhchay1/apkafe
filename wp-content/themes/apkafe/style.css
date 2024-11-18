@@ -2121,6 +2121,8 @@ ul li i:after {
     #e2e2e2 var(--percent)
   );
   -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -2332,7 +2334,7 @@ a.single-language span.size22 {
 }
 
 .fancybox-slide {
-  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   height: 100%;
   left: 0;
   outline: none;
@@ -2458,6 +2460,7 @@ a.single-language span.size22 {
 
 .fancybox-container {
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   height: 100%;
   left: 0;
   outline: none;
