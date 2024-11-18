@@ -120,11 +120,15 @@ function closeBoxReview() {
 }
 
 function show_menu_mobile() {
+    jQuery('.background-nav-new').removeClass('hide-mobile');
     jQuery('#nav_new').removeClass('hide-mobile');
+    jQuery('body').addClass('none-scroll');
 }
 
 function closeMenu() {
+    jQuery('.background-nav-new').addClass('hide-mobile');
     jQuery('#nav_new').addClass('hide-mobile');
+    jQuery('body').removeClass('none-scroll');
 }
 
 function scorePercent(e, stars_holder) {

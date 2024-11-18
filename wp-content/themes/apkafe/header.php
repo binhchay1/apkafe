@@ -28,8 +28,6 @@
 </head>
 
 <body <?php body_class() ?> id="webpage" ontouchend="handleTouch()">
-    <div id="snackbar"></div>
-
     <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
         <symbol id="icon-star-rating" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
             <path fill="currentColor" d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
@@ -64,7 +62,7 @@
                                     <li class="menu-primary-nav">
                                         <a href="<?php echo $menu['link'] ?>" class="d-flex align-items-center">
                                             <span class="d-flex align-items-center"><img src="<?php echo $menu['icon'] ?>" width="30" height="30" /></span>
-                                            <span style="margin-left: 10px;"><?php echo $menu['title'] ?></span>
+                                            <span><?php echo $menu['title'] ?></span>
                                         </a>
                                     </li>
                                 <?php } ?>
@@ -79,7 +77,10 @@
             </div>
         </header>
 
-        <div class="nav_new hide-mobile" id="nav_new" style="left: 0px;">
+        <div class="background-nav-new hide-mobile">
+        </div>
+
+        <div class="nav_new hide-mobile" id="nav_new">
             <div class="item close_item">
                 <button type="button" onclick="closeMenu()">
                     X
@@ -89,11 +90,18 @@
             <div id="nav_wrap_mobile">
                 <ul class="main_nav_mobile">
                     <?php if (!empty(ot_get_option('menu_header'))) {  ?>
-                        <?php foreach (ot_get_option('menu_header') as $menu) { ?>
-                            <li>
-                                <span><img src="<?php echo $menu['icon'] ?>" width="40" height="40" /></span>
-                                <span style="margin-bottom: 10px;"><a href="<?php echo $menu['link'] ?>"><?php echo $menu['title'] ?></a></span>
-                            </li>
+                        <?php foreach (ot_get_option('menu_header') as $key => $menu) {
+                            if ($key % 2 == 0) { ?>
+                                <li>
+                                    <span><img src="<?php echo $menu['icon'] ?>" width="40" height="40" /></span>
+                                    <span style="margin-bottom: 10px;"><a href="<?php echo $menu['link'] ?>"><?php echo $menu['title'] ?></a></span>
+                                </li>
+                            <?php } else { ?>
+                                <li class="remove-background-default">
+                                    <span><img src="<?php echo $menu['icon'] ?>" width="40" height="40" /></span>
+                                    <span style="margin-bottom: 10px;"><a href="<?php echo $menu['link'] ?>"><?php echo $menu['title'] ?></a></span>
+                                </li>
+                            <?php } ?>
                         <?php } ?>
                     <?php } ?>
 
@@ -103,31 +111,33 @@
                 </ul>
             </div>
 
-            <?php
-            global $wpdb;
-            $table_name = $wpdb->prefix . 'trending_search';
-            $resultsTrending = $wpdb->get_results("SELECT * FROM $table_name");
-            ?>
+            <div>
+                <?php
+                global $wpdb;
+                $table_name = $wpdb->prefix . 'trending_search';
+                $resultsTrending = $wpdb->get_results("SELECT * FROM $table_name");
+                ?>
 
-            <h2 class="widget_head_mobile">Trending Searches</h2>
-            <div class="side_cat_list_wrap">
-                <div class="search-box index_r_s">
-                    <form action="/search/" method="post" class="formsearch">
-                        <span class="text-box"><span class="twitter-typeahead" style="position: relative; display: inline-block;">
-                                <input class="autocomplete main-autocomplete tt-hint width-search-mobile" autocomplete="off" title="Enter App Name, Package Name, Package ID" type="text" readonly="" spellcheck="false" tabindex="-1" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);">
-                                <input class="autocomplete main-autocomplete tt-input" autocomplete="off" title="Enter App Name, Package Name, Package ID" name="s" type="text" placeholder="Apkafe" spellcheck="false" style="position: relative; vertical-align: top; background-color: transparent;">
+                <h2 class="widget_head_mobile">Trending Searches</h2>
+                <div class="side_cat_list_wrap">
+                    <div class="search-box index_r_s">
+                        <form action="/search/" method="post" class="formsearch">
+                            <span class="text-box"><span class="twitter-typeahead" style="position: relative; display: inline-block;">
+                                    <input class="autocomplete main-autocomplete tt-hint width-search-mobile search-bar-mobile" autocomplete="off" title="Enter App Name, Package Name, Package ID" type="text" readonly="" spellcheck="false" tabindex="-1" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);">
+                                    <input class="autocomplete main-autocomplete tt-input" autocomplete="off" title="Enter App Name, Package Name, Package ID" name="s" type="text" placeholder="Apkafe" spellcheck="false" style="position: relative; vertical-align: top; background-color: transparent;">
+                                </span>
                             </span>
-                        </span>
-                        <span class="text-btn d-flex-justify-center" title="Search APK">
-                            <button type="submit" style="background: none; border: none; margin-left: 13px;">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </form>
-                    <div class="trending-content">
-                        <?php foreach ($resultsTrending as $trending) { ?>
-                            <a href="<?php echo $trending->url ?>" title="<?php echo $trending->title ?>" class="hot"><?php echo $trending->title ?></a>
-                        <?php } ?>
+                            <span class="text-btn d-flex-justify-center" title="Search APK">
+                                <button type="submit" style="background: none; border: none; margin-left: 13px;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </form>
+                        <div class="trending-content">
+                            <?php foreach ($resultsTrending as $trending) { ?>
+                                <a href="<?php echo $trending->url ?>" title="<?php echo $trending->title ?>" class="hot"><?php echo $trending->title ?></a>
+                            <?php } ?>
+                        </div>
                     </div>
                 </div>
             </div>
