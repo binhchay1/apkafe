@@ -46,7 +46,7 @@ function apkafe_scripts_styles()
 	 * Loads css
 	 */
 	wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
-	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/css/fa/css/font-awesome.min.css');
+	wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css');
 	wp_enqueue_style('owl-carousel', get_template_directory_uri() . '/css/owl.carousel.min.css', [], '2.3.4');
 	wp_enqueue_style('owl-carousel-default', get_template_directory_uri() . '/css/owl.theme.default.min.css', [], '2.3.4');
 

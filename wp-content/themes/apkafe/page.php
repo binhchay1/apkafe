@@ -15,13 +15,7 @@ $checkCategoryNewsTech = category_exists('News Tech');
 
 get_header();
 ?>
-<style>
-    @media screen and (max-width: 992px) {
-        .search-box form .text-box input {
-            width: 145% !important;
-        }
-    }
-</style>
+
 <div class="container">
     <div class="main_bar">
         <div class="cnt_box">

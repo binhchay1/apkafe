@@ -51,10 +51,6 @@ const isMobile = {
 };
 
 jQuery(document).ready(function () {
-    if (isMobile.any()) {
-        scrollToBottom();
-    }
-
     var owl = jQuery('.owl-carousel');
     owl.owlCarousel({
         items: 1,
@@ -112,21 +108,6 @@ jQuery(document).on('mousemove', '.stars-holder.editable-rating', function (e) {
     }
     jQuery(this).find('.full-stars').width(width);
 });
-
-function scrollToBottom(timedelay = 0) {
-    var height = 0;
-    var minScrollHeight = 1;
-    scrollId = setInterval(function () {
-        if (height <= document.body.scrollHeight) {
-            window.scrollBy(0, minScrollHeight);
-
-        } else {
-            clearInterval(scrollId);
-        }
-
-        height += minScrollHeight;
-    }, timedelay);
-}
 
 function handleTouch() {
     if (isMobile.any()) {

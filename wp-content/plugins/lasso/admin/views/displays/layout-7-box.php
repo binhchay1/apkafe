@@ -11,6 +11,20 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 
 ?>
 
+<style>
+    .area-detail {
+        margin-top: 20px;
+    }
+
+    @media screen and (max-width: 992px) {
+        .area-detail {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+    }
+</style>
+
 <div <?php echo $anchor_id_html ?> class="lasso-container">
     <div class="lasso-display <?php echo $theme_name . ' lasso-url-' . $lasso_url->slug . ' ' . $css_display_theme_mobile ?? ''; ?>">
         <?php if (!empty($lasso_url->display->badge_text)) { ?>
@@ -50,7 +64,7 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 
             <div class="clear"></div>
 
-            <div style="margin-top: 20px;">
+            <div style="margin-top: 20px;" class="area-detail">
                 <?php if ('' === $lasso_url->apple_btn_url && '' === $lasso_url->google_btn_url) { ?>
                     <a class="lasso-button-1" <?php echo $lasso_url_obj->render_attributes() ?>>
                         <?php echo $lasso_url->display->primary_button_text; ?>

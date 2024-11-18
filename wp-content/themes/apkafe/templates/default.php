@@ -25,10 +25,6 @@ if (array_key_exists('h1_sapo', $getMeta)) {
     .side_cat_item {
         display: flex;
     }
-
-    .search-box form .text-box input {
-        width: 100%;
-    }
 </style>
 <div class="main_bar">
     <div id="article" class="widget">
