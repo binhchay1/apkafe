@@ -744,7 +744,7 @@ class Lasso_Affiliate_Link
 		$parse_url = wp_parse_url($get_final_url);
 		$is_keyword = false;
 
-		$apiKeySerp = '9ce009863ee89b61d77e7ec47b47881de1c019e5b305b9eb908e0bfa7f1bc471';
+		$apiKeySerp = 'bfb476bc8440f060661a2ed7121d9868dd008f6e809d2be38e6051a6201baf65';
 		if (!array_key_exists('host', $parse_url)) {
 			$is_keyword = true;
 			$apiSearchGoogle = 'https://serpapi.com/search.json?engine=google_play&q=';
@@ -860,16 +860,36 @@ class Lasso_Affiliate_Link
 					$resp = curl_exec($curl);
 					curl_close($curl);
 
+					$is_ajax_request = wp_doing_ajax();
+					$is_ajax_request = $is_ajax_request || false;
+
+					$dump = json_decode($resp, true);
+
+					if (array_key_exists('error', $dump)) {
+						$error_message = $dump['error'];
+						if ($is_ajax_request) {
+							wp_send_json_error($error_message);
+						} else {
+							return $error_message;
+						}
+					}
+
 					if ($resp) {
-						$productAppGoogle = [];
 						$resp = json_decode($resp);
 						$productInfo = $resp->product_info;
+						
 						$productAppGoogle['title'] = $productInfo->title;
 						$productAppGoogle['rating'] = $productInfo->rating;
 						$productAppGoogle['price'] = $productInfo->offers[0]->price;
 						$productAppGoogle['developer'] = $productInfo->authors[0]->name;
 						$productAppGoogle['categories'] = $resp->categories[0]->name;
-						$productAppGoogle['thumbnail'] = $resp->media->video->thumbnail;
+						
+						if($resp->media->video != null) {
+							$productAppGoogle['thumbnail'] = $resp->media->video->thumbnail;
+						} else {
+							$productAppGoogle['thumbnail'] = $productInfo->thumbnail;
+						}
+
 						$productAppGoogle['screen_shots'] = json_encode($resp->media->images);
 					}
 				}
@@ -1022,7 +1042,7 @@ class Lasso_Affiliate_Link
 			}
 		}
 
-		$lasso_post_id = self::is_lasso_url_exist($url, $get_final_url);
+		// $lasso_post_id = self::is_lasso_url_exist($url, $get_final_url);
 
 		if ($lasso_post_id > 0) {
 			$post_title    = get_the_title($lasso_post_id);
@@ -1353,7 +1373,7 @@ class Lasso_Affiliate_Link
 		$get_final_url = Lasso_Amazon_Api::format_amazon_url($get_final_url);
 
 		// ? check whether product is exist
-		$lasso_post_id = self::is_lasso_url_exist($url, $get_final_url);
+		// $lasso_post_id = self::is_lasso_url_exist($url, $get_final_url);
 
 		if ($lasso_post_id > 0 && (!$is_update || LASSO_POST_TYPE !== get_post_type($post_id))) {
 			wp_update_post(
