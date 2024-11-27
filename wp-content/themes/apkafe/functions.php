@@ -812,3 +812,69 @@ function my_sort_custom_column_query($query)
 		$query->set('orderby', 'meta_value_num');
 	}
 }
+
+add_action('save_post', 'sync_to_other_domain', 10, 4);
+function sync_to_other_domain($post_id, $post, $update)
+{
+	echo '<pre>';
+	var_dump($post);
+	echo '</pre>';
+	die;
+
+	if (defined('USER_LOGIN_APP') and defined('PASSWORD_LOGIN_APP') and defined('DOMAIN_LOGIN_APP')) {
+		if (!$update) {
+			foreach (DOMAIN_LOGIN_APP as $domain) {
+				$response = wp_remote_post(
+					$domain . '/wp-json/wp/v2/posts',
+					array(
+						'headers' => array(
+							'Authorization' => 'Basic ' . base64_encode(USER_LOGIN_APP . ":" . PASSWORD_LOGIN_APP)
+						),
+						'body' => array(
+							'title'   => $post->post_title ?? '',
+							'status'  => 'draft',
+							'author'  => (int) $post->post_author ?? '',
+							'content'  => $post->post_content ?? '',
+							'date' => $post->post_date ?? '',
+							'comment_status' => $post->comment_status ?? '',
+							'excerpt' => $post->post_excerpt ?? '',
+							'type' => $post->post_type ?? '',
+						)
+					)
+				);
+			}
+		} else {
+			foreach (DOMAIN_LOGIN_APP as $domain) {
+				$response = wp_remote_post(
+					$domain . '/wp-json/wp/v2/posts/',
+					array(
+						'headers' => array(
+							'Authorization' => 'Basic ' . base64_encode(USER_LOGIN_APP . ":" . PASSWORD_LOGIN_APP)
+						),
+						'body' => array(
+							'title'   => $post->post_title ?? '',
+							'status'  => 'draft',
+							'author'  => (int) $post->post_author ?? '',
+							'content'  => $post->post_content ?? '',
+							'date' => $post->post_date ?? '',
+							'comment_status' => $post->comment_status ?? '',
+							'excerpt' => $post->post_excerpt ?? '',
+							'type' => $post->post_type ?? '',
+						)
+					)
+				);
+			}
+		}
+	}
+
+	if (! is_wp_error($response)) {
+		echo '<pre>';
+		$body = json_decode(wp_remote_retrieve_body($response), true);
+		echo '</pre>';
+
+		return $body;
+	} else {
+		$error_message = $response->get_error_message();
+		throw new Exception($error_message);
+	}
+}

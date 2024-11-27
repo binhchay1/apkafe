@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 6.7.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-11-13 08:30:30+0000\n"
+"PO-Revision-Date: 2024-11-20 13:04:32+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -506,7 +506,7 @@ msgstr "https://www.w3.org/WAI/tutorials/images/decision-tree/"
 
 #. translators: 1: Path pointing to an Interactivity API state property, 2:
 #. Namespace for an Interactivity API store.
-#: wp-includes/interactivity-api/class-wp-interactivity-api.php:604
+#: wp-includes/interactivity-api/class-wp-interactivity-api.php:605
 msgid "Uncaught error executing a derived state callback with path \"%1$s\" and namespace \"%2$s\"."
 msgstr "Lỗi chưa phát hiện khi thực thi lệnh gọi lại trạng thái dẫn xuất với đường dẫn \"%1$s\" và vùng tên \"%2$s\"."
 
@@ -6150,7 +6150,7 @@ msgid "Notifications"
 msgstr "Thông báo"
 
 #: wp-includes/script-loader.php:1011 wp-includes/js/media-views.js:3554
-#: wp-admin/js/media.js:247 wp-admin/js/post.js:1298
+#: wp-admin/js/media.js:247 wp-admin/js/post.js:1300
 msgid "The file URL has been copied to your clipboard"
 msgstr "URL của file đã được sao chép vào bộ nhớ tạm"
 
@@ -7543,7 +7543,7 @@ msgctxt "comment_excerpt_length"
 msgid "20"
 msgstr "20"
 
-#: wp-includes/class-wp-image-editor-gd.php:303
+#: wp-includes/class-wp-image-editor-gd.php:296
 #: wp-includes/class-wp-image-editor-imagick.php:568
 msgid "Cannot resize the image. Both width and height are not set."
 msgstr "Không thể thay đổi kích thước hình ảnh. Chiều rộng và chiều cao chưa được thiết lập."
@@ -14505,7 +14505,7 @@ msgstr "Chọn nhiều"
 msgid "%s: %l."
 msgstr "%s: %l."
 
-#: wp-includes/class-wp-customize-nav-menus.php:505 wp-admin/js/nav-menu.js:825
+#: wp-includes/class-wp-customize-nav-menus.php:505 wp-admin/js/nav-menu.js:837
 msgctxt "missing menu item navigation label"
 msgid "(no label)"
 msgstr "(không có nhãn)"
@@ -16173,39 +16173,39 @@ msgstr "Vui lòng nhập địa chỉ email hợp lệ."
 msgid "The requested user does not exist."
 msgstr "Không tìm thấy người sử dụng được chỉ định."
 
-#: wp-includes/class-wp-image-editor-gd.php:521
-#: wp-includes/class-wp-image-editor-gd.php:530
-#: wp-includes/class-wp-image-editor-gd.php:534
-#: wp-includes/class-wp-image-editor-gd.php:540
-#: wp-includes/class-wp-image-editor-gd.php:546
-#: wp-includes/class-wp-image-editor-gd.php:549
+#: wp-includes/class-wp-image-editor-gd.php:514
+#: wp-includes/class-wp-image-editor-gd.php:523
+#: wp-includes/class-wp-image-editor-gd.php:527
+#: wp-includes/class-wp-image-editor-gd.php:533
+#: wp-includes/class-wp-image-editor-gd.php:539
+#: wp-includes/class-wp-image-editor-gd.php:542
 msgid "Image Editor Save Failed"
 msgstr "Lưu Chỉnh sửa hình ảnh thất bại"
 
-#: wp-includes/class-wp-image-editor-gd.php:447
+#: wp-includes/class-wp-image-editor-gd.php:440
 msgid "Image flip failed."
 msgstr "Lật hình ảnh thất bại."
 
-#: wp-includes/class-wp-image-editor-gd.php:417
+#: wp-includes/class-wp-image-editor-gd.php:410
 msgid "Image rotate failed."
 msgstr "Xoay hình ảnh thất bại."
 
-#: wp-includes/class-wp-image-editor-gd.php:366
-#: wp-includes/class-wp-image-editor-gd.php:390
+#: wp-includes/class-wp-image-editor-gd.php:359
+#: wp-includes/class-wp-image-editor-gd.php:383
 msgid "Image crop failed."
 msgstr "Cắt hình ảnh thất bại."
 
-#: wp-includes/class-wp-image-editor-gd.php:206
-#: wp-includes/class-wp-image-editor-gd.php:239
+#: wp-includes/class-wp-image-editor-gd.php:199
+#: wp-includes/class-wp-image-editor-gd.php:232
 msgid "Image resize failed."
 msgstr "Thay đổi kích thước hình ảnh thất bại."
 
-#: wp-includes/class-wp-image-editor-gd.php:133
+#: wp-includes/class-wp-image-editor-gd.php:126
 #: wp-includes/class-wp-image-editor-imagick.php:258
 msgid "Could not read image size."
 msgstr "Không thể đọc kích thước hình ảnh."
 
-#: wp-includes/class-wp-image-editor-gd.php:127
+#: wp-includes/class-wp-image-editor-gd.php:120
 #: wp-includes/class-wp-image-editor-imagick.php:163
 msgid "File is not an image."
 msgstr "File không phải là ảnh."
@@ -17697,7 +17697,7 @@ msgstr "Email của bạn sẽ không được hiển thị công khai."
 msgid "A valid URL was not provided."
 msgstr "Địa chỉ URL không hợp lệ."
 
-#: wp-includes/class-wp-image-editor-gd.php:226
+#: wp-includes/class-wp-image-editor-gd.php:219
 #: wp-includes/class-wp-image-editor-imagick.php:361
 msgid "Could not calculate resized image dimensions"
 msgstr "Không thể tính toán độ phân giải ảnh bị chuyển kích thước"
@@ -18981,7 +18981,7 @@ msgid "Document properties"
 msgstr "Thuộc tính tài liệu"
 
 #: wp-includes/class-wp-editor.php:1373 wp-includes/script-loader.php:1289
-#: wp-includes/theme.php:3746 wp-admin/js/nav-menu.js:1489
+#: wp-includes/theme.php:3746 wp-admin/js/nav-menu.js:1501
 #: wp-admin/js/post.js:493 wp-admin/js/theme-plugin-editor.js:71
 #: wp-admin/js/user-profile.js:519 wp-admin/js/widgets.js:98
 msgid "The changes you made will be lost if you navigate away from this page."
@@ -19666,7 +19666,7 @@ msgstr "Bình luận cho %s"
 #: wp-includes/js/dist/block-library.js:61138
 #: wp-includes/js/dist/commands.js:3776 wp-includes/js/dist/components.js:60178
 #: wp-admin/includes/nav-menu.php:720 wp-admin/includes/nav-menu.php:1096
-#: wp-admin/js/nav-menu.js:1692 wp-admin/js/tags-suggest.js:141
+#: wp-admin/js/nav-menu.js:1704 wp-admin/js/tags-suggest.js:141
 msgid "No results found."
 msgstr "Không tìm thấy kết quả."
 
@@ -20213,14 +20213,14 @@ msgstr "Thêm/Xóa thẻ"
 #: wp-admin/includes/class-wp-theme-install-list-table.php:481
 #: wp-admin/includes/meta-boxes.php:400 wp-admin/includes/meta-boxes.php:401
 #: wp-admin/includes/meta-boxes.php:492 wp-admin/includes/meta-boxes.php:493
-#: wp-admin/includes/template.php:671 wp-admin/js/post.js:781
-#: wp-admin/js/post.js:804
+#: wp-admin/includes/template.php:671 wp-admin/js/post.js:783
+#: wp-admin/js/post.js:806
 #: wp-admin/includes/class-wp-ms-themes-list-table.php:476
 msgid "Update"
 msgstr "Cập nhật"
 
 #: wp-includes/js/dist/editor.js:16585 wp-admin/includes/meta-boxes.php:189
-#: wp-admin/includes/meta-boxes.php:211 wp-admin/js/post.js:886
+#: wp-admin/includes/meta-boxes.php:211 wp-admin/js/post.js:888
 msgid "Public"
 msgstr "Công khai"
 
@@ -20231,7 +20231,7 @@ msgstr "Công khai"
 #: wp-admin/includes/class-wp-posts-list-table.php:1789
 #: wp-admin/includes/class-wp-posts-list-table.php:1991
 #: wp-admin/includes/meta-boxes.php:180 wp-admin/includes/meta-boxes.php:220
-#: wp-admin/js/post.js:889
+#: wp-admin/js/post.js:891
 msgid "Private"
 msgstr "Riêng tư"
 
@@ -20239,7 +20239,7 @@ msgstr "Riêng tư"
 #: wp-includes/js/dist/block-library.js:48100
 #: wp-includes/js/dist/components.js:47683 wp-admin/includes/meta-boxes.php:165
 #: wp-admin/includes/meta-boxes.php:223 wp-admin/includes/template.php:897
-#: wp-admin/js/post.js:1010
+#: wp-admin/js/post.js:1012
 msgid "OK"
 msgstr "Ok"
 
@@ -20472,7 +20472,7 @@ msgstr "Bình luận"
 
 #: wp-includes/class-wp-customize-manager.php:4869
 #: wp-includes/script-loader.php:1281 wp-admin/includes/dashboard.php:607
-#: wp-admin/includes/meta-boxes.php:56 wp-admin/js/post.js:842
+#: wp-admin/includes/meta-boxes.php:56 wp-admin/js/post.js:844
 msgid "Save Draft"
 msgstr "Lưu nháp"
 
@@ -20533,7 +20533,7 @@ msgstr "Nội dung"
 #: wp-admin/nav-menus.php:1242 wp-admin/options-general.php:280
 #: wp-admin/user-edit.php:567 wp-admin/user-edit.php:688
 #: wp-admin/widgets-form.php:338 wp-admin/widgets-form.php:341
-#: wp-admin/widgets-form.php:573 wp-admin/js/post.js:1011
+#: wp-admin/widgets-form.php:573 wp-admin/js/post.js:1013
 #: wp-admin/network/settings.php:184
 msgid "Cancel"
 msgstr "Hủy"
@@ -20808,7 +20808,7 @@ msgstr "Thuộc tính"
 #: wp-includes/js/dist/editor.js:16728 wp-includes/js/dist/editor.js:20155
 #: wp-admin/customize.php:197 wp-admin/includes/meta-boxes.php:388
 #: wp-admin/includes/meta-boxes.php:389 wp-admin/includes/meta-boxes.php:1597
-#: wp-admin/js/post.js:778
+#: wp-admin/js/post.js:780
 msgid "Publish"
 msgstr "Xuất bản"
 
@@ -21065,7 +21065,7 @@ msgstr "Chờ duyệt"
 #: wp-admin/includes/class-wp-posts-list-table.php:1214
 #: wp-admin/includes/class-wp-posts-list-table.php:1988
 #: wp-admin/includes/meta-boxes.php:112 wp-admin/includes/meta-boxes.php:152
-#: wp-admin/js/post.js:819
+#: wp-admin/js/post.js:821
 msgid "Published"
 msgstr "Đã xuất bản"
 

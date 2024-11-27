@@ -708,6 +708,7 @@ class Lasso_Affiliate_Link
 		$url  = trim($link != '' ? $link : ($_POST['link'] ?? ''));
 
 		$is_ajax_request = wp_doing_ajax() && '' === $link;
+		$is_ajax_request = $is_ajax_request || false;
 
 		$lasso_amazon_api = new Lasso_Amazon_Api();
 
@@ -743,8 +744,48 @@ class Lasso_Affiliate_Link
 
 		$parse_url = wp_parse_url($get_final_url);
 		$is_keyword = false;
+		$apiCheckSearch = 'https://serpapi.com/account?api_key=';
+		$primaryKeySearch = '';
 
-		$apiKeySerp = 'bfb476bc8440f060661a2ed7121d9868dd008f6e809d2be38e6051a6201baf65';
+		$arrKey = [
+			'f15db785c3495c2f77ab53a7ecfa45e2d23406642a2a7631342f1134425901cc',
+			'2e012c4331346280042ad2946814f792ff852975d49043c5e70fbe89ae6b9922',
+			'bfb476bc8440f060661a2ed7121d9868dd008f6e809d2be38e6051a6201baf65',
+			'39c82642d685e32f50722334c08147bf9c4a5449e38234e31423d6c360a409c2',
+			'b438bb4ba7fb8e292e79fae8a5f56777786cc2bddf92eafb650ea1d8aad16f4a',
+			'9ce009863ee89b61d77e7ec47b47881de1c019e5b305b9eb908e0bfa7f1bc471'
+		];
+
+		foreach ($arrKey as $keySearch) {
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_URL => $apiCheckSearch . $keySearch,
+				CURLOPT_SSL_VERIFYPEER => false
+			));
+
+			$respCheckSearch = curl_exec($curl);
+			$respCheckSearch = json_decode($respCheckSearch, true);
+			if ($respCheckSearch['plan_searches_left'] == 0) {
+				continue;
+			} else {
+				$primaryKeySearch = $respCheckSearch['api_key'];
+				break;
+			}
+
+			curl_close($curl);
+		}
+
+		if ($primaryKeySearch == '') {
+			$error_message = "All keys run out of searches.";
+			if ($is_ajax_request) {
+				wp_send_json_error($error_message);
+			} else {
+				return $error_message;
+			}
+		}
+
+		$apiKeySerp = $primaryKeySearch;
 		if (!array_key_exists('host', $parse_url)) {
 			$is_keyword = true;
 			$apiSearchGoogle = 'https://serpapi.com/search.json?engine=google_play&q=';
@@ -860,9 +901,6 @@ class Lasso_Affiliate_Link
 					$resp = curl_exec($curl);
 					curl_close($curl);
 
-					$is_ajax_request = wp_doing_ajax();
-					$is_ajax_request = $is_ajax_request || false;
-
 					$dump = json_decode($resp, true);
 
 					if (array_key_exists('error', $dump)) {
@@ -877,14 +915,14 @@ class Lasso_Affiliate_Link
 					if ($resp) {
 						$resp = json_decode($resp);
 						$productInfo = $resp->product_info;
-						
+
 						$productAppGoogle['title'] = $productInfo->title;
 						$productAppGoogle['rating'] = $productInfo->rating;
 						$productAppGoogle['price'] = $productInfo->offers[0]->price;
 						$productAppGoogle['developer'] = $productInfo->authors[0]->name;
 						$productAppGoogle['categories'] = $resp->categories[0]->name;
-						
-						if($resp->media->video != null) {
+
+						if ($resp->media->video != null) {
 							$productAppGoogle['thumbnail'] = $resp->media->video->thumbnail;
 						} else {
 							$productAppGoogle['thumbnail'] = $productInfo->thumbnail;
@@ -1041,8 +1079,6 @@ class Lasso_Affiliate_Link
 				}
 			}
 		}
-
-		// $lasso_post_id = self::is_lasso_url_exist($url, $get_final_url);
 
 		if ($lasso_post_id > 0) {
 			$post_title    = get_the_title($lasso_post_id);

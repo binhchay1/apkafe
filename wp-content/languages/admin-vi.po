@@ -3262,7 +3262,7 @@ msgid "<strong>Error:</strong> Passwords do not match. Please enter the same pas
 msgstr "<strong>Lỗi:</strong> Mật khẩu không khớp. Vui lòng nhập cùng một mật khẩu vào cả hai ô mật khẩu."
 
 #: wp-admin/includes/meta-boxes.php:383 wp-admin/includes/meta-boxes.php:384
-#: wp-admin/js/post.js:775
+#: wp-admin/js/post.js:777
 msgctxt "post action/button label"
 msgid "Schedule"
 msgstr "Dự kiến"
@@ -8871,7 +8871,7 @@ msgstr "Trả lời cho"
 
 #. translators: 1: Month, 2: Day, 3: Year, 4: Hour, 5: Minute.
 #: wp-admin/includes/template.php:869 wp-admin/js/comment.js:89
-#: wp-admin/js/post.js:792
+#: wp-admin/js/post.js:794
 msgid "%1$s %2$s, %3$s at %4$s:%5$s"
 msgstr "%1$s %2$s, %3$s vào lúc %4$s:%5$s"
 
@@ -10765,16 +10765,16 @@ msgstr "https://wordpress.org/about/"
 msgid "Select All"
 msgstr "Chọn toàn bộ"
 
-#: wp-admin/includes/meta-boxes.php:186 wp-admin/js/post.js:886
+#: wp-admin/includes/meta-boxes.php:186 wp-admin/js/post.js:888
 msgid "Public, Sticky"
 msgstr "Công khai, ghim"
 
 #: wp-admin/includes/meta-boxes.php:109 wp-admin/includes/meta-boxes.php:154
-#: wp-admin/js/post.js:806 wp-admin/js/post.js:808
+#: wp-admin/js/post.js:808 wp-admin/js/post.js:810
 msgid "Privately Published"
 msgstr "Được xuất bản ở chế độ riêng tư"
 
-#: wp-admin/includes/meta-boxes.php:59 wp-admin/js/post.js:840
+#: wp-admin/includes/meta-boxes.php:59 wp-admin/js/post.js:842
 msgid "Save as Pending"
 msgstr "Lưu vào Chờ duyệt"
 
