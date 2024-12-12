@@ -18,11 +18,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Book' ) ) {
 		/**
 		 * Render Schema.
 		 *
-		 * @param  array $data Meta Data.
-		 * @param  array $post Current Post Array.
-		 * @return array
+		 * @param  array<mixed> $data Meta Data.
+		 * @param  array<mixed> $post Current Post Array.
+		 * @return array<mixed>
 		 */
-		public static function render( $data, $post ) {
+		public static function render( array $data, array $post ): array {
 			$schema = array();
 
 			$schema['@context'] = 'https://schema.org';

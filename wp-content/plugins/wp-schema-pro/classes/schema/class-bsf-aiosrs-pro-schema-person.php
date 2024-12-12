@@ -18,11 +18,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Person' ) ) {
 		/**
 		 * Render Schema.
 		 *
-		 * @param  array $data Meta Data.
-		 * @param  array $post Current Post Array.
-		 * @return array
+		 * @param  array<string, mixed> $data Meta Data.
+		 * @param  array<string, mixed> $post Current Post Array.
+		 * @return array<string, mixed>
 		 */
-		public static function render( $data, $post ) {
+		public static function render( array $data, array $post ): array {
 			$schema = array();
 
 			$schema['@context'] = 'https://schema.org';
@@ -51,15 +51,18 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Person' ) ) {
 			$schema['gender'] = ! empty( $data['gender'] ) ? wp_strip_all_tags( (string) $data['gender'] ) : null;
 
 			if ( isset( $data['dob'] ) && ! empty( $data['dob'] ) ) {
-				$date_informat       = gmdate( 'Y.m.d', strtotime( $data['dob'] ) );
-				$schema['birthDate'] = wp_strip_all_tags( (string) $date_informat );
+				$timestamp = strtotime( (string) $data['dob'] );
+				if ( $timestamp !== false ) {
+					$date_informat       = gmdate( 'Y.m.d', $timestamp );
+					$schema['birthDate'] = wp_strip_all_tags( $date_informat );
+				}
 			}
 
 			$schema['memberOf'] = ! empty( $data['member'] ) ? wp_strip_all_tags( (string) $data['member'] ) : null;
 
 			$schema['nationality'] = ! empty( $data['nationality'] ) ? wp_strip_all_tags( (string) $data['nationality'] ) : null;
 
-			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
+			if ( isset( $data['image'] ) && is_array( $data['image'] ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['image'] );
 			}
 
@@ -68,44 +71,51 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Person' ) ) {
 			$schema['telephone'] = ! empty( $data['telephone'] ) ? wp_strip_all_tags( (string) $data['telephone'] ) : null;
 
 			if ( isset( $data['homepage-url'] ) && ! empty( $data['homepage-url'] ) ) {
-				$schema['url'] = esc_url( $data['homepage-url'] );
+				$schema['url'] = esc_url( (string) $data['homepage-url'] );
 			}
 
-			if ( isset( $data['add-url'] ) && ! empty( $data['add-url'] ) ) {
+			if ( isset( $data['add-url'] ) && is_array( $data['add-url'] ) ) {
 				foreach ( $data['add-url'] as $key => $value ) {
 					if ( isset( $value['same-as'] ) && ! empty( $value['same-as'] ) ) {
-						$schema['sameAs'][ $key ] = esc_url( $value['same-as'] );
+						$schema['sameAs'][ $key ] = esc_url( (string) $value['same-as'] );
 					}
 				}
 			}
-			$contact_type       = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-corporate-contact'];
-			$contact_hear       = isset( $contact_type['contact-hear'] ) ? $contact_type['contact-hear'] : '';
-			$contact_toll       = isset( $contact_type['contact-toll'] ) ? $contact_type['contact-toll'] : '';
+
+			$contact_type       = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-corporate-contact'] ?? array();
+			$contact_hear       = isset( $contact_type['contact-hear'] ) ? (string) $contact_type['contact-hear'] : '';
+			$contact_toll       = isset( $contact_type['contact-toll'] ) ? (string) $contact_type['contact-toll'] : '';
 			$contact_point_type = $contact_hear . ' ' . $contact_toll;
 			$contact_point_type = explode( ' ', $contact_point_type );
-			if ( '1' === $contact_type['cp-schema-type'] && true === apply_filters( 'wp_schema_pro_contactpoint_person_schema_enabled', true ) && isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) ) {
-						$schema['ContactPoint']['@type'] = 'ContactPoint';
 
-				$schema ['ContactPoint']['contactType'] = ! empty( $contact_type['contact-type'] ) ? wp_strip_all_tags( (string) $contact_type['contact-type'] ) : null;
-				$schema ['ContactPoint']['telephone']   = ! empty( $contact_type['telephone'] ) ? wp_strip_all_tags( (string) $contact_type['telephone'] ) : null;
+			if ( isset( $contact_type['cp-schema-type'] ) && '1' === $contact_type['cp-schema-type'] && true === apply_filters( 'wp_schema_pro_contactpoint_person_schema_enabled', true ) && isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) ) {
+				$schema['ContactPoint']['@type'] = 'ContactPoint';
+
+				$schema['ContactPoint']['contactType'] = wp_strip_all_tags( (string) $contact_type['contact-type'] );
+				$schema['ContactPoint']['telephone']   = wp_strip_all_tags( (string) $contact_type['telephone'] );
+
 				if ( isset( $contact_type['url'] ) && ! empty( $contact_type['url'] ) ) {
-					$schema ['ContactPoint']['url'] = esc_url( $contact_type['url'] );
+					$schema['ContactPoint']['url'] = esc_url( (string) $contact_type['url'] );
 				}
-				$schema ['ContactPoint']['email'] = ! empty( $contact_type['email'] ) ? wp_strip_all_tags( (string) $contact_type['email'] ) : null;
+
+				$schema['ContactPoint']['email'] = ! empty( $contact_type['email'] ) ? wp_strip_all_tags( (string) $contact_type['email'] ) : null;
+
 				if ( isset( $contact_type['areaServed'] ) && ! empty( $contact_type['areaServed'] ) ) {
-					$language = explode( ',', $contact_type['areaServed'] );
-					if ( is_array( $language )) {
+					$language = explode( ',', (string) $contact_type['areaServed'] );
+					if ( is_array( $language ) ) {
 						foreach ( $language as $key => $value ) {
-							$schema ['ContactPoint']['areaServed'][ $key ] = wp_strip_all_tags( (string) $value );
+							$schema['ContactPoint']['areaServed'][ $key ] = wp_strip_all_tags( (string) $value );
 						}
 					}
 				}
-				if (is_array($contact_point_type)) {
-					foreach ( $contact_point_type  as $key => $value ) {
-						$schema ['ContactPoint']['contactOption'][ $key ] = wp_strip_all_tags( (string) $value );
+
+				if ( is_array( $contact_point_type ) ) {
+					foreach ( $contact_point_type as $key => $value ) {
+						$schema['ContactPoint']['contactOption'][ $key ] = wp_strip_all_tags( (string) $value );
 					}
 				}
-				$schema ['ContactPoint']['availableLanguage'] = ! empty( $contact_type['availableLanguage'] ) ? wp_strip_all_tags( (string) $contact_type['availableLanguage'] ) : null;
+
+				$schema['ContactPoint']['availableLanguage'] = ! empty( $contact_type['availableLanguage'] ) ? wp_strip_all_tags( (string) $contact_type['availableLanguage'] ) : null;
 			}
 
 			return apply_filters( 'wp_schema_pro_schema_person', $schema, $data, $post );

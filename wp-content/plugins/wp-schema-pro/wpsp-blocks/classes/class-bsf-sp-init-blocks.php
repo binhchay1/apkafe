@@ -100,7 +100,7 @@ class BSF_SP_Init_Blocks {
 		$block_assets = BSF_SP_Config::get_block_assets();
 
 		foreach ( $blocks as $slug => $value ) {
-			$js_assets = ( isset( $blocks[ $slug ]['js_assets'] ) ) ? $blocks[ $slug ]['js_assets'] : array();
+			$js_assets  = ( isset( $blocks[ $slug ]['js_assets'] ) ) ? $blocks[ $slug ]['js_assets'] : array();
 			$css_assets = ( isset( $blocks[ $slug ]['css_assets'] ) ) ? $blocks[ $slug ]['css_assets'] : array();
 
 			foreach ( $js_assets as $asset_handle => $val ) {

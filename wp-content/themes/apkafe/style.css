@@ -1654,6 +1654,14 @@ ul li i:after {
   overflow: hidden;
 }
 
+@media screen and (min-width: 1088px) {
+  .box-header .bg {
+    padding: 0 65px 0 165px;
+    height: 40px;
+    line-height: 40px;
+  }
+}
+
 .box-header .bg::after,
 .box-header .bg::before {
   display: block;
@@ -1696,6 +1704,13 @@ ul li i:after {
   padding: 20px;
 }
 
+@media screen and (min-width: 1088px) {
+  .box-header .bg::after {
+    display: block;
+    bottom: -55px;
+  }
+}
+
 .box-header .bg::after {
   width: 130px;
   height: 90px;
@@ -1713,9 +1728,39 @@ ul li i:after {
   z-index: 1;
 }
 
+@media screen and (min-width: 768px) {
+  .w4,
+  .w3 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 -8px;
+    justify-content: space-around;
+  }
+}
+
 .blogs {
   list-style: none;
   margin: 0;
+}
+
+@media screen and (min-width: 992px) {
+  .w3 li {
+    width: 49%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .secbox .sbheader,
+  .box-space,
+  .blogs li,
+  .apks li {
+    margin-bottom: 16px;
+  }
 }
 
 .blog {
@@ -1733,6 +1778,19 @@ ul li i:after {
   transition: all 0.5s ease;
 }
 
+@media screen and (min-width: 1120px) {
+  .blog .info {
+    padding: 16px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .blog .info .title {
+    height: 90px;
+    overflow: hidden;
+  }
+}
+
 .blog .info .title {
   display: block;
   font-size: 1.125rem;
@@ -1740,6 +1798,13 @@ ul li i:after {
   color: #000;
   margin-bottom: 10px;
   overflow: hidden;
+}
+
+@media screen and (min-width: 768px) {
+  .blog .info .description {
+    height: 88px;
+    overflow: hidden;
+  }
 }
 
 .blog .info .description {
@@ -2121,8 +2186,6 @@ ul li i:after {
     #e2e2e2 var(--percent)
   );
   -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -2334,7 +2397,7 @@ a.single-language span.size22 {
 }
 
 .fancybox-slide {
-  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   height: 100%;
   left: 0;
   outline: none;
@@ -2460,7 +2523,6 @@ a.single-language span.size22 {
 
 .fancybox-container {
   -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
   height: 100%;
   left: 0;
   outline: none;
@@ -2922,12 +2984,6 @@ p img {
     width: 100%;
   }
 
-  .w3 li {
-    width: 49%;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-
   #breadcrumbs {
     width: 100%;
   }
@@ -3011,54 +3067,5 @@ p img {
   #wpadminbar {
     position: absolute;
     top: -40px;
-  }
-}
-
-@media screen and (min-width: 1120px) {
-  .blog .info {
-    padding: 16px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .w4,
-  .w3 {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin: 0 -8px;
-    justify-content: space-around;
-  }
-
-  .secbox .sbheader,
-  .box-space,
-  .blogs li,
-  .apks li {
-    margin-bottom: 16px;
-  }
-
-  .blog .info .title {
-    height: 90px;
-    overflow: hidden;
-  }
-
-  .blog .info .description {
-    height: 88px;
-    overflow: hidden;
-  }
-}
-
-@media screen and (min-width: 1088px) {
-  .box-header .bg {
-    padding: 0 65px 0 165px;
-    height: 40px;
-    line-height: 40px;
-  }
-
-  .box-header .bg::after {
-    display: block;
-    bottom: -55px;
   }
 }

@@ -18,11 +18,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_How_To' ) ) {
 		/**
 		 * Render Schema.
 		 *
-		 * @param  array $data Meta Data.
-		 * @param  array $post Current Post Array.
-		 * @return array
+		 * @param  array<mixed> $data Meta Data.
+		 * @param  array<mixed> $post Current Post Array.
+		 * @return array<mixed>
 		 */
-		public static function render( $data, $post ) {
+		public static function render( array $data, array $post ): array {
 			$schema = array();
 
 			$schema['@context'] = 'https://schema.org';
@@ -34,7 +34,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_How_To' ) ) {
 
 			$schema['totalTime'] = ! empty( $data['total-time'] ) ? wp_strip_all_tags( (string) $data['total-time'] ) : null;
 
-			if ( isset( $data['supply'] ) && ! empty( $data['supply'] ) ) {
+			if ( isset( $data['supply'] ) && is_array( $data['supply'] ) ) {
 
 				foreach ( $data['supply'] as $key => $value ) {
 
@@ -47,7 +47,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_How_To' ) ) {
 				}
 			}
 
-			if ( isset( $data['tool'] ) && ! empty( $data['tool'] ) ) {
+			if ( isset( $data['tool'] ) && is_array( $data['tool'] ) ) {
 
 				foreach ( $data['tool'] as $key => $value ) {
 
@@ -60,7 +60,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_How_To' ) ) {
 				}
 			}
 
-			if ( isset( $data['steps'] ) && ! empty( $data['steps'] ) ) {
+			if ( isset( $data['steps'] ) && is_array( $data['steps'] ) ) {
 				foreach ( $data['steps'] as $key => $value ) {
 					$schema['step'][ $key ]['@type'] = 'HowToStep';
 					if ( isset( $value['name'] ) && ! empty( $value['name'] ) ) {
@@ -74,7 +74,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_How_To' ) ) {
 						$schema['step'][ $key ]['itemListElement']['text']  = $value['description'];
 					}
 					$step_image = wp_get_attachment_image_src( $value['image'], 'full' );
-					if ( isset( $value['image'] ) && ! empty( $value['image'] ) ) {
+					if ( isset( $value['image'] ) && ! empty( $value['image'] ) && false !== $step_image ) {
 						$schema['step'][ $key ]['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $step_image, 'ImageObject' );
 					}
 				}

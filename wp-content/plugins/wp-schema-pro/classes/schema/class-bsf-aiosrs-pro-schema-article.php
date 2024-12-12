@@ -18,11 +18,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Article' ) ) {
 		/**
 		 * Render Schema.
 		 *
-		 * @param  array $data Meta Data.
-		 * @param  array $post Current Post Array.
-		 * @return array
+		 * @param  array<string, mixed> $data Meta Data.
+		 * @param  array<string, mixed> $post Current Post Array.
+		 * @return array<string, mixed>
 		 */
-		public static function render( $data, $post ) {
+		public static function render( array $data, array $post ): array {
 			$schema           = array();
 			$general_settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-general-settings'];
 
@@ -38,7 +38,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Article' ) ) {
 
 			$schema['headline'] = ! empty( $data['name'] ) ? wp_strip_all_tags( (string) $data['name'] ) : null;
 
-			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
+			if ( isset( $data['image'] ) && ! empty( $data['image'] ) && is_array( $data['image'] ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['image'] );
 			}
 
@@ -59,7 +59,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Article' ) ) {
 
 			if ( isset( $data['site-logo'] ) && ! empty( $data['site-logo'] ) ) {
 				$schema['publisher']['@type'] = 'Organization';
-				$schema['publisher']['logo']  = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['site-logo'], 'ImageObject2' );
+				$schema['publisher']['logo']  = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( (array) $data['site-logo'], 'ImageObject2' );
 			} else {
 				$logo_id = get_post_thumbnail_id( $post['ID'] );
 				if ( isset( $general_settings['site-logo'] ) && 'custom' === $general_settings['site-logo'] ) {
@@ -67,16 +67,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Article' ) ) {
 				}
 				if ( $logo_id ) {
 					// Add logo image size.
-					add_filter( 'intermediate_image_sizes_advanced', 'BSF_AIOSRS_Pro_Schema_Template::logo_image_sizes', 10, 2 );
-					$logo_image = wp_get_attachment_image_src( $logo_id, 'aiosrs-logo-size' );
+					add_filter( 'intermediate_image_sizes_advanced', 'BSF_AIOSRS_Pro_Schema_Template::logo_image_sizes' );
+					$logo_image = wp_get_attachment_image_src( (int) $logo_id, 'aiosrs-logo-size' );
 					if ( isset( $logo_image[3] ) && 1 !== $logo_image[3] ) {
-						BSF_AIOSRS_Pro_Schema_Template::generate_logo_by_width( $logo_id );
-						$logo_image = wp_get_attachment_image_src( $logo_id, 'aiosrs-logo-size' );
+						BSF_AIOSRS_Pro_Schema_Template::generate_logo_by_width( (int) $logo_id );
+						$logo_image = wp_get_attachment_image_src( (int) $logo_id, 'aiosrs-logo-size' );
 					}
 					// Remove logo image size.
-					remove_filter( 'intermediate_image_sizes_advanced', 'BSF_AIOSRS_Pro_Schema_Template::logo_image_sizes', 10, 2 );
+					remove_filter( 'intermediate_image_sizes_advanced', 'BSF_AIOSRS_Pro_Schema_Template::logo_image_sizes' );
 					$schema['publisher']['@type'] = 'Organization';
-					$schema['publisher']['logo']  = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $logo_image, 'ImageObject' );
+					$schema['publisher']['logo']  = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( (array) $logo_image, 'ImageObject' );
 				}
 			}
 

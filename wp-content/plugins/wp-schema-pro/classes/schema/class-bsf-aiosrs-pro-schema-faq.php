@@ -22,7 +22,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_FAQ' ) ) {
 		 * @param  array $post Current Post Array.
 		 * @return array
 		 */
-		public static function render( $data, $post ) {
+		public static function render( array $data, array $post ) {
 			global $post; // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.VariableRedeclaration
 			$schema = array();
 			if ( isset( $data['question-answer'][0]['question'] ) && ! empty( $data['question-answer'][0]['question'] ) ) {

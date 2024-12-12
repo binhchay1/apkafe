@@ -23,9 +23,9 @@ class BSF_AIOSRS_Pro_Schema_Global_Uninstall {
 	 * Class instance.
 	 *
 	 * @access private
-	 * @var $instance Class instance.
+	 * @var self Class instance.
 	 */
-	private static $instance;
+	private static self $instance;
 
 	/**
 	 * Constructor function.
@@ -38,7 +38,7 @@ class BSF_AIOSRS_Pro_Schema_Global_Uninstall {
 	/**
 	 * Initiator
 	 */
-	public static function get_instance() {
+	public static function get_instance(): self {
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -47,7 +47,7 @@ class BSF_AIOSRS_Pro_Schema_Global_Uninstall {
 	/**
 	 * Delete function.
 	 */
-	public function delete_queries() {
+	public function delete_queries(): void {
 		global $wpdb;
 		$delete_keys                 = BSF_AIOSRS_Pro_Helper::$settings;
 		$delete_keys_options         = array_keys( $delete_keys );
@@ -57,13 +57,13 @@ class BSF_AIOSRS_Pro_Schema_Global_Uninstall {
 		$query = "DELETE FROM {$wpdb->options} WHERE option_name IN ($delete_options_placeholders)";
 		// @codingStandardsIgnoreStart
 		$wpdb->query( $wpdb->prepare( $query, $delete_keys_options ) );
-		 wp_cache_delete($delete_options_placeholders,'options');
+		wp_cache_delete( $delete_options_placeholders, 'options' );
 		// @codingStandardsIgnoreEnd
 	}
 	/**
 	 * Delete Schema from single site or multisite.
 	 */
-	public function delete_all_plugin_data() {
+	public function delete_all_plugin_data(): void {
 
 		if ( ! is_multisite() ) {
 

@@ -1,3 +1,15 @@
+v2.7.23
+# Improvement: Updated the screenshot for the tooltip of the "Enable SiteLinks Search Box" feature.
+# Fix: Content URL issue in Image License.
+# Fix: Issue with shippingDetails in Product Schema.
+# Fix: Updated code to handle unparsable structured data error. 
+
+v2.7.22
+# Fix: Added error handling checks before calling `render` method to prevent `TypeError`.
+
+v2.7.21
+# Improvement: Restructured the plugin framework to enhance the code standards and security of the plugin.
+
 v2.7.20
 # Improvement: PHP 8.3 compatibility testing.
 # Improvement: HowTo Schema - Display notice for the deprecation of the HowTo schema as per the latest Google guidelines.

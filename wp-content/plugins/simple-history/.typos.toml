@@ -1,0 +1,21 @@
+[files]
+extend-exclude = [
+    ".git/",
+    "build/",
+    "js/*.min.js",
+    "tests/wordpress-tests-stubs.php",
+]
+ignore-hidden = false
+
+[default]
+extend-ignore-re = [
+    '"23 juli"',
+]
+extend-ignore-identifiers-re = [
+    "^on_setted_update_",
+]
+
+[default.extend-identifiers]
+Automattic = "Automattic"
+reseted_lockout_count = "reseted_lockout_count"
+user_password_reseted = "user_password_reseted"

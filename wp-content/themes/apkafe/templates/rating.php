@@ -189,6 +189,7 @@ if (count($result) == 0) {
         </div>
     <?php } ?>
 </div>
+<?php echo do_shortcode('[bws_google_captcha]'); ?>
 <?php get_template_part('templates/modal-rating', 'page'); ?>
 
 <script>

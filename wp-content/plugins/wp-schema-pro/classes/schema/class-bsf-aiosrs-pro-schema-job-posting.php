@@ -18,11 +18,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Job_Posting' ) ) {
 		/**
 		 * Render Schema.
 		 *
-		 * @param  array $data Meta Data.
-		 * @param  array $post Current Post Array.
-		 * @return array
+		 * @param  array<string, mixed> $data Meta Data.
+		 * @param  array<string, mixed> $post Current Post Array.
+		 * @return array<string, mixed>
 		 */
-		public static function render( $data, $post ) {
+		public static function render( array $data, array $post ): array {
 			$schema = array();
 
 			$schema['@context'] = 'https://schema.org';
@@ -65,10 +65,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Job_Posting' ) ) {
 
 				$schema['hiringOrganization']['name'] = wp_strip_all_tags( (string) $data['orgnization-name'] );
 				if ( isset( $data['same-as'] ) && ! empty( $data['same-as'] ) ) {
-					$schema['hiringOrganization']['sameAs'] = esc_url( $data['same-as'] );
+					$schema['hiringOrganization']['sameAs'] = esc_url( (string) $data['same-as'] );
 				}
-				if ( isset( $data['organization-logo'] ) && ! empty( $data['organization-logo'] ) ) {
-
+				if ( isset( $data['organization-logo'] ) && ! empty( $data['organization-logo'] ) && is_array( $data['organization-logo'] ) ) {
 					$schema['hiringOrganization']['logo'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['organization-logo'], 'ImageObject' );
 				}
 			}
@@ -91,10 +90,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Job_Posting' ) ) {
 
 			$schema['jobLocationType'] = ( ! empty( $data['job-location-type'] ) && 'none' !== $data['job-location-type'] ) ? wp_strip_all_tags( (string) $data['job-location-type'] ) : null;
 
-			if ( isset( $data['remote-location'] ) && ! empty( $data['remote-location'] ) ) {
+			if ( isset( $data['remote-location'] ) && ! empty( $data['remote-location'] ) && is_array( $data['remote-location'] ) ) {
 				foreach ( $data['remote-location'] as $key => $value ) {
-					$schema['applicantLocationRequirements'][ $key ]['@type'] = 'Country';
-					$schema['applicantLocationRequirements'][ $key ]['name']  = wp_strip_all_tags( (string) $value['applicant-location'] );
+					if ( is_array( $value ) && isset( $value['applicant-location'] ) ) {
+						$schema['applicantLocationRequirements'][ $key ]['@type'] = 'Country';
+						$schema['applicantLocationRequirements'][ $key ]['name']  = wp_strip_all_tags( (string) $value['applicant-location'] );
+					}
 				}
 			} else {
 				if ( isset( $data['applicant-location'] ) && ! empty( $data['applicant-location'] ) ) {

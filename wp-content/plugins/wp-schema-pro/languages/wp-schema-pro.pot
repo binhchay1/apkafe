@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Schema Pro 2.7.20\n"
+"Project-Id-Version: Schema Pro 2.7.23\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-schema-pro\n"
-"POT-Creation-Date: 2024-08-12 04:03:37+00:00\n"
+"POT-Creation-Date: 2024-10-10 05:59:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -155,11 +155,11 @@ msgid ""
 "for the Remote job."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:810
+#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:814
 msgid "Reset"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:826
+#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:830
 #: classes/class-bsf-aiosrs-pro-markup.php:153
 #: classes/class-bsf-aiosrs-pro-markup.php:300
 #. translators: 1: number of reviews
@@ -168,18 +168,18 @@ msgid_plural "(%1s Reviews)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:863
+#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:867
 #: classes/class-bsf-aiosrs-pro-schema.php:3975
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:338 template/settings.php:93
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:322 template/settings.php:93
 #: template/wpsp-advanced-settings.php:127
 msgid "Select Image"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:878
+#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:882
 msgid "Add your snippet here..."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:931
+#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:935
 msgid "By clicking on this, it will allow you to fill advanced data."
 msgstr ""
 
@@ -191,16 +191,16 @@ msgstr ""
 msgid "Thanks!"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-schema-template.php:672
+#: classes/class-bsf-aiosrs-pro-schema-template.php:676
 msgid "Home"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-schema-template.php:674
-#: classes/class-bsf-aiosrs-pro-schema-template.php:675
+#: classes/class-bsf-aiosrs-pro-schema-template.php:678
+#: classes/class-bsf-aiosrs-pro-schema-template.php:679
 msgid "Archives for "
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-schema-template.php:676
+#: classes/class-bsf-aiosrs-pro-schema-template.php:680
 msgid "You searched for "
 msgstr ""
 
@@ -217,12 +217,12 @@ msgid "Ready!"
 msgstr ""
 
 #: classes/class-bsf-aiosrs-pro-schema-wizard.php:120
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:148
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:140
 msgid "Schema Setup"
 msgstr ""
 
 #: classes/class-bsf-aiosrs-pro-schema-wizard.php:150
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:192
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:182
 msgid "Exit Setup Wizard"
 msgstr ""
 
@@ -232,9 +232,9 @@ msgstr ""
 
 #: classes/class-bsf-aiosrs-pro-schema-wizard.php:217
 #: classes/class-bsf-aiosrs-pro-schema-wizard.php:357
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:405
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:505
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:628
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:389
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:486
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:606
 msgid "Next"
 msgstr ""
 
@@ -1103,8 +1103,8 @@ msgid "Local Business Type"
 msgstr ""
 
 #: classes/class-bsf-aiosrs-pro-schema.php:1215
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:64
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:292 template/settings.php:16
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:60
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:276 template/settings.php:16
 #: template/settings.php:33
 msgid "General"
 msgstr ""
@@ -1324,7 +1324,7 @@ msgstr ""
 #: classes/class-bsf-aiosrs-pro-schema.php:1726
 #: classes/class-bsf-aiosrs-pro-schema.php:1791
 #: classes/class-bsf-aiosrs-pro-schema.php:2408
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:303 template/settings.php:58
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:287 template/settings.php:58
 msgid "Organization"
 msgstr ""
 
@@ -2293,7 +2293,7 @@ msgid "Movie Director Name"
 msgstr ""
 
 #: classes/class-bsf-aiosrs-pro-schema.php:3077
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:356 template/settings.php:111
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:340 template/settings.php:111
 msgid "Organization Name"
 msgstr ""
 
@@ -2541,8 +2541,8 @@ msgstr ""
 
 #: classes/class-bsf-aiosrs-pro-schema.php:4134
 #: classes/class-bsf-aiosrs-pro-schema.php:4154
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:604
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:620
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:582
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:598
 #: template/breadcrumb-settings.php:66 template/settings.php:388
 #: template/settings.php:501 template/settings.php:518
 #: template/wpsp-advanced-settings.php:60
@@ -4551,31 +4551,31 @@ msgstr ""
 msgid "%s draft updated."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:60
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:56
 msgid "Welcome"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:69
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:436 template/settings.php:17
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:65
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:417 template/settings.php:17
 #: template/settings.php:171 template/wpsp-advanced-settings.php:190
 msgid "Social Profiles"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:74
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:536 template/settings.php:19
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:70
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:514 template/settings.php:19
 msgid "Other Schemas"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:79
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:75
 msgid "Done"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:252
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:238
 #. translators: %s: search term
 msgid "Welcome to %s setup wizard !"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:254
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:240
 #. translators: %s: search term
 msgid ""
 "%s adds Google-recommended schema markups across your site and specific "
@@ -4583,289 +4583,289 @@ msgid ""
 "snippets for your website."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:261
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:247
 msgid "Welcome To Schema Pro Setup Wizard!"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:263
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:249
 msgid ""
 "Schema Pro adds Google-recommended schema markups across your site and "
 "specific pages. This improves your SEO and allows search engines to display "
 "rich snippets for your website."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:269
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:255
 msgid ""
 "This wizard is the first step to making Google understand your site better. "
 "Just fill in the required basic information. It’s easy!"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:277
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:263
 msgid "Start"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:293 template/settings.php:44
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:277 template/settings.php:44
 msgid ""
 "To help Google understand what your website is about, select the most "
 "suitable type for your website below, and fill in the required basic "
 "information."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:297
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:281
 msgid "This Website Represents "
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:300
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:550
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:567
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:585 template/settings.php:55
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:284
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:528
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:545
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:563 template/settings.php:55
 #: template/settings.php:294 template/settings.php:440
 #: template/settings.php:482
 msgid "--None--"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:301 template/settings.php:56
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:285 template/settings.php:56
 msgid "Personal Website"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:302 template/settings.php:57
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:286 template/settings.php:57
 msgid "Business Website"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:304 template/settings.php:59
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:288 template/settings.php:59
 msgid "Personal Blog"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:305 template/settings.php:60
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:289 template/settings.php:60
 msgid "Community Blog/News Website "
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:306 template/settings.php:61
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:290 template/settings.php:61
 msgid "Webshop"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:319 template/settings.php:74
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:303 template/settings.php:74
 msgid "Website Logo"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:322 template/settings.php:77
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:306 template/settings.php:77
 msgid "Add Custom Logo"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:345 template/settings.php:100
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:329 template/settings.php:100
 msgid "Recommended minimum logo size 112 x 112 pixels."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:346 template/settings.php:101
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:330 template/settings.php:101
 msgid "The image must be in .jpg, .png, .gif, .svg, or .webp format."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:350 template/settings.php:105
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:334 template/settings.php:105
 msgid "Website Owner Name"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:364 template/settings.php:118
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:348 template/settings.php:118
 msgid "Organization Type"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:391 template/settings.php:141
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:375 template/settings.php:141
 msgid ""
 "Select the type that best describes your website. If you can't find one "
 "that applies exactly, use the generic \"General/Other\" type. Further "
 "create Local Business schema for \"General/Other\" type."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:393 template/settings.php:143
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:377 template/settings.php:143
 msgid ""
 "Select the type that best describes your website. If you can't find one "
 "that applies exactly, use the generic \"General/Other\" type. Further "
 "create Local Business schema for \"General/Other\" type. "
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:406
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:506
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:629
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:390
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:487
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:607
 msgid "Previous"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:437 template/settings.php:182
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:418 template/settings.php:182
 msgid ""
 "Please enter all your possible social media profiles. These links can "
 "appear in the knowledge panel of the search results for your website."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:441 template/settings.php:189
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:422 template/settings.php:189
 msgid "Facebook"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:445 template/settings.php:193
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:426 template/settings.php:193
 msgid "Instagram"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:449 template/settings.php:197
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:430 template/settings.php:197
 msgid "YouTube"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:453 template/settings.php:201
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:434 template/settings.php:201
 msgid "Twitter"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:457 template/settings.php:205
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:438 template/settings.php:205
 msgid "Pinterest"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:461 template/settings.php:209
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:442 template/settings.php:209
 msgid "LinkedIn"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:465 template/settings.php:213
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:446 template/settings.php:213
 msgid "SoundCloud"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:469 template/settings.php:217
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:450 template/settings.php:217
 msgid "Tumblr"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:473 template/settings.php:221
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:454 template/settings.php:221
 msgid "Wikipedia"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:477 template/settings.php:225
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:458 template/settings.php:225
 msgid "MySpace"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:481 template/settings.php:229
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:462 template/settings.php:229
 msgid "Google+"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:490
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:499 template/settings.php:238
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:471
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:480 template/settings.php:238
 #: template/settings.php:250 template/settings.php:305
 msgid "Other"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:537 template/settings.php:425
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:515 template/settings.php:425
 msgid ""
 "Fill in additional information about your website to make sure that search "
 "engines fully understand what it’s about. This will help improve your SEO "
 "further."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:542 template/settings.php:432
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:520 template/settings.php:432
 msgid "Select About Page"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:544 template/settings.php:434
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:522 template/settings.php:434
 msgid ""
 "Select your about page from the dropdown list. This will add AboutPage "
 "schema on the selected page."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:559 template/settings.php:453
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:537 template/settings.php:453
 msgid "Select Contact Page"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:561 template/settings.php:455
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:539 template/settings.php:455
 msgid ""
 "Select your contact page from the dropdown list. This will add ContactPage "
 "schema on the selected page."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:576 template/settings.php:473
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:554 template/settings.php:473
 msgid "Select Menu for SiteLinks Schema"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:590
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:568
 msgid ""
 "This helps Google understand the most important pages on your website and "
 "can generate Rich Snippets."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:595 template/settings.php:492
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:573 template/settings.php:492
 msgid "Enable SiteLinks Search Box"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:606
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:584
 msgid ""
 "If enabled, Google can display a search box on your search website’s search "
 "results."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:611
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:589
 #: template/breadcrumb-settings.php:57 template/settings.php:508
 msgid "Enable Breadcrumbs"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:622 template/settings.php:510
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:600 template/settings.php:510
 msgid ""
 "If enabled, Google can add breadcrumbs to your website’s and pages search "
 "results."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:664
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:639
 msgid "Well done!"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:669
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:644
 msgid ""
 "You've successfully added schema to your website! You’re on your way to get "
 "rich snippets for your pages."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:672
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:647
 msgid ""
 "The information you provided is globally applied to the website. You can "
 "always go back, change, and add more to this later from your dashboard."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:675
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:650
 msgid ""
 "From the dashboard, you can also explore other advanced features like "
 "breadcrumbs and white label services."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:678
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:653
 msgid "Wondering what’s next?"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:679
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:654
 msgid ""
 " The next step would be to create and set schema markups for your "
 "individual pages."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:682
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:657
 msgid "Give it a try now!"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-setup-wizard.php:688
+#: classes/class-bsf-aiosrs-pro-setup-wizard.php:663
 msgid "Create First Schema"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro.php:58
+#: classes/class-bsf-aiosrs-pro.php:59
 msgid ""
 "Please be advised that the HowTo schema is now deprecated according to the "
 "latest Google guidelines "
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro.php:58
+#: classes/class-bsf-aiosrs-pro.php:59
 msgid "Take a look here."
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro.php:77
+#: classes/class-bsf-aiosrs-pro.php:78
 #. translators: %s: search term
 msgid "Configure %s step by step. "
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro.php:78
+#: classes/class-bsf-aiosrs-pro.php:79
 msgid "Start Setup Wizard &raquo;"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro.php:80
+#: classes/class-bsf-aiosrs-pro.php:81
 msgid "Not sure where to start with Schema Pro? Check out our initial "
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro.php:80
+#: classes/class-bsf-aiosrs-pro.php:81
 msgid "setup wizard first &raquo;"
 msgstr ""
 
@@ -5563,7 +5563,7 @@ msgctxt "rating out of"
 msgid "0/5"
 msgstr ""
 
-#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:817
+#: classes/class-bsf-aiosrs-pro-custom-fields-markup.php:821
 #: classes/class-bsf-aiosrs-pro-markup.php:129
 #: classes/class-bsf-aiosrs-pro-markup.php:148
 #: classes/class-bsf-aiosrs-pro-markup.php:291

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Twenty Twenty-Five package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-11-13 03:59:20+0000\n"
+"PO-Revision-Date: 2024-11-29 05:38:59+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,25 @@ msgstr ""
 "X-Generator: GlotPress/4.0.1\n"
 "Language: vi_VN\n"
 "Project-Id-Version: Themes - Twenty Twenty-Five\n"
+
+#. Description of the theme
+#: style.css
+#, gp-priority: high
+msgid "Twenty Twenty-Five emphasizes simplicity and adaptability. It offers flexible design options, supported by a variety of patterns for different page types, such as services and landing pages, making it ideal for building personal blogs, professional portfolios, online magazines, or business websites. Its templates cater to various blog styles, from text-focused to image-heavy layouts. Additionally, it supports international typography and diverse color palettes, ensuring accessibility and customization for users worldwide."
+msgstr "Twenty Twenty-Five nhấn mạnh sự đơn giản và khả năng thích ứng. Giao diện này cung cấp các tùy chọn thiết kế linh hoạt, được hỗ trợ bởi nhiều mẫu khác nhau cho các loại trang khác nhau, chẳng hạn như dịch vụ và trang đích, làm cho nó trở nên lý tưởng để xây dựng blog cá nhân, danh mục đầu tư chuyên nghiệp, tạp chí trực tuyến hoặc trang web doanh nghiệp. Các mẫu của nó phục vụ cho nhiều kiểu blog khác nhau, từ bố cục tập trung vào văn bản đến bố cục nhiều hình ảnh. Ngoài ra, nó hỗ trợ kiểu chữ quốc tế và bảng màu đa dạng, đảm bảo khả năng truy cập và tùy chỉnh cho người dùng trên toàn thế giới."
+
+#. Theme Name of the theme
+#: style.css patterns/footer-columns.php:66 patterns/footer-newsletter.php:42
+#: patterns/footer.php:75 patterns/page-portfolio-home.php:226
+#, gp-priority: high
+msgid "Twenty Twenty-Five"
+msgstr "Twenty Twenty-Five"
+
+#: patterns/text-faqs.php:35 patterns/text-faqs.php:51
+#: patterns/text-faqs.php:71 patterns/text-faqs.php:87
+msgctxt "Answer in the FAQs pattern."
+msgid "This exquisite compilation showcases a diverse array of photographs that capture the essence of different eras and cultures, reflecting the unique styles and perspectives of each artist."
+msgstr "Bộ sưu tập tinh tế này trưng bày một loạt các bức ảnh đa dạng, ghi lại bản chất của các thời đại và nền văn hóa khác nhau, phản ánh phong cách và góc nhìn độc đáo của từng nghệ sĩ."
 
 #: theme.json
 msgctxt "Custom template name"
@@ -51,46 +70,55 @@ msgctxt "Template part name"
 msgid "Header"
 msgstr "Đầu trang"
 
-#: theme.json
+#: styles/02-noon.json styles/typography/typography-preset-1.json
 msgctxt "Font family name"
 msgid "Beiruti"
 msgstr "Beiruti"
 
-#: theme.json
+#: styles/05-twilight.json styles/typography/typography-preset-4.json
 msgctxt "Font family name"
 msgid "Roboto Slab"
 msgstr "Roboto Slab"
 
-#: theme.json
+#: styles/04-afternoon.json styles/07-sunrise.json
+#: styles/typography/typography-preset-3.json
+#: styles/typography/typography-preset-6.json
 msgctxt "Font family name"
 msgid "Platypi"
 msgstr "Platypi"
 
-#: theme.json
+#: styles/04-afternoon.json styles/06-morning.json
+#: styles/typography/typography-preset-3.json
+#: styles/typography/typography-preset-5.json
 msgctxt "Font family name"
 msgid "Ysabeau Office"
 msgstr "Ysabeau Office"
 
-#: theme.json
+#: styles/08-midnight.json styles/typography/typography-preset-7.json
 msgctxt "Font family name"
 msgid "Fira Sans"
 msgstr "Fira Sans"
 
-#: theme.json
+#: styles/03-dusk.json styles/typography/typography-preset-2.json theme.json
 msgctxt "Font family name"
 msgid "Fira Code"
 msgstr "Fira Code"
 
-#: theme.json
+#: styles/03-dusk.json styles/typography/typography-preset-2.json
 msgctxt "Font family name"
 msgid "Vollkorn"
 msgstr "Vollkorn"
 
-#: theme.json
+#: styles/02-noon.json styles/06-morning.json styles/07-sunrise.json
+#: styles/08-midnight.json styles/typography/typography-preset-1.json
+#: styles/typography/typography-preset-5.json
+#: styles/typography/typography-preset-6.json
+#: styles/typography/typography-preset-7.json
 msgctxt "Font family name"
 msgid "Literata"
 msgstr "Literata"
 
+#: styles/05-twilight.json styles/typography/typography-preset-4.json
 #: theme.json
 msgctxt "Font family name"
 msgid "Manrope"
@@ -211,7 +239,7 @@ msgctxt "Style variation name"
 msgid "Display"
 msgstr "Hiển thị"
 
-#: styles/08-midnight.json
+#: styles/08-midnight.json styles/colors/08-midnight.json
 msgctxt "Duotone name"
 msgid "Midnight filter"
 msgstr "Bộ lọc Nửa đêm"
@@ -409,34 +437,22 @@ msgctxt "Pattern title"
 msgid "Vertical header"
 msgstr "Đầu trang dọc"
 
-#: patterns/text-faqs.php:64
-msgctxt "Question in the FAQs pattern"
-msgid "Will The Stories Book be available in other languages other that English?"
-msgstr "Sách những câu chuyện có sẵn bằng các ngôn ngữ khác ngoài tiếng Anh không?"
-
-#: patterns/text-faqs.php:55
+#: patterns/text-faqs.php:83
 msgctxt "Question in the FAQs pattern."
 msgid "Are signed copies available?"
 msgstr "Có bản sao có chữ ký không?"
 
-#: patterns/text-faqs.php:46
+#: patterns/text-faqs.php:67
 msgctxt "Question in the FAQs pattern."
 msgid "When will The Stories Book be released?"
 msgstr "Khi nào Sách những câu chuyện sẽ được phát hành?"
 
-#: patterns/text-faqs.php:37
+#: patterns/text-faqs.php:47
 msgctxt "Question in the FAQs pattern."
 msgid "How much does The Stories Book cost?"
 msgstr "Sách những câu chuyện giá bao nhiêu?"
 
-#: patterns/text-faqs.php:30 patterns/text-faqs.php:39
-#: patterns/text-faqs.php:48 patterns/text-faqs.php:57
-#: patterns/text-faqs.php:66
-msgctxt "Answer in the FAQs pattern."
-msgid "This exquisite compilation showcases a diverse array of photographs that capture the essence of different eras and cultures, reflecting the unique styles and perspectives of each artist. Fleckenstein's evocative imagery, Strand's groundbreaking modernist approach, and Kōno's meticulous documentation of Japanese life come together in a harmonious blend that celebrates the art of photography."
-msgstr "Tuyển tập tinh tế này trưng bày một loạt ảnh đa dạng, nắm bắt được bản chất của các thời đại và nền văn hóa khác nhau, phản ánh phong cách và quan điểm độc đáo của mỗi nghệ sĩ. Hình ảnh gợi cảm của Fleckenstein, cách tiếp cận hiện đại đột phá của Strand và tài liệu tỉ mỉ về cuộc sống Nhật Bản của Kōno kết hợp với nhau trong một sự pha trộn hài hòa, tôn vinh nghệ thuật nhiếp ảnh."
-
-#: patterns/text-faqs.php:28
+#: patterns/text-faqs.php:31
 msgctxt "Question in the FAQs pattern."
 msgid "What is The Stories Book about?"
 msgstr "Sách truyện nói về điều gì?"
@@ -448,7 +464,7 @@ msgstr "Câu hỏi thường gặp"
 
 #: patterns/text-faqs.php
 msgctxt "Pattern description"
-msgid "A FAQs section with a FAQ heading and list of toggle questions and answers."
+msgid "A FAQs section with a FAQ heading and list of questions and answers."
 msgstr "Phần Câu hỏi thường gặp với tiêu đề Câu hỏi thường gặp và danh sách các câu hỏi và câu trả lời có thể chuyển đổi."
 
 #: patterns/text-faqs.php
@@ -586,6 +602,7 @@ msgctxt "Pattern title"
 msgid "News blog single post with sidebar"
 msgstr "Bài đăng đơn blog tin tức với thanh bên"
 
+#: patterns/template-home-with-sidebar-news-blog.php:88
 #: patterns/template-single-left-aligned-content.php:56
 #: patterns/template-single-news-blog.php:39
 msgctxt "Separator between date and categories."
@@ -631,12 +648,6 @@ msgstr "Danh sách bài đăng, 1 cột, với ảnh nổi bật và ngày đăn
 msgctxt "Pattern title"
 msgid "List of posts, 1 column"
 msgstr "Danh sách bài viết, 1 cột"
-
-#: patterns/template-query-loop-vertical-header-blog.php:47
-#: patterns/template-query-loop.php:31
-msgctxt "Message explaining that there are no results returned from a search"
-msgid "Sorry, but nothing was found. Please try a search with different keywords."
-msgstr "Xin lỗi, không tìm thấy kết quả nào. Vui lòng thử tìm kiếm với các từ khóa khác."
 
 #: patterns/template-query-loop-vertical-header-blog.php
 msgctxt "Pattern title"
@@ -685,11 +696,6 @@ msgstr "Mẫu trang cho blog căn phải"
 msgctxt "Pattern title"
 msgid "Photo blog page"
 msgstr "Trang blog ảnh"
-
-#: patterns/template-home-with-sidebar-news-blog.php:88
-msgctxt "Separator between date and categories"
-msgid "·"
-msgstr "·"
 
 #: patterns/template-home-with-sidebar-news-blog.php:42
 msgid "The Latest"
@@ -787,10 +793,6 @@ msgstr "Điện thoại thông minh chụp một đồng cỏ hoa dại tuyệt 
 #: patterns/services-subscriber-only-section.php:55
 msgid "View plans"
 msgstr "Xem gói dịch vụ"
-
-#: patterns/services-subscriber-only-section.php:31
-msgid "Join our IRL event."
-msgstr "Tham gia sự kiện trực tiếp của chúng tôi."
 
 #: patterns/services-subscriber-only-section.php:21
 msgid "Subscribe to get unlimited access"
@@ -917,6 +919,7 @@ msgid "Get a free tote bag."
 msgstr "Nhận một túi tote miễn phí."
 
 #: patterns/pricing-2-col.php:48 patterns/pricing-2-col.php:92
+#: patterns/services-subscriber-only-section.php:31
 msgid "Join our IRL events."
 msgstr "Tham gia các sự kiện trực tiếp của chúng tôi."
 
@@ -1257,6 +1260,8 @@ msgstr "Viết bởi"
 #: patterns/template-query-loop-news-blog.php:55
 #: patterns/template-query-loop-photo-blog.php:22
 #: patterns/template-query-loop-text-blog.php:19
+#: patterns/template-query-loop-vertical-header-blog.php:47
+#: patterns/template-query-loop.php:31
 msgctxt "Message explaining that there are no results returned from a search."
 msgid "Sorry, but nothing was found. Please try a search with different keywords."
 msgstr "Xin lỗi, không tìm thấy gì. Vui lòng thử tìm kiếm bằng các từ khóa khác."
@@ -1276,15 +1281,10 @@ msgctxt "Pattern title"
 msgid "Sidebar"
 msgstr "Thanh bên"
 
-#: patterns/hidden-search.php:14
+#: patterns/cta-heading-search.php:21 patterns/hidden-search.php:14
 msgctxt "Button text. Verb."
 msgid "Search"
 msgstr "Tìm kiếm"
-
-#: patterns/hidden-search.php:14
-msgctxt "Search input field placeholder text"
-msgid "Type here..."
-msgstr "Nhập tại đây..."
 
 #: patterns/hidden-search.php
 msgctxt "Pattern title"
@@ -1343,7 +1343,7 @@ msgstr "Apple Podcasts"
 
 #: patterns/hero-podcast.php:49
 msgctxt "Button text"
-msgid "Youtube"
+msgid "YouTube"
 msgstr "Youtube"
 
 #: patterns/hero-podcast.php:43
@@ -1516,22 +1516,17 @@ msgctxt "Pattern title"
 msgid "Centered header"
 msgstr "Đầu trang ở giữa"
 
-#: patterns/grid-with-categories.php:57
+#: patterns/grid-with-categories.php:64
 msgid "Sunflowers"
 msgstr "Hoa hướng dương"
 
-#: patterns/grid-with-categories.php:45
+#: patterns/grid-with-categories.php:50
 msgid "Cactus"
 msgstr "Xương rồng"
 
-#: patterns/grid-with-categories.php:33
+#: patterns/grid-with-categories.php:36
 msgid "Anthuriums"
 msgstr "Hoa hồng môn"
-
-#: patterns/grid-with-categories.php:29 patterns/grid-with-categories.php:40
-#: patterns/grid-with-categories.php:52
-msgid "Write title…"
-msgstr "Viết tiêu đề…"
 
 #: patterns/grid-with-categories.php:29
 msgid "Close up of a red anthurium."
@@ -1682,7 +1677,7 @@ msgctxt "Pattern title"
 msgid "Footer with columns"
 msgstr "Chân trang với cột"
 
-#. Translators: Designed with WordPress. %s: WordPress link.
+#. translators: Designed with WordPress. %s: WordPress link.
 #: patterns/footer-centered.php:33 patterns/footer-columns.php:73
 #: patterns/footer-newsletter.php:49 patterns/footer-social.php:35
 #: patterns/footer.php:82
@@ -1704,7 +1699,7 @@ msgid "An introduction to African dialects"
 msgstr "Giới thiệu về tiếng địa phương Châu Phi"
 
 #: patterns/event-schedule.php:163
-msgid "Black and white photo of an african woman."
+msgid "Black and white photo of an African woman."
 msgstr "Ảnh đen trắng của một phụ nữ Châu Phi."
 
 #: patterns/event-schedule.php:142
@@ -1712,7 +1707,7 @@ msgid "Ancient buildings and symbols"
 msgstr "Các tòa nhà và biểu tượng cổ đại"
 
 #: patterns/event-schedule.php:132 patterns/media-instagram-grid.php:52
-msgid "The acropolis in Athens."
+msgid "The Acropolis of Athens."
 msgstr "Đền Parthenon ở Athens."
 
 #: patterns/event-schedule.php:89
@@ -1832,12 +1827,7 @@ msgctxt "Pattern title"
 msgid "Newsletter sign-up"
 msgstr "Đăng ký nhận bản tin"
 
-#: patterns/cta-heading-search.php:21
-msgctxt "Button text. Verb"
-msgid "Search"
-msgstr "Tìm kiếm"
-
-#: patterns/cta-heading-search.php:21
+#: patterns/cta-heading-search.php:21 patterns/hidden-search.php:14
 msgctxt "Search input field placeholder text."
 msgid "Type here..."
 msgstr "Nhập tại đây..."
@@ -2424,7 +2414,7 @@ msgid "A collection of post format patterns."
 msgstr "Bộ sưu tập các mẫu định dạng bài đăng."
 
 #: functions.php:113
-msgid "Post format"
+msgid "Post formats"
 msgstr "Định dạng bài đăng"
 
 #: functions.php:106
@@ -2440,26 +2430,21 @@ msgid "Checkmark"
 msgstr "Dấu tích"
 
 #. Author URI of the theme
-#: patterns/footer-centered.php:34 patterns/footer-columns.php:74
+#: style.css patterns/footer-centered.php:34 patterns/footer-columns.php:74
 #: patterns/footer-newsletter.php:50 patterns/footer-social.php:36
 #: patterns/footer.php:83
+#, gp-priority: low
 msgid "https://wordpress.org"
 msgstr "https://wordpress.org"
 
 #. Author of the theme
+#: style.css
+#, gp-priority: low
 msgid "the WordPress team"
 msgstr "nhóm WordPress"
 
-#. Description of the theme
-msgid "Twenty Twenty-Five emphasizes simplicity and adaptability. It offers flexible design options, supported by a variety of patterns for different page types, such as services and landing pages, making it ideal for building personal blogs, professional portfolios, online magazines, or business websites. Its templates cater to various blog styles, from text-focused to image-heavy layouts. Additionally, it supports international typography and diverse color palettes, ensuring accessibility and customization for users worldwide."
-msgstr "Twenty Twenty-Five nhấn mạnh sự đơn giản và khả năng thích ứng. Giao diện này cung cấp các tùy chọn thiết kế linh hoạt, được hỗ trợ bởi nhiều mẫu khác nhau cho các loại trang khác nhau, chẳng hạn như dịch vụ và trang đích, làm cho nó trở nên lý tưởng để xây dựng blog cá nhân, danh mục đầu tư chuyên nghiệp, tạp chí trực tuyến hoặc trang web doanh nghiệp. Các mẫu của nó phục vụ cho nhiều kiểu blog khác nhau, từ bố cục tập trung vào văn bản đến bố cục nhiều hình ảnh. Ngoài ra, nó hỗ trợ kiểu chữ quốc tế và bảng màu đa dạng, đảm bảo khả năng truy cập và tùy chỉnh cho người dùng trên toàn thế giới."
-
 #. Theme URI of the theme
+#: style.css
+#, gp-priority: low
 msgid "https://wordpress.org/themes/twentytwentyfive/"
 msgstr "https://wordpress.org/themes/twentytwentyfive/"
-
-#. Theme Name of the theme
-#: patterns/footer-columns.php:66 patterns/footer-newsletter.php:42
-#: patterns/footer.php:75 patterns/page-portfolio-home.php:226
-msgid "Twenty Twenty-Five"
-msgstr "Twenty Twenty-Five"

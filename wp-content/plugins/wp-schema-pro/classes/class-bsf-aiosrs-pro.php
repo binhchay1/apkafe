@@ -20,14 +20,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 		 * Class instance.
 		 *
 		 * @access private
-		 * @var $instance Class instance.
+		 * @var self
 		 */
 		private static $instance;
 
 		/**
 		 * Initiator
+		 *
+		 * @return self
 		 */
-		public static function get_instance() {
+		public static function get_instance(): self {
 			if ( ! isset( self::$instance ) ) {
 				self::$instance = new self();
 			}
@@ -38,7 +40,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 		 *  Constructor
 		 */
 		public function __construct() {
-
 			// Includes Required Files.
 			$this->includes();
 			add_action( 'admin_notices', array( $this, 'setup_wizard_notice' ) );
@@ -64,15 +65,15 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 		 * Setup Wizard
 		 *
 		 * @since 1.1.0
+		 * @return void
 		 */
-		public function setup_wizard_notice() {
-
+		public function setup_wizard_notice(): void {
 			if ( get_transient( 'wp-schema-pro-activated' ) ) {
 				$url             = admin_url( 'index.php?page=aiosrs-pro-setup-wizard' );
 				$branding_notice = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 
 				echo '<div class="wp-schema-pro-setup-wizard-notice notice notice-success is-dismissible">';
-				if ( '' !== $branding_notice['sp_plugin_name'] ) {
+				if ( ! empty( $branding_notice['sp_plugin_name'] ) ) {
 					/* translators: %s: search term */
 					$brand_notice = sprintf( esc_html__( 'Configure %s step by step. ', 'wp-schema-pro' ), $branding_notice['sp_plugin_name'] );
 					echo '<p>' . esc_html( $brand_notice ) . '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Start Setup Wizard &raquo;', 'wp-schema-pro' ) . '</a></p>';
@@ -89,7 +90,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 								url: ajaxurl,
 								type: 'POST',
 								data: {
-									action 	: 'wp_schema_pro_setup_wizard_notice',
+									action  : 'wp_schema_pro_setup_wizard_notice',
 									nonce : '<?php echo esc_attr( wp_create_nonce( 'wp-schema-pro-setup-wizard-notice' ) ); ?>'
 								},
 							});
@@ -105,10 +106,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 		 *
 		 * @return void
 		 */
-		public function wp_schema_pro_setup_wizard_notice_callback() {
-
+		public function wp_schema_pro_setup_wizard_notice_callback(): void {
 			check_ajax_referer( 'wp-schema-pro-setup-wizard-notice', 'nonce' );
-
 			delete_transient( 'wp-schema-pro-activated' );
 			wp_send_json_success();
 		}
@@ -119,7 +118,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public function includes() {
+		public function includes(): void {
 			require_once BSF_AIOSRS_PRO_DIR . 'classes/lib/target-rule/class-bsf-target-rule-fields.php';
 			require_once BSF_AIOSRS_PRO_DIR . 'classes/lib/class-bsf-custom-post-list-table.php';
 			require_once BSF_AIOSRS_PRO_DIR . 'classes/class-wp-schema-pro-yoast-compatibility.php';

@@ -19,9 +19,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Breadcrumb' ) ) {
 		 * Render Schema.
 		 *
 		 * @param  array $post Current Post Array.
-		 * @return array
+		 * @return array<string, mixed>
 		 */
-		public static function render( $post ) {
+		public static function render( array $post ): array {
 			$schema = array();
 
 			$schema['@context'] = 'https://schema.org';

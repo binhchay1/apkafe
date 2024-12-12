@@ -473,12 +473,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 					}
 				}
 
-				self::$meta_options = array_reduce(self::$meta_options, function ($carry, $item) {
-					if (is_array($item)) {
-						return array_merge($carry, $item);
-					}
-					return $carry;
-				}, []);
+				self::$meta_options = array_reduce(
+					self::$meta_options,
+					function ( $carry, $item ) {
+						if ( is_array( $item ) ) {
+							return array_merge( $carry, $item );
+						}
+						return $carry;
+					},
+					array()
+				);
 
 			}
 		}

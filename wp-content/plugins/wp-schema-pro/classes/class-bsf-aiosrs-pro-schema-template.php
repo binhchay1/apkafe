@@ -519,8 +519,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Template' ) ) {
 			$class_name = 'BSF_AIOSRS_Pro_Schema_Global_' . str_replace( '-', '_', ucfirst( $type ) );
 			if ( class_exists( $class_name ) ) {
 				$schema_instance = new $class_name();
-				$post            = get_post( $post_id, ARRAY_A );
-				return $schema_instance->render( $post );
+				$post = get_post( $post_id, ARRAY_A );
+				if ( null !== $post ) {
+					return $schema_instance->render( $post );
+				}
 			}
 		}
 
@@ -649,7 +651,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Template' ) ) {
 				$class_name = 'BSF_AIOSRS_Pro_Schema_' . str_replace( '-', '_', ucfirst( $type ) );
 				if ( class_exists( $class_name ) ) {
 					$schema_instance = new $class_name();
-					return $schema_instance->render( $data, $post );
+					if ( null !== $post ) {
+						return $schema_instance->render( $data, $post );
+					}
 				}
 			}
 			return array();

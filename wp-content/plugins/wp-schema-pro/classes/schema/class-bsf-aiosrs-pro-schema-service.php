@@ -18,37 +18,37 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Service' ) ) {
 		/**
 		 * Render Schema.
 		 *
-		 * @param  array $data Meta Data.
-		 * @param  array $post Current Post Array.
-		 * @return array
+		 * @param  array<string, mixed> $data Meta Data.
+		 * @param  array<string, mixed> $post Current Post Array.
+		 * @return array<string, mixed>
 		 */
-		public static function render( $data, $post ) {
+		public static function render( array $data, array $post ): array {
 			$schema = array();
 
 			$schema['@context'] = 'https://schema.org';
 			$schema['@type']    = 'Service';
 
-			$schema['name'] = ! empty( $data['name'] ) ? wp_strip_all_tags( (string) $data['name'] ) : null;
+			$schema['name'] = ! empty( $data['name'] ) && is_string( $data['name'] ) ? wp_strip_all_tags( $data['name'] ) : null;
 
-			$schema['serviceType'] = ! empty( $data['type'] ) ? wp_strip_all_tags( (string) $data['type'] ) : null;
+			$schema['serviceType'] = ! empty( $data['type'] ) && is_string( $data['type'] ) ? wp_strip_all_tags( $data['type'] ) : null;
 
-			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
+			if ( isset( $data['image'] ) && is_array( $data['image'] ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['image'] );
 			}
 
-			if ( ( isset( $data['provider'] ) && ! empty( $data['provider'] ) ) ||
-				( isset( $data['location-image'] ) && ! empty( $data['location-image'] ) ) ||
-				( isset( $data['telephone'] ) && ! empty( $data['telephone'] ) ) ||
-				( isset( $data['price-range'] ) && ! empty( $data['price-range'] ) ) ) {
+			if ( ( isset( $data['provider'] ) && is_string( $data['provider'] ) ) ||
+				( isset( $data['location-image'] ) && is_array( $data['location-image'] ) ) ||
+				( isset( $data['telephone'] ) && is_string( $data['telephone'] ) ) ||
+				( isset( $data['price-range'] ) && is_string( $data['price-range'] ) ) ) {
 
 				$schema['provider']['@type'] = 'LocalBusiness';
 
-				$schema['provider']['name'] = ! empty( $data['provider'] ) ? wp_strip_all_tags( (string) $data['provider'] ) : null;
-				if ( isset( $data['location-image'] ) && ! empty( $data['location-image'] ) ) {
+				$schema['provider']['name'] = ! empty( $data['provider'] ) && is_string( $data['provider'] ) ? wp_strip_all_tags( $data['provider'] ) : null;
+				if ( isset( $data['location-image'] ) && is_array( $data['location-image'] ) ) {
 					$schema['provider']['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $data['location-image'] );
 				}
-				$schema['provider']['telephone']  = ! empty( $data['telephone'] ) ? wp_strip_all_tags( (string) $data['telephone'] ) : null;
-				$schema['provider']['priceRange'] = ! empty( $data['price-range'] ) ? wp_strip_all_tags( (string) $data['price-range'] ) : null;
+				$schema['provider']['telephone']  = ! empty( $data['telephone'] ) && is_string( $data['telephone'] ) ? wp_strip_all_tags( $data['telephone'] ) : null;
+				$schema['provider']['priceRange'] = ! empty( $data['price-range'] ) && is_string( $data['price-range'] ) ? wp_strip_all_tags( $data['price-range'] ) : null;
 			}
 
 			if ( ( isset( $data['location-locality'] ) && ! empty( $data['location-locality'] ) ) ||
@@ -67,12 +67,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Service' ) ) {
 				$schema['provider']['address']['postalCode']      = ! empty( $data['postalCode'] ) ? wp_strip_all_tags( (string) $data['postalCode'] ) : null;
 			}
 
-			if ( isset( $data['area'] ) && ! empty( $data['area'] ) ) {
+			if ( isset( $data['area'] ) && is_string( $data['area'] ) ) {
 				$schema['areaServed']['@type'] = 'State';
-				$schema['areaServed']['name']  = wp_strip_all_tags( (string) $data['area'] );
+				$schema['areaServed']['name']  = wp_strip_all_tags( $data['area'] );
 			}
 
-			$schema['description'] = ! empty( $data['description'] ) ? wp_strip_all_tags( (string) $data['description'] ) : null;
+			$schema['description'] = ! empty( $data['description'] ) && is_string( $data['description'] ) ? wp_strip_all_tags( $data['description'] ) : null;
 
 			return apply_filters( 'wp_schema_pro_schema_service', $schema, $data, $post );
 		}

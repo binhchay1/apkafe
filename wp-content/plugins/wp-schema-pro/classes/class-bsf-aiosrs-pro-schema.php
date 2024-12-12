@@ -414,10 +414,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						'path'           => BSF_AIOSRS_PRO_DIR . 'classes/schema/',
 						'subkeys'        => array(
 							'schema-type'      => array(
-								'label'    => esc_html__( 'Article Type', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'article',
-								'choices'  => array(
+								'label'   => esc_html__( 'Article Type', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'article',
+								'choices' => array(
 									'Article'          => esc_html__( 'Article (General)', 'wp-schema-pro' ),
 									'AdvertiserContentArticle' => esc_html__( 'Advertiser Content Article', 'wp-schema-pro' ),
 									'BlogPosting'      => esc_html__( 'Blog Posting', 'wp-schema-pro' ),
@@ -429,9 +429,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								),
 							),
 							'author'           => array(
-								'label'    => esc_html__( 'Author Name', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'author_name',
+								'label'   => esc_html__( 'Author Name', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'author_name',
 							),
 							'author-url'       => array(
 								'label'   => esc_html__( 'Author URL', 'wp-schema-pro' ),
@@ -439,9 +439,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'author_url',
 							),
 							'image'            => array(
-								'label'    => esc_html__( 'Image', 'wp-schema-pro' ),
-								'type'     => 'image',
-								'default'  => 'featured_img',
+								'label'   => esc_html__( 'Image', 'wp-schema-pro' ),
+								'type'    => 'image',
+								'default' => 'featured_img',
 							),
 							'description'      => array(
 								'label'   => esc_html__( 'Short Description', 'wp-schema-pro' ),
@@ -454,29 +454,29 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 								'default' => 'post_permalink',
 							),
 							'name'             => array(
-								'label'    => esc_html__( 'Headline', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'post_title',
+								'label'   => esc_html__( 'Headline', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'post_title',
 							),
 							'published-date'   => array(
-								'label'    => esc_html__( 'Published Date', 'wp-schema-pro' ),
-								'type'     => 'date',
-								'default'  => 'post_date',
+								'label'   => esc_html__( 'Published Date', 'wp-schema-pro' ),
+								'type'    => 'date',
+								'default' => 'post_date',
 							),
 							'modified-date'    => array(
-								'label'    => esc_html__( 'Modified Date', 'wp-schema-pro' ),
-								'type'     => 'date',
-								'default'  => 'post_modified',
+								'label'   => esc_html__( 'Modified Date', 'wp-schema-pro' ),
+								'type'    => 'date',
+								'default' => 'post_modified',
 							),
 							'orgnization-name' => array(
-								'label'    => esc_html__( 'Publisher Name', 'wp-schema-pro' ),
-								'type'     => 'text',
-								'default'  => 'blogname',
+								'label'   => esc_html__( 'Publisher Name', 'wp-schema-pro' ),
+								'type'    => 'text',
+								'default' => 'blogname',
 							),
 							'site-logo'        => array(
-								'label'    => esc_html__( 'Publisher Logo', 'wp-schema-pro' ),
-								'type'     => 'image',
-								'default'  => 'site_logo',
+								'label'   => esc_html__( 'Publisher Logo', 'wp-schema-pro' ),
+								'type'    => 'image',
+								'default' => 'site_logo',
 							),
 						),
 					),
@@ -669,7 +669,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 										'default'  => 'none',
 										'required' => true,
 									),
-									'course-mode' => array(
+									'course-mode'          => array(
 										'label'         => esc_html__( 'Course Mode', 'wp-schema-pro' ),
 										'type'          => 'dropdown',
 										'default'       => 'custom-text',
@@ -1543,52 +1543,52 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 						'guideline-link' => empty( $doc_link ) ? 'https://wpschema.com/docs/add-a-schema-markup-for-a-product-page/' : 'https://developers.google.com/search/docs/data-types/products',
 						'path'           => BSF_AIOSRS_PRO_DIR . 'classes/schema/',
 						'subkeys'        => array(
-							'name'                    => array(
+							'name'                   => array(
 								'label'    => esc_html__( 'Product Name', 'wp-schema-pro' ),
 								'type'     => 'text',
 								'default'  => 'post_title',
 								'required' => true,
 							),
-							'brand-name'              => array(
+							'brand-name'             => array(
 								'label'   => esc_html__( 'Product Brand', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'none',
 							),
-							'image'                   => array(
+							'image'                  => array(
 								'label'    => esc_html__( 'Product Image', 'wp-schema-pro' ),
 								'type'     => 'image',
 								'default'  => 'featured_img',
 								'required' => true,
 							),
-							'url'                     => array(
+							'url'                    => array(
 								'label'   => esc_html__( 'Product URL', 'wp-schema-pro' ),
 								'type'    => 'text',
 								'default' => 'post_permalink',
 							),
-							'description'             => array(
+							'description'            => array(
 								'label'   => esc_html__( 'Product Description', 'wp-schema-pro' ),
 								'type'    => 'textarea',
 								'default' => 'post_content',
 							),
-							'sku'                     => array(
+							'sku'                    => array(
 								'label'       => esc_html__( 'Product SKU', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'create-field',
 								'description' => esc_html__( 'The Stock Keeping Unit (SKU) is a unique numerical identifying number that refers to a specific stock item in a retailer\'s inventory or product catalog.', 'wp-schema-pro' ),
 							),
-							'mpn'                     => array(
+							'mpn'                    => array(
 								'label'       => esc_html__( 'Product MPN', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'create-field',
 								'description' => esc_html__( 'The Manufacturer Part Number (MPN) of the product, or the product to which the offer refers. e.g. "925872"', 'wp-schema-pro' ),
 							),
-							'avail'                   => array(
+							'avail'                  => array(
 								'label'         => esc_html__( 'Product Availability', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'none',
 								'dropdown-type' => 'availability',
 							),
-							'merchant-return-policy'  => array(
+							'merchant-return-policy' => array(
 								'label'  => esc_html__( 'Merchant Return Policy', 'wp-schema-pro' ),
 								'type'   => 'repeater',
 								'fields' => array(
@@ -1624,7 +1624,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 										'type'    => 'number',
 										'default' => 'none',
 									),
-									'merchantCurrency'             => array(
+									'merchantCurrency'     => array(
 										'label'         => esc_html__( 'Currency', 'wp-schema-pro' ),
 										'type'          => 'dropdown',
 										'default'       => 'none',
@@ -1632,7 +1632,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									),
 								),
 							),
-							'shippingDetails'         => array(
+							'shippingDetails'        => array(
 								'label'  => esc_html__( 'Shipping Details', 'wp-schema-pro' ),
 								'type'   => 'repeater',
 								'fields' => array(                          
@@ -1692,13 +1692,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									),
 								),
 							),
-							'price-valid-until'       => array(
+							'price-valid-until'      => array(
 								'label'       => esc_html__( 'Price Valid Until', 'wp-schema-pro' ),
 								'type'        => 'datetime-local',
 								'default'     => 'create-field',
 								'description' => esc_html__( 'The date after which the price will no longer be available. e.g. "31/12/2021 09:00 AM"', 'wp-schema-pro' ),
 							),
-							'price'                   => array(
+							'price'                  => array(
 								'label'   => esc_html__( 'Product Price', 'wp-schema-pro' ),
 								'type'    => 'number',
 								'default' => 'none',
@@ -1707,13 +1707,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									'step' => '0.01',
 								),
 							),
-							'currency'                => array(
+							'currency'               => array(
 								'label'         => esc_html__( 'Currency', 'wp-schema-pro' ),
 								'type'          => 'dropdown',
 								'default'       => 'none',
 								'dropdown-type' => 'currency',
 							),
-							'product-review'          => array(
+							'product-review'         => array(
 								'label'  => esc_html__( 'Review', 'wp-schema-pro' ),
 								'type'   => 'repeater',
 								'fields' => array(
@@ -1744,13 +1744,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema' ) ) {
 									),
 								),
 							),
-							'rating'                  => array(
+							'rating'                 => array(
 								'label'       => esc_html__( 'Rating', 'wp-schema-pro' ),
 								'type'        => 'rating',
 								'default'     => 'accept-user-rating',
 								'description' => esc_html__( 'To maintain accurate product information, kindly provide at least one rating.', 'wp-schema-pro' ),
 							),
-							'review-count'            => array(
+							'review-count'           => array(
 								'label'       => esc_html__( 'Review Count', 'wp-schema-pro' ),
 								'type'        => 'text',
 								'default'     => 'none',

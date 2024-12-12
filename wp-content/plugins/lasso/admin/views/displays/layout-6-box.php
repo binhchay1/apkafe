@@ -97,15 +97,13 @@ use Lasso\Classes\Html_Helper as Lasso_Html_Helper;
 					<span class="title-detail">Updated on: </span><span><?php echo $lasso_url->updated_on ?></span>
 				</div>
 			<?php } ?>
-
-			<?php if (is_admin()) { ?>
-				<ins class="adsbygoogle"
-					style="display:block; text-align:center;"
-					data-ad-layout="in-article"
-					data-ad-format="fluid"
-					data-ad-client="ca-pub-2064972950158195"
-					data-ad-slot="1037220895"></ins>
-			<?php } ?>
+			
+			<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-2064972950158195"
+     data-ad-slot="1037220895"></ins>
 
 			<div class="clear"></div>
 			<?php if ($lasso_post->is_show_description() && $is_show_description) : ?>

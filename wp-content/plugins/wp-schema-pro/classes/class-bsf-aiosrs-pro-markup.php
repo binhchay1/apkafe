@@ -257,7 +257,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 			}
 
 			$post_id = get_the_ID();
-			$rating = '';
+			$rating  = '';
 			if ( ! empty( $rating_enabled ) ) {
 				ob_start();
 
@@ -309,7 +309,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 				$rating .= ob_get_clean();
 			}
 
-			if(is_string( $content ) ) {
+			if ( is_string( $content ) ) {
 				return $content . $rating;
 			} else {
 				return $rating;

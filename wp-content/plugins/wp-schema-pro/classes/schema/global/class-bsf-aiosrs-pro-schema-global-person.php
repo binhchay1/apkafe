@@ -18,10 +18,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Person' ) ) {
 		/**
 		 * Render Schema.
 		 *
-		 * @param  array $post Current Post Array.
-		 * @return array
+		 * @param  array<string, mixed> $post Current Post Array.
+		 * @return array<string, mixed>
 		 */
-		public static function render( $post ) {
+		public static function render( array $post ): array {
 
 			$schema             = array();
 			$general_settings   = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-general-settings'];
@@ -31,23 +31,25 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Person' ) ) {
 			$schema['@type']    = 'Person';
 			$schema['name']     = ( isset( $general_settings['person-name'] ) && ! empty( $general_settings['person-name'] ) ) ? $general_settings['person-name'] : wp_strip_all_tags( get_bloginfo( 'name' ) );
 			$schema['url']      = wp_strip_all_tags( get_bloginfo( 'url' ) );
-			if ( isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) || isset( $contact_type['telephone'] ) && ! empty( $contact_type['telephone'] ) || isset( $contact_type['contact-page-id'] ) && ! empty( $contact_type['contact-page-id'] ) ) {
+			if ( ( isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) ) || 
+				( isset( $contact_type['telephone'] ) && ! empty( $contact_type['telephone'] ) ) || 
+				( isset( $contact_type['contact-page-id'] ) && ! empty( $contact_type['contact-page-id'] ) ) ) {
 				$schema['ContactPoint']['@type'] = 'ContactPoint';
 				if ( isset( $contact_type['contact-type'] ) && ! empty( $contact_type['contact-type'] ) ) {
 					if ( 'other' === $contact_type['contact-type'] ) {
-						$schema ['ContactPoint']['contactType'] = $contact_type['contact-type-other'];
+						$schema['ContactPoint']['contactType'] = $contact_type['contact-type-other'];
 					} else {
-						$schema ['ContactPoint']['contactType'] = $contact_type['contact-type'];
+						$schema['ContactPoint']['contactType'] = $contact_type['contact-type'];
 					}
 				}
 				if ( isset( $contact_type['telephone'] ) && ! empty( $contact_type['telephone'] ) ) {
-					$schema ['ContactPoint']['telephone'] = $contact_type['telephone'];
+					$schema['ContactPoint']['telephone'] = $contact_type['telephone'];
 				}
 				if ( isset( $contact_type['contact-page-id'] ) && ! empty( $contact_type['contact-page-id'] ) ) {
-					$page_url                       = get_permalink( $contact_type['contact-page-id'] );
-					$schema ['ContactPoint']['url'] = $page_url;
+					$page_url                      = get_permalink( (int) $contact_type['contact-page-id'] );
+					$schema['ContactPoint']['url'] = $page_url;
 				} else {
-					$schema ['ContactPoint']['url'] = $contact_type['contact-page-id'];
+					$schema['ContactPoint']['url'] = $contact_type['contact-page-id'];
 				}
 			}
 

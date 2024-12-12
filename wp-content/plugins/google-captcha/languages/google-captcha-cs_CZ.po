@@ -1,0 +1,1049 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Google Сaptcha\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-17 13:05+0300\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Mik013\n"
+"Language-Team: Mik013\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr_e;esc_attr__\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.4.3\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: bws_menu\n"
+
+#: google-captcha.php:44 google-captcha.php:54 google-captcha.php:605
+#: includes/class-gglcptch-settings-tabs.php:153
+msgid "reCaptcha Settings"
+msgstr "nastavení reCaptcha"
+
+#: google-captcha.php:55 google-captcha.php:1310 google-captcha.php:1330
+#: includes/class-gglcptch-settings-tabs.php:24
+msgid "Settings"
+msgstr "Nastavení"
+
+#: google-captcha.php:63 includes/allowlist.php:51
+msgid "reCaptcha Allow List"
+msgstr "seznam povolení reCaptcha"
+
+#: google-captcha.php:64
+msgid "Allow List"
+msgstr "Seznam povolených položek"
+
+#: google-captcha.php:80 includes/pro_banners.php:33
+msgid "Upgrade to Pro"
+msgstr "Aktualizovat na Pro"
+
+#: google-captcha.php:305
+msgid "Please wait until Google reCAPTCHA is loaded."
+msgstr "Počkejte, než se Google reCAPTCHA načte."
+
+#: google-captcha.php:306
+msgid ""
+"Failed to load Google reCAPTCHA. Please check your internet connection and "
+"reload this page."
+msgstr ""
+"Nepodařilo se načíst Google reCAPTCHA. Zkontrolujte připojení k Internetu a "
+"znovu načtěte tuto stránku."
+
+#: google-captcha.php:321
+msgid "Warning"
+msgstr "Upozornění"
+
+#: google-captcha.php:480
+msgid "You are in the allow list"
+msgstr "Jste v seznamu povolených položek"
+
+#: google-captcha.php:606
+msgid "Please enable JavaScript in your browser."
+msgstr "Povolte prosím ve svém prohlížeči JavaScript."
+
+#: google-captcha.php:716
+msgid "This site is protected by reCAPTCHA and the Google "
+msgstr "Tyto stránky jsou chráněny pomocí reCAPTCHA a Google "
+
+#: google-captcha.php:717
+msgid "Privacy Policy"
+msgstr "Zásady ochrany osobních údajů"
+
+#: google-captcha.php:718
+msgid " and "
+msgstr " a "
+
+#: google-captcha.php:719
+msgid "Terms of Service"
+msgstr "Podmínky služby"
+
+#: google-captcha.php:720
+msgid " apply."
+msgstr " použít."
+
+#: google-captcha.php:727
+msgid "To use reCaptcha you must get the keys from"
+msgstr "Chcete-li použít reCaptcha, musíte získat klíče z adresy"
+
+#: google-captcha.php:728
+msgid "here"
+msgstr "zde"
+
+#: google-captcha.php:729
+msgid "and enter them on the"
+msgstr "a zadejte je na"
+
+#: google-captcha.php:731
+msgid "plugin setting page"
+msgstr "stránce nastavení pluginu"
+
+#: google-captcha.php:763
+msgid "The reCAPTCHA verification period has expired. Please reload the page."
+msgstr "Doba ověření reCAPTCHA vypršela. Znovu načtěte stránku."
+
+#: google-captcha.php:936
+msgid "Response is empty"
+msgstr "Odpověď je prázdná"
+
+#: google-captcha.php:1038 includes/forms.php:504 includes/forms.php:512
+msgid "Error"
+msgstr "Chyba"
+
+#: google-captcha.php:1186 google-captcha.php:1196
+msgid "The reCaptcha verification failed. Please try again."
+msgstr "Ověření reCaptcha se nezdařilo. Zkuste to prosím znovu."
+
+#: google-captcha.php:1188
+msgid "Secret Key is missing."
+msgstr "Tajný klíč chybí."
+
+#: google-captcha.php:1191
+msgid "Secret Key is invalid."
+msgstr "Tajný klíč je neplatný."
+
+#: google-captcha.php:1192
+msgid "Check your domain configurations"
+msgstr "Zkontrolujte konfiguraci vaší domény"
+
+#: google-captcha.php:1193
+msgid "and enter it again"
+msgstr "a zadejte jej znovu"
+
+#: google-captcha.php:1195
+msgid "User response is invalid"
+msgstr "Neplatná odezva uživatele"
+
+#: google-captcha.php:1197
+msgid ""
+"More than one reCAPTCHA has been found in the current form. Please remove "
+"all unnecessary reCAPTCHA fields to make it work properly."
+msgstr ""
+"V aktuálním formuláři byla zjištěna více než jedna reCAPTCHA. Pro správnou "
+"funkcionalitu, odstraňte všechny nepotřebné reCAPTCHA pole."
+
+#: google-captcha.php:1199
+msgid "reCaptcha v3 test failed"
+msgstr "test reCaptcha v3 selhal"
+
+#: google-captcha.php:1245
+msgid "Please submit \"Test verification\""
+msgstr "Odešlete &#8222;Test ověření&#8220;"
+
+#: google-captcha.php:1247
+msgid "Please complete the captcha and submit \"Test verification\""
+msgstr "Doplňte captcha a odešlete &#8222;Test ověření&#8220;"
+
+#: google-captcha.php:1254
+msgid "Test verification"
+msgstr "Test ověření"
+
+#: google-captcha.php:1282
+msgid "The verification is successfully completed."
+msgstr "Ověření je úspěšně dokončeno."
+
+#: google-captcha.php:1332
+msgid "FAQ"
+msgstr ""
+"Časté dotazy <acronym title=\\\"Frequently asked questions\\\">(FAQ)</"
+"acronym>"
+
+#: google-captcha.php:1333
+msgid "Support"
+msgstr "Podpora"
+
+#: google-captcha.php:1350
+msgid "Double-Check Your reCAPTCHA Keys"
+msgstr "Dvojitá kontrola klíčů reCAPTCHA"
+
+#: google-captcha.php:1350
+msgid ""
+"Ensure your keys are correctly configured for maximum protection. Click "
+"“Test Keys” button. Check your settings now!"
+msgstr ""
+"Zkontrolujte, zda jsou klíče správně nakonfigurovány pro maximální ochranu. "
+"Klikněte na tlačítko \"Testovat klíče\". Nyní zkontrolujte své nastavení!"
+
+#: includes/allowlist.php:54
+msgid "Add New"
+msgstr "Přidat novou"
+
+#: includes/allowlist.php:86
+msgid "IP to Allow List"
+msgstr "IP do seznamu povolených adres"
+
+#: includes/allowlist.php:93
+msgid "My IP"
+msgstr "Má IP adresa"
+
+#: includes/allowlist.php:98 includes/pro_banners.php:46
+msgid "Allowed formats"
+msgstr "Přípustné formáty"
+
+#: includes/allowlist.php:100
+msgid "Allowed diapason"
+msgstr "Povolený rozsah"
+
+#: includes/allowlist.php:115
+msgid "Add IP to Allow List"
+msgstr "Přidání IP do seznamu povolených adres"
+
+#: includes/allowlist.php:121
+msgid "Search IP"
+msgstr "Hledat IP adresu"
+
+#: includes/allowlist.php:182
+msgid "Nothing found"
+msgstr "Nic nenalezeno"
+
+#: includes/allowlist.php:182
+msgid "No IP in the Allow List"
+msgstr "V seznamu povolených adres není žádná IP adresa"
+
+#: includes/allowlist.php:191
+msgid "IP Address"
+msgstr "IP adresa"
+
+#: includes/allowlist.php:192
+msgid "Date Added"
+msgstr "Datum přidání"
+
+#: includes/allowlist.php:251 includes/allowlist.php:262
+msgid "Delete"
+msgstr "Smazat"
+
+#: includes/allowlist.php:368
+msgid "IP added to the allow list successfully."
+msgstr "IP adresa byla úspěšně přidána do seznamu povolených adres."
+
+#: includes/allowlist.php:370 includes/allowlist.php:397
+#: includes/allowlist.php:414
+msgid "Some errors occurred."
+msgstr "Došlo k chybám."
+
+#: includes/allowlist.php:373
+msgid "IP is already in the allow list."
+msgstr "IP je již v seznamu povolených adres."
+
+#: includes/allowlist.php:376
+msgid "Invalid IP. See allowed formats."
+msgstr "Neplatná IP adresa. Zkontrolujte Přípustné formáty."
+
+#: includes/allowlist.php:410
+msgid "One IP was deleted successfully."
+msgstr "Jedna IP adresa byla úspěšně odstraněna."
+
+#: includes/allowlist.php:417
+msgid "You have not entered any IP."
+msgstr "Nezadali jste žádnou IP adresu."
+
+#: includes/allowlist.php:420
+msgid "You have not entered any IP in to the search form."
+msgstr "Do vyhledávacího formuláře jste nezadali žádnou IP adresu."
+
+#: includes/allowlist.php:422
+msgid "Search results for"
+msgstr "Výsledky hledání pro"
+
+#: includes/class-gglcptch-settings-tabs.php:25
+msgid "Misc"
+msgstr "Různé"
+
+#: includes/class-gglcptch-settings-tabs.php:26
+msgid "Custom Code"
+msgstr "Vlastní kód"
+
+#: includes/class-gglcptch-settings-tabs.php:27
+msgid "License Key"
+msgstr "Licenční klíč"
+
+#: includes/class-gglcptch-settings-tabs.php:51
+msgid "Site Key"
+msgstr "Webový klíč"
+
+#: includes/class-gglcptch-settings-tabs.php:56
+msgid "Secret Key"
+msgstr "Tajný klíč"
+
+#: includes/class-gglcptch-settings-tabs.php:63
+#: includes/class-gglcptch-settings-tabs.php:64
+msgid "Version"
+msgstr "Verze"
+
+#: includes/class-gglcptch-settings-tabs.php:65
+msgid "Invisible"
+msgstr "Neviditelná"
+
+#: includes/class-gglcptch-settings-tabs.php:90
+msgid "Sorry, your nonce did not verify."
+msgstr "Omlouváme se, vaše nonce nebyla ověřena."
+
+#: includes/class-gglcptch-settings-tabs.php:95
+msgid "Enter site key"
+msgstr "Vložte webový klíč"
+
+#: includes/class-gglcptch-settings-tabs.php:96
+#: includes/class-gglcptch-settings-tabs.php:103
+msgid "WARNING: The captcha will not be displayed until you fill key fields."
+msgstr "VAROVÁNÍ: Captcha se nezobrazí, dokud nebudou vyplněna pole s klíči."
+
+#: includes/class-gglcptch-settings-tabs.php:102
+msgid "Enter secret key"
+msgstr "Vložte tajný klíč"
+
+#: includes/class-gglcptch-settings-tabs.php:140
+msgid "Settings saved."
+msgstr "Nastavení uloženo."
+
+#: includes/class-gglcptch-settings-tabs.php:156
+msgid "General"
+msgstr "Obecné"
+
+#: includes/class-gglcptch-settings-tabs.php:159
+msgid "reCaptcha Version"
+msgstr "verze reCaptcha"
+
+#: includes/class-gglcptch-settings-tabs.php:176
+#, php-format
+msgid ""
+"Register your domain name with Google reCaptcha service and add the keys to "
+"the fields below. %1$s Get the API Keys. %2$s"
+msgstr ""
+"Zaregistrujte název domény do služby Google reCaptcha a přidejte klíče do "
+"níže uvedených polí. %1$s Získejte klíče API. %2$s"
+
+#: includes/class-gglcptch-settings-tabs.php:185
+#, php-format
+msgid ""
+"If you do not want to create API keys use %1$sCaptcha by BestWebSoft%2$s "
+"plugin."
+msgstr ""
+"Pokud nechcete vytvářet klíče API, použijte plugin %1$sCaptcha by "
+"BestWebSoft%2$s."
+
+#: includes/class-gglcptch-settings-tabs.php:194
+#, php-format
+msgid ""
+"The Google reCaptcha block loads the webfont \"Roboto\" from fonts."
+"googleapis.com. If you do not want to load this font use %1$sCaptcha by "
+"BestWebSoft%2$s plugin."
+msgstr ""
+"Blok Google reCaptcha načte webové písmo \"Roboto\" z fonts.googleapis.com. "
+"Pokud nechcete toto písmo načítat, použijte plugin %1$sCaptcha by "
+"BestWebSoft%2$s."
+
+#: includes/class-gglcptch-settings-tabs.php:236
+msgid "Test reCaptcha"
+msgstr "Test reCaptcha"
+
+#: includes/class-gglcptch-settings-tabs.php:242
+msgid "Enable reCaptcha for"
+msgstr "Povolení reCaptcha pro"
+
+#: includes/class-gglcptch-settings-tabs.php:293
+#: includes/class-gglcptch-settings-tabs.php:321
+#: includes/class-gglcptch-settings-tabs.php:348
+#: includes/class-gglcptch-settings-tabs.php:386 includes/pro_banners.php:24
+msgid "Close"
+msgstr "Zavřít"
+
+#: includes/class-gglcptch-settings-tabs.php:304
+msgid "reCaptcha Domain"
+msgstr "doména reCaptcha"
+
+#: includes/class-gglcptch-settings-tabs.php:312
+msgid ""
+"If Google is not accessible or blocked in your country select other one."
+msgstr "Pokud je Google ve vaší zemi nedostupný nebo blokovaný, vyberte jiný."
+
+#: includes/class-gglcptch-settings-tabs.php:330
+msgid "Appearance"
+msgstr "Vzhled"
+
+#: includes/class-gglcptch-settings-tabs.php:334
+msgid "Theme"
+msgstr "Šablona"
+
+#: includes/class-gglcptch-settings-tabs.php:338
+msgid "Light"
+msgstr "Světlý"
+
+#: includes/class-gglcptch-settings-tabs.php:339
+msgid "Dark"
+msgstr "Tmavý"
+
+#: includes/class-gglcptch-settings-tabs.php:359
+msgid "Hide reCaptcha Badge"
+msgstr "Skrýt odznak reCaptcha"
+
+#: includes/class-gglcptch-settings-tabs.php:364
+msgid "Enable to hide reCaptcha Badge for Version 3 and Invisible reCaptcha."
+msgstr ""
+"Povolení skrytí odznaku reCaptcha pro verzi 3 a neviditelnou reCaptchu."
+
+#: includes/class-gglcptch-settings-tabs.php:370
+msgid "Additional Protective Measures"
+msgstr "Další ochranná opatření"
+
+#: includes/class-gglcptch-settings-tabs.php:374
+msgid "Score"
+msgstr "Skóre"
+
+#: includes/class-gglcptch-settings-tabs.php:379
+#, php-format
+msgid "Set the minimum verification score from %1$s to %2$s (default is %3$s)."
+msgstr ""
+"Nastavte minimální hodnotu ověření od %1$s do %2$s (výchozí hodnota je %3$s)."
+
+#: includes/class-gglcptch-settings-tabs.php:395
+msgid "Hide reCaptcha for"
+msgstr "Skrýt reCaptcha pro"
+
+#: includes/class-gglcptch-settings-tabs.php:415
+msgid "Allow List Notification"
+msgstr "Povolit oznámení seznamu"
+
+#: includes/class-gglcptch-settings-tabs.php:418
+msgid "This message will be displayed instead of the reCaptcha."
+msgstr "Tato zpráva se zobrazí místo reCaptcha."
+
+#: includes/class-gglcptch-settings-tabs.php:422
+msgid "Advanced Protection"
+msgstr "Pokročilá ochrana"
+
+#: includes/class-gglcptch-settings-tabs.php:426
+msgid ""
+"Enable to keep submit button disabled until reCaptcha is loaded (do not use "
+"this option if you see \"Failed to load Google reCaptcha\" message)."
+msgstr ""
+"Povolte, aby bylo tlačítko odeslání zakázáno, dokud se nenačte reCaptcha "
+"(tuto možnost nepoužívejte, pokud se zobrazí zpráva \"Failed to load Google "
+"reCaptcha\")."
+
+#: includes/class-gglcptch-settings-tabs.php:432
+msgid "Disabled Submit Button"
+msgstr "Neaktivní tlačitko odeslat"
+
+#: includes/class-gglcptch-settings-tabs.php:437
+msgid ""
+"Enable to keep submit button disabled until user passes the reCaptcha test "
+"(for Version 2)."
+msgstr ""
+"Povolit, aby tlačítko odeslat bylo zakázáno, dokud uživatel neprojde testem "
+"reCaptcha (pro verzi 2)."
+
+#: includes/class-gglcptch-settings-tabs.php:455
+msgid ""
+"reCaptcha version was changed. Please submit \"Test reCaptcha\" and "
+"regenerate Site and Secret keys if necessary."
+msgstr ""
+"verze reCaptcha byla změněna. V případě potřeby odešlete \"Test reCaptcha\" "
+"a přegenerujte klíče Site a Secret."
+
+#: includes/class-gglcptch-settings-tabs.php:469
+#, php-format
+msgid "ReCaptcha plugin is fully compliant with GDPR. %1$s Learn more %2$s"
+msgstr ""
+"Zásuvný modul ReCaptcha je plně v souladu s nařízením GDPR. %1$s Více "
+"informací %2$s"
+
+#: includes/class-gglcptch-settings-tabs.php:489
+msgid "reCaptcha Shortcode"
+msgstr "reCaptcha Shortcode"
+
+#: includes/class-gglcptch-settings-tabs.php:492
+msgid "Add reCaptcha to your posts or pages using the following shortcode:"
+msgstr ""
+"Přidejte reCaptcha do svých příspěvků nebo stránek pomocí následujícího "
+"zkráceného kódu:"
+
+#: includes/forms.php:20
+msgid "Login form"
+msgstr "Přihlašovací formulář"
+
+#: includes/forms.php:21
+msgid "Registration form"
+msgstr "Registrační formulář"
+
+#: includes/forms.php:22
+msgid "Reset password form"
+msgstr "Formulář pro resetování hesla"
+
+#: includes/forms.php:23
+msgid "Protected post password form"
+msgstr "Chráněný formulář pro zadání hesla"
+
+#: includes/forms.php:24
+msgid "Comments form"
+msgstr "Formulář komentářů"
+
+#: includes/forms.php:26
+msgid "Testimonials"
+msgstr "Testimonials"
+
+#: includes/forms.php:53
+msgid "WordPress default"
+msgstr "WordPress"
+
+#: includes/forms.php:63 includes/pro_banners.php:95
+msgid "External Plugins"
+msgstr "Externí pluginy"
+
+#: includes/forms.php:75
+msgid "Custom Forms"
+msgstr "Vlastní formuláře"
+
+#: includes/forms.php:104
+msgid "reCaptcha Plugin"
+msgstr "plugin reCaptcha"
+
+#: includes/forms.php:141 includes/forms.php:171
+msgid "Activate"
+msgstr "Aktivovat"
+
+#: includes/forms.php:143 includes/forms.php:174 includes/forms.php:176
+msgid "Install Now"
+msgstr "Instalovat nyní"
+
+#: includes/forms.php:321
+msgid "Authentication failed."
+msgstr "Ověření selhalo."
+
+#: includes/forms.php:514
+msgid "Click the BACK button on your browser and try again."
+msgstr "Klikněte ve vašem prohlížeči na tlačítko ZPĚT a zkuste to znovu."
+
+#: includes/pro_banners.php:21
+msgid "This options is available in Pro version of plugin"
+msgstr "Toto nastavení je k dispozici v Pro verzi pluginu"
+
+#: includes/pro_banners.php:47
+msgid "Allowed separators for IPs: a comma"
+msgstr "Povolený oddělovač pro IP adresu: čárka"
+
+#: includes/pro_banners.php:47 includes/pro_banners.php:50
+msgid "semicolon"
+msgstr "středník"
+
+#: includes/pro_banners.php:47
+msgid "ordinary space, tab, new line or carriage return."
+msgstr "obyčejná mezera, tabelátor, nový řádek nebo návratu vozíku."
+
+#: includes/pro_banners.php:48
+msgid "Reason"
+msgstr "Důvod"
+
+#: includes/pro_banners.php:50
+msgid "Allowed separators for reasons: a comma"
+msgstr "Povolený oddělovač pro Důvod: čárka"
+
+#: includes/pro_banners.php:50
+msgid "tab, new line or carriage return."
+msgstr "tabelátor, nový řádek nebo návratu vozíku."
+
+#: includes/pro_banners.php:60
+msgid "Jetpack Contact Form"
+msgstr "Jetpack Contact Form"
+
+#: includes/pro_banners.php:63
+msgid "bbPress New Topic form"
+msgstr "bbPress formulář nového tématu"
+
+#: includes/pro_banners.php:64
+msgid "bbPress Reply form"
+msgstr "bbPress odpovědní formulář"
+
+#: includes/pro_banners.php:65
+msgid "BuddyPress Registration form"
+msgstr "Buddypress registrační formulář"
+
+#: includes/pro_banners.php:66
+msgid "BuddyPress Comments form"
+msgstr "BuddyPress formulář komentářů"
+
+#: includes/pro_banners.php:67
+msgid "BuddyPress Add New Group form"
+msgstr "Buddypress formulář Přidat novou skupinu"
+
+#: includes/pro_banners.php:68
+msgid "WooCommerce Login form"
+msgstr "WooCommerce přihlašovací formulář"
+
+#: includes/pro_banners.php:69
+msgid "WooCommerce Registration form"
+msgstr "WooCommerce registrační formulář"
+
+#: includes/pro_banners.php:70
+msgid "WooCommerce Reset password form"
+msgstr "WooCommerce formulář pro resetování hesla"
+
+#: includes/pro_banners.php:71
+msgid "WooCommerce Checkout form"
+msgstr "WooCommerce formulář platby"
+
+#: includes/pro_banners.php:72
+msgid "wpForo Login form"
+msgstr "wpForo přihlašovací formulář"
+
+#: includes/pro_banners.php:73
+msgid "wpForo Registration form"
+msgstr "wpForo registrační formulář"
+
+#: includes/pro_banners.php:74
+msgid "wpForo New Topic form"
+msgstr "wpForo formulář nového tématu"
+
+#: includes/pro_banners.php:75
+msgid "wpForo Reply form"
+msgstr "wpForo odpovědní formulář"
+
+#: includes/pro_banners.php:76
+msgid "Ninja Forms"
+msgstr "Ninja Forms"
+
+#: includes/pro_banners.php:77
+msgid "Divi Contact Form"
+msgstr "Kontaktní formulář Divi"
+
+#: includes/pro_banners.php:78
+msgid "Divi Login Form"
+msgstr "Přihlašovací formulář Divi"
+
+#: includes/pro_banners.php:79
+msgid "Gravity Forms"
+msgstr "Gravity Forms"
+
+#: includes/pro_banners.php:80
+msgid "WPForms"
+msgstr "WPForms"
+
+#: includes/pro_banners.php:81
+msgid "Ultimate Member Login form"
+msgstr "Přihlašovací formulář Ultimate Member"
+
+#: includes/pro_banners.php:82
+msgid "Ultimate Member Registration form"
+msgstr "Registrační formulář Ultimate Member"
+
+#: includes/pro_banners.php:83
+msgid "Ultimate Member Profile form"
+msgstr "Formulář Ultimate Member Profile"
+
+#: includes/pro_banners.php:85
+msgid "Elementor Contact Form"
+msgstr "Kontaktní formulář Elementor"
+
+#: includes/pro_banners.php:86
+msgid "MemberPress checkout form"
+msgstr "Pokladní formulář aplikace MemberPress"
+
+#: includes/pro_banners.php:87
+msgid "MemberPress login form"
+msgstr "Přihlašovací formulář MemberPress"
+
+#: includes/pro_banners.php:88
+msgid "MemberPress forgot password form"
+msgstr "Formulář MemberPress pro zapomenuté heslo"
+
+#: includes/pro_banners.php:89
+msgid "LearnDash login form"
+msgstr "Přihlašovací formulář LearnDash"
+
+#: includes/pro_banners.php:90
+msgid "LearnDash registration form"
+msgstr "Registrační formulář LearnDash"
+
+#: includes/pro_banners.php:91
+msgid "BuddyBoss registration form"
+msgstr "Registrační formulář BuddyBoss"
+
+#: includes/pro_banners.php:224
+msgid "Language"
+msgstr "Jazyk"
+
+#: includes/pro_banners.php:232
+msgid "Multilanguage"
+msgstr "Multilanguage"
+
+#: includes/pro_banners.php:235
+msgid ""
+"Enable to switch language automatically on multilingual website using the "
+"Multilanguage plugin."
+msgstr ""
+"Automatické přepínání jazyka na vícejazyčných webových stránkách pomocí "
+"vícejazyčného pluginu."
+
+#: includes/pro_banners.php:249
+msgid "Size"
+msgstr "Velikost"
+
+#: includes/pro_banners.php:253
+msgid "Normal"
+msgstr "Normální"
+
+#: includes/pro_banners.php:254
+msgid "Compact"
+msgstr "Kompaktní"
+
+#: includes/pro_banners.php:269
+msgid "Display for"
+msgstr "Zobrazení pro"
+
+#: includes/pro_banners.php:273
+msgid "Only form"
+msgstr "Pouze formulář"
+
+#: includes/pro_banners.php:274
+msgid "All pages"
+msgstr "Všechny stránky"
+
+#~ msgid "Google Captcha Whitelist"
+#~ msgstr "Google Captcha seznam povolených"
+
+#~ msgid "Whitelist"
+#~ msgstr "Seznam povolených"
+
+#~ msgid "User response is missing."
+#~ msgstr "Chybí odezva uživatele."
+
+#~ msgid "You have entered an incorrect reCAPTCHA value."
+#~ msgstr "Zadali jste nesprávnou hodnotu reCAPTCHA ."
+
+#~ msgid "Authentication"
+#~ msgstr "Autentizace"
+
+#~ msgid ""
+#~ "Register your website with Google to get required API keys and enter them "
+#~ "below."
+#~ msgstr ""
+#~ "Zaregistrujte svůj web na Google, abyste získali požadované API klíče a "
+#~ "zadejte je níže."
+
+#~ msgid "Get the API Keys"
+#~ msgstr "Získat API klíče"
+
+#~ msgid "Test reCAPTCHA"
+#~ msgstr "Vyzkoušet reCAPTCHA"
+
+#~ msgid "reCAPTCHA Version"
+#~ msgstr "reCAPTCHA verze"
+
+#~ msgid "Enable reCAPTCHA for"
+#~ msgstr "Povolit reCAPTCHA pro"
+
+#~ msgid "Hide reCAPTCHA for"
+#~ msgstr "Skrýt reCAPTCHA pro"
+
+#, fuzzy
+#~| msgid "Jetpack Contact Form"
+#~ msgid "Divi Theme Contact Form"
+#~ msgstr "Jetpack Contact Form"
+
+#~ msgid ""
+#~ "Only one reCAPTCHA can be displayed on the page, it's related to "
+#~ "reCAPTCHA version 1 features."
+#~ msgstr ""
+#~ "Na stránce lze zobrazit pouze jednu reCAPTCHA, což souvisí s vlastnostmi "
+#~ "reCAPTCHA verze 1."
+
+#~ msgid ""
+#~ "Only one ReCaptcha can be displayed on the page, it's related to "
+#~ "ReCaptcha version 1 features."
+#~ msgstr ""
+#~ "Na stránce může být reCAPTCHA zobrazena pouze jedenkrát, což souvisí s "
+#~ "vlastnostmi reCAPTCHA verze 1."
+
+#~ msgid "This option is available only for network or for main blog."
+#~ msgstr "Tato možnost je k dispozici pouze pro síť nebo pro hlavní blog."
+
+#~ msgid "Enable for adding captcha to forms on their settings pages."
+#~ msgstr ""
+#~ "Povolit pro přidání CAPTCHA do formulářů na jejich stránkách nastavení."
+
+#~ msgid "Hide ReCaptcha in Comments Form for"
+#~ msgstr "Skrýt reCAPTCHA ve formuláři komentářů pro"
+
+#~ msgid "Create a Group form"
+#~ msgstr "Formulář vytvoření skupiny"
+
+#~ msgid "Checkout form"
+#~ msgstr "Formulář rezervace"
+
+#~ msgid ""
+#~ "WARNING: The captcha will not display while you don't fill key fields."
+#~ msgstr "VAROVÁNÍ: Captcha se nezobrazí, dokud nejsou vyplněná pole s klíči."
+
+#~ msgid "Settings saved"
+#~ msgstr "Nastavení uloženo"
+
+#~ msgid "All plugin settings were restored"
+#~ msgstr "Všechna výchozí nastavení pluginu byla obnovena"
+
+#~ msgid "Custom code"
+#~ msgstr "Vlastní kód"
+
+#~ msgid "Go PRO"
+#~ msgstr "Přejít na PRO"
+
+#~ msgid ""
+#~ "If you would like to add a Google Captcha (reCAPTCHA) to your page or "
+#~ "post, please use %s button"
+#~ msgstr ""
+#~ "Pokud byste chtěli přidat Google Captcha (reCAPTCHA) na vaše stránky nebo "
+#~ "příspěvku, použijte tlačítko %s"
+
+#~ msgid ""
+#~ "You can add the Google Captcha (reCAPTCHA) to your page or post by "
+#~ "clicking on %s button in the content edit block using the Visual mode. If "
+#~ "the button isn't displayed or you would like to add the Google Captcha "
+#~ "(reCAPTCHA) to your own form , please use the shortcode %s"
+#~ msgstr ""
+#~ "Google Captcha (reCAPTCHA) můžete přidat do příspěvku, nebo stránky "
+#~ "klepnutím na tlačítko %s v bloku úprav obsahu ve vizuálním módu. Pokud "
+#~ "tlačítko není zobrazeno, nebo chcete přidat Google Captcha (reCAPTCHA) na "
+#~ "vlastním formuláři, použijte Zkrácený kód %s"
+
+#~ msgid ""
+#~ "In order to use reCAPTCHA, please enter site and secret keys. You can "
+#~ "manage your API keys %shere%s"
+#~ msgstr ""
+#~ "Chcete-li použít službu reCAPTCHA, zadejte webový a tajný klíč. Své API "
+#~ "klíče %s můžete spravovat zde %s"
+
+#~ msgid "Test Keys"
+#~ msgstr "Testovací klíč"
+
+#~ msgid "Options"
+#~ msgstr "Možnosti"
+
+#~ msgid "This option is available only for network or for main blog"
+#~ msgstr "Tato možnost je k dispozici pouze pro síť nebo pro hlavní blog"
+
+#~ msgid "Plugins"
+#~ msgstr "Pluginy"
+
+#~ msgid "You should %s to use this functionality"
+#~ msgstr "Měli byste %s chcete-li tuto funkci využívat"
+
+#~ msgid "activate"
+#~ msgstr "aktivovat"
+
+#~ msgid "for network"
+#~ msgstr "pro síť"
+
+#~ msgid "download"
+#~ msgstr "stáhnout"
+
+#~ msgid "Check off for adding captcha to forms on their settings pages"
+#~ msgstr ""
+#~ "Odškrtnout pro přidání captcha do formulářů na jejich stránkách nastavení"
+
+#~ msgid ""
+#~ "If you would like to add Google Captcha (reCAPTCHA) to a custom form see "
+#~ "%s"
+#~ msgstr ""
+#~ "Pokud byste chtěli přidat Google Captcha (reCAPTCHA) do vlastního "
+#~ "formuláře viz %s"
+
+#~ msgid "Hide reCAPTCHA in Comments Form for"
+#~ msgstr "Skrýt reCAPTCHA ve formuláři komentářů pro"
+
+#~ msgid ""
+#~ "This message will be displayed instead of the reCAPTCHA if the user IP is "
+#~ "added to the whitelist"
+#~ msgstr ""
+#~ "Tato zpráva se zobrazí namísto reCAPTCHA pokud je uživatelova IP adresa "
+#~ "přidána na seznam povolených"
+
+#~ msgid ""
+#~ "reCAPTCHA block won't be visible for non-suspicious users while "
+#~ "suspicious ones will have to pass the captcha"
+#~ msgstr ""
+#~ "reCAPTCHA blok se nebude zobrazovat nepodezřelým uživatelům, zatímco ti "
+#~ "podezřelí budou muset přes captcha projít"
+
+#~ msgid "reCAPTCHA Theme"
+#~ msgstr "reCAPTCHA šablona"
+
+#~ msgid "for version"
+#~ msgstr "pro verzi"
+
+#~ msgid "Save Changes"
+#~ msgstr "Uložit změny"
+
+#~ msgid "Secret Key is invalid"
+#~ msgstr "Tajný klíč je neplatný"
+
+#~ msgid "Check your domain configuration"
+#~ msgstr "Zkontrolujte konfiguraci vaší domény"
+
+#~ msgid "Click the BACK button on your browser, and try again."
+#~ msgstr "Klikněte ve vašem prohlížeči na tlačítko ZPĚT a zkuste to znovu."
+
+#~ msgid "Please, complete the captcha and submit \"Test verification\""
+#~ msgstr "Prosím, doplňte captcha a odešlete \"Test ověření\""
+
+#~ msgid "The verification is successfully completed"
+#~ msgstr "Ověření je úspěšně dokončeno"
+
+#~ msgid "ordinary space, tab, new line or carriage return"
+#~ msgstr "obyčejná mezera, tabelátor, nový řádek nebo návratu vozíku"
+
+#~ msgid "tab, new line or carriage return"
+#~ msgstr "tabelátor, nový řádek nebo návratu vozíku"
+
+#~ msgid "reCAPTCHA Language"
+#~ msgstr "reCAPTCHA jazyk"
+
+#~ msgid "Use the current site language"
+#~ msgstr "Použít aktuální jazyk webu"
+
+#~ msgid "Using"
+#~ msgstr "Využívá"
+
+#~ msgid "reCAPTCHA Size"
+#~ msgstr "reCAPTCHA velikost"
+
+#~ msgid "For IP addresses from the whitelist reCAPTCHA will not be displayed"
+#~ msgstr "Pro IP adresy ze seznamu povolených nebude reCAPTCHA zobrazena"
+
+#~ msgid "Add IP to the whitelist"
+#~ msgstr "Přidat IP adresu na seznam povolených"
+
+#~ msgid "Save changes"
+#~ msgstr "Uložit změny"
+
+#~ msgid "Save IP to the whitelist"
+#~ msgstr "Uložit IP adresu na seznam povolených"
+
+#~ msgid "IP address"
+#~ msgstr "IP adresy"
+
+#~ msgid "Date added"
+#~ msgstr "Datum přidání"
+
+#~ msgid "Remove from the whitelist"
+#~ msgstr "Odebrat ze seznamu povolených"
+
+#~ msgid "IP added to the whitelist successfully"
+#~ msgstr "IP adresa byla úspěšně přidána na seznam povolených"
+
+#~ msgid "Some errors occurred"
+#~ msgstr "Došlo k chybám"
+
+#~ msgid "IP is already in the whitelist"
+#~ msgstr "IP adresa již na seznamu povolených je"
+
+#~ msgid "One IP was deleted successfully"
+#~ msgstr "Jedna IP adresa byla úspěšně odstraněna"
+
+#~ msgid "You have not entered any IP"
+#~ msgstr "Nezadali jste žádnou IP adresu"
+
+#~ msgid "You have not entered any IP in to the search form"
+#~ msgstr "Do vyhledávacího formuláře jste nezadali žádnou IP adresu"
+
+#~ msgid ""
+#~ "It has been found more than one reCAPTCHA in current form. In this case "
+#~ "reCAPTCHA will not work properly. Please remove all unnecessary reCAPTCHA "
+#~ "blocks."
+#~ msgstr ""
+#~ "V aktuálním formuláři byla zjištěna více než jedna reCAPTCHA. V tomto "
+#~ "případě reCAPTCHA nebude pracovat správně. Prosím, odstraňte všechny "
+#~ "nepotřebné reCAPTCHA bloky."
+
+#~ msgid "Error: You have entered an incorrect reCAPTCHA value"
+#~ msgstr "Chyba: Zadali jste nesprávnou hodnotu reCAPTCHA"
+
+#~ msgid "Site key"
+#~ msgstr "Webový klíč"
+
+#~ msgid "Before you are able to do something, you must to register %shere%s"
+#~ msgstr "Dříve než budete moci pokračovat, musíte se zaregistrovat %szde %s"
+
+#~ msgid "Enter site key and secret key, that you get after registration"
+#~ msgstr "Zadejte webový a tajný klíč, které jste obdrželi při registraci"
+
+#~ msgid "Hide reCAPTCHA in Comments form for"
+#~ msgstr "Skrýt reCAPTCHA ve formuláři komentářů pro"
+
+#~ msgid "Whitelist notification"
+#~ msgstr "Upozornění na seznam povolených"
+
+#~ msgid ""
+#~ "This message will be displayed instead of the reCAPTCHA If the user IP is "
+#~ "added to the whitelist"
+#~ msgstr ""
+#~ "Tato zpráva se zobrazí namísto reCAPTCHA pokud je uživatelova IP adresa "
+#~ "přidána na seznam povolených"
+
+#~ msgid "reCAPTCHA version"
+#~ msgstr "reCAPTCHA verze"
+
+#~ msgid "version"
+#~ msgstr "verze"
+
+#~ msgid "reCAPTCHA theme"
+#~ msgstr "reCAPTCHA šablona"
+
+#~ msgid "You have entered an incorrect reCAPTCHA value"
+#~ msgstr "Zadali jste nesprávnou hodnotu reCAPTCHA"
+
+#~ msgid "ERROR"
+#~ msgstr "CHYBA"
+
+#~ msgid ""
+#~ "You have entered an incorrect reCAPTCHA value. Click the BACK button on "
+#~ "your browser, and try again."
+#~ msgstr ""
+#~ "Zadali jste nesprávnou hodnotu reCAPTCHA . Klepněte na tlačítko zpět ve "
+#~ "vašem prohlížeči a zkuste to znovu."
+
+#~ msgid "The user response was missing"
+#~ msgstr "Chyběla odezva uživatele"
+
+#~ msgid "The Secret Key is missing"
+#~ msgstr "Tajný klíč není vyplněn"
+
+#~ msgid "The Secret Key is invalid"
+#~ msgstr "Tajný klíč je neplatný"
+
+#~ msgid "The user response is invalid"
+#~ msgstr "Neplatná odezva uživatele"
+
+#~ msgid "Some errors occured"
+#~ msgstr "Vyskytly se nějaké chyby"
+
+#~ msgid "Unlock premium options by upgrading to Pro version"
+#~ msgstr "Odemknout prémiové možnosti po aktualizaci na verzi Pro"
+
+#~ msgid "Learn More"
+#~ msgstr "Více informací"
+
+#~ msgid "reCAPTCHA language"
+#~ msgstr "reCAPTCHA jazyk"
+
+#~ msgid "reCAPTCHA size"
+#~ msgstr "reCAPTCHA velikost "
