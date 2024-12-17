@@ -69,6 +69,9 @@ if ( ! class_exists( 'WPHeaderAndFooter_Setting' ) ) :
 
 			// Initialize settings.
 			$this->settings_api->admin_init();
+
+			// reset settings.
+			$this->load_default_settings();
 		}
 
 		/**
@@ -79,6 +82,40 @@ if ( ! class_exists( 'WPHeaderAndFooter_Setting' ) ) :
 		public function register_options_page() {
 
 			add_submenu_page( 'options-general.php', __( 'WP Headers and Footers', 'wp-headers-and-footers' ), __( 'WP Headers and Footers', 'wp-headers-and-footers' ), 'manage_options', 'wp-headers-and-footers', array( $this, 'wp_header_and_footer_callback' ) );
+		}
+
+		/**
+		 * Load the default settings
+		 *
+		 * @since 3.1.0
+		 * @return void
+		 */
+		function load_default_settings() {
+
+			$settings      = get_option( 'wpheaderandfooter_settings' );
+			$factory_reset = isset( $settings['factory_reset_settings'] ) ? $settings['factory_reset_settings'] : 'off';
+
+			if ( 'on' === $factory_reset ) {
+				if ( get_option( 'wpheaderandfooter_settings' ) ) {
+					$default = array(
+						'wp_header_priority'     => '',
+						'wp_body_priority'       => '',
+						'wp_footer_priority'     => '',
+						'remove_all_settings'    => 'off',
+						'factory_reset_settings' => 'off',
+					);
+					update_option( 'wpheaderandfooter_settings', $default );
+				}
+
+				if ( get_option( 'wpheaderandfooter_basics' ) ) {
+					$default = array(
+						'wp_header_textarea' => '',
+						'wp_body_textarea'   => '',
+						'wp_footer_textarea' => '',
+					);
+					update_option( 'wpheaderandfooter_basics', $default );
+				}
+			}
 		}
 
 		/**
@@ -114,13 +151,13 @@ if ( ! class_exists( 'WPHeaderAndFooter_Setting' ) ) :
 		 * Returns all the settings fields
 		 *
 		 * @since 1.0.0
-		 * @version 2.0.0
+		 * @version 3.1.0
 		 *
 		 * @return array settings fields
 		 */
 		public function get_settings_fields() {
 			$settings_fields = array(
-				'wpheaderandfooter_basics' => array(
+				'wpheaderandfooter_basics'   => array(
 					array(
 						'name'  => 'wp_header_textarea',
 						'label' => __( 'Scripts in Header', 'wp-headers-and-footers' ),
@@ -175,10 +212,17 @@ if ( ! class_exists( 'WPHeaderAndFooter_Setting' ) ) :
 						'placeholder' => '99',
 					),
 					array(
-						'name'  => 'remove_all_settings',
-						'label' => __( 'Reset Settings:', 'wp-headers-and-footers' ),
+						'name'  => 'factory_reset_settings',
+						'label' => __( 'Factory Reset:', 'wp-headers-and-footers' ),
 						/* Translators: The footer textarea description */
-						'desc'  => sprintf( __( 'Remove all scripts and settings on uninstall.', 'wp-headers-and-footers' ) ),
+						'desc'  => sprintf( __( 'Enable to remove all scripts and reset all settings made by Insert Headers and Footers upon saving.', 'wp-headers-and-footers' ) ),
+						'type'  => 'checkbox',
+					),
+					array(
+						'name'  => 'remove_all_settings',
+						'label' => __( 'Remove Settings on Uninstall:', 'wp-headers-and-footers' ),
+						/* Translators: The footer textarea description */
+						'desc'  => sprintf( __( 'Enable to remove all custom settings and scripts added by Insert Headers and Footers upon uninstall.', 'wp-headers-and-footers' ) ),
 						'type'  => 'checkbox',
 					),
 				),
@@ -236,7 +280,7 @@ if ( ! class_exists( 'WPHeaderAndFooter_Setting' ) ) :
 					</div>
 					<div class="wp_hnf-header-cta">
 					<a href="#" id="wpheaderandfooter_diagnostic_log-header">
-						<?php echo sprintf( esc_html__( 'Diagnostic %1$sLog%2$s', 'wp-headers-and-footers' ), '<span>', '</span>' ); ?>
+						<?php printf( esc_html__( 'Diagnostic %1$sLog%2$s', 'wp-headers-and-footers' ), '<span>', '</span>' ); ?>
 					</a>
 
 					<a href="<?php echo esc_url( 'https://wordpress.org/support/plugin/wp-headers-and-footers/' ); ?>" class="wp_hnf-pro-cta" target="_blank">

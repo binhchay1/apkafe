@@ -4,8 +4,8 @@ Donate link: https://wpbrigade.com/go/donate-header-footer
 Author URI: https://wpbrigade.com/?utm_source=wphf-org&utm_medium=author-url-link
 Tags: header, footer, Google Analytics, custom css, Facebook Pixel
 Requires at least: 5.0
-Tested up to: 6.6
-Stable tag: 3.0.0
+Tested up to: 6.7
+Stable tag: 3.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -76,6 +76,10 @@ You can insert code in Header, Body and Footer areas of any WordPress site.
 
 
 == Changelog ==
+
+= 3.1.0 – 2024-12-04 =
+* New Feature: Introduced new option to reset the scripts/settings of the plugin.
+* Compatibility: Compatible with WordPress 6.7
 
 = 3.0.0 – 2024-09-11 =
 * Security Fix: Fixed Opt-out and Opt-in consent.
@@ -162,5 +166,5 @@ You can insert code in Header, Body and Footer areas of any WordPress site.
 
 == Upgrade Notice ==
 
-= 3.0.0 =
+= 3.1.0 =
 * Upgrade Immediately.

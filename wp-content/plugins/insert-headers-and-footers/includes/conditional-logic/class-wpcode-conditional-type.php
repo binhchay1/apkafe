@@ -129,9 +129,9 @@ abstract class WPCode_Conditional_Type {
 	 *
 	 * @return bool
 	 */
-	public function evaluate_rule_row( $rule_group, $snippet ) {
-		return $this->evaluate_rule( $rule_group['option'], $rule_group['relation'], $rule_group['value'], $snippet );
-	}
+    public function evaluate_rule_row( $rule_group, $snippet ) {
+        return $this->evaluate_rule( $rule_group['option'], $rule_group['relation'], $rule_group['value'], $snippet );
+    }
 
 	/**
 	 * This takes an option name from the list of options for the type

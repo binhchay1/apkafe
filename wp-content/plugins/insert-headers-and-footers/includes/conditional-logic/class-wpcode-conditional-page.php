@@ -115,6 +115,17 @@ class WPCode_Conditional_Page extends WPCode_Conditional_Type {
 				'type'        => 'text',
 				'callback'    => array( $this, 'get_page_url' ),
 			),
+            'post_meta'     => array(
+                'label'       => __( 'Post meta', 'insert-headers-and-footers' ) . ' (PRO)',
+                'description' => __( 'Target specific posts based on custom post meta values.', 'insert-headers-and-footers' ),
+                'type'        => 'text',
+                'options'     => array(),
+                'upgrade'     => array(
+                    'title' => __( 'Post Meta rules are a Pro feature', 'insert-headers-and-footers' ),
+                    'text'  => __( 'Upgrade today to create conditional logic rules for specific pages or posts.', 'insert-headers-and-footers' ),
+                    'link'  => wpcode_utm_url( 'https://wpcode.com/lite/', 'edit-snippet', 'conditional-logic', 'post_meta' ),
+                ),
+            ),
 			'post_id'       => array(
 				'label'       => __( 'Post/Page', 'insert-headers-and-footers' ) . ' (PRO)',
 				'description' => __( 'Pick specific posts or pages to load the snippet on.', 'insert-headers-and-footers' ),

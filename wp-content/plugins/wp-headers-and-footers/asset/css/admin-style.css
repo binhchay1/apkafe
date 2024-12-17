@@ -530,8 +530,9 @@
 #wpheaderandfooter_diagnostic_log-tab{
 	display:none;
 }
-.form-table td fieldset label[for="wpuf-wpheaderandfooter_settings[remove_all_settings]"]{
-    margin-top: 13px !important;
+.form-table td fieldset label[for="wpuf-wpheaderandfooter_settings[remove_all_settings]"],
+.form-table td fieldset label[for="wpuf-wpheaderandfooter_settings[factory_reset_settings]"]{
+  margin-top: 13px !important;
 	color: #636b71 !important;
 }
 @media screen and (max-width: 1024px) {

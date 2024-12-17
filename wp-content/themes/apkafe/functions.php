@@ -816,11 +816,6 @@ function my_sort_custom_column_query($query)
 add_action('save_post', 'sync_to_other_domain', 10, 4);
 function sync_to_other_domain($post_id, $post, $update)
 {
-	// echo '<pre>';
-	// var_dump($post->post_type);
-	// echo '</pre>';
-	// die;
-
 	if (defined('SYNC_LIST')) {
 		$post_type = $post->post_type;
 
@@ -843,6 +838,35 @@ function sync_to_other_domain($post_id, $post, $update)
 function call_sync_data($post)
 {
 	foreach (SYNC_LIST as $domain) {
+
+		$search = $post->post_content;
+		$data = [
+			"response_as_dict" => 'true',
+			"attributes_as_list" => "false",
+			"show_base_64"   => "true",
+			"show_original_response"   => "false",
+			"providers"   => "google,deepl",
+			"source_language"   => "en",
+			"target_language"   => "ro",
+			"text"   => $search,
+		];
+
+		$response = wp_remote_post("https://api.edenai.run/v2/translation/automatic_translation", [
+			'body'    => wp_json_encode($data),
+			'headers' => [
+				'accept' => 'application/json',
+				'authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTk4MTFhOTgtYmUwNC00YTIyLWE0ZjUtZDBlMzA5Yjk4MmJjIiwidHlwZSI6ImFwaV90b2tlbiJ9.yKz9nm4RMf3Nph-kr1YptnJMFYP8eqNJHfJaUOKZPyI',
+				'Content-Type' => 'application/json',
+			],
+		]);
+
+		$result = json_decode(wp_remote_retrieve_body($response), true);
+
+		echo '<pre>';
+		var_dump($result);
+		echo '</pre>';
+		die;
+
 		$response = wp_remote_post(
 			$domain['DOMAIN_APP'] . '/wp-json/custom/v1/sync-data',
 			array(
@@ -862,11 +886,6 @@ function call_sync_data($post)
 			)
 		);
 	}
-
-	echo '<pre>';
-	var_dump($response);
-	echo '</pre>';
-	die;
 
 	if (! is_wp_error($response)) {
 		$body = json_decode(wp_remote_retrieve_body($response), true);

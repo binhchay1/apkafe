@@ -1516,13 +1516,24 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 				$type_options = $options[ $row['type'] ];
 				$value_option = $type_options['options'][ $row['option'] ];
 
-				$rows[] = $this->get_conditions_group_row_markup( $row['option'], $row['relation'], $this->get_input_markup_by_type( $value_option, $row['value'] ) );
+				// Construct the meta array
+				$meta = array(
+					'post' => isset( $row['meta_key'] ) ? $row['meta_key'] : '',
+					'user' => isset( $row['user_meta_key'] ) ? $row['user_meta_key'] : '',
+				);
+
+				$rows[] = $this->get_conditions_group_row_markup(
+					$row['option'],
+					$row['relation'],
+					$this->get_input_markup_by_type( $value_option, $row['value'] ),
+					$meta
+				);
 			}
 
 			$form_groups[] = $this->get_conditions_group_markup( implode( '', $rows ) );
 		}
 
-		return implode( $form_groups );
+		return implode( '', $form_groups );
 	}
 
 	/**
@@ -1609,7 +1620,7 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 	 *
 	 * @return string
 	 */
-	private function get_conditions_group_row_markup( $type = '', $relation = '', $value = '' ) {
+	private function get_conditions_group_row_markup( $type = '', $relation = '', $value = '', $meta = array() ) {
 		$options = wpcode()->conditional_logic->get_all_admin_options();
 
 		$markup = '<div class="wpcode-cl-rules-row">';
@@ -1641,10 +1652,27 @@ class WPCode_Admin_Page_Snippet_Manager extends WPCode_Admin_Page {
 		}
 		$markup .= '</select>';
 		$markup .= '</span>'; // wpcode-cl-rule-type-container.
+
+		// Display the appropriate input based on the type
+		if ( $type === 'user_meta' || $type === 'post_meta' ) {
+			$meta_key = '';
+			if ( $type === 'post_meta' && isset( $meta['post'] ) ) {
+				$meta_key = $meta['post'];
+                $identifier = 'wpcode-cl-rule-meta-key';
+			} elseif ( $type === 'user_meta' && isset( $meta['user'] ) ) {
+				$meta_key = $meta['user'];
+                $identifier = 'wpcode-cl-rule-user-meta-key';
+			}
+
+			$markup .= '<div class="'.$identifier.'-container">';
+			$markup .= '<input type="text" class="' .$identifier. ' wpcode-input-text" name="' .$identifier. '" placeholder="Enter Meta Key" value="' . esc_attr( $meta_key ) . '">';
+			$markup .= '</div>';
+		}
+
 		$markup .= $this->get_conditions_relation_select( $relation );
-		$markup .= '<div class="wpcode-cl-rule-value">' . $value . '</div>';// This should be automatically populated based on the selected type.
+		$markup .= '<div class="wpcode-cl-rule-value">' . $value . '</div>';
 		$markup .= '</div>'; // rules-row-options.
-		$markup .= '<button class="wpcode-button-just-icon wpcode-cl-remove-row" type="button" title="' . esc_attr__( 'Remove Row', 'insert-headers-and-footers' ) . '">' . get_wpcode_icon( 'remove' ) . '</button>'; // rules-row-options.
+		$markup .= '<button class="wpcode-button-just-icon wpcode-cl-remove-row" type="button" title="' . esc_attr__( 'Remove Row', 'insert-headers-and-footers' ) . '">' . get_wpcode_icon( 'remove' ) . '</button>';
 		$markup .= '</div>'; // rules-row.
 
 		return $markup;

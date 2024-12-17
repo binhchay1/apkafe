@@ -554,7 +554,8 @@ abstract class WPCode_Admin_Page {
 	}
 
 	/**
-	 * Add a page-specific body class using the page slug variable..
+	 * Add a page-specific body class using the page slug variable.
+	 * Add a body class specific to the plugin version (lite/pro).
 	 *
 	 * @param string $body_class The body class to append.
 	 *
@@ -562,8 +563,14 @@ abstract class WPCode_Admin_Page {
 	 */
 	public function page_specific_body_class( $body_class ) {
 
-		$body_class .= ' ' . $this->page_slug;
-
+		$body_class .= ' ' . $this->page_slug . ' ';
+		
+		if ( ! class_exists( 'WPCode_Premium' ) ) {
+			$body_class .= ' wpcode-lite-version ';
+		} else {
+			$body_class .= ' wpcode-pro-version ';
+		}
+		
 		return $body_class;
 	}
 
@@ -923,7 +930,7 @@ abstract class WPCode_Admin_Page {
 		$count             = 0;
 		foreach ( $snippets as $snippet ) {
 			if ( isset( $snippet['needs_auth'] ) && empty( $snippet['skip_count'] ) ) {
-				++$count;
+				++ $count;
 			}
 		}
 		$categories = $this->add_item_counts( $categories, $snippets );
@@ -975,7 +982,7 @@ abstract class WPCode_Admin_Page {
 				if ( ! isset( $category_counts[ $category ] ) ) {
 					$category_counts[ $category ] = 0;
 				}
-				++$category_counts[ $category ];
+				++ $category_counts[ $category ];
 			}
 		}
 
@@ -1007,7 +1014,7 @@ abstract class WPCode_Admin_Page {
 		$need_auth_count = 0;
 		foreach ( $snippets as $snippet ) {
 			if ( ! empty( $snippet['needs_auth'] ) ) {
-				++$need_auth_count;
+				++ $need_auth_count;
 			}
 		}
 		if ( $need_auth_count > 0 ) {

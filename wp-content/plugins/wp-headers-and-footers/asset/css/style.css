@@ -26,7 +26,9 @@
     box-shadow: none !important;
     background-color: #fff;
 }
-
+.header-and-footer-setting input[type=number]::placeholder{
+    color: #D2DDF2;
+}
 #wpheaderandfooter_settings td .description {
     font-family: "Poppins", sans-serif;
     color: #5C7697;

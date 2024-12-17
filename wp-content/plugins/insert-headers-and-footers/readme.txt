@@ -4,7 +4,7 @@ Tags: code, css, php, header, code snippets
 Requires at least: 4.6
 Tested up to: 6.7
 Requires PHP: 5.5
-Stable tag: 2.2.3.1
+Stable tag: 2.2.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -231,6 +231,14 @@ WPCode comes with a ready-made code snippets library that allows you to replace 
 ... and basically any plugin that adds a functionality which can be added via custom code snippets.
 
 == Changelog ==
+
+= 2.2.4.1 =
+* Fix: Shortcode attributes variables were not being set correctly.
+
+= 2.2.4 =
+* Tweak: We adjusted the way our plugin adds a version-specific body class to avoid conflicts with other plugins.
+* Tweak: We improved the way custom PHP code is executed to avoid conflicts with variables in snippets.
+* Fix: When removing the last Conditional Logic group the rule selector was no longer working.
 
 = 2.2.3.1 =
 * Tweak: Updated the way we load translatable strings in some components for compatibility with WordPress 6.7.

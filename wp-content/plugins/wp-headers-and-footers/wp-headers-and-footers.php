@@ -4,7 +4,7 @@
  * Plugin Name: WP Headers And Footers
  * Plugin URI: https://www.WPBrigade.com/wordpress/plugins/wp-headers-and-footers/?utm_source=?utm_source=wp-headers-and-footers&utm_medium=author-uri-link
  * Description: Allows you to insert code or text in the header or footer of your WordPress site.
- * Version: 3.0.0
+ * Version: 3.1.0
  * Author: WPBrigade
  * Author URI: https://wpbrigade.com/?utm_source=wp-headers-and-footers&utm_medium=author-uri-link
  * License: GPLv3
@@ -69,7 +69,7 @@ if ( ! class_exists( 'WPHeaderAndFooter' ) ) :
 		 *
 		 * @var string $version
 		 */
-		public $version = '3.0.0';
+		public $version = '3.1.0';
 
 		/**
 		 * The single instance of the class.
@@ -158,6 +158,7 @@ if ( ! class_exists( 'WPHeaderAndFooter' ) ) :
 			add_action( 'admin_footer', array( $this, 'add_deactivate_modal' ) );
 			add_action( 'admin_menu', array( $this, 'register_wpheaders_optin_page' ) );
 			add_action( 'wp_ajax_wpheadersandfooters_optout_yes', array( $this, 'optout_yes' ) );
+
 		}
 
 		/**
@@ -501,6 +502,7 @@ if ( ! class_exists( 'WPHeaderAndFooter' ) ) :
 
 			wp_die();
 		}
+
 	}
 
 endif;
